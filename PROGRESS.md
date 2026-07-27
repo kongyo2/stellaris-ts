@@ -61,3 +61,9 @@
 - Blockers: none.
 - Notes: `<modifier>` is the modifier alias family rather than a declared type, so the IR gained `modifierRef()`. Coverage floors are now measured values with their counting definition recorded, replacing two estimates.
 
+## Phase 2 CP5 — Reference Independence
+- Proof: `npm run verify:norefs` parks `refs/`, builds and typechecks clean, restores it, and reports 0 leaks; `npm run verify` is 12/12 exit 0.
+- Remaining: CP6 vanilla conformance harness, CP7 closing the MVP gaps.
+- Blockers: none.
+- Notes: mutation-tested the new gate both ways — a `refs/` string in `src/` and a `refs` entry in `package.json` `files` each fail it.
+

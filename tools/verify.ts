@@ -13,6 +13,7 @@ const steps: readonly VerifyStep[] = [
   { script: "typecheck:test:ci" },
   { script: "test" },
   { script: "verify:schema" },
+  { script: "verify:norefs" },
   { script: "verify:roundtrip" },
   { script: "verify:pack" },
   { script: "verify:publish" },
