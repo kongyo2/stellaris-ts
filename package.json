@@ -46,9 +46,9 @@
       "default": "./dist/scope/index.js"
     },
     "./ids": {
-      "types": "./dist/generated/ids/index.d.ts",
-      "import": "./dist/generated/ids/index.js",
-      "default": "./dist/generated/ids/index.js"
+      "types": "./dist/generated/vanilla/index.d.ts",
+      "import": "./dist/generated/vanilla/index.js",
+      "default": "./dist/generated/vanilla/index.js"
     },
     "./validate": {
       "types": "./dist/validate/index.d.ts",
@@ -83,7 +83,8 @@
     "import:cwt:check": "tsx tools/import-cwt/index.ts --check",
     "verify:norefs": "tsx tools/verify-norefs.ts",
     "verify:conformance": "tsx tools/verify-conformance.ts",
-    "index:game": "tsx tools/index-game/index.ts"
+    "index:game": "tsx tools/index-game/index.ts",
+    "codegen": "tsx tools/codegen/index.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

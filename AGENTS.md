@@ -37,6 +37,12 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run typecheck:tools` checks development utilities through `tools/tsconfig.json`; `typecheck:tools:ci` is its
   cache-free gate and is included in aggregate verification.
 - `npm run test` runs Vitest and fails when no tests are discovered.
+- `npm run codegen` turns the schema IR into the types a mod author writes against, under `src/generated/types/`.
+  Trigger and effect blocks stay open by design: their legal keys are the whole command table plus whatever scripted
+  triggers are in scope, and narrowing them would reject script the game accepts. Membership is checked by
+  `verify:conformance` and `stellaris-ts check`, not by the type.
+- Schema corrections go in `src/schema/corrections.ts`, never in `src/schema/definitions/`. The importer rewrites that
+  directory wholesale, so a correction placed there disappears on the next `--emit`.
 - `npm run index:game` reads an installed copy of Stellaris and writes `src/generated/vanilla/`: the identifiers each
   definition type declares, and the members of every enum whose values live in the game's script. Names only — no
   localisation text, no numeric balance, no script bodies (PLAN.md R1). Re-run it after a game update.

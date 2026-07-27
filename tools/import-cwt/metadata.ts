@@ -113,7 +113,9 @@ function staticEnumValues(file: CwtReadResult, block: Block): string[] {
 
   for (const entry of block.entries) {
     if (entry.kind === NodeKind.Scalar) {
-      values.push(String(entry.value));
+      // A quoted scalar keeps its quotes in the raw value; the enum member is
+      // the text inside them.
+      values.push(String(entry.value).replace(/^"|"$/gu, ""));
     } else if (entry.kind === NodeKind.Assignment) {
       const key: string | undefined = originalKey(file, entry);
       if (key !== undefined) {

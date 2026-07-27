@@ -86,3 +86,9 @@
 - Blockers: none.
 - Notes: three defects surfaced and were fixed. Extraction routes were being applied at the file root, but 26 of the 27 extracted enums describe a path relative to each definition — one enum resolved before, 25 after. The conformance acceptor treated every rule-set and script expansion as accepting anything, when both families have known key sets; resolving them took strict types from 181 to 220 and the gated four from 1/4 to 4/4. Root-level `inline_script` blocks were being counted as definitions, which reported 32 phantom holes in `event`. What survived was two genuine holes in the ported corpus — `trait.forced_integration` and `event.notification_event_icon_frame`, both used by vanilla 4.4.6 and absent from cwt — now hand-added and locked by a test.
 
+## Phase 4 — Definition Types
+- Proof: `npm run codegen` emits 234 definition interfaces with 4,777 properties and 246 literal unions; `npm run verify` is 13/13 exit 0 at 0.69s check time over 178,866 lines.
+- Remaining: builders and the scope DSL, then Phase 5 mod output.
+- Blockers: none.
+- Notes: one `as const` object holding all 59,802 identifiers exceeded what the compiler will serialise, so the type side (a union alias per definition type) and the value side (an annotated array) are emitted separately, and four types past 3,000 identifiers widen to `string`. Quoted scalars were carrying their quotes into identifiers, enum members and literal types, producing types like `"\"x\""` that match nothing writable. The test locking the two hand corrections caught a re-import dropping them, which is exactly what it was for; corrections now live outside the directory the importer rewrites.
+

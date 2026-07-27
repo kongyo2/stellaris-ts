@@ -41,7 +41,11 @@ describe("schema IR", () => {
   });
 
   it("assembles one schema model from the imported sources", () => {
-    expect(schema.definitionTypes).toBe(definitionTypes);
+    // The model applies hand corrections on top of the imported types, so it is
+    // the same set, not the same array.
+    expect(schema.definitionTypes.map((definition) => definition.id)).toEqual(
+      definitionTypes.map((definition) => definition.id),
+    );
     expect(schema.enums.length).toBeGreaterThanOrEqual(206);
     expect(schema.scopes.length).toBeGreaterThanOrEqual(41);
     expect(schema.links.length).toBeGreaterThanOrEqual(85);

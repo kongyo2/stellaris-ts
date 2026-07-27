@@ -52,16 +52,6 @@ export const trait: DefinitionType = defineType({
   ],
   modifiers: [],
   entries: [
-    // Hand-added: vanilla 4.4.6 uses this on presapient traits but the ported
-    // corpus never declared it. Found by `npm run verify:conformance`.
-    field(
-      "forced_integration",
-      block([
-        field("integration_rate", primitive("number"), occurs.optional),
-        field("minimum_colony_age", primitive("integer"), occurs.optional),
-      ]),
-      occurs.optional,
-    ),
     field("host_has_dlc", enumRef(EnumId.Dlcs), occurs.optional),
     field("immortal_leaders", primitive("boolean"), occurs.optional, { documentation: "Default = no" }),
     field("icon", primitive("file"), occurs.optional, {

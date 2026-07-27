@@ -1,4 +1,5 @@
 import { commands, ruleSets } from "./commands.js";
+import { withCorrections } from "./corrections.js";
 import { namedValues, scopeGroups, valueSets } from "./dynamic-sets.js";
 import { definitionTypes } from "./definitions/index.js";
 import { enums } from "./enums.js";
@@ -15,7 +16,7 @@ import { links, scopes } from "./scopes.js";
  */
 export const schema: SchemaModel = defineSchema({
   policy: defaultSchemaPolicy,
-  definitionTypes,
+  definitionTypes: withCorrections(definitionTypes),
   enums,
   scopes,
   scopeGroups,

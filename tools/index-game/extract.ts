@@ -157,7 +157,9 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
     ids.push(key);
   }
 
-  return ids.filter((id) => id.length > 0);
+  // A quoted key keeps its quotes in the raw value; the identifier is the text
+  // inside them, which is what every reference elsewhere in script writes.
+  return ids.map((id) => id.replace(/^"|"$/gu, "")).filter((id) => id.length > 0);
 }
 
 /** Follows an extraction route from a block, collecting whatever the route captures. */

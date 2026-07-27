@@ -1,16 +1,17 @@
 import { describe, expect, it } from "vitest";
 
-import { DefinitionTypeId, definitionTypes, type EntryRule } from "../src/schema/index.js";
+import { DefinitionTypeId, schema, type EntryRule } from "../src/schema/index.js";
 
 /**
  * Locks the fields added by hand after vanilla contradicted the ported corpus.
  *
- * `npm run import:cwt -- --emit` rewrites these files wholesale, so a careless
- * re-import would silently drop them and the conformance gate would only notice
- * on a machine that has the game installed. These assertions notice everywhere.
+ * They live in `corrections.ts`, outside the directory the importer rewrites,
+ * because a correction inside `definitions/` is one `--emit` away from vanishing
+ * and the conformance gate would only notice it on a machine with the game
+ * installed. These assertions notice everywhere.
  */
 const fieldKeys = (typeId: string): readonly string[] =>
-  (definitionTypes.find((definition) => definition.id === typeId)?.entries ?? [])
+  (schema.definitionTypes.find((definition) => definition.id === typeId)?.entries ?? [])
     .filter((entry: EntryRule): entry is Extract<EntryRule, { kind: "field" }> => entry.kind === "field")
     .map((entry) => entry.key)
     .filter((key): key is string => typeof key === "string");
