@@ -38,3 +38,8 @@
 - Proof: `npm run verify` → 10/10 exit 0; round-trip covered 2,214 files with 2,211 successes and 3 documented exclusions.
 - Scope: the extensionless script is included; only 2 CSV, 1 JSON, and 2 ODS files are filtered; ATTW and publint pass.
 - Blockers: none; next is the one-shot CWTools reader.
+
+## Phase 2 CP2 — CWT Reader
+- Proof: `npm run import:cwt` → 101 files / 44,370 terminators / 0 unknown syntax / 1 recorded recovery; 9 focused tests pass.
+- Counts: 234 type declarations, 207 enum names, 912/818 trigger/effect aliases, 171 link blocks (86 declarations), 41 scopes.
+- Blocker: PLAN treats 449 types and 171 links as semantic IR counts; the source has 234 type and 86 link declarations.

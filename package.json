@@ -61,6 +61,7 @@
     "build": "tsc -p tsconfig.json --pretty false --checkers 4",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "import:cwt": "tsx tools/import-cwt/index.ts",
     "lint": "oxlint --format agent",
     "lint:fix": "oxlint --fix",
     "lint:strict": "oxlint --deny-warnings",

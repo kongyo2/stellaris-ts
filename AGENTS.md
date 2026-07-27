@@ -42,6 +42,8 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run verify:publish` builds and checks the packed package with both `attw --pack .` and `publint --strict`;
   `.attw.json` selects ATTW's `esm-only` profile to match the package's intentional ESM-only exports.
 - `npm run refs:sync` clones the fixed CWTools source into ignored `refs/` for Phase 2 one-shot import work only.
+- `npm run import:cwt` audits every `.cwt` file in that ignored checkout through a source-position-preserving adapter
+  over the L0 parser. It fails on unknown syntax or count drift and records, rather than hides, upstream recoveries.
 
 ## Coding Style & Naming Conventions
 
