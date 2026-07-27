@@ -55,7 +55,12 @@
       "import": "./dist/validate/index.js",
       "default": "./dist/validate/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./cli": {
+      "types": "./dist/cli/index.d.ts",
+      "import": "./dist/cli/index.js",
+      "default": "./dist/cli/index.js"
+    }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json --pretty false --checkers 4",
@@ -96,5 +101,8 @@
     "tsx": "4.23.1",
     "typescript": "7.0.2",
     "vitest": "4.1.10"
+  },
+  "bin": {
+    "stellaris-ts": "./dist/cli/main.js"
   }
 }

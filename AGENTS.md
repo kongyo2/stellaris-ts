@@ -86,6 +86,16 @@ differently later. The importer's structural output is canonical; prose in `PLAN
   increase declaration baselines. The pinned import baseline is 234 types, 257 subtypes under 45 types, 179 fixed plus
   27 derived unique enum names, and 86 link declarations / 85 unique names.
 
+## The CLI
+
+- `stellaris-ts check <entry>` validates without writing; `stellaris-ts build <entry>` validates then writes. The entry
+  is a module whose default export is a `Mod`.
+- Diagnostics are one per line, no colour, `where: severity: code: message`. The reader is as likely to be an agent as
+  a person, and a wrapped coloured report is not something either can grep.
+- The type layer and the validator do different jobs. A definition type with open rules accepts arbitrary keys by
+  design, so `unknown-field` is the validator's to catch, not the compiler's. Do not narrow a generated type to make
+  the compiler catch it — that would reject script the game accepts.
+
 ## Emitting Mods
 
 - `emit(mod)` returns a plan; `writePlan` puts it on disk. Keeping them apart means the output can be diffed and tested

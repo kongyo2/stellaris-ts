@@ -98,3 +98,9 @@
 - Blockers: launching the game to confirm in-game behaviour is outside what can be automated here; the emitted bytes match the vanilla format verified exhaustively in Phase 1.
 - Notes: the indexer now also records every vanilla file name per directory, so the filename-collision check is on by default rather than something a caller has to supply. Generated definition interfaces have no index signature and so are not assignable to a `Record`; rather than cast, the builder takes `object` and the AST walk rejects anything PDX cannot express, naming the offending key.
 
+## Phase 7 — Validator and CLI
+- Proof: `npm run verify` is 13/13 exit 0 with 68 tests; the CLI reports an unknown field as an error and missing strings as warnings, and exits 1.
+- Remaining: Phase 6 scope DSL, Phase 9 skill docs and publish.
+- Blockers: none.
+- Notes: the validator catches what the game silently ignores — an unknown field, a duplicate id where only the last one loads, a required string that would ship as its own key, a reference to something neither vanilla nor the mod defines. A definition type with open rules accepts arbitrary keys at the type level by design, so those checks belong here rather than in the generated types; narrowing the type instead would reject script the game accepts.
+
