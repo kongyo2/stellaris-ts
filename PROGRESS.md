@@ -27,3 +27,9 @@
 - 残り: CP6 package-consumer probe と最終 aggregate verification
 - ブロック: なし
 - 所見: 10 fixtures / 9,908 bytes を SHA-256 固定し、BOM・CRLF・4 corpus roots と strict indexed access を回帰化した
+
+## CP6 — Public Gate
+- 検証: `npm run verify` → 8/8 exit 0; package `stellaris-ts-0.1.0.tgz` Node / NodeNext tsc ともに成功
+- 残り: なし
+- ブロック: なし
+- 所見: source-derived tar file set、types-first exports、runtime dependency なし、公開 subpath と deep-import 遮断を実 consumer で証明した

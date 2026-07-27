@@ -33,10 +33,12 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run typecheck:tools` checks development utilities through `tools/tsconfig.json`; `typecheck:tools:ci` is its
   cache-free gate and is included in aggregate verification.
 - `npm run test` runs Vitest.
-- `npm run verify` is the authoritative aggregate gate. Through CP5 it covers format, strict lint, typed lint, CI
-  source and test checking, tests, and full-game round-trip; CP6 adds the package-consumer probe.
+- `npm run verify` is the authoritative aggregate gate. It covers format, strict lint, typed lint, CI source and test
+  checking, tests, full-game round-trip, and the package-consumer probe.
 - `npm run verify:roundtrip -- --tokenize-only` proves lossless lexical coverage, `--parse-only` proves parsing, and no
   arguments runs full structural round-trip for every non-excluded targeted installed-game script.
+- `npm run verify:pack` builds and packs the publishable files, installs the tarball offline into a temporary consumer,
+  and proves both Node ESM execution and TypeScript NodeNext resolution.
 - `npm run refs:sync` is reserved for Phase 2 or later. Do not run it during Phase 0 or Phase 1.
 
 ## Coding Style & Naming Conventions
