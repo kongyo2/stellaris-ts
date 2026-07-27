@@ -14,6 +14,9 @@
   other than import auditing, and runtime code must remain green when it is absent.
 - `src/generated/`, `dist/`, and coverage output are generated artifacts. Fix generators rather than hand-editing
   generated source.
+- `src/schema/` is different: it was imported **once** from cwtools-stellaris-config and is now maintained by hand.
+  `npm run import:cwt -- --check` proposes a diff after an upstream refresh; it must never be wired to apply
+  automatically. Nothing under `src/` may read `.cwt` at build or run time (PLAN.md §0.1).
 - `PLAN.md` is the sole implementation specification. Work through its checkpoints in order.
 
 ## AGENTS.md Maintenance Policy
@@ -34,6 +37,21 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run typecheck:tools` checks development utilities through `tools/tsconfig.json`; `typecheck:tools:ci` is its
   cache-free gate and is included in aggregate verification.
 - `npm run test` runs Vitest and fails when no tests are discovered.
+- `npm run verify:schema` checks the schema IR against itself: every enum, scope and definition type a rule points at
+  must exist, and coverage must not fall below the importer's measured counts.
+- `npm run import:cwt` reads the cwt corpus and prints structural counts; `-- --emit` rewrites the schema sources and
+  `-- --check` reports what would change without writing. Requires `npm run refs:sync` first.
+
+## Counting Definitions
+
+Numbers that gate the build carry the definition that produced them, because a number without one gets re-derived
+differently later. The importer's structural output is canonical; prose in `PLAN.md` is not.
+
+- definition types **234** — `type[x] = {` declarations
+- enums **206** — static (179) plus complex (27) declarations
+- scopes **41** — blocks directly inside `scopes = { }`
+- links **86 declared / 85 unique** — blocks directly inside `links = { }`; `last_created_pop_faction` is declared twice
+- variants **257** — `subtype[x] = {` declarations, excluding the 112 references in localisation and schema selectors
 - `npm run verify` is the authoritative aggregate gate. It covers format, strict lint, typed lint, CI source and test
   checking, tests, full-game round-trip, the package-consumer probe, and strict package publication linting.
 - `npm run verify:roundtrip -- --tokenize-only` proves lossless lexical coverage, `--parse-only` proves parsing, and no

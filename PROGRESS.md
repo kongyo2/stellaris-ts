@@ -54,3 +54,10 @@
 - Design: ordered rules retain duplicate keys; variants remain nested; enums/scopes are literal-checked; global inline scripts are explicit policy.
 - Documentation: `docs/schema-ir.md` records source routing, extraction, scope/command vocabulary, and intentional departures from CWT.
 - Blockers: none; next is the one-shot full import and `verify:schema`.
+
+## Phase 2 CP4 — Schema Import
+- Proof: `npm run import:cwt -- --emit` emits 234 definitions / 206 enums / 86 links with opaque=0 and 0 emit diagnostics; `npm run verify` is 11/11 exit 0.
+- Remaining: CP5 refs-independence proof, CP6 vanilla conformance harness.
+- Blockers: none.
+- Notes: `<modifier>` is the modifier alias family rather than a declared type, so the IR gained `modifierRef()`. Coverage floors are now measured values with their counting definition recorded, replacing two estimates.
+
