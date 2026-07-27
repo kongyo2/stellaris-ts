@@ -47,6 +47,7 @@ scopes = {
           {
             directory: "common/items",
             includeSubdirectories: true,
+            startFromRoot: false,
             route: [
               { kind: "field", key: "item" },
               { kind: "field", key: "name" },

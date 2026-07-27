@@ -300,6 +300,7 @@ describe("schema self-validator", () => {
             {
               directory: "refs/cwtools",
               includeSubdirectories: true,
+              startFromRoot: false,
               route: [{ kind: "capture", source: "key" }],
             },
           ],

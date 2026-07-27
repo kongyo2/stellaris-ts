@@ -25,7 +25,7 @@ const GATED_TYPES: readonly string[] = ["building", "technology", "trait", "even
  * on a permissive type proves nothing, so the count is pinned here: it may rise
  * as extraction lands in Phase 8, never fall silently.
  */
-const STRICT_GATED_BUDGET = 1;
+const STRICT_GATED_BUDGET = 4;
 
 async function gameVersion(gamePath: string): Promise<string> {
   try {

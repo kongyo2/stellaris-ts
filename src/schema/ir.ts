@@ -95,6 +95,12 @@ export interface EnumExtractionSource {
   readonly directory: string;
   readonly includeSubdirectories: boolean;
   readonly route: readonly ExtractionStep[];
+  /**
+   * Whether the route starts at the file root instead of inside each definition
+   * block. Only one enum in the corpus does; the other 26 describe a path
+   * relative to the definition, so the default is what the majority needs.
+   */
+  readonly startFromRoot: boolean;
 }
 
 export interface ExtractedEnumDefinition {
@@ -647,8 +653,9 @@ export function enumExtraction(
   directory: string,
   route: readonly ExtractionStep[],
   includeSubdirectories = true,
+  startFromRoot = false,
 ): EnumExtractionSource {
-  return { directory, route, includeSubdirectories };
+  return { directory, route, includeSubdirectories, startFromRoot };
 }
 
 export function extractionField(key: string): ExtractionFieldStep {

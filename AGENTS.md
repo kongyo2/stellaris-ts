@@ -37,6 +37,9 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run typecheck:tools` checks development utilities through `tools/tsconfig.json`; `typecheck:tools:ci` is its
   cache-free gate and is included in aggregate verification.
 - `npm run test` runs Vitest and fails when no tests are discovered.
+- `npm run index:game` reads an installed copy of Stellaris and writes `src/generated/vanilla/`: the identifiers each
+  definition type declares, and the members of every enum whose values live in the game's script. Names only — no
+  localisation text, no numeric balance, no script bodies (PLAN.md R1). Re-run it after a game update.
 - `npm run verify:conformance` checks the schema against the installed game rather than against cwt, and writes
   `docs/schema-conformance.md`. It gates the four MVP types on having no unknown fields, and reports how many of them
   are strict enough for that to mean anything — a type whose rules accept arbitrary keys cannot fail direction A, so a

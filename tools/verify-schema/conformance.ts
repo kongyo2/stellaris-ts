@@ -2,6 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import type { Dirent } from "node:fs";
 import { join, relative } from "node:path";
 
+import { extractedEnumMembers } from "../../src/generated/vanilla/index.js";
 import { NodeKind, parse, type Block, type Document } from "../../src/syntax/index.js";
 import type { DefinitionType, EntryRule, EnumDefinition, KeyRule, SchemaModel } from "../../src/schema/ir.js";
 
@@ -123,9 +124,19 @@ interface KeyAcceptor {
   readonly prefixes: readonly { readonly prefix: string; readonly suffix: string }[];
 }
 
+/**
+ * An extracted enum's members live in the game's own script, so they are only
+ * knowable after `npm run index:game`. Without them every key drawn from one
+ * has to be treated as accepting anything.
+ */
 function enumValues(model: SchemaModel, id: string): readonly string[] {
   const definition: EnumDefinition | undefined = model.enums.find((candidate) => candidate.id === id);
-  return definition !== undefined && definition.kind === "static-enum" ? definition.values : [];
+
+  if (definition === undefined) {
+    return [];
+  }
+
+  return definition.kind === "static-enum" ? definition.values : (extractedEnumMembers[id] ?? []);
 }
 
 function collectKey(
@@ -174,11 +185,40 @@ function collectEntry(
         collectEntry(model, child, into);
       }
       return;
-    case "script-entries":
-    case "rule-set-entries":
-      // A trigger/effect block accepts every command name in that family.
-      into.wildcard = true;
+    case "script-entries": {
+      // A trigger or effect block accepts every command declared in that
+      // family. The set is known, so enumerate it rather than giving up: a
+      // wildcard here is what stopped most types reporting an unknown field.
+      const names: readonly string[] = model.commands
+        .filter((command) => command.family === entry.family)
+        .map((command) => command.id);
+
+      if (names.length === 0) {
+        into.wildcard = true;
+        return;
+      }
+
+      for (const name of names) {
+        into.literals.add(name);
+      }
       return;
+    }
+    case "rule-set-entries": {
+      const names: readonly string[] = model.ruleSets
+        .filter((ruleSet) => ruleSet.family === entry.family)
+        .map((ruleSet) => ruleSet.name)
+        .filter((name): name is string => name !== undefined && name.length > 0);
+
+      if (names.length === 0) {
+        into.wildcard = true;
+        return;
+      }
+
+      for (const name of names) {
+        into.literals.add(name);
+      }
+      return;
+    }
     default:
       return;
   }
@@ -213,9 +253,13 @@ function accepts(acceptor: KeyAcceptor, key: string): boolean {
 }
 
 /** The blocks a definition type claims from one parsed file. */
-function definitionBlocks(type: DefinitionType, document: Document): Block[] {
+function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Document): Block[] {
   const blocks: Block[] = [];
   const filter = type.source.rootKeyFilter;
+  // `inline_script = { script = x PARAM = y }` at the root injects script; it is
+  // not a definition, and counting its parameters as fields of the surrounding
+  // type reports holes that do not exist.
+  const macroKeys: ReadonlySet<string> = new Set(model.policy.macros.map((macro) => macro.key));
 
   const accept = (key: string): boolean => {
     if (filter === undefined) {
@@ -236,7 +280,7 @@ function definitionBlocks(type: DefinitionType, document: Document): Block[] {
     }
 
     const key: string = String(entry.key.value);
-    if (!accept(key)) {
+    if (!accept(key) || macroKeys.has(key)) {
       continue;
     }
 
@@ -317,7 +361,7 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
         return;
       }
 
-      for (const block of definitionBlocks(type, result.document)) {
+      for (const block of definitionBlocks(model, type, result.document)) {
         definitionsSeen += 1;
 
         for (const key of topLevelKeys(block)) {

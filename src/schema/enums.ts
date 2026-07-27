@@ -115,7 +115,7 @@ export const enums: readonly EnumDefinition[] = [
   ]),
   staticEnum("building_owner_type", ["normal", "corporate", "subject_holding"]),
   extractedEnum("building_sets", [
-    enumExtraction("common/buildings", [extractionField("building_sets"), captureScalar()], true),
+    enumExtraction("common/buildings", [extractionField("building_sets"), captureScalar()], true, false),
   ]),
   staticEnum("bypass_connection_type", [
     "any_other",
@@ -188,9 +188,10 @@ export const enums: readonly EnumDefinition[] = [
       "common/section_templates",
       [extractionField("component_slot"), extractionField("name"), captureScalar()],
       true,
+      false,
     ),
   ]),
-  extractedEnum("component_tags", [enumExtraction("common/component_tags", [captureScalar()], true)]),
+  extractedEnum("component_tags", [enumExtraction("common/component_tags", [captureScalar()], true, false)]),
   staticEnum("component_target_focus", ["single", "spread"]),
   staticEnum("component_target_type", ["target_allies", "target_controlled", "target_enemies", "target_own"]),
   staticEnum("component_upgrade_path", [
@@ -487,7 +488,7 @@ export const enums: readonly EnumDefinition[] = [
     "vertical",
   ]),
   extractedEnum("district_sets", [
-    enumExtraction("common/planet_classes", [extractionField("district_set"), captureScalar()], true),
+    enumExtraction("common/planet_classes", [extractionField("district_set"), captureScalar()], true, false),
   ]),
   staticEnum("economic_modifier_categories", ["produces", "cost", "upkeep", "logistics"]),
   staticEnum("economic_modifier_types", ["mult", "add"]),
@@ -575,8 +576,8 @@ export const enums: readonly EnumDefinition[] = [
   ]),
   staticEnum("ethic_leader_creator_species_class_enum", ["random_non_machine", "random_pre_ftl", "random"]),
   extractedEnum("event_chain_counter", [
-    enumExtraction("common/missions", [extractionField("counter"), captureKey()], true),
-    enumExtraction("common/event_chains", [extractionField("counter"), captureKey()], true),
+    enumExtraction("common/missions", [extractionField("counter"), captureKey()], true, false),
+    enumExtraction("common/event_chains", [extractionField("counter"), captureKey()], true, false),
   ]),
   staticEnum("event_window_type", [
     "crisis_leader_conversation",
@@ -1030,7 +1031,7 @@ export const enums: readonly EnumDefinition[] = [
   ]),
   staticEnum("intel_level", ["none", "low", "medium", "high", "full"]),
   extractedEnum("intel_tokens", [
-    enumExtraction("common/intel_categories", [extractionField("intel_level"), captureScalar()], true),
+    enumExtraction("common/intel_categories", [extractionField("intel_level"), captureScalar()], true, false),
   ]),
   staticEnum("job_categories", [
     "specialist",
@@ -1082,14 +1083,15 @@ export const enums: readonly EnumDefinition[] = [
     "subclass",
   ]),
   extractedEnum("light_animations", [
-    enumExtraction("gfx/lights", [extractionField("animation"), extractionField("name"), captureScalar()], true),
+    enumExtraction("gfx/lights", [extractionField("animation"), extractionField("name"), captureScalar()], true, false),
   ]),
   extractedEnum("locators", [
-    enumExtraction("gfx/models", [extractionField("locator"), extractionField("name"), captureScalar()], true),
+    enumExtraction("gfx/models", [extractionField("locator"), extractionField("name"), captureScalar()], true, false),
     enumExtraction(
       "gfx/models",
       [extractionField("state"), extractionField("locator"), extractionField("name"), captureScalar()],
       true,
+      false,
     ),
   ]),
   staticEnum("maths", ["add", "subtract", "multiply", "divide", "modulo"]),
@@ -1136,7 +1138,7 @@ export const enums: readonly EnumDefinition[] = [
     "working",
   ]),
   extractedEnum("model_states", [
-    enumExtraction("gfx", [extractionField("state"), extractionField("name"), captureScalar()], true),
+    enumExtraction("gfx", [extractionField("state"), extractionField("name"), captureScalar()], true, false),
   ]),
   staticEnum("move_pattern", [
     "none",
@@ -1150,7 +1152,7 @@ export const enums: readonly EnumDefinition[] = [
   ]),
   staticEnum("mutation_components_size", ["small", "medium", "large", "extra_large"]),
   extractedEnum("name_list_categories", [
-    enumExtraction("common/name_lists", [extractionField("category"), captureScalar()], true),
+    enumExtraction("common/name_lists", [extractionField("category"), captureScalar()], true, false),
   ]),
   staticEnum("old_leader_classes", ["governor", "admiral", "general"]),
   staticEnum("open_space_method", ["depth_first"]),
@@ -1168,18 +1170,19 @@ export const enums: readonly EnumDefinition[] = [
     "trigger:pop_group_size",
   ]),
   extractedEnum("particle_force", [
-    enumExtraction("gfx/particles", [extractionField("force"), extractionField("name"), captureScalar()], true),
+    enumExtraction("gfx/particles", [extractionField("force"), extractionField("name"), captureScalar()], true, false),
   ]),
   extractedEnum("patrons_callings_po", [
     enumExtraction(
       "common/patrons/callings",
       [extractionField("tier"), extractionField("counter"), captureKey()],
       true,
+      false,
     ),
   ]),
   staticEnum("patrons_category", ["minor_patron", "major_patron", "great_patron"]),
   extractedEnum("patrons_deeds_po", [
-    enumExtraction("common/patrons/deeds", [extractionField("counter"), captureKey()], true),
+    enumExtraction("common/patrons/deeds", [extractionField("counter"), captureKey()], true, false),
   ]),
   staticEnum("planet_resource_compare_types", ["produces", "upkeep", "balance"]),
   extractedEnum("policy_flag", [
@@ -1187,13 +1190,19 @@ export const enums: readonly EnumDefinition[] = [
       "common/policies",
       [extractionField("option"), extractionField("policy_flags"), captureScalar()],
       true,
+      false,
     ),
   ]),
   extractedEnum("policy_option", [
-    enumExtraction("common/policies", [extractionField("option"), extractionField("name"), captureScalar()], true),
+    enumExtraction(
+      "common/policies",
+      [extractionField("option"), extractionField("name"), captureScalar()],
+      true,
+      false,
+    ),
   ]),
   extractedEnum("pop_faction_actions", [
-    enumExtraction("common/pop_faction_types", [extractionField("actions"), captureKey()], true),
+    enumExtraction("common/pop_faction_types", [extractionField("actions"), captureKey()], true, false),
   ]),
   staticEnum("pop_faction_inline_flag_enum", [
     "galcom_resolution_passed_anti_imperialist",
@@ -1216,7 +1225,7 @@ export const enums: readonly EnumDefinition[] = [
     "galcom_resolution_passed_pro_xenoist",
   ]),
   extractedEnum("pop_faction_parameters", [
-    enumExtraction("common/pop_faction_types", [extractionField("parameters"), captureKey()], true),
+    enumExtraction("common/pop_faction_types", [extractionField("parameters"), captureKey()], true, false),
   ]),
   staticEnum("pop_group_flag_enum", [
     "cant_work",
@@ -1337,10 +1346,15 @@ export const enums: readonly EnumDefinition[] = [
   ]),
   staticEnum("scripted_scale_type", ["effect_size_var", "beam_size_var"]),
   extractedEnum("scrollbar_types", [
-    enumExtraction("interface", [extractionField("scrollbarType"), extractionField("name"), captureScalar()], true),
+    enumExtraction(
+      "interface",
+      [extractionField("scrollbarType"), extractionField("name"), captureScalar()],
+      true,
+      false,
+    ),
   ]),
   extractedEnum("section_slots", [
-    enumExtraction("common/ship_sizes", [extractionField("section_slots"), captureKey()], true),
+    enumExtraction("common/ship_sizes", [extractionField("section_slots"), captureKey()], true, false),
   ]),
   staticEnum("ship_flag_enum", ["behemoth_hatchling"]),
   staticEnum("ship_owner_types", ["country", "federation", "galactic_community", "global_ship_design"]),
@@ -1366,11 +1380,16 @@ export const enums: readonly EnumDefinition[] = [
     "screen_stealth",
   ]),
   extractedEnum("shipsize_classes", [
-    enumExtraction("common/ship_sizes", [extractionField("class"), captureScalar()], true),
+    enumExtraction("common/ship_sizes", [extractionField("class"), captureScalar()], true, false),
   ]),
   staticEnum("simple_maths_enum", ["round", "ceiling", "floor", "abs", "square_root", "square"]),
   extractedEnum("situation_approaches", [
-    enumExtraction("common/situations", [extractionField("approach"), extractionField("name"), captureScalar()], true),
+    enumExtraction(
+      "common/situations",
+      [extractionField("approach"), extractionField("name"), captureScalar()],
+      true,
+      false,
+    ),
   ]),
   staticEnum("situation_category", ["positive", "negative", "neutral"]),
   staticEnum("situation_flag_enum", [
@@ -1421,7 +1440,7 @@ export const enums: readonly EnumDefinition[] = [
     "voidspawn_celebration",
   ]),
   extractedEnum("situation_stages", [
-    enumExtraction("common/situations", [extractionField("stages"), captureKey()], true),
+    enumExtraction("common/situations", [extractionField("stages"), captureKey()], true, false),
   ]),
   staticEnum("slot_type", ["strike_craft", "weapon"]),
   staticEnum("solar_sys_init_planet_class", [
@@ -1461,13 +1480,15 @@ export const enums: readonly EnumDefinition[] = [
   staticEnum("spynetwork_flag_enum", ["operation_diplomatic_incident_timer", "recently_stole_technology"]),
   staticEnum("standard_format", ["center", "centre", "left", "right"]),
   extractedEnum("star_class_random_list", [
-    enumExtraction("common/star_classes", [extractionField("name"), captureScalar()], true),
+    enumExtraction("common/star_classes", [extractionField("name"), captureScalar()], true, false),
   ]),
   staticEnum("target_type_enum", ["enemy", "ally", "controlled", "owned"]),
   staticEnum("tech_ai_type", ["all", "military"]),
   staticEnum("tech_departments", ["society_technology", "engineering_technology", "physics_technology"]),
   staticEnum("technology_areas", ["engineering", "society", "physics"]),
-  extractedEnum("textcolors", [enumExtraction("interface", [extractionField("textcolors"), captureKey()], true)]),
+  extractedEnum("textcolors", [
+    enumExtraction("interface", [extractionField("textcolors"), captureKey()], true, false),
+  ]),
   staticEnum("texture_size", ["small"]),
   staticEnum("trade_types", ["market_buy", "market_sell", "not_set"]),
   extractedEnum("tradition_swap", [
@@ -1475,6 +1496,7 @@ export const enums: readonly EnumDefinition[] = [
       "common/traditions",
       [extractionField("tradition_swap"), extractionField("name"), captureScalar()],
       true,
+      false,
     ),
   ]),
   staticEnum("trait_ai_classes", ["engineering", "physics", "society", "survey", "subclass_commander_admiral"]),
@@ -1648,6 +1670,7 @@ export const enums: readonly EnumDefinition[] = [
       "interface",
       [extractionField("extendedScrollbarType"), extractionField("name"), captureScalar()],
       true,
+      false,
     ),
   ]),
   staticEnum("voidworms_spawn_system_size", ["tiny", "small", "medium", "large", "huge"]),
@@ -1675,7 +1698,9 @@ export const enums: readonly EnumDefinition[] = [
   staticEnum("weapon_type2", ["instant", "point_defence", "missile", "planet_killer", "engulf"]),
   staticEnum("weight_or_base", ["weight", "base"]),
   staticEnum("weight_or_factor", ["weight", "factor"]),
-  extractedEnum("zone_set", [enumExtraction("common/zones", [extractionField("zone_sets"), captureScalar()], true)]),
+  extractedEnum("zone_set", [
+    enumExtraction("common/zones", [extractionField("zone_sets"), captureScalar()], true, false),
+  ]),
   staticEnum("zone_set_additional", ["zone_default"]),
   staticEnum("zone_type", ["all", "any"]),
 ];

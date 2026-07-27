@@ -35,6 +35,7 @@ export interface ImportedEnumExtraction {
   readonly directory: string;
   readonly includeSubdirectories: boolean;
   readonly route: readonly ImportedExtractionStep[];
+  readonly startFromRoot: boolean;
 }
 
 export interface ImportedExtractedEnum {
@@ -195,10 +196,16 @@ function complexEnumSources(file: CwtReadResult, block: Block): ImportedEnumExtr
     return [];
   }
 
+  const startEntry: Assignment | undefined = directAssignments(block).find(
+    (entry) => originalKey(file, entry) === "start_from_root",
+  );
+  const startFromRoot: boolean = startEntry?.value.kind === NodeKind.Scalar && String(startEntry.value.value) === "yes";
+
   return extractionRoutesFromBlock(file, nameEntry.value, []).map((route) => ({
     directory,
     includeSubdirectories: true,
     route,
+    startFromRoot,
   }));
 }
 
@@ -404,7 +411,7 @@ export function emitEnumsSource(enums: readonly ImportedEnum[]): string {
       const sources: string = definition.sources
         .map(
           (source) =>
-            `enumExtraction(${JSON.stringify(source.directory)}, [${source.route.map(emitExtractionStep).join(", ")}], ${String(source.includeSubdirectories)})`,
+            `enumExtraction(${JSON.stringify(source.directory)}, [${source.route.map(emitExtractionStep).join(", ")}], ${String(source.includeSubdirectories)}, ${String(source.startFromRoot)})`,
         )
         .join(", ");
       return `  extractedEnum(${JSON.stringify(definition.id)}, [${sources}]),`;

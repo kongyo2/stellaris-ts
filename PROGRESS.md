@@ -80,3 +80,9 @@
 - Blockers: none.
 - Notes: three of the four gated types are permissive, so their zero unknown fields proves nothing. The gate says so out loud and pins the strict count at 1 rather than reporting a clean pass it has not earned.
 
+## Phase 8 (partial) + Phase 3 CP7 — Game Index and MVP Conformance
+- Proof: `npm run index:game` indexes 59,802 identifiers across 214 types and 2,468 members across 25 extracted enums from 23,228 files; `npm run verify` is 13/13 exit 0 with gatedStrict=4/4, gatedPermissive=none, gatedUnknownFields=0.
+- Remaining: Phase 4 codegen, Phase 5 mod output, Phase 6 scope DSL, Phase 7 CLI, Phase 9 publish.
+- Blockers: none.
+- Notes: three defects surfaced and were fixed. Extraction routes were being applied at the file root, but 26 of the 27 extracted enums describe a path relative to each definition — one enum resolved before, 25 after. The conformance acceptor treated every rule-set and script expansion as accepting anything, when both families have known key sets; resolving them took strict types from 181 to 220 and the gated four from 1/4 to 4/4. Root-level `inline_script` blocks were being counted as definitions, which reported 32 phantom holes in `event`. What survived was two genuine holes in the ported corpus — `trait.forced_integration` and `event.notification_event_icon_frame`, both used by vanilla 4.4.6 and absent from cwt — now hand-added and locked by a test.
+

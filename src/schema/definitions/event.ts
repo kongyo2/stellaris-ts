@@ -169,6 +169,9 @@ export const event: DefinitionType = defineType({
   localisation: [definitionLocalisation("title", "title", false)],
   modifiers: [],
   entries: [
+    // Hand-added: vanilla 4.4.6 pairs this with notification_event_icon but the
+    // ported corpus never declared it. Found by `npm run verify:conformance`.
+    field("notification_event_icon_frame", primitive("integer"), occurs.optional),
     field("id", primitive("scalar"), occurs.one),
     field("is_test_event", literal(true), occurs.optional),
     field("diplomatic_title", primitive("localisation"), occurs.optional),

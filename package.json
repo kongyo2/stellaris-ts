@@ -82,7 +82,8 @@
     "verify:schema": "tsx tools/verify-schema/index.ts",
     "import:cwt:check": "tsx tools/import-cwt/index.ts --check",
     "verify:norefs": "tsx tools/verify-norefs.ts",
-    "verify:conformance": "tsx tools/verify-conformance.ts"
+    "verify:conformance": "tsx tools/verify-conformance.ts",
+    "index:game": "tsx tools/index-game/index.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
