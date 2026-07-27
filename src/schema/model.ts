@@ -1,3 +1,5 @@
+import { commands, ruleSets } from "./commands.js";
+import { namedValues, scopeGroups, valueSets } from "./dynamic-sets.js";
 import { definitionTypes } from "./definitions/index.js";
 import { enums } from "./enums.js";
 import { defaultSchemaPolicy, defineSchema } from "./ir.js";
@@ -16,10 +18,10 @@ export const schema: SchemaModel = defineSchema({
   definitionTypes,
   enums,
   scopes,
-  scopeGroups: [],
+  scopeGroups,
   links,
-  commands: [],
-  ruleSets: [],
-  namedValues: [],
-  valueSets: [],
+  commands,
+  ruleSets,
+  namedValues,
+  valueSets,
 });

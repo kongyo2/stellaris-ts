@@ -3,7 +3,13 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { emitCatalogSource, extractImportedCatalog, type ImportedCatalog } from "./catalog.js";
-import { emitSchemaSources, type EmitResult } from "./emit.js";
+import {
+  collectReferencedNames,
+  emitCommandsSource,
+  emitReferencedNamesSource,
+  emitSchemaSources,
+  type EmitResult,
+} from "./emit.js";
 import { emitEnumsSource, emitScopesSource, extractImportedEnums, extractImportedLinks } from "./metadata.js";
 import type { CwtCorpusMetrics, CwtReaderDiagnostic } from "./model.js";
 import { readCwtCorpus } from "./reader.js";
@@ -233,11 +239,15 @@ async function main(): Promise<void> {
   const catalog: ImportedCatalog = extractImportedCatalog(corpus);
   const translation = translateCwtCorpus(corpus);
   const enums = extractImportedEnums(corpus);
+  const referenced = collectReferencedNames(translation.definitionTypes, translation.commands);
   const links = extractImportedLinks(corpus, catalog);
   const schema: EmitResult = emitSchemaSources(translation.definitionTypes, catalog);
+  const commands = emitCommandsSource(translation.commands, catalog);
   const files: readonly { readonly path: string; readonly source: string }[] = [
     { path: "src/schema/catalog.ts", source: emitCatalogSource(catalog) },
+    { path: "src/schema/commands.ts", source: commands.source },
     { path: "src/schema/enums.ts", source: emitEnumsSource(enums) },
+    { path: "src/schema/dynamic-sets.ts", source: emitReferencedNamesSource(referenced, catalog) },
     { path: "src/schema/scopes.ts", source: emitScopesSource(catalog, links) },
     ...schema.files,
   ];
@@ -253,7 +263,12 @@ async function main(): Promise<void> {
       options.check ? "EMIT mode=check" : "EMIT mode=write",
       `files=${String(files.length)}`,
       `definitions=${String(schema.files.length - 1)}`,
+      `commands=${String(commands.commandCount)}`,
+      `ruleSets=${String(commands.ruleSetCount)}`,
       `enums=${String(enums.length)}`,
+      `valueSets=${String(referenced.valueSets.length)}`,
+      `namedValues=${String(referenced.namedValues.length)}`,
+      `scopeGroups=${String(referenced.scopeGroups.length)}`,
       `links=${String(links.length)}`,
       `changed=${String(changed.length)}`,
       `removed=${String(removed.length)}`,

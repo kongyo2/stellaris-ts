@@ -67,3 +67,9 @@
 - Blockers: none.
 - Notes: mutation-tested the new gate both ways — a `refs/` string in `src/` and a `refs` entry in `package.json` `files` each fail it.
 
+## Phase 2 CP4b — Commands, Rule Sets and Dynamic Sets
+- Proof: `npm run import:cwt -- --emit` now emits 2,339 commands, 187 rule sets, 42 value sets, 37 named values and 7 scope groups alongside the 234 definitions, all with opaque=0; `npm run verify` is 12/12 exit 0.
+- Remaining: CP6 vanilla conformance harness, CP7 closing the MVP gaps.
+- Blockers: none.
+- Notes: triggers and effects were never being imported — the reader counted them but nothing translated the root-level `alias[family:name]` declarations, whose value is usually a bare scalar rather than a block. 2,339 object literals in one array hit TS2590, fixed by routing each through an identity constructor with an explicit return type. 21 diagnostics remain and are holes in the cwt corpus itself; they are recorded with a budget the gate enforces rather than suppressed.
+

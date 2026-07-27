@@ -1,6 +1,8 @@
 import * as ir from "../../src/schema/ir.js";
 import type { ImportedCatalog } from "./catalog.js";
 import type {
+  ImportedAnnotations,
+  ImportedCommand,
   ImportedDefinitionSource,
   ImportedDefinitionType,
   ImportedEntryRule,
@@ -275,8 +277,9 @@ function valueExpression(context: EmitContext, value: ImportedValueRule): string
     case "name-format":
       return `${imports.helper("primitive")}(${quote("name-format")}, undefined, undefined, ${quote(value.format)})`;
     case "alias-reference": {
-      const family: string | undefined = SCRIPT_FAMILIES.get(value.family);
-      if (family !== undefined && value.name === undefined) {
+      // Script families live in `commands`, not `ruleSets`, so any reference to
+      // one is the corresponding script block rather than a rule-set reference.
+      if (SCRIPT_FAMILIES.has(value.family)) {
         const helper: string = SCRIPT_BLOCK_HELPER.get(value.family) ?? "triggerBlock";
         return `${imports.helper(helper)}()`;
       }
@@ -429,6 +432,14 @@ function entryExpression(context: EmitContext, entry: ImportedEntryRule): string
 
   switch (entry.kind) {
     case "field": {
+      // `alias_name[trigger] = alias_match_left[trigger]` is the expand-here form:
+      // it is a script-entries rule, not a field keyed by a rule set.
+      if (entry.key.kind === "alias-key" && SCRIPT_ENTRIES_HELPER.has(entry.key.family)) {
+        const entriesHelper: string = SCRIPT_ENTRIES_HELPER.get(entry.key.family) ?? "triggerEntries";
+        const entriesOptions: string | undefined = optionsExpression(context, entry.annotations);
+        return `${imports.helper(entriesHelper)}(${entriesOptions ?? ""})`;
+      }
+
       const extra: string[] = entry.operator === "=" ? [] : [`operator: ${quote(entry.operator)}`];
       const options: string | undefined = optionsExpression(context, entry.annotations, extra);
       const parts: string[] = [
@@ -753,13 +764,143 @@ function emitDefinition(definition: ImportedDefinitionType, context: EmitContext
   ].join("\n");
 }
 
-export function emitSchemaSources(
-  definitions: readonly ImportedDefinitionType[],
+const SCRIPT_FAMILY_IDS: ReadonlyMap<string, string> = new Map([
+  ["trigger", "trigger"],
+  ["effect", "effect"],
+  ["modifier", "modifier"],
+  ["modifier_rule", "modifier-rule"],
+]);
+
+/** `## scope = x` / `## scopes = { a b }` become the command's accepted input scopes. */
+function inputScopeExpression(context: EmitContext, annotations: ImportedAnnotations): string {
+  const { imports } = context;
+  const selections: string[] = annotations.scopes
+    .filter(
+      (directive): directive is Extract<ImportedScopeDirective, { kind: "scope-constraint" }> =>
+        directive.kind === "scope-constraint",
+    )
+    .flatMap((directive) => directive.selection.split(/\s+/u))
+    .map((selection) => selection.trim())
+    .filter((selection) => selection.length > 0);
+
+  if (selections.length === 0) {
+    return `${imports.helper("unspecifiedScope")}()`;
+  }
+
+  if (selections.some((selection) => ["any", "all"].includes(selection.toLowerCase()))) {
+    return `${imports.helper("anyScope")}()`;
+  }
+
+  const resolved: string[] = [];
+  for (const selection of selections) {
+    const scope: string | undefined = scopeIdExpression(context, selection);
+    if (scope !== undefined && !resolved.includes(scope)) {
+      resolved.push(scope);
+    }
+  }
+
+  return resolved.length === 0
+    ? `${imports.helper("unspecifiedScope")}()`
+    : `${imports.helper("listedScopes")}(${resolved.join(", ")})`;
+}
+
+function commandExpression(context: EmitContext, command: ImportedCommand): string {
+  const family: string | undefined = SCRIPT_FAMILY_IDS.get(command.family);
+  const parts: string[] = [];
+
+  if (family === undefined) {
+    parts.push(`family: ${quote(command.family)}`);
+    if (command.name.length > 0) {
+      parts.push(`name: ${quote(command.name)}`);
+    }
+    parts.push(`single: ${command.single ? "true" : "false"}`);
+  } else {
+    parts.push(
+      `id: ${quote(command.name)}`,
+      `family: ${quote(family)}`,
+      `input: ${inputScopeExpression(context, command.annotations)}`,
+    );
+  }
+
+  parts.push(`operator: ${quote(command.operator)}`, `value: ${valueExpression(context, command.value)}`);
+
+  const documentation: string = command.annotations.documentation.join(" ").trim();
+  if (documentation.length > 0) {
+    parts.push(`documentation: ${quote(documentation)}`);
+  }
+
+  const scope: string | undefined = scopeChangeExpression(context, command.annotations.scopes);
+  if (scope !== undefined) {
+    parts.push(`scope: ${scope}`);
+  }
+
+  const severity: ImportedSeverity | undefined = command.annotations.severities[0];
+  if (severity !== undefined && severity !== "error") {
+    parts.push(`severity: ${quote(severity)}`);
+  }
+
+  return `{ ${parts.join(", ")} }`;
+}
+
+/**
+ * Emits the alias families.
+ *
+ * Script families (trigger, effect, modifier, modifier rule) become commands
+ * carrying their accepted input scopes; every other family becomes a rule set.
+ */
+export function emitCommandsSource(
+  commands: readonly ImportedCommand[],
   catalog: ImportedCatalog,
-): EmitResult {
-  const typeIds: ReadonlySet<string> = new Set(catalog.definitionTypeIds);
-  const enumIds: ReadonlySet<string> = new Set(catalog.enumIds);
-  const scopeIds: ReadonlySet<string> = new Set(catalog.scopes.map((scope) => scope.id));
+): { readonly source: string; readonly commandCount: number; readonly ruleSetCount: number } {
+  const context: EmitContext = {
+    imports: new Imports(),
+    catalog,
+    typeIds: new Set(catalog.definitionTypeIds),
+    enumIds: new Set(catalog.enumIds),
+    scopeIds: new Set(catalog.scopes.map((scope) => scope.id)),
+    scopeAliases: scopeAliasMap(catalog),
+    diagnostics: [],
+    definition: "<commands>",
+    counters: { opaque: 0 },
+  };
+
+  const scriptCommands: string[] = [];
+  const ruleSets: string[] = [];
+
+  for (const command of [...commands].sort(
+    (left, right) => compareOrdinal(left.family, right.family) || compareOrdinal(left.name, right.name),
+  )) {
+    const isScript: boolean = SCRIPT_FAMILY_IDS.has(command.family);
+    const helper: string = context.imports.helper(isScript ? "scriptCommand" : "ruleSet");
+    const rendered: string = commandExpression(context, command);
+    (isScript ? scriptCommands : ruleSets).push(`  ${helper}(${rendered}),`);
+  }
+
+  const irNames: readonly string[] = [...context.imports.ir].sort(compareOrdinal);
+  const catalogNames: readonly string[] = [...context.imports.catalog].sort(compareOrdinal);
+  const body: string = [
+    "// Generated by `npm run import:cwt` from cwtools-stellaris-config, then maintained by hand.",
+    "",
+    catalogNames.length === 0 ? "" : `import { ${catalogNames.join(", ")} } from "./catalog.js";`,
+    irNames.length === 0 ? "" : `import { ${irNames.join(", ")} } from "./ir.js";`,
+    'import type { RuleSetDefinition, ScriptCommandDefinition } from "./ir.js";',
+    "",
+    "export const commands: readonly ScriptCommandDefinition[] = [",
+    scriptCommands.join("\n"),
+    "];",
+    "",
+    "export const ruleSets: readonly RuleSetDefinition[] = [",
+    ruleSets.join("\n"),
+    "];",
+    "",
+  ]
+    .filter((line) => line !== "")
+    .join("\n");
+
+  return { source: body, commandCount: scriptCommands.length, ruleSetCount: ruleSets.length };
+}
+
+function scopeAliasMap(catalog: ImportedCatalog): ReadonlyMap<string, string> {
   const scopeAliases = new Map<string, string>();
 
   for (const scope of catalog.scopes) {
@@ -769,6 +910,18 @@ export function emitSchemaSources(
     }
     scopeAliases.set(scope.displayName.replace(/^"|"$/gu, "").toLowerCase().replace(/\s+/gu, "_"), scope.id);
   }
+
+  return scopeAliases;
+}
+
+export function emitSchemaSources(
+  definitions: readonly ImportedDefinitionType[],
+  catalog: ImportedCatalog,
+): EmitResult {
+  const typeIds: ReadonlySet<string> = new Set(catalog.definitionTypeIds);
+  const enumIds: ReadonlySet<string> = new Set(catalog.enumIds);
+  const scopeIds: ReadonlySet<string> = new Set(catalog.scopes.map((scope) => scope.id));
+  const scopeAliases: ReadonlyMap<string, string> = scopeAliasMap(catalog);
 
   const diagnostics: EmitDiagnostic[] = [];
   const counters = { opaque: 0 };
@@ -822,4 +975,134 @@ export function emitSchemaSources(
   });
 
   return { files, diagnostics, opaqueCount: counters.opaque };
+}
+
+/**
+ * Scope groups and named values are referenced but never registered in the cwt
+ * corpus, so the declaration list is whatever the rules actually mention.
+ * Collecting from the translation is exact; a regex over the text is not.
+ */
+export interface ReferencedNames {
+  readonly scopeGroups: readonly string[];
+  readonly namedValues: readonly string[];
+  readonly valueSets: readonly string[];
+}
+
+export function collectReferencedNames(
+  definitions: readonly ImportedDefinitionType[],
+  commands: readonly ImportedCommand[],
+): ReferencedNames {
+  const scopeGroups = new Set<string>();
+  const namedValues = new Set<string>();
+  const valueSets = new Set<string>();
+
+  const visitValue = (value: ImportedValueRule): void => {
+    switch (value.kind) {
+      case "scope-group-reference":
+        scopeGroups.add(value.group);
+        return;
+      case "named-value-reference":
+        namedValues.add(value.set);
+        return;
+      case "value-set-reference":
+        valueSets.add(value.set);
+        return;
+      case "block":
+        for (const entry of value.entries) {
+          visitEntry(entry);
+        }
+        return;
+      default:
+        return;
+    }
+  };
+
+  const visitKey = (key: ImportedKeyRule): void => {
+    if (key.kind === "scope-group-key") {
+      scopeGroups.add(key.group);
+    } else if (key.kind === "named-value-key" || key.kind === "value-set-key") {
+      (key.kind === "named-value-key" ? namedValues : valueSets).add(key.set);
+    }
+  };
+
+  const visitEntry = (entry: ImportedEntryRule): void => {
+    switch (entry.kind) {
+      case "field":
+        visitKey(entry.key);
+        visitValue(entry.value);
+        return;
+      case "item":
+        visitValue(entry.value);
+        return;
+      case "variant-rules":
+        for (const child of entry.entries) {
+          visitEntry(child);
+        }
+        return;
+      default:
+        return;
+    }
+  };
+
+  for (const definition of definitions) {
+    for (const entry of definition.entries) {
+      visitEntry(entry);
+    }
+    for (const subtype of definition.subtypes) {
+      for (const entry of subtype.criteria) {
+        visitEntry(entry);
+      }
+    }
+  }
+
+  for (const command of commands) {
+    visitValue(command.value);
+  }
+
+  const sorted = (values: Set<string>): readonly string[] =>
+    [...values].sort((left, right) => compareOrdinal(left, right));
+
+  return { scopeGroups: sorted(scopeGroups), namedValues: sorted(namedValues), valueSets: sorted(valueSets) };
+}
+
+export function emitReferencedNamesSource(names: ReferencedNames, catalog: ImportedCatalog): string {
+  const scopeIds: ReadonlySet<string> = new Set(catalog.scopes.map((scope) => scope.id));
+  const aliases: ReadonlyMap<string, string> = scopeAliasMap(catalog);
+  const groupEntries: string = names.scopeGroups
+    .map((id) => {
+      // A group's members are unknown from the corpus; the id often names a
+      // scope, so seed it with that and let the schema be corrected by hand.
+      const seed: string | undefined = aliases.get(id.toLowerCase());
+      const scopes: string = seed !== undefined && scopeIds.has(seed) ? `[${JSON.stringify(seed)}]` : "[]";
+      return `  { id: ${JSON.stringify(id)}, scopes: ${scopes} },`;
+    })
+    .join("\n");
+  const namedValueEntries: string = names.namedValues
+    .map((id) => `  { id: ${JSON.stringify(id)}, value: primitive("number") },`)
+    .join("\n");
+  const valueSetEntries: string = names.valueSets
+    .map((id) => `  { id: ${JSON.stringify(id)}, key: anyKey(), value: primitive("scalar") },`)
+    .join("\n");
+
+  return [
+    "// Generated by `npm run import:cwt` from cwtools-stellaris-config, then maintained by hand.",
+    "// Scope groups, named values and value sets are declared by usage, so this is",
+    "// the set of names the imported rules actually reference.",
+    "",
+    'import { anyKey, primitive } from "./ir.js";',
+    'import type { NamedValueDefinition, ScopeGroupDefinition, ValueSetDefinition } from "./ir.js";',
+    "",
+    "export const scopeGroups: readonly ScopeGroupDefinition[] = [",
+    groupEntries,
+    "];",
+    "",
+    "export const namedValues: readonly NamedValueDefinition[] = [",
+    namedValueEntries,
+    "];",
+    "",
+    "export const valueSets: readonly ValueSetDefinition[] = [",
+    valueSetEntries,
+    "];",
+    "",
+  ].join("\n");
 }

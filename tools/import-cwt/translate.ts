@@ -420,8 +420,26 @@ export interface ImportedDefinitionType {
   readonly sourceLocation: ImportedSourceLocation;
 }
 
+/**
+ * A root-level `alias[family:name] = value` declaration.
+ *
+ * Triggers and effects are the bulk of the schema and are declared this way, so
+ * they are collected separately from the type registry: their value is often a
+ * bare scalar rather than a block.
+ */
+export interface ImportedCommand {
+  readonly family: string;
+  readonly name: string;
+  readonly single: boolean;
+  readonly value: ImportedValueRule;
+  readonly operator: Assignment["operator"];
+  readonly annotations: ImportedAnnotations;
+  readonly source: ImportedSourceLocation;
+}
+
 export interface CwtSchemaTranslation {
   readonly definitionTypes: readonly ImportedDefinitionType[];
+  readonly commands: readonly ImportedCommand[];
   readonly unsupported: readonly ImportedUnsupportedSemantic[];
 }
 
@@ -1680,9 +1698,11 @@ function declarations(
 ): {
   readonly roots: readonly RootSchemaDeclaration[];
   readonly types: readonly TypeDeclaration[];
+  readonly commands: readonly ImportedCommand[];
 } {
   const types: TypeDeclaration[] = [];
   const roots: RootSchemaDeclaration[] = [];
+  const commands: ImportedCommand[] = [];
 
   for (const file of files) {
     const context: TranslationContext = contextForFile(file, issues);
@@ -1709,13 +1729,36 @@ function declarations(
         continue;
       }
 
+      const rootConstruct: ParsedConstruct | undefined = parsedAssignmentKey(context, entry);
+      if (rootConstruct?.head === "alias" || rootConstruct?.head === "single_alias") {
+        const single: boolean = rootConstruct.head === "single_alias";
+        const separator: number = rootConstruct.argument.indexOf(":");
+        const family: string = single
+          ? rootConstruct.argument
+          : separator < 0
+            ? rootConstruct.argument
+            : rootConstruct.argument.slice(0, separator);
+        const name: string = single || separator < 0 ? "" : rootConstruct.argument.slice(separator + 1);
+
+        commands.push({
+          family: family.trim(),
+          name: name.trim(),
+          single,
+          value: translateValue(context, entry.value),
+          operator: entry.operator,
+          annotations: translateAnnotations(context, entry),
+          source: sourceLocation(context, entry.span),
+        });
+        continue;
+      }
+
       if (entry.value.kind === NodeKind.Block) {
         roots.push({ context, entry, block: entry.value, id: key });
       }
     }
   }
 
-  return { types, roots };
+  return { types, roots, commands };
 }
 
 function schemaBlock(declaration: RootSchemaDeclaration): ImportedSchemaBlock {
@@ -1822,6 +1865,7 @@ export function translateCwtFiles(files: readonly CwtReadResult[]): CwtSchemaTra
 
   return {
     definitionTypes,
+    commands: collected.commands,
     unsupported: issues,
   };
 }

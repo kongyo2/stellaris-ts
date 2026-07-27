@@ -1,5 +1,7 @@
 export * from "./catalog.js";
+export * from "./commands.js";
 export * from "./definitions/index.js";
+export * from "./dynamic-sets.js";
 export * from "./enums.js";
 export * from "./ir.js";
 export * from "./model.js";

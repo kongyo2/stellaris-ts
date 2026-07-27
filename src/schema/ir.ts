@@ -1019,6 +1019,22 @@ export function fieldLocalisation(
   };
 }
 
+/**
+ * Identity constructors for the generated command tables.
+ *
+ * A few thousand object literals in one array make the compiler build a union
+ * of every element type and give up with TS2590. Routing each element through a
+ * function with an explicit return type collapses inference per element, so the
+ * array stays a plain `ScriptCommandDefinition[]`.
+ */
+export function scriptCommand(definition: ScriptCommandDefinition): ScriptCommandDefinition {
+  return definition;
+}
+
+export function ruleSet(definition: RuleSetDefinition): RuleSetDefinition {
+  return definition;
+}
+
 export function generatedModifier(
   prefix: string,
   suffix: string,
