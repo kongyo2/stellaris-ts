@@ -1,0 +1,14 @@
+first_contact_add_intel = {
+	custom_tooltip_with_params = {
+		description = "FIRST_CONTACT_ADD_INTEL"
+		description_parameters = {
+			"INTEL" = @\[( $INTEL$ + 20 )]
+		}
+	}
+	hidden_effect = {
+		add_intel = {
+			who = root.contact_country
+			amount = $INTEL$
+		}
+	}
+}

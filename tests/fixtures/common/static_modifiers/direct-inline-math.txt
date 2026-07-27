@@ -1,0 +1,4 @@
+stellar_ignition_habitability_mod_2 = {
+	icon = "gfx/interface/icons/planet_modifiers/pm_stellar_ignition.dds"
+	pop_environment_tolerance = @[ stellar_ignition_hab_penalty * 2 ]
+}

@@ -1,0 +1,6 @@
+pre_ftl_gain_tech_progress = {
+	base = 192
+	[[BONUS]
+		add = $BONUS$
+	]
+}

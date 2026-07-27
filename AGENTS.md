@@ -33,8 +33,8 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run typecheck:tools` checks development utilities through `tools/tsconfig.json`; `typecheck:tools:ci` is its
   cache-free gate and is included in aggregate verification.
 - `npm run test` runs Vitest.
-- `npm run verify` is the authoritative aggregate gate. During CP4 it covers format, strict lint, typed lint, CI source
-  and test checking, tests, and full-game round-trip; CP6 adds the package-consumer probe.
+- `npm run verify` is the authoritative aggregate gate. Through CP5 it covers format, strict lint, typed lint, CI
+  source and test checking, tests, and full-game round-trip; CP6 adds the package-consumer probe.
 - `npm run verify:roundtrip -- --tokenize-only` proves lossless lexical coverage, `--parse-only` proves parsing, and no
   arguments runs full structural round-trip for every non-excluded targeted installed-game script.
 - `npm run refs:sync` is reserved for Phase 2 or later. Do not run it during Phase 0 or Phase 1.
@@ -63,8 +63,9 @@ the change that made them stale. Keep this document concise, English-only, and c
   and parse errors must return partial results instead of throwing.
 - Round-trip tests compare parse → print → parse structure while ignoring trivia. Accept UTF-8 BOM, LF, and CRLF input;
   print deterministic UTF-8 without BOM and with LF line endings.
-- Keep fixture bytes unchanged. List each non-script prose exclusion explicitly with its path and one-line reason; stop
-  and investigate before the exclusion list exceeds 15 entries.
+- Keep fixture bytes unchanged; `tests/fixture-roundtrip.test.ts` locks their manifest with SHA-256. List each
+  non-script prose exclusion explicitly with its path and one-line reason; stop and investigate before the exclusion
+  list exceeds 15 entries.
 - Preserve compile-time regression coverage for strict flags, including a deliberate indexed-access error guarded by
   `@ts-expect-error`.
 

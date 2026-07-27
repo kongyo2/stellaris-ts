@@ -21,3 +21,9 @@
 - 残り: CP5 byte-preserved fixtures と CI regression coverage
 - ブロック: なし
 - 所見: canonical tab indentation、BOM なし、LF 出力で comment を保持し、trivia/span を除く構造同値を証明した
+
+## CP5 — CI Regression
+- 検証: `npm run test` → 4 files / 30 tests; `npm run typecheck:test:ci` → exit 0
+- 残り: CP6 package-consumer probe と最終 aggregate verification
+- ブロック: なし
+- 所見: 10 fixtures / 9,908 bytes を SHA-256 固定し、BOM・CRLF・4 corpus roots と strict indexed access を回帰化した
