@@ -3,3 +3,9 @@
 - 残り: CP2 Lexer と全対象ファイルの tokenization
 - ブロック: なし
 - 所見: `oxlint-tsgolint` の要件により TypeScript 7.0.2 を確定し、type-aware lint は各 `tsconfig.json` を自動検出する構成にした
+
+## CP2 — Lexer
+- 検証: `npm run verify:roundtrip -- --tokenize-only` → 2,213 files / 9,307,904 tokens / 84 BOM / 337 CRLF / 0 unknown / 0 diagnostics / 0 coverage issues
+- 残り: CP3 AST / Parser と診断ゼロの全数 parse
+- ブロック: なし
+- 所見: `@\[` が 22 例あり lossless に保持した; `common/scripted_loc/scripted_loc_ruloc.txt` の末尾に閉じ波括弧欠落が 1 例あり CP3 で分類する
