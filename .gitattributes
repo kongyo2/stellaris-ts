@@ -1,2 +1,7 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# LF everywhere. `text=auto` alone would check out CRLF on Windows and break
+# `prettier --check` (endOfLine: "lf") on a fresh clone.
+* text=auto eol=lf
+
+# Verbatim extracts of vanilla Stellaris files. Never normalise these — the
+# round-trip test suite assumes byte-identical input.
+tests/fixtures/** -text

@@ -1,0 +1,8 @@
+# Reference repositories cloned for one-shot porting only.
+# See PLAN.md §0.1 — the build must never depend on these.
+# Re-fetch with `npm run refs:sync`.
+/refs/
+
+node_modules/
+dist/
+*.tsbuildinfo
