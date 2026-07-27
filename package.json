@@ -90,7 +90,8 @@
     "verify:conformance": "tsx tools/verify-conformance.ts",
     "index:game": "tsx tools/index-game/index.ts",
     "codegen": "tsx tools/codegen/index.ts",
-    "import:scopes": "tsx tools/import-scopes/index.ts"
+    "import:scopes": "tsx tools/import-scopes/index.ts",
+    "verify:reproduce": "tsx tools/verify-reproduce/index.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

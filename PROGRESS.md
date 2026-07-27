@@ -110,3 +110,9 @@
 - Blockers: none.
 - Notes: the generated scope types were initially vacuous — the ported corpus constrains no scripted command at all, so every trigger was offered in every scope and a clean compile proved nothing. The user pointed at the game's own `-debug` documentation, which states each command's supported scopes directly; importing it took unconstrained commands from 2,328 to 408. A command the dump omits stays unconstrained, because absent data is not the same as a constraint of none.
 
+## Reverse-Derivation Loop — Authoring Gaps
+- Proof: `npm run verify:reproduce` converts all 40,550 vanilla definitions back into what `define({ ... })` would take, prints, re-parses and compares. 39,645 (97.77%) reproduce; `npm run verify` is 14/14 exit 0 with the rate pinned.
+- Remaining: 905 definitions across 6 causes, listed in `docs/authoring-gaps.md`.
+- Blockers: none.
+- Notes: the rate started at 34.20%. Every step forward came from an actual failing example rather than from reasoning about which constructs looked hard — twice a guess was wrong in the flattering direction. Quoted values were being double-quoted; comparison operators had no spelling at all; a key repeated with scalar values collapsed into a value list, which is a different thing to the game; and a marked value nested below the top level was being stripped by the validation walk. Comparing by bytes also over-reported, since `"x"` and `x`, and `0.50` and `0.5`, are the same to the game, and a plain object cannot interleave duplicate keys the way script can without that changing anything the game reads.
+

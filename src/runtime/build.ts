@@ -1,3 +1,4 @@
+import { isCompared, isRepeated, type ComparedValue, type RepeatedValue } from "./values.js";
 import {
   AssignmentOperator,
   NodeKind,
@@ -22,7 +23,8 @@ import {
  */
 
 /** Any value a definition can hold. Arrays stand for a key repeated in script. */
-export type ScriptValue = boolean | number | string | ScriptObject | readonly ScriptValue[];
+export type ScriptValue =
+  boolean | number | string | ScriptObject | readonly ScriptValue[] | ComparedValue | RepeatedValue;
 
 export interface ScriptObject {
   readonly [key: string]: ScriptValue | undefined;
@@ -63,11 +65,15 @@ function block(entries: readonly EntryNode[]): Block {
   return { kind: NodeKind.Block, entries, closed: true, span: SPAN };
 }
 
-function assignment(key: string, value: ValueNode): Assignment {
+function assignment(
+  key: string,
+  value: ValueNode,
+  operator: Assignment["operator"] = AssignmentOperator.Equals,
+): Assignment {
   return {
     kind: NodeKind.Assignment,
     key: scalar(key),
-    operator: AssignmentOperator.Equals,
+    operator,
     operatorSpan: SPAN,
     beforeOperatorTrivia: [],
     beforeValueTrivia: [],
@@ -114,6 +120,24 @@ function entriesOf(object: object): EntryNode[] {
       continue;
     }
 
+    // `num_owned_planets > 1` is a comparison, not an assignment.
+    if (isCompared(raw)) {
+      entries.push(assignment(key, scalar(raw.value), raw.operator));
+      continue;
+    }
+
+    // A key written once per value, which is not the same as one key holding a
+    // value list.
+    if (isRepeated(raw)) {
+      for (const item of raw.values) {
+        if (item === undefined || item === null) {
+          continue;
+        }
+        entries.push(assignment(key, valueNode(asScriptValue(key, item))));
+      }
+      continue;
+    }
+
     const value: ScriptValue = asScriptValue(key, raw);
 
     // A repeated key is written once per element, which is how PDX expresses
@@ -143,6 +167,12 @@ function asScriptValue(key: string, value: unknown): ScriptValue {
   // A class instance, a Date or a Map has no PDX spelling. Rejecting it here
   // names the offending key; letting it through writes something the game
   // cannot parse and says nothing about where it came from.
+  // A marked value is resolved where its key is known, which can be any depth
+  // down. Rebuilding the object around it here would strip the marker.
+  if (isCompared(value) || isRepeated(value)) {
+    return value;
+  }
+
   if (typeof value === "object" && value !== null && Object.getPrototypeOf(value) === Object.prototype) {
     return Object.fromEntries(
       Object.entries(value)
