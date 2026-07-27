@@ -109,22 +109,39 @@ export interface CwtReadResult {
 
 export interface CwtCorpusMetrics {
   readonly annotationCount: number;
-  readonly complexEnumDefinitionCount: number;
+  readonly complexEnumDeclarationCount: number;
+  readonly complexEnumNameCount: number;
+  readonly declaredEnumNameCount: number;
   readonly documentationCount: number;
-  readonly effectAliasCount: number;
-  readonly enumCount: number;
-  readonly enumDefinitionCount: number;
+  readonly effectAliasDeclarationCount: number;
+  readonly effectAliasNameCount: number;
+  readonly enumSyntaxNameCount: number;
+  readonly enumSyntaxOccurrenceCount: number;
   readonly fileCount: number;
   readonly lineCount: number;
   readonly linkBlockCount: number;
-  readonly linkDefinitionCount: number;
+  readonly linkDeclarationCount: number;
+  readonly linkNameCount: number;
   readonly l0DiagnosticCount: number;
   readonly orphanAnnotationCount: number;
+  readonly primaryEffectAliasDeclarationCount: number;
+  readonly primaryTriggerAliasDeclarationCount: number;
   readonly recoveryCount: number;
   readonly scopeCount: number;
-  readonly triggerAliasCount: number;
+  readonly staticEnumDeclarationCount: number;
+  readonly staticEnumNameCount: number;
+  readonly subtypeConstructCount: number;
+  readonly subtypeDefinitionCount: number;
+  readonly subtypeDefinitionOwnerCount: number;
+  readonly subtypeLocalisationReferenceCount: number;
+  readonly subtypeReferenceCount: number;
+  readonly subtypeSchemaNestedSelectorCount: number;
+  readonly subtypeSchemaRootSelectorCount: number;
+  readonly triggerAliasDeclarationCount: number;
+  readonly triggerAliasNameCount: number;
   readonly typeDefinitionCount: number;
-  readonly typeKeySubtypeCount: number;
+  readonly typeKeySubtypeDefinitionCount: number;
+  readonly typeNameCount: number;
   readonly unknownSyntaxCount: number;
 }
 

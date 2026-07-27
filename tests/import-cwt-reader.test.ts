@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { CwtDirectiveName } from "../tools/import-cwt/model.js";
-import { readCwtSource } from "../tools/import-cwt/reader.js";
+import { measureCwtFiles, readCwtSource } from "../tools/import-cwt/reader.js";
 
 describe("readCwtSource", () => {
   it("rehydrates declarations, directives, and documentation over the L0 structure", () => {
@@ -49,6 +49,67 @@ describe("readCwtSource", () => {
     ]);
     expect(directives.map((directive) => directive.operator)).toEqual(["=", "<>", "=", "legacy-space"]);
     expect(documentation.map((entry) => entry.text)).toEqual(["Building documentation"]);
+
+    const metrics = measureCwtFiles([result]);
+    expect(metrics.typeDefinitionCount).toBe(1);
+    expect(metrics.typeNameCount).toBe(1);
+    expect(metrics.subtypeDefinitionOwnerCount).toBe(1);
+    expect(metrics.subtypeDefinitionCount).toBe(1);
+    expect(metrics.typeKeySubtypeDefinitionCount).toBe(1);
+    expect(metrics.staticEnumDeclarationCount).toBe(1);
+    expect(metrics.staticEnumNameCount).toBe(1);
+    expect(metrics.complexEnumDeclarationCount).toBe(1);
+    expect(metrics.complexEnumNameCount).toBe(1);
+    expect(metrics.declaredEnumNameCount).toBe(2);
+  });
+
+  it("separates subtype declarations from localisation and schema selectors", () => {
+    const source = [
+      "types = {",
+      "\ttype[thing] = {",
+      "\t\tsubtype[special] = { mode = special }",
+      "\t\tlocalisation = {",
+      '\t\t\tsubtype[special] = { Name = "$" }',
+      "\t\t}",
+      "\t}",
+      "}",
+      "thing = {",
+      "\tsubtype[special] = { direct = bool }",
+      "\tnested = { subtype[special] = { child = bool } }",
+      "}",
+      "",
+    ].join("\n");
+    const metrics = measureCwtFiles([readCwtSource("subtypes.cwt", source)]);
+
+    expect(metrics.subtypeDefinitionOwnerCount).toBe(1);
+    expect(metrics.subtypeDefinitionCount).toBe(1);
+    expect(metrics.subtypeLocalisationReferenceCount).toBe(1);
+    expect(metrics.subtypeSchemaRootSelectorCount).toBe(1);
+    expect(metrics.subtypeSchemaNestedSelectorCount).toBe(1);
+    expect(metrics.subtypeReferenceCount).toBe(3);
+    expect(metrics.subtypeConstructCount).toBe(4);
+  });
+
+  it("counts enum declarations by registry placement and nested syntax independently", () => {
+    const source = [
+      "enums = {",
+      "\tenum[fixed] = { one two }",
+      '\tcomplex_enum[derived] = { path = "game/common/things" name = { enum_name } }',
+      "}",
+      "rule = { enum[matcher_only] = bool }",
+      "math = alias[modifier_rule:enum[nested]]",
+      "chain = scope[any].enum[chained]",
+      "",
+    ].join("\n");
+    const metrics = measureCwtFiles([readCwtSource("enums.cwt", source)]);
+
+    expect(metrics.staticEnumDeclarationCount).toBe(1);
+    expect(metrics.staticEnumNameCount).toBe(1);
+    expect(metrics.complexEnumDeclarationCount).toBe(1);
+    expect(metrics.complexEnumNameCount).toBe(1);
+    expect(metrics.declaredEnumNameCount).toBe(2);
+    expect(metrics.enumSyntaxOccurrenceCount).toBe(4);
+    expect(metrics.enumSyntaxNameCount).toBe(4);
   });
 
   it("records a new directive as unknown syntax", () => {

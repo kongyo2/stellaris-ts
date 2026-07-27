@@ -44,6 +44,11 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run refs:sync` clones the fixed CWTools source into ignored `refs/` for Phase 2 one-shot import work only.
 - `npm run import:cwt` audits every `.cwt` file in that ignored checkout through a source-position-preserving adapter
   over the L0 parser. It fails on unknown syntax or count drift and records, rather than hides, upstream recoveries.
+- CWT coverage counts are structural: a type is a block-valued `type[x]` directly under `types`; a subtype declaration
+  is a block-valued `subtype[x]` directly under that type; fixed and derived enums are direct `enum[x]` and
+  `complex_enum[x]` children of `enums`; links are direct children of `links`. References and nested selectors never
+  increase declaration baselines. The pinned import baseline is 234 types, 257 subtypes under 45 types, 179 fixed plus
+  27 derived unique enum names, and 86 link declarations / 85 unique names.
 
 ## Coding Style & Naming Conventions
 

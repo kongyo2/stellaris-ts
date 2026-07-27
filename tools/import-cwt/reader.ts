@@ -501,10 +501,27 @@ function directAssignments(block: Block): readonly EntryNode[] {
 
 function typeCounts(files: readonly CwtReadResult[]): {
   readonly definitions: number;
-  readonly typeKeySubtypes: number;
+  readonly names: number;
+  readonly subtypeConstructs: number;
+  readonly subtypeDefinitions: number;
+  readonly subtypeDefinitionOwners: number;
+  readonly subtypeLocalisationReferences: number;
+  readonly subtypeReferences: number;
+  readonly subtypeSchemaNestedSelectors: number;
+  readonly subtypeSchemaRootSelectors: number;
+  readonly typeKeySubtypeDefinitions: number;
 } {
   let definitions = 0;
-  let typeKeySubtypes = 0;
+  let subtypeDefinitions = 0;
+  let subtypeDefinitionOwners = 0;
+  let subtypeLocalisationReferences = 0;
+  let subtypeSchemaRootSelectors = 0;
+  let typeKeySubtypeDefinitions = 0;
+  const typeNames = new Set<string>();
+  const subtypeConstructs: number = files.reduce(
+    (sum, file) => sum + file.constructs.filter((construct) => construct.head === "subtype").length,
+    0,
+  );
 
   for (const file of files) {
     for (const rootEntry of file.document.entries) {
@@ -528,68 +545,155 @@ function typeCounts(files: readonly CwtReadResult[]): {
         }
 
         definitions += 1;
+        const parsedType: ParsedBracketConstruct | undefined = parseBracketText(typeKey);
+        if (parsedType !== undefined) {
+          typeNames.add(parsedType.argument);
+        }
+        let ownsSubtype = false;
 
         for (const subtypeEntry of directAssignments(typeEntry.value)) {
           const subtypeKey: string | undefined = assignmentKey(file, subtypeEntry);
           if (subtypeKey === undefined || parseBracketText(subtypeKey)?.head !== "subtype") {
+            if (
+              subtypeKey === "localisation" &&
+              subtypeEntry.kind === NodeKind.Assignment &&
+              subtypeEntry.value.kind === NodeKind.Block
+            ) {
+              subtypeLocalisationReferences += directAssignments(subtypeEntry.value).filter((entry) => {
+                const key: string | undefined = assignmentKey(file, entry);
+                return key !== undefined && parseBracketText(key)?.head === "subtype";
+              }).length;
+            }
             continue;
           }
 
+          ownsSubtype = true;
+          subtypeDefinitions += 1;
           const metadata: CwtAnnotatedEntry | undefined = annotatedEntryForSyntax(file, subtypeEntry);
           if (
             metadata?.leading.some(
               (annotation) => annotation.kind === "directive" && annotation.name === CwtDirectiveName.TypeKeyFilter,
             ) === true
           ) {
-            typeKeySubtypes += 1;
+            typeKeySubtypeDefinitions += 1;
           }
+        }
+
+        if (ownsSubtype) {
+          subtypeDefinitionOwners += 1;
+        }
+      }
+    }
+
+    for (const rootEntry of file.document.entries) {
+      if (
+        rootEntry.kind !== NodeKind.Assignment ||
+        rootEntry.value.kind !== NodeKind.Block ||
+        assignmentKey(file, rootEntry) === "types"
+      ) {
+        continue;
+      }
+
+      subtypeSchemaRootSelectors += directAssignments(rootEntry.value).filter((entry) => {
+        const key: string | undefined = assignmentKey(file, entry);
+        return key !== undefined && parseBracketText(key)?.head === "subtype";
+      }).length;
+    }
+  }
+
+  const subtypeReferences: number = subtypeConstructs - subtypeDefinitions;
+  const subtypeSchemaNestedSelectors: number =
+    subtypeReferences - subtypeLocalisationReferences - subtypeSchemaRootSelectors;
+
+  return {
+    definitions,
+    names: typeNames.size,
+    subtypeConstructs,
+    subtypeDefinitions,
+    subtypeDefinitionOwners,
+    subtypeLocalisationReferences,
+    subtypeReferences,
+    subtypeSchemaNestedSelectors,
+    subtypeSchemaRootSelectors,
+    typeKeySubtypeDefinitions,
+  };
+}
+
+function enumCounts(files: readonly CwtReadResult[]): {
+  readonly complexDeclarations: number;
+  readonly complexNames: number;
+  readonly declaredNames: number;
+  readonly staticDeclarations: number;
+  readonly staticNames: number;
+  readonly syntaxNames: number;
+  readonly syntaxOccurrences: number;
+} {
+  const staticEnumNames = new Set<string>();
+  const complexEnumNames = new Set<string>();
+  const syntaxEnumNames = new Set<string>();
+  let staticDeclarations = 0;
+  let complexDeclarations = 0;
+  let syntaxOccurrences = 0;
+
+  for (const file of files) {
+    for (const rewrite of file.source.rewrites) {
+      for (const match of rewrite.originalText.matchAll(/(?:^|[^A-Za-z0-9_])(?:\.)?enum\[([^\]]+)\]/gu)) {
+        const name: string | undefined = match[1];
+        if (name !== undefined) {
+          syntaxOccurrences += 1;
+          syntaxEnumNames.add(name.trim());
+        }
+      }
+    }
+
+    for (const rootEntry of file.document.entries) {
+      if (
+        rootEntry.kind !== NodeKind.Assignment ||
+        rootEntry.value.kind !== NodeKind.Block ||
+        assignmentKey(file, rootEntry) !== "enums"
+      ) {
+        continue;
+      }
+
+      for (const declaration of directAssignments(rootEntry.value)) {
+        const key: string | undefined = assignmentKey(file, declaration);
+        if (
+          key === undefined ||
+          declaration.kind !== NodeKind.Assignment ||
+          declaration.value.kind !== NodeKind.Block
+        ) {
+          continue;
+        }
+
+        const construct: ParsedBracketConstruct | undefined = parseBracketText(key);
+        if (construct?.head === "enum") {
+          staticDeclarations += 1;
+          staticEnumNames.add(construct.argument);
+        } else if (construct?.head === "complex_enum") {
+          complexDeclarations += 1;
+          complexEnumNames.add(construct.argument);
         }
       }
     }
   }
 
-  return { definitions, typeKeySubtypes };
-}
-
-function enumCounts(files: readonly CwtReadResult[]): {
-  readonly complexDefinitions: number;
-  readonly definitions: number;
-  readonly names: number;
-} {
-  const enumNames = new Set<string>();
-  const complexEnumNames = new Set<string>();
-  let definitions = 0;
-  let complexDefinitions = 0;
-
-  for (const file of files) {
-    for (const annotated of file.entries) {
-      const key: string | undefined = assignmentKey(file, annotated.syntax);
-      if (key === undefined || annotated.syntax.kind !== NodeKind.Assignment) {
-        continue;
-      }
-
-      const construct: ParsedBracketConstruct | undefined = parseBracketText(key);
-      if (construct?.head === "enum") {
-        definitions += 1;
-        enumNames.add(construct.argument);
-      } else if (construct?.head === "complex_enum") {
-        complexDefinitions += 1;
-        complexEnumNames.add(construct.argument);
-      }
-    }
-  }
-
   return {
-    definitions,
-    complexDefinitions,
-    names: new Set<string>([...enumNames, ...complexEnumNames]).size,
+    complexDeclarations,
+    complexNames: complexEnumNames.size,
+    declaredNames: new Set<string>([...staticEnumNames, ...complexEnumNames]).size,
+    staticDeclarations,
+    staticNames: staticEnumNames.size,
+    syntaxNames: syntaxEnumNames.size,
+    syntaxOccurrences,
   };
 }
 
-function aliasCount(file: CwtReadResult, category: "effect" | "trigger"): number {
-  return file.constructs.filter(
-    (construct) => construct.head === "alias" && construct.argument.startsWith(`${category}:`),
-  ).length;
+function aliasNames(file: CwtReadResult, category: "effect" | "trigger"): string[] {
+  return file.constructs.flatMap((construct): string[] =>
+    construct.head === "alias" && construct.argument.startsWith(`${category}:`)
+      ? [construct.argument.slice(category.length + 1)]
+      : [],
+  );
 }
 
 function countBlocks(block: Block): number {
@@ -608,10 +712,12 @@ function countBlocks(block: Block): number {
 
 function linkCounts(files: readonly CwtReadResult[]): {
   readonly blocks: number;
-  readonly definitions: number;
+  readonly declarations: number;
+  readonly names: number;
 } {
   let blocks = 0;
-  let definitions = 0;
+  let declarations = 0;
+  const names = new Set<string>();
 
   for (const file of files) {
     for (const entry of file.document.entries) {
@@ -621,12 +727,19 @@ function linkCounts(files: readonly CwtReadResult[]): {
         entry.value.kind === NodeKind.Block
       ) {
         blocks += countBlocks(entry.value);
-        definitions += directAssignments(entry.value).length;
+        const links: readonly EntryNode[] = directAssignments(entry.value);
+        declarations += links.length;
+        for (const link of links) {
+          const name: string | undefined = assignmentKey(file, link);
+          if (name !== undefined) {
+            names.add(name);
+          }
+        }
       }
     }
   }
 
-  return { blocks, definitions };
+  return { blocks, declarations, names: names.size };
 }
 
 function scopeCount(files: readonly CwtReadResult[]): number {
@@ -647,7 +760,7 @@ function scopeCount(files: readonly CwtReadResult[]): number {
   return count;
 }
 
-function corpusMetrics(files: readonly CwtReadResult[]): CwtCorpusMetrics {
+export function measureCwtFiles(files: readonly CwtReadResult[]): CwtCorpusMetrics {
   const types = typeCounts(files);
   const enums = enumCounts(files);
   const links = linkCounts(files);
@@ -657,25 +770,44 @@ function corpusMetrics(files: readonly CwtReadResult[]): CwtCorpusMetrics {
   const effectFile: CwtReadResult | undefined = files.find(
     (file) => basename(file.source.path).toLowerCase() === "effects.cwt",
   );
+  const triggerAliases: readonly string[] = files.flatMap((file) => aliasNames(file, "trigger"));
+  const effectAliases: readonly string[] = files.flatMap((file) => aliasNames(file, "effect"));
 
   return {
     annotationCount: files.reduce((sum, file) => sum + file.metrics.annotationCount, 0),
-    complexEnumDefinitionCount: enums.complexDefinitions,
+    complexEnumDeclarationCount: enums.complexDeclarations,
+    complexEnumNameCount: enums.complexNames,
+    declaredEnumNameCount: enums.declaredNames,
     documentationCount: files.reduce((sum, file) => sum + file.metrics.documentationCount, 0),
-    effectAliasCount: effectFile === undefined ? 0 : aliasCount(effectFile, "effect"),
-    enumCount: enums.names,
-    enumDefinitionCount: enums.definitions,
+    effectAliasDeclarationCount: effectAliases.length,
+    effectAliasNameCount: new Set<string>(effectAliases).size,
+    enumSyntaxNameCount: enums.syntaxNames,
+    enumSyntaxOccurrenceCount: enums.syntaxOccurrences,
     fileCount: files.length,
     lineCount: files.reduce((sum, file) => sum + file.metrics.lineCount, 0),
     linkBlockCount: links.blocks,
-    linkDefinitionCount: links.definitions,
+    linkDeclarationCount: links.declarations,
+    linkNameCount: links.names,
     l0DiagnosticCount: files.reduce((sum, file) => sum + file.metrics.l0DiagnosticCount, 0),
     orphanAnnotationCount: files.reduce((sum, file) => sum + file.metrics.orphanAnnotationCount, 0),
+    primaryEffectAliasDeclarationCount: effectFile === undefined ? 0 : aliasNames(effectFile, "effect").length,
+    primaryTriggerAliasDeclarationCount: triggerFile === undefined ? 0 : aliasNames(triggerFile, "trigger").length,
     recoveryCount: files.reduce((sum, file) => sum + file.metrics.recoveryCount, 0),
     scopeCount: scopeCount(files),
-    triggerAliasCount: triggerFile === undefined ? 0 : aliasCount(triggerFile, "trigger"),
+    staticEnumDeclarationCount: enums.staticDeclarations,
+    staticEnumNameCount: enums.staticNames,
+    subtypeConstructCount: types.subtypeConstructs,
+    subtypeDefinitionCount: types.subtypeDefinitions,
+    subtypeDefinitionOwnerCount: types.subtypeDefinitionOwners,
+    subtypeLocalisationReferenceCount: types.subtypeLocalisationReferences,
+    subtypeReferenceCount: types.subtypeReferences,
+    subtypeSchemaNestedSelectorCount: types.subtypeSchemaNestedSelectors,
+    subtypeSchemaRootSelectorCount: types.subtypeSchemaRootSelectors,
+    triggerAliasDeclarationCount: triggerAliases.length,
+    triggerAliasNameCount: new Set<string>(triggerAliases).size,
     typeDefinitionCount: types.definitions,
-    typeKeySubtypeCount: types.typeKeySubtypes,
+    typeKeySubtypeDefinitionCount: types.typeKeySubtypeDefinitions,
+    typeNameCount: types.names,
     unknownSyntaxCount: files.reduce((sum, file) => sum + file.metrics.unknownSyntaxCount, 0),
   };
 }
@@ -694,6 +826,6 @@ export async function readCwtCorpus(configDirectory: string): Promise<CwtCorpus>
 
   return {
     files,
-    metrics: corpusMetrics(files),
+    metrics: measureCwtFiles(files),
   };
 }

@@ -43,3 +43,8 @@
 - Proof: `npm run import:cwt` → 101 files / 44,370 terminators / 0 unknown syntax / 1 recorded recovery; 9 focused tests pass.
 - Counts: 234 type declarations, 207 enum names, 912/818 trigger/effect aliases, 171 link blocks (86 declarations), 41 scopes.
 - Blocker: PLAN treats 449 types and 171 links as semantic IR counts; the source has 234 type and 86 link declarations.
+
+## Phase 2 CP2 Audit — Structural Counts
+- Proof: structural recount → type 234/234 unique; subtype 257 declarations under 45 types + 112 references = 369 constructs.
+- Enums: 180 fixed declarations/179 names + 28 derived declarations/27 names = 206 declared names; the former 207 mixed matchers.
+- Links: 86 declarations / 85 names; the former 171 counted the wrapper and 84 nested `input_scopes` blocks.
