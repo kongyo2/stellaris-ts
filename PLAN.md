@@ -3,7 +3,9 @@
 TypeScript から Stellaris の PDX スクリプト（Clausewitz script）を書き、mod フォルダを出力するライブラリ。
 [hikkaku](https://github.com/pnsk-lab/hikkaku) の Stellaris 版にあたる、AI エージェントが第一級の利用者であることを前提にした設計。
 
-この文書は **codex が実装するための仕様書** であり、決定済み事項と未決事項を明示的に分けている。
+この文書は **実装のための仕様書** であり、決定済み事項と未決事項を明示的に分けている。
+
+> **実装体制の変更（2026-07-27）**: Phase 0 〜 Phase 2 CP3 までは外部エージェント（codex）が実装した。以降は Claude が引き継いで完成させる。この文書中の「codex のタスク」といった記述は担当者を問わない要件として読むこと。
 
 ---
 
@@ -44,10 +46,23 @@ cwtools-stellaris-config は「最初に語彙を移植するときの参考材�
 実装の見積もりと設計はこの数字に基づいている。
 
 **cwtools-stellaris-config**（MIT / tboby, 2018）
-- `.cwt` 44,370 行
-- `type[x]` 449 種 / `enum[x]` 207 種
-- `alias[trigger:*]` 912 / `alias[effect:*]` 818 / `links` 171
-- scope 約 41 種（`Country` `Planet` `Pop` `Fleet` `Leader` `Species` `Federation` `Situation` …）
+
+> **この節の数値は grep で概算したものだったため誤りが 2 件あった。**`type[x]` を 449、`links` を 171 としていたが、前者は `subtype[` への部分一致による汚染（汚染値 478）、後者は `root 1 + link 86 + input_scopes 84` を数えていた。**正規の数値は `tools/import-cwt` の構造解析が出すものとする。** 以下は独立に再計測した値で、数え方の定義を併記する。
+
+| 項目 | 値 | 数え方 |
+| --- | --- | --- |
+| `.cwt` ファイル | 101 | — |
+| 行数 | 44,370 | `wc -l` 換算 |
+| **type** | **234** | `type[x] = {` の宣言 |
+| subtype | 要確定 | **宣言と `localisation = { subtype[x] = {} }` の参照を区別すること。** 行ベースの概算では 58 type / 369 件だが、参照を含んでいる可能性が高い |
+| enum | 要確定 | 参照を含む一意名は 206。宣言のみの数と区別すること |
+| complex_enum | 27 | 一意名 |
+| `alias[trigger:*]` | 912 | 行頭アンカー |
+| `alias[effect:*]` | 818 | 行頭アンカー |
+| **links** | **86 宣言 / 85 unique** | `links = { }` 直下のブロック。`last_created_pop_faction` が重複 |
+| scope | 41 | `scopes = { }` 直下 |
+
+**教訓**: このプロジェクトでは grep の概算を仕様の数値として固定してはいけない。§8 のバニラ照合ハーネスと同じ原則で、**数値はパーサが構造から出す**。`verify:schema` の下限値も PLAN.md ではなく `tools/import-cwt` の実測から決めること。
 - アノテーション出現数: `## cardinality` 8,788 / `## replace_scope` 684 / `## push_scope` 573 / `## type_key_filter` 220 / `## required` 207 / `## severity` 105
 
 **ゲーム本体 (4.4.6)** — 全数調査した結果。**サンプル 1 個から一般化してはいけない領域**だったので、以下は全ファイルを数えた値。
@@ -180,10 +195,14 @@ stellaris-ts/
 | ブロック | `key = { ... }` |
 | 比較演算子 | `key > v` `<` `>=` `<=` `!=` `==` |
 | script variable | `@buildings_t1 = 1` / 参照 `@buildings_t1` |
-| inline math | `@[ base + 1 ]` |
+| inline math（直接） | `@[ base + 1 ]` — 41 例 / 13 ファイル |
+| **inline math（エスケープ）** | `@\[ ( 72 * $PROGRESS$ ) ]` — **22 例 / 8 ファイル**。バニラの `common/scripted_effects/99_advanced_documentation.txt` 自身が文法として記述している |
 | パラメータ置換 | `$AMOUNT$`（inline_script / scripted_effect） |
-| 省略可能ブロック | `[[PARAM] ... ]` |
+| 省略可能ブロック | `[[PARAM] ... ]` — 54 例 / 14 ファイル。**否定形 `[[!PARAM] ... ]` もある** |
 | 値の並び（キーなし） | `{ a b c }` — `convert_to = { ... }` など |
+| **root の裸タグ列** | ファイル全体が `=` を持たない識別子の並び。`common/component_tags/00_tags.txt` が実例 |
+| **root の無名ブロック** | root 直下の `{ ... }`（キーなし） |
+| **root の prefixed block** | root 直下の `prefix { ... }` |
 | 真偽値 | `yes` / `no` |
 | 日付 | `2200.01.01` |
 | 引用文字列 | `"anomaly.1.name"` |
@@ -212,11 +231,25 @@ interface Block { kind: 'block'; entries: Entry[]; span: Span }   // entries は
 - **決定的**（同じ AST → 常に同じバイト列）。diff の安定が mod 開発では効く
 - 出力は UTF-8 **BOM なし** / 改行 **LF** に統一する。バニラは混在している（`common/` の 16% が CRLF、84 ファイルが BOM 付き）が、**入力の揺れをそのまま出力に持ち越さない**。読むときは両方受け、書くときは一方に決めるのが決定性の条件。localisation だけは BOM 付き（§7.3）
 
-### 5.4 受け入れ基準
+### 5.4 受け入れ基準 — **Phase 1 完了時点で達成済み**
 
-`common/` + `events/` + `localisation/` を含むゲーム本体の全スクリプトファイルに対し、
-**parse → print → parse が AST 同値**（trivia を除いた構造比較）であること。
-これを `tools/verify-schema` とは別のスモークテストとして CI 手前に置く。ゲーム本体が無い CI では `tests/fixtures/` の抽出サンプルで代替。
+対象コーパスは **`common/` + `events/` + `prescripted_countries/` + `map/`**。`localisation/` は PDX script ではない別形式なので対象外（§7.3 で別に扱う）。
+
+**拡張子で絞ってはいけない。** `.txt` 限定にすると `common/inline_scripts/traditions/tr_purity_imperfection_remediation_wilderness`（拡張子なしの実在する PDX script）がこぼれる。inline_scripts はゲーム側が拡張子なしのパスで参照するため、これは正当なスクリプト。4 root 配下で PDX script でないのは `.json` 1 / `.csv` 2 / `.ods` 2 のみなので、**この 3 拡張子を除外する形で収集する**のが正しい。
+
+**parse → print → parse が AST 同値**（trivia を除いた構造比較）であること。ゲーム本体が無い CI では `tests/fixtures/` のバイト固定サンプルで代替。
+
+実績: 2,213 ファイル中 2,210 成功 / 除外 3 / 失敗 0 / 診断 0。BOM 84 件と CRLF 337 件は除外せず処理。
+
+**除外 3 件は全部バニラ側の非スクリプト or 実バグ**（独立検証済み）:
+
+| ファイル | 理由 |
+| --- | --- |
+| `common/HOW_TO_MAKE_NEW_SHIPS.txt` | コメント化されていない英文散文が 43 行 |
+| `common/edicts/99_README_EDICTS.txt` | コメント化されていない見出しが 3 行 |
+| `common/scripted_loc/scripted_loc_ruloc.txt` | **バニラのバグ**。312 行目の `defined_text = {` が EOF まで閉じていない（ブレース収支 開 111 / 閉 110） |
+
+最後の 1 件は Phase 5 以降に効いてくる: **バニラには構文的に壊れたファイルが実在する**。バリデータは「バニラは常に正しい」という前提を置いてはいけない。
 
 ---
 
@@ -355,7 +388,7 @@ name="My Mod"
 supported_version="v4.4.*"
 ```
 
-> **要実機確認（codex のタスク）**: このマシンには mod が 1 つも入っていないため、`descriptor.mod` / `<name>.mod` の正確な差分（`path=` の要否、パス区切り、`remote_file_id`）と、Launcher v2 の sqlite DB に対して手置きの `.mod` がどう認識されるかは実機で確認すること。有効なタグの一覧も launcher assets から抽出すること。
+> **要実機確認（Phase 5 で実施）**: このマシンには mod が 1 つも入っていないため、`descriptor.mod` / `<name>.mod` の正確な差分（`path=` の要否、パス区切り、`remote_file_id`）と、Launcher v2 の sqlite DB に対して手置きの `.mod` がどう認識されるかは実機で確認すること。有効なタグの一覧も launcher assets から抽出すること。
 
 **localisation**
 
@@ -553,8 +586,8 @@ SKILL.md の Gate 節に対応。内側のループ（`lint` / `typecheck` / `te
 
 - `format:check`
 - `lint:strict` / `lint:types`
-- `typecheck:ci` / `typecheck:test` / `typecheck:test:ci`
-- `attw --pack .` + `publint --strict`
+- `typecheck:ci` / `typecheck:tools:ci` / `typecheck:test` / `typecheck:test:ci`
+- `attw --pack .` + `publint --strict` — **Phase 1 時点では未導入**。次のゴールで `verify` に入れる
 - **runtime probe**: `npm pack` → 別ディレクトリの scratch consumer にインストール → `node` と `tsc --moduleResolution nodenext` の両方で import が通ることを確認。SKILL.md が「このファイルの主題領域で最も高くつく失敗」と呼んでいる箇所なので必ずやる
 
 ---
@@ -607,7 +640,7 @@ SKILL.md の Gate 節に対応。内側のループ（`lint` / `typecheck` / `te
 - IR の型を自前で設計（§6）
 - `tools/import-cwt`: L0 のパーサを再利用して `.cwt` を読み、`##`/`###` アノテーションを抽出、IR の TS ソースを生成
 - 生成物を `src/schema/definitions/` にコミットし、**以後 cwt を参照しない**
-- 受け入れ: 449 type / 207 enum / 912 trigger / 818 effect / 171 link が IR に落ちており、`npm run build` が `refs/` 無しで通る
+- 受け入れ: `tools/import-cwt` の構造解析が出す実測値（§1 の表）を IR が網羅しており、`npm run build` が `refs/` 無しで通る。**PLAN.md の数値ではなくパーサの実測を正とする**
 
 ### Phase 3 — バニラ照合ハーネス  ★MVP（縮小版）
 - `tools/verify-schema`（§8）
@@ -632,7 +665,7 @@ SKILL.md の Gate 節に対応。内側のループ（`lint` / `typecheck` / `te
 
 ### Phase 8 — バニラ ID インデクサ + 全タイプ展開
 - `tools/index-game` でバニラ ID を抽出し `src/generated/types/ids/` を生成
-- 449 タイプへ拡張
+- 全 type（実測 234。§1）へ拡張
 
 ### Phase 9 — Agent Skill / docs / npm 公開
 - SKILL.md + `rules/`、`tools/sync-skills.ts` で 3 箇所へ同期
@@ -671,7 +704,7 @@ SKILL.md の Gate 節に対応。内側のループ（`lint` / `typecheck` / `te
 | # | 項目 | 内容 |
 | --- | --- | --- |
 | R1 | **バニラ ID の npm 同梱** | 「全部同梱」の決定に従うが、Paradox のゲームデータ由来の識別子を再配布することになる。リスクを下げるため **識別子の名前だけを配布し、localisation の本文・数値バランス・スクリプト本体は配布しない**方針にする。cwtools 由来部分は MIT なので `THIRD_PARTY.md` に帰属表示を置く。この線引きで問題ないか確認したい |
-| R2 | パッケージサイズと型チェック時間 | 449 タイプ + 数万 ID。§10 の対策を最初から入れ、CI で計測する |
+| R2 | パッケージサイズと型チェック時間 | 234 タイプ + subtype + 数万 ID。§10 の対策を最初から入れ、CI で計測する |
 | R3 | `descriptor.mod` / Launcher v2 の挙動 | 実機に mod が無いため未検証。Phase 5 で実機確認（§7.3） |
 | R4 | ゲームバージョン追従 | §8 のハーネスがそのまま追従手段になる。cwt の更新は待たない |
 | R5 | TypeScript 7 とツールチェイン | ts-morph 等を使わない前提なら問題ない。Phase 0 で確定し AGENTS.md に記録 |
