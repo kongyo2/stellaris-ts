@@ -1,5 +1,5 @@
 import { readdir, readFile } from "node:fs/promises";
-import { join, relative, resolve } from "node:path";
+import { extname, join, relative, resolve } from "node:path";
 import { TextDecoder } from "node:util";
 
 import {
@@ -18,6 +18,7 @@ import { roundtripExclusions } from "../tests/roundtrip-exclusions.js";
 
 const DEFAULT_GAME_PATH: string = String.raw`D:\steam\steamapps\common\Stellaris`;
 const CORPUS_ROOTS: readonly string[] = ["common", "events", "prescripted_countries", "map"];
+const NON_SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set([".csv", ".json", ".ods"]);
 
 interface UnknownTokenLocation {
   readonly path: string;
@@ -88,7 +89,7 @@ function toPortablePath(path: string): string {
   return path.replaceAll("\\", "/");
 }
 
-async function collectTextFiles(directory: string): Promise<string[]> {
+async function collectCorpusFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   entries.sort((left, right) => compareOrdinal(left.name, right.name));
 
@@ -97,10 +98,10 @@ async function collectTextFiles(directory: string): Promise<string[]> {
       const entryPath: string = join(directory, entry.name);
 
       if (entry.isDirectory()) {
-        return collectTextFiles(entryPath);
+        return collectCorpusFiles(entryPath);
       }
 
-      if (entry.isFile() && entry.name.toLowerCase().endsWith(".txt")) {
+      if (entry.isFile() && !NON_SCRIPT_EXTENSIONS.has(extname(entry.name).toLowerCase())) {
         return [entryPath];
       }
 
@@ -770,7 +771,7 @@ async function main(): Promise<void> {
   const configuredGamePath: string | undefined = process.env["STELLARIS_GAME_PATH"];
   const gamePath: string = resolve(configuredGamePath ?? DEFAULT_GAME_PATH);
   const corpusFileGroups: string[][] = await Promise.all(
-    CORPUS_ROOTS.map(async (root): Promise<string[]> => collectTextFiles(join(gamePath, root))),
+    CORPUS_ROOTS.map(async (root): Promise<string[]> => collectCorpusFiles(join(gamePath, root))),
   );
   const files: string[] = corpusFileGroups.flat();
 

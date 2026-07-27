@@ -8,12 +8,11 @@
   `tools/tsconfig.json`, and must not be published.
 - `tests/` contains Vitest suites. `tests/fixtures/` contains byte-preserved extracts from Stellaris and must not be
   reformatted or line-ending-normalized.
-- `refs/` is ignored reference material. Only development tools may read it; library builds and runtime code must not
-  depend on it.
+- `refs/` is ignored, disposable migration input. Only development tools may read it; library builds, verification
+  other than import auditing, and runtime code must remain green when it is absent.
 - `src/generated/`, `dist/`, and coverage output are generated artifacts. Fix generators rather than hand-editing
   generated source.
-- `PLAN.md` is the sole implementation specification. Work through its checkpoints in order and do not begin Phase 2
-  work while the Phase 0 and Phase 1 goal is active.
+- `PLAN.md` is the sole implementation specification. Work through its checkpoints in order.
 
 ## AGENTS.md Maintenance Policy
 
@@ -32,14 +31,17 @@ the change that made them stale. Keep this document concise, English-only, and c
   `npm run typecheck:test:ci` cover cache-free and test-specific configurations.
 - `npm run typecheck:tools` checks development utilities through `tools/tsconfig.json`; `typecheck:tools:ci` is its
   cache-free gate and is included in aggregate verification.
-- `npm run test` runs Vitest.
+- `npm run test` runs Vitest and fails when no tests are discovered.
 - `npm run verify` is the authoritative aggregate gate. It covers format, strict lint, typed lint, CI source and test
-  checking, tests, full-game round-trip, and the package-consumer probe.
+  checking, tests, full-game round-trip, the package-consumer probe, and strict package publication linting.
 - `npm run verify:roundtrip -- --tokenize-only` proves lossless lexical coverage, `--parse-only` proves parsing, and no
-  arguments runs full structural round-trip for every non-excluded targeted installed-game script.
+  arguments runs full structural round-trip for every non-excluded file under the four corpus roots except `.json`,
+  `.csv`, and `.ods` files.
 - `npm run verify:pack` builds and packs the publishable files, installs the tarball offline into a temporary consumer,
   and proves both Node ESM execution and TypeScript NodeNext resolution.
-- `npm run refs:sync` is reserved for Phase 2 or later. Do not run it during Phase 0 or Phase 1.
+- `npm run verify:publish` builds and checks the packed package with both `attw --pack .` and `publint --strict`;
+  `.attw.json` selects ATTW's `esm-only` profile to match the package's intentional ESM-only exports.
+- `npm run refs:sync` clones the fixed CWTools source into ignored `refs/` for Phase 2 one-shot import work only.
 
 ## Coding Style & Naming Conventions
 
@@ -77,9 +79,8 @@ the change that made them stale. Keep this document concise, English-only, and c
   that floor for local development and CI.
 - Never write to the installed Stellaris directory. Treat
   `D:\steam\steamapps\common\Stellaris` as read-only verification input.
-- Do not clone or inspect reference repositories before Phase 2. `tools/refs-sync.ts` may only clone
-  `https://github.com/cwtools/cwtools-stellaris-config` into ignored `refs/`; it must not pull, update, or make that
-  checkout a build or runtime dependency.
+- `tools/refs-sync.ts` may only clone `https://github.com/cwtools/cwtools-stellaris-config` into ignored `refs/`; it
+  must not pull, update, or make that checkout a build, verification, or runtime dependency.
 - Do not commit secrets, local machine paths beyond documented test defaults, `refs/`, build output, coverage, or npm
   cache artifacts.
 - Do not weaken a gate, parser rule, fixture, or exclusion policy to make verification pass. Raise contradictions with

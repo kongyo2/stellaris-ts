@@ -33,3 +33,8 @@
 - 残り: なし
 - ブロック: なし
 - 所見: source-derived tar file set、types-first exports、runtime dependency なし、公開 subpath と deep-import 遮断を実 consumer で証明した
+
+## Phase 2 CP1 — Corpus and Publication Gates
+- Proof: `npm run verify` → 10/10 exit 0; round-trip covered 2,214 files with 2,211 successes and 3 documented exclusions.
+- Scope: the extensionless script is included; only 2 CSV, 1 JSON, and 2 ODS files are filtered; ATTW and publint pass.
+- Blockers: none; next is the one-shot CWTools reader.
