@@ -86,6 +86,18 @@ differently later. The importer's structural output is canonical; prose in `PLAN
   increase declaration baselines. The pinned import baseline is 234 types, 257 subtypes under 45 types, 179 fixed plus
   27 derived unique enum names, and 86 link declarations / 85 unique names.
 
+## Where Scope Data Comes From
+
+- The ported corpus constrains **none** of the 2,328 scripted commands, so on its own the scope-typed surface would
+  offer every trigger in every scope and prove nothing.
+- `npm run import:scopes` reads the game's own `-debug` documentation, collected at
+  <https://github.com/OldEnt/stellaris-triggers-modifiers-effects-list>, and writes `src/schema/scope-constraints.ts`.
+  That is the game speaking for itself, and it constrains 1,920 of them.
+- A command the dump does not mention stays unconstrained. Silence there means "not documented", not "legal nowhere" —
+  narrowing on absent data would reject script the game accepts.
+- The dumps trail the current build slightly (4.3.7 against a 4.4.6 install), so the version read is recorded in the
+  generated file rather than assumed to match.
+
 ## The CLI
 
 - `stellaris-ts check <entry>` validates without writing; `stellaris-ts build <entry>` validates then writes. The entry

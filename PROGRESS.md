@@ -104,3 +104,9 @@
 - Blockers: none.
 - Notes: the validator catches what the game silently ignores — an unknown field, a duplicate id where only the last one loads, a required string that would ship as its own key, a reference to something neither vanilla nor the mod defines. A definition type with open rules accepts arbitrary keys at the type level by design, so those checks belong here rather than in the generated types; narrowing the type instead would reject script the game accepts.
 
+## Phase 6 — Scope Types
+- Proof: `npm run verify` is 13/13 exit 0 with 72 tests; 1,920 of 2,328 scripted commands now carry scope constraints, and the generated per-scope interfaces hold 19,069 members rather than 88,355.
+- Remaining: Phase 9 skill docs and publish.
+- Blockers: none.
+- Notes: the generated scope types were initially vacuous — the ported corpus constrains no scripted command at all, so every trigger was offered in every scope and a clean compile proved nothing. The user pointed at the game's own `-debug` documentation, which states each command's supported scopes directly; importing it took unconstrained commands from 2,328 to 408. A command the dump omits stays unconstrained, because absent data is not the same as a constraint of none.
+

@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { schema } from "../../src/schema/index.js";
+import { generateScopeApi, type ScopeCodegenResult } from "./scope.js";
 import { generateDefinitionTypes, type TypeCodegenResult } from "./types.js";
 
 const REPOSITORY_ROOT: string = fileURLToPath(new URL("../../", import.meta.url));
@@ -64,10 +65,12 @@ export type VanillaId<Type extends string> = Type extends keyof VanillaIdsByType
 `;
 
 const result: TypeCodegenResult = generateDefinitionTypes(schema);
+const scopes: ScopeCodegenResult = generateScopeApi(schema);
 const modules: readonly { readonly path: string; readonly source: string }[] = [
   { path: "src/generated/types/script.ts", source: SCRIPT_MODULE },
   { path: "src/generated/types/refs.ts", source: REFS_MODULE },
   ...result.modules,
+  ...scopes.modules,
   {
     path: "src/generated/types/index.ts",
     source: [
@@ -75,6 +78,7 @@ const modules: readonly { readonly path: string; readonly source: string }[] = [
       "",
       'export type * from "./definitions.js";',
       'export type * from "./refs.js";',
+      'export type * from "./scopes.js";',
       'export type * from "./script.js";',
       "",
     ].join("\n"),
@@ -96,5 +100,8 @@ console.log(
     `definitions=${String(result.definitionCount)}`,
     `properties=${String(result.propertyCount)}`,
     `literalUnions=${String(result.literalUnionCount)}`,
+    `scopes=${String(scopes.scopeCount)}`,
+    `scopeMembers=${String(scopes.memberCount)}`,
+    `unconstrainedCommands=${String(scopes.unconstrainedCommands)}`,
   ].join(" "),
 );

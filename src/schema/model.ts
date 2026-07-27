@@ -1,5 +1,6 @@
 import { commands, ruleSets } from "./commands.js";
 import { withCorrections } from "./corrections.js";
+import { withScopeConstraints } from "./scope-model.js";
 import { namedValues, scopeGroups, valueSets } from "./dynamic-sets.js";
 import { definitionTypes } from "./definitions/index.js";
 import { enums } from "./enums.js";
@@ -21,7 +22,7 @@ export const schema: SchemaModel = defineSchema({
   scopes,
   scopeGroups,
   links,
-  commands,
+  commands: withScopeConstraints(commands),
   ruleSets,
   namedValues,
   valueSets,

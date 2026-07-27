@@ -6,4 +6,6 @@ export * from "./dynamic-sets.js";
 export * from "./enums.js";
 export * from "./ir.js";
 export * from "./model.js";
+export * from "./scope-constraints.js";
+export * from "./scope-model.js";
 export * from "./scopes.js";

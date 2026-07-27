@@ -2,4 +2,5 @@
 
 export type * from "./definitions.js";
 export type * from "./refs.js";
+export type * from "./scopes.js";
 export type * from "./script.js";

@@ -5,17 +5,16 @@ import { resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const REFERENCE_REPOSITORY_URL: string = "https://github.com/cwtools/cwtools-stellaris-config";
+/** The game's own -debug dumps, which are where scope constraints come from. */
+const SCOPE_DUMP_REPOSITORY_URL: string = "https://github.com/OldEnt/stellaris-triggers-modifiers-effects-list";
 const REPOSITORY_ROOT: string = fileURLToPath(new URL("../", import.meta.url));
 const REFS_DIRECTORY: string = resolve(REPOSITORY_ROOT, "refs");
 const REFERENCE_REPOSITORY_DIRECTORY: string = resolve(REFS_DIRECTORY, "cwtools-stellaris-config");
+const SCOPE_DUMP_DIRECTORY: string = resolve(REFS_DIRECTORY, "stellaris-triggers-modifiers-effects-list");
 
-function runClone(): Promise<void> {
+function runClone(url: string, directory: string): Promise<void> {
   return new Promise<void>((resolvePromise, rejectPromise) => {
-    const child: ChildProcess = spawn(
-      "git",
-      ["clone", "--", REFERENCE_REPOSITORY_URL, REFERENCE_REPOSITORY_DIRECTORY],
-      { stdio: "inherit" },
-    );
+    const child: ChildProcess = spawn("git", ["clone", "--depth", "1", "--", url, directory], { stdio: "inherit" });
 
     child.once("error", rejectPromise);
     child.once("close", (code: number | null, signal: NodeJS.Signals | null) => {
@@ -31,7 +30,8 @@ function runClone(): Promise<void> {
 
 export async function cloneReferenceRepository(): Promise<void> {
   await mkdir(REFS_DIRECTORY, { recursive: true });
-  await runClone();
+  await runClone(REFERENCE_REPOSITORY_URL, REFERENCE_REPOSITORY_DIRECTORY);
+  await runClone(SCOPE_DUMP_REPOSITORY_URL, SCOPE_DUMP_DIRECTORY);
 }
 
 const entryPath: string | undefined = process.argv[1];
