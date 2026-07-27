@@ -35,8 +35,8 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run test` runs Vitest.
 - `npm run verify` is the authoritative aggregate gate. During CP1 it covers format, strict lint, typed lint, CI source
   checking, CI test checking, and tests; later checkpoints add full-game round-trip and package-consumer probes.
-- During CP2, `npm run verify:roundtrip -- --tokenize-only` tokenizes every targeted installed-game script without
-  modifying the Stellaris installation.
+- During CP3, `npm run verify:roundtrip -- --tokenize-only` proves lossless lexical coverage, while `--parse-only`
+  parses every non-excluded targeted installed-game script without modifying the Stellaris installation.
 - `npm run refs:sync` is reserved for Phase 2 or later. Do not run it during Phase 0 or Phase 1.
 
 ## Coding Style & Naming Conventions

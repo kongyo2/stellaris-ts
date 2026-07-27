@@ -2,7 +2,8 @@ import { readdir, readFile } from "node:fs/promises";
 import { join, relative, resolve } from "node:path";
 import { TextDecoder } from "node:util";
 
-import { tokenize, TokenKind } from "../src/syntax/index.js";
+import { parse, tokenize, TokenKind } from "../src/syntax/index.js";
+import { roundtripExclusions } from "../tests/roundtrip-exclusions.js";
 
 const DEFAULT_GAME_PATH: string = String.raw`D:\steam\steamapps\common\Stellaris`;
 const CORPUS_ROOTS: readonly string[] = ["common", "events", "prescripted_countries", "map"];
@@ -21,6 +22,19 @@ interface VerificationIssue {
   readonly line: number;
   readonly column: number;
   readonly category: "coverage" | "diagnostic";
+  readonly message: string;
+}
+
+interface ParseDiagnosticLocation {
+  readonly path: string;
+  readonly line: number;
+  readonly column: number;
+  readonly code: string;
+  readonly message: string;
+}
+
+interface ExclusionIssue {
+  readonly path: string;
   readonly message: string;
 }
 
@@ -77,15 +91,207 @@ function formatIssue(issue: VerificationIssue): string {
   );
 }
 
+function formatParseDiagnostic(diagnostic: ParseDiagnosticLocation): string {
+  return (
+    `DIAGNOSTIC ${diagnostic.path}:${String(diagnostic.line)}:${String(diagnostic.column)}` +
+    ` ${diagnostic.code}: ${diagnostic.message}`
+  );
+}
+
+function formatExclusionIssue(issue: ExclusionIssue): string {
+  return `EXCLUSION ${issue.path} ${issue.message}`;
+}
+
+function isPathUnderCorpusRoot(path: string): boolean {
+  const segments: readonly string[] = path.split("/");
+  const root: string | undefined = segments[0];
+
+  return (
+    segments.length >= 2 &&
+    root !== undefined &&
+    CORPUS_ROOTS.includes(root) &&
+    segments.every((segment) => segment.length > 0 && segment !== "." && segment !== "..")
+  );
+}
+
+function isOneLineEnglishReason(reason: string): boolean {
+  const trimmedReason: string = reason.trim();
+
+  if (trimmedReason.length === 0 || reason.includes("\r") || reason.includes("\n") || !/[A-Za-z]/u.test(reason)) {
+    return false;
+  }
+
+  for (const character of reason) {
+    const characterCode: number = character.charCodeAt(0);
+    if (characterCode < 0x20 || characterCode > 0x7e) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+async function verifyParseOnly(gamePath: string, files: readonly string[]): Promise<void> {
+  const collectedPaths: ReadonlySet<string> = new Set(
+    files.map((filePath): string => toPortablePath(relative(gamePath, filePath))),
+  );
+  const exclusionPaths = new Set<string>();
+  const exclusionIssues: ExclusionIssue[] = [];
+
+  if (roundtripExclusions.length > 15) {
+    exclusionIssues.push({
+      path: "<exclusions>",
+      message: `exclusion count ${String(roundtripExclusions.length)} exceeds the maximum of 15.`,
+    });
+  }
+
+  for (const exclusion of roundtripExclusions) {
+    const exclusionPath: string = toPortablePath(exclusion.path);
+
+    if (exclusionPaths.has(exclusionPath)) {
+      exclusionIssues.push({
+        path: exclusionPath,
+        message: "duplicate exclusion path.",
+      });
+    } else {
+      exclusionPaths.add(exclusionPath);
+    }
+
+    if (!isPathUnderCorpusRoot(exclusionPath)) {
+      exclusionIssues.push({
+        path: exclusionPath,
+        message: `path must be under one of: ${CORPUS_ROOTS.join(", ")}.`,
+      });
+    }
+
+    if (!collectedPaths.has(exclusionPath)) {
+      exclusionIssues.push({
+        path: exclusionPath,
+        message: "path does not name an existing collected corpus file.",
+      });
+    }
+
+    if (!isOneLineEnglishReason(exclusion.reason)) {
+      exclusionIssues.push({
+        path: exclusionPath,
+        message: "reason must be nonempty, one-line, printable English text.",
+      });
+    }
+  }
+
+  exclusionIssues.sort(
+    (left, right) => compareOrdinal(left.path, right.path) || compareOrdinal(left.message, right.message),
+  );
+
+  if (roundtripExclusions.length > 15) {
+    for (const issue of exclusionIssues) {
+      console.error(formatExclusionIssue(issue));
+    }
+
+    console.log(
+      [
+        "SUMMARY mode=parse-only",
+        `files=${String(files.length)}`,
+        "success=0",
+        `excluded=${String([...exclusionPaths].filter((path) => collectedPaths.has(path)).length)}`,
+        "failed=0",
+        "diagnostics=0",
+        `exclusionIssues=${String(exclusionIssues.length)}`,
+      ].join(" "),
+    );
+    process.exitCode = 1;
+    return;
+  }
+
+  const filesToParse: readonly string[] = files.filter(
+    (filePath) => !exclusionPaths.has(toPortablePath(relative(gamePath, filePath))),
+  );
+  const parseDiagnostics: ParseDiagnosticLocation[] = [];
+  let successCount = 0;
+  let failedCount = 0;
+  let nextFileIndex = 0;
+
+  const processNextFile = async (): Promise<void> => {
+    const filePath: string | undefined = filesToParse[nextFileIndex];
+    nextFileIndex += 1;
+
+    if (filePath === undefined) {
+      return;
+    }
+
+    const displayPath: string = toPortablePath(relative(gamePath, filePath));
+    const bytes: Buffer = await readFile(filePath);
+    const source: string = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
+    const result = parse(source);
+
+    if (result.diagnostics.length === 0) {
+      successCount += 1;
+    } else {
+      failedCount += 1;
+    }
+
+    for (const diagnostic of result.diagnostics) {
+      parseDiagnostics.push({
+        path: displayPath,
+        line: diagnostic.span.start.line,
+        column: diagnostic.span.start.column,
+        code: diagnostic.code,
+        message: diagnostic.message,
+      });
+    }
+
+    await processNextFile();
+  };
+
+  await Promise.all(Array.from({ length: 8 }, processNextFile));
+
+  parseDiagnostics.sort(
+    (left, right) =>
+      compareOrdinal(left.path, right.path) ||
+      left.line - right.line ||
+      left.column - right.column ||
+      compareOrdinal(left.code, right.code) ||
+      compareOrdinal(left.message, right.message),
+  );
+
+  for (const issue of exclusionIssues) {
+    console.error(formatExclusionIssue(issue));
+  }
+
+  for (const diagnostic of parseDiagnostics) {
+    console.error(formatParseDiagnostic(diagnostic));
+  }
+
+  console.log(
+    [
+      "SUMMARY mode=parse-only",
+      `files=${String(files.length)}`,
+      `success=${String(successCount)}`,
+      `excluded=${String(files.length - filesToParse.length)}`,
+      `failed=${String(failedCount)}`,
+      `diagnostics=${String(parseDiagnostics.length)}`,
+      `exclusionIssues=${String(exclusionIssues.length)}`,
+    ].join(" "),
+  );
+
+  if (parseDiagnostics.length > 0 || exclusionIssues.length > 0) {
+    process.exitCode = 1;
+  }
+}
+
 async function main(): Promise<void> {
   const cliArguments: readonly string[] = process.argv.slice(2);
 
-  if (cliArguments.length > 1 || (cliArguments.length === 1 && cliArguments[0] !== "--tokenize-only")) {
-    console.error("Usage: tsx tools/verify-roundtrip.ts [--tokenize-only]");
+  if (
+    cliArguments.length > 1 ||
+    (cliArguments.length === 1 && cliArguments[0] !== "--tokenize-only" && cliArguments[0] !== "--parse-only")
+  ) {
+    console.error("Usage: tsx tools/verify-roundtrip.ts [--tokenize-only|--parse-only]");
     process.exitCode = 2;
     return;
   }
 
+  const mode: string = cliArguments[0] ?? "--tokenize-only";
   const configuredGamePath: string | undefined = process.env["STELLARIS_GAME_PATH"];
   const gamePath: string = resolve(configuredGamePath ?? DEFAULT_GAME_PATH);
   const corpusFileGroups: string[][] = await Promise.all(
@@ -96,6 +302,11 @@ async function main(): Promise<void> {
   files.sort((left, right) =>
     compareOrdinal(toPortablePath(relative(gamePath, left)), toPortablePath(relative(gamePath, right))),
   );
+
+  if (mode === "--parse-only") {
+    await verifyParseOnly(gamePath, files);
+    return;
+  }
 
   let tokenCount = 0;
   let bomFileCount = 0;

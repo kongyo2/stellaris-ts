@@ -9,3 +9,9 @@
 - 残り: CP3 AST / Parser と診断ゼロの全数 parse
 - ブロック: なし
 - 所見: `@\[` が 22 例あり lossless に保持した; `common/scripted_loc/scripted_loc_ruloc.txt` の末尾に閉じ波括弧欠落が 1 例あり CP3 で分類する
+
+## CP3 — Parser
+- 検証: `npm run verify:roundtrip -- --parse-only` → 2,213 files / 2,210 success / 3 excluded / 0 failed / 0 diagnostics
+- 残り: CP4 deterministic Printer と構造 round-trip 比較
+- ブロック: なし
+- 所見: root の bare tags / anonymous block / prefixed block と `@\[` を実コーパスに合わせて汎用 AST で保持した
