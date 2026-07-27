@@ -4,6 +4,8 @@
 
 - `src/` contains the publishable TypeScript library. Keep the L0 PDX syntax implementation in `src/syntax/` and
   expose public APIs through the package subpaths defined in `package.json`.
+- `src/schema/` contains the self-owned L1 IR. Files under `src/schema/definitions/` are committed, hand-editable
+  source after import, not generated artifacts; keep the design rationale in `docs/schema-ir.md`.
 - `tools/` contains development-only Node.js utilities. It is outside the library's `rootDir`, is checked with
   `tools/tsconfig.json`, and must not be published.
 - `tests/` contains Vitest suites. `tests/fixtures/` contains byte-preserved extracts from Stellaris and must not be
@@ -66,6 +68,8 @@ the change that made them stale. Keep this document concise, English-only, and c
   `import type` for type-only imports, and write relative Node ESM imports with `.js` extensions.
 - Account for `noUncheckedIndexedAccess` instead of asserting indexed values. Preserve ordered PDX entries in arrays;
   never replace them with `Record`, because duplicate keys are valid.
+- Keep subtypes as ordered variants within their base definition type. Use IR vocabulary such as `triggerBlock`,
+  `typeRef`, and variant predicates; never copy CWT bracket expressions into publishable schema source.
 
 ## Testing Guidelines
 

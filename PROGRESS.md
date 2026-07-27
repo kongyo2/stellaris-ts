@@ -48,3 +48,9 @@
 - Proof: structural recount → type 234/234 unique; subtype 257 declarations under 45 types + 112 references = 369 constructs.
 - Enums: 180 fixed declarations/179 names + 28 derived declarations/27 names = 206 declared names; the former 207 mixed matchers.
 - Links: 86 declarations / 85 names; the former 171 counted the wrapper and 84 nested `input_scopes` blocks.
+
+## Phase 2 CP3 — Schema IR
+- Proof: four hand-authored MVP definitions pass source/test typechecks, strict and typed lint, and 3 focused IR tests.
+- Design: ordered rules retain duplicate keys; variants remain nested; enums/scopes are literal-checked; global inline scripts are explicit policy.
+- Documentation: `docs/schema-ir.md` records source routing, extraction, scope/command vocabulary, and intentional departures from CWT.
+- Blockers: none; next is the one-shot full import and `verify:schema`.
