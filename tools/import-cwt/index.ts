@@ -1,8 +1,13 @@
-import { join, resolve } from "node:path";
+import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { emitCatalogSource, extractImportedCatalog, type ImportedCatalog } from "./catalog.js";
+import { emitSchemaSources, type EmitResult } from "./emit.js";
+import { emitEnumsSource, emitScopesSource, extractImportedEnums, extractImportedLinks } from "./metadata.js";
 import type { CwtCorpusMetrics, CwtReaderDiagnostic } from "./model.js";
 import { readCwtCorpus } from "./reader.js";
+import { translateCwtCorpus } from "./translate.js";
 
 interface ExpectedMetric {
   readonly actual: number;
@@ -59,27 +64,108 @@ function formatDiagnostic(diagnostic: CwtReaderDiagnostic): string {
   );
 }
 
-function parseConfigDirectory(arguments_: readonly string[]): string | undefined {
-  if (arguments_.length === 0) {
-    return DEFAULT_CONFIG_DIRECTORY;
+interface CliOptions {
+  readonly configDirectory: string;
+  readonly emit: boolean;
+  readonly check: boolean;
+}
+
+function parseCli(arguments_: readonly string[]): CliOptions | undefined {
+  let configDirectory: string = DEFAULT_CONFIG_DIRECTORY;
+  let emit = false;
+  let check = false;
+
+  for (let index = 0; index < arguments_.length; index += 1) {
+    const argument: string | undefined = arguments_[index];
+
+    if (argument === "--emit") {
+      emit = true;
+      continue;
+    }
+
+    if (argument === "--check") {
+      check = true;
+      continue;
+    }
+
+    if (argument === "--config") {
+      const configuredPath: string | undefined = arguments_[index + 1];
+      if (configuredPath === undefined) {
+        return undefined;
+      }
+      configDirectory = resolve(configuredPath);
+      index += 1;
+      continue;
+    }
+
+    return undefined;
   }
 
-  if (arguments_.length === 2 && arguments_[0] === "--config") {
-    const configuredPath: string | undefined = arguments_[1];
-    return configuredPath === undefined ? undefined : resolve(configuredPath);
+  return { configDirectory, emit, check };
+}
+
+/**
+ * Writes the emitted schema sources. `--check` reports what would change
+ * instead of writing, which is how an upstream cwt refresh proposes a diff
+ * rather than silently overwriting hand-maintained sources (PLAN.md §0.1).
+ */
+async function applyEmit(files: readonly { readonly path: string; readonly source: string }[], check: boolean) {
+  const definitionsDirectory: string = join(REPOSITORY_ROOT, "src", "schema", "definitions");
+  const emittedPaths: ReadonlySet<string> = new Set(files.map((file) => file.path));
+  const changed: string[] = [];
+  const removed: string[] = [];
+
+  let existing: readonly string[] = [];
+  try {
+    existing = (await readdir(definitionsDirectory)).map((name) => `src/schema/definitions/${name}`);
+  } catch {
+    existing = [];
   }
 
-  return undefined;
+  const stale: readonly string[] = existing.filter((path) => !emittedPaths.has(path));
+  removed.push(...stale);
+
+  if (!check) {
+    await Promise.all(stale.map(async (path) => rm(join(REPOSITORY_ROOT, path), { force: true })));
+  }
+
+  const outcomes: readonly (string | undefined)[] = await Promise.all(
+    files.map(async (file): Promise<string | undefined> => {
+      const absolute: string = join(REPOSITORY_ROOT, file.path);
+      let previous: string | undefined;
+      try {
+        previous = await readFile(absolute, "utf8");
+      } catch {
+        previous = undefined;
+      }
+
+      if (previous === file.source) {
+        return undefined;
+      }
+
+      if (!check) {
+        await mkdir(dirname(absolute), { recursive: true });
+        await writeFile(absolute, file.source, "utf8");
+      }
+
+      return file.path;
+    }),
+  );
+
+  changed.push(...outcomes.filter((path): path is string => path !== undefined));
+
+  return { changed, removed };
 }
 
 async function main(): Promise<void> {
-  const configDirectory: string | undefined = parseConfigDirectory(process.argv.slice(2));
-  if (configDirectory === undefined) {
-    console.error("Usage: tsx tools/import-cwt/index.ts [--config <directory>]");
+  const options: CliOptions | undefined = parseCli(process.argv.slice(2));
+  if (options === undefined) {
+    console.error("Usage: tsx tools/import-cwt/index.ts [--config <directory>] [--emit] [--check]");
     process.exitCode = 2;
     return;
   }
 
+  const { configDirectory } = options;
   const corpus = await readCwtCorpus(configDirectory);
   const mismatches: readonly ExpectedMetric[] = expectedMetrics(corpus.metrics).filter(
     (metric) => metric.actual !== metric.expected,
@@ -137,6 +223,46 @@ async function main(): Promise<void> {
   );
 
   if (mismatches.length > 0) {
+    process.exitCode = 1;
+  }
+
+  if (!options.emit && !options.check) {
+    return;
+  }
+
+  const catalog: ImportedCatalog = extractImportedCatalog(corpus);
+  const translation = translateCwtCorpus(corpus);
+  const enums = extractImportedEnums(corpus);
+  const links = extractImportedLinks(corpus, catalog);
+  const schema: EmitResult = emitSchemaSources(translation.definitionTypes, catalog);
+  const files: readonly { readonly path: string; readonly source: string }[] = [
+    { path: "src/schema/catalog.ts", source: emitCatalogSource(catalog) },
+    { path: "src/schema/enums.ts", source: emitEnumsSource(enums) },
+    { path: "src/schema/scopes.ts", source: emitScopesSource(catalog, links) },
+    ...schema.files,
+  ];
+
+  const { changed, removed } = await applyEmit(files, options.check);
+
+  for (const diagnostic of schema.diagnostics.slice(0, 40)) {
+    console.error(`EMIT ${diagnostic.definition} ${diagnostic.code}: ${diagnostic.detail.slice(0, 120)}`);
+  }
+
+  console.log(
+    [
+      options.check ? "EMIT mode=check" : "EMIT mode=write",
+      `files=${String(files.length)}`,
+      `definitions=${String(schema.files.length - 1)}`,
+      `enums=${String(enums.length)}`,
+      `links=${String(links.length)}`,
+      `changed=${String(changed.length)}`,
+      `removed=${String(removed.length)}`,
+      `opaque=${String(schema.opaqueCount)}`,
+      `emitDiagnostics=${String(schema.diagnostics.length)}`,
+    ].join(" "),
+  );
+
+  if (options.check && (changed.length > 0 || removed.length > 0)) {
     process.exitCode = 1;
   }
 }

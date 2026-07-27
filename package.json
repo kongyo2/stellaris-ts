@@ -78,7 +78,9 @@
     "verify:pack": "tsx tools/verify-pack.ts",
     "verify:publish": "npm run build && attw --pack . && publint --strict",
     "verify:roundtrip": "tsx tools/verify-roundtrip.ts",
-    "refs:sync": "tsx tools/refs-sync.ts"
+    "refs:sync": "tsx tools/refs-sync.ts",
+    "verify:schema": "tsx tools/verify-schema/index.ts",
+    "import:cwt:check": "tsx tools/import-cwt/index.ts --check"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

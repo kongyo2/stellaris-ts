@@ -5,31 +5,46 @@ import {
   EnumId,
   block,
   defaultSchemaPolicy,
+  definitionTypes,
   enumExtraction,
   extractedEnum,
   extractionField,
-  mvpDefinitionTypes,
   optional,
   primitive,
   captureScalar,
+  schema,
 } from "../src/schema/index.js";
 
 describe("schema IR", () => {
-  it("keeps the four MVP definitions ordered and routes technology narrowly", () => {
-    expect(mvpDefinitionTypes.map((definition) => definition.id)).toEqual([
+  it("covers every imported definition type and keeps ids unique", () => {
+    // The importer measured 234 `type[x] = {` declarations; see PLAN.md §1.
+    expect(definitionTypes.length).toBe(234);
+    expect(new Set(definitionTypes.map((definition) => definition.id)).size).toBe(definitionTypes.length);
+
+    for (const id of [
       DefinitionTypeId.Building,
       DefinitionTypeId.Technology,
       DefinitionTypeId.Trait,
       DefinitionTypeId.Event,
-    ]);
+    ]) {
+      expect(definitionTypes.some((definition) => definition.id === id)).toBe(true);
+    }
+  });
 
-    const technology = mvpDefinitionTypes.find((definition) => definition.id === DefinitionTypeId.Technology);
+  it("routes each MVP definition at its vanilla directory", () => {
+    const technology = definitionTypes.find((definition) => definition.id === DefinitionTypeId.Technology);
+    const building = definitionTypes.find((definition) => definition.id === DefinitionTypeId.Building);
 
-    expect(technology?.source).toEqual({
-      kind: "keyed-blocks",
-      directory: "common/technology",
-      includeSubdirectories: false,
-    });
+    expect(technology?.source.kind).toBe("keyed-blocks");
+    expect(technology?.source.directory).toBe("common/technology");
+    expect(building?.source.directory).toBe("common/buildings");
+  });
+
+  it("assembles one schema model from the imported sources", () => {
+    expect(schema.definitionTypes).toBe(definitionTypes);
+    expect(schema.enums.length).toBeGreaterThanOrEqual(206);
+    expect(schema.scopes.length).toBeGreaterThanOrEqual(41);
+    expect(schema.links.length).toBeGreaterThanOrEqual(85);
   });
 
   it("preserves duplicate ordered rules instead of collapsing them into an object", () => {

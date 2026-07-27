@@ -19,6 +19,8 @@ export const occurs: {
 
 export type DiagnosticSeverity = "error" | "warning" | "information" | "hint";
 
+export type RuleOperator = "=" | "==" | "!=" | ">" | ">=" | "<" | "<=";
+
 export interface NumericRange {
   readonly min: number | null;
   readonly max: number | null;
@@ -26,11 +28,13 @@ export interface NumericRange {
 
 export type PrimitiveType =
   | "boolean"
+  | "colour"
   | "date"
   | "file"
   | "icon"
   | "integer"
   | "localisation"
+  | "name-format"
   | "number"
   | "percentage"
   | "scalar"
@@ -41,6 +45,11 @@ export interface PrimitiveValue {
   readonly type: PrimitiveType;
   readonly range?: NumericRange;
   readonly path?: string;
+  readonly format?: string;
+}
+
+export interface AnyValue {
+  readonly kind: "any-value";
 }
 
 export interface LiteralValue {
@@ -50,6 +59,12 @@ export interface LiteralValue {
 
 export interface EnumValue {
   readonly kind: "enum";
+  readonly enum: EnumId;
+}
+
+export interface ChainedEnumValue {
+  readonly kind: "chained-enum";
+  readonly scope: ScopeReference;
   readonly enum: EnumId;
 }
 
@@ -97,6 +112,13 @@ export interface TypeReferenceValue {
   readonly variant?: string;
 }
 
+export interface InterpolatedTypeValue {
+  readonly kind: "interpolated-type";
+  readonly type: string;
+  readonly prefix: string;
+  readonly suffix: string;
+}
+
 export interface ScopeReferenceValue {
   readonly kind: "scope-reference";
   readonly scope?: ScopeId;
@@ -105,6 +127,45 @@ export interface ScopeReferenceValue {
 export interface ValueSetReference {
   readonly kind: "value-set";
   readonly set: string;
+}
+
+export interface NamedValueReference {
+  readonly kind: "named-value";
+  readonly value: string;
+}
+
+export interface ScopeGroupReferenceValue {
+  readonly kind: "scope-group-reference";
+  readonly group: string;
+}
+
+/**
+ * A reference to any modifier name.
+ *
+ * Modifiers are not a definition type: the set is assembled from every type's
+ * generated `modifiers` templates plus the standalone modifier rules, so it
+ * needs its own reference rather than a `typeRef("modifier")`.
+ */
+export interface ModifierReferenceValue {
+  readonly kind: "modifier-reference";
+}
+
+export interface ScriptValueRule {
+  readonly kind: "script-value";
+  readonly result: "integer" | "number" | "percentage";
+  readonly range?: NumericRange;
+}
+
+export interface RuleSetReferenceValue {
+  readonly kind: "rule-set-reference";
+  readonly family: string;
+  readonly name?: string;
+  readonly single: boolean;
+}
+
+export interface RuleSetKeyReferenceValue {
+  readonly kind: "rule-set-key-reference";
+  readonly family: string;
 }
 
 export interface ScriptBlockValue {
@@ -134,15 +195,24 @@ export interface OpaqueValue {
 }
 
 export type ValueRule =
+  | AnyValue
   | BlockValue
+  | ChainedEnumValue
   | ChoiceValue
   | EnumValue
+  | InterpolatedTypeValue
   | ListValue
   | LiteralValue
+  | ModifierReferenceValue
+  | NamedValueReference
   | OpaqueValue
   | PrimitiveValue
+  | RuleSetKeyReferenceValue
+  | RuleSetReferenceValue
+  | ScopeGroupReferenceValue
   | ScopeReferenceValue
   | ScriptBlockValue
+  | ScriptValueRule
   | TypeReferenceValue
   | ValueSetReference;
 
@@ -159,6 +229,11 @@ export interface PatternKey {
   readonly kind: "pattern-key";
   readonly prefix: string;
   readonly suffix: string;
+  readonly type?: string;
+}
+
+export interface ParameterKey {
+  readonly kind: "parameter-key";
 }
 
 export interface TypeKey {
@@ -171,18 +246,77 @@ export interface ValueSetKey {
   readonly set: string;
 }
 
-export type KeyRule = AnyKey | EnumKey | PatternKey | string | TypeKey | ValueSetKey;
+export interface NamedValueKey {
+  readonly kind: "named-value-key";
+  readonly value: string;
+}
+
+export interface ScopeKey {
+  readonly kind: "scope-key";
+  readonly scope: ScopeReference;
+}
+
+export interface ScopeGroupKey {
+  readonly kind: "scope-group-key";
+  readonly group: string;
+}
+
+export interface RuleSetKey {
+  readonly kind: "rule-set-key";
+  readonly family: string;
+  readonly name?: string;
+  readonly single: boolean;
+}
+
+export interface RuleSetKeysFieldKey {
+  readonly kind: "rule-set-keys-field-key";
+  readonly family: string;
+}
+
+export type KeyRule =
+  | AnyKey
+  | EnumKey
+  | NamedValueKey
+  | ParameterKey
+  | PatternKey
+  | RuleSetKey
+  | RuleSetKeysFieldKey
+  | ScopeGroupKey
+  | ScopeKey
+  | string
+  | TypeKey
+  | ValueSetKey;
+
+export interface AnyScopeReference {
+  readonly kind: "any-scope";
+}
+
+export interface NoScopeReference {
+  readonly kind: "no-scope";
+}
+
+export type ScopeReference = AnyScopeReference | NoScopeReference | ScopeId;
+
+export interface ScopeAlternatives {
+  readonly kind: "scope-alternatives";
+  readonly scopes: readonly ScopeReference[];
+}
+
+export type ScopeSlot = ScopeAlternatives | ScopeReference;
 
 export interface ScopeFrame {
-  readonly current?: ScopeId;
-  readonly root?: ScopeId;
-  readonly from?: ScopeId;
-  readonly fromFrom?: ScopeId;
+  readonly current?: ScopeSlot;
+  readonly root?: ScopeSlot;
+  readonly previous?: ScopeSlot;
+  readonly from?: ScopeSlot;
+  readonly fromFrom?: ScopeSlot;
+  readonly fromFromFrom?: ScopeSlot;
+  readonly fromFromFromFrom?: ScopeSlot;
 }
 
 export interface EnterScope {
   readonly kind: "enter";
-  readonly scope: ScopeId;
+  readonly scope: ScopeReference;
 }
 
 export interface ReplaceScope {
@@ -195,19 +329,28 @@ export type ScopeChange = EnterScope | ReplaceScope;
 export interface ScopeDefinition {
   readonly id: ScopeId;
   readonly aliases: readonly string[];
+  readonly displayName?: string;
   readonly documentation?: string;
 }
 
-export interface AnyScopeSelection {
-  readonly kind: "any-scope";
+export interface ScopeGroupDefinition {
+  readonly id: string;
+  readonly scopes: readonly ScopeId[];
+  readonly documentation?: string;
 }
+
+export type AnyScopeSelection = AnyScopeReference;
 
 export interface ListedScopeSelection {
   readonly kind: "listed-scopes";
   readonly scopes: readonly ScopeId[];
 }
 
-export type ScopeSelection = AnyScopeSelection | ListedScopeSelection;
+export interface UnspecifiedScopeSelection {
+  readonly kind: "unspecified-scope";
+}
+
+export type ScopeSelection = AnyScopeSelection | ListedScopeSelection | UnspecifiedScopeSelection;
 
 export interface FixedScopeResult {
   readonly kind: "fixed-scope";
@@ -221,12 +364,23 @@ export interface DynamicScopeResult {
 export type ScopeResult = DynamicScopeResult | FixedScopeResult;
 
 export interface ScopeLinkDefinition {
+  readonly kind: "scope-link";
   readonly id: string;
   readonly input: ScopeSelection;
   readonly output: ScopeResult;
   readonly value?: ValueRule;
   readonly documentation?: string;
 }
+
+export interface DataLinkDefinition {
+  readonly kind: "data-link";
+  readonly id: string;
+  readonly prefix: string;
+  readonly source: ValueRule;
+  readonly documentation?: string;
+}
+
+export type LinkDefinition = DataLinkDefinition | ScopeLinkDefinition;
 
 export interface EntryOptions {
   readonly documentation?: string;
@@ -238,6 +392,7 @@ export interface FieldRule extends EntryOptions {
   readonly kind: "field";
   readonly key: KeyRule;
   readonly occurrence: Occurrence;
+  readonly operator: RuleOperator;
   readonly value: ValueRule;
 }
 
@@ -259,7 +414,12 @@ export interface ScriptEntriesRule extends EntryOptions {
   readonly family: ScriptBlockValue["family"];
 }
 
-export type EntryRule = FieldRule | ItemRule | ScriptEntriesRule | VariantRuleGroup;
+export interface RuleSetEntriesRule extends EntryOptions {
+  readonly kind: "rule-set-entries";
+  readonly family: string;
+}
+
+export type EntryRule = FieldRule | ItemRule | RuleSetEntriesRule | ScriptEntriesRule | VariantRuleGroup;
 
 export interface RootKeyPredicate {
   readonly kind: "root-key";
@@ -309,26 +469,51 @@ export type VariantPredicate =
 export interface VariantDefinition {
   readonly id: string;
   readonly when: VariantPredicate;
-  readonly entryScope?: ScopeId;
+  readonly entryScope?: ScopeReference;
   readonly displayName?: string;
   readonly abbreviation?: string;
 }
 
-export interface KeyedBlockSource {
-  readonly kind: "keyed-blocks";
-  readonly directory: string;
-  readonly includeSubdirectories: boolean;
+export interface RootKeyFilter {
+  readonly mode: "exclude" | "include";
+  readonly values: readonly string[];
 }
 
-export interface TaggedBlockSource {
-  readonly kind: "tagged-blocks";
+export interface AnySourceContainer {
+  readonly kind: "any-container";
+}
+
+export interface NamedSourceContainer {
+  readonly kind: "named-container";
+  readonly key: string;
+}
+
+export type SourceContainer = AnySourceContainer | NamedSourceContainer;
+
+export interface DefinitionSourceBase {
   readonly directory: string;
   readonly includeSubdirectories: boolean;
+  readonly files?: readonly string[];
+  readonly rootKeyFilter?: RootKeyFilter;
+  readonly container?: SourceContainer;
+}
+
+export interface KeyedBlockSource extends DefinitionSourceBase {
+  readonly kind: "keyed-blocks";
+}
+
+export interface TaggedBlockSource extends DefinitionSourceBase {
+  readonly kind: "tagged-blocks";
   readonly nameField: string;
   readonly tags: readonly string[];
 }
 
-export type DefinitionSource = KeyedBlockSource | TaggedBlockSource;
+export interface FileDefinitionSource extends DefinitionSourceBase {
+  readonly kind: "file-definitions";
+  readonly stripExtension: boolean;
+}
+
+export type DefinitionSource = FileDefinitionSource | KeyedBlockSource | TaggedBlockSource;
 
 export interface DefinitionIdLocalisation {
   readonly kind: "definition-id";
@@ -360,7 +545,7 @@ export interface GeneratedModifier {
 export interface DefinitionType {
   readonly id: DefinitionTypeId;
   readonly source: DefinitionSource;
-  readonly entryScope?: ScopeId;
+  readonly entryScope?: ScopeReference;
   readonly variants: readonly VariantDefinition[];
   readonly localisation: readonly LocalisationRequirement[];
   readonly modifiers: readonly GeneratedModifier[];
@@ -382,6 +567,15 @@ export interface ScriptCommandDefinition extends EntryOptions {
   readonly id: string;
   readonly family: ScriptBlockValue["family"];
   readonly input: ScopeSelection;
+  readonly operator: RuleOperator;
+  readonly value: ValueRule;
+}
+
+export interface RuleSetDefinition extends EntryOptions {
+  readonly family: string;
+  readonly name?: string;
+  readonly single: boolean;
+  readonly operator: RuleOperator;
   readonly value: ValueRule;
 }
 
@@ -403,8 +597,10 @@ export interface SchemaModel {
   readonly definitionTypes: readonly DefinitionType[];
   readonly enums: readonly EnumDefinition[];
   readonly scopes: readonly ScopeDefinition[];
-  readonly links: readonly ScopeLinkDefinition[];
+  readonly scopeGroups: readonly ScopeGroupDefinition[];
+  readonly links: readonly LinkDefinition[];
   readonly commands: readonly ScriptCommandDefinition[];
+  readonly ruleSets: readonly RuleSetDefinition[];
   readonly namedValues: readonly NamedValueDefinition[];
   readonly valueSets: readonly ValueSetDefinition[];
 }
@@ -471,13 +667,18 @@ export function captureScalar(): ExtractionCaptureStep {
   return { kind: "capture", source: "scalar" };
 }
 
-export function primitive(type: PrimitiveType, range?: NumericRange, path?: string): PrimitiveValue {
+export function primitive(type: PrimitiveType, range?: NumericRange, path?: string, format?: string): PrimitiveValue {
   return {
     kind: "primitive",
     type,
     ...(range === undefined ? {} : { range }),
     ...(path === undefined ? {} : { path }),
+    ...(format === undefined ? {} : { format }),
   };
+}
+
+export function anyValue(): AnyValue {
+  return { kind: "any-value" };
 }
 
 export function literal(value: string | number | boolean): LiteralValue {
@@ -488,6 +689,10 @@ export function enumRef(enumId: EnumId): EnumValue {
   return { kind: "enum", enum: enumId };
 }
 
+export function chainedEnum(scope: ScopeReference, enumId: EnumId): ChainedEnumValue {
+  return { kind: "chained-enum", scope, enum: enumId };
+}
+
 export function typeRef(type: string, variant?: string): TypeReferenceValue {
   return {
     kind: "type-reference",
@@ -496,12 +701,45 @@ export function typeRef(type: string, variant?: string): TypeReferenceValue {
   };
 }
 
+export function interpolatedType(type: string, prefix: string, suffix: string): InterpolatedTypeValue {
+  return { kind: "interpolated-type", type, prefix, suffix };
+}
+
 export function scopeRef(scope?: ScopeId): ScopeReferenceValue {
   return scope === undefined ? { kind: "scope-reference" } : { kind: "scope-reference", scope };
 }
 
 export function valueSet(set: string): ValueSetReference {
   return { kind: "value-set", set };
+}
+
+export function namedValue(value: string): NamedValueReference {
+  return { kind: "named-value", value };
+}
+
+export function modifierRef(): ModifierReferenceValue {
+  return { kind: "modifier-reference" };
+}
+
+export function scopeGroup(group: string): ScopeGroupReferenceValue {
+  return { kind: "scope-group-reference", group };
+}
+
+export function scriptValue(result: ScriptValueRule["result"], range?: NumericRange): ScriptValueRule {
+  return { kind: "script-value", result, ...(range === undefined ? {} : { range }) };
+}
+
+export function ruleSetRef(family: string, name?: string, single = false): RuleSetReferenceValue {
+  return {
+    kind: "rule-set-reference",
+    family,
+    single,
+    ...(name === undefined ? {} : { name }),
+  };
+}
+
+export function ruleSetKeyRef(family: string): RuleSetKeyReferenceValue {
+  return { kind: "rule-set-key-reference", family };
 }
 
 export function triggerBlock(): ScriptBlockValue {
@@ -536,6 +774,10 @@ export function modifierRuleEntries(options: EntryOptions = {}): ScriptEntriesRu
   return { kind: "script-entries", family: "modifier-rule", ...options };
 }
 
+export function ruleSetEntries(family: string, options: EntryOptions = {}): RuleSetEntriesRule {
+  return { kind: "rule-set-entries", family, ...options };
+}
+
 export function block(entries: readonly EntryRule[]): BlockValue {
   return { kind: "block", entries };
 }
@@ -560,8 +802,17 @@ export function enumKey(enumId: EnumId): EnumKey {
   return { kind: "enum-key", enum: enumId };
 }
 
-export function patternKey(prefix: string, suffix = ""): PatternKey {
-  return { kind: "pattern-key", prefix, suffix };
+export function patternKey(prefix: string, suffix = "", type?: string): PatternKey {
+  return {
+    kind: "pattern-key",
+    prefix,
+    suffix,
+    ...(type === undefined ? {} : { type }),
+  };
+}
+
+export function parameterKey(): ParameterKey {
+  return { kind: "parameter-key" };
 }
 
 export function typeKey(type: string): TypeKey {
@@ -572,7 +823,32 @@ export function valueSetKey(set: string): ValueSetKey {
   return { kind: "value-set-key", set };
 }
 
-export function enterScope(scope: ScopeId): EnterScope {
+export function namedValueKey(value: string): NamedValueKey {
+  return { kind: "named-value-key", value };
+}
+
+export function scopeKey(scope: ScopeReference): ScopeKey {
+  return { kind: "scope-key", scope };
+}
+
+export function scopeGroupKey(group: string): ScopeGroupKey {
+  return { kind: "scope-group-key", group };
+}
+
+export function ruleSetKey(family: string, name?: string, single = false): RuleSetKey {
+  return {
+    kind: "rule-set-key",
+    family,
+    single,
+    ...(name === undefined ? {} : { name }),
+  };
+}
+
+export function ruleSetKeysFieldKey(family: string): RuleSetKeysFieldKey {
+  return { kind: "rule-set-keys-field-key", family };
+}
+
+export function enterScope(scope: ScopeReference): EnterScope {
   return { kind: "enter", scope };
 }
 
@@ -582,6 +858,18 @@ export function replaceScope(frame: ScopeFrame): ReplaceScope {
 
 export function anyScope(): AnyScopeSelection {
   return { kind: "any-scope" };
+}
+
+export function unspecifiedScope(): UnspecifiedScopeSelection {
+  return { kind: "unspecified-scope" };
+}
+
+export function noScope(): NoScopeReference {
+  return { kind: "no-scope" };
+}
+
+export function oneOfScopes(...scopes: readonly ScopeReference[]): ScopeAlternatives {
+  return { kind: "scope-alternatives", scopes };
 }
 
 export function listedScopes(...scopes: readonly ScopeId[]): ListedScopeSelection {
@@ -596,27 +884,32 @@ export function dynamicScope(): DynamicScopeResult {
   return { kind: "dynamic-scope" };
 }
 
-export function field(key: KeyRule, value: ValueRule, occurrence: Occurrence, options: EntryOptions = {}): FieldRule {
-  return { kind: "field", key, value, occurrence, ...options };
+export interface FieldOptions extends EntryOptions {
+  readonly operator?: RuleOperator;
 }
 
-export function required(key: KeyRule, value: ValueRule, options: EntryOptions = {}): FieldRule {
+export function field(key: KeyRule, value: ValueRule, occurrence: Occurrence, options: FieldOptions = {}): FieldRule {
+  const { operator = "=", ...entryOptions } = options;
+  return { kind: "field", key, value, occurrence, operator, ...entryOptions };
+}
+
+export function required(key: KeyRule, value: ValueRule, options: FieldOptions = {}): FieldRule {
   return field(key, value, occurs.one, options);
 }
 
-export function optional(key: KeyRule, value: ValueRule, options: EntryOptions = {}): FieldRule {
+export function optional(key: KeyRule, value: ValueRule, options: FieldOptions = {}): FieldRule {
   return field(key, value, occurs.optional, options);
 }
 
-export function repeatable(key: KeyRule, value: ValueRule, options: EntryOptions = {}): FieldRule {
+export function repeatable(key: KeyRule, value: ValueRule, options: FieldOptions = {}): FieldRule {
   return field(key, value, occurs.any, options);
 }
 
-export function oneOrMore(key: KeyRule, value: ValueRule, options: EntryOptions = {}): FieldRule {
+export function oneOrMore(key: KeyRule, value: ValueRule, options: FieldOptions = {}): FieldRule {
   return field(key, value, occurs.oneOrMore, options);
 }
 
-export function forbidden(key: KeyRule, value: ValueRule, options: EntryOptions = {}): FieldRule {
+export function forbidden(key: KeyRule, value: ValueRule, options: FieldOptions = {}): FieldRule {
   return field(key, value, between(0, 0), options);
 }
 
@@ -664,8 +957,14 @@ export function not(predicate: VariantPredicate): NotPredicate {
   return { kind: "not", predicate };
 }
 
-export function keyedBlocks(directory: string, includeSubdirectories = true): KeyedBlockSource {
-  return { kind: "keyed-blocks", directory, includeSubdirectories };
+export type DefinitionSourceOptions = Omit<DefinitionSourceBase, "directory" | "includeSubdirectories">;
+
+export function keyedBlocks(
+  directory: string,
+  includeSubdirectories = true,
+  options: DefinitionSourceOptions = {},
+): KeyedBlockSource {
+  return { kind: "keyed-blocks", directory, includeSubdirectories, ...options };
 }
 
 export function taggedBlocks(
@@ -673,8 +972,23 @@ export function taggedBlocks(
   nameField: string,
   tags: readonly string[],
   includeSubdirectories = true,
+  options: DefinitionSourceOptions = {},
 ): TaggedBlockSource {
-  return { kind: "tagged-blocks", directory, nameField, tags, includeSubdirectories };
+  return { kind: "tagged-blocks", directory, nameField, tags, includeSubdirectories, ...options };
+}
+
+export function fileDefinitions(
+  directory: string,
+  includeSubdirectories = true,
+  options: DefinitionSourceOptions = {},
+): FileDefinitionSource {
+  return {
+    kind: "file-definitions",
+    directory,
+    includeSubdirectories,
+    stripExtension: true,
+    ...options,
+  };
 }
 
 export function definitionLocalisation(
