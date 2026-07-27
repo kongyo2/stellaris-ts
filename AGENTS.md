@@ -37,6 +37,10 @@ the change that made them stale. Keep this document concise, English-only, and c
 - `npm run typecheck:tools` checks development utilities through `tools/tsconfig.json`; `typecheck:tools:ci` is its
   cache-free gate and is included in aggregate verification.
 - `npm run test` runs Vitest and fails when no tests are discovered.
+- `npm run verify:conformance` checks the schema against the installed game rather than against cwt, and writes
+  `docs/schema-conformance.md`. It gates the four MVP types on having no unknown fields, and reports how many of them
+  are strict enough for that to mean anything — a type whose rules accept arbitrary keys cannot fail direction A, so a
+  clean result there proves nothing and is never presented as a pass.
 - `npm run verify:norefs` parks `refs/`, rebuilds and typechecks without it, then restores it, and greps the shipped
   surface for any path that would reintroduce the dependency. This is what makes PLAN.md §0.1 checkable rather than a
   promise.

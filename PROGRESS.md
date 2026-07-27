@@ -73,3 +73,10 @@
 - Blockers: none.
 - Notes: triggers and effects were never being imported — the reader counted them but nothing translated the root-level `alias[family:name]` declarations, whose value is usually a bare scalar rather than a block. 2,339 object literals in one array hit TS2590, fixed by routing each through an identity constructor with an explicit return type. 21 diagnostics remain and are holes in the cwt corpus itself; they are recorded with a budget the gate enforces rather than suppressed.
 
+## Phase 3 CP6 — Vanilla Conformance
+- Proof: `npm run verify:conformance` checks 229 types against v4.4.6 and writes `docs/schema-conformance.md`; `npm run verify` is 13/13 exit 0.
+- Findings: 1,132 fields vanilla uses that the schema rejects, across 36 types; 312 rules vanilla never exercises. These are holes in the ported corpus, now visible.
+- Remaining: CP7 closing the MVP gaps, which needs the extracted-enum members from Phase 8 before building/event/trait can be checked strictly.
+- Blockers: none.
+- Notes: three of the four gated types are permissive, so their zero unknown fields proves nothing. The gate says so out loud and pins the strict count at 1 rather than reporting a clean pass it has not earned.
+
