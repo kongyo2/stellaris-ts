@@ -36,6 +36,14 @@ export interface GameIndex {
   readonly types: readonly TypeIndex[];
   readonly enums: readonly EnumIndex[];
   readonly filesRead: number;
+  /**
+   * Every file vanilla ships, by directory.
+   *
+   * Stellaris replaces a vanilla file outright when a mod ships one of the same
+   * name, silently disabling everything else that file defined. Emitting a mod
+   * cannot warn about that without knowing these names.
+   */
+  readonly vanillaFiles: Readonly<Record<string, readonly string[]>>;
 }
 
 function compareOrdinal(left: string, right: string): number {
@@ -286,10 +294,44 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     return { id: definition.id, members: [...members].sort(compareOrdinal) };
   });
 
+  const vanillaFiles: Record<string, string[]> = {};
+  const directories: readonly { readonly path: string; readonly recurse: boolean }[] = [
+    ...new Map(
+      model.definitionTypes.map((type) => [
+        type.source.directory,
+        { path: type.source.directory, recurse: type.source.includeSubdirectories },
+      ]),
+    ).values(),
+  ];
+
+  const listings: readonly (readonly string[])[] = await mapWithLimit(directories, 8, async (directory) =>
+    collectFiles(join(gamePath, ...directory.path.split("/")), directory.recurse),
+  );
+
+  for (const files of listings) {
+    for (const file of files) {
+      const relative: string = file.slice(gamePath.length + 1).replaceAll("\\", "/");
+      const separator: number = relative.lastIndexOf("/");
+      const directory: string = separator < 0 ? "" : relative.slice(0, separator);
+      const name: string = relative.slice(separator + 1);
+      const bucket: string[] = vanillaFiles[directory] ?? [];
+
+      if (!bucket.includes(name)) {
+        bucket.push(name);
+      }
+      vanillaFiles[directory] = bucket;
+    }
+  }
+
+  for (const bucket of Object.values(vanillaFiles)) {
+    bucket.sort(compareOrdinal);
+  }
+
   return {
     version,
     types: types.sort((left, right) => compareOrdinal(left.type, right.type)),
     enums: enums.sort((left, right) => compareOrdinal(left.id, right.id)),
     filesRead,
+    vanillaFiles,
   };
 }

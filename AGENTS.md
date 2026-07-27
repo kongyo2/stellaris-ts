@@ -86,6 +86,18 @@ differently later. The importer's structural output is canonical; prose in `PLAN
   increase declaration baselines. The pinned import baseline is 234 types, 257 subtypes under 45 types, 179 fixed plus
   27 derived unique enum names, and 86 link declarations / 85 unique names.
 
+## Emitting Mods
+
+- `emit(mod)` returns a plan; `writePlan` puts it on disk. Keeping them apart means the output can be diffed and tested
+  without a filesystem, and that writing can refuse a plan carrying errors.
+- Stellaris replaces a vanilla file outright when a mod ships one of the same name, silently disabling everything else
+  that file defined. The default file name is prefixed so this cannot happen by accident, `emit` checks every path
+  against the indexed vanilla listing, and a deliberate replacement has to say so through `overrides`.
+- Localisation is written with a BOM, LF endings and the `KEY:0 "value"` form. Vanilla is inconsistent about the last
+  two, so reading accepts every form it ships while writing picks one.
+- Script is built as an AST and handed to the same printer that round-trips vanilla. One formatter keeps the output
+  deterministic and consistent with what the parser reads back.
+
 ## Coding Style & Naming Conventions
 
 - Write source, generated source, documentation, and comments in English. Use `camelCase` for values and functions,

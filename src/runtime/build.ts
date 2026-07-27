@@ -1,0 +1,167 @@
+import {
+  AssignmentOperator,
+  NodeKind,
+  ScalarKind,
+  print,
+  type Assignment,
+  type Block,
+  type Document,
+  type EntryNode,
+  type Position,
+  type Scalar,
+  type Span,
+  type ValueNode,
+} from "../syntax/index.js";
+
+/**
+ * Turns plain JavaScript values into PDX script.
+ *
+ * The AST is built and handed to the same printer that round-trips vanilla,
+ * rather than formatting strings here: one formatter means output stays
+ * deterministic and stays consistent with what the parser reads back.
+ */
+
+/** Any value a definition can hold. Arrays stand for a key repeated in script. */
+export type ScriptValue = boolean | number | string | ScriptObject | readonly ScriptValue[];
+
+export interface ScriptObject {
+  readonly [key: string]: ScriptValue | undefined;
+}
+
+const ORIGIN: Position = { offset: 0, line: 1, column: 1 };
+const SPAN: Span = { start: ORIGIN, end: ORIGIN };
+
+/**
+ * A bare identifier needs no quotes; anything else does.
+ *
+ * Quoting is not cosmetic here: an unquoted value containing a space or a brace
+ * would change the parse, so the test is what the lexer would accept as one
+ * identifier token rather than what merely looks tidy.
+ */
+function needsQuotes(value: string): boolean {
+  return value.length === 0 || /[\s{}="<>#[\]]/u.test(value);
+}
+
+function scalar(value: string | number | boolean): Scalar {
+  if (typeof value === "boolean") {
+    return { kind: NodeKind.Scalar, raw: value ? "yes" : "no", value, scalarKind: ScalarKind.Boolean, span: SPAN };
+  }
+
+  if (typeof value === "number") {
+    return { kind: NodeKind.Scalar, raw: String(value), value, scalarKind: ScalarKind.Number, span: SPAN };
+  }
+
+  if (needsQuotes(value)) {
+    const raw: string = JSON.stringify(value);
+    return { kind: NodeKind.Scalar, raw, value, scalarKind: ScalarKind.QuotedString, span: SPAN };
+  }
+
+  return { kind: NodeKind.Scalar, raw: value, value, scalarKind: ScalarKind.Identifier, span: SPAN };
+}
+
+function block(entries: readonly EntryNode[]): Block {
+  return { kind: NodeKind.Block, entries, closed: true, span: SPAN };
+}
+
+function assignment(key: string, value: ValueNode): Assignment {
+  return {
+    kind: NodeKind.Assignment,
+    key: scalar(key),
+    operator: AssignmentOperator.Equals,
+    operatorSpan: SPAN,
+    beforeOperatorTrivia: [],
+    beforeValueTrivia: [],
+    value,
+    span: SPAN,
+  };
+}
+
+function isScriptArray(value: ScriptValue): value is readonly ScriptValue[] {
+  return Array.isArray(value);
+}
+
+function isScriptObject(value: ScriptValue): value is ScriptObject {
+  return typeof value === "object" && !isScriptArray(value);
+}
+
+/** An array of scalars is a value list; an array of objects is a repeated key. */
+function valueNode(value: ScriptValue): ValueNode {
+  if (typeof value === "boolean" || typeof value === "number" || typeof value === "string") {
+    return scalar(value);
+  }
+
+  if (isScriptArray(value)) {
+    return block(value.map((item) => valueNode(item)));
+  }
+
+  return block(entriesOf(value));
+}
+
+/**
+ * Accepts any object rather than `ScriptObject`.
+ *
+ * A generated definition interface describes the same data but has no index
+ * signature, so it is not assignable to a `Record`. Casting it would be a lie
+ * the compiler cannot check; walking it and rejecting what PDX cannot express
+ * is checkable, and catches a stray `Date` or function at the boundary instead
+ * of writing something the game will not parse.
+ */
+function entriesOf(object: object): EntryNode[] {
+  const entries: EntryNode[] = [];
+
+  for (const [key, raw] of Object.entries(object)) {
+    if (raw === undefined || raw === null) {
+      continue;
+    }
+
+    const value: ScriptValue = asScriptValue(key, raw);
+
+    // A repeated key is written once per element, which is how PDX expresses
+    // several `desc = { }` blocks under one definition.
+    if (Array.isArray(value) && (value as readonly ScriptValue[]).every(isScriptObject)) {
+      for (const item of value as readonly ScriptObject[]) {
+        entries.push(assignment(key, block(entriesOf(item))));
+      }
+      continue;
+    }
+
+    entries.push(assignment(key, valueNode(value)));
+  }
+
+  return entries;
+}
+
+function asScriptValue(key: string, value: unknown): ScriptValue {
+  if (typeof value === "boolean" || typeof value === "number" || typeof value === "string") {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item, index) => asScriptValue(`${key}[${String(index)}]`, item));
+  }
+
+  // A class instance, a Date or a Map has no PDX spelling. Rejecting it here
+  // names the offending key; letting it through writes something the game
+  // cannot parse and says nothing about where it came from.
+  if (typeof value === "object" && value !== null && Object.getPrototypeOf(value) === Object.prototype) {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([, item]) => item !== undefined && item !== null)
+        .map(([name, item]) => [name, asScriptValue(`${key}.${name}`, item)]),
+    );
+  }
+
+  throw new TypeError(`PDX script cannot express ${typeof value} at ${key}.`);
+}
+
+export function toDocument(definitions: readonly (readonly [string, object])[]): Document {
+  return {
+    kind: NodeKind.Document,
+    entries: definitions.map(([id, body]) => assignment(id, block(entriesOf(body)))),
+    span: SPAN,
+  };
+}
+
+export function renderDefinitions(definitions: readonly (readonly [string, object])[]): string {
+  return print(toDocument(definitions));
+}

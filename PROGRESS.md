@@ -92,3 +92,9 @@
 - Blockers: none.
 - Notes: one `as const` object holding all 59,802 identifiers exceeded what the compiler will serialise, so the type side (a union alias per definition type) and the value side (an annotated array) are emitted separately, and four types past 3,000 identifiers widen to `string`. Quoted scalars were carrying their quotes into identifiers, enum members and literal types, producing types like `"\"x\""` that match nothing writable. The test locking the two hand corrections caught a re-import dropping them, which is exactly what it was for; corrections now live outside the directory the importer rewrites.
 
+## Phase 5 — Mod Output
+- Proof: `npm run verify` is 13/13 exit 0 with 63 tests; a two-definition example written to the real mod folder produces a descriptor, a launcher `.mod`, tab-indented script matching vanilla's shape, and localisation with a BOM and LF.
+- Remaining: Phase 6 scope DSL, Phase 7 CLI, Phase 9 publish.
+- Blockers: launching the game to confirm in-game behaviour is outside what can be automated here; the emitted bytes match the vanilla format verified exhaustively in Phase 1.
+- Notes: the indexer now also records every vanilla file name per directory, so the filename-collision check is on by default rather than something a caller has to supply. Generated definition interfaces have no index signature and so are not assignable to a `Record`; rather than cast, the builder takes `object` and the AST walk rejects anything PDX cannot express, naming the offending key.
+
