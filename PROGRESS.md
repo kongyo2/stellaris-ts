@@ -15,3 +15,9 @@
 - 残り: CP4 deterministic Printer と構造 round-trip 比較
 - ブロック: なし
 - 所見: root の bare tags / anonymous block / prefixed block と `@\[` を実コーパスに合わせて汎用 AST で保持した
+
+## CP4 — Printer / Round-trip
+- 検証: `npm run verify:roundtrip` → 2,213 files / 2,210 success / 3 excluded / 0 failed / 0 mismatches / 0 output issues
+- 残り: CP5 byte-preserved fixtures と CI regression coverage
+- ブロック: なし
+- 所見: canonical tab indentation、BOM なし、LF 出力で comment を保持し、trivia/span を除く構造同値を証明した

@@ -18,5 +18,6 @@ export type {
 export { parse, ParserDiagnosticCode } from "./parser.js";
 export type { ParseResult, ParserDiagnostic, ParserDiagnosticCode as ParserDiagnosticCodeType } from "./parser.js";
 export type { Position, Span } from "./position.js";
+export { print } from "./printer.js";
 export { isTriviaToken, TokenKind } from "./token.js";
 export type { Token, TokenKind as TokenKindType } from "./token.js";

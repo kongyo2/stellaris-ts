@@ -13,6 +13,7 @@ const steps: readonly VerifyStep[] = [
   { label: "4/8 tools", script: "typecheck:tools:ci" },
   { label: "5/8", script: "typecheck:test:ci" },
   { label: "6/8", script: "test" },
+  { label: "7/8", script: "verify:roundtrip" },
 ];
 
 const npmCliPath = process.env["npm_execpath"];
@@ -39,5 +40,4 @@ for (const step of steps) {
   }
 }
 
-console.log("[verify 7/8] verify:roundtrip — skipped until CP4");
 console.log("[verify 8/8] verify:pack — skipped until CP6");
