@@ -6,6 +6,8 @@ import { definitionTypes } from "./definitions/index.js";
 import { enums } from "./enums.js";
 import { defaultSchemaPolicy, defineSchema } from "./ir.js";
 import { modifierNamespace } from "./modifiers.js";
+import { withGameDeclaredFields } from "./open-fields.js";
+import { vanillaFieldNames } from "../generated/vanilla/field-names.js";
 import type { SchemaModel } from "./ir.js";
 import { withModifierCorrections } from "./modifier-corrections.js";
 import { links, scopes } from "./scopes.js";
@@ -21,7 +23,7 @@ import { links, scopes } from "./scopes.js";
 export const schema: SchemaModel = defineSchema({
   policy: defaultSchemaPolicy,
   modifiers: withModifierCorrections(modifierNamespace),
-  definitionTypes: withCorrections(definitionTypes),
+  definitionTypes: withGameDeclaredFields(withCorrections(definitionTypes), vanillaFieldNames),
   enums,
   scopes,
   scopeGroups,

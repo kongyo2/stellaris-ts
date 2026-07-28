@@ -21,8 +21,8 @@ so it is listed as `permissive` rather than counted as clean.
 | strict enough to detect unknown fields | 223 |
 | types with unknown fields | 1 |
 | distinct unknown fields | 6 |
-| types with unused rules | 74 |
-| distinct unused rules | 274 |
+| types with unused rules | 70 |
+| distinct unused rules | 263 |
 | directories absent from this install | 2 |
 
 ### Permissive types
@@ -70,11 +70,9 @@ game-data indexer: a key drawn from an extracted enum only becomes checkable onc
 | `military_service_type` | `free_pop_modifier`, `in_breach_of`, `modifier`, `pop_group_modifier`, `pop_status_frame`, `pop_tooltip` |
 | `species_class` | `custom_portraits`, `modifier`, `non_pre_ftl_portraits`, `non_randomized_portraits`, `portraits`, `uplifted_portraits` |
 | `starbase_building` | `desc`, `name`, `replaceable`, `scripted_effect_cooldown`, `scripted_effect_cooldown_flag`, `scripted_effect_cooldown_flag_desc` |
-| `NGameplay` | `BRANCH_OFFICE_COST_INCREASE_MIN_RANGE`, `BRANCH_OFFICE_COST_INCREASE_SCALE`, `COLONY_DEPOSITS_USE_NULL`, `NON_COLONY_DEPOSITS_USE_NULL`, `ORBITAL_BOMBARDMENT_COLONY_DMG_SCALE` |
 | `building` | `abort_trigger`, `add_to_first_building_slot`, `army_modifier`, `is_capped_by_modifier`, `ruined_trigger` |
 | `country_type` | `blocks_pirate`, `is_mercenary`, `min_assault_armies_for_wars`, `min_navy_for_wars`, `replace_scope` |
 | `population_control` | `free_pop_modifier`, `in_breach_of`, `modifier`, `pop_status_frame`, `pop_tooltip` |
-| `NAI` | `AI_ADDITIVE_SUPERFLUOUS_INCOME_THRESOLD`, `AI_MULTIPLICATIVE_SUPERFLUOUS_INCOME_THRESOLD`, `AI_RESETTLE_FROM_LOW_HABITABILITY_THRESHOLD`, `AI_RESETTLE_TO_HIGH_HABITABILITY_THRESHOLD` |
 | `citizenship_type` | `free_pop_modifier`, `modifier`, `pop_status_frame`, `pop_tooltip` |
 | `economic_plan` | `empire_size`, `focus`, `naval_cap`, `pops` |
 | `living_standard` | `free_pop_modifier`, `modifier`, `pop_status_frame`, `pop_tooltip` |
@@ -101,8 +99,6 @@ game-data indexer: a key drawn from an extracted enum only becomes checkable onc
 | `ship_behavior` | `combat_source_anchor`, `ignore_combat_movement` |
 | `terraform_link` | `on_queued`, `on_unqueued` |
 | `war_goal` | `hide_if_no_cb`, `show_claims_in_description` |
-| `NEconomy` | `PLANETARY_DEFICIT_ECONOMIC_CATEGORY` |
-| `Unchecked_NInterface` | `FRONTEND_ANIMATED_BG_ENTITY` |
 | `army` | `is_building_spawned` |
 | `asset_selector` | `no_texture` |
 | `bypass` | `bypass_effect` |

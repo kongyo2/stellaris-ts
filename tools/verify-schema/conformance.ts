@@ -2,12 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import type { Dirent } from "node:fs";
 import { join, relative } from "node:path";
 
-import {
-  extractedEnumMembers,
-  vanillaFieldNames,
-  vanillaIdsByType,
-  vanillaModifierNames,
-} from "../../src/generated/vanilla/index.js";
+import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../../src/generated/vanilla/index.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
 import {
   isScopeKey,
@@ -275,12 +270,6 @@ function acceptorFor(model: SchemaModel, type: DefinitionType): KeyAcceptor {
   // The global inline_script macro is legal in every block.
   for (const macro of model.policy.macros) {
     into.literals.add(macro.key);
-  }
-
-  // A defines block's fields are whatever the engine reads, which only the game
-  // says. A corpus listing them is a patch behind by construction.
-  for (const name of vanillaFieldNames[type.id] ?? []) {
-    into.literals.add(name);
   }
 
   if (usesInterfaceFormat(type)) {

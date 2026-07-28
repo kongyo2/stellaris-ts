@@ -1,9 +1,4 @@
-import {
-  extractedEnumMembers,
-  vanillaFieldNames,
-  vanillaIdsByType,
-  vanillaModifierNames,
-} from "../generated/vanilla/index.js";
+import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../generated/vanilla/index.js";
 import type { Mod } from "../runtime/mod.js";
 import { isBare, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { schema } from "../schema/index.js";
@@ -297,12 +292,6 @@ function acceptorFor(
 
   for (const macro of model.policy.macros) {
     draft.literals.add(macro.key);
-  }
-
-  // A defines block's fields are whatever the engine reads, which only the game
-  // says. A corpus listing them is a patch behind by construction.
-  for (const name of vanillaFieldNames[type.id] ?? []) {
-    draft.literals.add(name);
   }
 
   if (usesInterfaceFormat(type)) {
