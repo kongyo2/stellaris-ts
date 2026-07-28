@@ -2344,9 +2344,11 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("name_list", literal("random"), occurs.optional),
       field("name_list", scopeGroup("target_country"), occurs.optional),
       field("ship_prefix", primitive("scalar"), occurs.optional),
-      // vanilla 4.4.6: events/nomads_events_1.txt, events/paragon_events.txt
+      // vanilla 4.4.6: events/nomads_events_1.txt, events/paragon_events.txt.
+      // `nomadic` takes a scope as well as a flag — `nomadic = this` copies it
+      // from the country in scope.
       field("remove_invalid_civics", primitive("boolean"), occurs.optional),
-      field("nomadic", primitive("boolean"), occurs.optional),
+      field("nomadic", oneOf(primitive("boolean"), scopeRef()), occurs.optional),
       field("default_ships", primitive("boolean"), occurs.optional),
       field("adjective", primitive("localisation"), occurs.optional, {
         documentation:
@@ -10235,6 +10237,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: block([
       field("slot", primitive("integer"), occurs.optional, { documentation: "Optional, default = all" }),
+      // vanilla 4.4.6: events/nomads_events_1.txt writes the default out.
+      field("slot", literal("all"), occurs.optional),
       field("module", typeRef("starbase_module"), occurs.optional),
       field("module", literal("all"), occurs.optional),
     ]),
@@ -25913,7 +25917,12 @@ export const ruleSets: readonly RuleSetDefinition[] = [
     name: "position",
     single: false,
     operator: "=",
-    value: block([field("x", primitive("number"), occurs.one), field("y", primitive("number"), occurs.one)]),
+    // A coordinate may be a percentage of the parent: interface/situation_log.gui
+    // writes `x = -50%`.
+    value: block([
+      field("x", oneOf(primitive("number"), primitive("percentage")), occurs.one),
+      field("y", oneOf(primitive("number"), primitive("percentage")), occurs.one),
+    ]),
   }),
   ruleSet({ family: "gui_standard_element", name: "scale", single: false, operator: "=", value: primitive("number") }),
   ruleSet({

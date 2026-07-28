@@ -24,6 +24,29 @@ export const vanillaFieldDefects: Readonly<Record<string, readonly string[]>> = 
 };
 
 /**
+ * Values vanilla writes that are not values of anything.
+ *
+ * Three typos in asset files, each in a numeric field: a stray semicolon, a
+ * doubled decimal point, and two letters of a note left on the end of a volume.
+ * The game reads what it can of each and carries on, which is why they have
+ * survived.
+ */
+export const vanillaValueDefects: Readonly<Record<string, readonly string[]>> = {
+  // gfx/models/ships/colossus/aquatic_01/aquatic_01_colossus.asset: `scale = 1;`
+  "model_entity.scale": ["1;"],
+  // gfx/models/effects/cosmic_storms: `uv_animation_speed = .0.2`
+  "model_entity.game_data.uv_animation_speed": [".0.2"],
+  // sound/guardians/guardians.asset: `volume = 0.8dw`
+  "sound_effect.volume": ["0.8dw"],
+};
+
+/** Whether a value is a known mistake in the base game rather than a narrow rule. */
+export function isVanillaValueDefect(type: string, path: string, field: string, value: string): boolean {
+  const site: string = path.length === 0 ? `${type}.${field}` : `${type}.${path}.${field}`;
+  return (vanillaValueDefects[site] ?? []).includes(value);
+}
+
+/**
  * Whether a key is a known mistake in the base game rather than a hole here.
  *
  * Keyed by type, or by `type.path` for one nested inside a definition.

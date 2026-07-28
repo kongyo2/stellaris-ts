@@ -124,6 +124,20 @@ describe("validation below the first level", () => {
     expect(wrong[0]?.message).toContain("country");
   });
 
+  it("names a value the rules do not accept", () => {
+    // `category` is drawn from a fixed set, and `tier` is a technology_tier id.
+    const mod = defineMod({ name: "Values", version: "1", supportedVersion: "v4.4.*" }).add({
+      type: "building",
+      directory: "common/buildings",
+      id: "value_lab",
+      body: { category: "reserach", base_buildtime: "soon" },
+    });
+
+    const unknown = at(mod, "unknown-value");
+    expect(unknown).toHaveLength(2);
+    expect(unknown.map((diagnostic) => diagnostic.message).join(" ")).toContain("reserach");
+  });
+
   it("names an event id with no namespace", () => {
     const mod = defineMod({ name: "NoNs", version: "1", supportedVersion: "v4.4.*" }).add(
       define("event", "sts_demo_one", { is_triggered_only: true }, { as: "country_event" }),

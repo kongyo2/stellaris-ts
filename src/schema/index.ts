@@ -17,6 +17,7 @@ export * from "./vanilla-commands.js";
 export * from "./vanilla-corrections.js";
 export * from "./vanilla-defects.js";
 export * from "./vanilla-entry-scopes.js";
+export * from "./vanilla-enum-members.js";
 export * from "./vanilla-scope-constraints.js";
 export * from "./vanilla-scopes.js";
 export * from "./vanilla-types.js";

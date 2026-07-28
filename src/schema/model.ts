@@ -4,6 +4,7 @@ import { withScopeConstraints } from "./scope-model.js";
 import { namedValues, scopeGroups, valueSets } from "./dynamic-sets.js";
 import { definitionTypes } from "./definitions/index.js";
 import { enums } from "./enums.js";
+import { withEnumMembers } from "./vanilla-enum-members.js";
 import { defaultSchemaPolicy, defineSchema } from "./ir.js";
 import { modifierNamespace } from "./modifiers.js";
 import { withGameDeclaredFields } from "./open-fields.js";
@@ -30,7 +31,7 @@ export const schema: SchemaModel = defineSchema({
   definitionTypes: withEntryScopes(
     withGameDeclaredFields(withCorrections([...definitionTypes, ...vanillaDefinitionTypes]), vanillaFieldNames),
   ),
-  enums,
+  enums: withEnumMembers(enums),
   scopes: [...scopes, ...vanillaScopes],
   scopeGroups,
   links: [...links, ...vanillaLinks],

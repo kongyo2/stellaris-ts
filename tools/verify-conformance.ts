@@ -4,7 +4,7 @@ import { requireGamePath } from "./game-path.js";
 
 import { vanillaFieldNames } from "../src/generated/vanilla/index.js";
 import { schema } from "../src/schema/index.js";
-import { isVanillaDefect, vanillaFieldDefects } from "../src/schema/vanilla-defects.js";
+import { isVanillaDefect, isVanillaValueDefect, vanillaFieldDefects } from "../src/schema/vanilla-defects.js";
 import { checkConformance, type ConformanceReport } from "./verify-schema/conformance.js";
 
 /**
@@ -105,6 +105,20 @@ if (unexplained.length > REPORTED_LIMIT) {
   console.error(`CONFORMANCE ${String(unexplained.length - REPORTED_LIMIT)} further unknown keys not listed.`);
 }
 
+// Direction E: a value the rules reject. Reported the same way as an unknown
+// key, because the game treats it the same way — the line is read and dropped.
+const unexplainedValues = report.types.flatMap((entry) =>
+  entry.valueMismatches
+    .filter((finding) => !isVanillaValueDefect(entry.type, finding.path, finding.field, finding.example))
+    .map((finding) => ({ type: entry.type, ...finding })),
+);
+
+for (const finding of unexplainedValues) {
+  console.error(
+    `CONFORMANCE ${finding.type} value: ${finding.path.length === 0 ? finding.field : `${finding.path}.${finding.field}`} must be ${finding.expected}, and vanilla writes ${JSON.stringify(finding.example)} (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
+  );
+}
+
 // Direction D: a command written in a scope its constraint forbids. The game
 // answers a wrongly-scoped trigger with `false` for ever and never says why, so
 // a disagreement here is either a real bug in vanilla or a wrong constraint —
@@ -174,6 +188,7 @@ console.log(
     `unusedRules=${String(report.unusedRuleTotal)}`,
     `phantomRequirements=${String(report.missingRequiredTotal)}`,
     `scopeViolations=${String(report.scopeViolationTotal)}`,
+    `valueMismatches=${String(unexplainedValues.length)}`,
     `missingDirectories=${String(report.missingDirectories.length)}`,
     `unexplainedKeys=${String(unexplained.length)}`,
     `gatedStrict=${String(strictGated.length)}/${String(GATED_TYPES.length)}`,
@@ -194,6 +209,7 @@ if (
   unexplained.length > 0 ||
   report.missingRequiredTotal > 0 ||
   report.scopeViolationTotal > 0 ||
+  unexplainedValues.length > 0 ||
   defectsFound !== expectedDefects ||
   missingGated.length > 0 ||
   strictnessRegressed ||

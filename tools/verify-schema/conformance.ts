@@ -159,6 +159,16 @@ function contextOf(rules: BlockRules): FindingContext {
   return "block";
 }
 
+export interface ValueFinding {
+  readonly path: string;
+  readonly field: string;
+  /** What the rules said the value had to be. */
+  readonly expected: string;
+  readonly example: string;
+  readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
 export interface ScopeFinding {
   readonly command: string;
   /** Where inside the definition, dotted. */
@@ -188,6 +198,7 @@ export interface TypeReport {
   readonly unusedRules: readonly string[];
   readonly missingRequired: readonly RequiredFinding[];
   readonly scopeViolations: readonly ScopeFinding[];
+  readonly valueMismatches: readonly ValueFinding[];
 }
 
 /**
@@ -214,6 +225,82 @@ export interface ConformanceReport {
   readonly strictTypeCount: number;
   readonly missingRequiredTotal: number;
   readonly scopeViolationTotal: number;
+  readonly valueMismatchTotal: number;
+}
+
+/**
+ * Whether a scalar could be something other than the literal it looks like.
+ *
+ * `@cost` is a script variable, `value:x` a script value, `$PARAM$` a
+ * substitution and `[...]` inline maths. All four stand for something the file
+ * does not say, so nothing here can check what they resolve to.
+ */
+function isIndirect(text: string): boolean {
+  return text.startsWith("@") || text.includes("$") || text.includes(":") || text.includes("[");
+}
+
+/**
+ * What a value must be, when every rule for the key agrees.
+ *
+ * One rule that accepts anything is enough to make the value unconstrained: a
+ * key is often `integer | scalar`, and reporting the scalar would be wrong.
+ */
+function expectedValue(
+  values: readonly ResolvedValue[],
+  enumMembers: (id: string) => readonly string[],
+): { readonly label: string; readonly accepts: (text: string) => boolean } | undefined {
+  if (values.length === 0) {
+    return undefined;
+  }
+
+  const kinds = new Set(values.map((value) => value.kind));
+
+  if (kinds.size !== 1) {
+    return undefined;
+  }
+
+  const first: ResolvedValue | undefined = values[0];
+
+  if (first === undefined) {
+    return undefined;
+  }
+
+  if (first.kind === "primitive" && (first.type === "boolean" || first.type === "integer" || first.type === "number")) {
+    const type = first.type;
+
+    if (!values.every((value) => value.kind === "primitive" && value.type === type)) {
+      return undefined;
+    }
+
+    if (type === "boolean") {
+      // `yes`/`no` is what script is written in and what this library emits, but
+      // the engine reads `true`/`false` too: vanilla writes them 162,416 times,
+      // mostly in the `.asset` and `.gui` files.
+      return {
+        label: "boolean",
+        accepts: (text) => text === "yes" || text === "no" || text === "true" || text === "false",
+      };
+    }
+
+    if (type === "integer") {
+      return { label: "integer", accepts: (text) => /^-?\d+$/u.test(text) };
+    }
+
+    return { label: "number", accepts: (text) => /^-?\d*\.?\d+$/u.test(text) };
+  }
+
+  if (first.kind === "enum") {
+    const ids: readonly string[] = values.flatMap((value) => (value.kind === "enum" ? [value.enum] : []));
+    const allowed = new Set(ids.flatMap((id) => enumMembers(id)).map((member) => member.toLowerCase()));
+
+    if (allowed.size === 0) {
+      return undefined;
+    }
+
+    return { label: ids.join(" or "), accepts: (text) => allowed.has(text.toLowerCase()) };
+  }
+
+  return undefined;
 }
 
 function compareOrdinal(left: string, right: string): number {
@@ -320,6 +407,16 @@ function literalRuleKeys(type: DefinitionType): readonly string[] {
   return [...keys].sort(compareOrdinal);
 }
 
+function enumMembersOf(model: SchemaModel, id: string): readonly string[] {
+  const definition = model.enums.find((candidate) => candidate.id === id);
+
+  if (definition === undefined) {
+    return [];
+  }
+
+  return definition.kind === "static-enum" ? definition.values : (extractedEnumMembers[id] ?? []);
+}
+
 /** The modifier namespace, expanded once against what vanilla declares. */
 let resolvedModifiers: ReadonlySet<string> | undefined;
 
@@ -365,6 +462,10 @@ export async function checkConformance(
     const ruleKeys: readonly string[] = literalRuleKeys(type);
     const required: readonly string[] = requiredKeys(type);
     const missingRequired = new Map<string, { count: number; examples: string[] }>();
+    const valueIssues = new Map<
+      string,
+      { path: string; field: string; expected: string; example: string; count: number; examples: string[] }
+    >();
     const scopeIssues = new Map<
       string,
       {
@@ -450,6 +551,30 @@ export async function checkConformance(
               issue.examples.push(file);
             }
             scopeIssues.set(identity, issue);
+          }
+        }
+
+        // A value outside what the rules accept is dropped as silently as an
+        // unknown key.
+        if (entry.value.kind === NodeKind.Scalar) {
+          const text: string = String(entry.value.value);
+          const expected = expectedValue(resolution.values, (id) => enumMembersOf(model, id));
+
+          if (expected !== undefined && !isIndirect(text) && !expected.accepts(text)) {
+            const identity = `${trail} ${key} ${expected.label}`;
+            const issue = valueIssues.get(identity) ?? {
+              path: trail,
+              field: key,
+              expected: expected.label,
+              example: text,
+              count: 0,
+              examples: [],
+            };
+            issue.count += 1;
+            if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+              issue.examples.push(file);
+            }
+            valueIssues.set(identity, issue);
           }
         }
 
@@ -547,6 +672,16 @@ export async function checkConformance(
             compareOrdinal(left.field, right.field),
         ),
       unusedRules: ruleKeys.filter((key) => !seen.has(key)),
+      valueMismatches: [...valueIssues.values()]
+        .map((issue) => ({
+          path: issue.path,
+          field: issue.field,
+          expected: issue.expected,
+          example: issue.example,
+          occurrences: issue.count,
+          examples: issue.examples,
+        }))
+        .sort((left, right) => right.occurrences - left.occurrences || compareOrdinal(left.field, right.field)),
       scopeViolations: [...scopeIssues.values()]
         .map((issue) => ({
           command: issue.command,
@@ -578,5 +713,6 @@ export async function checkConformance(
     strictTypeCount: reports.filter((report) => report.strictness === "strict").length,
     missingRequiredTotal: reports.reduce((total, report) => total + report.missingRequired.length, 0),
     scopeViolationTotal: reports.reduce((total, report) => total + report.scopeViolations.length, 0),
+    valueMismatchTotal: reports.reduce((total, report) => total + report.valueMismatches.length, 0),
   };
 }

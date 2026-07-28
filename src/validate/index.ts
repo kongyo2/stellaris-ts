@@ -212,8 +212,9 @@ function checkValue(
     }
   }
 
-  // A value outside the set the game accepts is dropped as silently as an
-  // unknown key. Only reported when every rule for the key agrees it is an enum.
+  // A value outside what the rules accept is dropped as silently as an unknown
+  // key. Only reported when every rule for the key agrees — a key is often
+  // `integer | scalar`, and reporting one of the alternatives would be wrong.
   const enumIds: readonly string[] = enumsOf(values);
 
   if (enumIds.length > 0 && typeof value === "string" && !isIndirect(value)) {
@@ -229,6 +230,45 @@ function checkValue(
       });
     }
   }
+
+  const numeric: "integer" | "number" | undefined = numericOf(values);
+
+  if (numeric !== undefined && typeof value === "string" && !isIndirect(value)) {
+    const looksNumeric: boolean = numeric === "integer" ? /^-?\d+$/u.test(value) : /^-?\d*\.?\d+$/u.test(value);
+
+    if (!looksNumeric) {
+      walker.diagnostics.push({
+        severity: "warning",
+        code: "unknown-value",
+        message: `${key} takes a${numeric === "integer" ? "n integer" : " number"}, and ${JSON.stringify(value)} is not one.`,
+        definition,
+        path,
+      });
+    }
+  }
+}
+
+/** The numeric type a key takes, when every rule for it says the same one. */
+function numericOf(values: readonly ResolvedValue[]): "integer" | "number" | undefined {
+  if (values.length === 0) {
+    return undefined;
+  }
+
+  let seen: "integer" | "number" | undefined;
+
+  for (const value of values) {
+    if (value.kind !== "primitive" || (value.type !== "integer" && value.type !== "number")) {
+      return undefined;
+    }
+
+    if (seen !== undefined && seen !== value.type) {
+      return "number";
+    }
+
+    seen = value.type;
+  }
+
+  return seen;
 }
 
 /**
