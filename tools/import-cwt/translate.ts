@@ -258,6 +258,16 @@ export interface ImportedUnsupportedKey {
   readonly semantic: ImportedUnsupportedSemantic;
 }
 
+export interface ImportedNumericKey {
+  readonly kind: "numeric-key";
+  readonly integer: boolean;
+}
+
+export interface ImportedPrimitiveKey {
+  readonly kind: "primitive-key";
+  readonly type: string;
+}
+
 export type ImportedKeyRule =
   | ImportedAliasKey
   | ImportedAliasKeysFieldKey
@@ -265,6 +275,8 @@ export type ImportedKeyRule =
   | ImportedEnumKey
   | ImportedLiteralKey
   | ImportedNamedValueKey
+  | ImportedNumericKey
+  | ImportedPrimitiveKey
   | ImportedScopeGroupKey
   | ImportedScopeKey
   | ImportedTypeKey
@@ -430,6 +442,14 @@ export interface ImportedDefinitionType {
 export interface ImportedCommand {
   readonly family: string;
   readonly name: string;
+  /**
+   * What the alias name means, when it is a construct rather than a name.
+   *
+   * `alias[trigger:<scripted_trigger>]` names no command: it says any scripted
+   * trigger may be called here. Emitted as an id it matches nothing, so the key
+   * semantic is carried alongside.
+   */
+  readonly key?: ImportedKeyRule;
   readonly single: boolean;
   readonly value: ImportedValueRule;
   readonly operator: Assignment["operator"];
@@ -1083,6 +1103,26 @@ function translateValue(context: TranslationContext, value: ValueNode): Imported
   }
 }
 
+/**
+ * cwt primitive names, and what they mean where a key belongs.
+ *
+ * `icon` and `scalar` are deliberately absent: vanilla writes `icon = "gfx/..."`
+ * as an ordinary field 7,000 times, and `scalar` already reads as any key.
+ */
+const PRIMITIVE_KEY_TYPES: Readonly<Record<string, string>> = {
+  date_field: "date",
+  filepath: "file",
+  localisation: "localisation",
+  localisation_inline: "localisation",
+  localisation_synced: "localisation",
+  percentage_field: "percentage",
+  scope_field: "scalar",
+  value_field: "number",
+  int_value_field: "integer",
+  variable_field: "number",
+  int_variable_field: "integer",
+};
+
 function keyFromConstruct(context: TranslationContext, construct: ParsedConstruct, span: Span): ImportedKeyRule {
   const target: ImportedTypeReference = typeReference(construct.argument);
   switch (construct.head) {
@@ -1131,8 +1171,38 @@ function keyFromConstruct(context: TranslationContext, construct: ParsedConstruc
 
 function translateKey(context: TranslationContext, scalar: Scalar): ImportedKeyRule {
   const raw: string = originalText(context, scalar).trim();
+  return keyFromText(context, raw, scalar.span, String(scalar.value));
+}
+
+/**
+ * The key semantic of one piece of cwt text.
+ *
+ * Split out of {@link translateKey} because an alias *name* needs the same
+ * reading: `alias[modifier_rule:enum[simple_maths_enum]]` is an enum key with
+ * extra punctuation around it, and reading it as a literal name is what left
+ * `ai_weight = { weight = 5 }` unchecked.
+ */
+function keyFromText(context: TranslationContext, raw: string, span: Span, fallback: string): ImportedKeyRule {
   if (raw === "scalar") {
     return { kind: "any-key" };
+  }
+
+  // `int` and `float` are key *types* — `random_list = { 10 = { ... } }` — and
+  // porting them as a field named "int" matches nothing at all.
+  if (raw === "int" || /^int\[/u.test(raw)) {
+    return { kind: "numeric-key", integer: true };
+  }
+
+  if (raw === "float" || /^float\[/u.test(raw)) {
+    return { kind: "numeric-key", integer: false };
+  }
+
+  // The rest of cwt's primitives are key types too: `filepath = { ... }` means
+  // any file path is a key here, not a field spelled "filepath". Vanilla writes
+  // neither `filepath` nor `localisation` as a key anywhere.
+  const primitive: string | undefined = PRIMITIVE_KEY_TYPES[raw];
+  if (primitive !== undefined) {
+    return { kind: "primitive-key", type: primitive };
   }
 
   const angleReference: RegExpExecArray | null = /^<([A-Za-z_][A-Za-z0-9_.-]*)>$/u.exec(raw);
@@ -1150,10 +1220,10 @@ function translateKey(context: TranslationContext, scalar: Scalar): ImportedKeyR
 
   const construct: ParsedConstruct | undefined = parsedConstruct(raw);
   if (construct !== undefined) {
-    return keyFromConstruct(context, construct, scalar.span);
+    return keyFromConstruct(context, construct, span);
   }
 
-  return { kind: "literal-key", value: String(scalar.value) };
+  return { kind: "literal-key", value: fallback };
 }
 
 function aliasExpansion(
@@ -1740,9 +1810,14 @@ function declarations(
             : rootConstruct.argument.slice(0, separator);
         const name: string = single || separator < 0 ? "" : rootConstruct.argument.slice(separator + 1);
 
+        const commandName: string = name.trim();
+        const nameKey: ImportedKeyRule | undefined =
+          commandName.length === 0 ? undefined : keyFromText(context, commandName, entry.key.span, commandName);
+
         commands.push({
           family: family.trim(),
-          name: name.trim(),
+          name: commandName,
+          ...(nameKey === undefined || nameKey.kind === "literal-key" ? {} : { key: nameKey }),
           single,
           value: translateValue(context, entry.value),
           operator: entry.operator,

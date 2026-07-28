@@ -94,7 +94,9 @@
     "import:modifiers": "tsx tools/import-modifiers/index.ts",
     "verify:reproduce": "tsx tools/verify-reproduce/index.ts",
     "build:ci": "tsc -p tsconfig.json --incremental false --pretty false --checkers 4",
-    "propose:corrections": "tsx tools/propose-corrections/index.ts"
+    "propose:corrections": "tsx tools/propose-corrections/index.ts",
+    "propose:commands": "tsx tools/propose-commands/index.ts",
+    "typecheck:examples": "tsc -p tsconfig.examples.json --pretty false --checkers 4"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

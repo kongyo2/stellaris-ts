@@ -69,6 +69,8 @@ it("applies a root-key filter to nested definitions after selecting their contai
         type: DefinitionTypeId.ParagonUiNameType,
         directory: "interface",
         ids: ["kept"],
+        // The block key is a tag for this type, so the tag is indexed too.
+        tags: ["containerWindowType"],
       },
     ]);
 

@@ -3,7 +3,7 @@
 
 import { DefinitionTypeId } from "../catalog.js";
 
-import { block, defineType, field, item, occurs, primitive, taggedBlocks, valueSet } from "../ir.js";
+import { block, defineType, field, item, occurs, primitive, primitiveKey, taggedBlocks, valueSet } from "../ir.js";
 
 import type { DefinitionType } from "../ir.js";
 
@@ -21,7 +21,10 @@ export const empireNamePartsList: DefinitionType = defineType({
     }),
     field(
       "parts",
-      block([field("localisation", primitive("integer"), occurs.any), item(primitive("localisation"), occurs.any)]),
+      block([
+        field(primitiveKey("localisation"), primitive("integer"), occurs.any),
+        item(primitive("localisation"), occurs.any),
+      ]),
       occurs.one,
       { documentation: "List of possible parts. Random weights to the right are optional" },
     ),

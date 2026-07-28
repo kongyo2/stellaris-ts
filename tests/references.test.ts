@@ -15,7 +15,7 @@ const codes = (mod: Parameters<typeof validate>[0]): readonly string[] =>
 describe("reference checking", () => {
   it("accepts a sprite the game ships", () => {
     const mod = defineMod({ name: "Pic", version: "1", supportedVersion: "v4.4.*" })
-      .add(define("event", "pic.1", { id: "pic.1", picture: "GFX_evt_mining_station" }))
+      .add(define("event", "pic.1", { picture: "GFX_evt_mining_station" }, { as: "country_event" }))
       .localise("l_english", "pic.1", "x");
 
     expect(codes(mod)).not.toContain("unresolved-reference");
@@ -23,7 +23,7 @@ describe("reference checking", () => {
 
   it("rejects one it does not", () => {
     const mod = defineMod({ name: "Typo", version: "1", supportedVersion: "v4.4.*" })
-      .add(define("event", "typo.1", { id: "typo.1", picture: "GFX_evt_no_such_picture" }))
+      .add(define("event", "typo.1", { picture: "GFX_evt_no_such_picture" }, { as: "country_event" }))
       .localise("l_english", "typo.1", "x");
 
     expect(codes(mod)).toContain("unresolved-reference");

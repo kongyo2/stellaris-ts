@@ -26,7 +26,12 @@ export interface TypeIndex {
   readonly type: string;
   readonly directory: string;
   readonly ids: readonly string[];
+  /** For a tagged type, the block keys vanilla writes its definitions under. */
+  readonly tags: readonly string[];
 }
+
+/** The scripted trigger and effect types whose calls take parameters. */
+const CALLABLE_TYPES: readonly string[] = ["scripted_trigger", "scripted_effect"];
 
 export interface EnumIndex {
   readonly id: string;
@@ -35,6 +40,8 @@ export interface EnumIndex {
 
 export interface GameIndex {
   readonly version: string;
+  /** What the launcher compares a mod's `supported_version` against. */
+  readonly modsCompatibilityVersion: string;
   readonly types: readonly TypeIndex[];
   readonly enums: readonly EnumIndex[];
   readonly filesRead: number;
@@ -62,6 +69,84 @@ export interface GameIndex {
    * can stay ahead of. What the game ships is the whole valid set.
    */
   readonly fieldNames: Readonly<Record<string, readonly string[]>>;
+  /**
+   * The `$NAME$` substitutions each scripted trigger or effect declares, keyed
+   * `<type>:<id>`.
+   *
+   * A call passes them by name — `no_resource_for_component = { RESOURCE = x }`
+   * — and a name the callee never mentions is substituted nowhere, so the call
+   * silently does something other than what was written. The set is knowable
+   * only from the callee's body, which is why it is indexed rather than listed.
+   */
+  readonly scriptedParameters: Readonly<Record<string, readonly string[]>>;
+}
+
+/**
+ * Every `$NAME$` a block mentions, at any depth.
+ *
+ * The marker appears in three places and all three count: as a whole key or
+ * value, inside a longer name (`remove_$SCOPE$_flag`), and with a default
+ * (`$AMOUNT|1$`). Only the name before the bar is the parameter.
+ */
+const PARAMETER_PATTERN = /\$([A-Za-z_][A-Za-z0-9_]*)(?:\|[^$]*)?\$/gu;
+
+function collectParametersFrom(text: string, into: Set<string>): void {
+  for (const match of text.matchAll(PARAMETER_PATTERN)) {
+    const name: string | undefined = match[1];
+    if (name !== undefined) {
+      into.add(name);
+    }
+  }
+}
+
+function collectParameters(entries: readonly EntryNode[], into: Set<string>): void {
+  for (const entry of entries) {
+    switch (entry.kind) {
+      case NodeKind.Assignment:
+        collectParametersFrom(entry.key.raw, into);
+
+        if (entry.value.kind === NodeKind.Scalar) {
+          collectParametersFrom(entry.value.raw, into);
+        } else if (entry.value.kind === NodeKind.Block) {
+          collectParameters(entry.value.entries, into);
+        } else if (entry.value.kind === NodeKind.PrefixedBlock) {
+          collectParametersFrom(entry.value.prefix.raw, into);
+          collectParameters(entry.value.block.entries, into);
+        } else if (entry.value.kind === NodeKind.InlineMath) {
+          for (const token of entry.value.tokens) {
+            collectParametersFrom(token.text, into);
+          }
+        }
+        continue;
+      case NodeKind.Scalar:
+        collectParametersFrom(entry.raw, into);
+        continue;
+      case NodeKind.Block:
+        collectParameters(entry.entries, into);
+        continue;
+      case NodeKind.OptionalBlock:
+        // `[[POP_GROUP] ... ]` includes its body only when that parameter was
+        // passed. The header names the parameter and the body uses it; both are
+        // part of what the callee takes, and missing the header is what left 93
+        // calls looking like they passed an unknown name.
+        for (const token of entry.header) {
+          collectParametersFrom(`$${token.text.replace(/^!/u, "")}$`, into);
+        }
+        collectParameters(entry.entries, into);
+        continue;
+      case NodeKind.PrefixedBlock:
+        collectParametersFrom(entry.prefix.raw, into);
+        collectParameters(entry.block.entries, into);
+        continue;
+      case NodeKind.InlineMath:
+        for (const token of entry.tokens) {
+          collectParametersFrom(token.text, into);
+        }
+        continue;
+      default:
+        continue;
+    }
+  }
 }
 
 function compareOrdinal(left: string, right: string): number {
@@ -137,6 +222,66 @@ function keyOf(entry: EntryNode): string | undefined {
  * into, and then a name field to read — not the nested key, which is
  * `spriteType` for every one of them.
  */
+/**
+ * The block keys a tagged type is written under.
+ *
+ * `taggedBlocks` means the block key is a tag and the identity is a field
+ * inside: an event is `country_event = { id = utopia.1 }`, never
+ * `utopia.1 = { ... }`. cwt leaves the tag list empty, so the tags are read off
+ * the game — without them a mod cannot write one of these 44 types at all.
+ */
+function definitionTags(type: DefinitionType, document: Document, into: Set<string>): void {
+  if (type.source.kind !== "tagged-blocks") {
+    return;
+  }
+
+  const filter = type.source.rootKeyFilter;
+  const accepted = (key: string): boolean =>
+    filter === undefined
+      ? true
+      : filter.mode === "include"
+        ? filter.values.includes(key)
+        : !filter.values.includes(key);
+
+  const nameField: string = type.source.nameField;
+  const container = type.source.container;
+
+  const claim = (key: string, body: Block): void => {
+    // Only a block that carries the name field is a definition of this type;
+    // the settings blocks beside them are not.
+    if (body.entries.some((field) => keyOf(field) === nameField)) {
+      into.add(key.replace(/^"|"$/gu, ""));
+    }
+  };
+
+  for (const entry of document.entries) {
+    const key: string | undefined = keyOf(entry);
+    const block: Block | undefined = blockOf(entry);
+
+    if (key === undefined || block === undefined) {
+      continue;
+    }
+
+    if (container !== undefined) {
+      if (container.kind !== "any-container" && container.key !== key) {
+        continue;
+      }
+      for (const nested of block.entries) {
+        const nestedKey: string | undefined = keyOf(nested);
+        const nestedBlock: Block | undefined = blockOf(nested);
+        if (nestedKey !== undefined && nestedBlock !== undefined && accepted(nestedKey)) {
+          claim(nestedKey, nestedBlock);
+        }
+      }
+      continue;
+    }
+
+    if (accepted(key)) {
+      claim(key, block);
+    }
+  }
+}
+
 function definitionIds(type: DefinitionType, document: Document, fileName: string): string[] {
   if (type.source.kind === "file-definitions") {
     return [type.source.stripExtension ? fileName.replace(/\.[^.]+$/u, "") : fileName];
@@ -345,6 +490,7 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
 
   const types: TypeIndex[] = await mapWithLimit(model.definitionTypes, 2, async (type): Promise<TypeIndex> => {
     const ids = new Set<string>();
+    const tags = new Set<string>();
     const fields: Set<string> | undefined = gameDeclaredFieldTypes.includes(type.id) ? new Set<string>() : undefined;
 
     await forEachDocument(
@@ -354,6 +500,8 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
         for (const id of definitionIds(type, document, fileName)) {
           ids.add(id);
         }
+
+        definitionTags(type, document, tags);
 
         if (fields !== undefined) {
           definitionFieldKeys(type, document, fields);
@@ -370,6 +518,7 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
       type: type.id,
       directory: type.source.directory,
       ids: [...ids].sort(compareOrdinal),
+      tags: [...tags].sort(compareOrdinal),
     };
   });
 
@@ -403,6 +552,38 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
 
     return { id: definition.id, members: [...members].sort(compareOrdinal) };
   });
+
+  const scriptedParameters: Record<string, readonly string[]> = {};
+
+  await Promise.all(
+    CALLABLE_TYPES.map(async (typeId): Promise<void> => {
+      const type: DefinitionType | undefined = model.definitionTypes.find((candidate) => candidate.id === typeId);
+
+      if (type === undefined) {
+        return;
+      }
+
+      await forEachDocument(
+        type.source.directory,
+        type.source.includeSubdirectories,
+        (_fileName, document) => {
+          for (const entry of document.entries) {
+            const body: Block | undefined = blockOf(entry);
+            const id: string | undefined = keyOf(entry);
+
+            if (body === undefined || id === undefined || id.startsWith("@")) {
+              continue;
+            }
+
+            const names = new Set<string>();
+            collectParameters(body.entries, names);
+            scriptedParameters[`${typeId}:${id}`] = [...names].sort(compareOrdinal);
+          }
+        },
+        type.source.files,
+      );
+    }),
+  );
 
   const vanillaFiles: Record<string, string[]> = {};
   const directories: readonly { readonly path: string; readonly recurse: boolean }[] = [
@@ -439,12 +620,14 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
 
   return {
     version,
+    modsCompatibilityVersion: await compatibilityVersion(gamePath),
     types: types.sort((left, right) => compareOrdinal(left.type, right.type)),
     enums: enums.sort((left, right) => compareOrdinal(left.id, right.id)),
     filesRead,
     vanillaFiles,
     modifierNames: await collectModifierNames(gamePath),
     fieldNames,
+    scriptedParameters,
   };
 }
 
@@ -455,6 +638,16 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
  * modifier its documentation calls `tradition_cost_mult`, and script uses either
  * spelling. Everything is lowercased so one comparison serves both.
  */
+/** The launcher's own idea of which game version a mod must declare support for. */
+async function compatibilityVersion(gamePath: string): Promise<string> {
+  try {
+    const raw: string = await readFile(join(gamePath, "launcher-settings.json"), "utf8");
+    return /"modsCompatibilityVersion"\s*:\s*"([^"]+)"/u.exec(raw)?.[1] ?? "";
+  } catch {
+    return "";
+  }
+}
+
 async function collectModifierNames(gamePath: string): Promise<readonly string[]> {
   const files: readonly string[] = await collectLocalisationFiles(join(gamePath, "localisation"));
   const names = new Set<string>();

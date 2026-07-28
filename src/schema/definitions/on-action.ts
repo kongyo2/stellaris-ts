@@ -3,7 +3,7 @@
 
 import { DefinitionTypeId } from "../catalog.js";
 
-import { block, defineType, field, item, keyedBlocks, literal, occurs, typeRef } from "../ir.js";
+import { block, defineType, field, item, keyedBlocks, literal, numericKey, occurs, typeRef } from "../ir.js";
 
 import type { DefinitionType } from "../ir.js";
 
@@ -17,7 +17,7 @@ export const onAction: DefinitionType = defineType({
     field("events", block([item(typeRef("event"), occurs.any)]), occurs.optional),
     field(
       "random_events",
-      block([field("int", literal(0), occurs.any), field("int", typeRef("event"), occurs.any)]),
+      block([field(numericKey(), literal(0), occurs.any), field(numericKey(), typeRef("event"), occurs.any)]),
       occurs.optional,
     ),
   ],

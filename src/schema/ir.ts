@@ -242,6 +242,42 @@ export interface ParameterKey {
   readonly kind: "parameter-key";
 }
 
+/**
+ * A key that is a number rather than a name.
+ *
+ * `random_list = { 10 = { ... } }` weights each branch by its key, and
+ * `random_events = { 100 = evt.1 }` does the same for on-actions. cwt spells
+ * this `int = ...`, which ports to a field literally named `int` and therefore
+ * matches nothing — the construct is a key *type*, so it needs one.
+ */
+export interface NumericKey {
+  readonly kind: "numeric-key";
+  readonly integer: boolean;
+}
+
+/**
+ * A key that is a value of a primitive type rather than a name.
+ *
+ * cwt writes `filepath = { ... }` for "any file path is a key here" and
+ * `localisation = { ... }` for "any localisation key is". Ported as fields named
+ * `filepath` and `localisation` they match nothing — vanilla writes neither word
+ * as a key anywhere — and 4,700 real keys went unchecked behind them.
+ */
+export interface PrimitiveKey {
+  readonly kind: "primitive-key";
+  readonly type: PrimitiveType;
+}
+
+/**
+ * A key that is any modifier name.
+ *
+ * The set is generated rather than declared — see {@link ModifierNamespace} —
+ * so it cannot be an enum, and a modifier block's keys are exactly it.
+ */
+export interface ModifierKey {
+  readonly kind: "modifier-key";
+}
+
 export interface TypeKey {
   readonly kind: "type-key";
   readonly type: string;
@@ -282,9 +318,12 @@ export interface RuleSetKeysFieldKey {
 export type KeyRule =
   | AnyKey
   | EnumKey
+  | ModifierKey
   | NamedValueKey
+  | NumericKey
   | ParameterKey
   | PatternKey
+  | PrimitiveKey
   | RuleSetKey
   | RuleSetKeysFieldKey
   | ScopeGroupKey
@@ -333,7 +372,12 @@ export interface ReplaceScope {
 export type ScopeChange = EnterScope | ReplaceScope;
 
 export interface ScopeDefinition {
-  readonly id: ScopeId;
+  /**
+   * `ScopeId` completes; a plain string is still accepted, because the game
+   * gains scopes — `colony` and `carrier` arrived in 4.4 — and the catalog is a
+   * port of a corpus that predates them.
+   */
+  readonly id: ScopeId | (string & {});
   readonly aliases: readonly string[];
   readonly displayName?: string;
   readonly documentation?: string;
@@ -583,7 +627,13 @@ export interface ModifierNamespace {
 }
 
 export interface DefinitionType {
-  readonly id: DefinitionTypeId;
+  /**
+   * `DefinitionTypeId` completes; a plain string is still accepted, because the
+   * game has directories the ported corpus never named — `mission_categories`
+   * arrived with the contracts in 4.4 — and the catalog is generated from that
+   * corpus.
+   */
+  readonly id: DefinitionTypeId | (string & {});
   readonly source: DefinitionSource;
   readonly entryScope?: ScopeReference;
   readonly variants: readonly VariantDefinition[];
@@ -605,6 +655,15 @@ export interface SchemaPolicy {
 
 export interface ScriptCommandDefinition extends EntryOptions {
   readonly id: string;
+  /**
+   * What actually matches, when the id is a stand-in rather than a name.
+   *
+   * cwt names some aliases with a construct — `alias[trigger:<scripted_trigger>]`
+   * is "call any scripted trigger", `alias[modifier_rule:enum[simple_maths_enum]]`
+   * is "any member of that enum". Ported as an id those match nothing at all,
+   * which is how `ai_weight = { weight = 5 }` went unchecked in 4,000 places.
+   */
+  readonly key?: KeyRule;
   readonly family: ScriptBlockValue["family"];
   readonly input: ScopeSelection;
   readonly operator: RuleOperator;
@@ -855,6 +914,18 @@ export function patternKey(prefix: string, suffix = "", type?: string): PatternK
 
 export function parameterKey(): ParameterKey {
   return { kind: "parameter-key" };
+}
+
+export function numericKey(integer = true): NumericKey {
+  return { kind: "numeric-key", integer };
+}
+
+export function modifierKey(): ModifierKey {
+  return { kind: "modifier-key" };
+}
+
+export function primitiveKey(type: PrimitiveType): PrimitiveKey {
+  return { kind: "primitive-key", type };
 }
 
 export function typeKey(type: string): TypeKey {

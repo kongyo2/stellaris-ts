@@ -12,6 +12,7 @@ import {
   literal,
   occurs,
   primitive,
+  primitiveKey,
   triggerEntries,
   typeRef,
 } from "../ir.js";
@@ -20,7 +21,9 @@ import type { DefinitionType } from "../ir.js";
 
 export const cosmicStormMission: DefinitionType = defineType({
   id: DefinitionTypeId.CosmicStormMission,
-  source: keyedBlocks("common/missions"),
+  // `common/missions` holds two directories; the categories beside the
+  // missions are a different kind of definition and have their own type.
+  source: keyedBlocks("common/missions/missions"),
   variants: [],
   localisation: [],
   modifiers: [],
@@ -33,7 +36,9 @@ export const cosmicStormMission: DefinitionType = defineType({
     field("abort_trigger", block([triggerEntries()]), occurs.one),
     field(
       "counter",
-      block([field("localisation", block([field("max", primitive("integer"), occurs.optional)]), occurs.any)]),
+      block([
+        field(primitiveKey("localisation"), block([field("max", primitive("integer"), occurs.optional)]), occurs.any),
+      ]),
       occurs.any,
     ),
     field("on_daily", block([effectEntries()]), occurs.optional),

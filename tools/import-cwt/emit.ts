@@ -314,6 +314,10 @@ function keyExpression(context: EmitContext, key: ImportedKeyRule): string {
       return quote(key.value);
     case "any-key":
       return `${imports.helper("anyKey")}()`;
+    case "numeric-key":
+      return `${imports.helper("numericKey")}(${key.integer ? "" : "false"})`;
+    case "primitive-key":
+      return `${imports.helper("primitiveKey")}(${quote(key.type)})`;
     case "enum-key": {
       const id: string | undefined = imports.enumId(key.enum, context.enumIds);
       return id === undefined ? `${imports.helper("anyKey")}()` : `${imports.helper("enumKey")}(${id})`;
@@ -813,11 +817,14 @@ function commandExpression(context: EmitContext, command: ImportedCommand): stri
     }
     parts.push(`single: ${command.single ? "true" : "false"}`);
   } else {
-    parts.push(
-      `id: ${quote(command.name)}`,
-      `family: ${quote(family)}`,
-      `input: ${inputScopeExpression(context, command.annotations)}`,
-    );
+    parts.push(`id: ${quote(command.name)}`);
+
+    // An alias named with a construct matches a set, not a name.
+    if (command.key !== undefined) {
+      parts.push(`key: ${keyExpression(context, command.key)}`);
+    }
+
+    parts.push(`family: ${quote(family)}`, `input: ${inputScopeExpression(context, command.annotations)}`);
   }
 
   parts.push(`operator: ${quote(command.operator)}`, `value: ${valueExpression(context, command.value)}`);

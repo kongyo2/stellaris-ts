@@ -13,6 +13,7 @@ import {
   field,
   keyedBlocks,
   modifierRuleEntries,
+  numericKey,
   occurs,
   primitive,
   replaceScope,
@@ -83,7 +84,7 @@ export const anomalyCategory: DefinitionType = defineType({
     field(
       "on_success",
       block([
-        field("int", typeRef("event", "ship"), between(0, 100)),
+        field(numericKey(), typeRef("event", "ship"), between(0, 100)),
         field(
           "int",
           block([

@@ -2,30 +2,40 @@ import { readdir, readFile } from "node:fs/promises";
 import type { Dirent } from "node:fs";
 import { join, relative } from "node:path";
 
-import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../../src/generated/vanilla/index.js";
+import {
+  extractedEnumMembers,
+  vanillaIdsByType,
+  vanillaModifierNames,
+  vanillaScriptedParameters,
+} from "../../src/generated/vanilla/index.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
 import {
-  isScopeKey,
-  isSyntacticKey,
-  scopeEntryNames,
-  scriptBlockNames,
-  usesInterfaceFormat,
-} from "../../src/schema/script-keys.js";
-import { NodeKind, parse, type Block, type Document } from "../../src/syntax/index.js";
-import type { DefinitionType, EntryRule, EnumDefinition, KeyRule, SchemaModel } from "../../src/schema/ir.js";
+  requiredKeys,
+  SchemaResolver,
+  type BlockRules,
+  type ResolvedValue,
+  type ScriptFamily,
+} from "../../src/schema/resolve.js";
+import { NodeKind, parse, type Block, type Document, type ValueNode } from "../../src/syntax/index.js";
+import type { DefinitionType, EntryRule, SchemaModel } from "../../src/schema/ir.js";
 
 /**
  * Checks the schema against the installed game rather than against cwt.
  *
- * cwtools-stellaris-config is a porting source, not an oracle. Vanilla is:
- * 2,214 files that the game actually loads. This reports both
- * directions of disagreement —
+ * cwtools-stellaris-config is a porting source, not an oracle. Vanilla is the
+ * files the game actually loads. This reports both directions of disagreement —
  *
- *   A. the schema rejects a field vanilla really uses  → a hole in the schema
+ *   A. the schema rejects a key vanilla really writes  → a hole in the schema
  *   B. the schema requires a field vanilla never uses  → a phantom rule
  *
- * A type whose rules accept arbitrary keys cannot produce direction A at all,
- * so its verdict is reported as `permissive` rather than silently passing.
+ * Direction A is checked **at every depth**. Checking only the top level of a
+ * definition asks almost nothing: a body is a handful of keys and the script
+ * inside it is thousands, and a mistake inside `allow = { ... }` is the mistake
+ * a mod author actually makes. Direction B stays at the top level, where "the
+ * schema declares a field" has a clear meaning.
+ *
+ * A type whose top-level rules accept arbitrary keys cannot produce direction A
+ * there, so its verdict is reported as `permissive` rather than silently passing.
  */
 
 /**
@@ -37,7 +47,7 @@ import type { DefinitionType, EntryRule, EnumDefinition, KeyRule, SchemaModel } 
  */
 const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(["", ".txt", ".gui", ".gfx", ".asset", ".sound"]);
 
-/** Vanilla has ~2,200 script files; opening them all at once exhausts the fd table. */
+/** Vanilla has thousands of script files; opening them all at once exhausts the fd table. */
 const READ_CONCURRENCY = 32;
 
 async function mapWithLimit<Item, Result>(
@@ -70,10 +80,87 @@ async function mapWithLimit<Item, Result>(
   return results;
 }
 
+/**
+ * The kind of block a key was found in.
+ *
+ * A key in a trigger block that no rule knows is an engine trigger the corpus
+ * never declared; a key in an ordinary block is a missing field. They are closed
+ * by different means, so the walk records which it was rather than leaving the
+ * proposer to guess from the name.
+ */
+export type FindingContext = "block" | "effect" | "modifier" | "modifier-rule" | "trigger";
+
+/** The narrowest shape covering every value seen under a key. */
+export type ValueShape = "block" | "boolean" | "integer" | "list" | "number" | "scalar";
+
 export interface FieldFinding {
   readonly type: string;
+  /** Where inside the definition, dotted. Empty at the top level. */
+  readonly path: string;
   readonly field: string;
+  readonly context: FindingContext;
+  readonly shape: ValueShape;
   readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
+function shapeOf(value: ValueNode): ValueShape {
+  if (value.kind === NodeKind.Block) {
+    return value.entries.every((entry) => entry.kind === NodeKind.Scalar) && value.entries.length > 0
+      ? "list"
+      : "block";
+  }
+
+  // Inline maths, a prefixed block, an optional block: all shapes a narrower
+  // rule would reject, so they widen to whatever holds text.
+  if (value.kind !== NodeKind.Scalar) {
+    return "scalar";
+  }
+
+  const text: string = String(value.value);
+
+  if (text === "yes" || text === "no") {
+    return "boolean";
+  }
+  if (/^-?\d+$/u.test(text)) {
+    return "integer";
+  }
+  if (/^-?\d*\.\d+$/u.test(text)) {
+    return "number";
+  }
+  return "scalar";
+}
+
+/** The one shape that covers both, widening only as far as it has to. */
+export function widenShape(left: ValueShape, right: ValueShape): ValueShape {
+  if (left === right) {
+    return left;
+  }
+  if ((left === "integer" && right === "number") || (left === "number" && right === "integer")) {
+    return "number";
+  }
+  if (left === "block" || right === "block" || left === "list" || right === "list") {
+    return "block";
+  }
+  return "scalar";
+}
+
+/** Which family a block belongs to, when it belongs to one. */
+const CONTEXT_PRIORITY: readonly ScriptFamily[] = ["trigger", "effect", "modifier", "modifier-rule"];
+
+function contextOf(rules: BlockRules): FindingContext {
+  for (const family of CONTEXT_PRIORITY) {
+    if (rules.families.has(family)) {
+      return family;
+    }
+  }
+  return "block";
+}
+
+export interface RequiredFinding {
+  readonly field: string;
+  /** How many of this type's definitions leave it out. */
+  readonly missingFrom: number;
   readonly examples: readonly string[];
 }
 
@@ -84,16 +171,21 @@ export interface TypeReport {
   readonly strictness: "permissive" | "strict";
   readonly definitionsSeen: number;
   readonly filesSeen: number;
+  readonly keysChecked: number;
   readonly unknownFields: readonly FieldFinding[];
   readonly unusedRules: readonly string[];
+  readonly missingRequired: readonly RequiredFinding[];
 }
 
 export interface ConformanceReport {
   readonly types: readonly TypeReport[];
   readonly missingDirectories: readonly string[];
   readonly unknownFieldTotal: number;
+  readonly topLevelUnknownTotal: number;
+  readonly keysChecked: number;
   readonly unusedRuleTotal: number;
   readonly strictTypeCount: number;
+  readonly missingRequiredTotal: number;
 }
 
 function compareOrdinal(left: string, right: string): number {
@@ -124,189 +216,6 @@ async function collectFiles(directory: string, recurse: boolean): Promise<string
   );
 
   return groups.flat();
-}
-
-interface KeyAcceptor {
-  readonly wildcard: boolean;
-  readonly literals: ReadonlySet<string>;
-  /** Names matched without regard to case; held lowercased. */
-  readonly insensitive: ReadonlySet<string>;
-  /** Whether a chained or run-time scope — `root.owner`, `event_target:x` — is a key here. */
-  readonly scopeKeys: boolean;
-  readonly prefixes: readonly { readonly prefix: string; readonly suffix: string }[];
-}
-
-interface AcceptorDraft {
-  wildcard: boolean;
-  scopeKeys: boolean;
-  readonly literals: Set<string>;
-  readonly insensitive: Set<string>;
-  readonly prefixes: { prefix: string; suffix: string }[];
-}
-
-/**
- * An extracted enum's members live in the game's own script, so they are only
- * knowable after `npm run index:game`. Without them every key drawn from one
- * has to be treated as accepting anything.
- */
-function enumValues(model: SchemaModel, id: string): readonly string[] {
-  const definition: EnumDefinition | undefined = model.enums.find((candidate) => candidate.id === id);
-
-  if (definition === undefined) {
-    return [];
-  }
-
-  return definition.kind === "static-enum" ? definition.values : (extractedEnumMembers[id] ?? []);
-}
-
-function collectKey(model: SchemaModel, key: KeyRule, into: AcceptorDraft): void {
-  if (typeof key === "string") {
-    into.literals.add(key);
-    return;
-  }
-
-  switch (key.kind) {
-    case "enum-key": {
-      const values: readonly string[] = enumValues(model, key.enum);
-      if (values.length === 0) {
-        into.wildcard = true;
-        return;
-      }
-      for (const value of values) {
-        into.literals.add(value);
-      }
-      return;
-    }
-    case "pattern-key":
-      into.prefixes.push({ prefix: key.prefix, suffix: key.suffix });
-      return;
-    default:
-      // any-key, type-key, value-set-key, named-value-key, scope-key,
-      // scope-group-key, rule-set-key, parameter-key: all accept open sets.
-      into.wildcard = true;
-  }
-}
-
-function collectEntry(model: SchemaModel, entry: EntryRule, into: AcceptorDraft): void {
-  switch (entry.kind) {
-    case "field":
-      collectKey(model, entry.key, into);
-      return;
-    case "variant-rules":
-      for (const child of entry.entries) {
-        collectEntry(model, child, into);
-      }
-      return;
-    case "script-entries": {
-      // A modifier block is keyed by modifier name. Those are a namespace of
-      // their own — mostly generated from definitions, matched without regard to
-      // case — so they are resolved rather than looked up among the commands.
-      if (entry.family === "modifier") {
-        for (const name of modifierNames(model)) {
-          into.insensitive.add(name);
-        }
-        return;
-      }
-
-      // A trigger or effect block accepts every command declared in that
-      // family, every scripted trigger or effect by name, and a scope to enter.
-      // The set is known, so enumerate it rather than giving up: a wildcard here
-      // is what stopped most types reporting an unknown field.
-      const names: ReadonlySet<string> = scriptBlockNames(model, entry.family, vanillaIdsByType);
-
-      if (names.size === 0) {
-        into.wildcard = true;
-        return;
-      }
-
-      for (const name of names) {
-        into.insensitive.add(name);
-      }
-      into.scopeKeys = true;
-      return;
-    }
-    case "rule-set-entries": {
-      const names: readonly string[] = model.ruleSets
-        .filter((ruleSet) => ruleSet.family === entry.family)
-        .map((ruleSet) => ruleSet.name)
-        .filter((name): name is string => name !== undefined && name.length > 0);
-
-      if (names.length === 0) {
-        into.wildcard = true;
-        return;
-      }
-
-      for (const name of names) {
-        into.literals.add(name);
-      }
-      return;
-    }
-    default:
-      return;
-  }
-}
-
-/** The modifier namespace, expanded once against what vanilla declares. */
-let resolvedModifiers: ReadonlySet<string> | undefined;
-
-function modifierNames(model: SchemaModel): ReadonlySet<string> {
-  resolvedModifiers ??= expandModifierNames(model.modifiers, vanillaIdsByType, vanillaModifierNames);
-  return resolvedModifiers;
-}
-
-function acceptorFor(model: SchemaModel, type: DefinitionType): KeyAcceptor {
-  const into: AcceptorDraft = {
-    wildcard: false,
-    scopeKeys: false,
-    literals: new Set<string>(),
-    insensitive: new Set<string>(),
-    prefixes: [],
-  };
-
-  for (const entry of type.entries) {
-    collectEntry(model, entry, into);
-  }
-
-  // The global inline_script macro is legal in every block.
-  for (const macro of model.policy.macros) {
-    into.literals.add(macro.key);
-  }
-
-  if (usesInterfaceFormat(type)) {
-    for (const name of into.literals) {
-      into.insensitive.add(name.toLowerCase());
-    }
-  }
-
-  return {
-    wildcard: into.wildcard,
-    scopeKeys: into.scopeKeys,
-    literals: into.literals,
-    insensitive: into.insensitive,
-    prefixes: into.prefixes,
-  };
-}
-
-function accepts(model: SchemaModel, acceptor: KeyAcceptor, key: string): boolean {
-  if (
-    acceptor.wildcard ||
-    isSyntacticKey(key) ||
-    acceptor.literals.has(key) ||
-    acceptor.insensitive.has(key.toLowerCase())
-  ) {
-    return true;
-  }
-
-  if (acceptor.scopeKeys && isScopeKey(model, key, scopeEntryNames(model))) {
-    return true;
-  }
-
-  return acceptor.prefixes.some(
-    (pattern) =>
-      key.length >= pattern.prefix.length + pattern.suffix.length &&
-      key.startsWith(pattern.prefix) &&
-      key.endsWith(pattern.suffix),
-  );
 }
 
 /** The blocks a definition type claims from one parsed file. */
@@ -366,41 +275,41 @@ function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Do
   return blocks;
 }
 
-function topLevelKeys(block: Block): string[] {
-  const keys: string[] = [];
+function literalRuleKeys(type: DefinitionType): readonly string[] {
+  const keys = new Set<string>();
 
-  for (const entry of block.entries) {
-    if (entry.kind === NodeKind.Assignment) {
-      keys.push(String(entry.key.value));
+  const visit = (entries: readonly EntryRule[]): void => {
+    for (const entry of entries) {
+      if (entry.kind === "field" && typeof entry.key === "string") {
+        keys.add(entry.key);
+      } else if (entry.kind === "variant-rules") {
+        visit(entry.entries);
+      }
     }
-  }
-
-  return keys;
-}
-
-function literalRuleKeys(model: SchemaModel, type: DefinitionType): readonly string[] {
-  const into: AcceptorDraft = {
-    wildcard: false,
-    scopeKeys: false,
-    literals: new Set<string>(),
-    insensitive: new Set<string>(),
-    prefixes: [],
   };
 
-  for (const entry of type.entries) {
-    if (entry.kind === "field" && typeof entry.key === "string") {
-      into.literals.add(entry.key);
-    } else if (entry.kind === "variant-rules") {
-      collectEntry(model, entry, into);
-    }
-  }
+  visit(type.entries);
+  return [...keys].sort(compareOrdinal);
+}
 
-  return [...into.literals].sort(compareOrdinal);
+/** The modifier namespace, expanded once against what vanilla declares. */
+let resolvedModifiers: ReadonlySet<string> | undefined;
+
+function modifierNames(model: SchemaModel): ReadonlySet<string> {
+  resolvedModifiers ??= expandModifierNames(model.modifiers, vanillaIdsByType, vanillaModifierNames);
+  return resolvedModifiers;
 }
 
 export async function checkConformance(model: SchemaModel, gamePath: string): Promise<ConformanceReport> {
   const reports: TypeReport[] = [];
   const missingDirectories: string[] = [];
+
+  const resolver = new SchemaResolver(model, {
+    idsByType: vanillaIdsByType,
+    modifierNames: modifierNames(model),
+    enumMembers: extractedEnumMembers,
+    scriptedParameters: vanillaScriptedParameters,
+  });
 
   await mapWithLimit(model.definitionTypes, 8, async (type): Promise<void> => {
     const directory: string = join(gamePath, ...type.source.directory.split("/"));
@@ -417,11 +326,71 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
       return;
     }
 
-    const acceptor: KeyAcceptor = acceptorFor(model, type);
-    const ruleKeys: readonly string[] = literalRuleKeys(model, type);
-    const unknown = new Map<string, { count: number; examples: string[] }>();
+    const root: BlockRules = resolver.rulesForType(type);
+    const ruleKeys: readonly string[] = literalRuleKeys(type);
+    const required: readonly string[] = requiredKeys(type);
+    const missingRequired = new Map<string, { count: number; examples: string[] }>();
+    const unknown = new Map<
+      string,
+      { path: string; field: string; context: FindingContext; shape: ValueShape; count: number; examples: string[] }
+    >();
     const seen = new Set<string>();
     let definitionsSeen = 0;
+    let keysChecked = 0;
+
+    const record = (path: string, field: string, file: string, context: FindingContext, shape: ValueShape): void => {
+      const identity: string = `${path} ${field}`;
+      const entry = unknown.get(identity) ?? { path, field, context, shape, count: 0, examples: [] };
+      entry.count += 1;
+      entry.shape = widenShape(entry.shape, shape);
+      if (entry.examples.length < 3 && !entry.examples.includes(file)) {
+        entry.examples.push(file);
+      }
+      unknown.set(identity, entry);
+    };
+
+    const walk = (block: Block, rules: BlockRules, trail: string, file: string): void => {
+      for (const entry of block.entries) {
+        if (entry.kind !== NodeKind.Assignment) {
+          continue;
+        }
+
+        const key: string = String(entry.key.value);
+        keysChecked += 1;
+
+        if (trail.length === 0) {
+          seen.add(key);
+        }
+
+        const resolution = resolver.resolve(rules, key);
+
+        if (!resolution.accepted) {
+          record(trail, key, file, contextOf(rules), shapeOf(entry.value));
+          continue;
+        }
+
+        if (entry.value.kind !== NodeKind.Block) {
+          continue;
+        }
+
+        const values: readonly ResolvedValue[] = resolution.values;
+
+        if (values.length === 0) {
+          continue;
+        }
+
+        const child: BlockRules = resolver.rulesForValues(values);
+
+        // A rule that describes a scalar says nothing about the keys inside a
+        // block written there. That is a shape disagreement, not an unknown key,
+        // and reporting it here would drown the keys that are.
+        if (child.scalarOnly) {
+          continue;
+        }
+
+        walk(entry.value, child, trail.length === 0 ? key : `${trail}.${key}`, file);
+      }
+    };
 
     await mapWithLimit(files, READ_CONCURRENCY, async (file): Promise<void> => {
       const source: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file));
@@ -431,25 +400,33 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
         return;
       }
 
+      const display: string = relative(gamePath, file).replaceAll("\\", "/");
+
       for (const block of definitionBlocks(model, type, result.document)) {
         definitionsSeen += 1;
+        walk(block, root, "", display);
 
-        for (const key of topLevelKeys(block)) {
-          seen.add(key);
+        if (required.length === 0) {
+          continue;
+        }
 
-          if (accepts(model, acceptor, key)) {
+        const present = new Set<string>();
+        for (const entry of block.entries) {
+          if (entry.kind === NodeKind.Assignment) {
+            present.add(String(entry.key.value).toLowerCase());
+          }
+        }
+
+        for (const key of required) {
+          if (present.has(key.toLowerCase())) {
             continue;
           }
-
-          const record = unknown.get(key) ?? { count: 0, examples: [] };
-          record.count += 1;
-          if (record.examples.length < 3) {
-            const display: string = relative(gamePath, file).replaceAll("\\", "/");
-            if (!record.examples.includes(display)) {
-              record.examples.push(display);
-            }
+          const absence = missingRequired.get(key) ?? { count: 0, examples: [] };
+          absence.count += 1;
+          if (absence.examples.length < 3 && !absence.examples.includes(display)) {
+            absence.examples.push(display);
           }
-          unknown.set(key, record);
+          missingRequired.set(key, absence);
         }
       }
     });
@@ -458,13 +435,30 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
       type: type.id,
       directory: type.source.directory,
       sourceKind: type.source.kind,
-      strictness: acceptor.wildcard ? "permissive" : "strict",
+      strictness: root.wildcard ? "permissive" : "strict",
       definitionsSeen,
       filesSeen: files.length,
-      unknownFields: [...unknown.entries()]
-        .map(([field, record]) => ({ type: type.id, field, occurrences: record.count, examples: record.examples }))
-        .sort((left, right) => right.occurrences - left.occurrences || compareOrdinal(left.field, right.field)),
+      keysChecked,
+      unknownFields: [...unknown.values()]
+        .map((entry) => ({
+          type: type.id,
+          path: entry.path,
+          field: entry.field,
+          context: entry.context,
+          shape: entry.shape,
+          occurrences: entry.count,
+          examples: entry.examples,
+        }))
+        .sort(
+          (left, right) =>
+            right.occurrences - left.occurrences ||
+            compareOrdinal(left.path, right.path) ||
+            compareOrdinal(left.field, right.field),
+        ),
       unusedRules: ruleKeys.filter((key) => !seen.has(key)),
+      missingRequired: [...missingRequired]
+        .map(([field, absence]) => ({ field, missingFrom: absence.count, examples: absence.examples }))
+        .sort((left, right) => right.missingFrom - left.missingFrom || compareOrdinal(left.field, right.field)),
     });
   });
 
@@ -474,95 +468,13 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
     types: reports,
     missingDirectories: [...missingDirectories].sort(compareOrdinal),
     unknownFieldTotal: reports.reduce((total, report) => total + report.unknownFields.length, 0),
+    topLevelUnknownTotal: reports.reduce(
+      (total, report) => total + report.unknownFields.filter((finding) => finding.path.length === 0).length,
+      0,
+    ),
+    keysChecked: reports.reduce((total, report) => total + report.keysChecked, 0),
     unusedRuleTotal: reports.reduce((total, report) => total + report.unusedRules.length, 0),
     strictTypeCount: reports.filter((report) => report.strictness === "strict").length,
+    missingRequiredTotal: reports.reduce((total, report) => total + report.missingRequired.length, 0),
   };
-}
-
-/** Unused values are the schema's own claims; a wildcard type cannot report direction A. */
-export function renderConformanceReport(report: ConformanceReport, gameVersion: string): string {
-  const withUnknown: readonly TypeReport[] = report.types
-    .filter((entry) => entry.unknownFields.length > 0)
-    .sort((left, right) => right.unknownFields.length - left.unknownFields.length);
-  const withUnused: readonly TypeReport[] = report.types
-    .filter((entry) => entry.unusedRules.length > 0)
-    .sort((left, right) => right.unusedRules.length - left.unusedRules.length);
-
-  const lines: string[] = [
-    "# Schema conformance against vanilla",
-    "",
-    "Generated by `npm run verify:conformance`. Do not edit by hand.",
-    "",
-    `Game version: ${gameVersion}`,
-    "",
-    "The schema was ported from cwtools-stellaris-config, which is a porting source rather than an oracle.",
-    "This report checks it against what the game actually ships.",
-    "",
-    "- **Direction A — unknown fields**: vanilla uses a top-level field the schema rejects. Each one is a hole in the schema.",
-    "- **Direction B — unused rules**: the schema declares a field vanilla never uses. Each one is a possible phantom rule.",
-    "",
-    "A type whose rules accept arbitrary keys (a trigger block, a pattern key, an open enum) cannot produce direction A,",
-    "so it is listed as `permissive` rather than counted as clean.",
-    "",
-    "## Summary",
-    "",
-    `| | |`,
-    `| --- | --- |`,
-    `| definition types checked | ${String(report.types.length)} |`,
-    `| strict enough to detect unknown fields | ${String(report.strictTypeCount)} |`,
-    `| types with unknown fields | ${String(withUnknown.length)} |`,
-    `| distinct unknown fields | ${String(report.unknownFieldTotal)} |`,
-    `| types with unused rules | ${String(withUnused.length)} |`,
-    `| distinct unused rules | ${String(report.unusedRuleTotal)} |`,
-    `| directories absent from this install | ${String(report.missingDirectories.length)} |`,
-    "",
-    "### Permissive types",
-    "",
-    "These accept arbitrary top-level keys, so direction A cannot report anything for them. Most are waiting on the",
-    "game-data indexer: a key drawn from an extracted enum only becomes checkable once that enum's members are known.",
-    "",
-    ...report.types.filter((entry) => entry.strictness === "permissive").map((entry) => `- \`${entry.type}\``),
-    "",
-    "## Direction A — fields vanilla uses that the schema rejects",
-    "",
-  ];
-
-  if (withUnknown.length === 0) {
-    lines.push("None.", "");
-  } else {
-    lines.push("| type | field | uses | example |", "| --- | --- | --- | --- |");
-    for (const entry of withUnknown) {
-      for (const finding of entry.unknownFields) {
-        lines.push(
-          `| \`${entry.type}\` | \`${finding.field}\` | ${String(finding.occurrences)} | ${finding.examples[0] ?? ""} |`,
-        );
-      }
-    }
-    lines.push("");
-  }
-
-  lines.push("## Direction B — rules vanilla never exercises", "");
-
-  if (withUnused.length === 0) {
-    lines.push("None.", "");
-  } else {
-    lines.push("| type | unused rules |", "| --- | --- |");
-    for (const entry of withUnused) {
-      lines.push(`| \`${entry.type}\` | ${entry.unusedRules.map((rule) => `\`${rule}\``).join(", ")} |`);
-    }
-    lines.push("");
-  }
-
-  if (report.missingDirectories.length > 0) {
-    lines.push(
-      "## Directories absent from this install",
-      "",
-      "A type whose directory does not exist here cannot be checked. Usually DLC-only content.",
-      "",
-      ...report.missingDirectories.map((directory) => `- \`${directory}\``),
-      "",
-    );
-  }
-
-  return lines.join("\n");
 }

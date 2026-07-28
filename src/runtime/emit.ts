@@ -1,6 +1,13 @@
 import { vanillaFiles as indexedVanillaFiles } from "../generated/vanilla/files.js";
+import { vanillaModsCompatibilityVersion } from "../generated/vanilla/game-version.js";
 import { renderDefinitions } from "./build.js";
-import { localisationFileName, renderLocalisation, LOCALISATION_LANGUAGES } from "./localisation.js";
+import { entries as orderedEntries, isBare, isEntries, type Entry } from "./values.js";
+import {
+  localisationFileName,
+  renderLocalisation,
+  LOCALISATION_LANGUAGES,
+  type LocalisationEntry,
+} from "./localisation.js";
 import type { DefinitionRecord, Mod, ModOptions } from "./mod.js";
 
 /**
@@ -82,7 +89,16 @@ function renderDescriptor(options: ModOptions, includePath: string | undefined):
     lines.push("tags={", ...options.tags.map((tag) => `\t"${tag}"`), "}");
   }
 
+  if (options.dependencies !== undefined && options.dependencies.length > 0) {
+    lines.push("dependencies={", ...options.dependencies.map((name) => `\t"${name}"`), "}");
+  }
+
   lines.push(`name="${options.name}"`, `supported_version="${options.supportedVersion}"`);
+
+  // One line per path, which is how the launcher reads them.
+  for (const path of options.replacePaths ?? []) {
+    lines.push(`replace_path="${path.replaceAll("\\", "/")}"`);
+  }
 
   if (options.picture !== undefined) {
     lines.push(`picture="${options.picture}"`);
@@ -99,15 +115,89 @@ function renderDescriptor(options: ModOptions, includePath: string | undefined):
   return `${lines.join("\n")}\n`;
 }
 
+/**
+ * Whether a `supported_version` covers the version the launcher asks about.
+ *
+ * `v4.4.*` covers 4.4; `v4.3.*` does not, and the launcher marks the mod out of
+ * date. A `*` matches whatever stands in its place.
+ */
+function coversVersion(supported: string, compatibility: string): boolean {
+  if (compatibility.length === 0) {
+    return true;
+  }
+
+  const declared: readonly string[] = supported.replace(/^v/u, "").split(".");
+  const wanted: readonly string[] = compatibility.replace(/^v/u, "").split(".");
+
+  return wanted.every((part, index) => {
+    const own: string | undefined = declared[index];
+    return own === undefined || own === "*" || own === part;
+  });
+}
+
+/**
+ * The body a tagged type is written with.
+ *
+ * The identity moves inside the block, under the field the type names, and goes
+ * first because that is where every vanilla definition puts it.
+ */
+function withNameField(nameField: string, id: string, body: object): object {
+  const existing: readonly Entry[] = isEntries(body)
+    ? body.entries
+    : Object.entries(body).map(([key, value]): Entry => [key, value]);
+
+  const named: boolean = existing.some((entry) => !isBare(entry) && entry[0] === nameField);
+
+  return named ? orderedEntries(existing) : orderedEntries([[nameField, id], ...existing]);
+}
+
 export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   const diagnostics: EmitDiagnostic[] = [];
-  const grouped = new Map<string, [string, object][]>();
+  const grouped = new Map<string, { id: string; key: string; body: object }[]>();
+  const headers = new Map<string, Set<string>>();
+
+  if (!/^v?\d+(?:\.(?:\d+|\*)){0,2}$/u.test(mod.options.supportedVersion)) {
+    diagnostics.push({
+      severity: "error",
+      code: "malformed-supported-version",
+      message: `supported_version must look like v4.4.* or 4.4.6, not ${mod.options.supportedVersion}. The launcher cannot read this one and will treat the mod as unsupported.`,
+      path: "descriptor.mod",
+    });
+  } else if (!coversVersion(mod.options.supportedVersion, vanillaModsCompatibilityVersion)) {
+    diagnostics.push({
+      severity: "warning",
+      code: "unsupported-game-version",
+      message: `supported_version ${mod.options.supportedVersion} does not cover ${vanillaModsCompatibilityVersion}, which this build of the game asks for; the launcher will show the mod as out of date.`,
+      path: "descriptor.mod",
+    });
+  }
+
+  if (mod.options.name.length === 0) {
+    diagnostics.push({
+      severity: "error",
+      code: "missing-mod-name",
+      message: "A mod needs a name; the launcher lists it by that and dependencies name it by that.",
+      path: "descriptor.mod",
+    });
+  }
 
   for (const definition of mod.definitions) {
     const path: string = targetFile(mod.options, definition);
-    const bucket: [string, object][] = grouped.get(path) ?? [];
-    bucket.push([definition.id, definition.body]);
+    const bucket: { id: string; key: string; body: object }[] = grouped.get(path) ?? [];
+    const body: object =
+      definition.nameField === undefined
+        ? definition.body
+        : withNameField(definition.nameField, definition.id, definition.body);
+    bucket.push({ id: definition.id, key: definition.blockKey ?? definition.id, body });
     grouped.set(path, bucket);
+
+    if (definition.headers !== undefined && definition.headers.length > 0) {
+      const lines: Set<string> = headers.get(path) ?? new Set<string>();
+      for (const line of definition.headers) {
+        lines.add(line);
+      }
+      headers.set(path, lines);
+    }
 
     if (definition.overrides !== undefined) {
       diagnostics.push({
@@ -122,29 +212,44 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   const files: EmittedFile[] = [];
 
   for (const [path, definitions] of [...grouped].sort((left, right) => compareOrdinal(left[0], right[0]))) {
-    // Sorted by id so the same mod always emits the same bytes.
-    const sorted: readonly [string, object][] = [...definitions].sort((left, right) =>
-      compareOrdinal(left[0], right[0]),
-    );
-    files.push({ path, contents: renderDefinitions(sorted), byteOrderMark: false });
+    // Sorted by id so the same mod always emits the same bytes. Not by block
+    // key: a tagged type writes many definitions under the same one.
+    const sorted: readonly (readonly [string, object])[] = [...definitions]
+      .sort((left, right) => compareOrdinal(left.id, right.id))
+      .map((entry) => [entry.key, entry.body] as const);
+    const preamble: readonly string[] = [...(headers.get(path) ?? [])].sort(compareOrdinal);
+    const body: string = renderDefinitions(sorted);
+    files.push({
+      path,
+      contents: preamble.length === 0 ? body : `${preamble.join("\n")}\n\n${body}`,
+      byteOrderMark: false,
+    });
   }
 
-  for (const [language, entries] of mod.localisation) {
-    if (!LOCALISATION_LANGUAGES.includes(language)) {
-      diagnostics.push({
-        severity: "error",
-        code: "unknown-language",
-        message: `${language} is not a language the game ships; the file will not be read.`,
-        path: `localisation/${language}`,
-      });
-      continue;
-    }
+  const localisationSets: readonly (readonly [ReadonlyMap<string, readonly LocalisationEntry[]>, string])[] = [
+    [mod.localisation, ""],
+    // Read after every other localisation file, whatever else is installed.
+    [mod.localisationReplacements, "replace/"],
+  ];
 
-    files.push({
-      path: `localisation/${language.replace(/^l_/u, "")}/${localisationFileName(mod.options.name, language)}`,
-      contents: renderLocalisation(language, entries),
-      byteOrderMark: true,
-    });
+  for (const [set, folder] of localisationSets) {
+    for (const [language, entries] of set) {
+      if (!LOCALISATION_LANGUAGES.includes(language)) {
+        diagnostics.push({
+          severity: "error",
+          code: "unknown-language",
+          message: `${language} is not a language the game ships; the file will not be read.`,
+          path: `localisation/${language}`,
+        });
+        continue;
+      }
+
+      files.push({
+        path: `localisation/${language.replace(/^l_/u, "")}/${folder}${localisationFileName(mod.options.name, language)}`,
+        contents: renderLocalisation(language, entries),
+        byteOrderMark: true,
+      });
+    }
   }
 
   for (const record of mod.files) {
@@ -179,6 +284,29 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
         });
       }
     }
+  }
+
+  // A `replace_path` naming a directory the game does not have hides nothing,
+  // and reads as a working override until someone checks.
+  for (const path of mod.options.replacePaths ?? []) {
+    const normalised: string = path.replaceAll("\\", "/").replace(/\/+$/u, "");
+
+    if (Object.keys(listing).length > 0 && listing[normalised] === undefined) {
+      diagnostics.push({
+        severity: "error",
+        code: "unknown-replace-path",
+        message: `replace_path names ${normalised}, which the base game does not load from. Nothing would be replaced.`,
+        path: "descriptor.mod",
+      });
+      continue;
+    }
+
+    diagnostics.push({
+      severity: "warning",
+      code: "replaces-vanilla-directory",
+      message: `${normalised} is hidden from the base game entirely. Every definition vanilla kept there stops loading unless this mod supplies it.`,
+      path: "descriptor.mod",
+    });
   }
 
   files.push({

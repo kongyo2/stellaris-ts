@@ -41,11 +41,17 @@ describe("schema IR", () => {
   });
 
   it("assembles one schema model from the imported sources", () => {
-    // The model applies hand corrections on top of the imported types, so it is
-    // the same set, not the same array.
-    expect(schema.definitionTypes.map((definition) => definition.id)).toEqual(
-      definitionTypes.map((definition) => definition.id),
-    );
+    // The model applies hand corrections on top of the imported types, and adds
+    // the ones the game has that the corpus never named, so it is a superset.
+    const assembled = new Set(schema.definitionTypes.map((definition) => definition.id));
+
+    for (const definition of definitionTypes) {
+      expect(assembled.has(definition.id)).toBe(true);
+    }
+
+    // `common/missions/mission_categories` is a directory the corpus read as
+    // missions; it holds a different kind of definition and now has its own type.
+    expect(assembled.has("mission_category")).toBe(true);
     expect(schema.enums.length).toBeGreaterThanOrEqual(206);
     expect(schema.scopes.length).toBeGreaterThanOrEqual(41);
     expect(schema.links.length).toBeGreaterThanOrEqual(85);

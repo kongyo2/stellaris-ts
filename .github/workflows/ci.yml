@@ -24,8 +24,8 @@ jobs:
 
       # Everything that does not need the game installed. The gates that read
       # vanilla — conformance, reproduce, round-trip over the real corpus — are
-      # run locally by whoever has it, and their results are committed to
-      # `docs/`. Skipping them here silently would be worse than saying so.
+      # run locally by whoever has it, and print their findings there. Skipping
+      # them here silently would be worse than saying so.
       - run: npm run format:check
       - run: npm run lint:strict
       - run: npm run lint:types

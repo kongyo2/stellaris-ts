@@ -11,6 +11,7 @@ const steps: readonly VerifyStep[] = [
   { script: "typecheck:ci" },
   { script: "typecheck:tools:ci" },
   { script: "typecheck:test:ci" },
+  { script: "typecheck:examples" },
   { script: "test" },
   { script: "verify:schema" },
   { script: "verify:norefs" },

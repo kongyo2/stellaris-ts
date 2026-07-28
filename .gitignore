@@ -7,3 +7,7 @@ node_modules/
 dist/
 *.tsbuildinfo
 .refs-parked-by-verify/
+
+# Generated reports are not written to disk: a gap list reads as a spec, and
+# these are defects. `verify:conformance` and `verify:reproduce` print instead.
+/docs/

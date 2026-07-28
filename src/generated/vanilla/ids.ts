@@ -11674,29 +11674,7 @@ export type VanillaCosmicStormMissionId =
   | "contract_suntrip_passenger_2"
   | "contract_suntrip_passenger_3"
   | "contract_suntrip_passenger_4"
-  | "contract_suntrip_passenger_5"
-  | "crew_diplomacy_contract_special"
-  | "crew_military_contract_special"
-  | "crew_resource_contract_special"
-  | "crew_science_contract_special"
-  | "diplomacy_contract"
-  | "diplomacy_contract_internal"
-  | "diplomacy_contract_special"
-  | "heirs_military_contract_special"
-  | "military_contract"
-  | "military_contract_internal"
-  | "military_contract_special"
-  | "mission"
-  | "passenger_diplomacy_contract_special"
-  | "passenger_military_contract_special"
-  | "passenger_resource_contract_special"
-  | "passenger_science_contract_special"
-  | "resource_contract"
-  | "resource_contract_internal"
-  | "resource_contract_special"
-  | "science_contract"
-  | "science_contract_internal"
-  | "science_contract_special";
+  | "contract_suntrip_passenger_5";
 
 export const vanillaCosmicStormMissionIds: readonly string[] = [
   "MISSION_BE_CUSTODIAN",
@@ -11801,28 +11779,6 @@ export const vanillaCosmicStormMissionIds: readonly string[] = [
   "contract_suntrip_passenger_3",
   "contract_suntrip_passenger_4",
   "contract_suntrip_passenger_5",
-  "crew_diplomacy_contract_special",
-  "crew_military_contract_special",
-  "crew_resource_contract_special",
-  "crew_science_contract_special",
-  "diplomacy_contract",
-  "diplomacy_contract_internal",
-  "diplomacy_contract_special",
-  "heirs_military_contract_special",
-  "military_contract",
-  "military_contract_internal",
-  "military_contract_special",
-  "mission",
-  "passenger_diplomacy_contract_special",
-  "passenger_military_contract_special",
-  "passenger_resource_contract_special",
-  "passenger_science_contract_special",
-  "resource_contract",
-  "resource_contract_internal",
-  "resource_contract_special",
-  "science_contract",
-  "science_contract_internal",
-  "science_contract_special",
 ];
 
 export type VanillaCouncilAgendaId =
@@ -32559,6 +32515,55 @@ export const vanillaMilitaryServiceTypeIds: readonly string[] = [
   "military_service_full",
   "military_service_limited",
   "military_service_none",
+];
+
+export type VanillaMissionCategoryId =
+  | "crew_diplomacy_contract_special"
+  | "crew_military_contract_special"
+  | "crew_resource_contract_special"
+  | "crew_science_contract_special"
+  | "diplomacy_contract"
+  | "diplomacy_contract_internal"
+  | "diplomacy_contract_special"
+  | "heirs_military_contract_special"
+  | "military_contract"
+  | "military_contract_internal"
+  | "military_contract_special"
+  | "mission"
+  | "passenger_diplomacy_contract_special"
+  | "passenger_military_contract_special"
+  | "passenger_resource_contract_special"
+  | "passenger_science_contract_special"
+  | "resource_contract"
+  | "resource_contract_internal"
+  | "resource_contract_special"
+  | "science_contract"
+  | "science_contract_internal"
+  | "science_contract_special";
+
+export const vanillaMissionCategoryIds: readonly string[] = [
+  "crew_diplomacy_contract_special",
+  "crew_military_contract_special",
+  "crew_resource_contract_special",
+  "crew_science_contract_special",
+  "diplomacy_contract",
+  "diplomacy_contract_internal",
+  "diplomacy_contract_special",
+  "heirs_military_contract_special",
+  "military_contract",
+  "military_contract_internal",
+  "military_contract_special",
+  "mission",
+  "passenger_diplomacy_contract_special",
+  "passenger_military_contract_special",
+  "passenger_resource_contract_special",
+  "passenger_science_contract_special",
+  "resource_contract",
+  "resource_contract_internal",
+  "resource_contract_special",
+  "science_contract",
+  "science_contract_internal",
+  "science_contract_special",
 ];
 
 export type VanillaModelAnimationId =
@@ -106883,6 +106888,7 @@ export const vanillaIdsByType: Readonly<Record<string, readonly string[]>> = {
   "message_type": vanillaMessageTypeIds,
   "migration_control": vanillaMigrationControlIds,
   "military_service_type": vanillaMilitaryServiceTypeIds,
+  "mission_category": vanillaMissionCategoryIds,
   "model_animation": vanillaModelAnimationIds,
   "model_entity": vanillaModelEntityIds,
   "model_mesh": vanillaModelMeshIds,

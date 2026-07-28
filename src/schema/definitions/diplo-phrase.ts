@@ -12,6 +12,7 @@ import {
   literal,
   modifierRuleEntries,
   occurs,
+  primitiveKey,
   replaceScope,
   rootKeyIs,
   triggerEntries,
@@ -37,7 +38,7 @@ export const diploPhrase: DefinitionType = defineType({
       "greetings",
       block([
         field(
-          "localisation",
+          primitiveKey("localisation"),
           block([
             field("trigger", block([triggerEntries()]), occurs.one, {
               scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
@@ -56,7 +57,7 @@ export const diploPhrase: DefinitionType = defineType({
           enumKey(EnumId.DiploPhraseTypes),
           block([
             field(
-              "localisation",
+              primitiveKey("localisation"),
               block([
                 field("trigger", block([triggerEntries()]), occurs.one, {
                   scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
@@ -84,7 +85,7 @@ export const diploPhrase: DefinitionType = defineType({
           enumKey(EnumId.DiploPhraseTypes),
           block([
             field(
-              "localisation",
+              primitiveKey("localisation"),
               block([
                 field("trigger", block([triggerEntries()]), occurs.one, {
                   scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
@@ -112,7 +113,7 @@ export const diploPhrase: DefinitionType = defineType({
           enumKey(EnumId.DiploPhraseTypes),
           block([
             field(
-              "localisation",
+              primitiveKey("localisation"),
               block([
                 field("trigger", block([triggerEntries()]), occurs.optional, {
                   scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
@@ -140,7 +141,7 @@ export const diploPhrase: DefinitionType = defineType({
           enumKey(EnumId.DiploPhraseTypes),
           block([
             field(
-              "localisation",
+              primitiveKey("localisation"),
               block([
                 field("trigger", block([triggerEntries()]), occurs.one, {
                   scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
@@ -168,7 +169,7 @@ export const diploPhrase: DefinitionType = defineType({
           enumKey(EnumId.DiploPhraseTypes),
           block([
             field(
-              "localisation",
+              primitiveKey("localisation"),
               block([
                 field("trigger", block([triggerEntries()]), occurs.one, {
                   scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),

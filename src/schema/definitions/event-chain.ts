@@ -11,6 +11,7 @@ import {
   keyedBlocks,
   occurs,
   primitive,
+  primitiveKey,
   replaceScope,
   triggerEntries,
   typeRef,
@@ -29,7 +30,9 @@ export const eventChain: DefinitionType = defineType({
     field("picture", typeRef("sprite"), occurs.optional),
     field(
       "counter",
-      block([field("localisation", block([field("max", primitive("integer"), occurs.optional)]), occurs.any)]),
+      block([
+        field(primitiveKey("localisation"), block([field("max", primitive("integer"), occurs.optional)]), occurs.any),
+      ]),
       occurs.any,
     ),
     field("abort_trigger", block([triggerEntries()]), occurs.optional, {

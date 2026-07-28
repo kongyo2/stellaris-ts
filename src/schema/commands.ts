@@ -3,6 +3,7 @@ import { EnumId, ScopeId } from "./catalog.js";
 import {
   anyKey,
   anyScope,
+  anyValue,
   between,
   block,
   chainedEnum,
@@ -14,11 +15,15 @@ import {
   item,
   literal,
   modifierEntries,
+  modifierKey,
   modifierRef,
   modifierRuleEntries,
   namedValue,
+  numericKey,
   occurs,
+  oneOf,
   opaque,
+  parameterKey,
   primitive,
   replaceScope,
   ruleSet,
@@ -39,6 +44,7 @@ import type { RuleSetDefinition, ScriptCommandDefinition } from "./ir.js";
 export const commands: readonly ScriptCommandDefinition[] = [
   scriptCommand({
     id: "<scripted_effect>",
+    key: typeKey("scripted_effect"),
     family: "effect",
     input: unspecifiedScope(),
     operator: "=",
@@ -46,13 +52,11 @@ export const commands: readonly ScriptCommandDefinition[] = [
   }),
   scriptCommand({
     id: "<scripted_effect>",
+    key: typeKey("scripted_effect"),
     family: "effect",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([
-      field(anyKey(), primitive("scalar"), occurs.oneOrMore),
-      field(anyKey(), literal("scope_field"), occurs.oneOrMore),
-    ]),
+    value: block([field(parameterKey(), oneOf(primitive("scalar"), scopeRef()), occurs.any)]),
     documentation: "The scripted effect will draw the value of the right clause via $left_clause$.",
   }),
   scriptCommand({
@@ -1880,7 +1884,7 @@ export const commands: readonly ScriptCommandDefinition[] = [
           field("add_trait", literal("random_trait"), between(0, 5)),
           field("trait", typeRef("trait", "leader_trait"), between(0, 5)),
           field("trait", literal("random_trait"), between(0, 5)),
-          field("int", typeRef("trait", "leader_trait"), occurs.any),
+          field(numericKey(), typeRef("trait", "leader_trait"), occurs.any),
         ]),
         occurs.optional,
       ),
@@ -2170,6 +2174,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
     value: block([
       field("type", typeRef("ambient_object"), occurs.one),
       field("type", enumRef(EnumId.AmbientObject), occurs.one),
+      // vanilla 4.4.6: events/nomads_arkship_events.txt
+      field("is_wreck", primitive("boolean"), occurs.optional),
       field("location", scopeGroup("celestial_coordinate"), occurs.optional),
       field("scale", primitive("number"), occurs.optional),
       field("appear_state", primitive("scalar"), occurs.optional),
@@ -2338,6 +2344,10 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("name_list", literal("random"), occurs.optional),
       field("name_list", scopeGroup("target_country"), occurs.optional),
       field("ship_prefix", primitive("scalar"), occurs.optional),
+      // vanilla 4.4.6: events/nomads_events_1.txt, events/paragon_events.txt
+      field("remove_invalid_civics", primitive("boolean"), occurs.optional),
+      field("nomadic", primitive("boolean"), occurs.optional),
+      field("default_ships", primitive("boolean"), occurs.optional),
       field("adjective", primitive("localisation"), occurs.optional, {
         documentation:
           'Sets country adjective. Allowed values are <string in localisation>/<string written in quotes e.g. "Korean">',
@@ -2546,9 +2556,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
           field("trait", typeRef("trait", "leader_trait"), occurs.any),
           field("trait", literal("random_common"), occurs.any),
           field("trait", literal("random_negative"), occurs.any),
-          field("int", typeRef("trait", "leader_trait"), occurs.any),
-          field("int", literal("random_common"), occurs.any),
-          field("int", literal("random_negative"), occurs.any),
+          field(numericKey(), typeRef("trait", "leader_trait"), occurs.any),
+          field(numericKey(), literal("random_common"), occurs.any),
+          field(numericKey(), literal("random_negative"), occurs.any),
         ]),
         occurs.optional,
       ),
@@ -2577,6 +2587,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("target", scopeRef(), occurs.optional, { documentation: "Default = this" }),
       field("custom_toast_content_text", primitive("localisation"), occurs.optional),
       field("custom_toast_content_icon", typeRef("sprite"), occurs.optional),
+      // vanilla 4.4.6: events/paragon_events.txt
+      field("custom_message_text", primitive("localisation"), occurs.optional),
+      field("custom_toast_icon", typeRef("sprite"), occurs.optional),
       field(
         "variable",
         block([
@@ -2910,7 +2923,7 @@ export const commands: readonly ScriptCommandDefinition[] = [
           field("add_trait", literal("random_trait"), between(0, 5)),
           field("trait", typeRef("trait", "leader_trait"), between(0, 5)),
           field("trait", literal("random_trait"), between(0, 5)),
-          field("int", typeRef("trait", "leader_trait"), occurs.any),
+          field(numericKey(), typeRef("trait", "leader_trait"), occurs.any),
         ]),
         occurs.optional,
       ),
@@ -2998,6 +3011,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("plural", scopeGroup("target_species"), occurs.optional),
       field("species_bio", primitive("scalar"), occurs.optional),
       field("adjective", primitive("scalar"), occurs.optional),
+      // vanilla 4.4.6: events/unplugged_events.txt
+      field("name_list", typeRef("name_list"), occurs.optional),
       field("class", typeRef("species_class"), occurs.one),
       field("class", literal("random_pre_ftl"), occurs.one),
       field("class", literal("random_non_machine"), occurs.one),
@@ -3572,7 +3587,13 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "effect",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([effectEntries()]),
+    // Vanilla writes `else = { limit = { ... } }` in seven places. The branch is
+    // already decided by the preceding `if`, so the engine ignores it — but it
+    // loads the file, and rejecting a line the game accepts is the worse error.
+    value: block([
+      field("limit", block([triggerEntries()]), occurs.optional, { severity: "warning" }),
+      effectEntries(),
+    ]),
     documentation: "Executes enclosed effects if limit criteria of preceding 'if' or 'else_if' is not met",
   }),
   scriptCommand({
@@ -5137,6 +5158,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
     value: block([
       field("key", typeRef("specimen"), occurs.optional),
       field("origin", primitive("localisation"), occurs.optional),
+      // vanilla 4.4.6: 96 uses, e.g. events/ancient_relics_arcsite_events_1.txt
+      field("targets", anyValue(), occurs.optional),
     ]),
     documentation: "Gives a given specimen to the target country.",
   }),
@@ -5450,7 +5473,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "effect",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([field("int", block([modifierRuleEntries(), effectEntries()]), occurs.oneOrMore)]),
+    // The weight can be fractional: vanilla writes `2.5 = { ... }`.
+    value: block([field(numericKey(false), block([modifierRuleEntries(), effectEntries()]), occurs.oneOrMore)]),
     documentation:
       "Picks one random set of effects from a list, influenced by relative weight once per event scope. Works like a random list, but the tooltip will only show the option that actually happens.",
   }),
@@ -8499,7 +8523,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "effect",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([field("int", block([modifierRuleEntries(), effectEntries()]), occurs.oneOrMore)]),
+    // The weight can be fractional: vanilla writes `2.5 = { ... }`.
+    value: block([field(numericKey(false), block([modifierRuleEntries(), effectEntries()]), occurs.oneOrMore)]),
     documentation: "Picks one random set of effects from a list, influenced by relative weight",
   }),
   scriptCommand({
@@ -13034,6 +13059,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("must_scavenge", primitive("boolean"), occurs.optional),
       field("must_reanimate", primitive("boolean"), occurs.optional),
       field("reset_killed_ship_designs", primitive("boolean"), occurs.optional),
+      // vanilla 4.4.6: events/nomads_events_1.txt
+      field("reset_killed_ship_stockpile", primitive("boolean"), occurs.optional),
       field(
         "should_add_ship_to_debris",
         block([
@@ -13548,6 +13575,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("id", typeRef("event", "system"), occurs.one),
       field("id", typeRef("event", "scopeless"), occurs.one),
       field("days", primitive("integer"), occurs.optional),
+      // vanilla 4.4.6: events/nomads_events_1.txt writes both.
+      field("months", primitive("integer"), occurs.optional),
+      field("years", primitive("integer"), occurs.optional),
       field("random", primitive("integer"), occurs.optional),
       field(
         "scopes",
@@ -13782,6 +13812,7 @@ export const commands: readonly ScriptCommandDefinition[] = [
   }),
   scriptCommand({
     id: "<modifier>",
+    key: modifierKey(),
     family: "modifier",
     input: unspecifiedScope(),
     operator: "=",
@@ -13790,19 +13821,39 @@ export const commands: readonly ScriptCommandDefinition[] = [
   }),
   scriptCommand({
     id: "<scripted_modifier>",
+    key: typeKey("scripted_modifier"),
     family: "modifier",
     input: unspecifiedScope(),
     operator: "=",
     value: primitive("number"),
     documentation: "Applies the value of a scripted modifier from common/scripted_modifiers",
   }),
+  // A static modifier's id merges that modifier's contents in, scaled by the
+  // value. Vanilla writes it 66 times — every galactic-community sanction, the
+  // cosmic storms, the relay network edicts — so it is a construct, not a slip.
   scriptCommand({
     id: "<static_modifier>",
+    key: typeKey("static_modifier"),
     family: "modifier",
     input: unspecifiedScope(),
     operator: "=",
     value: primitive("number"),
     documentation: "Applies the value of the static modifier X right hand side factor",
+  }),
+  // vanilla 4.4.6: a modifier block carries its own presentation keys.
+  scriptCommand({
+    id: "custom_tooltip",
+    family: "modifier",
+    input: unspecifiedScope(),
+    operator: "=",
+    value: primitive("localisation"),
+  }),
+  scriptCommand({
+    id: "show_only_custom_tooltip",
+    family: "modifier",
+    input: unspecifiedScope(),
+    operator: "=",
+    value: primitive("boolean"),
   }),
   scriptCommand({
     id: "not_potential_override_text_key",
@@ -13899,6 +13950,7 @@ export const commands: readonly ScriptCommandDefinition[] = [
   }),
   scriptCommand({
     id: "enum[complex_maths_enum]",
+    key: enumKey(EnumId.ComplexMathsEnum),
     family: "modifier-rule",
     input: unspecifiedScope(),
     operator: "=",
@@ -13906,6 +13958,7 @@ export const commands: readonly ScriptCommandDefinition[] = [
   }),
   scriptCommand({
     id: "enum[simple_maths_enum]",
+    key: enumKey(EnumId.SimpleMathsEnum),
     family: "modifier-rule",
     input: unspecifiedScope(),
     operator: "=",
@@ -13944,6 +13997,7 @@ export const commands: readonly ScriptCommandDefinition[] = [
   }),
   scriptCommand({
     id: "<scripted_trigger>",
+    key: typeKey("scripted_trigger"),
     family: "trigger",
     input: unspecifiedScope(),
     operator: "=",
@@ -13951,13 +14005,11 @@ export const commands: readonly ScriptCommandDefinition[] = [
   }),
   scriptCommand({
     id: "<scripted_trigger>",
+    key: typeKey("scripted_trigger"),
     family: "trigger",
     input: anyScope(),
     operator: "=",
-    value: block([
-      field(anyKey(), primitive("scalar"), occurs.oneOrMore),
-      field(anyKey(), literal("scope_field"), occurs.oneOrMore),
-    ]),
+    value: block([field(parameterKey(), oneOf(primitive("scalar"), scopeRef()), occurs.any)]),
   }),
   scriptCommand({
     id: "AND",
@@ -15060,14 +15112,6 @@ export const commands: readonly ScriptCommandDefinition[] = [
     value: block([field("target", scopeGroup("target_country"), occurs.one)]),
     documentation:
       "Checks if the scoped country can afford the offer given by the target country. Only works in certain parts of the script marked with ai_trade_facility.",
-  }),
-  scriptCommand({
-    id: "can_artifact_analysis_give_$SPECIMEN$",
-    family: "trigger",
-    input: unspecifiedScope(),
-    operator: "=",
-    value: primitive("boolean"),
-    documentation: "Force scripted trigger to work in common and event files",
   }),
   scriptCommand({
     id: "can_be_crisis_terraformed",
@@ -17175,7 +17219,10 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "trigger",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([triggerEntries()]),
+    value: block([
+      field("limit", block([triggerEntries()]), occurs.optional, { severity: "warning" }),
+      triggerEntries(),
+    ]),
     documentation: "Evaluates the triggers if the display_triggers of preceding 'if' or 'else_if' is not met",
   }),
   scriptCommand({
@@ -18960,6 +19007,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
     value: block([
       field("resource", typeRef("resource"), occurs.one),
       field("value", scriptValue("number"), occurs.one),
+      // vanilla 4.4.6: common/scripted_effects/astral_planes_effects.txt
+      field("type", primitive("scalar"), occurs.optional),
     ]),
     documentation: "Checks the country's monthly income of a specific resource",
   }),
@@ -24131,6 +24180,16 @@ export const ruleSets: readonly RuleSetDefinition[] = [
     value: primitive("boolean"),
     documentation: "whether the situation has a valid owner",
   }),
+  // vanilla 4.4.6: 88 uses in common/governments/civics. `government_trigger`
+  // is the restricted set a civic's `possible` and `potential` may use, and
+  // `is_nomadic` joined it in 4.4.
+  ruleSet({
+    family: "government_trigger",
+    name: "is_nomadic",
+    single: false,
+    operator: "=",
+    value: primitive("boolean"),
+  }),
   ruleSet({
     family: "economic_template",
     name: "cost",
@@ -24937,6 +24996,8 @@ export const ruleSets: readonly RuleSetDefinition[] = [
     operator: "=",
     value: block([
       field("name", primitive("scalar"), occurs.one),
+      // vanilla 4.4.6: interface/galaxy_view.gui
+      field("scroll_wheel_factor", primitive("number"), occurs.optional),
       field("upsound", literal("click"), occurs.optional),
       field("smooth_scrolling", primitive("boolean"), occurs.optional),
       field("horizontalScrollbar", primitive("scalar"), occurs.optional),
@@ -25531,6 +25592,8 @@ export const ruleSets: readonly RuleSetDefinition[] = [
     operator: "=",
     value: block([
       field("name", primitive("scalar"), occurs.one),
+      // vanilla 4.4.6: interface/fleet_view.gui
+      field("alpha", primitive("number"), occurs.optional),
       field(
         "text_offset",
         block([field("x", primitive("integer"), occurs.one), field("y", primitive("integer"), occurs.one)]),

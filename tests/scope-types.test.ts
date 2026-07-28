@@ -7,10 +7,15 @@ import type { CountryTriggers, PlanetTriggers } from "../src/generated/types/ind
  * The scope-typed surface, and how much of it is real.
  *
  * A scope-typed API is worth exactly what its source data says. The ported
- * corpus constrains none of the 2,328 scripted commands; the game's own -debug
+ * corpus constrains none of the scripted commands; the game's own -debug
  * documentation constrains most of them, which is why that is imported too.
  * The proportion is asserted rather than assumed, so a regression in the import
  * shows up here instead of quietly making every trigger legal everywhere.
+ *
+ * The counts include what vanilla itself witnesses on top of the corpus: 58
+ * commands the dump predates, and the `colony` and `carrier` scopes 4.4 added.
+ * Those carry no scope constraint, which is why the constrained floor is a
+ * floor and not a proportion.
  */
 describe("scope constraints", () => {
   const scripted = schema.commands.filter((command) => command.family === "trigger" || command.family === "effect");
@@ -19,12 +24,14 @@ describe("scope constraints", () => {
   );
 
   it("covers every scope the game declares", () => {
-    expect(schema.scopes.length).toBe(41);
+    // 41 from the corpus, plus `colony` and `carrier`, which vanilla 4.4.6
+    // writes as scope changes and no dump yet lists.
+    expect(schema.scopes.length).toBe(43);
   });
 
   it("constrains the large majority of scripted commands", () => {
-    expect(scripted.length).toBe(2328);
-    // 1,920 of 2,328 today. It may rise; it must not fall.
+    expect(scripted.length).toBe(2385);
+    // 1,920 of them today. It may rise; it must not fall.
     expect(constrained.length).toBeGreaterThanOrEqual(1900);
   });
 

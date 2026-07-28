@@ -1,8 +1,9 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
 
-import { define } from "stellaris-ts/builders";
-import { defineMod, emit, writePlan } from "stellaris-ts";
+import { define } from "@kongyo2/stellaris-ts/builders";
+import { defineMod, emit, writePlan } from "@kongyo2/stellaris-ts";
+import { validate } from "@kongyo2/stellaris-ts/validate";
 
 /**
  * A minimal mod: one building, one technology, and the strings for both.
@@ -20,7 +21,7 @@ const mod = defineMod({
     define("building", "sts_example_lab", {
       category: "research",
       base_buildtime: 360,
-      icon: "building_physics_lab",
+      icon: "GFX_building_physics_lab",
       potential: { exists: "owner" },
       allow: { has_upgraded_capital: true },
       resources: {
@@ -35,7 +36,8 @@ const mod = defineMod({
     define("technology", "sts_tech_example", {
       area: "physics",
       cost: 500,
-      tier: 1,
+      // A tier is a `technology_tier` id, and those are named "0" to "5".
+      tier: "1",
       category: ["computing"],
       prerequisites: ["tech_basic_science_lab_1"],
       weight: 10,
@@ -45,6 +47,14 @@ const mod = defineMod({
   .localise("l_english", "sts_example_lab_desc", "A research building added by stellaris-ts.")
   .localise("l_english", "sts_tech_example", "Example Research")
   .localise("l_english", "sts_tech_example_desc", "A technology added by stellaris-ts.");
+
+// Every key, at every depth, against what the installed game accepts. The game
+// itself would say nothing about a misspelling here.
+for (const diagnostic of validate(mod)) {
+  const where: string =
+    diagnostic.path.length === 0 ? diagnostic.definition : `${diagnostic.definition}.${diagnostic.path}`;
+  console.error(`${diagnostic.severity.toUpperCase()} ${where}: ${diagnostic.code}: ${diagnostic.message}`);
+}
 
 const plan = emit(mod);
 

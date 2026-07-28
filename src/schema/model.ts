@@ -11,6 +11,9 @@ import { vanillaFieldNames } from "../generated/vanilla/field-names.js";
 import type { SchemaModel } from "./ir.js";
 import { withModifierCorrections } from "./modifier-corrections.js";
 import { links, scopes } from "./scopes.js";
+import { vanillaLinks, vanillaScopes } from "./vanilla-scopes.js";
+import { vanillaCommands } from "./vanilla-commands.js";
+import { vanillaDefinitionTypes } from "./vanilla-types.js";
 
 /**
  * The whole schema in one value.
@@ -23,12 +26,15 @@ import { links, scopes } from "./scopes.js";
 export const schema: SchemaModel = defineSchema({
   policy: defaultSchemaPolicy,
   modifiers: withModifierCorrections(modifierNamespace),
-  definitionTypes: withGameDeclaredFields(withCorrections(definitionTypes), vanillaFieldNames),
+  definitionTypes: withGameDeclaredFields(
+    withCorrections([...definitionTypes, ...vanillaDefinitionTypes]),
+    vanillaFieldNames,
+  ),
   enums,
-  scopes,
+  scopes: [...scopes, ...vanillaScopes],
   scopeGroups,
-  links,
-  commands: withScopeConstraints(commands),
+  links: [...links, ...vanillaLinks],
+  commands: [...withScopeConstraints(commands), ...vanillaCommands],
   ruleSets,
   namedValues,
   valueSets,

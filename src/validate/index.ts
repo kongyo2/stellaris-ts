@@ -1,24 +1,34 @@
-import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../generated/vanilla/index.js";
+import {
+  extractedEnumMembers,
+  vanillaIdsByType,
+  vanillaModifierNames,
+  vanillaScriptedParameters,
+} from "../generated/vanilla/index.js";
 import type { Mod } from "../runtime/mod.js";
-import { isBare, isEntries, isRaw, isRepeated } from "../runtime/values.js";
+import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import {
-  isScopeKey,
-  isSyntacticKey,
-  scopeEntryNames,
-  scriptBlockNames,
-  usesInterfaceFormat,
-} from "../schema/script-keys.js";
-import type { DefinitionType, EntryRule, KeyRule, SchemaModel, ValueRule } from "../schema/ir.js";
+  requiredKeys,
+  SchemaResolver,
+  type BlockRules,
+  type KeyResolution,
+  type ResolvedValue,
+} from "../schema/resolve.js";
+import type { DefinitionType, EnumDefinition, SchemaModel, ValueRule } from "../schema/ir.js";
 
 /**
  * Checks a mod against the schema before it reaches the game.
  *
- * The game reports almost nothing when a mod is wrong: an unknown field is
+ * The game reports almost nothing when a mod is wrong: an unknown key is
  * ignored, a missing string shows as the key itself, and a reference to
  * something that does not exist fails at the moment it is used, possibly hours
  * into a session. These are the mistakes that can be caught without launching.
+ *
+ * Every key is checked, at every depth. A definition body is a handful of keys
+ * and the script inside it is hundreds — `allow = { has_country_flagg = yes }`
+ * is the mistake that actually gets made, and checking only the outer level
+ * would pass it without a word, exactly as the game does.
  */
 
 export interface ValidationDiagnostic {
@@ -26,6 +36,8 @@ export interface ValidationDiagnostic {
   readonly code: string;
   readonly message: string;
   readonly definition: string;
+  /** Where inside the definition, dotted. Empty for the definition itself. */
+  readonly path: string;
 }
 
 export interface ValidationOptions {
@@ -34,30 +46,89 @@ export interface ValidationOptions {
   readonly model?: SchemaModel;
 }
 
-interface AcceptorDraft {
-  open: boolean;
-  /** Whether a chained or run-time scope — `root.owner`, `event_target:x` — is a key here. */
-  scopeKeys: boolean;
-  readonly literals: Set<string>;
-  /** Names the game matches without regard to case; compared lowercased. */
-  readonly insensitive: Set<string>;
-  readonly patterns: { prefix: string; suffix: string }[];
-}
-
-interface Acceptor {
-  readonly open: boolean;
-  readonly scopeKeys: boolean;
-  readonly literals: ReadonlySet<string>;
-  readonly insensitive: ReadonlySet<string>;
-  readonly patterns: readonly { readonly prefix: string; readonly suffix: string }[];
-}
-
 function compareOrdinal(left: string, right: string): number {
   return left < right ? -1 : left > right ? 1 : 0;
 }
 
+/**
+ * What a key points at, when pointing at something is all it can do.
+ *
+ * Reported only when every rule for the key is a reference. A field is often
+ * `<building> | scalar` — `icon` is — and a scalar rule means the value may be
+ * anything, so naming one of the alternatives as unresolved would be wrong.
+ */
+function referenceTypes(values: readonly ResolvedValue[]): readonly string[] {
+  const types: string[] = [];
+  let onlyReferences = values.length > 0;
+
+  const visit = (value: ResolvedValue): void => {
+    if (value.kind === "type-reference") {
+      types.push(value.type);
+      return;
+    }
+    if (value.kind === "list") {
+      visit(value.item);
+      return;
+    }
+    if (value.kind === "choice") {
+      for (const choice of value.choices) {
+        visit(choice);
+      }
+      return;
+    }
+    // A block rule says nothing about a scalar written under the same key, so it
+    // is neither a reference nor a reason to stop reporting one.
+    if (value.kind !== "block" && value.kind !== "script-block" && value.kind !== "scripted-call") {
+      onlyReferences = false;
+    }
+  };
+
+  for (const value of values) {
+    visit(value);
+  }
+
+  return onlyReferences ? types : [];
+}
+
+/** The enums a key's value must be a member of, when every rule says so. */
+function enumsOf(values: readonly ResolvedValue[]): readonly string[] {
+  const ids: string[] = [];
+
+  for (const value of values) {
+    if (value.kind === "enum") {
+      ids.push(value.enum);
+      continue;
+    }
+    // One rule that is not an enum is enough to make the value unconstrained:
+    // a field is often `enum | scalar`, and reporting the scalar would be wrong.
+    return [];
+  }
+
+  return ids;
+}
+
+/**
+ * Whether a string could be something other than the literal it looks like.
+ *
+ * `@cost`, `value:my_script_value`, `$PARAM$` and inline maths all stand in for
+ * a value that is only known when the game reads the file, so nothing here can
+ * check what they resolve to.
+ */
+function isIndirect(value: string): boolean {
+  return value.startsWith("@") || value.includes("$") || value.includes(":") || value.includes("[");
+}
+
+interface Walker {
+  readonly resolver: SchemaResolver;
+  readonly model: SchemaModel;
+  readonly modifiers: ReadonlySet<string>;
+  readonly idsByType: Readonly<Record<string, readonly string[]>>;
+  readonly declared: ReadonlySet<string>;
+  readonly diagnostics: ValidationDiagnostic[];
+}
+
 function enumMembers(model: SchemaModel, id: string): readonly string[] {
-  const definition = model.enums.find((candidate) => candidate.id === id);
+  const definition: EnumDefinition | undefined = model.enums.find((candidate) => candidate.id === id);
 
   if (definition === undefined) {
     return [];
@@ -66,266 +137,204 @@ function enumMembers(model: SchemaModel, id: string): readonly string[] {
   return definition.kind === "static-enum" ? definition.values : (extractedEnumMembers[id] ?? []);
 }
 
-function collectKey(model: SchemaModel, key: KeyRule, into: AcceptorDraft): void {
-  if (typeof key === "string") {
-    into.literals.add(key);
-    return;
-  }
+/** The entries a body value holds, as key/value pairs plus bare items. */
+function entriesOf(value: unknown): { readonly keyed: readonly (readonly [string, unknown])[]; readonly bare: number } {
+  if (isEntries(value)) {
+    const keyed: (readonly [string, unknown])[] = [];
+    let bare = 0;
 
-  if (key.kind === "enum-key") {
-    const members: readonly string[] = enumMembers(model, key.enum);
-
-    if (members.length === 0) {
-      into.open = true;
-      return;
+    for (const entry of value.entries) {
+      if (isBare(entry)) {
+        bare += 1;
+      } else {
+        keyed.push(entry);
+      }
     }
 
-    for (const member of members) {
-      into.literals.add(member);
-    }
-    return;
+    return { keyed, bare };
   }
 
-  if (key.kind === "pattern-key") {
-    into.patterns.push({ prefix: key.prefix, suffix: key.suffix });
-    return;
+  if (typeof value !== "object" || value === null || Array.isArray(value) || isRaw(value) || isRepeated(value)) {
+    return { keyed: [], bare: 0 };
   }
 
-  into.open = true;
+  return { keyed: Object.entries(value), bare: 0 };
 }
 
-function addNames(names: readonly string[], into: AcceptorDraft): void {
-  if (names.length === 0) {
-    into.open = true;
-    return;
+/** Whether a value is a block rather than a scalar, for deciding to recurse. */
+function isBlockLike(value: unknown): boolean {
+  if (isEntries(value)) {
+    return true;
   }
-
-  for (const name of names) {
-    into.literals.add(name);
+  if (Array.isArray(value)) {
+    return true;
   }
+  return typeof value === "object" && value !== null && !isRaw(value) && !isRepeated(value) && !isCompared(value);
 }
 
-function collectEntry(
-  model: SchemaModel,
-  entry: EntryRule,
-  into: AcceptorDraft,
-  modifiers: ReadonlySet<string>,
-  idsByType: Readonly<Record<string, readonly string[]>>,
+function checkValue(
+  walker: Walker,
+  definition: string,
+  path: string,
+  key: string,
+  value: unknown,
+  resolution: KeyResolution,
 ): void {
-  switch (entry.kind) {
-    case "field":
-      collectKey(model, entry.key, into);
-      return;
-    case "variant-rules":
-      for (const child of entry.entries) {
-        collectEntry(model, child, into, modifiers, idsByType);
-      }
-      return;
-    case "script-entries": {
-      // A modifier block is keyed by modifier name, and those are a namespace of
-      // their own: mostly generated from definitions rather than declared, and
-      // matched without regard to case.
-      if (entry.family === "modifier") {
-        if (modifiers.size === 0) {
-          into.open = true;
-          return;
-        }
-        for (const name of modifiers) {
-          into.insensitive.add(name);
-        }
-        return;
-      }
+  const values: readonly ResolvedValue[] = resolution.values;
 
-      // A trigger or effect block takes more than the commands it declares:
-      // another scripted trigger or effect by name, and a scope to enter.
-      const names: ReadonlySet<string> = scriptBlockNames(model, entry.family, idsByType);
+  // A reference to something neither vanilla nor this mod defines fails when the
+  // game reaches it, which can be a long way into a session.
+  for (const type of referenceTypes(values)) {
+    const known: readonly string[] | undefined = walker.idsByType[type];
 
-      if (names.size === 0) {
-        into.open = true;
-        return;
-      }
-
-      for (const name of names) {
-        into.insensitive.add(name);
-      }
-      into.scopeKeys = true;
-      return;
-    }
-    case "rule-set-entries":
-      addNames(
-        model.ruleSets
-          .filter((ruleSet) => ruleSet.family === entry.family)
-          .map((ruleSet) => ruleSet.name)
-          .filter((name): name is string => name !== undefined && name.length > 0),
-        into,
-      );
-      return;
-    default:
-      return;
-  }
-}
-
-/**
- * Which definition type each top-level field points at.
- *
- * Matching a field name against a type name catches `technology = x` and misses
- * everything else — `picture = GFX_evt_x` points at a sprite, `icon` at an icon,
- * `prerequisites` at technologies. The schema already says which, so it is read
- * rather than guessed.
- */
-function referenceTargets(type: DefinitionType): ReadonlyMap<string, string> {
-  const targets = new Map<string, string>();
-
-  const note = (key: KeyRule, value: ValueRule): void => {
-    if (typeof key !== "string") {
-      return;
+    if (known === undefined) {
+      continue;
     }
 
-    if (value.kind === "type-reference") {
-      targets.set(key, value.type);
-      return;
-    }
+    const candidates: readonly unknown[] = Array.isArray(value) ? value : [value];
 
-    // A list of references is still a list of references.
-    if (value.kind === "list" && value.item.kind === "type-reference") {
-      targets.set(key, value.item.type);
-      return;
-    }
-
-    // `prerequisites = { tech_a tech_b }` is a block whose bare items are the
-    // references, which is how PDX spells a list.
-    if (value.kind === "block") {
-      for (const entry of value.entries) {
-        if (entry.kind === "item" && entry.value.kind === "type-reference") {
-          targets.set(key, entry.value.type);
-          return;
-        }
-      }
-    }
-  };
-
-  const visit = (entries: readonly EntryRule[]): void => {
-    for (const entry of entries) {
-      if (entry.kind === "field") {
-        note(entry.key, entry.value);
-      } else if (entry.kind === "variant-rules") {
-        visit(entry.entries);
-      }
-    }
-  };
-
-  visit(type.entries);
-  return targets;
-}
-
-/**
- * Which top-level fields hold a block of modifiers.
- *
- * `planet_modifier = { job_researcher_add = 2 }` is where a typo costs the most:
- * the field itself is spelled right, so nothing above notices, and the game drops
- * the line without a word. The schema marks these blocks, so they can be read off
- * rather than guessed at from the name.
- */
-function modifierBlockFields(type: DefinitionType): ReadonlySet<string> {
-  const fields = new Set<string>();
-
-  const visit = (entries: readonly EntryRule[]): void => {
-    for (const entry of entries) {
-      if (entry.kind === "variant-rules") {
-        visit(entry.entries);
+    for (const candidate of candidates) {
+      if (typeof candidate !== "string" || isIndirect(candidate)) {
         continue;
       }
 
-      if (
-        entry.kind === "field" &&
-        typeof entry.key === "string" &&
-        entry.value.kind === "block" &&
-        entry.value.entries.some((inner) => inner.kind === "script-entries" && inner.family === "modifier")
-      ) {
-        fields.add(entry.key);
+      if (!known.includes(candidate) && !walker.declared.has(`${type}:${candidate}`)) {
+        walker.diagnostics.push({
+          severity: "warning",
+          code: "unresolved-reference",
+          message: `${key} points at ${type} ${candidate}, which is neither in vanilla nor defined by this mod.`,
+          definition,
+          path,
+        });
       }
     }
-  };
+  }
 
-  visit(type.entries);
-  return fields;
+  // A value outside the set the game accepts is dropped as silently as an
+  // unknown key. Only reported when every rule for the key agrees it is an enum.
+  const enumIds: readonly string[] = enumsOf(values);
+
+  if (enumIds.length > 0 && typeof value === "string" && !isIndirect(value)) {
+    const allowed: readonly string[] = enumIds.flatMap((id) => enumMembers(walker.model, id));
+
+    if (allowed.length > 0 && !allowed.some((member) => member.toLowerCase() === value.toLowerCase())) {
+      walker.diagnostics.push({
+        severity: "warning",
+        code: "unknown-value",
+        message: `${key} = ${value} is not one of ${enumIds.join(", ")}.`,
+        definition,
+        path,
+      });
+    }
+  }
 }
 
-/** The keys a body value writes, for the shapes that carry keys at all. */
-function keysOf(value: unknown): readonly string[] {
-  if (isEntries(value)) {
-    const keys: string[] = [];
+/**
+ * One bare value in a list.
+ *
+ * `prerequisites = { tech_a tech_b }` is a block of bare items, not a key
+ * holding an array, so the item rules are what say what they point at.
+ */
+function checkItem(
+  walker: Walker,
+  definition: string,
+  path: string,
+  key: string,
+  value: unknown,
+  items: readonly ValueRule[],
+): void {
+  if (typeof value !== "string" || isIndirect(value)) {
+    return;
+  }
 
-    for (const entry of value.entries) {
-      if (!isBare(entry)) {
-        keys.push(entry[0]);
+  for (const type of referenceTypes(items)) {
+    const known: readonly string[] | undefined = walker.idsByType[type];
+
+    if (known === undefined || known.includes(value) || walker.declared.has(`${type}:${value}`)) {
+      continue;
+    }
+
+    walker.diagnostics.push({
+      severity: "warning",
+      code: "unresolved-reference",
+      message: `${key} points at ${type} ${value}, which is neither in vanilla nor defined by this mod.`,
+      definition,
+      path,
+    });
+  }
+}
+
+function walkBlock(walker: Walker, definition: string, path: string, rules: BlockRules, body: unknown): void {
+  const { keyed } = entriesOf(body);
+
+  for (const [key, rawValue] of keyed) {
+    if (rawValue === undefined || rawValue === null) {
+      continue;
+    }
+
+    // `repeated(a, b)` writes the key once per value; each one is checked as if
+    // it stood alone, and `gt(1)` compares rather than assigns.
+    const occurrences: readonly unknown[] = isRepeated(rawValue) ? rawValue.values : [rawValue];
+    const resolution: KeyResolution = walker.resolver.resolve(rules, key);
+
+    if (!resolution.accepted) {
+      const where: string = path.length === 0 ? "" : ` inside ${path}`;
+      walker.diagnostics.push({
+        severity: "error",
+        code: rules.families.has("modifier") ? "unknown-modifier" : "unknown-field",
+        message: rules.families.has("modifier")
+          ? `${key} is not a modifier${where}, so the game would drop it silently.`
+          : `${key} is not a key${where}. The game ignores what it does not know, so this would do nothing.`,
+        definition,
+        path,
+      });
+      continue;
+    }
+
+    for (const occurrence of occurrences) {
+      if (occurrence === undefined || occurrence === null) {
+        continue;
       }
-    }
 
-    return keys;
-  }
+      const value: unknown = isCompared(occurrence) ? occurrence.value : occurrence;
+      checkValue(walker, definition, path, key, value, resolution);
 
-  if (typeof value === "object" && value !== null && !Array.isArray(value) && !isRaw(value) && !isRepeated(value)) {
-    return Object.keys(value);
-  }
+      if (!isBlockLike(value) || resolution.values.length === 0) {
+        continue;
+      }
 
-  return [];
-}
+      const child: BlockRules = walker.resolver.rulesForValues(resolution.values);
 
-function acceptorFor(
-  model: SchemaModel,
-  type: DefinitionType,
-  modifiers: ReadonlySet<string>,
-  idsByType: Readonly<Record<string, readonly string[]>>,
-): Acceptor {
-  const draft: AcceptorDraft = {
-    open: false,
-    scopeKeys: false,
-    literals: new Set<string>(),
-    insensitive: new Set<string>(),
-    patterns: [],
-  };
+      // A rule describing a scalar says nothing about the keys inside a block
+      // written there; recursing would report every one of them.
+      if (child.scalarOnly) {
+        continue;
+      }
 
-  for (const entry of type.entries) {
-    collectEntry(model, entry, draft, modifiers, idsByType);
-  }
+      const childPath: string = path.length === 0 ? key : `${path}.${key}`;
 
-  for (const macro of model.policy.macros) {
-    draft.literals.add(macro.key);
-  }
+      // An array is either the same key written once per block, or a value list
+      // whose bare items the block's `item` rules describe.
+      if (Array.isArray(value)) {
+        for (const element of value) {
+          if (isBlockLike(element)) {
+            walkBlock(walker, definition, childPath, child, element);
+          } else {
+            checkItem(walker, definition, path, key, element, child.items);
+          }
+        }
+        continue;
+      }
 
-  if (usesInterfaceFormat(type)) {
-    for (const name of draft.literals) {
-      draft.insensitive.add(name.toLowerCase());
+      walkBlock(walker, definition, childPath, child, value);
     }
   }
-
-  return draft;
-}
-
-function accepts(model: SchemaModel, acceptor: Acceptor, key: string): boolean {
-  return (
-    acceptor.open ||
-    isSyntacticKey(key) ||
-    acceptor.literals.has(key) ||
-    acceptor.insensitive.has(key.toLowerCase()) ||
-    (acceptor.scopeKeys && isScopeKey(model, key, scopeEntryNames(model))) ||
-    acceptor.patterns.some(
-      (pattern) =>
-        key.length >= pattern.prefix.length + pattern.suffix.length &&
-        key.startsWith(pattern.prefix) &&
-        key.endsWith(pattern.suffix),
-    )
-  );
 }
 
 export function validate(mod: Mod, options: ValidationOptions = {}): readonly ValidationDiagnostic[] {
   const model: SchemaModel = options.model ?? schema;
   const languages: readonly string[] = options.languages ?? ["l_english"];
   const diagnostics: ValidationDiagnostic[] = [];
-  const acceptors = new Map<string, Acceptor>();
-  const referenceMaps = new Map<string, ReadonlyMap<string, string>>();
-  const modifierBlocks = new Map<string, ReadonlySet<string>>();
   const declared = new Set<string>(mod.definitions.map((definition) => `${definition.type}:${definition.id}`));
   const strings = new Map<string, ReadonlySet<string>>();
   const seen = new Set<string>();
@@ -344,6 +353,20 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const idsByType: Readonly<Record<string, readonly string[]>> = mergeIdsByType(vanillaIdsByType, ownIds);
   const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
+  const walker: Walker = {
+    resolver: new SchemaResolver(model, {
+      idsByType,
+      modifierNames: modifiers,
+      enumMembers: extractedEnumMembers,
+      scriptedParameters: vanillaScriptedParameters,
+    }),
+    model,
+    modifiers,
+    idsByType,
+    declared,
+    diagnostics,
+  };
+
   for (const definition of mod.definitions) {
     const type: DefinitionType | undefined = model.definitionTypes.find(
       (candidate) => candidate.id === definition.type,
@@ -355,6 +378,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         code: "unknown-definition-type",
         message: `${definition.type} is not a definition type in the schema.`,
         definition: definition.id,
+        path: "",
       });
       continue;
     }
@@ -368,71 +392,53 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         code: "duplicate-definition",
         message: `${definition.id} is defined more than once as a ${definition.type}; only the last one loads.`,
         definition: definition.id,
+        path: "",
       });
     }
     seen.add(identity);
 
-    let acceptor: Acceptor | undefined = acceptors.get(type.id);
-    if (acceptor === undefined) {
-      acceptor = acceptorFor(model, type, modifiers, idsByType);
-      acceptors.set(type.id, acceptor);
+    // Defining an id the base game already uses replaces its definition
+    // wholesale. Sometimes that is the point; it is never something to discover
+    // afterwards.
+    if ((vanillaIdsByType[definition.type] ?? []).includes(definition.id)) {
+      diagnostics.push({
+        severity: "warning",
+        code: "replaces-vanilla-definition",
+        message: `${definition.id} is a ${definition.type} the base game defines; this replaces it, and whichever loads last wins.`,
+        definition: definition.id,
+        path: "",
+      });
     }
 
-    let targets: ReadonlyMap<string, string> | undefined = referenceMaps.get(type.id);
-    if (targets === undefined) {
-      targets = referenceTargets(type);
-      referenceMaps.set(type.id, targets);
+    // An event id is `namespace.number`, and the file declares the namespace.
+    // All 9,995 of vanilla's are; one without a namespace resolves to nothing.
+    if (type.source.directory === "events" && !definition.id.includes(".")) {
+      diagnostics.push({
+        severity: "error",
+        code: "unnamespaced-event",
+        message: `${definition.id} needs a namespace: an event id is written \`namespace.number\`, and the file declares that namespace.`,
+        definition: definition.id,
+        path: "",
+      });
     }
 
-    let modifierFields: ReadonlySet<string> | undefined = modifierBlocks.get(type.id);
-    if (modifierFields === undefined) {
-      modifierFields = modifierBlockFields(type);
-      modifierBlocks.set(type.id, modifierFields);
-    }
+    walkBlock(walker, definition.id, "", walker.resolver.rulesForType(type), definition.body);
 
-    for (const [field, value] of Object.entries(definition.body)) {
-      if (modifierFields.has(field)) {
-        for (const name of keysOf(value)) {
-          if (!modifiers.has(name.toLowerCase())) {
-            diagnostics.push({
-              severity: "error",
-              code: "unknown-modifier",
-              message: `${name} is not a modifier, so ${field} would drop it silently.`,
-              definition: definition.id,
-            });
-          }
-        }
-      }
+    // A field the game needs and the definition does not have. What counts as
+    // needed is checked against vanilla itself — a requirement base-game content
+    // violates is not one — so this fires only on a field every definition of
+    // the type carries.
+    const present = new Set<string>(entriesOf(definition.body).keyed.map(([key]) => key.toLowerCase()));
 
-      if (!accepts(model, acceptor, field)) {
+    for (const key of requiredKeys(type)) {
+      if (!present.has(key.toLowerCase())) {
         diagnostics.push({
           severity: "error",
-          code: "unknown-field",
-          message: `${type.id} has no field ${field}. The game ignores what it does not know, so this would do nothing.`,
+          code: "missing-field",
+          message: `${definition.type} needs ${key}, and this definition has none.`,
           definition: definition.id,
+          path: "",
         });
-      }
-
-      // A reference to something neither vanilla nor this mod defines fails when
-      // the game reaches it, which can be a long way into a session.
-      const targetType: string | undefined = targets.get(field);
-      const known: readonly string[] | undefined = targetType === undefined ? undefined : vanillaIdsByType[targetType];
-
-      if (known !== undefined && targetType !== undefined) {
-        for (const reference of typeof value === "string" ? [value] : Array.isArray(value) ? value : []) {
-          if (
-            typeof reference === "string" &&
-            !known.includes(reference) &&
-            !declared.has(`${targetType}:${reference}`)
-          ) {
-            diagnostics.push({
-              severity: "warning",
-              code: "unresolved-reference",
-              message: `${field} points at ${targetType} ${reference}, which is neither in vanilla nor defined by this mod.`,
-              definition: definition.id,
-            });
-          }
-        }
       }
     }
 
@@ -451,6 +457,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
             code: "missing-localisation",
             message: `No ${language} string for ${key}; the game will show the key itself.`,
             definition: definition.id,
+            path: "",
           });
         }
       }
@@ -460,7 +467,10 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   return diagnostics.sort(
     (left, right) =>
       compareOrdinal(left.definition, right.definition) ||
+      compareOrdinal(left.path, right.path) ||
       compareOrdinal(left.code, right.code) ||
       compareOrdinal(left.message, right.message),
   );
 }
+
+export type { ValueRule };

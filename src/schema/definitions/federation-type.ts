@@ -13,6 +13,7 @@ import {
   keyedBlocks,
   occurs,
   primitive,
+  primitiveKey,
   replaceScope,
   ruleSetEntries,
   triggerEntries,
@@ -44,7 +45,7 @@ export const federationType: DefinitionType = defineType({
       "levels",
       block([
         field(
-          "localisation",
+          primitiveKey("localisation"),
           block([
             field("experience", primitive("integer"), occurs.optional),
             field("perks", block([item(typeRef("federation_perk"), occurs.any)]), occurs.one),

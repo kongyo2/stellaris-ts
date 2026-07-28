@@ -19,6 +19,23 @@ export interface ModOptions {
   /** Steam Workshop id, if this mod has been published there. */
   readonly remoteFileId?: string;
   readonly picture?: string;
+  /**
+   * Mods this one must load after, by the exact `name` in their descriptor.
+   *
+   * Load order is otherwise alphabetical by folder, which is not something a
+   * dependent mod can rely on. Naming a mod here also makes the launcher warn
+   * when it is missing.
+   */
+  readonly dependencies?: readonly string[];
+  /**
+   * Game directories to hide from the base game entirely.
+   *
+   * A mod's file is added to a directory, not merged into it, so there is no
+   * other way to *remove* a vanilla definition. `replace_path = "common/buildings"`
+   * makes the game read no vanilla file from there at all, which is drastic:
+   * every definition that directory held is gone unless this mod supplies it.
+   */
+  readonly replacePaths?: readonly string[];
 }
 
 export interface DefinitionRecord {
@@ -28,6 +45,18 @@ export interface DefinitionRecord {
   readonly body: object;
   readonly file?: string;
   readonly overrides?: string;
+  /**
+   * The block key, when the type is written under a tag rather than its id.
+   *
+   * `country_event = { id = utopia.1 }`: the key says what kind, the name field
+   * says which one. Writing the id as the key instead parses and defines
+   * nothing.
+   */
+  readonly blockKey?: string;
+  /** The field inside the block that carries the id, for a tagged type. */
+  readonly nameField?: string;
+  /** Lines the file needs before any definition, such as an event namespace. */
+  readonly headers?: readonly string[];
 }
 
 export interface RawFileRecord {
@@ -40,6 +69,7 @@ export class Mod {
   readonly options: ModOptions;
   readonly #definitions: DefinitionRecord[] = [];
   readonly #localisation = new Map<string, Map<string, LocalisationEntry>>();
+  readonly #replacements = new Map<string, Map<string, LocalisationEntry>>();
   readonly #files: RawFileRecord[] = [];
 
   constructor(options: ModOptions) {
@@ -59,6 +89,21 @@ export class Mod {
     return this;
   }
 
+  /**
+   * Overrides a string the base game already defines.
+   *
+   * An ordinary localisation file cannot do it: the game reads every file and
+   * the winner is decided by load order, which a mod does not control. Files
+   * under `localisation/<language>/replace/` are read last, whatever else is
+   * installed, and that is the one place an override is reliable.
+   */
+  localiseReplace(language: string, key: string, value: string, version?: number): this {
+    const bucket: Map<string, LocalisationEntry> = this.#replacements.get(language) ?? new Map();
+    bucket.set(key, version === undefined ? { key, value } : { key, value, version });
+    this.#replacements.set(language, bucket);
+    return this;
+  }
+
   /** Adds a file verbatim, for content this library has no definition type for. */
   file(record: RawFileRecord): this {
     this.#files.push(record);
@@ -75,6 +120,10 @@ export class Mod {
 
   get localisation(): ReadonlyMap<string, readonly LocalisationEntry[]> {
     return new Map([...this.#localisation].map(([language, bucket]) => [language, [...bucket.values()]]));
+  }
+
+  get localisationReplacements(): ReadonlyMap<string, readonly LocalisationEntry[]> {
+    return new Map([...this.#replacements].map(([language, bucket]) => [language, [...bucket.values()]]));
   }
 }
 

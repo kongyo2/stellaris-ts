@@ -313,9 +313,13 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
         entry.kind === "rule-set-entries" ||
         (entry.kind === "field" && typeof entry.key !== "string"),
     );
-    const properties: readonly PropertyDraft[] = [...drafts.values()].sort((left, right) =>
-      compareOrdinal(left.key, right.key),
-    );
+    // A tagged type carries its identity in a field inside the block, and
+    // `define(type, id, body)` writes it there. Leaving it in the body type as
+    // well invites two different answers to which definition this is.
+    const nameField: string | undefined = type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
+    const properties: readonly PropertyDraft[] = [...drafts.values()]
+      .filter((draft) => draft.key !== nameField)
+      .sort((left, right) => compareOrdinal(left.key, right.key));
     const documentation: string =
       type.documentation === undefined ? "" : `/** ${type.documentation.replaceAll("*/", "*\\/")} */\n`;
     const index: string = hasOpenEntry ? "\n  readonly [key: string]: PdxValue | undefined;" : "";

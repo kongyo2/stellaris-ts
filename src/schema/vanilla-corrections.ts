@@ -71,49 +71,41 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("ai_behaviour", primitive("scalar"), occurs.any),
     // 3 uses, e.g. common/missions/missions/02_contracts.txt
     field("ai_weight", anyValue(), occurs.any),
-    // 23 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 23 uses, e.g. common/missions/missions/02_contracts.txt
     field("category", primitive("scalar"), occurs.any),
     // 22 uses, e.g. common/missions/missions/02_contracts.txt
     field("cost", primitive("integer"), occurs.any),
-    // 22 uses, e.g. common/missions/mission_categories/00_mission_categories.txt
-    field("is_contract", primitive("scalar"), occurs.any),
     // 15 uses, e.g. common/missions/missions/02_contracts.txt
     field("issued_abort_trigger", anyValue(), occurs.any),
-    // 22 uses, e.g. common/missions/mission_categories/00_mission_categories.txt
-    field("log_icon", primitive("scalar"), occurs.any),
-    // 29 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 29 uses, e.g. common/missions/missions/02_contracts.txt
     field("lore_completed", primitive("scalar"), occurs.any),
     // 25 uses, e.g. common/missions/missions/02_contracts.txt
     field("lore_failed", primitive("scalar"), occurs.any),
     // 25 uses, e.g. common/missions/missions/02_contracts.txt
     field("lore_issued", primitive("scalar"), occurs.any),
-    // 22 uses, e.g. common/missions/mission_categories/00_mission_categories.txt
-    field("map_icon", primitive("scalar"), occurs.any),
-    // 23 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 23 uses, e.g. common/missions/missions/02_contracts.txt
     field("on_accept", anyValue(), occurs.any),
-    // 52 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 52 uses, e.g. common/missions/missions/02_contracts.txt
     field("on_cancel", anyValue(), occurs.any),
-    // 18 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 18 uses, e.g. common/missions/missions/02_contracts.txt
     field("on_issue", anyValue(), occurs.any),
-    // 16 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 16 uses, e.g. common/missions/missions/02_contracts.txt
     field("possible_issuer", anyValue(), occurs.any),
-    // 27 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 27 uses, e.g. common/missions/missions/02_contracts.txt
     field("possible_operator", anyValue(), occurs.any),
-    // 23 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 23 uses, e.g. common/missions/missions/02_contracts.txt
     field("potential_issuer", anyValue(), occurs.any),
-    // 18 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 18 uses, e.g. common/missions/missions/02_contracts.txt
     field("potential_operator", anyValue(), occurs.any),
-    // 4 uses, e.g. common/missions/mission_categories/00_mission_categories.txt
-    field("show_in_issue_list", primitive("scalar"), occurs.any),
-    // 18 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 18 uses, e.g. common/missions/missions/02_contracts.txt
     field("small_picture", primitive("scalar"), occurs.any),
-    // 23 uses, e.g. common/missions/missions/03_enclave_contracts.txt
+    // 23 uses, e.g. common/missions/missions/02_contracts.txt
     field("time_to_accept", primitive("scalar"), occurs.any),
     // 2 uses, e.g. common/missions/missions/02_contracts.txt
     field("time_to_complete", primitive("scalar"), occurs.any),
   ],
   decision: [
-    // 27 uses, e.g. common/decisions/05_ancient_relics_decisions.txt
+    // 27 uses, e.g. common/decisions/02_special_decisions.txt
     field("important", primitive("scalar"), occurs.any),
   ],
   district: [
@@ -150,24 +142,10 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     // 7 uses, e.g. common/solar_system_initializers/fallen_empire_initializers.txt
     field("usage", primitive("scalar"), occurs.any),
   ],
-  game_rule: [
-    // 4 uses, e.g. common/game_rules/00_rules.txt
-    field("add", primitive("scalar"), occurs.any),
-    // 2 uses, e.g. common/game_rules/00_rules.txt
-    field("divide", primitive("integer"), occurs.any),
-    // 1 uses, e.g. common/game_rules/00_rules.txt
-    field("is_nomadic", primitive("scalar"), occurs.any),
-    // 1 uses, e.g. common/game_rules/00_rules.txt
-    field("is_system_locked", primitive("scalar"), occurs.any),
-    // 1 uses, e.g. common/game_rules/00_rules.txt
-    field("min", primitive("integer"), occurs.any),
-    // 3 uses, e.g. common/game_rules/00_rules.txt
-    field("round", primitive("scalar"), occurs.any),
-  ],
   map_setup_scenario: [
-    // 5 uses, e.g. map/setup_scenarios/large.txt
+    // 5 uses, e.g. map/setup_scenarios/huge.txt
     field("nomad_empire_default", primitive("integer"), occurs.any),
-    // 5 uses, e.g. map/setup_scenarios/large.txt
+    // 5 uses, e.g. map/setup_scenarios/huge.txt
     field("nomad_empire_max", primitive("integer"), occurs.any),
   ],
   megastructure: [
@@ -179,11 +157,11 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("order_icon", primitive("scalar"), occurs.any),
     // 4 uses, e.g. common/megastructures/31_dyson_gun.txt
     field("scripted_action", anyValue(), occurs.any),
-    // 3 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
+    // 3 uses, e.g. common/megastructures/18_dyson_swarm.txt
     field("tooltip_best_systems_header", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/megastructures/18_dyson_swarm.txt
     field("tooltip_show_star_resources", primitive("scalar"), occurs.any),
-    // 3 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
+    // 3 uses, e.g. common/megastructures/18_dyson_swarm.txt
     field("tooltip_system_filter", anyValue(), occurs.any),
     // 2 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
     field("tooltip_system_score", anyValue(), occurs.any),
@@ -211,70 +189,6 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("is_nomadic", primitive("scalar"), occurs.any),
     // 2 uses, e.g. prescripted_countries/00_top_countries.txt
     field("ship_size", primitive("scalar"), occurs.any),
-  ],
-  script_value: [
-    // 3 uses, e.g. common/script_values/00_script_values.txt
-    field("abs", primitive("scalar"), occurs.any),
-    // 7 uses, e.g. common/script_values/01_script_values_paragon.txt
-    field("ceiling", primitive("scalar"), occurs.any),
-    // 42 uses, e.g. common/script_values/01_script_values_paragon.txt
-    field("floor", primitive("scalar"), occurs.any),
-    // 78 uses, e.g. common/script_values/01_script_values_paragon.txt
-    field("max", primitive("scalar"), occurs.any),
-    // 84 uses, e.g. common/script_values/01_script_values_paragon.txt
-    field("min", primitive("scalar"), occurs.any),
-    // 2 uses, e.g. common/script_values/00_script_values.txt
-    field("modulo", primitive("integer"), occurs.any),
-    // 11 uses, e.g. common/script_values/00_script_values.txt
-    field("multiply", primitive("scalar"), occurs.any),
-    // 9 uses, e.g. common/script_values/01_script_values_paragon.txt
-    field("pow", primitive("scalar"), occurs.any),
-    // 26 uses, e.g. common/script_values/01_script_values_paragon.txt
-    field("round", primitive("scalar"), occurs.any),
-    // 8 uses, e.g. common/script_values/00_script_values.txt
-    field("round_to", primitive("number"), occurs.any),
-    // 1 uses, e.g. common/script_values/00_script_values.txt
-    field("set", primitive("scalar"), occurs.any),
-    // 1 uses, e.g. common/script_values/06_script_values_biogenesis.txt
-    field("square_root", primitive("scalar"), occurs.any),
-  ],
-  scripted_effect: [
-    // 1 uses, e.g. common/scripted_effects/00_scripted_effects.txt
-    field("carrier_event", anyValue(), occurs.any),
-    // 6 uses, e.g. common/scripted_effects/01_start_of_game_effects.txt
-    field("colony", anyValue(), occurs.any),
-    // 1 uses, e.g. common/scripted_effects/nomads_effects.txt
-    field("create_balanced_fleet", anyValue(), occurs.any),
-    // 4 uses, e.g. common/scripted_effects/infernals_effects.txt
-    field("every_system_planet_colony", anyValue(), occurs.any),
-    // 4 uses, e.g. common/scripted_effects/infernals_effects.txt
-    field("every_system_ship_colony", anyValue(), occurs.any),
-    // 1 uses, e.g. common/scripted_effects/nomads_effects.txt
-    field("random_owned_colony", anyValue(), occurs.any),
-    // 1 uses, e.g. common/scripted_effects/extreme_frontiers_scripted_effects.txt
-    field("remove_carrier_flag", primitive("scalar"), occurs.any),
-    // 14 uses, e.g. common/scripted_effects/00_scripted_effects.txt
-    field("set_carrier_flag", primitive("scalar"), occurs.any),
-    // 1 uses, e.g. common/scripted_effects/01_start_of_game_effects.txt
-    field("set_faction_properties", anyValue(), occurs.any),
-    // 1 uses, e.g. common/scripted_effects/01_start_of_game_effects.txt
-    field("set_resource_converter", primitive("scalar"), occurs.any),
-    // 10 uses, e.g. common/scripted_effects/01_start_of_game_effects.txt
-    field("set_timed_carrier_flag", anyValue(), occurs.any),
-  ],
-  scripted_trigger: [
-    // 2 uses, e.g. common/scripted_triggers/08_scripted_triggers_shroud.txt
-    field("any_system_planet_colony", anyValue(), occurs.any),
-    // 1 uses, e.g. common/scripted_triggers/01_scripted_triggers_buildings.txt
-    field("carrier", anyValue(), occurs.any),
-    // 8 uses, e.g. common/scripted_triggers/09_scripted_triggers_nomads.txt
-    field("colony", anyValue(), occurs.any),
-    // 1 uses, e.g. common/scripted_triggers/09_scripted_triggers_nomads.txt
-    field("colony?", anyValue(), occurs.any),
-    // 1 uses, e.g. common/scripted_triggers/05_scripted_triggers_grand_archive.txt
-    field("has_carrier_flag", primitive("scalar"), occurs.any),
-    // 5 uses, e.g. common/scripted_triggers/09_scripted_triggers_nomads.txt
-    field("is_nomadic", primitive("scalar"), occurs.any),
   ],
   ship_behavior: [
     // 1 uses, e.g. common/ship_behaviors/02_special_ship_behaviours.txt
@@ -339,26 +253,22 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("potential", anyValue(), occurs.any),
     // 1 uses, e.g. common/situations/14_nomads_situations.txt
     field("show_in_outliner", primitive("scalar"), occurs.any),
-    // 83 uses, e.g. common/situations/01_overlord_situations.txt
+    // 83 uses, e.g. common/situations/01_narrative_situations.txt
     field("situation_log_category", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/situations/14_nomads_situations.txt
     field("total_progress", anyValue(), occurs.any),
   ],
   social_strata: [
-    // 2 uses, e.g. common/pop_categories/01_gestalt_drones.txt
+    // 2 uses, e.g. common/pop_categories/02_other_categories.txt
     field("is_civilian_job", primitive("scalar"), occurs.any),
     // 3 uses, e.g. common/pop_categories/02_other_categories.txt
     field("is_unemployment_job", primitive("scalar"), occurs.any),
-    // 5 uses, e.g. common/pop_categories/01_gestalt_drones.txt
+    // 5 uses, e.g. common/pop_categories/00_social_classes.txt
     field("job_reshuffle_interval", primitive("integer"), occurs.any),
   ],
   song: [
     // 1 uses, e.g. music/maintheme2.txt
     field("chance", anyValue(), occurs.any),
-  ],
-  sound_category: [
-    // 3 uses, e.g. sound/apocalypse/apocalypse.asset
-    field("soundEffects", anyValue(), occurs.any),
   ],
   sprite: [
     // 102 uses, e.g. interface/crisis.gfx
@@ -449,11 +359,100 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("color", anyValue(), occurs.any),
   ],
   war_goal: [
-    // 57 uses, e.g. common/war_goals/01_fallen_empire_war_goals.txt
+    // 57 uses, e.g. common/war_goals/03_nemesis_war_goals.txt
     field("hide", primitive("scalar"), occurs.any),
   ],
   zones: [
     // 18 uses, e.g. common/zones/00_zones.txt
     field("show_tech_unlock_if", anyValue(), occurs.any),
+  ],
+};
+
+/**
+ * Fields the corpus marks required that vanilla definitions leave out.
+ *
+ * The game loads those definitions, so the field is not required. Left as it
+ * came from cwt, the checker would reject correct script — and reject it for the
+ * commonest shape a mod copies, since these are the fields base-game content
+ * omits most often.
+ */
+export const vanillaOptionalFields: Readonly<Record<string, readonly string[]>> = {
+  achievement: [
+    // 115 of 219 omit it, e.g. common/achievements.txt
+    "possible",
+  ],
+  archaeological_site_type: [
+    // 1 of 124 omit it, e.g. common/archaeological_site_types/00_base_game_arc_sites.txt
+    "allow",
+    // 1 of 124 omit it, e.g. common/archaeological_site_types/00_base_game_arc_sites.txt
+    "desc",
+    // 1 of 124 omit it, e.g. common/archaeological_site_types/00_base_game_arc_sites.txt
+    "stages",
+  ],
+  component_template: [
+    // 112 of 1500 omit it, e.g. common/component_templates/00_biogenesis_weapons.txt
+    "icon",
+    // 112 of 1500 omit it, e.g. common/component_templates/00_biogenesis_weapons.txt
+    "key",
+  ],
+  cosmic_storm_mission: [
+    // 70 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
+    "abort_trigger",
+    // 51 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
+    "desc",
+    // 50 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
+    "event_chain",
+    // 51 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
+    "icon",
+    // 50 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
+    "picture",
+  ],
+  council_agenda: [
+    // 4 of 90 omit it, e.g. common/council_agendas/05_council_agendas_nomads_dlc.txt
+    "allow",
+  ],
+  economic_plan: [
+    // 1 of 6 omit it, e.g. common/economic_plans/01_base.txt
+    "subplan",
+  ],
+  megastructure: [
+    // 3 of 164 omit it, e.g. common/megastructures/29_nomad_arkships.txt
+    "entity",
+  ],
+  planet_modifier: [
+    // 2 of 71 omit it, e.g. common/planet_modifiers/00_planet_modifiers.txt
+    "spawn_chance",
+  ],
+  resolution: [
+    // 1 of 278 omit it, e.g. common/resolutions/00_resolutions.txt
+    "ai_weight",
+    // 1 of 278 omit it, e.g. common/resolutions/00_resolutions.txt
+    "icon",
+  ],
+  scripted_modifier: [
+    // 1 of 132 omit it, e.g. common/scripted_modifiers/00_scripted_modifiers.txt
+    "category",
+  ],
+  solar_system_initializer: [
+    // 5 of 360 omit it, e.g. common/solar_system_initializers/grand_archive_initializers.txt
+    "class",
+  ],
+  special_project: [
+    // 105 of 720 omit it, e.g. common/special_projects/03_projects_cosmic_storms.txt
+    "event_scope",
+    // 103 of 720 omit it, e.g. common/special_projects/03_projects_cosmic_storms.txt
+    "key",
+  ],
+  subject_specialist_type: [
+    // 1 of 4 omit it, e.g. common/specialist_subject_types/00_specialist_subject_types.txt
+    "base_conversion_time",
+    // 1 of 4 omit it, e.g. common/specialist_subject_types/00_specialist_subject_types.txt
+    "icon",
+    // 1 of 4 omit it, e.g. common/specialist_subject_types/00_specialist_subject_types.txt
+    "icon_large",
+    // 1 of 4 omit it, e.g. common/specialist_subject_types/00_specialist_subject_types.txt
+    "levels",
+    // 1 of 4 omit it, e.g. common/specialist_subject_types/00_specialist_subject_types.txt
+    "preferred_ethic",
   ],
 };
