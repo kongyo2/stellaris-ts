@@ -2,6 +2,7 @@ import { ScopeId } from "./catalog.js";
 import { listedScopes } from "./ir.js";
 import type { ScriptCommandDefinition } from "./ir.js";
 import { effectScopes, triggerScopes } from "./scope-constraints.js";
+import { additionalEffectScopes, additionalTriggerScopes } from "./vanilla-scope-constraints.js";
 
 const KNOWN_SCOPES: ReadonlySet<string> = new Set(Object.values(ScopeId));
 
@@ -27,11 +28,15 @@ export function withScopeConstraints(commands: readonly ScriptCommandDefinition[
 
     const table: Readonly<Record<string, readonly string[]>> =
       command.family === "trigger" ? triggerScopes : effectScopes;
-    const scopes: readonly string[] | undefined = table[command.id];
+    const extra: Readonly<Record<string, readonly string[]>> =
+      command.family === "trigger" ? additionalTriggerScopes : additionalEffectScopes;
+    const documented: readonly string[] | undefined = table[command.id];
 
-    if (scopes === undefined || scopes.length === 0) {
+    if (documented === undefined || documented.length === 0) {
       return command;
     }
+
+    const scopes: readonly string[] = [...documented, ...(extra[command.id] ?? [])];
 
     const resolved: readonly ScopeId[] = asScopeIds(scopes);
 

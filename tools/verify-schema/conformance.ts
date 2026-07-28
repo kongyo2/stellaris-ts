@@ -10,10 +10,12 @@ import {
 } from "../../src/generated/vanilla/index.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
 import {
+  applyScope,
   requiredKeys,
   SchemaResolver,
   type BlockRules,
   type ResolvedValue,
+  type ScopeState,
   type ScriptFamily,
 } from "../../src/schema/resolve.js";
 import { NodeKind, parse, type Block, type Document, type ValueNode } from "../../src/syntax/index.js";
@@ -157,6 +159,16 @@ function contextOf(rules: BlockRules): FindingContext {
   return "block";
 }
 
+export interface ScopeFinding {
+  readonly command: string;
+  /** Where inside the definition, dotted. */
+  readonly path: string;
+  readonly writtenIn: string;
+  readonly accepts: readonly string[];
+  readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
 export interface RequiredFinding {
   readonly field: string;
   /** How many of this type's definitions leave it out. */
@@ -175,6 +187,7 @@ export interface TypeReport {
   readonly unknownFields: readonly FieldFinding[];
   readonly unusedRules: readonly string[];
   readonly missingRequired: readonly RequiredFinding[];
+  readonly scopeViolations: readonly ScopeFinding[];
 }
 
 export interface ConformanceReport {
@@ -186,6 +199,7 @@ export interface ConformanceReport {
   readonly unusedRuleTotal: number;
   readonly strictTypeCount: number;
   readonly missingRequiredTotal: number;
+  readonly scopeViolationTotal: number;
 }
 
 function compareOrdinal(left: string, right: string): number {
@@ -327,9 +341,23 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
     }
 
     const root: BlockRules = resolver.rulesForType(type);
+    // A definition body runs in the scope the type names, when it names one.
+    const entryScope: ScopeState =
+      typeof type.entryScope === "string" ? { current: type.entryScope, root: type.entryScope } : {};
     const ruleKeys: readonly string[] = literalRuleKeys(type);
     const required: readonly string[] = requiredKeys(type);
     const missingRequired = new Map<string, { count: number; examples: string[] }>();
+    const scopeIssues = new Map<
+      string,
+      {
+        command: string;
+        path: string;
+        writtenIn: string;
+        accepts: readonly string[];
+        count: number;
+        examples: string[];
+      }
+    >();
     const unknown = new Map<
       string,
       { path: string; field: string; context: FindingContext; shape: ValueShape; count: number; examples: string[] }
@@ -349,7 +377,7 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
       unknown.set(identity, entry);
     };
 
-    const walk = (block: Block, rules: BlockRules, trail: string, file: string): void => {
+    const walk = (block: Block, rules: BlockRules, trail: string, file: string, scope: ScopeState): void => {
       for (const entry of block.entries) {
         if (entry.kind !== NodeKind.Assignment) {
           continue;
@@ -367,6 +395,33 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
         if (!resolution.accepted) {
           record(trail, key, file, contextOf(rules), shapeOf(entry.value));
           continue;
+        }
+
+        // A command reads one kind of object. Written where the current scope is
+        // known and not one of them, the game answers `false` for ever.
+        if (scope.current !== undefined) {
+          for (const command of resolution.commands) {
+            if (command.input.kind !== "listed-scopes" || command.input.scopes.length === 0) {
+              continue;
+            }
+            if (command.input.scopes.some((allowed): boolean => allowed === scope.current)) {
+              continue;
+            }
+            const identity = `${command.id} ${scope.current} ${trail}`;
+            const issue = scopeIssues.get(identity) ?? {
+              command: command.id,
+              path: trail,
+              writtenIn: scope.current,
+              accepts: command.input.scopes,
+              count: 0,
+              examples: [],
+            };
+            issue.count += 1;
+            if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+              issue.examples.push(file);
+            }
+            scopeIssues.set(identity, issue);
+          }
         }
 
         if (entry.value.kind !== NodeKind.Block) {
@@ -388,7 +443,13 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
           continue;
         }
 
-        walk(entry.value, child, trail.length === 0 ? key : `${trail}.${key}`, file);
+        walk(
+          entry.value,
+          child,
+          trail.length === 0 ? key : `${trail}.${key}`,
+          file,
+          applyScope(scope, resolution.scope),
+        );
       }
     };
 
@@ -404,7 +465,7 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
 
       for (const block of definitionBlocks(model, type, result.document)) {
         definitionsSeen += 1;
-        walk(block, root, "", display);
+        walk(block, root, "", display, entryScope);
 
         if (required.length === 0) {
           continue;
@@ -456,6 +517,16 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
             compareOrdinal(left.field, right.field),
         ),
       unusedRules: ruleKeys.filter((key) => !seen.has(key)),
+      scopeViolations: [...scopeIssues.values()]
+        .map((issue) => ({
+          command: issue.command,
+          path: issue.path,
+          writtenIn: issue.writtenIn,
+          accepts: issue.accepts,
+          occurrences: issue.count,
+          examples: issue.examples,
+        }))
+        .sort((left, right) => right.occurrences - left.occurrences || compareOrdinal(left.command, right.command)),
       missingRequired: [...missingRequired]
         .map(([field, absence]) => ({ field, missingFrom: absence.count, examples: absence.examples }))
         .sort((left, right) => right.missingFrom - left.missingFrom || compareOrdinal(left.field, right.field)),
@@ -476,5 +547,6 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
     unusedRuleTotal: reports.reduce((total, report) => total + report.unusedRules.length, 0),
     strictTypeCount: reports.filter((report) => report.strictness === "strict").length,
     missingRequiredTotal: reports.reduce((total, report) => total + report.missingRequired.length, 0),
+    scopeViolationTotal: reports.reduce((total, report) => total + report.scopeViolations.length, 0),
   };
 }

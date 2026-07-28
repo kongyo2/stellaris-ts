@@ -108,6 +108,22 @@ describe("validation below the first level", () => {
     expect(at(mod, "unknown-field")).toHaveLength(0);
   });
 
+  it("catches a trigger read on the wrong kind of object", () => {
+    // A building's `potential` runs on a planet. `is_colony` reads a planet, so
+    // it belongs there and not under `owner`, which is a country.
+    const mod = defineMod({ name: "Scoped", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "scoped_lab", {
+        category: "research",
+        potential: { is_colony: true, owner: { is_colony: true } },
+      }),
+    );
+
+    const wrong = at(mod, "wrong-scope");
+    expect(wrong).toHaveLength(1);
+    expect(wrong[0]?.path).toBe("potential.owner");
+    expect(wrong[0]?.message).toContain("country");
+  });
+
   it("names an event id with no namespace", () => {
     const mod = defineMod({ name: "NoNs", version: "1", supportedVersion: "v4.4.*" }).add(
       define("event", "sts_demo_one", { is_triggered_only: true }, { as: "country_event" }),

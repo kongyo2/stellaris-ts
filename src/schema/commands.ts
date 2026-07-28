@@ -2803,7 +2803,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("size", scriptValue("integer"), occurs.optional),
       field("can_overflow", primitive("boolean"), occurs.optional),
       field("ship_designs", block([item(primitive("localisation"), occurs.any)]), occurs.optional),
-      field("effect", block([effectEntries()]), occurs.optional),
+      // The block runs on the fleet that was just created, not on whatever
+      // created it: vanilla writes `set_location` there, and that reads a fleet.
+      field("effect", block([effectEntries()]), occurs.optional, { scope: enterScope(ScopeId.Fleet) }),
     ]),
     documentation: "Creates a new random fleet",
   }),

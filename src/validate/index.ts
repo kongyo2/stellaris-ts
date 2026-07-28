@@ -9,11 +9,13 @@ import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/val
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import {
+  applyScope,
   requiredKeys,
   SchemaResolver,
   type BlockRules,
   type KeyResolution,
   type ResolvedValue,
+  type ScopeState,
 } from "../schema/resolve.js";
 import type { DefinitionType, EnumDefinition, SchemaModel, ValueRule } from "../schema/ir.js";
 
@@ -264,7 +266,53 @@ function checkItem(
   }
 }
 
-function walkBlock(walker: Walker, definition: string, path: string, rules: BlockRules, body: unknown): void {
+/**
+ * Whether a command may be written where it was.
+ *
+ * A trigger reads one kind of object and answers `false` everywhere else, for
+ * ever, without a word. The scope is only checked when it is known: a chain, a
+ * run-time lookup or an undocumented link leaves it unknown, and an unknown
+ * scope reports nothing.
+ */
+function checkScope(
+  walker: Walker,
+  definition: string,
+  path: string,
+  key: string,
+  resolution: KeyResolution,
+  scope: ScopeState,
+): void {
+  const current: string | undefined = scope.current;
+
+  if (current === undefined) {
+    return;
+  }
+
+  for (const command of resolution.commands) {
+    if (command.input.kind !== "listed-scopes" || command.input.scopes.length === 0) {
+      continue;
+    }
+
+    if (!command.input.scopes.some((allowed) => allowed === current)) {
+      walker.diagnostics.push({
+        severity: "error",
+        code: "wrong-scope",
+        message: `${key} reads a ${command.input.scopes.join(" or a ")}, and here the scope is ${current}. The game answers it false for ever rather than reporting anything.`,
+        definition,
+        path,
+      });
+    }
+  }
+}
+
+function walkBlock(
+  walker: Walker,
+  definition: string,
+  path: string,
+  rules: BlockRules,
+  body: unknown,
+  scope: ScopeState,
+): void {
   const { keyed } = entriesOf(body);
 
   for (const [key, rawValue] of keyed) {
@@ -298,6 +346,7 @@ function walkBlock(walker: Walker, definition: string, path: string, rules: Bloc
 
       const value: unknown = isCompared(occurrence) ? occurrence.value : occurrence;
       checkValue(walker, definition, path, key, value, resolution);
+      checkScope(walker, definition, path, key, resolution, scope);
 
       if (!isBlockLike(value) || resolution.values.length === 0) {
         continue;
@@ -312,13 +361,14 @@ function walkBlock(walker: Walker, definition: string, path: string, rules: Bloc
       }
 
       const childPath: string = path.length === 0 ? key : `${path}.${key}`;
+      const childScope: ScopeState = applyScope(scope, resolution.scope);
 
       // An array is either the same key written once per block, or a value list
       // whose bare items the block's `item` rules describe.
       if (Array.isArray(value)) {
         for (const element of value) {
           if (isBlockLike(element)) {
-            walkBlock(walker, definition, childPath, child, element);
+            walkBlock(walker, definition, childPath, child, element, childScope);
           } else {
             checkItem(walker, definition, path, key, element, child.items);
           }
@@ -326,7 +376,7 @@ function walkBlock(walker: Walker, definition: string, path: string, rules: Bloc
         continue;
       }
 
-      walkBlock(walker, definition, childPath, child, value);
+      walkBlock(walker, definition, childPath, child, value, childScope);
     }
   }
 }
@@ -422,7 +472,10 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       });
     }
 
-    walkBlock(walker, definition.id, "", walker.resolver.rulesForType(type), definition.body);
+    const entryScope: ScopeState =
+      typeof type.entryScope === "string" ? { current: type.entryScope, root: type.entryScope } : {};
+
+    walkBlock(walker, definition.id, "", walker.resolver.rulesForType(type), definition.body, entryScope);
 
     // A field the game needs and the definition does not have. What counts as
     // needed is checked against vanilla itself — a requirement base-game content

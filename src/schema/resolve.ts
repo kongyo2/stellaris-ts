@@ -5,6 +5,9 @@ import type {
   KeyRule,
   RuleSetDefinition,
   SchemaModel,
+  ScopeChange,
+  ScopeFrame,
+  ScopeSlot,
   ScriptBlockValue,
   ScriptCommandDefinition,
   ValueRule,
@@ -73,6 +76,8 @@ interface NumericEntry {
 }
 
 export interface BlockRules {
+  /** Scope changes the rules attach to particular keys. */
+  readonly scopeChanges: ReadonlyMap<string, ScopeChange>;
   /** Some rule here accepts arbitrary keys, so nothing can be reported unknown. */
   readonly wildcard: boolean;
   /** No rule here describes a block at all: a block written here is a shape error. */
@@ -93,9 +98,100 @@ export interface KeyResolution {
   readonly accepted: boolean;
   /** The rules governing this key's value, for recursing into a block. */
   readonly values: readonly ResolvedValue[];
+  /** The commands this key matched, for checking the scope they accept. */
+  readonly commands: readonly ScriptCommandDefinition[];
+  /** How the block under this key is scoped, when the key says. */
+  readonly scope?: ScopeTransition;
+}
+
+/**
+ * Where the block under a key runs.
+ *
+ * A trigger reads one kind of object and no other: `has_country_flag` reads a
+ * country. Writing it under `owner = { ... }` from a planet is correct and
+ * writing it directly is not, and the game answers a wrongly-scoped trigger with
+ * `false` for ever rather than with an error.
+ */
+export type ScopeTransition =
+  | { readonly kind: "enter"; readonly scope: string }
+  | { readonly kind: "frame"; readonly word: string }
+  | { readonly kind: "replace"; readonly frame: ScopeFrame }
+  | { readonly kind: "unknown" };
+
+/** What each of the frame words refers to while walking. */
+export interface ScopeState {
+  readonly current?: string | undefined;
+  readonly root?: string | undefined;
+  readonly prev?: string | undefined;
+  readonly from?: string | undefined;
+}
+
+const FRAME_WORDS: ReadonlySet<string> = new Set([
+  "this",
+  "root",
+  "prev",
+  "prevprev",
+  "prevprevprev",
+  "prevprevprevprev",
+  "from",
+  "fromfrom",
+  "fromfromfrom",
+  "fromfromfromfrom",
+]);
+
+function frameScope(state: ScopeState, word: string): string | undefined {
+  switch (word) {
+    case "this":
+      return state.current;
+    case "root":
+      return state.root;
+    case "prev":
+      return state.prev;
+    case "from":
+      return state.from;
+    default:
+      // `prevprev` and the deeper `from` words need a stack this does not keep;
+      // reporting nothing is right, guessing is not.
+      return undefined;
+  }
+}
+
+/**
+ * The scope a block runs in, given the one around it.
+ *
+ * Anything the transition does not pin down comes back with no `current`, and a
+ * check that does not know the scope reports nothing.
+ */
+export function applyScope(state: ScopeState, transition: ScopeTransition | undefined): ScopeState {
+  if (transition === undefined) {
+    return state;
+  }
+
+  switch (transition.kind) {
+    case "enter":
+      return { current: transition.scope, root: state.root, prev: state.current, from: state.from };
+    case "frame": {
+      const target: string | undefined = frameScope(state, transition.word);
+      return target === undefined
+        ? { root: state.root, prev: state.current, from: state.from }
+        : { current: target, root: state.root, prev: state.current, from: state.from };
+    }
+    case "replace": {
+      const pick = (slot: ScopeSlot | undefined): string | undefined => (typeof slot === "string" ? slot : undefined);
+      return {
+        current: pick(transition.frame.current),
+        root: pick(transition.frame.root),
+        prev: pick(transition.frame.previous),
+        from: pick(transition.frame.from),
+      };
+    }
+    default:
+      return { root: state.root, prev: state.current, from: state.from };
+  }
 }
 
 interface Draft {
+  readonly scopeChanges: Map<string, ScopeChange>;
   wildcard: boolean;
   scopeKeys: boolean;
   parameters: boolean;
@@ -115,6 +211,7 @@ const FORBIDDEN: ValueRule = { kind: "opaque", reason: "forbidden" };
 
 function draft(): Draft {
   return {
+    scopeChanges: new Map<string, ScopeChange>(),
     wildcard: false,
     scopeKeys: false,
     parameters: false,
@@ -128,6 +225,18 @@ function draft(): Draft {
     ruleSetFamilies: new Set<string>(),
     items: [],
   };
+}
+
+function asTransition(change: ScopeChange | undefined): ScopeTransition | undefined {
+  if (change === undefined) {
+    return undefined;
+  }
+
+  if (change.kind === "enter") {
+    return typeof change.scope === "string" ? { kind: "enter", scope: change.scope } : { kind: "unknown" };
+  }
+
+  return { kind: "replace", frame: change.frame };
 }
 
 function addLiteral(into: Draft, key: string, value: ResolvedValue): void {
@@ -185,6 +294,7 @@ export class SchemaResolver {
   readonly #data: ResolverData;
   readonly #scopeNames: ReadonlySet<string>;
   readonly #commands = new Map<ScriptFamily, Map<string, ValueRule[]>>();
+  readonly #commandDefinitions = new Map<ScriptFamily, Map<string, ScriptCommandDefinition[]>>();
   readonly #keyedCommands = new Map<ScriptFamily, ScriptCommandDefinition[]>();
   readonly #ruleSets = new Map<string, Map<string, ValueRule[]>>();
   readonly #openRuleSets = new Set<string>();
@@ -214,6 +324,17 @@ export class SchemaResolver {
       const values: ValueRule[] = bucket.get(name) ?? [];
       values.push(command.value);
       bucket.set(name, values);
+
+      let definitions: Map<string, ScriptCommandDefinition[]> | undefined = this.#commandDefinitions.get(
+        command.family,
+      );
+      if (definitions === undefined) {
+        definitions = new Map<string, ScriptCommandDefinition[]>();
+        this.#commandDefinitions.set(command.family, definitions);
+      }
+      const list: ScriptCommandDefinition[] = definitions.get(name) ?? [];
+      list.push(command);
+      definitions.set(name, list);
     }
 
     for (const ruleSet of model.ruleSets) {
@@ -277,10 +398,14 @@ export class SchemaResolver {
     // `@size` declares a script variable and `$PARAM$` is substituted before the
     // block is read; neither is a field of anything.
     if (isSyntacticKey(key)) {
-      return { accepted: true, values: [] };
+      return { accepted: true, values: [], commands: [] };
     }
 
     const values: ResolvedValue[] = [];
+    const commands: ScriptCommandDefinition[] = [];
+    let transition: ScopeTransition | undefined = rules.scopeChanges.has(key)
+      ? asTransition(rules.scopeChanges.get(key))
+      : undefined;
     let accepted: boolean = rules.wildcard;
     const lowered: string = key.toLowerCase();
 
@@ -297,6 +422,11 @@ export class SchemaResolver {
       if (command !== undefined) {
         accepted = true;
         values.push(...command);
+
+        for (const definition of this.#commandDefinitions.get(family)?.get(lowered) ?? []) {
+          commands.push(definition);
+          transition ??= asTransition(definition.scope);
+        }
       }
 
       for (const keyed of this.#keyedCommands.get(family) ?? []) {
@@ -324,6 +454,7 @@ export class SchemaResolver {
       if ((family === "trigger" || family === "effect") && this.#isScopeEntry(key)) {
         accepted = true;
         values.push({ kind: "script-block", family });
+        transition ??= this.#scopeEntryTransition(key);
       }
     }
 
@@ -376,7 +507,50 @@ export class SchemaResolver {
       accepted = true;
     }
 
-    return { accepted, values };
+    return {
+      accepted,
+      values,
+      commands,
+      ...(transition === undefined ? {} : { scope: transition }),
+    };
+  }
+
+  /**
+   * Where a chained scope key lands.
+   *
+   * Only a single, unambiguous step is followed: `owner` goes to a country, a
+   * chain or a run-time lookup goes nowhere this can name, and a link the
+   * documentation leaves open stays open.
+   */
+  #scopeEntryTransition(key: string): ScopeTransition {
+    const withoutOptional: string = key.endsWith("?") ? key.slice(0, -1) : key;
+    const lowered: string = withoutOptional.toLowerCase();
+
+    if (lowered.includes(".") || lowered.includes(":")) {
+      return { kind: "unknown" };
+    }
+
+    if (FRAME_WORDS.has(lowered)) {
+      return { kind: "frame", word: lowered };
+    }
+
+    for (const link of this.#model.links) {
+      if (link.kind === "scope-link" && link.id.toLowerCase() === lowered) {
+        return link.output.kind === "fixed-scope" &&
+          link.output.scopes.length === 1 &&
+          link.output.scopes[0] !== undefined
+          ? { kind: "enter", scope: link.output.scopes[0] }
+          : { kind: "unknown" };
+      }
+    }
+
+    for (const scope of this.#model.scopes) {
+      if (scope.id.toLowerCase() === lowered || scope.aliases.some((alias) => alias.toLowerCase() === lowered)) {
+        return { kind: "enter", scope: scope.id };
+      }
+    }
+
+    return { kind: "unknown" };
   }
 
   /** The keys this block would accept as a parameter of a scripted call. */
@@ -500,6 +674,7 @@ export class SchemaResolver {
 
     return {
       wildcard: into.wildcard || into.parameters,
+      scopeChanges: into.scopeChanges,
       scalarOnly: !into.sawBlockRule && !hasKeySource && into.items.length === 0,
       scopeKeys: into.scopeKeys,
       parameters: into.parameters,
@@ -517,6 +692,10 @@ export class SchemaResolver {
   #collectEntry(entry: EntryRule, into: Draft): void {
     switch (entry.kind) {
       case "field":
+        if (entry.scope !== undefined && typeof entry.key === "string") {
+          into.scopeChanges.set(entry.key, entry.scope);
+          into.scopeChanges.set(entry.key.toLowerCase(), entry.scope);
+        }
         // A rule that forbids the key describes no value. The key stays
         // accepted, because another variant of the same type may allow it, but
         // its `scalar` stand-in must not join what the value may be: one such

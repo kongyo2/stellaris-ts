@@ -105,6 +105,18 @@ if (unexplained.length > REPORTED_LIMIT) {
   console.error(`CONFORMANCE ${String(unexplained.length - REPORTED_LIMIT)} further unknown keys not listed.`);
 }
 
+// Direction D: a command written in a scope its constraint forbids. The game
+// answers a wrongly-scoped trigger with `false` for ever and never says why, so
+// a disagreement here is either a real bug in vanilla or a wrong constraint —
+// and the constraints come from a dump two patches older than the install.
+for (const entry of report.types) {
+  for (const finding of entry.scopeViolations) {
+    console.error(
+      `CONFORMANCE ${entry.type} scope: ${finding.command} at ${finding.path} runs in ${finding.writtenIn}, and accepts only ${finding.accepts.join(", ")} (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
+    );
+  }
+}
+
 // Direction C: a field the schema requires that a vanilla definition omits.
 // The game loads those definitions, so the requirement is the schema's mistake,
 // and every one of them would reject correct mod script.
@@ -161,6 +173,7 @@ console.log(
     `topLevelUnknown=${String(report.topLevelUnknownTotal)}`,
     `unusedRules=${String(report.unusedRuleTotal)}`,
     `phantomRequirements=${String(report.missingRequiredTotal)}`,
+    `scopeViolations=${String(report.scopeViolationTotal)}`,
     `missingDirectories=${String(report.missingDirectories.length)}`,
     `unexplainedKeys=${String(unexplained.length)}`,
     `gatedStrict=${String(strictGated.length)}/${String(GATED_TYPES.length)}`,
@@ -180,6 +193,7 @@ if (declaredFields < DECLARED_FIELD_FLOOR) {
 if (
   unexplained.length > 0 ||
   report.missingRequiredTotal > 0 ||
+  report.scopeViolationTotal > 0 ||
   defectsFound !== expectedDefects ||
   missingGated.length > 0 ||
   strictnessRegressed ||
