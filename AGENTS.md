@@ -101,6 +101,10 @@ Two rules learned the hard way, both from being wrong in the flattering directio
   number, and a plain object cannot interleave duplicate keys — none of which changes what the game reads. Comparing
   raw text reported 66% failures that were not failures.
 
+`entries()` exists because a PDX block is an *ordered* sequence that may mix bare values with keyed ones, and a
+JavaScript object is neither ordered nor able to hold a bare value. Use a plain object unless order is visible — it is
+shorter and says the same thing.
+
 `raw()` exists so nothing is unreachable. A construct with no object shape — inline maths, `rgb { 255 0 0 }`, an
 optional block — goes through it and is parsed on the way in, so a malformed fragment fails at authoring time.
 

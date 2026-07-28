@@ -21,7 +21,7 @@ function printValue(value: ValueNode): string {
 
   return print(document).replace(/^x = /u, "").trimEnd();
 }
-import { repeated, type ComparisonOperator } from "../../src/runtime/values.js";
+import { bare, repeated, type ComparisonOperator, type Entry } from "../../src/runtime/values.js";
 import * as marked from "../../src/runtime/values.js";
 
 /**
@@ -40,7 +40,7 @@ import * as marked from "../../src/runtime/values.js";
 /** Marks a block that is really a value list, so the caller can unwrap it. */
 const LIST_SENTINEL = "";
 
-export type ConversionFailure = "anonymous-block" | "error-node" | "duplicate-key-mixed-with-list";
+export type ConversionFailure = "error-node";
 
 export interface ConversionResult {
   readonly value?: Record<string, unknown>;
@@ -72,60 +72,57 @@ function convertValue(value: ValueNode): { value?: unknown; failure?: Conversion
 }
 
 /**
- * A block becomes an object, a value list becomes an array, and a key that
- * repeats becomes an array of what it repeats.
+ * A block becomes an object where it can, and an ordered entry list where it
+ * cannot.
+ *
+ * A plain object is the right shape for most of the format and reads far better,
+ * so it stays the default. Order only becomes visible when a bare value sits
+ * among keyed ones, or a nested block has no key — and then nothing but an
+ * ordered list will do.
  */
 export function convertBlock(block: Block): ConversionResult {
   const entries: readonly EntryNode[] = block.entries.filter((entry) => entry.kind !== NodeKind.Trivia);
-  const scalars: EntryNode[] = entries.filter((entry) => entry.kind === NodeKind.Scalar);
-  const assignments: EntryNode[] = entries.filter((entry) => entry.kind === NodeKind.Assignment);
+  const hasBare: boolean = entries.some((entry) => entry.kind === NodeKind.Scalar);
+  const hasKeyed: boolean = entries.some((entry) => entry.kind === NodeKind.Assignment);
+  const hasAnonymous: boolean = entries.some((entry) => entry.kind === NodeKind.Block);
 
-  // A block holding only bare values is a value list, which is an array.
-  if (scalars.length > 0 && assignments.length === 0) {
+  // A block of nothing but bare values is a value list, which is an array.
+  if (hasBare && !hasKeyed && !hasAnonymous) {
     const listed: unknown[] = [];
 
     for (const entry of entries) {
       if (entry.kind !== NodeKind.Scalar) {
-        return { failure: entry.kind === NodeKind.Block ? "anonymous-block" : "error-node" };
+        return { failure: "error-node" };
       }
       listed.push(entry.value);
     }
 
-    // An array is the value of a key, so it is returned through a sentinel the
-    // caller unwraps rather than as an object.
     return { value: { [LIST_SENTINEL]: listed } };
+  }
+
+  if ((hasBare && hasKeyed) || hasAnonymous) {
+    return convertOrdered(entries);
   }
 
   const result: Record<string, unknown> = {};
   const occurrences = new Map<string, unknown[]>();
 
   for (const entry of entries) {
-    if (entry.kind === NodeKind.Scalar) {
-      // A bare value mixed in with assignments has no key to hang on.
-      return { failure: "duplicate-key-mixed-with-list" };
-    }
-
-    if (entry.kind === NodeKind.Block) {
-      return { failure: "anonymous-block" };
-    }
-
     if (entry.kind !== NodeKind.Assignment) {
-      return { failure: "error-node" };
+      return convertOrdered(entries);
     }
 
     const converted = convertValue(entry.value);
-    if (converted.failure !== undefined || converted.value === undefined) {
+    if (converted.value === undefined) {
       return { failure: converted.failure ?? "error-node" };
     }
 
     const key: string = String(entry.key.value);
     const unwrapped: unknown = unwrapList(converted.value);
-
-    // A comparison is a marked value carrying its operator.
     const written: unknown =
       entry.operator === "="
         ? unwrapped
-        : compare(entry.operator, entry.value.kind === NodeKind.Scalar ? entry.value.value : 0);
+        : compare(entry.operator, entry.value.kind === NodeKind.Scalar ? entry.value.value : unwrapped);
 
     const bucket: unknown[] = occurrences.get(key) ?? [];
     bucket.push(written);
@@ -133,19 +130,50 @@ export function convertBlock(block: Block): ConversionResult {
   }
 
   for (const [key, bucket] of occurrences) {
-    const only: unknown = bucket[0];
-
-    if (bucket.length === 1) {
-      result[key] = only;
-      continue;
-    }
-
-    // A key written more than once is `repeated`, whatever the values are:
-    // an array would print as one key holding a value list instead.
-    result[key] = repeated(...bucket);
+    result[key] = bucket.length === 1 ? bucket[0] : repeated(...bucket);
   }
 
   return { value: result };
+}
+
+/** Keeps the written order, which an object cannot. */
+function convertOrdered(entries: readonly EntryNode[]): ConversionResult {
+  const items: Entry[] = [];
+
+  for (const entry of entries) {
+    if (entry.kind === NodeKind.Assignment) {
+      const converted = convertValue(entry.value);
+      if (converted.value === undefined) {
+        return { failure: converted.failure ?? "error-node" };
+      }
+
+      const unwrapped: unknown = unwrapList(converted.value);
+      items.push([
+        String(entry.key.value),
+        entry.operator === "="
+          ? unwrapped
+          : compare(entry.operator, entry.value.kind === NodeKind.Scalar ? entry.value.value : unwrapped),
+      ]);
+      continue;
+    }
+
+    if (entry.kind === NodeKind.Scalar) {
+      items.push(bare(entry.value));
+      continue;
+    }
+
+    if (entry.kind === NodeKind.Trivia) {
+      continue;
+    }
+
+    const converted = convertValue(entry);
+    if (converted.value === undefined) {
+      return { failure: converted.failure ?? "error-node" };
+    }
+    items.push(bare(unwrapList(converted.value)));
+  }
+
+  return { value: { [LIST_SENTINEL]: marked.entries(items) } };
 }
 
 /**
@@ -153,17 +181,13 @@ export function convertBlock(block: Block): ConversionResult {
  * operators that only accept numbers or strings fall through when given a
  * boolean rather than being forced.
  */
-function compare(operator: ComparisonOperator, value: boolean | number | string): unknown {
+function compare(operator: ComparisonOperator, value: unknown): unknown {
   if (operator === "==") {
     return marked.eq(value);
   }
 
   if (operator === "!=") {
     return marked.ne(value);
-  }
-
-  if (typeof value === "boolean") {
-    return value;
   }
 
   switch (operator) {

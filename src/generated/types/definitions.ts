@@ -5,7 +5,7 @@
 // a redundant union with `string`; here it is the point.
 /* oxlint-disable typescript/no-redundant-type-constituents */
 
-import type { PdxBlock, PdxValue } from "./script.js";
+import type { Authored, PdxBlock, PdxValue } from "./script.js";
 import type { VanillaId } from "./refs.js";
 
 /** Any `advisor_voice` identifier: the ones vanilla ships, or one this mod defines. */
@@ -286,798 +286,798 @@ export interface CheckedNinterfaceDefinition {
 }
 
 export interface NaiDefinition {
-  readonly ABORT_MISSION_LIMIT?: number;
-  readonly ACCEPTANCE_DEAL_ALWAYS?: number;
-  readonly ACCEPTANCE_DEAL_BREAKER?: number;
-  readonly ACTION_DAYS_REJECTED_RANDOM?: number;
-  readonly ACTION_DAYS_REJECTED_RANDOM_PEACE?: number;
-  readonly ACTION_MIN_DAYS_REJECTED?: number;
-  readonly ACTION_MIN_DAYS_REJECTED_PEACE?: number;
-  readonly ACTION_MIN_DAYS_TIMED_OUT?: number;
-  readonly AFFECTED_BY_GRAVITY_STORM_FLAG?: string;
-  readonly AFFECTED_BY_SHROUD_STORM_FLAG?: string;
-  readonly AFFECTED_BY_SOLAR_STORM_FLAG?: string;
-  readonly AGREEMENT_INFLUENCED_BY_FAVORS_AI_BREAK_COOLDOWN?: number;
-  readonly AI_ADDITIVE_SUPERFLUOUS_INCOME_THRESOLD?: number;
-  readonly AI_ADMIN_CAP_SCORE_MULT?: number;
-  readonly AI_AGGRESSIVENESS_BASE?: number;
-  readonly AI_AGGRESSIVENESS_BOXED_IN_MULT?: number;
-  readonly AI_AGGRESSIVENESS_HIGH_MULT?: number;
-  readonly AI_AGGRESSIVENESS_LOW_MULT?: number;
-  readonly AI_AGGRESSIVENESS_NO_COLONY_TARGET_MULT?: number;
-  readonly AI_AGGRESSIVENESS_PROPAGATOR_BOXED_IN_MULT?: number;
-  readonly AI_ALLOWED_TO_BUY?: Record<string, never>;
-  readonly AI_ALLOWED_TO_SELL?: Record<string, never>;
-  readonly AI_AMENITIES_SCORE_MULT?: number;
-  readonly AI_BUDGETING_LATE_YEARS?: number;
-  readonly AI_BUDGETING_MID_YEARS?: number;
-  readonly AI_BUDGETING_START_YEARS?: number;
-  readonly AI_BUILDING_MAX_FREE_SLOTS_FOR_OPPORTUNITY_COST?: number;
-  readonly AI_BUILDING_MAX_OPPORTUNITY_COST_FACTOR?: number;
-  readonly AI_BUILDING_MIN_HYPOTHETICAL_WEIGHT?: number;
-  readonly AI_BUILDING_OPPORTUNITY_COST_FALLOFF?: number;
-  readonly AI_COMMUNICATIONS_RANDOM_VALUE?: number;
-  readonly AI_CRIME_REDUCTION_SCORE_MULT?: number;
-  readonly AI_CRIME_REDUCTION_THRESHOLD?: number;
-  readonly AI_DEFICIT_SCORE_MULT?: number;
-  readonly AI_DESIGNATION_COOLDOWN?: number;
-  readonly AI_DESIGNATION_RESOURCES_IN_ECONOMIC_PLAN_BONUS?: number;
-  readonly AI_DISTRICT_MAX_FREE_SLOTS_FOR_OPPORTUNITY_COST?: number;
-  readonly AI_DISTRICT_MAX_OPPORTUNITY_COST_FACTOR?: number;
-  readonly AI_DISTRICT_MIN_HYPOTHETICAL_WEIGHT?: number;
-  readonly AI_DISTRICT_OPPORTUNITY_COST_FALLOFF?: number;
-  readonly AI_FEDERATION_PROPOSE_LAW_CATEGORY_COOLDOWN?: number;
-  readonly AI_FOCUS_SCORE_MULT?: number;
-  readonly AI_FOLLOW_FLEET_DESIRE?: number;
-  readonly AI_FOLLOW_WAR_LEADER_DESIRE?: number;
-  readonly AI_FREE_JOBS_BUILDING_BUILD_CAP?: number;
-  readonly AI_FREE_JOBS_DISTRICT_BUILD_CAP?: number;
-  readonly AI_FRUITFUL_SCORE_MULT?: number;
-  readonly AI_GALCOM_PATROL_ORBIT_TIME_DAYS?: number;
-  readonly AI_HOUSING_SCORE_MULT?: number;
-  readonly AI_IN_BREACH_THRESHOLD?: number;
-  readonly AI_IS_AMENITIES_JOB_FACTOR?: number;
-  readonly AI_JUMP_DRIVE_BRAVERY?: number;
-  readonly AI_LEAVE_POPS_WHEN_RESETTLING?: number;
-  readonly AI_LOWER_AMENITIES_LIMIT?: number;
-  readonly AI_MAIN_CONSTRUCTION_CURRENCY?: ResourceRef;
-  readonly AI_MAIN_CONSTRUCTION_CURRENCY_EMPIRE_SIZE_MULT?: number;
-  readonly AI_MAIN_CONSTRUCTION_CURRENCY_MINIMUM_TARGET?: number;
-  readonly AI_MAX_DISTANCE?: number;
-  readonly AI_MINIMUM_AMENITY_PER_JOB_LIMIT?: number;
-  readonly AI_MIN_BRANCH_OFFICE_WORTH_TO_ESTABLISH?: number;
-  readonly AI_MIN_CURRENCY_INCOME_TO_BUILD_STARBASE_MODULES?: number;
-  readonly AI_MIN_CURRENCY_INCOME_TO_SELL?: number;
-  readonly AI_MIN_CURRENCY_TO_SELL?: number;
-  readonly AI_MIN_HABITABILITY_TO_COLONIZE?: number;
-  readonly AI_MIN_HOLDING_WORTH_TO_BUILD?: number;
-  readonly AI_MIN_NAVAL_CAP_USAGE_TO_BUILD_DEFENSE_PLATFORMS?: number;
-  readonly AI_MULTIPLICATIVE_SUPERFLUOUS_INCOME_THRESOLD?: number;
-  readonly AI_NAVAL_CAP_SCORE_MULT?: number;
-  readonly AI_NO_RETREAT_LIMIT?: 3;
-  readonly AI_PLANET_LOWER_THRESHOLD_AMENITY_CONSTRUCTION?: number;
-  readonly AI_PLANET_STABILITY_THRESHOLD_AMENITY_CONSTRUCTION?: number;
-  readonly AI_PLANET_UPPER_THRESHOLD_AMENITY_CONSTRUCTION?: number;
-  readonly AI_POPS_SCORE_MULT?: number;
-  readonly AI_POP_GROWTH_JOB_TRESHOLD?: number;
-  readonly AI_POP_MODIFICATION_DISCOUNT?: number;
-  readonly AI_RARE_RESOURCES?: Record<string, never>;
-  readonly AI_RARE_RESOURCE_SCORE_MULT?: number;
-  readonly AI_RESETTLE_FROM_LOW_HABITABILITY_THRESHOLD?: number;
-  readonly AI_RESETTLE_TO_HIGH_HABITABILITY_THRESHOLD?: number;
-  readonly AI_RESOURCE_PRODUCTION_SCORE_MULT?: number;
-  readonly AI_RESOURCE_TARGET_EXPIRATION_MONTHS?: number;
-  readonly AI_RESOURCE_TARGET_VALID_THRESHOLD?: number;
-  readonly AI_SKIP_RESETTLING_MANY_POPS?: number;
-  readonly AI_SLAVE_MARKET_BUY_INTERACTION_CHANCE?: number;
-  readonly AI_SLAVE_MARKET_SELL_INTERACTION_CHANCE?: number;
-  readonly AI_SLAVE_MARKET_SELL_LIMIT?: number;
-  readonly AI_SYNTH_QUEEN_MAX_FE_HUNTING_DISTANCE?: number;
-  readonly AI_TECHNOLOGY_INFINITELY_REPEATABLE_WEIGHT_MULT?: number;
-  readonly AI_TECHNOLOGY_RARE_WEIGHT_MULT?: number;
-  readonly AI_TRADE_INTERVAL?: number;
-  readonly AI_UPGRADE_SCORE_MULT?: number;
-  readonly AI_UPPER_AMENITIES_LIMIT?: number;
-  readonly AI_VULNERABLE_PLANET_DISTANCE?: number;
-  readonly AI_WAR_PREPARATION_MAX_MONTHS?: number;
-  readonly AI_WAR_PREPARATION_MIN_MONTHS?: number;
-  readonly ALLY_FLEET_POWER_FACTOR?: number;
-  readonly ANTI_CRISIS_NAVY_SIZE_LIMIT?: number;
-  readonly ASK_FOR_AGREEMENT_ACCEPTANCE_OVERLORD_LOYALTY_EXP?: number;
-  readonly ASK_FOR_AGREEMENT_ACCEPTANCE_OVERLORD_LOYALTY_FACTOR?: number;
-  readonly ASK_FOR_AGREEMENT_ACCEPTANCE_OVERLORD_LOYALTY_OFFSET?: number;
-  readonly ASSAULT_ARMIES_PER_POP?: number;
-  readonly ATTITUDE_CHANGE_BUFFER?: number;
-  readonly AUTO_EXPLORE_ATTRACTION_SCORE?: number;
-  readonly AUTO_EXPLORE_COLLABORATION_PENALTY?: number;
-  readonly AUTO_EXPLORE_SYSTEM_OWNED?: number;
-  readonly AVERAGE_FLEET_SIZE_FACTOR?: number;
-  readonly BASE_TRUST_CHANGE?: number;
-  readonly BOSS_MILITARY_POWER?: number;
-  readonly BROKEN_TRADE_DEAL_FACTOR?: number;
-  readonly BUILDING_BUILD_THRESHOLD?: number;
-  readonly BUILDING_DEMOLISH_THRESHOLD?: number;
-  readonly BUILDING_EXISTS_DIV_SCORE?: number;
-  readonly CAPITAL_TARGET_SCORE?: number;
-  readonly CHOKEPOINT_TARGET_MULT?: number;
-  readonly CLAIM_BASE_VALUE?: number;
-  readonly CLAIM_BORDERING_FACTOR?: number;
-  readonly CLAIM_BYPASS_FACTOR?: number;
-  readonly CLAIM_COLONY_FACTOR?: number;
-  readonly CLAIM_COST_FACTOR?: number;
-  readonly CLAIM_RELATIONS_FACTOR?: number;
-  readonly CLAIM_RESOURCE_FACTOR?: number;
-  readonly COLONY_AUTOMATION_COOLDOWN?: number;
-  readonly COLONY_AUTOMATION_DISTRICT_PREFERENCE?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_DISTANCE_MULT?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_GIVEN_VALUE?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_GIVEN_VALUE_MAX?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_GIVEN_VALUE_MIN?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_NUM_PACTS?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_TAKEN_VALUE?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_TAKEN_VALUE_MAX?: number;
-  readonly COMMERCIAL_PACT_ACCEPTANCE_TAKEN_VALUE_MIN?: number;
-  readonly CONSTRUCTION_SHIP_DISTANCE_PENALTY?: number;
-  readonly CONTINGENCY_BASE_DEFENSIVE_FLEETS?: number;
-  readonly CONTINGENCY_CONSTRUCTION_DEPTH?: number;
-  readonly CONTINGENCY_IGNORE_HUBS_THRESHOLD?: number;
-  readonly CONTINGENCY_LINKUP_DESIRE?: number;
-  readonly CONTINGENCY_MEGASTRUCTURE_EXTRA_VALUE?: number;
-  readonly CREATURE_DESIGNER_MUTATION_TYPE_PREFERENCES?: Record<string, never>;
-  readonly CRISIS_CONSTRUCTOR_TARGET_SCORE?: number;
-  readonly CRISIS_EMPIRE_DESTROY_DESIRE?: number;
-  readonly CRISIS_EMPIRE_PROTECTIVE_MULT?: number;
-  readonly CRISIS_FLEET_SUPERIORITY_FACTOR?: number;
-  readonly CRISIS_INHIBITOR_EXTRA_VALUE?: number;
-  readonly CRISIS_MILITARY_AGGRESSIVENESS?: number;
-  readonly CRISIS_MILITARY_POWER_MULT_CRISIS_FIGHTER?: number;
-  readonly CRISIS_MILITARY_POWER_MULT_DEFAULT?: number;
-  readonly CRISIS_MILITARY_POWER_MULT_DESPERATION?: number;
-  readonly CRISIS_MILITARY_POWER_MULT_INHABITED_SYSTEM?: number;
-  readonly CRISIS_MILITARY_POWER_MULT_OWN_SYSTEM?: number;
-  readonly CRISIS_NAVY_SIZE_LIMIT?: number;
-  readonly CRISIS_THREAT_THRESHOLD_LOWER?: number;
-  readonly CRISIS_THREAT_THRESHOLD_UPPER?: number;
-  readonly DEEPSPACE_CITADEL_INNER_RADIUS_PERCENTAGE?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_DISTANCE_MULT?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_NUM_PACTS?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_SHARED_ALLY?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_SHARED_RIVAL?: number;
-  readonly DEFENSIVE_PACT_ACCEPTANCE_SHARED_THREAT?: number;
-  readonly DEMAND_SUBJUGATION_ACCEPTANCE_SUBJECT_POWER_STEP?: number;
-  readonly DIMENSIONAL_LOCK_AI_WEIGHT_ALLIANCE?: number;
-  readonly DIMENSIONAL_LOCK_AI_WEIGHT_CLOSED_BORDERS?: number;
-  readonly DIMENSIONAL_LOCK_AI_WEIGHT_DISTANCE_TO_CAPITAL_MAX_WEIGHT?: number;
-  readonly DIMENSIONAL_LOCK_AI_WEIGHT_NO_OWNER?: number;
-  readonly DIMENSIONAL_LOCK_AI_WEIGHT_RIVALRY?: number;
-  readonly DIMENSIONAL_LOCK_AI_WEIGHT_WAR?: number;
-  readonly DIPLOMACY_RESPONSE_COOLDOWN_DAYS?: number;
-  readonly DIPLO_ACTION_FAVOR_AI_ACCEPTANCE_VALUE?: number;
-  readonly DIPLO_ACTION_REPEAT_DELAY?: number;
-  readonly DIPLO_BREAK_THRESHOLD?: number;
-  readonly EMBASSY_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly EMBASSY_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly EMBASSY_ACCEPTANCE_DISTANCE_MULT?: number;
-  readonly EMBASSY_ACCEPTANCE_NUM_PACTS?: number;
-  readonly EMBASSY_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly EMBASSY_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly EMBASSY_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR?: number;
-  readonly EMBASSY_ACCEPTANCE_RELATIVE_STRENGTH_MAX?: number;
-  readonly EMBASSY_ACCEPTANCE_SHARED_ALLY?: number;
-  readonly EMBASSY_ACCEPTANCE_SHARED_RIVAL?: number;
-  readonly EMBASSY_ACCEPTANCE_SHARED_THREAT?: number;
-  readonly ENEMY_ARMY_POWER_MULT?: number;
-  readonly ENEMY_FLEET_POWER_FACTOR?: number;
-  readonly ENEMY_FLEET_POWER_HOME_SYSTEM_MULT?: number;
-  readonly ENEMY_FLEET_POWER_MULT?: number;
-  readonly EXPANSION_BORDERING_PRIORITY?: number;
-  readonly EXPANSION_BYPASS_PRIORITY?: number;
-  readonly EXPANSION_COLONY_PRIORITY?: number;
-  readonly EXPANSION_CUT_OFF_SYSTEM_PRIORITY?: number;
-  readonly EXPANSION_MIN_VALUE_FOR_HIGH_PRIO?: number;
-  readonly EXPANSION_OWN_PRIORITY?: number;
-  readonly EXPANSION_RANDOM_AMOUNT?: number;
-  readonly EXPANSION_RESOURCE_GAIN_UPKEEP?: number;
-  readonly EXPANSION_RESOURCE_PRIORITY?: number;
-  readonly EXTRADIMENSIONAL_MIN_FLEETS?: number;
-  readonly FEDERATION_ACCEPTANCE_ASSOCIATION_VOTE?: number;
-  readonly FEDERATION_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly FEDERATION_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly FEDERATION_ACCEPTANCE_CRISIS_FACTOR?: number;
-  readonly FEDERATION_ACCEPTANCE_DISTANCE_MULT?: number;
-  readonly FEDERATION_ACCEPTANCE_MEMBER_VOTE?: number;
-  readonly FEDERATION_ACCEPTANCE_MEMBER_VOTE_MIN?: number;
-  readonly FEDERATION_ACCEPTANCE_MEMBER_VOTE_SIZE_FACTOR?: number;
-  readonly FEDERATION_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly FEDERATION_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR?: number;
-  readonly FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_MAX?: number;
-  readonly FEDERATION_ACCEPTANCE_SHARED_RIVAL?: number;
-  readonly FEDERATION_ACCEPTANCE_SHARED_RIVAL_IN_FEDERATION?: number;
-  readonly FEDERATION_ACCEPTANCE_SHARED_THREAT?: number;
-  readonly FEDERATION_ACCEPTANCE_SUPPORT?: number;
-  readonly FEDERATION_ACCEPTANCE_VOTED_DOWN_PROPOSAL?: number;
-  readonly FEDERATION_ALL_AI_LEADER_WEIGHT_FACTOR?: number;
-  readonly FEDERATION_CONQUEROR_DIFFERENCE?: number;
-  readonly FEDERATION_DISBAND_PLAYER_THRESHOLD?: number;
-  readonly FEDERATION_DISBAND_THRESHOLD?: number;
-  readonly FEDERATION_LAW_SUPPORT_THRESHOLD?: number;
-  readonly FEDERATION_PROPOSE_THRESHOLD?: number;
-  readonly FEDERATION_WEIGHT_COHESION_FACTOR?: number;
-  readonly FLEET_ARMOR_DAMAGED_THRESHOLD_PEACE?: number;
-  readonly FLEET_ARMOR_DAMAGED_THRESHOLD_WAR?: number;
-  readonly FLEET_COMBAT_INTERVENTION_MULT?: number;
-  readonly FLEET_DAMAGED_THRESHOLD_PEACE?: number;
-  readonly FLEET_DAMAGED_THRESHOLD_WAR?: number;
-  readonly FLEET_GROUP_ABORT_MISSION_MULT?: number;
-  readonly FLEET_MAX_DISTANCE_LOOKUP?: number;
-  readonly FLEET_MAX_DISTANCE_LOOKUP_HUGE?: number;
-  readonly FLEET_MAX_DISTANCE_LOOKUP_LARGE?: number;
-  readonly FLEET_SPECIALIZATION_REFIT_TRESHOLD?: number;
-  readonly FLEET_SUPERIORITY_FACTOR?: number;
-  readonly FORMLESS_ANCHOR_EXTRA_VALUE?: number;
-  readonly HIGH_THREAT_THRESHOLD?: number;
-  readonly HORDE_INVASION_PLANNING_DEPTH?: number;
-  readonly HORDE_NAVY_SIZE_LIMIT?: number;
-  readonly HOSTILE_FLEETS_TARGET_SCORE?: number;
-  readonly INSTANT_AI_DIPLOMACY?: number;
-  readonly LOCATION_WEIGHT_FEDERATION_MULTIPLIER?: number;
-  readonly LOCATION_WEIGHT_FLEET_MULTIPLIER?: number;
-  readonly LOCATION_WEIGHT_GALACTIC_COMMUNITY?: number;
-  readonly LOCATION_WEIGHT_PLANET_MULTIPLIER?: number;
-  readonly MAX_ASSAULT_ARMIES?: number;
-  readonly MAX_CLAIM_DISTANCE?: number;
-  readonly MAX_CLAIM_DISTANCE_SUBJECT?: number;
-  readonly MAX_EXPANSION_DISTANCE?: number;
-  readonly MAX_EXPANSION_DISTANCE_SUBJECT?: number;
-  readonly MAX_GIFT_SIZE?: number;
-  readonly MAX_GUARANTEES?: number;
-  readonly MAX_PLANETS_FOR_BUDGET_FACTOR?: number;
-  readonly MAX_SUPPORT_PERCENTAGE_FOR_FAVORS_SUPPORTING?: number;
-  readonly MAX_TRUST?: number;
-  readonly MAX_TRUST_ASSOCIATE?: number;
-  readonly MAX_TRUST_DEFENSIVE_PACT?: number;
-  readonly MAX_TRUST_MIN?: number;
-  readonly MAX_TRUST_NAP?: number;
-  readonly MERCENARY_ENCLAVE_ESTABLISHING_AI_CHANCE_THRESHOLD?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_AI_CHANCE_INWAR_ADD?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_AI_CHANCE_PREPARING_WAR_ADD?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_AI_CHANCE_TRHESHOLD?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CAN_AFFORD_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_DAYS?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_LANDLORD_OPINION_PRICE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_LANDLORD_OPINION_THRESHOLD?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_POWER_TO_PRICE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_TRUST_PRICE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_TRUST_THRESHOLD?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_COST_SCORE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_LANDLORD_OPINION_PRICE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_LANDLORD_OPINION_THRESHOLD?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_POWER_SCORE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_POWER_TO_PRICE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_REMOTENESS_MAX?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_REMOTENESS_SCORE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_RENT_DAYS?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_TRUST_PRICE_FACTOR?: number;
-  readonly MERCENARY_ENCLAVE_OFFER_FLEET_TRUST_THRESHOLD?: number;
-  readonly MIGRATION_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly MIGRATION_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly MIGRATION_PACT_ACCEPTANCE_DISTANCE_MULT?: number;
-  readonly MIGRATION_PACT_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly MIGRATION_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly MIGRATION_PACT_ACCEPTANCE_THREAT_MULT?: number;
-  readonly MIN_ASSAULT_ARMIES?: number;
-  readonly MIN_DISTANCE_TO_JUMP?: number;
-  readonly MIN_FLEET_FOR_OPERATIONS?: number;
-  readonly MIN_FLEET_THREAT_TO_CRISIS?: number;
-  readonly MIN_FLEET_TO_RESTRICT_SYSTEM?: number;
-  readonly MIN_GIFT_SIZE?: number;
-  readonly MIN_NAVY_SIZE_FOR_ADMIRAL?: number;
-  readonly MIN_RELATION_TO_TRADE_SPECIMENS?: number;
-  readonly MIN_SUPPORT_PERCENTAGE_FOR_FAVORS_OPPOSING?: number;
-  readonly MIN_WANTED_SCIENTISTS?: number;
-  readonly MIN_WILLINGNESS_TO_OFFER_TRADE?: number;
-  readonly MONTHLY_TRUST_ASSOCIATION_STATUS?: number;
-  readonly MONTHLY_TRUST_AT_WAR?: number;
-  readonly MONTHLY_TRUST_COMMERCIAL_PACT?: number;
-  readonly MONTHLY_TRUST_DEFENSIVE_PACT?: number;
-  readonly MONTHLY_TRUST_EMBASSY?: number;
-  readonly MONTHLY_TRUST_FEDERATION?: number;
-  readonly MONTHLY_TRUST_GUARANTEE?: number;
-  readonly MONTHLY_TRUST_MIGRATION_TREATY?: number;
-  readonly MONTHLY_TRUST_NON_AGGRESSION_PACT?: number;
-  readonly MONTHLY_TRUST_RESEARCH_TREATY?: number;
-  readonly MONTHLY_TRUST_RIVAL?: number;
-  readonly MONTHLY_TRUST_SUBJECT?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_ECONOMIC_IMPACT_MULTIPLIER?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_INTANGIBLE_IMPACT_MULTIPLIER?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_EQUIVALENT?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_INFERIOR?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_OVERWHELMING?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_PATHETIC?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_SUPERIOR?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_SPECIALIST?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_SUBJECT_POWER_STEP?: number;
-  readonly NEGOTIATE_AGREEMENT_MAX_ACCEPTANCE_FROM_TERMS?: number;
-  readonly NEGOTIATE_AGREEMENT_MIN_ACCEPTANCE_FROM_TERMS?: number;
-  readonly NEGOTIATE_AGREEMENT_MIN_ECONOMY_WEIGHT?: number;
-  readonly NEGOTIATE_AGREEMENT_MIN_REFERENCE_INTANGIBLE?: number;
-  readonly NEGOTIATE_AGREEMENT_MIN_REFERENCE_RESOURCE?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_DISTANCE_MULT?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_NUM_PACTS?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_RIVAL?: number;
-  readonly NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_THREAT?: number;
-  readonly NO_LEAVE_FED_FLAG?: string;
-  readonly NO_WARS_FLAG?: string;
-  readonly NUM_TRADITIONS_FOR_EDICTS?: number;
-  readonly OFFENSE_VS_DEFENSE_STRATEGY_ALLOTMENT?: number;
-  readonly OFFER_TRADE_ACCEPTANCE_ATTITUDE?: number;
-  readonly OFFER_TRADE_MIN_RESOURCE_THRESHOLD?: number;
-  readonly OFFER_VASSALIZATION_ACCEPTANCE_ATTITUDE_VASSALIZE?: number;
-  readonly OFFER_VASSALIZATION_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly OWN_FLEET_POWER_FACTOR?: number;
-  readonly PEACE_DEFENDING_CLAIM_PLANET_FACTOR?: number;
-  readonly PEACE_DEFENDING_CLAIM_STARBASE_FACTOR?: number;
-  readonly PEACE_DEFENDING_CLAIM_SYSTEM_FACTOR?: number;
-  readonly PEACE_DEMAND_SURRENDER_FACTOR?: number;
-  readonly PEACE_HIGH_WE_STATUS_QUO_FACTOR?: number;
-  readonly PEACE_OCCUPATION_FACTOR?: number;
-  readonly PEACE_RELATIVE_NAVY_STRENGTH_FACTOR?: number;
-  readonly PEACE_STALE_WAR_STATUS_QUO_FACTOR?: number;
-  readonly PEACE_STATUS_QUO_FACTOR?: number;
-  readonly PEACE_WAR_EXHAUSTION_FACTOR?: number;
-  readonly PLANETARY_ASCENSION_ALLOWED_SPENDING?: number;
-  readonly POP_RANK_LIMIT_FOR_AMENITIES_ADJUSTMENT?: number;
-  readonly PREFTL_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly PREFTL_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly PREFTL_PACT_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly PREFTL_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly PROPOSE_EMBASSY_THRESHOLD?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_DISTANCE_MULT?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_GIVEN_TECHS?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_NUM_PACTS?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_OPINION_FACTOR?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_TAKEN_TECHS?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_TECHS_MAX?: number;
-  readonly RESEARCH_AGREEMENT_ACCEPTANCE_TECHS_MIN?: number;
-  readonly RESOLUTION_PROPOSER_OPINION_BASE_FACTOR?: number;
-  readonly RESOLUTION_PROPOSER_OPINION_MAX_FACTOR?: number;
-  readonly RESOLUTION_PROPOSER_OPINION_MIN_FACTOR?: number;
-  readonly RESOLUTION_TARGET_OPINION_BASE_FACTOR?: number;
-  readonly RESOLUTION_TARGET_OPINION_MAX_FACTOR?: number;
-  readonly RESOLUTION_TARGET_OPINION_MIN_FACTOR?: number;
-  readonly RESOLUTION_USE_FAVORS_THRESHOLD_DELTA?: number;
-  readonly RESOLUTION_VOTE_ABSTAIN_THRESHOLD?: number;
-  readonly RESOLUTION_VOTE_EMERGENCY_THRESHOLD?: number;
-  readonly RESOLUTION_VOTE_FREEZE_THRESHOLD_DELTA?: number;
-  readonly RESOLUTION_VOTE_PROPOSE_THRESHOLD?: number;
-  readonly RESOLUTION_VOTE_SUPPORT_THRESHOLD?: number;
-  readonly RESOLUTION_VOTE_VETO_THRESHOLD?: number;
-  readonly SCIENTIST_HIRING_PREV_JOB_THRESHOLD?: number;
-  readonly SCIENTIST_HIRING_REPLACEMENT_THRESHOLD?: number;
-  readonly SCIENTIST_HIRING_SURVEY_MULTIPLIER?: number;
-  readonly SCIENTIST_HIRING_UNEMPLOYMENT_MULT?: number;
-  readonly SECRET_FEALTY_BREAK_LOYALTY_THRESHOLD?: number;
-  readonly SECRET_FEALTY_BREAK_RELATIVE_POWER_THRESHOLD?: number;
-  readonly SECRET_FEALTY_BREAK_TERMS_BONUS?: number;
-  readonly SECRET_FEALTY_BREAK_TERMS_MULTIPLIER?: number;
-  readonly SECRET_FEALTY_PLEDGE_TERMS_BONUS?: number;
-  readonly SECRET_FEALTY_PLEDGE_TERMS_MULTIPLIER?: number;
-  readonly SECRET_FEALTY_PROPOSE_TERMS_BONUS?: number;
-  readonly SECRET_FEALTY_PROPOSE_TERMS_MULTIPLIER?: number;
-  readonly SEEDED_SPACE_MONSTER_MOVE_CHANCE?: number;
-  readonly SEEDED_SPACE_MONSTER_WANDER_FACTOR?: number;
-  readonly SHARED_THREAT_MAX?: number;
-  readonly SHARED_THREAT_MULT?: number;
-  readonly SHIP_DESIGN_STALE_MONTHS?: number;
-  readonly SHIP_FLEET_POWER_UPGRADE_THRESHOLD?: number;
-  readonly SLAVE_BUY_EC_THRESHOLD?: number;
-  readonly SLAVE_BUY_HABITABILITY_THRESHOLD?: number;
-  readonly SLAVE_BUY_UNEMPLOYMENT_THRESHOLD?: number;
-  readonly SLAVE_SELL_EC_THRESHOLD?: number;
-  readonly SLAVE_SELL_MIN_POPS?: number;
-  readonly SLAVE_SELL_UNEMPLOYMENT_THRESHOLD?: number;
-  readonly SPACE_MONSTER_MOVE_CHANCE?: number;
-  readonly SPACE_MONSTER_WANDER_FACTOR?: number;
-  readonly SPECIMEN_TRADE?: string;
-  readonly SPECIMEN_TRADE_FLAG_DAYS?: number;
-  readonly STALE_WAR_TIMER?: number;
-  readonly STARBASE_BYPASS_SCORE?: number;
-  readonly STARBASE_CHOKEPOINT_SCORE?: number;
-  readonly STARBASE_COLONY_SCORE?: number;
-  readonly STARBASE_HABITABLE_PLANET_SCORE?: number;
-  readonly STARBASE_HAZARD_CHOKEPOINT_SCORE_MULT?: number;
-  readonly STARBASE_MAX_OVER_CAP_DURING_WAR?: number;
-  readonly STARBASE_MEGASTRUCTURE_SCORE?: number;
-  readonly STARBASE_SECTOR_CAPITAL_SCORE?: number;
-  readonly SURRENDER_ACCEPTANCE_HIGH?: number;
-  readonly SURRENDER_ACCEPTANCE_HIGHEST?: number;
-  readonly SURRENDER_ACCEPTANCE_LOW?: number;
-  readonly SURRENDER_ACCEPTANCE_LOWEST?: number;
-  readonly SURVEY_COLONIZABLE_SYSTEM_MULTIPLIER?: number;
-  readonly SWARM_FULLY_CONQUER_SYSTEM?: number;
-  readonly SWARM_INVASION_PLANNING_DEPTH?: number;
-  readonly SWARM_NUM_DEFENSIVE_FLEETS?: number;
-  readonly SWARM_POP_TARGET_MULT?: number;
-  readonly SWARM_UNEDIBLE_POP_TARGET_MULT?: number;
-  readonly TARGET_BASE_SCORE?: number;
-  readonly TERRAFORMING_RESOURCE_THRESHOLD_FACTOR?: number;
-  readonly THREAT_DECAY?: number;
-  readonly THREAT_DISTANCE_FACTOR?: number;
-  readonly THREAT_NAP_FACTOR?: number;
-  readonly THREAT_NEGATIVE_OPINION_FACTOR?: number;
-  readonly THREAT_OPINION_MAX?: number;
-  readonly THREAT_OPINION_MIN?: number;
-  readonly THREAT_PLANET_MULT?: number;
-  readonly THREAT_POSITIVE_OPINION_FACTOR?: number;
-  readonly THREAT_SHARED_THREAT_REDUCTION?: number;
-  readonly THREAT_SIZE_FACTOR?: number;
-  readonly THREAT_SIZE_FACTOR_MAX?: number;
-  readonly THREAT_SIZE_FACTOR_MIN?: number;
-  readonly THREAT_STARBASE_MULT?: number;
-  readonly THREAT_SYSTEM_MULT?: number;
-  readonly TRADE_MAX_RESOURCE_PERCENT?: number;
-  readonly TRADE_MIN_RESOURCE_DELTA?: number;
-  readonly TRADE_MIN_RESOURCE_STOCKPILE?: number;
-  readonly TRADE_RESOURCE_FRACTION_MAX?: number;
-  readonly TRADE_RESOURCE_FRACTION_MIN?: number;
-  readonly TRADE_RESOURCE_STOCKPILE_OVER?: number;
-  readonly TRADE_RESOURCE_STOCKPILE_UNDER?: number;
-  readonly TRADE_VALUE_COLONY?: number;
-  readonly TRADE_VALUE_FLEET_MILITARY_WEIGHT_MULT?: number;
-  readonly TRADE_VALUE_LEADER_LEVEL_WEIGHT_MAGIC_NUMBER?: number;
-  readonly TRADE_VALUE_LEADER_MAX_WEIGHT?: number;
-  readonly TRADE_VALUE_LEADER_TRAIT_DEFAULT?: number;
-  readonly TRADE_VALUE_LEADER_TRAIT_WEIGHT_MULT?: number;
-  readonly TRADE_VALUE_LOYALTY?: number;
-  readonly TRADE_VALUE_RESOURCE?: number;
-  readonly TRADE_VALUE_RESOURCE_INCOME_BASE?: number;
-  readonly TRADE_VALUE_RESOURCE_MONTHLY_MULT?: number;
-  readonly TRADE_VALUE_SENSOR_CHARTS?: number;
-  readonly TRADE_VALUE_SENSOR_CHARTS_MAX?: number;
-  readonly TRADE_VALUE_SENSOR_LINK?: number;
-  readonly TRADE_VALUE_SENSOR_LINK_MAX?: number;
-  readonly TRADE_VALUE_SYSTEM?: number;
-  readonly TRAIT_AUTOPICK_WEIGHT_FACTOR_FOR_UPGRADES?: number;
-  readonly TRAIT_AUTOPICK_WEIGHT_FACTOR_IS_COUNCILOR?: number;
-  readonly TRAIT_AUTOPICK_WEIGHT_FACTOR_IS_NOT_COUNCILOR?: number;
-  readonly TRANSPORT_FLEET_SIZE?: number;
-  readonly TRANSPORT_RETREAT_HEALTH_THRESHOLD?: number;
-  readonly ULTRA_BOSS_MILITARY_POWER?: number;
-  readonly UNBIDDEN_ASTRAL_RIFTS_EXTRA_VALUE?: number;
-  readonly UNBIDDEN_BYPASSES_EXTRA_VALUE?: number;
-  readonly UNBIDDEN_PORTAL_EXTRA_VALUE?: number;
-  readonly UNBIDDEN_RIVALS_EXTRA_VALUE?: number;
-  readonly UNBIDDEN_TARGET_EXTRA_VALUE?: number;
-  readonly UNDERDEVELOPED_PLANET_LIMIT?: number;
-  readonly UNDERDEVELOPED_POP_LIMIT?: number;
-  readonly VASSALIZATION_ACCEPTANCE_ATTITUDE_ALLIANCE?: number;
-  readonly VASSALIZATION_ACCEPTANCE_ATTITUDE_ATTACK?: number;
-  readonly VASSALIZATION_ACCEPTANCE_ATTITUDE_COEXIST?: number;
-  readonly VASSALIZATION_ACCEPTANCE_DISTANCE_MULT?: number;
-  readonly VASSALIZATION_ACCEPTANCE_LOYALTY_MULT?: number;
-  readonly VASSALIZATION_ACCEPTANCE_NUM_POPS?: number;
-  readonly VASSALIZATION_ACCEPTANCE_OTHER_ATTITUDE?: number;
-  readonly VASSALIZATION_ACCEPTANCE_OTHER_THREAT_MAX?: number;
-  readonly VASSALIZATION_ACCEPTANCE_OTHER_THREAT_MULT?: number;
-  readonly VASSALIZATION_ACCEPTANCE_OVERLORD?: number;
-  readonly VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MAX?: number;
-  readonly VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MIN?: number;
-  readonly VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MULT?: number;
-  readonly VASSALIZATION_ACCEPTANCE_PROTECTORATE_MAX?: number;
-  readonly VASSALIZATION_ACCEPTANCE_PROTECTORATE_MULT?: number;
-  readonly VOIDWORMS_ADULTS_SHIP_SIZE?: ShipSizeRef;
-  readonly VOIDWORMS_AGRESSIVE_SHIP_SIZE?: ShipSizeRef;
-  readonly VOIDWORMS_EXPLORER_SHIP_SIZE?: ShipSizeRef;
-  readonly VOIDWORMS_HOME_SYSTEM_FLAG?: string;
-  readonly VOIDWORMS_MAXIMUM_POPS_TO_KILL?: number;
-  readonly VOIDWORMS_MAXIMUM_POPS_TO_KILL_CIVILIAN?: number;
-  readonly VOIDWORMS_MINIMUM_POPS_TO_TARGET?: number;
-  readonly VOIDWORMS_NAVAL_CAP_PER_FLEET?: Record<string, never>;
-  readonly VOIDWORMS_NEWBORNS_SHIP_SIZE?: ShipSizeRef;
-  readonly VOIDWORMS_NEW_FLEET_NAME?: string;
-  readonly VOIDWORMS_STARBASE?: string;
-  readonly VOIDWORM_ACTIVELY_BOMBARDING_FLAG?: string;
-  readonly VOIDWORM_AGGRESSIVE_FLEETS_MAX_SHIPS?: number;
-  readonly VOIDWORM_ATTACK_AGAINST_PLAYER_COOLDOWN_DAYS?: number;
-  readonly VOIDWORM_BOMBARDMENT_IMMUNITY_FLAG?: string;
-  readonly VOIDWORM_CRISIS_ACTIVE?: string;
-  readonly VOIDWORM_CRISIS_AGGRESSIVE_FLEETS_MAX_SHIPS?: number;
-  readonly VOIDWORM_EXPLORATION_MAX_JUMPS?: number;
-  readonly VOIDWORM_EXPLORING_FACTOR?: number;
-  readonly VOIDWORM_KILLED_POPULATION_COUNT?: string;
-  readonly VOIDWORM_RECENTLY_TARGETED_FLAG?: string;
-  readonly VOIDWORM_WANDERING_FACTOR?: number;
-  readonly WAR_ALLY_BORDER_PRIO?: number;
-  readonly WAR_ATTACK_CLAIM_PRIO?: number;
-  readonly WAR_ATTACK_JUMP_DRIVE_FLEET_PRIO?: number;
-  readonly WAR_ATTACK_MILITARY_FLEET_PRIO?: number;
-  readonly WAR_ATTACK_PLANET_CONTROLLED_SYSTEM_PRIO?: number;
-  readonly WAR_ATTACK_PLANET_PRIO?: number;
-  readonly WAR_ATTACK_STARBASE_PRIO?: number;
-  readonly WAR_DECLARATION_MALUS?: number;
-  readonly WAR_DECLARATION_MALUS_DISTANCE?: number;
-  readonly WAR_DECLARATION_MAX_DISTANCE?: number;
-  readonly WAR_DECLARATION_MINIMUM_SCORE?: number;
-  readonly WAR_DEFEND_STARBASE_PRIO?: number;
-  readonly WAR_DEFENSE_ALLY_PRIO?: number;
-  readonly WAR_DEFENSE_CLAIM_PRIO?: number;
-  readonly WAR_DEFENSE_CONTROLLED_PRIO?: number;
-  readonly WAR_DEFENSE_OWN_PLANET_ENEMY_CONTROL_PRIO?: number;
-  readonly WAR_DEFENSE_OWN_PLANET_PRIO?: number;
-  readonly WAR_DEFENSE_OWN_PRIO?: number;
-  readonly WAR_EXHAUSTION_TO_INTERVENE?: number;
-  readonly WAR_NEUTRAL_SPACE_PRIO?: number;
-  readonly WAR_NO_BORDER_PRIO?: number;
-  readonly WAR_OCCUPIED_BORDER_PRIO?: number;
-  readonly WAR_OWN_BORDER_PRIO?: number;
-  readonly WAS_HUMAN_MONTHS?: number;
+  readonly ABORT_MISSION_LIMIT?: number | Authored;
+  readonly ACCEPTANCE_DEAL_ALWAYS?: number | Authored;
+  readonly ACCEPTANCE_DEAL_BREAKER?: number | Authored;
+  readonly ACTION_DAYS_REJECTED_RANDOM?: number | Authored;
+  readonly ACTION_DAYS_REJECTED_RANDOM_PEACE?: number | Authored;
+  readonly ACTION_MIN_DAYS_REJECTED?: number | Authored;
+  readonly ACTION_MIN_DAYS_REJECTED_PEACE?: number | Authored;
+  readonly ACTION_MIN_DAYS_TIMED_OUT?: number | Authored;
+  readonly AFFECTED_BY_GRAVITY_STORM_FLAG?: string | Authored;
+  readonly AFFECTED_BY_SHROUD_STORM_FLAG?: string | Authored;
+  readonly AFFECTED_BY_SOLAR_STORM_FLAG?: string | Authored;
+  readonly AGREEMENT_INFLUENCED_BY_FAVORS_AI_BREAK_COOLDOWN?: number | Authored;
+  readonly AI_ADDITIVE_SUPERFLUOUS_INCOME_THRESOLD?: number | Authored;
+  readonly AI_ADMIN_CAP_SCORE_MULT?: number | Authored;
+  readonly AI_AGGRESSIVENESS_BASE?: number | Authored;
+  readonly AI_AGGRESSIVENESS_BOXED_IN_MULT?: number | Authored;
+  readonly AI_AGGRESSIVENESS_HIGH_MULT?: number | Authored;
+  readonly AI_AGGRESSIVENESS_LOW_MULT?: number | Authored;
+  readonly AI_AGGRESSIVENESS_NO_COLONY_TARGET_MULT?: number | Authored;
+  readonly AI_AGGRESSIVENESS_PROPAGATOR_BOXED_IN_MULT?: number | Authored;
+  readonly AI_ALLOWED_TO_BUY?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly AI_ALLOWED_TO_SELL?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly AI_AMENITIES_SCORE_MULT?: number | Authored;
+  readonly AI_BUDGETING_LATE_YEARS?: number | Authored;
+  readonly AI_BUDGETING_MID_YEARS?: number | Authored;
+  readonly AI_BUDGETING_START_YEARS?: number | Authored;
+  readonly AI_BUILDING_MAX_FREE_SLOTS_FOR_OPPORTUNITY_COST?: number | Authored;
+  readonly AI_BUILDING_MAX_OPPORTUNITY_COST_FACTOR?: number | Authored;
+  readonly AI_BUILDING_MIN_HYPOTHETICAL_WEIGHT?: number | Authored;
+  readonly AI_BUILDING_OPPORTUNITY_COST_FALLOFF?: number | Authored;
+  readonly AI_COMMUNICATIONS_RANDOM_VALUE?: number | Authored;
+  readonly AI_CRIME_REDUCTION_SCORE_MULT?: number | Authored;
+  readonly AI_CRIME_REDUCTION_THRESHOLD?: number | Authored;
+  readonly AI_DEFICIT_SCORE_MULT?: number | Authored;
+  readonly AI_DESIGNATION_COOLDOWN?: number | Authored;
+  readonly AI_DESIGNATION_RESOURCES_IN_ECONOMIC_PLAN_BONUS?: number | Authored;
+  readonly AI_DISTRICT_MAX_FREE_SLOTS_FOR_OPPORTUNITY_COST?: number | Authored;
+  readonly AI_DISTRICT_MAX_OPPORTUNITY_COST_FACTOR?: number | Authored;
+  readonly AI_DISTRICT_MIN_HYPOTHETICAL_WEIGHT?: number | Authored;
+  readonly AI_DISTRICT_OPPORTUNITY_COST_FALLOFF?: number | Authored;
+  readonly AI_FEDERATION_PROPOSE_LAW_CATEGORY_COOLDOWN?: number | Authored;
+  readonly AI_FOCUS_SCORE_MULT?: number | Authored;
+  readonly AI_FOLLOW_FLEET_DESIRE?: number | Authored;
+  readonly AI_FOLLOW_WAR_LEADER_DESIRE?: number | Authored;
+  readonly AI_FREE_JOBS_BUILDING_BUILD_CAP?: number | Authored;
+  readonly AI_FREE_JOBS_DISTRICT_BUILD_CAP?: number | Authored;
+  readonly AI_FRUITFUL_SCORE_MULT?: number | Authored;
+  readonly AI_GALCOM_PATROL_ORBIT_TIME_DAYS?: number | Authored;
+  readonly AI_HOUSING_SCORE_MULT?: number | Authored;
+  readonly AI_IN_BREACH_THRESHOLD?: number | Authored;
+  readonly AI_IS_AMENITIES_JOB_FACTOR?: number | Authored;
+  readonly AI_JUMP_DRIVE_BRAVERY?: number | Authored;
+  readonly AI_LEAVE_POPS_WHEN_RESETTLING?: number | Authored;
+  readonly AI_LOWER_AMENITIES_LIMIT?: number | Authored;
+  readonly AI_MAIN_CONSTRUCTION_CURRENCY?: ResourceRef | Authored;
+  readonly AI_MAIN_CONSTRUCTION_CURRENCY_EMPIRE_SIZE_MULT?: number | Authored;
+  readonly AI_MAIN_CONSTRUCTION_CURRENCY_MINIMUM_TARGET?: number | Authored;
+  readonly AI_MAX_DISTANCE?: number | Authored;
+  readonly AI_MINIMUM_AMENITY_PER_JOB_LIMIT?: number | Authored;
+  readonly AI_MIN_BRANCH_OFFICE_WORTH_TO_ESTABLISH?: number | Authored;
+  readonly AI_MIN_CURRENCY_INCOME_TO_BUILD_STARBASE_MODULES?: number | Authored;
+  readonly AI_MIN_CURRENCY_INCOME_TO_SELL?: number | Authored;
+  readonly AI_MIN_CURRENCY_TO_SELL?: number | Authored;
+  readonly AI_MIN_HABITABILITY_TO_COLONIZE?: number | Authored;
+  readonly AI_MIN_HOLDING_WORTH_TO_BUILD?: number | Authored;
+  readonly AI_MIN_NAVAL_CAP_USAGE_TO_BUILD_DEFENSE_PLATFORMS?: number | Authored;
+  readonly AI_MULTIPLICATIVE_SUPERFLUOUS_INCOME_THRESOLD?: number | Authored;
+  readonly AI_NAVAL_CAP_SCORE_MULT?: number | Authored;
+  readonly AI_NO_RETREAT_LIMIT?: 3 | Authored;
+  readonly AI_PLANET_LOWER_THRESHOLD_AMENITY_CONSTRUCTION?: number | Authored;
+  readonly AI_PLANET_STABILITY_THRESHOLD_AMENITY_CONSTRUCTION?: number | Authored;
+  readonly AI_PLANET_UPPER_THRESHOLD_AMENITY_CONSTRUCTION?: number | Authored;
+  readonly AI_POPS_SCORE_MULT?: number | Authored;
+  readonly AI_POP_GROWTH_JOB_TRESHOLD?: number | Authored;
+  readonly AI_POP_MODIFICATION_DISCOUNT?: number | Authored;
+  readonly AI_RARE_RESOURCES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly AI_RARE_RESOURCE_SCORE_MULT?: number | Authored;
+  readonly AI_RESETTLE_FROM_LOW_HABITABILITY_THRESHOLD?: number | Authored;
+  readonly AI_RESETTLE_TO_HIGH_HABITABILITY_THRESHOLD?: number | Authored;
+  readonly AI_RESOURCE_PRODUCTION_SCORE_MULT?: number | Authored;
+  readonly AI_RESOURCE_TARGET_EXPIRATION_MONTHS?: number | Authored;
+  readonly AI_RESOURCE_TARGET_VALID_THRESHOLD?: number | Authored;
+  readonly AI_SKIP_RESETTLING_MANY_POPS?: number | Authored;
+  readonly AI_SLAVE_MARKET_BUY_INTERACTION_CHANCE?: number | Authored;
+  readonly AI_SLAVE_MARKET_SELL_INTERACTION_CHANCE?: number | Authored;
+  readonly AI_SLAVE_MARKET_SELL_LIMIT?: number | Authored;
+  readonly AI_SYNTH_QUEEN_MAX_FE_HUNTING_DISTANCE?: number | Authored;
+  readonly AI_TECHNOLOGY_INFINITELY_REPEATABLE_WEIGHT_MULT?: number | Authored;
+  readonly AI_TECHNOLOGY_RARE_WEIGHT_MULT?: number | Authored;
+  readonly AI_TRADE_INTERVAL?: number | Authored;
+  readonly AI_UPGRADE_SCORE_MULT?: number | Authored;
+  readonly AI_UPPER_AMENITIES_LIMIT?: number | Authored;
+  readonly AI_VULNERABLE_PLANET_DISTANCE?: number | Authored;
+  readonly AI_WAR_PREPARATION_MAX_MONTHS?: number | Authored;
+  readonly AI_WAR_PREPARATION_MIN_MONTHS?: number | Authored;
+  readonly ALLY_FLEET_POWER_FACTOR?: number | Authored;
+  readonly ANTI_CRISIS_NAVY_SIZE_LIMIT?: number | Authored;
+  readonly ASK_FOR_AGREEMENT_ACCEPTANCE_OVERLORD_LOYALTY_EXP?: number | Authored;
+  readonly ASK_FOR_AGREEMENT_ACCEPTANCE_OVERLORD_LOYALTY_FACTOR?: number | Authored;
+  readonly ASK_FOR_AGREEMENT_ACCEPTANCE_OVERLORD_LOYALTY_OFFSET?: number | Authored;
+  readonly ASSAULT_ARMIES_PER_POP?: number | Authored;
+  readonly ATTITUDE_CHANGE_BUFFER?: number | Authored;
+  readonly AUTO_EXPLORE_ATTRACTION_SCORE?: number | Authored;
+  readonly AUTO_EXPLORE_COLLABORATION_PENALTY?: number | Authored;
+  readonly AUTO_EXPLORE_SYSTEM_OWNED?: number | Authored;
+  readonly AVERAGE_FLEET_SIZE_FACTOR?: number | Authored;
+  readonly BASE_TRUST_CHANGE?: number | Authored;
+  readonly BOSS_MILITARY_POWER?: number | Authored;
+  readonly BROKEN_TRADE_DEAL_FACTOR?: number | Authored;
+  readonly BUILDING_BUILD_THRESHOLD?: number | Authored;
+  readonly BUILDING_DEMOLISH_THRESHOLD?: number | Authored;
+  readonly BUILDING_EXISTS_DIV_SCORE?: number | Authored;
+  readonly CAPITAL_TARGET_SCORE?: number | Authored;
+  readonly CHOKEPOINT_TARGET_MULT?: number | Authored;
+  readonly CLAIM_BASE_VALUE?: number | Authored;
+  readonly CLAIM_BORDERING_FACTOR?: number | Authored;
+  readonly CLAIM_BYPASS_FACTOR?: number | Authored;
+  readonly CLAIM_COLONY_FACTOR?: number | Authored;
+  readonly CLAIM_COST_FACTOR?: number | Authored;
+  readonly CLAIM_RELATIONS_FACTOR?: number | Authored;
+  readonly CLAIM_RESOURCE_FACTOR?: number | Authored;
+  readonly COLONY_AUTOMATION_COOLDOWN?: number | Authored;
+  readonly COLONY_AUTOMATION_DISTRICT_PREFERENCE?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_DISTANCE_MULT?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_GIVEN_VALUE?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_GIVEN_VALUE_MAX?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_GIVEN_VALUE_MIN?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_NUM_PACTS?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_TAKEN_VALUE?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_TAKEN_VALUE_MAX?: number | Authored;
+  readonly COMMERCIAL_PACT_ACCEPTANCE_TAKEN_VALUE_MIN?: number | Authored;
+  readonly CONSTRUCTION_SHIP_DISTANCE_PENALTY?: number | Authored;
+  readonly CONTINGENCY_BASE_DEFENSIVE_FLEETS?: number | Authored;
+  readonly CONTINGENCY_CONSTRUCTION_DEPTH?: number | Authored;
+  readonly CONTINGENCY_IGNORE_HUBS_THRESHOLD?: number | Authored;
+  readonly CONTINGENCY_LINKUP_DESIRE?: number | Authored;
+  readonly CONTINGENCY_MEGASTRUCTURE_EXTRA_VALUE?: number | Authored;
+  readonly CREATURE_DESIGNER_MUTATION_TYPE_PREFERENCES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CRISIS_CONSTRUCTOR_TARGET_SCORE?: number | Authored;
+  readonly CRISIS_EMPIRE_DESTROY_DESIRE?: number | Authored;
+  readonly CRISIS_EMPIRE_PROTECTIVE_MULT?: number | Authored;
+  readonly CRISIS_FLEET_SUPERIORITY_FACTOR?: number | Authored;
+  readonly CRISIS_INHIBITOR_EXTRA_VALUE?: number | Authored;
+  readonly CRISIS_MILITARY_AGGRESSIVENESS?: number | Authored;
+  readonly CRISIS_MILITARY_POWER_MULT_CRISIS_FIGHTER?: number | Authored;
+  readonly CRISIS_MILITARY_POWER_MULT_DEFAULT?: number | Authored;
+  readonly CRISIS_MILITARY_POWER_MULT_DESPERATION?: number | Authored;
+  readonly CRISIS_MILITARY_POWER_MULT_INHABITED_SYSTEM?: number | Authored;
+  readonly CRISIS_MILITARY_POWER_MULT_OWN_SYSTEM?: number | Authored;
+  readonly CRISIS_NAVY_SIZE_LIMIT?: number | Authored;
+  readonly CRISIS_THREAT_THRESHOLD_LOWER?: number | Authored;
+  readonly CRISIS_THREAT_THRESHOLD_UPPER?: number | Authored;
+  readonly DEEPSPACE_CITADEL_INNER_RADIUS_PERCENTAGE?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_DISTANCE_MULT?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_NUM_PACTS?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_SHARED_ALLY?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_SHARED_RIVAL?: number | Authored;
+  readonly DEFENSIVE_PACT_ACCEPTANCE_SHARED_THREAT?: number | Authored;
+  readonly DEMAND_SUBJUGATION_ACCEPTANCE_SUBJECT_POWER_STEP?: number | Authored;
+  readonly DIMENSIONAL_LOCK_AI_WEIGHT_ALLIANCE?: number | Authored;
+  readonly DIMENSIONAL_LOCK_AI_WEIGHT_CLOSED_BORDERS?: number | Authored;
+  readonly DIMENSIONAL_LOCK_AI_WEIGHT_DISTANCE_TO_CAPITAL_MAX_WEIGHT?: number | Authored;
+  readonly DIMENSIONAL_LOCK_AI_WEIGHT_NO_OWNER?: number | Authored;
+  readonly DIMENSIONAL_LOCK_AI_WEIGHT_RIVALRY?: number | Authored;
+  readonly DIMENSIONAL_LOCK_AI_WEIGHT_WAR?: number | Authored;
+  readonly DIPLOMACY_RESPONSE_COOLDOWN_DAYS?: number | Authored;
+  readonly DIPLO_ACTION_FAVOR_AI_ACCEPTANCE_VALUE?: number | Authored;
+  readonly DIPLO_ACTION_REPEAT_DELAY?: number | Authored;
+  readonly DIPLO_BREAK_THRESHOLD?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_DISTANCE_MULT?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_NUM_PACTS?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_RELATIVE_STRENGTH_MAX?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_SHARED_ALLY?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_SHARED_RIVAL?: number | Authored;
+  readonly EMBASSY_ACCEPTANCE_SHARED_THREAT?: number | Authored;
+  readonly ENEMY_ARMY_POWER_MULT?: number | Authored;
+  readonly ENEMY_FLEET_POWER_FACTOR?: number | Authored;
+  readonly ENEMY_FLEET_POWER_HOME_SYSTEM_MULT?: number | Authored;
+  readonly ENEMY_FLEET_POWER_MULT?: number | Authored;
+  readonly EXPANSION_BORDERING_PRIORITY?: number | Authored;
+  readonly EXPANSION_BYPASS_PRIORITY?: number | Authored;
+  readonly EXPANSION_COLONY_PRIORITY?: number | Authored;
+  readonly EXPANSION_CUT_OFF_SYSTEM_PRIORITY?: number | Authored;
+  readonly EXPANSION_MIN_VALUE_FOR_HIGH_PRIO?: number | Authored;
+  readonly EXPANSION_OWN_PRIORITY?: number | Authored;
+  readonly EXPANSION_RANDOM_AMOUNT?: number | Authored;
+  readonly EXPANSION_RESOURCE_GAIN_UPKEEP?: number | Authored;
+  readonly EXPANSION_RESOURCE_PRIORITY?: number | Authored;
+  readonly EXTRADIMENSIONAL_MIN_FLEETS?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_ASSOCIATION_VOTE?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_CRISIS_FACTOR?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_DISTANCE_MULT?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_MEMBER_VOTE?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_MEMBER_VOTE_MIN?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_MEMBER_VOTE_SIZE_FACTOR?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_RELATIVE_STRENGTH_MAX?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_SHARED_RIVAL?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_SHARED_RIVAL_IN_FEDERATION?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_SHARED_THREAT?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_SUPPORT?: number | Authored;
+  readonly FEDERATION_ACCEPTANCE_VOTED_DOWN_PROPOSAL?: number | Authored;
+  readonly FEDERATION_ALL_AI_LEADER_WEIGHT_FACTOR?: number | Authored;
+  readonly FEDERATION_CONQUEROR_DIFFERENCE?: number | Authored;
+  readonly FEDERATION_DISBAND_PLAYER_THRESHOLD?: number | Authored;
+  readonly FEDERATION_DISBAND_THRESHOLD?: number | Authored;
+  readonly FEDERATION_LAW_SUPPORT_THRESHOLD?: number | Authored;
+  readonly FEDERATION_PROPOSE_THRESHOLD?: number | Authored;
+  readonly FEDERATION_WEIGHT_COHESION_FACTOR?: number | Authored;
+  readonly FLEET_ARMOR_DAMAGED_THRESHOLD_PEACE?: number | Authored;
+  readonly FLEET_ARMOR_DAMAGED_THRESHOLD_WAR?: number | Authored;
+  readonly FLEET_COMBAT_INTERVENTION_MULT?: number | Authored;
+  readonly FLEET_DAMAGED_THRESHOLD_PEACE?: number | Authored;
+  readonly FLEET_DAMAGED_THRESHOLD_WAR?: number | Authored;
+  readonly FLEET_GROUP_ABORT_MISSION_MULT?: number | Authored;
+  readonly FLEET_MAX_DISTANCE_LOOKUP?: number | Authored;
+  readonly FLEET_MAX_DISTANCE_LOOKUP_HUGE?: number | Authored;
+  readonly FLEET_MAX_DISTANCE_LOOKUP_LARGE?: number | Authored;
+  readonly FLEET_SPECIALIZATION_REFIT_TRESHOLD?: number | Authored;
+  readonly FLEET_SUPERIORITY_FACTOR?: number | Authored;
+  readonly FORMLESS_ANCHOR_EXTRA_VALUE?: number | Authored;
+  readonly HIGH_THREAT_THRESHOLD?: number | Authored;
+  readonly HORDE_INVASION_PLANNING_DEPTH?: number | Authored;
+  readonly HORDE_NAVY_SIZE_LIMIT?: number | Authored;
+  readonly HOSTILE_FLEETS_TARGET_SCORE?: number | Authored;
+  readonly INSTANT_AI_DIPLOMACY?: number | Authored;
+  readonly LOCATION_WEIGHT_FEDERATION_MULTIPLIER?: number | Authored;
+  readonly LOCATION_WEIGHT_FLEET_MULTIPLIER?: number | Authored;
+  readonly LOCATION_WEIGHT_GALACTIC_COMMUNITY?: number | Authored;
+  readonly LOCATION_WEIGHT_PLANET_MULTIPLIER?: number | Authored;
+  readonly MAX_ASSAULT_ARMIES?: number | Authored;
+  readonly MAX_CLAIM_DISTANCE?: number | Authored;
+  readonly MAX_CLAIM_DISTANCE_SUBJECT?: number | Authored;
+  readonly MAX_EXPANSION_DISTANCE?: number | Authored;
+  readonly MAX_EXPANSION_DISTANCE_SUBJECT?: number | Authored;
+  readonly MAX_GIFT_SIZE?: number | Authored;
+  readonly MAX_GUARANTEES?: number | Authored;
+  readonly MAX_PLANETS_FOR_BUDGET_FACTOR?: number | Authored;
+  readonly MAX_SUPPORT_PERCENTAGE_FOR_FAVORS_SUPPORTING?: number | Authored;
+  readonly MAX_TRUST?: number | Authored;
+  readonly MAX_TRUST_ASSOCIATE?: number | Authored;
+  readonly MAX_TRUST_DEFENSIVE_PACT?: number | Authored;
+  readonly MAX_TRUST_MIN?: number | Authored;
+  readonly MAX_TRUST_NAP?: number | Authored;
+  readonly MERCENARY_ENCLAVE_ESTABLISHING_AI_CHANCE_THRESHOLD?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_AI_CHANCE_INWAR_ADD?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_AI_CHANCE_PREPARING_WAR_ADD?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_AI_CHANCE_TRHESHOLD?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CAN_AFFORD_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_DAYS?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_LANDLORD_OPINION_PRICE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_LANDLORD_OPINION_THRESHOLD?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_POWER_TO_PRICE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_TRUST_PRICE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_CONTRACT_PROLONGATION_TRUST_THRESHOLD?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_COST_SCORE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_LANDLORD_OPINION_PRICE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_LANDLORD_OPINION_THRESHOLD?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_POWER_SCORE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_POWER_TO_PRICE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_REMOTENESS_MAX?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_REMOTENESS_SCORE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_RENT_DAYS?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_TRUST_PRICE_FACTOR?: number | Authored;
+  readonly MERCENARY_ENCLAVE_OFFER_FLEET_TRUST_THRESHOLD?: number | Authored;
+  readonly MIGRATION_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly MIGRATION_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly MIGRATION_PACT_ACCEPTANCE_DISTANCE_MULT?: number | Authored;
+  readonly MIGRATION_PACT_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly MIGRATION_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly MIGRATION_PACT_ACCEPTANCE_THREAT_MULT?: number | Authored;
+  readonly MIN_ASSAULT_ARMIES?: number | Authored;
+  readonly MIN_DISTANCE_TO_JUMP?: number | Authored;
+  readonly MIN_FLEET_FOR_OPERATIONS?: number | Authored;
+  readonly MIN_FLEET_THREAT_TO_CRISIS?: number | Authored;
+  readonly MIN_FLEET_TO_RESTRICT_SYSTEM?: number | Authored;
+  readonly MIN_GIFT_SIZE?: number | Authored;
+  readonly MIN_NAVY_SIZE_FOR_ADMIRAL?: number | Authored;
+  readonly MIN_RELATION_TO_TRADE_SPECIMENS?: number | Authored;
+  readonly MIN_SUPPORT_PERCENTAGE_FOR_FAVORS_OPPOSING?: number | Authored;
+  readonly MIN_WANTED_SCIENTISTS?: number | Authored;
+  readonly MIN_WILLINGNESS_TO_OFFER_TRADE?: number | Authored;
+  readonly MONTHLY_TRUST_ASSOCIATION_STATUS?: number | Authored;
+  readonly MONTHLY_TRUST_AT_WAR?: number | Authored;
+  readonly MONTHLY_TRUST_COMMERCIAL_PACT?: number | Authored;
+  readonly MONTHLY_TRUST_DEFENSIVE_PACT?: number | Authored;
+  readonly MONTHLY_TRUST_EMBASSY?: number | Authored;
+  readonly MONTHLY_TRUST_FEDERATION?: number | Authored;
+  readonly MONTHLY_TRUST_GUARANTEE?: number | Authored;
+  readonly MONTHLY_TRUST_MIGRATION_TREATY?: number | Authored;
+  readonly MONTHLY_TRUST_NON_AGGRESSION_PACT?: number | Authored;
+  readonly MONTHLY_TRUST_RESEARCH_TREATY?: number | Authored;
+  readonly MONTHLY_TRUST_RIVAL?: number | Authored;
+  readonly MONTHLY_TRUST_SUBJECT?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_ECONOMIC_IMPACT_MULTIPLIER?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_INTANGIBLE_IMPACT_MULTIPLIER?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_EQUIVALENT?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_INFERIOR?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_OVERWHELMING?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_PATHETIC?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_RELATIVE_POWER_SUPERIOR?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_LOYALTY_SPECIALIST?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_ACCEPTANCE_SUBJECT_POWER_STEP?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_MAX_ACCEPTANCE_FROM_TERMS?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_MIN_ACCEPTANCE_FROM_TERMS?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_MIN_ECONOMY_WEIGHT?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_MIN_REFERENCE_INTANGIBLE?: number | Authored;
+  readonly NEGOTIATE_AGREEMENT_MIN_REFERENCE_RESOURCE?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_DISTANCE_MULT?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_NUM_PACTS?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_RELATIVE_STRENGTH_FACTOR?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_RELATIVE_STRENGTH_MAX?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_RIVAL?: number | Authored;
+  readonly NON_AGGRESSION_PACT_ACCEPTANCE_SHARED_THREAT?: number | Authored;
+  readonly NO_LEAVE_FED_FLAG?: string | Authored;
+  readonly NO_WARS_FLAG?: string | Authored;
+  readonly NUM_TRADITIONS_FOR_EDICTS?: number | Authored;
+  readonly OFFENSE_VS_DEFENSE_STRATEGY_ALLOTMENT?: number | Authored;
+  readonly OFFER_TRADE_ACCEPTANCE_ATTITUDE?: number | Authored;
+  readonly OFFER_TRADE_MIN_RESOURCE_THRESHOLD?: number | Authored;
+  readonly OFFER_VASSALIZATION_ACCEPTANCE_ATTITUDE_VASSALIZE?: number | Authored;
+  readonly OFFER_VASSALIZATION_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly OWN_FLEET_POWER_FACTOR?: number | Authored;
+  readonly PEACE_DEFENDING_CLAIM_PLANET_FACTOR?: number | Authored;
+  readonly PEACE_DEFENDING_CLAIM_STARBASE_FACTOR?: number | Authored;
+  readonly PEACE_DEFENDING_CLAIM_SYSTEM_FACTOR?: number | Authored;
+  readonly PEACE_DEMAND_SURRENDER_FACTOR?: number | Authored;
+  readonly PEACE_HIGH_WE_STATUS_QUO_FACTOR?: number | Authored;
+  readonly PEACE_OCCUPATION_FACTOR?: number | Authored;
+  readonly PEACE_RELATIVE_NAVY_STRENGTH_FACTOR?: number | Authored;
+  readonly PEACE_STALE_WAR_STATUS_QUO_FACTOR?: number | Authored;
+  readonly PEACE_STATUS_QUO_FACTOR?: number | Authored;
+  readonly PEACE_WAR_EXHAUSTION_FACTOR?: number | Authored;
+  readonly PLANETARY_ASCENSION_ALLOWED_SPENDING?: number | Authored;
+  readonly POP_RANK_LIMIT_FOR_AMENITIES_ADJUSTMENT?: number | Authored;
+  readonly PREFTL_PACT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly PREFTL_PACT_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly PREFTL_PACT_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly PREFTL_PACT_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly PROPOSE_EMBASSY_THRESHOLD?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_DISTANCE_MULT?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_GIVEN_TECHS?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_NUM_PACTS?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_OPINION_FACTOR?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_TAKEN_TECHS?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_TECHS_MAX?: number | Authored;
+  readonly RESEARCH_AGREEMENT_ACCEPTANCE_TECHS_MIN?: number | Authored;
+  readonly RESOLUTION_PROPOSER_OPINION_BASE_FACTOR?: number | Authored;
+  readonly RESOLUTION_PROPOSER_OPINION_MAX_FACTOR?: number | Authored;
+  readonly RESOLUTION_PROPOSER_OPINION_MIN_FACTOR?: number | Authored;
+  readonly RESOLUTION_TARGET_OPINION_BASE_FACTOR?: number | Authored;
+  readonly RESOLUTION_TARGET_OPINION_MAX_FACTOR?: number | Authored;
+  readonly RESOLUTION_TARGET_OPINION_MIN_FACTOR?: number | Authored;
+  readonly RESOLUTION_USE_FAVORS_THRESHOLD_DELTA?: number | Authored;
+  readonly RESOLUTION_VOTE_ABSTAIN_THRESHOLD?: number | Authored;
+  readonly RESOLUTION_VOTE_EMERGENCY_THRESHOLD?: number | Authored;
+  readonly RESOLUTION_VOTE_FREEZE_THRESHOLD_DELTA?: number | Authored;
+  readonly RESOLUTION_VOTE_PROPOSE_THRESHOLD?: number | Authored;
+  readonly RESOLUTION_VOTE_SUPPORT_THRESHOLD?: number | Authored;
+  readonly RESOLUTION_VOTE_VETO_THRESHOLD?: number | Authored;
+  readonly SCIENTIST_HIRING_PREV_JOB_THRESHOLD?: number | Authored;
+  readonly SCIENTIST_HIRING_REPLACEMENT_THRESHOLD?: number | Authored;
+  readonly SCIENTIST_HIRING_SURVEY_MULTIPLIER?: number | Authored;
+  readonly SCIENTIST_HIRING_UNEMPLOYMENT_MULT?: number | Authored;
+  readonly SECRET_FEALTY_BREAK_LOYALTY_THRESHOLD?: number | Authored;
+  readonly SECRET_FEALTY_BREAK_RELATIVE_POWER_THRESHOLD?: number | Authored;
+  readonly SECRET_FEALTY_BREAK_TERMS_BONUS?: number | Authored;
+  readonly SECRET_FEALTY_BREAK_TERMS_MULTIPLIER?: number | Authored;
+  readonly SECRET_FEALTY_PLEDGE_TERMS_BONUS?: number | Authored;
+  readonly SECRET_FEALTY_PLEDGE_TERMS_MULTIPLIER?: number | Authored;
+  readonly SECRET_FEALTY_PROPOSE_TERMS_BONUS?: number | Authored;
+  readonly SECRET_FEALTY_PROPOSE_TERMS_MULTIPLIER?: number | Authored;
+  readonly SEEDED_SPACE_MONSTER_MOVE_CHANCE?: number | Authored;
+  readonly SEEDED_SPACE_MONSTER_WANDER_FACTOR?: number | Authored;
+  readonly SHARED_THREAT_MAX?: number | Authored;
+  readonly SHARED_THREAT_MULT?: number | Authored;
+  readonly SHIP_DESIGN_STALE_MONTHS?: number | Authored;
+  readonly SHIP_FLEET_POWER_UPGRADE_THRESHOLD?: number | Authored;
+  readonly SLAVE_BUY_EC_THRESHOLD?: number | Authored;
+  readonly SLAVE_BUY_HABITABILITY_THRESHOLD?: number | Authored;
+  readonly SLAVE_BUY_UNEMPLOYMENT_THRESHOLD?: number | Authored;
+  readonly SLAVE_SELL_EC_THRESHOLD?: number | Authored;
+  readonly SLAVE_SELL_MIN_POPS?: number | Authored;
+  readonly SLAVE_SELL_UNEMPLOYMENT_THRESHOLD?: number | Authored;
+  readonly SPACE_MONSTER_MOVE_CHANCE?: number | Authored;
+  readonly SPACE_MONSTER_WANDER_FACTOR?: number | Authored;
+  readonly SPECIMEN_TRADE?: string | Authored;
+  readonly SPECIMEN_TRADE_FLAG_DAYS?: number | Authored;
+  readonly STALE_WAR_TIMER?: number | Authored;
+  readonly STARBASE_BYPASS_SCORE?: number | Authored;
+  readonly STARBASE_CHOKEPOINT_SCORE?: number | Authored;
+  readonly STARBASE_COLONY_SCORE?: number | Authored;
+  readonly STARBASE_HABITABLE_PLANET_SCORE?: number | Authored;
+  readonly STARBASE_HAZARD_CHOKEPOINT_SCORE_MULT?: number | Authored;
+  readonly STARBASE_MAX_OVER_CAP_DURING_WAR?: number | Authored;
+  readonly STARBASE_MEGASTRUCTURE_SCORE?: number | Authored;
+  readonly STARBASE_SECTOR_CAPITAL_SCORE?: number | Authored;
+  readonly SURRENDER_ACCEPTANCE_HIGH?: number | Authored;
+  readonly SURRENDER_ACCEPTANCE_HIGHEST?: number | Authored;
+  readonly SURRENDER_ACCEPTANCE_LOW?: number | Authored;
+  readonly SURRENDER_ACCEPTANCE_LOWEST?: number | Authored;
+  readonly SURVEY_COLONIZABLE_SYSTEM_MULTIPLIER?: number | Authored;
+  readonly SWARM_FULLY_CONQUER_SYSTEM?: number | Authored;
+  readonly SWARM_INVASION_PLANNING_DEPTH?: number | Authored;
+  readonly SWARM_NUM_DEFENSIVE_FLEETS?: number | Authored;
+  readonly SWARM_POP_TARGET_MULT?: number | Authored;
+  readonly SWARM_UNEDIBLE_POP_TARGET_MULT?: number | Authored;
+  readonly TARGET_BASE_SCORE?: number | Authored;
+  readonly TERRAFORMING_RESOURCE_THRESHOLD_FACTOR?: number | Authored;
+  readonly THREAT_DECAY?: number | Authored;
+  readonly THREAT_DISTANCE_FACTOR?: number | Authored;
+  readonly THREAT_NAP_FACTOR?: number | Authored;
+  readonly THREAT_NEGATIVE_OPINION_FACTOR?: number | Authored;
+  readonly THREAT_OPINION_MAX?: number | Authored;
+  readonly THREAT_OPINION_MIN?: number | Authored;
+  readonly THREAT_PLANET_MULT?: number | Authored;
+  readonly THREAT_POSITIVE_OPINION_FACTOR?: number | Authored;
+  readonly THREAT_SHARED_THREAT_REDUCTION?: number | Authored;
+  readonly THREAT_SIZE_FACTOR?: number | Authored;
+  readonly THREAT_SIZE_FACTOR_MAX?: number | Authored;
+  readonly THREAT_SIZE_FACTOR_MIN?: number | Authored;
+  readonly THREAT_STARBASE_MULT?: number | Authored;
+  readonly THREAT_SYSTEM_MULT?: number | Authored;
+  readonly TRADE_MAX_RESOURCE_PERCENT?: number | Authored;
+  readonly TRADE_MIN_RESOURCE_DELTA?: number | Authored;
+  readonly TRADE_MIN_RESOURCE_STOCKPILE?: number | Authored;
+  readonly TRADE_RESOURCE_FRACTION_MAX?: number | Authored;
+  readonly TRADE_RESOURCE_FRACTION_MIN?: number | Authored;
+  readonly TRADE_RESOURCE_STOCKPILE_OVER?: number | Authored;
+  readonly TRADE_RESOURCE_STOCKPILE_UNDER?: number | Authored;
+  readonly TRADE_VALUE_COLONY?: number | Authored;
+  readonly TRADE_VALUE_FLEET_MILITARY_WEIGHT_MULT?: number | Authored;
+  readonly TRADE_VALUE_LEADER_LEVEL_WEIGHT_MAGIC_NUMBER?: number | Authored;
+  readonly TRADE_VALUE_LEADER_MAX_WEIGHT?: number | Authored;
+  readonly TRADE_VALUE_LEADER_TRAIT_DEFAULT?: number | Authored;
+  readonly TRADE_VALUE_LEADER_TRAIT_WEIGHT_MULT?: number | Authored;
+  readonly TRADE_VALUE_LOYALTY?: number | Authored;
+  readonly TRADE_VALUE_RESOURCE?: number | Authored;
+  readonly TRADE_VALUE_RESOURCE_INCOME_BASE?: number | Authored;
+  readonly TRADE_VALUE_RESOURCE_MONTHLY_MULT?: number | Authored;
+  readonly TRADE_VALUE_SENSOR_CHARTS?: number | Authored;
+  readonly TRADE_VALUE_SENSOR_CHARTS_MAX?: number | Authored;
+  readonly TRADE_VALUE_SENSOR_LINK?: number | Authored;
+  readonly TRADE_VALUE_SENSOR_LINK_MAX?: number | Authored;
+  readonly TRADE_VALUE_SYSTEM?: number | Authored;
+  readonly TRAIT_AUTOPICK_WEIGHT_FACTOR_FOR_UPGRADES?: number | Authored;
+  readonly TRAIT_AUTOPICK_WEIGHT_FACTOR_IS_COUNCILOR?: number | Authored;
+  readonly TRAIT_AUTOPICK_WEIGHT_FACTOR_IS_NOT_COUNCILOR?: number | Authored;
+  readonly TRANSPORT_FLEET_SIZE?: number | Authored;
+  readonly TRANSPORT_RETREAT_HEALTH_THRESHOLD?: number | Authored;
+  readonly ULTRA_BOSS_MILITARY_POWER?: number | Authored;
+  readonly UNBIDDEN_ASTRAL_RIFTS_EXTRA_VALUE?: number | Authored;
+  readonly UNBIDDEN_BYPASSES_EXTRA_VALUE?: number | Authored;
+  readonly UNBIDDEN_PORTAL_EXTRA_VALUE?: number | Authored;
+  readonly UNBIDDEN_RIVALS_EXTRA_VALUE?: number | Authored;
+  readonly UNBIDDEN_TARGET_EXTRA_VALUE?: number | Authored;
+  readonly UNDERDEVELOPED_PLANET_LIMIT?: number | Authored;
+  readonly UNDERDEVELOPED_POP_LIMIT?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_ATTITUDE_ALLIANCE?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_ATTITUDE_ATTACK?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_ATTITUDE_COEXIST?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_DISTANCE_MULT?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_LOYALTY_MULT?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_NUM_POPS?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_OTHER_ATTITUDE?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_OTHER_THREAT_MAX?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_OTHER_THREAT_MULT?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_OVERLORD?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MAX?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MIN?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_POWER_DIFFERENCE_MULT?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_PROTECTORATE_MAX?: number | Authored;
+  readonly VASSALIZATION_ACCEPTANCE_PROTECTORATE_MULT?: number | Authored;
+  readonly VOIDWORMS_ADULTS_SHIP_SIZE?: ShipSizeRef | Authored;
+  readonly VOIDWORMS_AGRESSIVE_SHIP_SIZE?: ShipSizeRef | Authored;
+  readonly VOIDWORMS_EXPLORER_SHIP_SIZE?: ShipSizeRef | Authored;
+  readonly VOIDWORMS_HOME_SYSTEM_FLAG?: string | Authored;
+  readonly VOIDWORMS_MAXIMUM_POPS_TO_KILL?: number | Authored;
+  readonly VOIDWORMS_MAXIMUM_POPS_TO_KILL_CIVILIAN?: number | Authored;
+  readonly VOIDWORMS_MINIMUM_POPS_TO_TARGET?: number | Authored;
+  readonly VOIDWORMS_NAVAL_CAP_PER_FLEET?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly VOIDWORMS_NEWBORNS_SHIP_SIZE?: ShipSizeRef | Authored;
+  readonly VOIDWORMS_NEW_FLEET_NAME?: string | Authored;
+  readonly VOIDWORMS_STARBASE?: string | Authored;
+  readonly VOIDWORM_ACTIVELY_BOMBARDING_FLAG?: string | Authored;
+  readonly VOIDWORM_AGGRESSIVE_FLEETS_MAX_SHIPS?: number | Authored;
+  readonly VOIDWORM_ATTACK_AGAINST_PLAYER_COOLDOWN_DAYS?: number | Authored;
+  readonly VOIDWORM_BOMBARDMENT_IMMUNITY_FLAG?: string | Authored;
+  readonly VOIDWORM_CRISIS_ACTIVE?: string | Authored;
+  readonly VOIDWORM_CRISIS_AGGRESSIVE_FLEETS_MAX_SHIPS?: number | Authored;
+  readonly VOIDWORM_EXPLORATION_MAX_JUMPS?: number | Authored;
+  readonly VOIDWORM_EXPLORING_FACTOR?: number | Authored;
+  readonly VOIDWORM_KILLED_POPULATION_COUNT?: string | Authored;
+  readonly VOIDWORM_RECENTLY_TARGETED_FLAG?: string | Authored;
+  readonly VOIDWORM_WANDERING_FACTOR?: number | Authored;
+  readonly WAR_ALLY_BORDER_PRIO?: number | Authored;
+  readonly WAR_ATTACK_CLAIM_PRIO?: number | Authored;
+  readonly WAR_ATTACK_JUMP_DRIVE_FLEET_PRIO?: number | Authored;
+  readonly WAR_ATTACK_MILITARY_FLEET_PRIO?: number | Authored;
+  readonly WAR_ATTACK_PLANET_CONTROLLED_SYSTEM_PRIO?: number | Authored;
+  readonly WAR_ATTACK_PLANET_PRIO?: number | Authored;
+  readonly WAR_ATTACK_STARBASE_PRIO?: number | Authored;
+  readonly WAR_DECLARATION_MALUS?: number | Authored;
+  readonly WAR_DECLARATION_MALUS_DISTANCE?: number | Authored;
+  readonly WAR_DECLARATION_MAX_DISTANCE?: number | Authored;
+  readonly WAR_DECLARATION_MINIMUM_SCORE?: number | Authored;
+  readonly WAR_DEFEND_STARBASE_PRIO?: number | Authored;
+  readonly WAR_DEFENSE_ALLY_PRIO?: number | Authored;
+  readonly WAR_DEFENSE_CLAIM_PRIO?: number | Authored;
+  readonly WAR_DEFENSE_CONTROLLED_PRIO?: number | Authored;
+  readonly WAR_DEFENSE_OWN_PLANET_ENEMY_CONTROL_PRIO?: number | Authored;
+  readonly WAR_DEFENSE_OWN_PLANET_PRIO?: number | Authored;
+  readonly WAR_DEFENSE_OWN_PRIO?: number | Authored;
+  readonly WAR_EXHAUSTION_TO_INTERVENE?: number | Authored;
+  readonly WAR_NEUTRAL_SPACE_PRIO?: number | Authored;
+  readonly WAR_NO_BORDER_PRIO?: number | Authored;
+  readonly WAR_OCCUPIED_BORDER_PRIO?: number | Authored;
+  readonly WAR_OWN_BORDER_PRIO?: number | Authored;
+  readonly WAS_HUMAN_MONTHS?: number | Authored;
 }
 
 export interface NadditionalcontentDefinition {
-  readonly ADDITIONAL_CONTENT_ITEM_FRAME?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_ITEM_FRAME_DISCOUNT?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_ITEM_FRAME_NEW?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_ITEM_FRAME_OWNED?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_ITEM_FRAME_RECOMMENDED?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_ITEM_LABEL_DEFAULT_TEXT_COLOR?: Record<string, never>;
-  readonly ADDITIONAL_CONTENT_ITEM_LABEL_DISCOUNT?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_ITEM_LABEL_NEW?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_ITEM_LABEL_OWNED?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_ITEM_LABEL_OWNED_TEXT_COLOR?: Record<string, never>;
-  readonly ADDITIONAL_CONTENT_ITEM_LABEL_RECOMMENDED?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_LOADING_MINIMUM_SPINNER_TIME?: number;
-  readonly ADDITIONAL_CONTENT_LOADING_SHOW_SPINNER_DELAY?: number;
-  readonly ADDITIONAL_CONTENT_MODE_FIRST_SPRITE_ACTIVE?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_MODE_FIRST_SPRITE_INACTIVE?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_MODE_REST_SPRITE_ACTIVE?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_MODE_REST_SPRITE_INACTIVE?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_PORTRAIT_PREVIEW_SCALE_SMALL?: number;
-  readonly ADDITIONAL_CONTENT_TAB_FIRST_SPRITE_ACTIVE?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_TAB_FIRST_SPRITE_INACTIVE?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_TAB_REST_SPRITE_ACTIVE?: SpriteRef;
-  readonly ADDITIONAL_CONTENT_TAB_REST_SPRITE_INACTIVE?: SpriteRef;
-  readonly TIMELINE_MAX_PAGE_SQUARES?: number;
-  readonly TIMELINE_NAVIGATION_AMOUNT_OF_ZOOM_LEVELS?: number;
+  readonly ADDITIONAL_CONTENT_ITEM_FRAME?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_FRAME_DISCOUNT?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_FRAME_NEW?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_FRAME_OWNED?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_FRAME_RECOMMENDED?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_LABEL_DEFAULT_TEXT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_LABEL_DISCOUNT?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_LABEL_NEW?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_LABEL_OWNED?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_LABEL_OWNED_TEXT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ADDITIONAL_CONTENT_ITEM_LABEL_RECOMMENDED?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_LOADING_MINIMUM_SPINNER_TIME?: number | Authored;
+  readonly ADDITIONAL_CONTENT_LOADING_SHOW_SPINNER_DELAY?: number | Authored;
+  readonly ADDITIONAL_CONTENT_MODE_FIRST_SPRITE_ACTIVE?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_MODE_FIRST_SPRITE_INACTIVE?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_MODE_REST_SPRITE_ACTIVE?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_MODE_REST_SPRITE_INACTIVE?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_PORTRAIT_PREVIEW_SCALE_SMALL?: number | Authored;
+  readonly ADDITIONAL_CONTENT_TAB_FIRST_SPRITE_ACTIVE?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_TAB_FIRST_SPRITE_INACTIVE?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_TAB_REST_SPRITE_ACTIVE?: SpriteRef | Authored;
+  readonly ADDITIONAL_CONTENT_TAB_REST_SPRITE_INACTIVE?: SpriteRef | Authored;
+  readonly TIMELINE_MAX_PAGE_SQUARES?: number | Authored;
+  readonly TIMELINE_NAVIGATION_AMOUNT_OF_ZOOM_LEVELS?: number | Authored;
 }
 
 export interface NarmyDefinition {
-  readonly ARMY_DISENGAGE_BASE_CHANCE?: number;
-  readonly ARMY_DISENGAGE_HEALTH_THRESHOLD?: number;
-  readonly ARMY_DISENGAGE_MAX_CHANCE?: number;
-  readonly ARMY_DISENGAGE_MORALE_DIV?: number;
-  readonly ARMY_DISENGAGE_MORALE_MIN_DIV?: number;
-  readonly ARMY_DISENGAGE_TARGET_PRIO?: number;
-  readonly ARMY_EXP_ELITE?: number;
-  readonly ARMY_EXP_EXPERIENCED?: number;
-  readonly ARMY_EXP_GAIN_DAMAGE_DEALT?: number;
-  readonly ARMY_EXP_GAIN_DAMAGE_TAKEN?: number;
-  readonly ARMY_EXP_VETERAN?: number;
-  readonly ARMY_MILITARY_POWER_DAMAGE_MULT?: number;
-  readonly ARMY_MILITARY_POWER_EXPONENT?: number;
-  readonly ARMY_MILITARY_POWER_HEALTH_MULT?: number;
-  readonly ARMY_MILITARY_POWER_MORALE_DAMAGE_MULT?: number;
-  readonly ARMY_MILITARY_POWER_MORALE_MULT?: number;
-  readonly ARMY_MILITARY_POWER_NO_MORALE_FACTOR?: number;
-  readonly ARMY_MILITARY_POWER_SCALE?: number;
-  readonly BASE_DAMAGE_MAX?: number;
-  readonly BASE_DAMAGE_MIN?: number;
-  readonly BASE_HEALTH?: number;
-  readonly BASE_MORALE?: number;
-  readonly BROKEN_MORALE_EFFECT?: number;
-  readonly DISENGAGED_EFFECT?: number;
-  readonly GROUND_COMBAT_LOW_HEALTH_TARGETING_WEIGHT?: number;
-  readonly GROUND_COMBAT_LOW_HEALTH_THRESHOLD?: number;
-  readonly GROUND_COMBAT_RANDOM_TARGETING_WEIGHT?: number;
-  readonly LOW_MORALE_EFFECT?: number;
-  readonly LOW_MORALE_THRESHOLD?: number;
-  readonly MONTHLY_MORALE_REGENERATION?: number;
-  readonly MONTHLY_REINFORCE?: number;
-  readonly MORALE_DAMAGE_MULT?: number;
-  readonly NUM_DAYS_BEFORE_RETREAT?: number;
-  readonly RETREAT_UNIT_LOST_MAX_CHANCE?: number;
-  readonly RETREAT_UNIT_LOST_MIN_CHANCE?: number;
+  readonly ARMY_DISENGAGE_BASE_CHANCE?: number | Authored;
+  readonly ARMY_DISENGAGE_HEALTH_THRESHOLD?: number | Authored;
+  readonly ARMY_DISENGAGE_MAX_CHANCE?: number | Authored;
+  readonly ARMY_DISENGAGE_MORALE_DIV?: number | Authored;
+  readonly ARMY_DISENGAGE_MORALE_MIN_DIV?: number | Authored;
+  readonly ARMY_DISENGAGE_TARGET_PRIO?: number | Authored;
+  readonly ARMY_EXP_ELITE?: number | Authored;
+  readonly ARMY_EXP_EXPERIENCED?: number | Authored;
+  readonly ARMY_EXP_GAIN_DAMAGE_DEALT?: number | Authored;
+  readonly ARMY_EXP_GAIN_DAMAGE_TAKEN?: number | Authored;
+  readonly ARMY_EXP_VETERAN?: number | Authored;
+  readonly ARMY_MILITARY_POWER_DAMAGE_MULT?: number | Authored;
+  readonly ARMY_MILITARY_POWER_EXPONENT?: number | Authored;
+  readonly ARMY_MILITARY_POWER_HEALTH_MULT?: number | Authored;
+  readonly ARMY_MILITARY_POWER_MORALE_DAMAGE_MULT?: number | Authored;
+  readonly ARMY_MILITARY_POWER_MORALE_MULT?: number | Authored;
+  readonly ARMY_MILITARY_POWER_NO_MORALE_FACTOR?: number | Authored;
+  readonly ARMY_MILITARY_POWER_SCALE?: number | Authored;
+  readonly BASE_DAMAGE_MAX?: number | Authored;
+  readonly BASE_DAMAGE_MIN?: number | Authored;
+  readonly BASE_HEALTH?: number | Authored;
+  readonly BASE_MORALE?: number | Authored;
+  readonly BROKEN_MORALE_EFFECT?: number | Authored;
+  readonly DISENGAGED_EFFECT?: number | Authored;
+  readonly GROUND_COMBAT_LOW_HEALTH_TARGETING_WEIGHT?: number | Authored;
+  readonly GROUND_COMBAT_LOW_HEALTH_THRESHOLD?: number | Authored;
+  readonly GROUND_COMBAT_RANDOM_TARGETING_WEIGHT?: number | Authored;
+  readonly LOW_MORALE_EFFECT?: number | Authored;
+  readonly LOW_MORALE_THRESHOLD?: number | Authored;
+  readonly MONTHLY_MORALE_REGENERATION?: number | Authored;
+  readonly MONTHLY_REINFORCE?: number | Authored;
+  readonly MORALE_DAMAGE_MULT?: number | Authored;
+  readonly NUM_DAYS_BEFORE_RETREAT?: number | Authored;
+  readonly RETREAT_UNIT_LOST_MAX_CHANCE?: number | Authored;
+  readonly RETREAT_UNIT_LOST_MIN_CHANCE?: number | Authored;
 }
 
 export interface NcameraDefinition {
-  readonly BORDER_FLAG_FADEOUT_SPEED?: number;
-  readonly BORDER_FLAG_FADEOUT_ZOOM?: number;
-  readonly BORDER_NAMES_FADEOUT_SPEED?: number;
-  readonly BORDER_NAMES_FADEOUT_ZOOM?: number;
-  readonly EDGE_SCROLLING_PIXELS?: number;
-  readonly ENTER_SYSTEM_ZOOM_STEP?: number;
-  readonly ENTITY_SPRITE_CUSTOMIZE_RINGWORLD_CAM_DIR?: Record<string, never>;
-  readonly ENTITY_SPRITE_CUSTOMIZE_RINGWORLD_CAM_LOOK_AT?: Record<string, never>;
-  readonly ENTITY_SPRITE_CUSTOMIZE_RINGWORLD_ZOOM_SCALE?: number;
-  readonly ENTITY_SPRITE_CUSTOMIZE_SPECIES_VIEW_CAM_DIR?: Record<string, never>;
-  readonly ENTITY_SPRITE_CUSTOMIZE_SPECIES_VIEW_CAM_LOOK_AT?: Record<string, never>;
-  readonly ENTITY_SPRITE_CUSTOMIZE_SPECIES_VIEW_ZOOM_SCALE?: number;
-  readonly ENTITY_SPRITE_DESIGN_ENTRY_CAM_DIR?: Record<string, never>;
-  readonly ENTITY_SPRITE_DESIGN_ENTRY_CAM_LOOK_AT?: Record<string, never>;
-  readonly ENTITY_SPRITE_DESIGN_ENTRY_ZOOM_SCALE?: number;
-  readonly ENTITY_SPRITE_FRONTEND_BG_CAM_DIR?: Record<string, never>;
-  readonly ENTITY_SPRITE_FRONTEND_BG_CAM_LOOK_AT?: Record<string, never>;
-  readonly ENTITY_SPRITE_FRONTEND_BG_ZOOM_SCALE?: number;
-  readonly ENTITY_SPRITE_SHIP_SECTION_CAM_DIR?: Record<string, never>;
-  readonly ENTITY_SPRITE_SHIP_SECTION_CAM_LOOK_AT?: Record<string, never>;
-  readonly ENTITY_SPRITE_SHIP_SECTION_ZOOM_SCALE?: number;
-  readonly ENTITY_SPRITE_SYSTEM_VIEW_CAM_DIR?: Record<string, never>;
-  readonly ENTITY_SPRITE_SYSTEM_VIEW_CAM_LOOK_AT?: Record<string, never>;
-  readonly ENTITY_SPRITE_SYSTEM_VIEW_ZOOM_SCALE?: number;
-  readonly FOCUSED_MAX_PITCH?: number;
-  readonly FOCUSED_MIN_PITCH?: number;
-  readonly FOCUSED_MIN_ZOOM_BASE?: number;
-  readonly FOCUSED_MIN_ZOOM_MULT?: number;
-  readonly FOCUSED_PLANET_MIN_ZOOM_MULT?: number;
-  readonly FOCUSED_ZOOM_RATE?: number;
-  readonly FOCUS_START_ZOOM_STEP?: number;
-  readonly FOV?: number;
-  readonly GALAXY_MAX_PITCH?: number;
-  readonly GALAXY_MIN_PITCH?: number;
-  readonly GALAXY_SHOW_COSMIC_STORM_ZOOM?: number;
-  readonly GALAXY_SHOW_FLEETS_ZOOM?: number;
-  readonly GALAXY_SHOW_STARNAME_ZOOM?: number;
-  readonly GALAXY_SPACE_SCALE_MULT?: number;
-  readonly HIDE_ORBITS_ZOOM?: number;
-  readonly KEYBOARD_ZOOM_RATE?: number;
-  readonly LEAVE_SYSTEM_ZOOM_STEP?: number;
-  readonly MOUSE_MOVEMENT_TO_START_ROTATION_SQ?: number;
-  readonly NEBULA_NAMES_FADEOUT_SPEED?: number;
-  readonly NEBULA_NAMES_FADEOUT_ZOOM?: number;
-  readonly ROTATION_RADIANS_PER_MOUSE_UNIT?: number;
-  readonly SCROLL_SPEED?: number;
-  readonly SHIP_3DVIEWER_MAX_PITCH?: number;
-  readonly SHIP_3DVIEWER_MIN_PITCH?: number;
-  readonly SHOW_FLEETS_ZOOM?: number;
-  readonly SYSTEM_CAMERA_RESTRICT_EXTRA_SPACE?: number;
-  readonly SYSTEM_FAR_PLANE_DISTANCE_BASE?: number;
-  readonly SYSTEM_HOVER_RANGE?: number;
-  readonly SYSTEM_MAX_PITCH?: number;
-  readonly SYSTEM_MIN_PITCH?: number;
-  readonly SYSTEM_NEAR_PLANE_DISTANCE_BASE?: number;
-  readonly SYSTEM_SLIDE_RADIUS_FACTOR?: number;
-  readonly SYSTEM_SLIDE_SPEED?: number;
-  readonly SYSTEM_SPACE_SCALE_MULT?: number;
-  readonly ZOOM_STEPS_GALAXY?: Record<string, never>;
-  readonly ZOOM_STEPS_SHOW_FLEET_HEALTH_BARS?: Record<string, never>;
-  readonly ZOOM_STEPS_SYSTEM_PERCENTAGES?: Record<string, never>;
+  readonly BORDER_FLAG_FADEOUT_SPEED?: number | Authored;
+  readonly BORDER_FLAG_FADEOUT_ZOOM?: number | Authored;
+  readonly BORDER_NAMES_FADEOUT_SPEED?: number | Authored;
+  readonly BORDER_NAMES_FADEOUT_ZOOM?: number | Authored;
+  readonly EDGE_SCROLLING_PIXELS?: number | Authored;
+  readonly ENTER_SYSTEM_ZOOM_STEP?: number | Authored;
+  readonly ENTITY_SPRITE_CUSTOMIZE_RINGWORLD_CAM_DIR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_CUSTOMIZE_RINGWORLD_CAM_LOOK_AT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_CUSTOMIZE_RINGWORLD_ZOOM_SCALE?: number | Authored;
+  readonly ENTITY_SPRITE_CUSTOMIZE_SPECIES_VIEW_CAM_DIR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_CUSTOMIZE_SPECIES_VIEW_CAM_LOOK_AT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_CUSTOMIZE_SPECIES_VIEW_ZOOM_SCALE?: number | Authored;
+  readonly ENTITY_SPRITE_DESIGN_ENTRY_CAM_DIR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_DESIGN_ENTRY_CAM_LOOK_AT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_DESIGN_ENTRY_ZOOM_SCALE?: number | Authored;
+  readonly ENTITY_SPRITE_FRONTEND_BG_CAM_DIR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_FRONTEND_BG_CAM_LOOK_AT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_FRONTEND_BG_ZOOM_SCALE?: number | Authored;
+  readonly ENTITY_SPRITE_SHIP_SECTION_CAM_DIR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_SHIP_SECTION_CAM_LOOK_AT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_SHIP_SECTION_ZOOM_SCALE?: number | Authored;
+  readonly ENTITY_SPRITE_SYSTEM_VIEW_CAM_DIR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_SYSTEM_VIEW_CAM_LOOK_AT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ENTITY_SPRITE_SYSTEM_VIEW_ZOOM_SCALE?: number | Authored;
+  readonly FOCUSED_MAX_PITCH?: number | Authored;
+  readonly FOCUSED_MIN_PITCH?: number | Authored;
+  readonly FOCUSED_MIN_ZOOM_BASE?: number | Authored;
+  readonly FOCUSED_MIN_ZOOM_MULT?: number | Authored;
+  readonly FOCUSED_PLANET_MIN_ZOOM_MULT?: number | Authored;
+  readonly FOCUSED_ZOOM_RATE?: number | Authored;
+  readonly FOCUS_START_ZOOM_STEP?: number | Authored;
+  readonly FOV?: number | Authored;
+  readonly GALAXY_MAX_PITCH?: number | Authored;
+  readonly GALAXY_MIN_PITCH?: number | Authored;
+  readonly GALAXY_SHOW_COSMIC_STORM_ZOOM?: number | Authored;
+  readonly GALAXY_SHOW_FLEETS_ZOOM?: number | Authored;
+  readonly GALAXY_SHOW_STARNAME_ZOOM?: number | Authored;
+  readonly GALAXY_SPACE_SCALE_MULT?: number | Authored;
+  readonly HIDE_ORBITS_ZOOM?: number | Authored;
+  readonly KEYBOARD_ZOOM_RATE?: number | Authored;
+  readonly LEAVE_SYSTEM_ZOOM_STEP?: number | Authored;
+  readonly MOUSE_MOVEMENT_TO_START_ROTATION_SQ?: number | Authored;
+  readonly NEBULA_NAMES_FADEOUT_SPEED?: number | Authored;
+  readonly NEBULA_NAMES_FADEOUT_ZOOM?: number | Authored;
+  readonly ROTATION_RADIANS_PER_MOUSE_UNIT?: number | Authored;
+  readonly SCROLL_SPEED?: number | Authored;
+  readonly SHIP_3DVIEWER_MAX_PITCH?: number | Authored;
+  readonly SHIP_3DVIEWER_MIN_PITCH?: number | Authored;
+  readonly SHOW_FLEETS_ZOOM?: number | Authored;
+  readonly SYSTEM_CAMERA_RESTRICT_EXTRA_SPACE?: number | Authored;
+  readonly SYSTEM_FAR_PLANE_DISTANCE_BASE?: number | Authored;
+  readonly SYSTEM_HOVER_RANGE?: number | Authored;
+  readonly SYSTEM_MAX_PITCH?: number | Authored;
+  readonly SYSTEM_MIN_PITCH?: number | Authored;
+  readonly SYSTEM_NEAR_PLANE_DISTANCE_BASE?: number | Authored;
+  readonly SYSTEM_SLIDE_RADIUS_FACTOR?: number | Authored;
+  readonly SYSTEM_SLIDE_SPEED?: number | Authored;
+  readonly SYSTEM_SPACE_SCALE_MULT?: number | Authored;
+  readonly ZOOM_STEPS_GALAXY?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ZOOM_STEPS_SHOW_FLEET_HEALTH_BARS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ZOOM_STEPS_SYSTEM_PERCENTAGES?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface NcombatDefinition {
-  readonly ADMIRAL_DEATH_CHANCE?: number;
-  readonly COMBAT_AREA_MIN_ATTACK_RADIUS?: number;
-  readonly COMBAT_BACK_OFF_RATE?: number;
-  readonly COMBAT_BASE_DAYS_UNTIL_EMERGENCY_FTL?: number;
-  readonly COMBAT_CHARGE_DISTANCE_COEFFICIENT?: number;
-  readonly COMBAT_DESIRED_RANGE_MULT?: number;
-  readonly COMBAT_DETECT_RANGE_MIN?: number;
-  readonly COMBAT_DETECT_RANGE_MULT?: number;
-  readonly COMBAT_EMERGENCY_FTL_DAMAGE_AMOUNT?: number;
-  readonly COMBAT_EMERGENCY_FTL_DAMAGE_RISK?: number;
-  readonly COMBAT_EMERGENCY_FTL_LOST_RISK?: number;
-  readonly COMBAT_SHIP_DISTANCE_TARGETING_WEIGHT?: number;
-  readonly COMBAT_SHIP_DISTANCE_TARGETING_WEIGHT_MIN?: number;
-  readonly COMBAT_SHIP_EVASION_AVOID_MIN_SHIP_SIZE?: number;
-  readonly COMBAT_SHIP_EVASION_AVOID_THRESHOLD?: number;
-  readonly COMBAT_SHIP_EVASION_TARGETING_WEIGHT?: number;
-  readonly COMBAT_SHIP_LOW_HEALTH_TARGETING_WEIGHT?: number;
-  readonly COMBAT_SHIP_LOW_HEALTH_THRESHOLD?: number;
-  readonly COMBAT_SHIP_STARBASE_TARGETING_WEIGHT?: number;
-  readonly COMBAT_SHIP_TARGETING_SIZE_MAX?: number;
-  readonly COMBAT_SHIP_TARGETING_SIZE_MULT?: number;
-  readonly COMBAT_SHIP_TARGETING_TRACKING_MULT?: number;
-  readonly COMBAT_SHIP_UNARMED_TARGETING_WEIGHT?: number;
-  readonly FORCE_DISPARITY_BASE?: number;
-  readonly FORCE_DISPARITY_MAX_EFFECT?: number;
-  readonly MISSILE_BASE_ROTATION_SPEED?: number;
-  readonly MISSILE_HIGH_CONTROL_DISTANCE?: number;
-  readonly MISSILE_HIGH_CONTROL_INTERPOLATION_RANGE?: number;
-  readonly MISSILE_RETARGET_CHANCE_REDUCTION?: number;
-  readonly MISSILE_RETARGET_CHANCE_START?: number;
-  readonly NUMBER_OF_TARGETS_TO_REMEMBER?: number;
-  readonly RANDOM_TARGETING_WEIGHT?: number;
-  readonly SHIP_CURRENT_TARGET_MULTIPLIER?: number;
-  readonly SHIP_DISENGAGE_BASE_CHANCE?: number;
-  readonly SHIP_DISENGAGE_FRIENDLY_TERRITORY_MULT?: number;
-  readonly SHIP_DISENGAGE_HEALTH_THRESHOLD?: number;
-  readonly SHIP_DISENGAGE_MAX_CHANCE?: number;
-  readonly SHIP_RECENT_TARGET_PENALIZER?: number;
-  readonly SHIP_SMOOTH_ROTATION_THRESHOLD?: number;
+  readonly ADMIRAL_DEATH_CHANCE?: number | Authored;
+  readonly COMBAT_AREA_MIN_ATTACK_RADIUS?: number | Authored;
+  readonly COMBAT_BACK_OFF_RATE?: number | Authored;
+  readonly COMBAT_BASE_DAYS_UNTIL_EMERGENCY_FTL?: number | Authored;
+  readonly COMBAT_CHARGE_DISTANCE_COEFFICIENT?: number | Authored;
+  readonly COMBAT_DESIRED_RANGE_MULT?: number | Authored;
+  readonly COMBAT_DETECT_RANGE_MIN?: number | Authored;
+  readonly COMBAT_DETECT_RANGE_MULT?: number | Authored;
+  readonly COMBAT_EMERGENCY_FTL_DAMAGE_AMOUNT?: number | Authored;
+  readonly COMBAT_EMERGENCY_FTL_DAMAGE_RISK?: number | Authored;
+  readonly COMBAT_EMERGENCY_FTL_LOST_RISK?: number | Authored;
+  readonly COMBAT_SHIP_DISTANCE_TARGETING_WEIGHT?: number | Authored;
+  readonly COMBAT_SHIP_DISTANCE_TARGETING_WEIGHT_MIN?: number | Authored;
+  readonly COMBAT_SHIP_EVASION_AVOID_MIN_SHIP_SIZE?: number | Authored;
+  readonly COMBAT_SHIP_EVASION_AVOID_THRESHOLD?: number | Authored;
+  readonly COMBAT_SHIP_EVASION_TARGETING_WEIGHT?: number | Authored;
+  readonly COMBAT_SHIP_LOW_HEALTH_TARGETING_WEIGHT?: number | Authored;
+  readonly COMBAT_SHIP_LOW_HEALTH_THRESHOLD?: number | Authored;
+  readonly COMBAT_SHIP_STARBASE_TARGETING_WEIGHT?: number | Authored;
+  readonly COMBAT_SHIP_TARGETING_SIZE_MAX?: number | Authored;
+  readonly COMBAT_SHIP_TARGETING_SIZE_MULT?: number | Authored;
+  readonly COMBAT_SHIP_TARGETING_TRACKING_MULT?: number | Authored;
+  readonly COMBAT_SHIP_UNARMED_TARGETING_WEIGHT?: number | Authored;
+  readonly FORCE_DISPARITY_BASE?: number | Authored;
+  readonly FORCE_DISPARITY_MAX_EFFECT?: number | Authored;
+  readonly MISSILE_BASE_ROTATION_SPEED?: number | Authored;
+  readonly MISSILE_HIGH_CONTROL_DISTANCE?: number | Authored;
+  readonly MISSILE_HIGH_CONTROL_INTERPOLATION_RANGE?: number | Authored;
+  readonly MISSILE_RETARGET_CHANCE_REDUCTION?: number | Authored;
+  readonly MISSILE_RETARGET_CHANCE_START?: number | Authored;
+  readonly NUMBER_OF_TARGETS_TO_REMEMBER?: number | Authored;
+  readonly RANDOM_TARGETING_WEIGHT?: number | Authored;
+  readonly SHIP_CURRENT_TARGET_MULTIPLIER?: number | Authored;
+  readonly SHIP_DISENGAGE_BASE_CHANCE?: number | Authored;
+  readonly SHIP_DISENGAGE_FRIENDLY_TERRITORY_MULT?: number | Authored;
+  readonly SHIP_DISENGAGE_HEALTH_THRESHOLD?: number | Authored;
+  readonly SHIP_DISENGAGE_MAX_CHANCE?: number | Authored;
+  readonly SHIP_RECENT_TARGET_PENALIZER?: number | Authored;
+  readonly SHIP_SMOOTH_ROTATION_THRESHOLD?: number | Authored;
 }
 
 export interface NeconomyDefinition {
-  readonly BORROW_DIPLO_WEIGHT_FAVOR_COST?: Record<string, never>;
-  readonly BORROW_DIPLO_WEIGHT_FAVOR_RESOURCE?: Record<string, never>;
-  readonly BRANCH_OFFICES_ECONOMIC_CATEGORY?: string;
-  readonly CLAIM_COST_BASE?: number;
-  readonly CLAIM_COST_COLONY?: number;
-  readonly CLAIM_COST_DISTANCE?: number;
-  readonly CLAIM_COST_MAX?: number;
-  readonly CLAIM_COST_MULT_OFFENSIVE_WAR?: number;
-  readonly CLAIM_COST_RIVAL_DISCOUNT?: number;
-  readonly CLAIM_COST_STARBASE?: number;
-  readonly COLONY_MAINTENANCE_COST?: number;
-  readonly COLONY_MONTHLY_GROWTH?: number;
-  readonly COMMERCIAL_PACTS_ECONOMIC_CATEGORY?: string;
-  readonly COMMERCIAL_PACTS_INCOME_PERCENTAGE?: number;
-  readonly EXPANSION_COST_BASE?: number;
-  readonly EXPANSION_COST_DISTANCE?: number;
-  readonly EXPANSION_COST_MAX?: number;
-  readonly FLEET_UPGRADE_COMPONENT_COST_REFUND_MULT?: number;
-  readonly FLEET_UPGRADE_SECTION_COST_REFUND_MULT?: number;
-  readonly FLEET_UPGRADE_TIME_COST_MULT?: number;
-  readonly HIGH_WATER_MARK_HISTORY?: number;
-  readonly HIGH_WATER_MARK_MONTHS?: number;
-  readonly INTERNAL_MARKET_DAYS_TO_BASE_PRICE?: number;
-  readonly INTERNAL_MARKET_FLUCTUATION_MULT?: number;
-  readonly LOGISTIC_FLEET_UPKEEP_DOCKED_MULT?: number;
-  readonly LOGISTIC_FLEET_UPKEEP_FRIENDLY_SPACE_MULT?: number;
-  readonly LOGISTIC_FLEET_UPKEEP_HOSTILE_SPACE_MULT?: number;
-  readonly LOGISTIC_FLEET_UPKEEP_NEUTRAL_SPACE_MULT?: number;
-  readonly MARKET_DAYS_TO_BASE_PRICE?: number;
-  readonly MARKET_FLUCTUATION_ABOVE_BASE_PRICE?: number;
-  readonly MARKET_FLUCTUATION_BELOW_BASE_PRICE?: number;
-  readonly MARKET_FLUCTUATION_EPSILON?: number;
-  readonly MARKET_MAX_BASE_AMOUNTS?: number;
-  readonly MARKET_MAX_FLUCTUATION_FROM_BASE_PRICE?: number;
-  readonly MARKET_MIN_FLUCTUATION_FROM_BASE_PRICE?: number;
-  readonly MARKET_MONTHLY_TRADE_FRACTION?: number;
-  readonly MARKET_RESOURCE?: string;
-  readonly MARKET_TRADE_FEE_BASE?: number;
-  readonly MARKET_TRADE_FEE_MIN?: number;
-  readonly MIN_ECONOMIC_MODIFIER_MULT?: number;
-  readonly MIN_MODIFIER_MULT?: number;
-  readonly MONTHLY_EMERGENCY_FUND_CATEGORY?: EconomicCategoryRef;
-  readonly MONTHLY_OVERLORD_SUBSIDY_ECONOMIC_CATEGORY?: EconomicCategoryRef;
-  readonly MONTHLY_SUBJECT_INTEGRATION_ECONOMIC_CATEGORY?: EconomicCategoryRef;
-  readonly MONTHLY_SUBJECT_TAX_ECONOMIC_CATEGORY?: EconomicCategoryRef;
-  readonly MONTHLY_TRADES_ECONOMIC_CATEGORY?: string;
-  readonly PLANETARY_DEFICIT_ECONOMIC_CATEGORY?: string;
-  readonly POP_UNEMPLOYED_JOB_WEIGHT_BONUS?: number;
-  readonly PRICE_CHANGE_EQ_NEG_C?: number;
-  readonly PRICE_CHANGE_EQ_NEG_D?: number;
-  readonly PRICE_CHANGE_EQ_NEG_X0?: number;
-  readonly PRICE_CHANGE_EQ_POS_C?: number;
-  readonly PRICE_CHANGE_EQ_POS_D?: number;
-  readonly PRICE_CHANGE_EQ_POS_X0?: number;
-  readonly RARITY_MODIFIER_COMMON?: number;
-  readonly RARITY_MODIFIER_EPIC?: number;
-  readonly RARITY_MODIFIER_EXCEPTIONAL?: number;
-  readonly RARITY_MODIFIER_RARE?: number;
-  readonly SECTOR_AUTOMATION_BASE_FOCUS?: string;
-  readonly SECTOR_AUTOMATION_CONTRUCTION_RAND_FACTOR?: number;
-  readonly SECTOR_AUTOMATION_FREE_HOUSING_BUILD_CAP?: number;
-  readonly SECTOR_AUTOMATION_FREE_JOBS_BUILD_CAP?: number;
-  readonly SLAVE_MARKET_SIZE_CAP?: number;
-  readonly SLAVE_MARKET_SLAVE_BASE_COST_AMOUNT?: Record<string, never>;
-  readonly SLAVE_MARKET_SLAVE_BASE_COST_RESOURCES?: Record<string, never>;
-  readonly SPACE_FAUNA_PREFERRED_PLANET_ORBIT_UPKEEP_MULT?: number;
-  readonly TRADE_AMOUNT_MULTIPLIER?: Record<string, never>;
-  readonly TRADE_DELIVERY_PERCENTAGE_HIGH?: number;
-  readonly TRADE_DELIVERY_PERCENTAGE_LOW?: number;
-  readonly TRADE_POLICY_ECONOMIC_CATEGORY?: string;
-  readonly TRADITION_COST_AMOUNTS?: Record<string, never>;
-  readonly TRADITION_COST_RESOURCES?: Record<string, never>;
+  readonly BORROW_DIPLO_WEIGHT_FAVOR_COST?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly BORROW_DIPLO_WEIGHT_FAVOR_RESOURCE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly BRANCH_OFFICES_ECONOMIC_CATEGORY?: string | Authored;
+  readonly CLAIM_COST_BASE?: number | Authored;
+  readonly CLAIM_COST_COLONY?: number | Authored;
+  readonly CLAIM_COST_DISTANCE?: number | Authored;
+  readonly CLAIM_COST_MAX?: number | Authored;
+  readonly CLAIM_COST_MULT_OFFENSIVE_WAR?: number | Authored;
+  readonly CLAIM_COST_RIVAL_DISCOUNT?: number | Authored;
+  readonly CLAIM_COST_STARBASE?: number | Authored;
+  readonly COLONY_MAINTENANCE_COST?: number | Authored;
+  readonly COLONY_MONTHLY_GROWTH?: number | Authored;
+  readonly COMMERCIAL_PACTS_ECONOMIC_CATEGORY?: string | Authored;
+  readonly COMMERCIAL_PACTS_INCOME_PERCENTAGE?: number | Authored;
+  readonly EXPANSION_COST_BASE?: number | Authored;
+  readonly EXPANSION_COST_DISTANCE?: number | Authored;
+  readonly EXPANSION_COST_MAX?: number | Authored;
+  readonly FLEET_UPGRADE_COMPONENT_COST_REFUND_MULT?: number | Authored;
+  readonly FLEET_UPGRADE_SECTION_COST_REFUND_MULT?: number | Authored;
+  readonly FLEET_UPGRADE_TIME_COST_MULT?: number | Authored;
+  readonly HIGH_WATER_MARK_HISTORY?: number | Authored;
+  readonly HIGH_WATER_MARK_MONTHS?: number | Authored;
+  readonly INTERNAL_MARKET_DAYS_TO_BASE_PRICE?: number | Authored;
+  readonly INTERNAL_MARKET_FLUCTUATION_MULT?: number | Authored;
+  readonly LOGISTIC_FLEET_UPKEEP_DOCKED_MULT?: number | Authored;
+  readonly LOGISTIC_FLEET_UPKEEP_FRIENDLY_SPACE_MULT?: number | Authored;
+  readonly LOGISTIC_FLEET_UPKEEP_HOSTILE_SPACE_MULT?: number | Authored;
+  readonly LOGISTIC_FLEET_UPKEEP_NEUTRAL_SPACE_MULT?: number | Authored;
+  readonly MARKET_DAYS_TO_BASE_PRICE?: number | Authored;
+  readonly MARKET_FLUCTUATION_ABOVE_BASE_PRICE?: number | Authored;
+  readonly MARKET_FLUCTUATION_BELOW_BASE_PRICE?: number | Authored;
+  readonly MARKET_FLUCTUATION_EPSILON?: number | Authored;
+  readonly MARKET_MAX_BASE_AMOUNTS?: number | Authored;
+  readonly MARKET_MAX_FLUCTUATION_FROM_BASE_PRICE?: number | Authored;
+  readonly MARKET_MIN_FLUCTUATION_FROM_BASE_PRICE?: number | Authored;
+  readonly MARKET_MONTHLY_TRADE_FRACTION?: number | Authored;
+  readonly MARKET_RESOURCE?: string | Authored;
+  readonly MARKET_TRADE_FEE_BASE?: number | Authored;
+  readonly MARKET_TRADE_FEE_MIN?: number | Authored;
+  readonly MIN_ECONOMIC_MODIFIER_MULT?: number | Authored;
+  readonly MIN_MODIFIER_MULT?: number | Authored;
+  readonly MONTHLY_EMERGENCY_FUND_CATEGORY?: EconomicCategoryRef | Authored;
+  readonly MONTHLY_OVERLORD_SUBSIDY_ECONOMIC_CATEGORY?: EconomicCategoryRef | Authored;
+  readonly MONTHLY_SUBJECT_INTEGRATION_ECONOMIC_CATEGORY?: EconomicCategoryRef | Authored;
+  readonly MONTHLY_SUBJECT_TAX_ECONOMIC_CATEGORY?: EconomicCategoryRef | Authored;
+  readonly MONTHLY_TRADES_ECONOMIC_CATEGORY?: string | Authored;
+  readonly PLANETARY_DEFICIT_ECONOMIC_CATEGORY?: string | Authored;
+  readonly POP_UNEMPLOYED_JOB_WEIGHT_BONUS?: number | Authored;
+  readonly PRICE_CHANGE_EQ_NEG_C?: number | Authored;
+  readonly PRICE_CHANGE_EQ_NEG_D?: number | Authored;
+  readonly PRICE_CHANGE_EQ_NEG_X0?: number | Authored;
+  readonly PRICE_CHANGE_EQ_POS_C?: number | Authored;
+  readonly PRICE_CHANGE_EQ_POS_D?: number | Authored;
+  readonly PRICE_CHANGE_EQ_POS_X0?: number | Authored;
+  readonly RARITY_MODIFIER_COMMON?: number | Authored;
+  readonly RARITY_MODIFIER_EPIC?: number | Authored;
+  readonly RARITY_MODIFIER_EXCEPTIONAL?: number | Authored;
+  readonly RARITY_MODIFIER_RARE?: number | Authored;
+  readonly SECTOR_AUTOMATION_BASE_FOCUS?: string | Authored;
+  readonly SECTOR_AUTOMATION_CONTRUCTION_RAND_FACTOR?: number | Authored;
+  readonly SECTOR_AUTOMATION_FREE_HOUSING_BUILD_CAP?: number | Authored;
+  readonly SECTOR_AUTOMATION_FREE_JOBS_BUILD_CAP?: number | Authored;
+  readonly SLAVE_MARKET_SIZE_CAP?: number | Authored;
+  readonly SLAVE_MARKET_SLAVE_BASE_COST_AMOUNT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SLAVE_MARKET_SLAVE_BASE_COST_RESOURCES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SPACE_FAUNA_PREFERRED_PLANET_ORBIT_UPKEEP_MULT?: number | Authored;
+  readonly TRADE_AMOUNT_MULTIPLIER?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly TRADE_DELIVERY_PERCENTAGE_HIGH?: number | Authored;
+  readonly TRADE_DELIVERY_PERCENTAGE_LOW?: number | Authored;
+  readonly TRADE_POLICY_ECONOMIC_CATEGORY?: string | Authored;
+  readonly TRADITION_COST_AMOUNTS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly TRADITION_COST_RESOURCES?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface NengineDefinition {
@@ -1085,1287 +1085,1287 @@ export interface NengineDefinition {
 }
 
 export interface NgameplayDefinition {
-  readonly ABANDONED_EMPIRE_FLAG?: string;
-  readonly ADDITIONAL_PLANET_STABILITY_LIMIT?: number;
-  readonly ADVANCED_EMPIRE_ALWAYS_COLONIZE_HABITABILITY?: number;
-  readonly ADVANCED_EMPIRE_COLONY_CHANCE?: number;
-  readonly ADVANCED_EMPIRE_EXTRA_WARSHIPS_MAX?: number;
-  readonly ADVANCED_EMPIRE_EXTRA_WARSHIPS_MIN?: number;
-  readonly ADVANCED_EMPIRE_MAX_EXTRA_SYSTEMS?: number;
-  readonly ADVANCED_EMPIRE_MIN_EXTRA_SYSTEMS?: number;
-  readonly ADVANCED_GALAXY_ARMY?: ArmyRef;
-  readonly ADVANCED_GALAXY_CAPITAL?: BuildingRef;
-  readonly ADVANCED_GALAXY_COLONY_CAPITAL?: BuildingRef;
-  readonly ADVANCED_GALAXY_COLONY_DISTANCE_FIXED?: number;
-  readonly ADVANCED_GALAXY_COLONY_DISTANCE_RANDOM?: number;
-  readonly ADVANCED_GALAXY_COLONY_DISTANCE_SURVEYED?: number;
-  readonly ADVANCED_GALAXY_COLONY_FARM?: BuildingRef;
-  readonly ADVANCED_GALAXY_COLONY_LAB?: BuildingRef;
-  readonly ADVANCED_GALAXY_COLONY_MINE?: BuildingRef;
-  readonly ADVANCED_GALAXY_COLONY_POWER_PLANT?: BuildingRef;
-  readonly ADVANCED_GALAXY_EXTRA_ENERGY?: number;
-  readonly ADVANCED_GALAXY_EXTRA_INFLUENCE?: number;
-  readonly ADVANCED_GALAXY_EXTRA_MINERALS?: number;
-  readonly ADVANCED_GALAXY_EXTRA_UNITY?: number;
-  readonly ADVANCED_GALAXY_HOME_BUILDINGS?: number;
-  readonly ADVANCED_GALAXY_HOME_POPS?: number;
-  readonly ADVANCED_GALAXY_MAX_NUM_STARBASES?: number;
-  readonly ADVANCED_GALAXY_NAVY_SIZE?: number;
-  readonly ADVANCED_GALAXY_NUM_ARMIES?: number;
-  readonly ADVANCED_GALAXY_STARBASE_LEVEL?: StarbaseLevelRef;
-  readonly ADVANCED_GALAXY_TECH_TIER?: number;
-  readonly ADVANCED_GALAXY_YEARS?: number;
-  readonly AGREEMENT_CAN_INTEGRATE_TERM_VALUE?: AgreementTermValueRef;
-  readonly AGREEMENT_CHANGE_COOLDOWN_MONTHS?: number;
-  readonly AGREEMENT_DENY_AS_OVERLORD_INFLUENCE_COST?: number;
-  readonly AGREEMENT_DENY_AS_SUBJECT_INFLUENCE_COST?: number;
-  readonly AGREEMENT_ECONOMIC_IMPACT_LOYALTY_WEIGHT?: number;
-  readonly AGREEMENT_EXPANSION_TITHE_FACTOR?: number;
-  readonly AGREEMENT_INTANGIBLE_IMPACT_LOYALTY_WEIGHT?: number;
-  readonly AGREEMENT_INTANGIBLE_SUBSIDY_LARGE?: number;
-  readonly AGREEMENT_INTANGIBLE_SUBSIDY_LARGE_VALUE?: number;
-  readonly AGREEMENT_INTANGIBLE_SUBSIDY_LINEAR_FACTOR?: number;
-  readonly AGREEMENT_INTANGIBLE_TITHE_LARGE?: number;
-  readonly AGREEMENT_INTANGIBLE_TITHE_LARGE_VALUE?: number;
-  readonly AGREEMENT_INTANGIBLE_TITHE_LINEAR_FACTOR?: number;
-  readonly AGREEMENT_INTEGRATION_TERM?: AgreementTermRef;
-  readonly AGREEMENT_LOYALTY_DELTA_MULT?: number;
-  readonly AGREEMENT_PRESET_RELEASE_AS_SECTOR?: AgreementPresetRef;
-  readonly AGREEMENT_PRESET_VASSAL?: AgreementPresetRef;
-  readonly AGREEMENT_PROPOSE_INFLUENCE_COST?: number;
-  readonly AGREEMENT_RESOURCE_SUBSIDIES_INCREMENT?: number;
-  readonly AGREEMENT_RESOURCE_SUBSIDIES_MAX?: number;
-  readonly AGREEMENT_RESOURCE_SUBSIDIES_MIN?: number;
-  readonly AI_FULL_RIGHTS_POLICY_FLAG?: string;
-  readonly ALLOW_EMPIRE_DESIGN_CHEATS?: boolean;
-  readonly ALLOW_UNACCEPTABLE_SYSTEM_THRESHOLD?: number;
-  readonly ANOMALY_SPAWN_CHANCE?: number;
-  readonly ANOMALY_SPAWN_CHANCE_INCREMENT?: number;
-  readonly ARCHAEOLOGICAL_SITE_DICE_ROLL_MAX?: number;
-  readonly ARCHAEOLOGICAL_SITE_DICE_ROLL_MIN?: number;
-  readonly ARCHAEOLOGICAL_SITE_DISCOVERY_DAYS?: number;
-  readonly ARCHAEOLOGICAL_SITE_DISCOVERY_SCORE?: number;
-  readonly ASCENSION_PERKS_SLOTS?: number;
-  readonly ASTRAL_ACTION_PREVENT_UNLOCK_NOTIFICATION_DELAY?: number;
-  readonly ASTRAL_ACTION_RECENT_UNLOCK_NOTIFICATION_FLAG?: string;
-  readonly ASTRAL_JUMP_COOLDOWN?: number;
-  readonly ASTRAL_JUMP_THREADS_COST?: number;
-  readonly ASTRAL_RIFT_DEFAULT_DISPLAY_SIZE?: number;
-  readonly ASTRAL_RIFT_DICE_ROLL_MAX?: number;
-  readonly ASTRAL_RIFT_DICE_ROLL_MIN?: number;
-  readonly ASTRAL_RIFT_DISCOVERY_DAYS?: number;
-  readonly ASTRAL_RIFT_DISCOVERY_SCORE?: number;
-  readonly ASTRAL_RIFT_RELATIVE_SPAWN_MINIMAL_DISTANCE_FROM_PLANETS?: number;
-  readonly AURA_CLASHING_FLAG?: string;
-  readonly AURA_CLASH_LOSING_INTENSITY?: number;
-  readonly AURA_EFFECT_FALLEN_EMPIRE_OR_CRISIS_REDUCTION?: number;
-  readonly AURA_INTENSIFICATION_TECH?: TechnologyRef;
-  readonly AUTOMATED_WORKFORCE_MAX_PERC?: number;
-  readonly AUTO_DECLINE_DIPLOMACY_DAYS?: number;
-  readonly AUTO_MOD_BASE?: number;
-  readonly AWARENESS_HIGH_LIMIT?: number;
-  readonly AWARENESS_LOW_LIMIT?: number;
-  readonly AWARENESS_MAX?: number;
-  readonly AWARENESS_MIN?: number;
-  readonly AWARENESS_PARTIAL_LIMIT?: number;
-  readonly AWARENESS_UNAWARE_LIMIT?: number;
-  readonly BASE_AMENITIES_USAGE?: number;
-  readonly BASE_ENVOYS_REGULAR_EMPIRE?: number;
-  readonly BASE_PLANET_BRANCH_OFFICE_BUILDING_SLOTS?: number;
-  readonly BASE_PLANET_BUILDING_SLOTS?: number;
-  readonly BASE_PLANET_STABILITY?: number;
-  readonly BASE_PLANET_SUBJECT_HOLDING_BUILDING_SLOTS?: number;
-  readonly BASE_SURVEY_TIME?: number;
-  readonly BASE_SYNAPTIC_LATHE_BUILDING_SLOTS?: number;
-  readonly BORDERS_OPEN_POLICY_FLAG?: string;
-  readonly BORROWED_DIPLO_WEIGHT_FAVOR_MULT?: number;
-  readonly BRANCH_OFFICE_COST_INCREASE_MIN_RANGE?: number;
-  readonly BRANCH_OFFICE_COST_INCREASE_SCALE?: number;
-  readonly BRANCH_OFFICE_INCOME_SCALE?: number;
-  readonly CALLINGS_REFRESH_COOLDOWN_DAYS?: number;
-  readonly CALLINGS_TIER_MAX?: number;
-  readonly CALLINGS_TIER_MIN?: number;
-  readonly CALLING_COOLDOWN_REDUCTION_PER_ENVOY_DAYS?: number;
-  readonly CAN_HAVE_SCRIPTED_BOMBARDMENT?: string;
-  readonly CARDINAL_PATRON_PASSIVE_ACCORD_DISTANCES?: Record<string, never>;
-  readonly CATAPULT_MAX_RADIUS?: number;
-  readonly CATAPULT_MIN_RADIUS?: number;
-  readonly CATAPULT_MIN_REACH?: number;
-  readonly CATEGORY_VOTE_COOLDOWN?: number;
-  readonly CHANGE_VOTE_COOLDOWN?: number;
-  readonly CITIZENSHIP_TYPE_DEFAULT?: CitizenshipTypeRef;
-  readonly CLOAKING_ACTIVATION_COOLDOWN?: number;
-  readonly CLOAKING_LEVEL_MAX?: number;
-  readonly COLLATERAL_DAMAGE_BASE_SCALE?: number;
-  readonly COLLATERAL_DAMAGE_CHANCE?: number;
-  readonly COLLATERAL_DAMAGE_DEFENDER_MULT?: number;
-  readonly COLLATERAL_DAMAGE_DESTROY_BUILDING_CHANCE?: number;
-  readonly COLLATERAL_DAMAGE_DESTROY_DISTRICT_CHANCE?: number;
-  readonly COLLATERAL_DAMAGE_GROUND_COMBAT_SAFE_POPS?: number;
-  readonly COLLATERAL_DAMAGE_KILL_POP_CHANCE?: number;
-  readonly COLLATERAL_DAMAGE_MAX_PER_DAY?: number;
-  readonly COLLECTION_STORAGE_SLOTS_COUNT?: number;
-  readonly COLONY_DEPOSITS_FIXED_BASE?: number;
-  readonly COLONY_DEPOSITS_FIXED_FROM_SIZE?: number;
-  readonly COLONY_DEPOSITS_RANDOM_BASE?: number;
-  readonly COLONY_DEPOSITS_RANDOM_FROM_SIZE?: number;
-  readonly COLONY_DEPOSITS_USE_NULL?: boolean;
-  readonly COLONY_TECH?: TechnologyRef;
-  readonly COMMAND_LIMIT_BASE?: number;
-  readonly COMMAND_LIMIT_MAX?: number;
-  readonly COMMAND_LIMIT_MULT_DEFAULT?: number;
-  readonly COMMAND_LIMIT_MULT_MAX?: number;
-  readonly COMMAND_LIMIT_MULT_MIN?: number;
-  readonly COMMAND_LIMIT_MULT_SLIDER_INTERVAL?: number;
-  readonly COMMUNITY_FREEZE_RESOLUTION_MONTHS?: number;
-  readonly CONSTRUCTION_SHIP_STATION_OFFSET?: number;
-  readonly CONSTRUCTION_SHIP_WORK_SPEED_MULT?: number;
-  readonly CONTAINMENT_PROTOCOLS_UNLOCKED?: string;
-  readonly CONTAINMENT_PROTOCOLS_WILD_CRITTERS_RARITY_TABLE?: Record<string, never>;
-  readonly COSMIC_STORM_ALLOWED_NAME_LISTS?: Record<string, never>;
-  readonly COSMIC_STORM_DEVASTATION_DEFAULT?: number;
-  readonly COSMIC_STORM_DEVASTATION_MAX?: number;
-  readonly COSMIC_STORM_DEVASTATION_MIN?: number;
-  readonly COSMIC_STORM_DEVASTATION_SLIDER_INTERVAL?: number;
-  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_HUGE_GALAXY?: number;
-  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_LARGE_GALAXY?: number;
-  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_MEDIUM_GALAXY?: number;
-  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_SMALL_GALAXY?: number;
-  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_TINY_GALAXY?: number;
-  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_HUGE_GALAXY?: number;
-  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_LARGE_GALAXY?: number;
-  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_MEDIUM_GALAXY?: number;
-  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_SMALL_GALAXY?: number;
-  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_TINY_GALAXY?: number;
-  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_HUGE_GALAXY?: number;
-  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_LARGE_GALAXY?: number;
-  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_MEDIUM_GALAXY?: number;
-  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_SMALL_GALAXY?: number;
-  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_TINY_GALAXY?: number;
-  readonly COSMIC_STORM_SPAWN_CHANCE_SCALE_DEFAULT?: number;
-  readonly COSMIC_STORM_SPAWN_CHANCE_SCALE_MAX?: number;
-  readonly COSMIC_STORM_SPAWN_CHANCE_SCALE_MIN?: number;
-  readonly COSMIC_STORM_SPAWN_CHANCE_SCALE_STEP?: number;
-  readonly COSMIC_STORM_SPAWN_COOLDOWN_SCALE_DEFAULT?: number;
-  readonly COSMIC_STORM_SPAWN_COOLDOWN_SCALE_MAX?: number;
-  readonly COSMIC_STORM_SPAWN_COOLDOWN_SCALE_MIN?: number;
-  readonly COSMIC_STORM_SPAWN_COOLDOWN_SCALE_STEP?: number;
-  readonly COSMIC_STORM_SPAWN_MAX_CAP_MAX?: number;
-  readonly COSMIC_STORM_SPAWN_MAX_CAP_MIN?: number;
-  readonly COSMIC_STORM_SPAWN_MAX_CAP_STEP?: number;
-  readonly COUNCIL_AGENDA_BASE_COUNCILOR_MONTHLY_PROGRESS?: number;
-  readonly COUNCIL_AGENDA_COOLDOWN?: number;
-  readonly COUNCIL_AGENDA_COUNCILOR_PROGRESS_PER_SKILL?: number;
-  readonly COUNCIL_AGENDA_FINISH_MODIFIER_DURATION?: number;
-  readonly COUNCIL_AGENDA_HIGH_LEGITIMACY_MODIIFER?: number;
-  readonly COUNCIL_AGENDA_LOW_LEGITIMACY_MODIIFER?: number;
-  readonly COUNCIL_COHESION_EDICT_FUND_MAX_MULT?: number;
-  readonly COUNCIL_COHESION_SCORE_ETHIC?: number;
-  readonly COUNCIL_COHESION_SCORE_FANATIC_ETHIC?: number;
-  readonly COUNCIL_COHESION_TREND_FACTOR?: number;
-  readonly COUNCIL_DIPLOMACY_POSITIONS?: Record<string, never>;
-  readonly COUNCIL_DIPLOMACY_WEIGHT_MODIFIER?: number;
-  readonly COUNCIL_ELECTION_SOON_CUTOFF?: number;
-  readonly COUNCIL_ELECTION_TIMER?: number;
-  readonly COUNCIL_NAVAL_POSITIONS?: Record<string, never>;
-  readonly COUNCIL_RESEARCH_POSITIONS?: Record<string, never>;
-  readonly COUNTRY_ACTIVE_FOCUS_CARDS_COUNT?: number;
-  readonly COUNTRY_ENCLAVE_CAPACITY_BASE?: number;
-  readonly COUNTRY_ENCLAVE_CAPACITY_MAX?: number;
-  readonly COUNTRY_FOCUS_CARDS_DISMISS_COOLDOWN_DAYS?: number;
-  readonly COUNTRY_FOCUS_CARDS_DISMISS_UNITY_COST?: number;
-  readonly COUNTRY_FOCUS_CARDS_TIER_MAX?: number;
-  readonly COUNTRY_FOCUS_CARDS_TIER_MIN?: number;
-  readonly COUNTRY_FOCUS_COST_WAIVED_YEARS?: number;
-  readonly COUNTRY_FOCUS_NEXT_TIER_ENABLING_COEFFICIENT?: number;
-  readonly COUNTRY_FOCUS_PRIORITY_CHANGE_COOLDOWN_DAYS?: number;
-  readonly COUNTRY_FOCUS_PROGRESSION_DEFAULT_COST?: number;
-  readonly COUNTRY_USES_BIOMASS_FLAG?: string;
-  readonly CRIMINAL_SYNDICATE_HIGH_CRIME_MULT?: number;
-  readonly CRIMINAL_SYNDICATE_LOW_CRIME_MULT?: number;
-  readonly CRITTER_MAX_AGE?: number;
-  readonly CUSTODIAN_TERM_LIMIT_DAYS?: number;
-  readonly CUSTODIAN_TERM_LIMIT_EXPIRATION_MESSAGE_DAYS?: number;
-  readonly CUSTOM_EMPIRE_SPAWN_CHANCE?: number;
-  readonly CUTHOLOIDS_SCALING_DEFAULT?: number;
-  readonly CUTHOLOIDS_SCALING_MAX?: number;
-  readonly CUTHOLOIDS_SCALING_MIN?: number;
-  readonly CUTHOLOIDS_SCALING_SLIDER_INTERVAL?: number;
-  readonly CYCLE_END_RECKONING_FLAG_STR?: string;
-  readonly CYCLE_END_SITUATION_FLAG_STR?: string;
-  readonly CYCLE_KEYS?: Record<string, never>;
-  readonly CYCLE_OF_CONFLICT_FLAG_STR?: string;
-  readonly CYCLE_OF_FORTUNE_FLAG_STR?: string;
-  readonly CYCLE_OF_GROWTH_FLAG_STR?: string;
-  readonly CYCLE_OF_HARMONY_FLAG_STR?: string;
-  readonly CYCLE_OF_KNOWLEDGE_FLAG_STR?: string;
-  readonly CYCLE_OF_OMENS_FLAG_STR?: string;
-  readonly CYCLE_OF_PROSPERITY_FLAG_STR?: string;
-  readonly DATE_DISTORTION_COUNT_MAX?: number;
-  readonly DATE_DISTORTION_COUNT_MIN?: number;
-  readonly DEBRIS_ANALYZED_AREA_POINTS?: number;
-  readonly DEBRIS_ANALYZED_TECH_PROGRESS?: number;
-  readonly DEBRIS_BASE_COST?: number;
-  readonly DEBRIS_DAYS?: number;
-  readonly DEBRIS_REANIMATE_RESEARCH_FLEET_SIZE_INCREASE?: number;
-  readonly DEBRIS_REANIMATE_RESEARCH_FLEET_SIZE_THRESHOLD?: number;
-  readonly DEBRIS_REANIMATE_RESEARCH_MAX?: number;
-  readonly DEBRIS_REANIMATE_RESEARCH_MIN?: number;
-  readonly DEBRIS_RESEARCH_TIME?: number;
-  readonly DECADENCE_CHANCE?: number;
-  readonly DECADENCE_INCREASE?: number;
-  readonly DECADENCE_MAX?: number;
-  readonly DECADENCE_START?: number;
-  readonly DECLINED_TO_LEAVE_FEDERATION_CASUS_BELLI_TYPE?: CasusBelliRef;
-  readonly DEEDS_COUNT_PER_PATRON?: number;
-  readonly DEFAULT_CLIMATE_LABELS?: Record<string, never>;
-  readonly DEFAULT_COUNCIL_EMERGENCY_MEASURES?: boolean;
-  readonly DEFAULT_COUNCIL_SIZE?: number;
-  readonly DEFAULT_COUNCIL_VETO?: boolean;
-  readonly DEFAULT_HOME_PLANETS?: Record<string, never>;
-  readonly DEFAULT_MAX_DISTRICTS_PER_PLANET?: number;
-  readonly DEFAULT_MAX_PLANET_BUILDINGS_PER_ZONE?: number;
-  readonly DEFAULT_ORIGIN?: CivicOrOriginRef;
-  readonly DEFAULT_TRAIT_OPTIONS_ON_LEVEL_UP?: number;
-  readonly DEFAULT_VETO_COST_MULT?: number;
-  readonly DEPOSIT_USED_CATEGORY_WEIGHT?: number;
-  readonly DETECTION_INTEL_DECAY_MONTHS?: number;
-  readonly DIMENSIONAL_LOCK_ASTRAL_ACTION?: AstralActionsRef;
-  readonly DIMENSIONAL_LOCK_AVAILABLE_FLAG?: string;
-  readonly DIMENSIONAL_LOCK_BUILD_TIME?: number;
-  readonly DIMENSIONAL_LOCK_EXPIRATION_TIME?: number;
-  readonly DIMENSIONAL_LOCK_PRE_EXPIRATION_ALERT_DAYS?: number;
-  readonly DIPLOMACY_WEIGHT_BASE?: number;
-  readonly DIPLOMACY_WEIGHT_ECONOMY_FACTOR?: number;
-  readonly DIPLOMACY_WEIGHT_GESTALT_WEIGHT?: number;
-  readonly DIPLOMACY_WEIGHT_NAVAL_FACTOR?: number;
-  readonly DIPLOMACY_WEIGHT_NO_LEADER_PENALTY?: number;
-  readonly DIPLOMACY_WEIGHT_POP_BASE?: number;
-  readonly DIPLOMACY_WEIGHT_POP_HAPPINESS?: number;
-  readonly DIPLOMACY_WEIGHT_SPRAWL_FACTOR?: number;
-  readonly DIPLOMACY_WEIGHT_STANCE_FACTOR?: number;
-  readonly DIPLOMACY_WEIGHT_TECHNOLOGY_FACTOR?: number;
-  readonly DISABLE_JUMP_DRIVE_COOLDOWN_MALUS_FLAG_STR?: string;
-  readonly ECON_POWER_COST_DIV?: number;
-  readonly EDICT_CAPACITY_BASE?: number;
-  readonly EDICT_MAX_RESOURCE_COST?: number;
-  readonly EDICT_UNITY_AMBITION_COST_MULT?: number;
-  readonly ELECTION_BASE_SUPPORT?: number;
-  readonly ELECTION_INDEPENDENT_SUPPORT?: number;
-  readonly ELECTION_SKILL_EFFECT?: number;
-  readonly ELECTION_SUPPORT_LEADER_EFFECT?: number;
-  readonly EMBASSY_IMPROVE_RELATION_MULTIPLIER?: number;
-  readonly EMERGENCY_FUND_RELIEF_PER_AFFECTED_SYSTEM?: number;
-  readonly EMERGENCY_MEASURES_COOLDOWN?: number;
-  readonly EMPIRE_SIZE_ARMIES_PENALTY?: number;
-  readonly EMPIRE_SIZE_BASE?: number;
-  readonly EMPIRE_SIZE_COUNCIL_AGENDA_COST_PENALTY?: number;
-  readonly EMPIRE_SIZE_FLOOR?: number;
-  readonly EMPIRE_SIZE_FROM_BRANCH_OFFICES?: number;
-  readonly EMPIRE_SIZE_FROM_COLONIES?: number;
-  readonly EMPIRE_SIZE_FROM_DISTRICTS?: number;
-  readonly EMPIRE_SIZE_FROM_POPS?: number;
-  readonly EMPIRE_SIZE_FROM_SYSTEMS?: number;
-  readonly EMPIRE_SIZE_TECH_COST_PENALTY?: number;
-  readonly EMPIRE_SIZE_TRADITION_COST_PENALTY?: number;
-  readonly END_GAME_START_DEFAULT?: number;
-  readonly END_GAME_START_MAX?: number;
-  readonly END_GAME_START_MIN?: number;
-  readonly ENFORCE_STATUS_QUO_ENABLED?: boolean;
-  readonly ENFORCE_STATUS_QUO_MONTHS?: number;
-  readonly ENTROPY_COUNDUITS_STATION_SHIP?: string;
-  readonly ENTROPY_COUNDUITS_TERRAFORM_PLANET_CLASS?: string;
-  readonly ENTROPY_COUNDUITS_TERRAFORM_PLANET_CLASS_KEY?: string;
-  readonly ENTROPY_COUNDUITS_TERRAFORM_SPEED?: number;
-  readonly ENTROPY_COUNDUITS_TERRAFORM_STAR_CLASS?: string;
-  readonly ENVOY_HARM_RELATION_BASE?: number;
-  readonly ENVOY_HARM_RELATION_MIN?: number;
-  readonly ENVOY_IMPROVE_RELATION_BASE?: number;
-  readonly ENVOY_IMPROVE_RELATION_MAX?: number;
-  readonly ENVOY_RELATION_EFFECT_DECAY?: number;
-  readonly ENVOY_STRENGTHEN_IMPERIAL_AUTHORITY_RELATION_DECAY?: number;
-  readonly ENVOY_STRENGTHEN_IMPERIAL_AUTHORITY_RELATION_GROWTH?: number;
-  readonly ENVOY_STRENGTHEN_IMPERIAL_AUTHORITY_RELATION_MAX?: number;
-  readonly ENVOY_UNDERMINE_IMPERIAL_AUTHORITY_RELATION_DECAY?: number;
-  readonly ENVOY_UNDERMINE_IMPERIAL_AUTHORITY_RELATION_GROWTH?: number;
-  readonly ENVOY_UNDERMINE_IMPERIAL_AUTHORITY_RELATION_MIN?: number;
-  readonly ESPIONAGE_OPERATION_BASE_ROLL_FREQUENCY?: number;
-  readonly ESPIONAGE_OPERATION_DICE_ROLL_MAX?: number;
-  readonly ESPIONAGE_OPERATION_DICE_ROLL_MIN?: number;
-  readonly ESPIONAGE_OPERATION_SUCCESS_SCORE?: number;
-  readonly ETHOS_MAX_POINTS?: number;
-  readonly EVADE_HOSTILE_CANCEL_ORDERS_THRESHOLD_DAYS?: number;
-  readonly EVENT_AUTOSELECT_MONTHS?: number;
-  readonly EXHIBIT_UNLOCK_COSTS?: Record<string, never>;
-  readonly EXPERIMENTAL_SUBSPACE_NAVIGATION_TIME_MULT?: number;
-  readonly EXTERNAL_LEADER_POOL_SIZE?: number;
-  readonly EXTRA_POP_KILL_MULTIPLIER_CHANCE?: number;
-  readonly FAILED_EMERGENCY_FUND_CONTRIBUTION_FLAG?: string;
-  readonly FALLEN_CUSTOM_EMPIRE_SPAWN_CHANCE?: number;
-  readonly FALLEN_EMPIRE_INNER_BOUNDARY?: number;
-  readonly FALLEN_EMPIRE_OUTER_BOUNDARY?: number;
-  readonly FALLEN_EMPIRE_REPEATABLE_TECHS?: number;
-  readonly FAVORS_PER_RESOLUTION_CAP?: number;
-  readonly FAVOR_CAP?: number;
-  readonly FEDERATION_BASE_COHESION?: number;
-  readonly FEDERATION_BASE_ETHICS?: number;
-  readonly FEDERATION_COHESION_RANGE?: number;
-  readonly FEDERATION_COHESION_TO_XP?: number;
-  readonly FEDERATION_ENVOY_BASE_EFFECT?: number;
-  readonly FEDERATION_ETHICS_PENALTY?: number;
-  readonly FEDERATION_EXPERIENCE_BUFFER?: number;
-  readonly FEDERATION_JOIN_COHESION_PENALTY?: number;
-  readonly FEDERATION_LEADER_POWER_THRESHOLD?: number;
-  readonly FEDERATION_LEAVE_COHESION_PENALTY?: number;
-  readonly FEDERATION_LOW_COHESION_CUTOFF?: number;
-  readonly FEDERATION_MAX_FLEET_SIZE?: number;
-  readonly FEDERATION_MEMBERS_PENALTY?: number;
-  readonly FEDERATION_MIN_MEMBERS_TO_KICK?: number;
-  readonly FEDERATION_NO_MEMBERS_PENALTY?: number;
-  readonly FEDERATION_OPPOSING_ETHICS_PENALTY?: number;
-  readonly FEDERATION_PERK_EXPERATION_MONTHS?: number;
-  readonly FEDERATION_SWITCH_COHESION_PENALTY?: number;
-  readonly FEDERATION_VOTE_RESUBMIT_DELAY?: number;
-  readonly FIRST_CONTACT_DICE_ROLL_MAX?: number;
-  readonly FIRST_CONTACT_DICE_ROLL_MIN?: number;
-  readonly FIRST_CONTACT_DISCOVERY_DAYS?: number;
-  readonly FIRST_CONTACT_DISCOVERY_DAYS_AI?: number;
-  readonly FIRST_CONTACT_DISCOVERY_SCORE?: number;
-  readonly FIRST_CONTACT_FIRST_STAGE?: FirstContactStageRef;
-  readonly FIRST_CONTACT_HIGHER_INSIGHT_REWARD?: number;
-  readonly FIRST_CONTACT_HIGHER_INSIGHT_SCORE?: number;
-  readonly FIRST_CONTACT_INTEL_TARGET?: number;
-  readonly FIRST_CONTACT_LOWER_INSIGHT_REWARD?: number;
-  readonly FIRST_CONTACT_LOWER_INSIGHT_SCORE?: number;
-  readonly FIRST_CONTACT_POLICY?: PolicyRef;
-  readonly FIRST_CONTACT_POLICY_FLAG_ATTACK_ALLOWED?: string;
-  readonly FIRST_CONTACT_POLICY_FLAG_CAUTIOUS?: string;
-  readonly FIRST_CONTACT_POLICY_FLAG_PROACTIVE?: string;
-  readonly FIRST_CONTACT_UNKNOWN_SPECIES_PORTRAITS_AMOUNT?: number;
-  readonly FLEET_FLASH_FORGING_HYPER_RELAY_FLAG?: string;
-  readonly FLEET_LEASE_DAYS_DEFAULT?: number;
-  readonly FLEET_LEASE_DAYS_MAXIMUM?: number;
-  readonly FLEET_MIN_TI_CLEAR_RADIUS?: number;
-  readonly FLEET_PATHFINDING_COSMIC_STORM_WEIGHT?: number;
-  readonly FORGE_OUR_OWN_PATH_NB_ACTIVE_ACCORDS?: number;
-  readonly FORGING_OUR_OWN_PATH_ACTIVE_ACCORDS_COUNT?: number;
-  readonly FORGING_OUR_OWN_PATH_FLAG?: string;
-  readonly FORMLESS_COUNTRY_TYPE?: CountryTypeRef;
-  readonly FORMLESS_REWARD_AVAILABLE?: string;
-  readonly FRICTION_FROM_BORDERING_SYSTEM?: number;
-  readonly FTL_MAGNET_DISTANCE?: number;
-  readonly GALACTIC_DEFENSE_FORCE_NAMELIST?: string;
-  readonly GALACTIC_EMPIRE_BASE_AUTHORITY?: number;
-  readonly GALACTIC_EMPIRE_ENVOY_AUTHORITY_CHANGE?: number;
-  readonly GALACTIC_EMPIRE_MAX_AUTHORITY?: number;
-  readonly GALACTIC_MARKET_FOUNDED_FLAG?: string;
-  readonly GALAXY_GENERATION_CENTER_DUMMY_POINTS?: number;
-  readonly GALAXY_GENERATION_DEFAULT_SHAPE?: MapGalaxyShapeRef;
-  readonly GALAXY_GENERATION_RELAX_ITERATIONS?: number;
-  readonly GENERAL_DEATH_CHANCE?: number;
-  readonly GOVERNMENT_CHANGE_EMPIRE_SIZE_MULT?: number;
-  readonly GOVERNMENT_CIVIC_POINTS_BASE?: number;
-  readonly GOVERNMENT_COOLDOWN_YEARS?: number;
-  readonly GRAND_ARCHIVE_DESTROYED?: string;
-  readonly GRAND_ARCHIVE_EXHIBITIONS_COUNT?: number;
-  readonly GRAND_ARCHIVE_EXHIBITS_COUNT?: number;
-  readonly GRAVITY_SNARE_CAPTURED_SHIPS_COUNT?: number;
-  readonly GRAVITY_SNARE_CAPTURE_CHANCE_PER_SCIENTIST_LEVEL?: number;
-  readonly GRAVITY_SNARE_CAPTURE_TIME?: number;
-  readonly GRAVITY_SNARE_COOLDOWN?: string;
-  readonly GRAVITY_SNARE_IS_FROM_AUTO_EXPLORE?: string;
-  readonly GRAVITY_SNARE_MAX_MOVEMENT_TIME?: number;
-  readonly GRAVITY_SNARE_SHIP_SIZE?: ShipSizeRef;
-  readonly GREAT_PATRON_RADIUS?: number;
-  readonly GROWTH_SCALE_DEFAULT?: number;
-  readonly GROWTH_SCALE_MAGNITUDE_OFFSET?: number;
-  readonly GROWTH_SCALE_MAX?: number;
-  readonly GROWTH_SCALE_MIN?: number;
-  readonly GROWTH_SCALE_SLIDER_INTERVAL?: number;
-  readonly GUARANTEED_COLONIES_DEFAULT?: number;
-  readonly GUARANTEED_COLONIES_MAX?: number;
-  readonly GUARANTEED_COLONIES_MIN?: number;
-  readonly GUARDIANS_OF_THE_GALAXY_FLAG?: string;
-  readonly HABITABILITY_AUTO_MIGRATION?: number;
-  readonly HABITABILITY_IDEAL_PLANET?: number;
-  readonly HABITABILITY_OPPOSITE_PLANET?: number;
-  readonly HABITABILITY_WRONG_PLANET?: number;
-  readonly HIGH_HAPPINESS_STABILITY_EFFECT?: number;
-  readonly HIGH_PLANET_CRIME?: number;
-  readonly HIGH_SYNAPTIC_LATHE_EFFICIENCY?: number;
-  readonly HIVE_EMPIRE_GOVERNMENT_AUTHORITY?: string;
-  readonly HYPERLANE_GEN_REMOVED_MAX_DIST?: number;
-  readonly HYPERLANE_GEN_REMOVE_PERC?: number;
-  readonly HYPERLANE_GEN_REMOVE_TOO_MANY_EDGES?: number;
-  readonly IMPERIAL_ARMADA_NAMELIST?: string;
-  readonly IMPERIAL_COUNCIL_CHANGE_MEMBER_INFLUENCE_COST?: number;
-  readonly INFLUENCE_ADD_UPLIFTED_SPECIES?: number;
-  readonly INITIATE_COSMIC_STORM_SITUATION_KEY?: string;
-  readonly INSULT_COOLDOWN_DAYS?: number;
-  readonly INTEGRATE_SUBJECT_MIN_DAYS?: number;
-  readonly INTEL_CAP?: number;
-  readonly INTEL_FROM_BEING_OVERLORD?: number;
-  readonly INTEL_FROM_BEING_SUBJECT?: number;
-  readonly INTEL_FROM_COMMERCIAL_PACT?: number;
-  readonly INTEL_FROM_COMMUNICATIONS?: number;
-  readonly INTEL_FROM_DEFENSIVE_PACT?: number;
-  readonly INTEL_FROM_EMBASSY?: number;
-  readonly INTEL_FROM_FEDERATION_ASSOCIATION?: number;
-  readonly INTEL_FROM_FEDERATION_CENTRALIZATION?: number;
-  readonly INTEL_FROM_GALACTIC_COMMUNITY?: number;
-  readonly INTEL_FROM_GALACTIC_CUSTODIAN?: number;
-  readonly INTEL_FROM_GALACTIC_EMPEROR?: number;
-  readonly INTEL_FROM_GALACTIC_EMPEROR_HEIGHTENED_SECURITY?: number;
-  readonly INTEL_FROM_GUARANTEE?: number;
-  readonly INTEL_FROM_MIGRATION_PACT?: number;
-  readonly INTEL_FROM_NON_AGGRESSION_PACT?: number;
-  readonly INTEL_FROM_RESEARCH_AGREEMENT?: number;
-  readonly INTEL_FROM_SECRET_FEALTY?: number;
-  readonly INTEL_FROM_TRUST_MULTIPLIER?: number;
-  readonly INTEL_YEARLY_DECREASE?: number;
-  readonly INTEL_YEARLY_INCREASE?: number;
-  readonly JOIN_COMMUNITY_INFLUENCE_COST?: number;
-  readonly JUMP_DRIVE_COOLDOWN?: number;
-  readonly KEYBOARD_DOUBLE_CLICK_TIME?: number;
-  readonly LAUNCH_RANDOM_COMMON_EVENT_EVENT_KEY?: string;
-  readonly LAUNCH_RANDOM_FORTUNE_EVENT_EVENT_KEY?: string;
-  readonly LAUNCH_RANDOM_OMENS_EVENT_EVENT_KEY?: string;
-  readonly LEADER_ADMIRAL_FLEET_COMBAT_BASE_EXPERIENCE?: number;
-  readonly LEADER_ADMIRAL_FLEET_COMBAT_EXPERIENCE_SCALE?: number;
-  readonly LEADER_ADMIRAL_FLEET_COMBAT_SHIPS_DISENGAGED_CONVERSION?: number;
-  readonly LEADER_ADMIRAL_FLEET_COMBAT_SHIPS_KILLED_CONVERSION?: number;
-  readonly LEADER_AGE_HEIR_MAX?: number;
-  readonly LEADER_AGE_HEIR_MIN?: number;
-  readonly LEADER_AGE_MAX?: number;
-  readonly LEADER_AGE_MIN?: number;
-  readonly LEADER_ASSIGNED_MONTHLY_EXPERIENCE?: number;
-  readonly LEADER_BASE_SKILL_CAP?: number;
-  readonly LEADER_CAPACITY_XP_SCALE?: number;
-  readonly LEADER_COUNCILOR_MONTHLY_EXPERIENCE?: number;
-  readonly LEADER_DESTINY_CHOICE_LEVEL?: number;
-  readonly LEADER_EXPERIENCE_REQUIREMENT_BASE_VALUE?: number;
-  readonly LEADER_EXPERIENCE_REQUIREMENT_SCALE_VALUE?: number;
-  readonly LEADER_GENERAL_GROUND_COMBAT_ARMIES_KILLED_CONVERSION?: number;
-  readonly LEADER_GENERAL_GROUND_COMBAT_BASE_EXPERIENCE?: number;
-  readonly LEADER_GENERAL_GROUND_COMBAT_EXPERIENCE_SCALE?: number;
-  readonly LEADER_HEIR_EXPERIENCE?: number;
-  readonly LEADER_JOB_BACKGROUND_STRATA_WEIGHTS?: Record<string, never>;
-  readonly LEADER_LIFESPAN_DEATH_CHANCE_AGE?: number;
-  readonly LEADER_LIFESPAN_DEATH_CHANCE_INC?: number;
-  readonly LEADER_LIFESPAN_HIGH_DEATH_CHANCE_AGE?: number;
-  readonly LEADER_LIFESPAN_HIGH_DEATH_CHANCE_INC?: number;
-  readonly LEADER_MAX_SKILL_CAP?: number;
-  readonly LEADER_POOL_REFRESH_TIME?: number;
-  readonly LEADER_POOL_SIZE?: number;
-  readonly LEADER_RULER_EXPERIENCE?: number;
-  readonly LEADER_SCIENTIST_ACTIVE_RECONNAISSANCE_COLONY_LEVEL_MULT?: number;
-  readonly LEADER_SCIENTIST_ACTIVE_RECONNAISSANCE_EXPERIENCE?: number;
-  readonly LEADER_SCIENTIST_ACTIVE_RECONNAISSANCE_LEADER_LEVEL_MULT?: number;
-  readonly LEADER_SCIENTIST_ASSIST_CLOAKING_DETECTION_EXPERIENCE?: number;
-  readonly LEADER_SCIENTIST_ASSIST_CLOAKING_DETECTION_MULT?: number;
-  readonly LEADER_SCIENTIST_ASSIST_RESEARCH?: number;
-  readonly LEADER_SCIENTIST_ASSIST_RESEARCH_MULT?: number;
-  readonly LEADER_SCIENTIST_COMPLETED_ARCHAEOLOGICAL_SITE_STAGE_EXPERIENCE?: number;
-  readonly LEADER_SCIENTIST_COMPLETED_SPECIAL_PROJECT_EXPERIENCE?: number;
-  readonly LEADER_SCIENTIST_LEADING_RESEARCH_FIELD_EXPERIENCE?: number;
-  readonly LEADER_SCIENTIST_SUCCESSFUL_ANOMALY_RESEARCH_EXPERIENCE?: number;
-  readonly LEADER_SCIENTIST_SURVEY_EXPERIENCE?: number;
-  readonly LEADER_SKILL_LEVEL_START?: number;
-  readonly LEADER_SKILL_MIN?: number;
-  readonly LEADER_SUBCLASS_CHOICE_LEVEL?: number;
-  readonly LEADER_TRAIT_SELECTION_LEVELS?: Record<string, never>;
-  readonly LEAVE_COMMUNITY_INFLUENCE_COST_FACTOR?: number;
-  readonly LEAVE_COMMUNITY_MAX_INFLUENCE_COST?: number;
-  readonly LEAVE_COMMUNITY_MIN_INFLUENCE_COST?: number;
-  readonly LEFT_COMMUNITY_MODIFIER_TIMER?: number;
-  readonly LIMITED_EXPLORATION?: number;
-  readonly LOGISTICS_FLEET_UPKEEP_DEFAULT?: number;
-  readonly LOGISTICS_FLEET_UPKEEP_INTERVAL?: number;
-  readonly LOGISTICS_FLEET_UPKEEP_MAX?: number;
-  readonly LOGISTICS_FLEET_UPKEEP_MIN?: number;
-  readonly LOGISTICS_PLANET_DEFICIT_DEFAULT?: number;
-  readonly LOGISTICS_PLANET_DEFICIT_INTERVAL?: number;
-  readonly LOGISTICS_PLANET_DEFICIT_MAX?: number;
-  readonly LOGISTICS_PLANET_DEFICIT_MIN?: number;
-  readonly LOGISTIC_CEILING_DEFAULT?: number;
-  readonly LOGISTIC_CEILING_MAX?: number;
-  readonly LOGISTIC_CEILING_MIN?: number;
-  readonly LOGISTIC_CEILING_SLIDER_INTERVAL?: number;
-  readonly LOW_HAPPINESS_STABILITY_EFFECT?: number;
-  readonly LOW_PLANET_STABILITY?: number;
-  readonly MACHINE_EMPIRE_EXCLUSION_TRAIT?: TraitRef;
-  readonly MACHINE_EMPIRE_GOVERNMENT_AUTHORITY?: string;
-  readonly MATURE_GALAXY_ARMY?: ArmyRef;
-  readonly MATURE_GALAXY_CAPITAL?: BuildingRef;
-  readonly MATURE_GALAXY_COLONY_CAPITAL?: BuildingRef;
-  readonly MATURE_GALAXY_COLONY_DISTANCE_FIXED?: number;
-  readonly MATURE_GALAXY_COLONY_DISTANCE_RANDOM?: number;
-  readonly MATURE_GALAXY_COLONY_DISTANCE_SURVEYED?: number;
-  readonly MATURE_GALAXY_COLONY_FARM?: BuildingRef;
-  readonly MATURE_GALAXY_COLONY_LAB?: BuildingRef;
-  readonly MATURE_GALAXY_COLONY_MINE?: BuildingRef;
-  readonly MATURE_GALAXY_COLONY_POWER_PLANT?: BuildingRef;
-  readonly MATURE_GALAXY_EXTRA_ENERGY?: number;
-  readonly MATURE_GALAXY_EXTRA_INFLUENCE?: number;
-  readonly MATURE_GALAXY_EXTRA_MINERALS?: number;
-  readonly MATURE_GALAXY_EXTRA_UNITY?: number;
-  readonly MATURE_GALAXY_HOME_BUILDINGS?: number;
-  readonly MATURE_GALAXY_HOME_POPS?: number;
-  readonly MATURE_GALAXY_MAX_NUM_STARBASES?: number;
-  readonly MATURE_GALAXY_NAVY_SIZE?: number;
-  readonly MATURE_GALAXY_NUM_ARMIES?: number;
-  readonly MATURE_GALAXY_STARBASE_LEVEL?: StarbaseLevelRef;
-  readonly MATURE_GALAXY_TECH_TIER?: number;
-  readonly MATURE_GALAXY_YEARS?: number;
-  readonly MAX_ADDITIONAL_COOP_PLAYERS?: number;
-  readonly MAX_ATTUNEMENT_VALUE?: number;
-  readonly MAX_BASIC_TRAITS?: number;
-  readonly MAX_COOP_PLAYERS?: number;
-  readonly MAX_FRICTION?: number;
-  readonly MAX_LEADERS_PER_TRADE?: number;
-  readonly MAX_PLANET_AMENITIES?: number;
-  readonly MAX_PLANET_BRANCH_OFFICE_BUILDING_SLOTS?: number;
-  readonly MAX_PLANET_BUILDING_SLOTS?: number;
-  readonly MAX_PLANET_CRIME?: number;
-  readonly MAX_PLANET_RELATIVE_HOUSING?: number;
-  readonly MAX_PLANET_STABILITY?: number;
-  readonly MAX_PLANET_SUBJECT_HOLDING_BUILDING_SLOTS?: number;
-  readonly MAX_SYNAPTIC_LATHE_BUILDING_SLOTS?: number;
-  readonly MAX_TRADE_DEAL_LENGTH_YEARS?: number;
-  readonly MAX_VETERAN_TRAITS?: number;
-  readonly MAX_VIVARIUM_CAPACITY?: number;
-  readonly MEDIUM_SYNAPTIC_LATHE_EFFICIENCY?: number;
-  readonly MEGASTRUCTURE_BUILD_CAP_BASE?: number;
-  readonly MEGASTRUCTURE_PLACEMENT_RADIUS?: number;
-  readonly MEGASTRUCTURE_SYSTEM_CENTER_RADIUS?: number;
-  readonly MENACE_PERK_MINIMUM_ACTIVATION_TIME?: number;
-  readonly MIA_FLEET_MODIFIER_MULT_LOWER_TRESHOLD?: number;
-  readonly MIA_TIME_MAX?: number;
-  readonly MIA_TIME_MULT?: number;
-  readonly MIA_UNKNOWN_PATH_CURVATURE_COEFFICIENT?: number;
-  readonly MIA_UNKNOWN_PATH_TIME_COEFFICIENT?: number;
-  readonly MID_GAME_START_DEFAULT?: number;
-  readonly MID_GAME_START_MAX?: number;
-  readonly MID_GAME_START_MIN?: number;
-  readonly MINOR_PATRON_DELVE_ENCOUNTER_CHANCE?: number;
-  readonly MINOR_PATRON_ENCOUNTER_DISTANCE?: number;
-  readonly MIN_BLOCKED_DEPOSITS?: number;
-  readonly MIN_ELECTION_CANDIDATES?: number;
-  readonly MIN_HABITABILITY?: number;
-  readonly MIN_PLANET_AMENITIES?: number;
-  readonly MIN_PLANET_CRIME?: number;
-  readonly MIN_PLANET_RELATIVE_HOUSING?: number;
-  readonly MIN_PLANET_STABILITY?: number;
-  readonly MIN_RIVAL_YEARS?: number;
-  readonly MIN_TRADE_DEAL_LENGTH_YEARS?: number;
-  readonly MIN_UNBLOCKED_DEPOSITS?: number;
-  readonly MISSION_PROGRESS_MAX?: number;
-  readonly MONTHLY_PATRON_ATTUNEMENT_VALUE_PER_ENVOY?: number;
-  readonly MOVE_CAPITAL_COOLDOWN_YEARS?: number;
-  readonly MOVE_CAPITAL_INFLUENCE_COST?: number;
-  readonly MUTATION_SECTION_NAME?: string;
-  readonly NAVAL_CAPACITY_BASE?: number;
-  readonly NAVAL_CAPACITY_BASE_GALACTIC_COMMUNITY?: number;
-  readonly NAVAL_CAPACITY_MAX?: number;
-  readonly NAVAL_CAPACITY_MULT_DEFAULT?: number;
-  readonly NAVAL_CAPACITY_MULT_MAX?: number;
-  readonly NAVAL_CAPACITY_MULT_MIN?: number;
-  readonly NAVAL_CAPACITY_MULT_SLIDER_INTERVAL?: number;
-  readonly NAVAL_CAPACITY_NO_LEADER_PENALTY?: number;
-  readonly NAVAL_CAPACITY_POP_MULT?: number;
-  readonly NEWLY_SPAWNED_PSIONIC_AURA_FLAG?: string;
-  readonly NEW_HEIR_CHANCE?: number;
-  readonly NEW_RULER_MESSAGE_DAYS?: number;
-  readonly NEXT_ELECTION_MESSAGE_DAYS?: number;
-  readonly NON_COLONY_DEPOSITS_FIXED_BASE?: number;
-  readonly NON_COLONY_DEPOSITS_FIXED_FROM_SIZE?: number;
-  readonly NON_COLONY_DEPOSITS_RANDOM_BASE?: number;
-  readonly NON_COLONY_DEPOSITS_RANDOM_FROM_SIZE?: number;
-  readonly NON_COLONY_DEPOSITS_USE_NULL?: boolean;
-  readonly NON_PARAGON_TRAIT_OPTIONS_ON_LEVEL_UP?: number;
-  readonly NUM_COMMANDS_PER_TURN?: number;
-  readonly NUM_DESTINY_TRAIT_OPTIONS?: number;
-  readonly NUM_DISTRICTS_BASE?: number;
-  readonly NUM_DISTRICTS_FROM_PLANET_SIZE?: number;
-  readonly NUM_TECH_ALTERNATIVES?: number;
-  readonly OCCUPATION_BASE_VALUE?: number;
-  readonly OCCUPATION_PLANET_VALUE?: number;
-  readonly OCCUPATION_POP_VALUE?: number;
-  readonly OCCUPATION_STARBASE_VALUE?: number;
-  readonly OPINION_EXCELLENT?: number;
-  readonly OPINION_GOOD?: number;
-  readonly OPINION_MAX?: number;
-  readonly OPINION_MIN?: number;
-  readonly OPINION_POOR?: number;
-  readonly OPINION_TERRIBLE?: number;
-  readonly ORBITAL_BOMBARDMENT_ARMY_DMG_SCALE?: number;
-  readonly ORBITAL_BOMBARDMENT_ASSAULT_ARMY_DAMAGE_MULT?: number;
-  readonly ORBITAL_BOMBARDMENT_COLONY_DMG_SCALE?: number;
-  readonly ORBITAL_BOMBARDMENT_FLEET_BASE_SIZE?: number;
-  readonly ORBITAL_BOMBARDMENT_KILL_POP_CHANCE?: number;
-  readonly ORBITAL_BOMBARDMENT_KILL_POP_COOLDOWN?: number;
-  readonly ORBITAL_BOMBARDMENT_OVER_FLEET_FACTOR?: number;
-  readonly ORBITAL_BOMBARDMENT_PLANET_DMG_SCALE?: number;
-  readonly ORBITAL_BOMBARDMENT_PLANET_SIZE_FACTOR?: number;
-  readonly ORBITAL_SURRENDER_POLICY?: PolicyRef;
-  readonly ORBITAL_SURRENDER_POLICY_FLAG_ALLOWED?: string;
-  readonly ORBITAL_SURRENDER_POLICY_FORBIDDEN?: string;
-  readonly OUTSIDE_LIMITS_CLAMP_FACTOR?: number;
-  readonly PATRON_COVENANT_DISTANCE?: number;
-  readonly PHASE_FLEET_COOLDOWN?: number;
-  readonly PHASE_FLEET_DURATION?: number;
-  readonly PHASE_FLEET_THREADS_COST?: number;
-  readonly PLANETARY_ASCENSION_COST_REDUCTION_MIN?: number;
-  readonly PLANET_ACQUIRED_STRING?: string;
-  readonly PLANET_ARMIES_PROTECT_POPS?: number;
-  readonly PLANET_ASCENSION_COMPLETION_BONUS?: number;
-  readonly PLANET_ASCENSION_HARD_CAP?: number;
-  readonly PLANET_ASCENSION_MIN?: number;
-  readonly PLANET_ASCENSION_MODIFIER_SCALE?: number;
-  readonly PLANET_ASCENSION_SPRAWL_MODIFIER?: number;
-  readonly PLANET_ASCENSION_SPRAWL_SCALE?: number;
-  readonly PLANET_ASCENSION_STARTING_POINT?: number;
-  readonly PLANET_ASCENSION_SUM_SCALE?: number;
-  readonly PLANET_COLONIZED_STRING?: string;
-  readonly PLANET_COMBAT_WIDTH_BASE?: number;
-  readonly PLANET_COMBAT_WIDTH_FROM_SIZE?: number;
-  readonly PLANET_COMBAT_WIDTH_MINIMUM?: number;
-  readonly PLANET_DESTROYER_OFFENSIVE_SHIP_OFFSET?: Record<string, never>;
-  readonly PLANET_HEALTH_ARMY_INCREASED_DAMAGE_MULT?: number;
-  readonly PLANET_HEALTH_ARMY_PROTECTED_DAMAGE_MULT?: number;
-  readonly PLANET_HEALTH_INCREASE_ARMY_DAMAGE?: number;
-  readonly PLANET_HEALTH_INHIBIT_FTL?: number;
-  readonly PLANET_HEALTH_MAX?: number;
-  readonly PLANET_HEALTH_PROTECT_ARMIES?: number;
-  readonly PLANET_HEALTH_PROTECT_POPS?: number;
-  readonly PLANET_HEALTH_REGEN?: number;
-  readonly PLANET_HEALTH_REGEN_DELAY?: number;
-  readonly PLANET_HYPERLANE_RANGE?: number;
-  readonly PLANET_ORBIT_DISTANCE_MIN_SIZE?: number;
-  readonly PLANET_ORBIT_DISTANCE_SIZE_SCALE?: number;
-  readonly PLANET_ORBIT_STACK_DISTANCE?: number;
-  readonly PLANET_ORBIT_STACK_SIZE?: number;
-  readonly PLANET_SENSOR_RANGE?: number;
-  readonly PLANET_SHIP_ORBIT_DISTANCE?: number;
-  readonly PLANET_STATION_ORBIT_DISTANCE?: number;
-  readonly POLICY_YEARS?: number;
-  readonly POP_CHANGE_FACTION_CHANCE?: number;
-  readonly POP_CHANGE_FACTION_MIN_POP_AMOUNT?: number;
-  readonly POP_CRIME?: number;
-  readonly POP_CURRENT_FACTION_WEIGHT?: number;
-  readonly POP_ETHOS_DIVERGENCE_INTERVAL?: number;
-  readonly POP_ETHOS_DIVERGENCE_MIN_POP_AMOUNT?: number;
-  readonly POP_ETHOS_DIVERGENCE_RATE_MULT?: number;
-  readonly POP_ETHOS_DIVERGENCE_SIZE_CHANGE_MAX?: number;
-  readonly POP_ETHOS_DIVERGENCE_SIZE_CHANGE_MIN?: number;
-  readonly POP_ETHOS_DIVERGENCE_SIZE_SHIFT_SPEED_DIVIDER?: number;
-  readonly POP_ETHOS_LOWER_ETHIC_THRESHOLD?: number;
-  readonly POP_ETHOS_UPPER_ETHIC_THRESHOLD?: number;
-  readonly POP_FACTION_APPROVAL_BASE?: number;
-  readonly POP_FACTION_APPROVAL_HIGH?: number;
-  readonly POP_FACTION_APPROVAL_LOW?: number;
-  readonly POP_FACTION_APPROVAL_VERY_HIGH?: number;
-  readonly POP_FACTION_APPROVAL_VERY_LOW?: number;
-  readonly POP_FACTION_CREATION_COOLDOWN?: number;
-  readonly POP_FACTION_MIN_POTENTIAL_MEMBERS?: number;
-  readonly POP_FACTION_MIN_POTENTIAL_MEMBERS_FRACTION?: number;
-  readonly POP_FACTION_RESOURCE_TABLE_MULT?: number;
-  readonly POP_MIN_ETHIC_RELATIVE_ATTRACTION?: number;
-  readonly PRE_COMMUNICATIONS_EMPIRE_FLAG?: string;
-  readonly PRE_SAPIENTS_POLICY?: string;
-  readonly PSIONIC_AURA_TECH?: TechnologyRef;
-  readonly PURGE_TYPE_DEFAULT?: PurgeTypeRef;
-  readonly QUICK_CLEAR_BLOCKER_GENERAL_MODIFIER_WEIGHT?: number;
-  readonly QUICK_CLEAR_BLOCKER_SPECIFIC_MODIFIER_WEIGHT?: number;
-  readonly RANDOMLY_SPAWNED_OBJECTS_ON_OUTER_BORDER_MINIMUM_DISTANCE?: number;
-  readonly RANDOM_START_DISTANCE?: number;
-  readonly RARITY_UPGRADE_COST_MULT?: number;
-  readonly REANIMATE_DEBRIS_COST_MULT?: number;
-  readonly REINFORCE_ACCEPTABLE_EVASIVE_PATH_MULT?: number;
-  readonly REINFORCE_ACCEPTABLE_EVASIVE_PATH_OVERRIDE_LOWER_THRESHOLD?: number;
-  readonly REINFORCE_MIA_TIME_MULT?: number;
-  readonly RELATIVE_POWER_ECONOMY_MULT?: number;
-  readonly RELATIVE_POWER_FLEET_MULT?: number;
-  readonly RELATIVE_POWER_OVERWHELMING?: number;
-  readonly RELATIVE_POWER_SUPERIOR?: number;
-  readonly RELATIVE_POWER_TECH_MULT?: number;
-  readonly RELEVANT_DISTANCE?: number;
-  readonly RELIC_VIEW_DEFAULT_ROW_COUNT?: number;
-  readonly RELIC_VIEW_SLOTS_PER_ROW?: number;
-  readonly RELIC_VIEW_SLOTS_PER_ROW_WIDE?: number;
-  readonly REPAIR_BUILDING_COST?: number;
-  readonly REPAIR_BUILDING_TIME?: number;
-  readonly RESEARCH_AGREEMENT_SPEED_MULT?: number;
-  readonly RESOLUTION_VOTE_PREMATURE_TIMER?: number;
-  readonly RESOLUTION_VOTE_TIMER?: number;
-  readonly RESOURCE_CLUSTER_COUNT?: number;
-  readonly ROLL_CYCLE_EVENT_KEYS?: Record<string, never>;
-  readonly ROLL_RANDOM_CYCLE_EVENT_KEY?: string;
-  readonly SCALED_DIFFICULTY_GALAXY_SIZE_MULT?: number;
-  readonly SCALED_DIFFICULTY_HABITABLE_PLANETS_MULT?: number;
-  readonly SCALED_DIFFICULTY_MAX_GALAXY_SIZE?: number;
-  readonly SCAVENGE_DEBRIS_RESOURCE_MULT?: number;
-  readonly SCIENCE_SHIP_ANOMALY_RESEARCH_DAYS?: Record<string, never>;
-  readonly SCIENCE_SHIP_ASTRAL_RIFT_DIST?: number;
-  readonly SCIENCE_SHIP_SPECIAL_PROJECT_DIST?: number;
-  readonly SCIENCE_SHIP_SPECIAL_PROJECT_OFFSET?: number;
-  readonly SCIENCE_SHIP_SURVEY_SPEED_MULT?: number;
-  readonly SCORE_CRISIS_KILLS?: number;
-  readonly SCORE_ECONOMIC_POWER?: number;
-  readonly SCORE_FEDERATION_MEMBERS?: number;
-  readonly SCORE_MILITARY_POWER?: number;
-  readonly SCORE_NO_ECONOMY?: number;
-  readonly SCORE_PLANETS?: number;
-  readonly SCORE_POPS?: number;
-  readonly SCORE_SUBJECTS?: number;
-  readonly SCORE_SYSTEMS?: number;
-  readonly SCORE_TECH_POWER?: number;
-  readonly SECTOR_RESOURCE_TRANSFER_AMOUNT?: number;
-  readonly SECTOR_RESOURCE_TRANSFER_AMOUNT_LARGE?: number;
-  readonly SEEN_ALIENS?: string;
-  readonly SELL_SPECIMEN_ENERGY_VALUES?: Record<string, never>;
-  readonly SENATE_RECESS_TIMER?: number;
-  readonly SET_DEFENDER_WAR_GOAL_TIME_LIMIT?: number;
-  readonly SHIPS_MONTHLY_DAMAGE_HEALTH_THRESHOLD?: number;
-  readonly SHIPYARD_REINFORCE_DISTANCE_MULT?: number;
-  readonly SHIPYARD_REINFORCE_MAX_JUMPS?: number;
-  readonly SHIP_DESIGN_SAME_NAME_FACTOR?: number;
-  readonly SHIP_SIZE_LIMITS_GALACTIC_COMMUNITY?: string;
-  readonly SHROUD_COVENANT_CONFIRMED_FLAG?: string;
-  readonly SHROUD_FLAG?: string;
-  readonly SLAVERY_TYPE_DEFAULT?: SlaveryTypeRef;
-  readonly SPACE_FAUNA_GROWTH_POLICY_FLAG_CONTROLLED?: string;
-  readonly SPACE_FAUNA_GROWTH_POLICY_FLAG_EXCESSIVE?: string;
-  readonly SPAWN_SYSTEM_ATTEMPTS?: number;
-  readonly SPAWN_SYSTEM_BUFFER_DISTANCE?: number;
-  readonly SPECIAL_PROJECT_BASE_PROGRESS?: number;
-  readonly SPECIES_POLICY_YEARS?: number;
-  readonly SPECIES_RIGHTS_INITIAL_CONFIG_BUILT?: Record<string, never>;
-  readonly SPECIES_RIGHTS_INITIAL_CONFIG_DEFAULT?: Record<string, never>;
-  readonly SPECIES_RIGHTS_INITIAL_CONFIG_PRIMARY?: Record<string, never>;
-  readonly SPECIMEN_PRODUCTION_MODIFIER?: string;
-  readonly SPECIMEN_TYPES?: Record<string, never>;
-  readonly SPY_NETWORK_BASE_LEVEL_SCORE?: number;
-  readonly SPY_NETWORK_DAILY_ENVOY_SCORE?: number;
-  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_BONUS_MAX?: number;
-  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_BONUS_MIN?: number;
-  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_BONUS_MULT?: number;
-  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_LEVELS_EFFECT?: number;
-  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_LEVELS_MAX?: number;
-  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_LEVELS_MIN?: number;
-  readonly SPY_NETWORK_LEVELS?: number;
-  readonly SPY_NETWORK_MAXIMUM_ASSIGNED_ASSETS?: number;
-  readonly SPY_NETWORK_MAX_ENVOYS_COUNT?: number;
-  readonly SPY_NETWORK_MAX_LEVELS?: number;
-  readonly SPY_NETWORK_MAX_POWER?: number;
-  readonly SPY_NETWORK_MONTHLY_DECAY?: number;
-  readonly SPY_NETWORK_PER_LEVEL_SCORE?: number;
-  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_DIFFICULTY_MAX?: number;
-  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_DIFFICULTY_MIN?: number;
-  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_DIFFICULTY_MULT?: number;
-  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_MAX?: number;
-  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_MIN?: number;
-  readonly SPY_NETWORK_SPRAWL_SCORE_SCALE?: number;
-  readonly STARBASE_AUTO_CONTROL_DISTANCE?: number;
-  readonly STARBASE_BASE_LEVEL?: StarbaseLevelRef;
-  readonly STARBASE_CAPACITY_BASE?: number;
-  readonly STARBASE_CAPACITY_MAX?: number;
-  readonly STARBASE_CAPACITY_POP_MULT?: number;
-  readonly STARBASE_CAPACITY_SYSTEM_MULT?: number;
-  readonly STARBASE_DISABLED_HEALTH_PERCENTAGE?: number;
-  readonly STARBASE_ENABLED_HEALTH_PERCENTAGE?: number;
-  readonly STARBASE_ORBIT_DISTANCE?: number;
-  readonly STARBASE_SELF_REPAIR_TIMER_DAYS?: number;
-  readonly START_YEAR?: number;
-  readonly START_YEAR_SLIDER_INTERVAL?: number;
-  readonly STATION_SELF_REPAIR_TIMER_DAYS?: number;
-  readonly STORM_CLOSEST_ATTRACTIVE_SYSTEM_RANGE?: number;
-  readonly STORM_DIRECTION_ANGLE_OFFSET?: number;
-  readonly STORM_INFLUENCE_FIELD_STEPS?: number;
-  readonly STORM_INFLUENCE_TIER_HIGH?: number;
-  readonly STORM_INFLUENCE_TIER_LOW?: number;
-  readonly STORM_INFLUENCE_TIER_MODERATE?: number;
-  readonly STORM_INTEL_MAX_LEVELS?: number;
-  readonly STORM_MAX_PATH_LENGTH?: number;
-  readonly STORM_NOTIFICATION_WARNING_RANGE?: number;
-  readonly STORM_PATH_INFLUENCE_MULTIPLIER?: number;
-  readonly STORM_SPAWN_PREDICTION_MONTHS_TIER_1?: number;
-  readonly STORM_SPAWN_PREDICTION_MONTHS_TIER_2?: number;
-  readonly STORM_SPAWN_PREDICTION_MONTHS_TIER_3?: number;
-  readonly STORM_STEP_LENGTH?: number;
-  readonly STORM_SYSTEM_MAX_NATURAL_WEIGHT?: number;
-  readonly STORM_SYSTEM_MIN_NATURAL_WEIGHT?: number;
-  readonly SUBJECTS_INTEGRATION_CAP?: number;
-  readonly SUBJECT_INTEGRATION_BASE_PROGRESS?: number;
-  readonly SUBJECT_INTEGRATION_COST_BASE?: number;
-  readonly SUBJECT_INTEGRATION_COST_PER_PLANET?: number;
-  readonly SUBJECT_INTEGRATION_COST_PER_POP?: number;
-  readonly SUBJECT_LOYALTY_MAX?: number;
-  readonly SUBJECT_LOYALTY_MIN?: number;
-  readonly SUBJECT_LOYALTY_RELATION_FACTOR?: number;
-  readonly SUBJECT_LOYALTY_RELATION_SUBTRACT?: number;
-  readonly SUBJECT_LOYALTY_RELATIVE_POWER_FACTOR?: number;
-  readonly SUBJECT_LOYALTY_RELATIVE_POWER_SUBTRACT?: number;
-  readonly SUBJECT_MONTHLY_LOYALTY_INTEGRATION?: number;
-  readonly SUBJECT_MONTHLY_LOYALTY_OPINION_MULTIPLIER?: number;
-  readonly SUBJECT_TYPE_CONVERSION_FANATIC_OPPOSITE_ETHIC_SPEED_FACTOR?: number;
-  readonly SUBJECT_TYPE_CONVERSION_MATCHES_FANATIC_PREFERRED_ETHIC_SPEED_FACTOR?: number;
-  readonly SUBJECT_TYPE_CONVERSION_MATCHES_PREFERRED_ETHIC_SPEED_FACTOR?: number;
-  readonly SUBJECT_TYPE_CONVERSION_NO_PREFERRED_ETHIC_SPEED_FACTOR?: number;
-  readonly SUBJECT_TYPE_CONVERSION_OPPOSITE_ETHIC_SPEED_FACTOR?: number;
-  readonly SUBJECT_TYPE_CONVERSION_SPRAWL_FACTOR?: number;
-  readonly SUBJECT_XP_LOYALTY_MULTIPLIER?: number;
-  readonly SUBSPECIES_INTEGRATION_BASE?: number;
-  readonly SUBSPECIES_INTEGRATION_TYPE_DEFAULT?: string;
-  readonly SYNAPTIC_LATHE_EFFICIENCY_SCALE?: number;
-  readonly SYSTEM_BOTTLENECK_RADIUS?: number;
-  readonly SYSTEM_INNER_RADIUS_OFFSET?: number;
-  readonly SYSTEM_LOST_CLAIM_STRENGTH?: number;
-  readonly SYSTEM_MIN_INNER_RADIUS?: number;
-  readonly SYSTEM_OUTER_RADIUS_OFFSET?: number;
-  readonly TECH_BASE_POWER?: number;
-  readonly TECH_COST_DEFAULT?: number;
-  readonly TECH_COST_DIFFICULTY_SCALE_MULT?: number;
-  readonly TECH_COST_MAX?: number;
-  readonly TECH_COST_MIN?: number;
-  readonly TECH_COST_MULT_FALLEN_EMPIRE?: number;
-  readonly TECH_COST_SLIDER_INTERVAL?: number;
-  readonly TECH_POWER_COST_DIV?: number;
-  readonly TECH_REPEATABLE_POWER_MULT?: number;
-  readonly TECH_RESEARCH_NO_LEADER_PENALTY?: number;
-  readonly TECH_WEIGHT_BASE?: number;
-  readonly TECH_WEIGHT_POTENTIAL_ADD?: number;
-  readonly TECH_WEIGHT_PREVIOUS_OPTION?: number;
-  readonly THE_TEMPEST_INVOCATOR_RELIC_MAX_SACRIFICE_LEADER_COUNT?: number;
-  readonly TI_CORE_SCALE?: number;
-  readonly TI_TEXTURE_SIZE?: number;
-  readonly TRADE_VALUE_SPECIMEN_COMPLETE_CATEGORY_MULT?: number;
-  readonly TRADE_VALUE_SPECIMEN_EMPTY_CATEGORY_MULT?: number;
-  readonly TRADE_VALUE_SPECIMEN_MULT?: number;
-  readonly TRADITION_CATEGORIES_MAX?: number;
-  readonly TRADITION_COST_DEFAULT?: number;
-  readonly TRADITION_COST_MAX?: number;
-  readonly TRADITION_COST_MIN?: number;
-  readonly TRADITION_COST_MULT_TRADITION_GROUP?: number;
-  readonly TRADITION_COST_SLIDER_INTERVAL?: number;
-  readonly TRADITION_COST_TRADITION?: number;
-  readonly TRADITION_COST_TRADITION_EXP?: number;
-  readonly TRIGGERED_MODIFIER_UPDATE_DELAY?: number;
-  readonly TRUCE_YEARS?: number;
-  readonly TYPE_VOTE_COOLDOWN?: number;
-  readonly UNLOCK_ASTRAL_JUMP_FLAG?: string;
-  readonly UNLOCK_PHASE_FLEET_FLAG?: string;
-  readonly UNRESTRICTED_WARS_POLICY_FLAG?: string;
-  readonly UPGRADED_STARBASE_BASE_LEVEL?: StarbaseLevelRef;
-  readonly VETO_COOLDOWN?: number;
-  readonly VICTORY_YEAR_DEFAULT?: number;
-  readonly VICTORY_YEAR_MAX?: number;
-  readonly VICTORY_YEAR_MIN?: number;
-  readonly VICTORY_YEAR_SLIDER_INTERVAL?: number;
-  readonly VIRTUAL_JOBS_FLAG?: string;
-  readonly VIVARIUM_BREEDING_RARITY_COMMON?: Record<string, never>;
-  readonly VIVARIUM_BREEDING_RARITY_EPIC?: Record<string, never>;
-  readonly VIVARIUM_BREEDING_RARITY_LEGENDARY?: Record<string, never>;
-  readonly VIVARIUM_BREEDING_RARITY_RARE?: Record<string, never>;
-  readonly VIVARIUM_GROWTH_RATE_MULTIPLIER?: number;
-  readonly VOIDWORMS_SCALING_DEFAULT?: number;
-  readonly VOIDWORMS_SCALING_MAX?: number;
-  readonly VOIDWORMS_SCALING_MIN?: number;
-  readonly VOIDWORMS_SCALING_SLIDER_INTERVAL?: number;
-  readonly WAR_EXHAUSTION_ARMY_KILLED_MULT?: number;
-  readonly WAR_EXHAUSTION_FROM_UNITS_CUTOFF?: number;
-  readonly WAR_EXHAUSTION_HIGH_THRESHOLD?: number;
-  readonly WAR_EXHAUSTION_NAVAL_CAP_ADD?: number;
-  readonly WAR_EXHAUSTION_PASSIVE_GAIN_CUTOFF?: number;
-  readonly WAR_EXHAUSTION_PASSIVE_GAIN_YEARLY?: number;
-  readonly WAR_EXHAUSTION_PASSIVE_WAR_SIZE_DIV?: number;
-  readonly WAR_EXHAUSTION_PLANET_DESTRUCTION_MULT?: number;
-  readonly WAR_EXHAUSTION_SHIP_KILLED_MULT?: number;
-  readonly WILD_CRITTERS_RARITY_TABLE?: Record<string, never>;
+  readonly ABANDONED_EMPIRE_FLAG?: string | Authored;
+  readonly ADDITIONAL_PLANET_STABILITY_LIMIT?: number | Authored;
+  readonly ADVANCED_EMPIRE_ALWAYS_COLONIZE_HABITABILITY?: number | Authored;
+  readonly ADVANCED_EMPIRE_COLONY_CHANCE?: number | Authored;
+  readonly ADVANCED_EMPIRE_EXTRA_WARSHIPS_MAX?: number | Authored;
+  readonly ADVANCED_EMPIRE_EXTRA_WARSHIPS_MIN?: number | Authored;
+  readonly ADVANCED_EMPIRE_MAX_EXTRA_SYSTEMS?: number | Authored;
+  readonly ADVANCED_EMPIRE_MIN_EXTRA_SYSTEMS?: number | Authored;
+  readonly ADVANCED_GALAXY_ARMY?: ArmyRef | Authored;
+  readonly ADVANCED_GALAXY_CAPITAL?: BuildingRef | Authored;
+  readonly ADVANCED_GALAXY_COLONY_CAPITAL?: BuildingRef | Authored;
+  readonly ADVANCED_GALAXY_COLONY_DISTANCE_FIXED?: number | Authored;
+  readonly ADVANCED_GALAXY_COLONY_DISTANCE_RANDOM?: number | Authored;
+  readonly ADVANCED_GALAXY_COLONY_DISTANCE_SURVEYED?: number | Authored;
+  readonly ADVANCED_GALAXY_COLONY_FARM?: BuildingRef | Authored;
+  readonly ADVANCED_GALAXY_COLONY_LAB?: BuildingRef | Authored;
+  readonly ADVANCED_GALAXY_COLONY_MINE?: BuildingRef | Authored;
+  readonly ADVANCED_GALAXY_COLONY_POWER_PLANT?: BuildingRef | Authored;
+  readonly ADVANCED_GALAXY_EXTRA_ENERGY?: number | Authored;
+  readonly ADVANCED_GALAXY_EXTRA_INFLUENCE?: number | Authored;
+  readonly ADVANCED_GALAXY_EXTRA_MINERALS?: number | Authored;
+  readonly ADVANCED_GALAXY_EXTRA_UNITY?: number | Authored;
+  readonly ADVANCED_GALAXY_HOME_BUILDINGS?: number | Authored;
+  readonly ADVANCED_GALAXY_HOME_POPS?: number | Authored;
+  readonly ADVANCED_GALAXY_MAX_NUM_STARBASES?: number | Authored;
+  readonly ADVANCED_GALAXY_NAVY_SIZE?: number | Authored;
+  readonly ADVANCED_GALAXY_NUM_ARMIES?: number | Authored;
+  readonly ADVANCED_GALAXY_STARBASE_LEVEL?: StarbaseLevelRef | Authored;
+  readonly ADVANCED_GALAXY_TECH_TIER?: number | Authored;
+  readonly ADVANCED_GALAXY_YEARS?: number | Authored;
+  readonly AGREEMENT_CAN_INTEGRATE_TERM_VALUE?: AgreementTermValueRef | Authored;
+  readonly AGREEMENT_CHANGE_COOLDOWN_MONTHS?: number | Authored;
+  readonly AGREEMENT_DENY_AS_OVERLORD_INFLUENCE_COST?: number | Authored;
+  readonly AGREEMENT_DENY_AS_SUBJECT_INFLUENCE_COST?: number | Authored;
+  readonly AGREEMENT_ECONOMIC_IMPACT_LOYALTY_WEIGHT?: number | Authored;
+  readonly AGREEMENT_EXPANSION_TITHE_FACTOR?: number | Authored;
+  readonly AGREEMENT_INTANGIBLE_IMPACT_LOYALTY_WEIGHT?: number | Authored;
+  readonly AGREEMENT_INTANGIBLE_SUBSIDY_LARGE?: number | Authored;
+  readonly AGREEMENT_INTANGIBLE_SUBSIDY_LARGE_VALUE?: number | Authored;
+  readonly AGREEMENT_INTANGIBLE_SUBSIDY_LINEAR_FACTOR?: number | Authored;
+  readonly AGREEMENT_INTANGIBLE_TITHE_LARGE?: number | Authored;
+  readonly AGREEMENT_INTANGIBLE_TITHE_LARGE_VALUE?: number | Authored;
+  readonly AGREEMENT_INTANGIBLE_TITHE_LINEAR_FACTOR?: number | Authored;
+  readonly AGREEMENT_INTEGRATION_TERM?: AgreementTermRef | Authored;
+  readonly AGREEMENT_LOYALTY_DELTA_MULT?: number | Authored;
+  readonly AGREEMENT_PRESET_RELEASE_AS_SECTOR?: AgreementPresetRef | Authored;
+  readonly AGREEMENT_PRESET_VASSAL?: AgreementPresetRef | Authored;
+  readonly AGREEMENT_PROPOSE_INFLUENCE_COST?: number | Authored;
+  readonly AGREEMENT_RESOURCE_SUBSIDIES_INCREMENT?: number | Authored;
+  readonly AGREEMENT_RESOURCE_SUBSIDIES_MAX?: number | Authored;
+  readonly AGREEMENT_RESOURCE_SUBSIDIES_MIN?: number | Authored;
+  readonly AI_FULL_RIGHTS_POLICY_FLAG?: string | Authored;
+  readonly ALLOW_EMPIRE_DESIGN_CHEATS?: boolean | Authored;
+  readonly ALLOW_UNACCEPTABLE_SYSTEM_THRESHOLD?: number | Authored;
+  readonly ANOMALY_SPAWN_CHANCE?: number | Authored;
+  readonly ANOMALY_SPAWN_CHANCE_INCREMENT?: number | Authored;
+  readonly ARCHAEOLOGICAL_SITE_DICE_ROLL_MAX?: number | Authored;
+  readonly ARCHAEOLOGICAL_SITE_DICE_ROLL_MIN?: number | Authored;
+  readonly ARCHAEOLOGICAL_SITE_DISCOVERY_DAYS?: number | Authored;
+  readonly ARCHAEOLOGICAL_SITE_DISCOVERY_SCORE?: number | Authored;
+  readonly ASCENSION_PERKS_SLOTS?: number | Authored;
+  readonly ASTRAL_ACTION_PREVENT_UNLOCK_NOTIFICATION_DELAY?: number | Authored;
+  readonly ASTRAL_ACTION_RECENT_UNLOCK_NOTIFICATION_FLAG?: string | Authored;
+  readonly ASTRAL_JUMP_COOLDOWN?: number | Authored;
+  readonly ASTRAL_JUMP_THREADS_COST?: number | Authored;
+  readonly ASTRAL_RIFT_DEFAULT_DISPLAY_SIZE?: number | Authored;
+  readonly ASTRAL_RIFT_DICE_ROLL_MAX?: number | Authored;
+  readonly ASTRAL_RIFT_DICE_ROLL_MIN?: number | Authored;
+  readonly ASTRAL_RIFT_DISCOVERY_DAYS?: number | Authored;
+  readonly ASTRAL_RIFT_DISCOVERY_SCORE?: number | Authored;
+  readonly ASTRAL_RIFT_RELATIVE_SPAWN_MINIMAL_DISTANCE_FROM_PLANETS?: number | Authored;
+  readonly AURA_CLASHING_FLAG?: string | Authored;
+  readonly AURA_CLASH_LOSING_INTENSITY?: number | Authored;
+  readonly AURA_EFFECT_FALLEN_EMPIRE_OR_CRISIS_REDUCTION?: number | Authored;
+  readonly AURA_INTENSIFICATION_TECH?: TechnologyRef | Authored;
+  readonly AUTOMATED_WORKFORCE_MAX_PERC?: number | Authored;
+  readonly AUTO_DECLINE_DIPLOMACY_DAYS?: number | Authored;
+  readonly AUTO_MOD_BASE?: number | Authored;
+  readonly AWARENESS_HIGH_LIMIT?: number | Authored;
+  readonly AWARENESS_LOW_LIMIT?: number | Authored;
+  readonly AWARENESS_MAX?: number | Authored;
+  readonly AWARENESS_MIN?: number | Authored;
+  readonly AWARENESS_PARTIAL_LIMIT?: number | Authored;
+  readonly AWARENESS_UNAWARE_LIMIT?: number | Authored;
+  readonly BASE_AMENITIES_USAGE?: number | Authored;
+  readonly BASE_ENVOYS_REGULAR_EMPIRE?: number | Authored;
+  readonly BASE_PLANET_BRANCH_OFFICE_BUILDING_SLOTS?: number | Authored;
+  readonly BASE_PLANET_BUILDING_SLOTS?: number | Authored;
+  readonly BASE_PLANET_STABILITY?: number | Authored;
+  readonly BASE_PLANET_SUBJECT_HOLDING_BUILDING_SLOTS?: number | Authored;
+  readonly BASE_SURVEY_TIME?: number | Authored;
+  readonly BASE_SYNAPTIC_LATHE_BUILDING_SLOTS?: number | Authored;
+  readonly BORDERS_OPEN_POLICY_FLAG?: string | Authored;
+  readonly BORROWED_DIPLO_WEIGHT_FAVOR_MULT?: number | Authored;
+  readonly BRANCH_OFFICE_COST_INCREASE_MIN_RANGE?: number | Authored;
+  readonly BRANCH_OFFICE_COST_INCREASE_SCALE?: number | Authored;
+  readonly BRANCH_OFFICE_INCOME_SCALE?: number | Authored;
+  readonly CALLINGS_REFRESH_COOLDOWN_DAYS?: number | Authored;
+  readonly CALLINGS_TIER_MAX?: number | Authored;
+  readonly CALLINGS_TIER_MIN?: number | Authored;
+  readonly CALLING_COOLDOWN_REDUCTION_PER_ENVOY_DAYS?: number | Authored;
+  readonly CAN_HAVE_SCRIPTED_BOMBARDMENT?: string | Authored;
+  readonly CARDINAL_PATRON_PASSIVE_ACCORD_DISTANCES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CATAPULT_MAX_RADIUS?: number | Authored;
+  readonly CATAPULT_MIN_RADIUS?: number | Authored;
+  readonly CATAPULT_MIN_REACH?: number | Authored;
+  readonly CATEGORY_VOTE_COOLDOWN?: number | Authored;
+  readonly CHANGE_VOTE_COOLDOWN?: number | Authored;
+  readonly CITIZENSHIP_TYPE_DEFAULT?: CitizenshipTypeRef | Authored;
+  readonly CLOAKING_ACTIVATION_COOLDOWN?: number | Authored;
+  readonly CLOAKING_LEVEL_MAX?: number | Authored;
+  readonly COLLATERAL_DAMAGE_BASE_SCALE?: number | Authored;
+  readonly COLLATERAL_DAMAGE_CHANCE?: number | Authored;
+  readonly COLLATERAL_DAMAGE_DEFENDER_MULT?: number | Authored;
+  readonly COLLATERAL_DAMAGE_DESTROY_BUILDING_CHANCE?: number | Authored;
+  readonly COLLATERAL_DAMAGE_DESTROY_DISTRICT_CHANCE?: number | Authored;
+  readonly COLLATERAL_DAMAGE_GROUND_COMBAT_SAFE_POPS?: number | Authored;
+  readonly COLLATERAL_DAMAGE_KILL_POP_CHANCE?: number | Authored;
+  readonly COLLATERAL_DAMAGE_MAX_PER_DAY?: number | Authored;
+  readonly COLLECTION_STORAGE_SLOTS_COUNT?: number | Authored;
+  readonly COLONY_DEPOSITS_FIXED_BASE?: number | Authored;
+  readonly COLONY_DEPOSITS_FIXED_FROM_SIZE?: number | Authored;
+  readonly COLONY_DEPOSITS_RANDOM_BASE?: number | Authored;
+  readonly COLONY_DEPOSITS_RANDOM_FROM_SIZE?: number | Authored;
+  readonly COLONY_DEPOSITS_USE_NULL?: boolean | Authored;
+  readonly COLONY_TECH?: TechnologyRef | Authored;
+  readonly COMMAND_LIMIT_BASE?: number | Authored;
+  readonly COMMAND_LIMIT_MAX?: number | Authored;
+  readonly COMMAND_LIMIT_MULT_DEFAULT?: number | Authored;
+  readonly COMMAND_LIMIT_MULT_MAX?: number | Authored;
+  readonly COMMAND_LIMIT_MULT_MIN?: number | Authored;
+  readonly COMMAND_LIMIT_MULT_SLIDER_INTERVAL?: number | Authored;
+  readonly COMMUNITY_FREEZE_RESOLUTION_MONTHS?: number | Authored;
+  readonly CONSTRUCTION_SHIP_STATION_OFFSET?: number | Authored;
+  readonly CONSTRUCTION_SHIP_WORK_SPEED_MULT?: number | Authored;
+  readonly CONTAINMENT_PROTOCOLS_UNLOCKED?: string | Authored;
+  readonly CONTAINMENT_PROTOCOLS_WILD_CRITTERS_RARITY_TABLE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly COSMIC_STORM_ALLOWED_NAME_LISTS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly COSMIC_STORM_DEVASTATION_DEFAULT?: number | Authored;
+  readonly COSMIC_STORM_DEVASTATION_MAX?: number | Authored;
+  readonly COSMIC_STORM_DEVASTATION_MIN?: number | Authored;
+  readonly COSMIC_STORM_DEVASTATION_SLIDER_INTERVAL?: number | Authored;
+  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_HUGE_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_LARGE_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_MEDIUM_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_SMALL_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_EARLY_GAME_SPAWN_MAX_CAP_DEFAULT_TINY_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_HUGE_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_LARGE_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_MEDIUM_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_SMALL_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_LATE_GAME_SPAWN_MAX_CAP_DEFAULT_TINY_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_HUGE_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_LARGE_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_MEDIUM_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_SMALL_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_MID_GAME_SPAWN_MAX_CAP_DEFAULT_TINY_GALAXY?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_CHANCE_SCALE_DEFAULT?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_CHANCE_SCALE_MAX?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_CHANCE_SCALE_MIN?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_CHANCE_SCALE_STEP?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_COOLDOWN_SCALE_DEFAULT?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_COOLDOWN_SCALE_MAX?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_COOLDOWN_SCALE_MIN?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_COOLDOWN_SCALE_STEP?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_MAX_CAP_MAX?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_MAX_CAP_MIN?: number | Authored;
+  readonly COSMIC_STORM_SPAWN_MAX_CAP_STEP?: number | Authored;
+  readonly COUNCIL_AGENDA_BASE_COUNCILOR_MONTHLY_PROGRESS?: number | Authored;
+  readonly COUNCIL_AGENDA_COOLDOWN?: number | Authored;
+  readonly COUNCIL_AGENDA_COUNCILOR_PROGRESS_PER_SKILL?: number | Authored;
+  readonly COUNCIL_AGENDA_FINISH_MODIFIER_DURATION?: number | Authored;
+  readonly COUNCIL_AGENDA_HIGH_LEGITIMACY_MODIIFER?: number | Authored;
+  readonly COUNCIL_AGENDA_LOW_LEGITIMACY_MODIIFER?: number | Authored;
+  readonly COUNCIL_COHESION_EDICT_FUND_MAX_MULT?: number | Authored;
+  readonly COUNCIL_COHESION_SCORE_ETHIC?: number | Authored;
+  readonly COUNCIL_COHESION_SCORE_FANATIC_ETHIC?: number | Authored;
+  readonly COUNCIL_COHESION_TREND_FACTOR?: number | Authored;
+  readonly COUNCIL_DIPLOMACY_POSITIONS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly COUNCIL_DIPLOMACY_WEIGHT_MODIFIER?: number | Authored;
+  readonly COUNCIL_ELECTION_SOON_CUTOFF?: number | Authored;
+  readonly COUNCIL_ELECTION_TIMER?: number | Authored;
+  readonly COUNCIL_NAVAL_POSITIONS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly COUNCIL_RESEARCH_POSITIONS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly COUNTRY_ACTIVE_FOCUS_CARDS_COUNT?: number | Authored;
+  readonly COUNTRY_ENCLAVE_CAPACITY_BASE?: number | Authored;
+  readonly COUNTRY_ENCLAVE_CAPACITY_MAX?: number | Authored;
+  readonly COUNTRY_FOCUS_CARDS_DISMISS_COOLDOWN_DAYS?: number | Authored;
+  readonly COUNTRY_FOCUS_CARDS_DISMISS_UNITY_COST?: number | Authored;
+  readonly COUNTRY_FOCUS_CARDS_TIER_MAX?: number | Authored;
+  readonly COUNTRY_FOCUS_CARDS_TIER_MIN?: number | Authored;
+  readonly COUNTRY_FOCUS_COST_WAIVED_YEARS?: number | Authored;
+  readonly COUNTRY_FOCUS_NEXT_TIER_ENABLING_COEFFICIENT?: number | Authored;
+  readonly COUNTRY_FOCUS_PRIORITY_CHANGE_COOLDOWN_DAYS?: number | Authored;
+  readonly COUNTRY_FOCUS_PROGRESSION_DEFAULT_COST?: number | Authored;
+  readonly COUNTRY_USES_BIOMASS_FLAG?: string | Authored;
+  readonly CRIMINAL_SYNDICATE_HIGH_CRIME_MULT?: number | Authored;
+  readonly CRIMINAL_SYNDICATE_LOW_CRIME_MULT?: number | Authored;
+  readonly CRITTER_MAX_AGE?: number | Authored;
+  readonly CUSTODIAN_TERM_LIMIT_DAYS?: number | Authored;
+  readonly CUSTODIAN_TERM_LIMIT_EXPIRATION_MESSAGE_DAYS?: number | Authored;
+  readonly CUSTOM_EMPIRE_SPAWN_CHANCE?: number | Authored;
+  readonly CUTHOLOIDS_SCALING_DEFAULT?: number | Authored;
+  readonly CUTHOLOIDS_SCALING_MAX?: number | Authored;
+  readonly CUTHOLOIDS_SCALING_MIN?: number | Authored;
+  readonly CUTHOLOIDS_SCALING_SLIDER_INTERVAL?: number | Authored;
+  readonly CYCLE_END_RECKONING_FLAG_STR?: string | Authored;
+  readonly CYCLE_END_SITUATION_FLAG_STR?: string | Authored;
+  readonly CYCLE_KEYS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CYCLE_OF_CONFLICT_FLAG_STR?: string | Authored;
+  readonly CYCLE_OF_FORTUNE_FLAG_STR?: string | Authored;
+  readonly CYCLE_OF_GROWTH_FLAG_STR?: string | Authored;
+  readonly CYCLE_OF_HARMONY_FLAG_STR?: string | Authored;
+  readonly CYCLE_OF_KNOWLEDGE_FLAG_STR?: string | Authored;
+  readonly CYCLE_OF_OMENS_FLAG_STR?: string | Authored;
+  readonly CYCLE_OF_PROSPERITY_FLAG_STR?: string | Authored;
+  readonly DATE_DISTORTION_COUNT_MAX?: number | Authored;
+  readonly DATE_DISTORTION_COUNT_MIN?: number | Authored;
+  readonly DEBRIS_ANALYZED_AREA_POINTS?: number | Authored;
+  readonly DEBRIS_ANALYZED_TECH_PROGRESS?: number | Authored;
+  readonly DEBRIS_BASE_COST?: number | Authored;
+  readonly DEBRIS_DAYS?: number | Authored;
+  readonly DEBRIS_REANIMATE_RESEARCH_FLEET_SIZE_INCREASE?: number | Authored;
+  readonly DEBRIS_REANIMATE_RESEARCH_FLEET_SIZE_THRESHOLD?: number | Authored;
+  readonly DEBRIS_REANIMATE_RESEARCH_MAX?: number | Authored;
+  readonly DEBRIS_REANIMATE_RESEARCH_MIN?: number | Authored;
+  readonly DEBRIS_RESEARCH_TIME?: number | Authored;
+  readonly DECADENCE_CHANCE?: number | Authored;
+  readonly DECADENCE_INCREASE?: number | Authored;
+  readonly DECADENCE_MAX?: number | Authored;
+  readonly DECADENCE_START?: number | Authored;
+  readonly DECLINED_TO_LEAVE_FEDERATION_CASUS_BELLI_TYPE?: CasusBelliRef | Authored;
+  readonly DEEDS_COUNT_PER_PATRON?: number | Authored;
+  readonly DEFAULT_CLIMATE_LABELS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly DEFAULT_COUNCIL_EMERGENCY_MEASURES?: boolean | Authored;
+  readonly DEFAULT_COUNCIL_SIZE?: number | Authored;
+  readonly DEFAULT_COUNCIL_VETO?: boolean | Authored;
+  readonly DEFAULT_HOME_PLANETS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly DEFAULT_MAX_DISTRICTS_PER_PLANET?: number | Authored;
+  readonly DEFAULT_MAX_PLANET_BUILDINGS_PER_ZONE?: number | Authored;
+  readonly DEFAULT_ORIGIN?: CivicOrOriginRef | Authored;
+  readonly DEFAULT_TRAIT_OPTIONS_ON_LEVEL_UP?: number | Authored;
+  readonly DEFAULT_VETO_COST_MULT?: number | Authored;
+  readonly DEPOSIT_USED_CATEGORY_WEIGHT?: number | Authored;
+  readonly DETECTION_INTEL_DECAY_MONTHS?: number | Authored;
+  readonly DIMENSIONAL_LOCK_ASTRAL_ACTION?: AstralActionsRef | Authored;
+  readonly DIMENSIONAL_LOCK_AVAILABLE_FLAG?: string | Authored;
+  readonly DIMENSIONAL_LOCK_BUILD_TIME?: number | Authored;
+  readonly DIMENSIONAL_LOCK_EXPIRATION_TIME?: number | Authored;
+  readonly DIMENSIONAL_LOCK_PRE_EXPIRATION_ALERT_DAYS?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_BASE?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_ECONOMY_FACTOR?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_GESTALT_WEIGHT?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_NAVAL_FACTOR?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_NO_LEADER_PENALTY?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_POP_BASE?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_POP_HAPPINESS?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_SPRAWL_FACTOR?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_STANCE_FACTOR?: number | Authored;
+  readonly DIPLOMACY_WEIGHT_TECHNOLOGY_FACTOR?: number | Authored;
+  readonly DISABLE_JUMP_DRIVE_COOLDOWN_MALUS_FLAG_STR?: string | Authored;
+  readonly ECON_POWER_COST_DIV?: number | Authored;
+  readonly EDICT_CAPACITY_BASE?: number | Authored;
+  readonly EDICT_MAX_RESOURCE_COST?: number | Authored;
+  readonly EDICT_UNITY_AMBITION_COST_MULT?: number | Authored;
+  readonly ELECTION_BASE_SUPPORT?: number | Authored;
+  readonly ELECTION_INDEPENDENT_SUPPORT?: number | Authored;
+  readonly ELECTION_SKILL_EFFECT?: number | Authored;
+  readonly ELECTION_SUPPORT_LEADER_EFFECT?: number | Authored;
+  readonly EMBASSY_IMPROVE_RELATION_MULTIPLIER?: number | Authored;
+  readonly EMERGENCY_FUND_RELIEF_PER_AFFECTED_SYSTEM?: number | Authored;
+  readonly EMERGENCY_MEASURES_COOLDOWN?: number | Authored;
+  readonly EMPIRE_SIZE_ARMIES_PENALTY?: number | Authored;
+  readonly EMPIRE_SIZE_BASE?: number | Authored;
+  readonly EMPIRE_SIZE_COUNCIL_AGENDA_COST_PENALTY?: number | Authored;
+  readonly EMPIRE_SIZE_FLOOR?: number | Authored;
+  readonly EMPIRE_SIZE_FROM_BRANCH_OFFICES?: number | Authored;
+  readonly EMPIRE_SIZE_FROM_COLONIES?: number | Authored;
+  readonly EMPIRE_SIZE_FROM_DISTRICTS?: number | Authored;
+  readonly EMPIRE_SIZE_FROM_POPS?: number | Authored;
+  readonly EMPIRE_SIZE_FROM_SYSTEMS?: number | Authored;
+  readonly EMPIRE_SIZE_TECH_COST_PENALTY?: number | Authored;
+  readonly EMPIRE_SIZE_TRADITION_COST_PENALTY?: number | Authored;
+  readonly END_GAME_START_DEFAULT?: number | Authored;
+  readonly END_GAME_START_MAX?: number | Authored;
+  readonly END_GAME_START_MIN?: number | Authored;
+  readonly ENFORCE_STATUS_QUO_ENABLED?: boolean | Authored;
+  readonly ENFORCE_STATUS_QUO_MONTHS?: number | Authored;
+  readonly ENTROPY_COUNDUITS_STATION_SHIP?: string | Authored;
+  readonly ENTROPY_COUNDUITS_TERRAFORM_PLANET_CLASS?: string | Authored;
+  readonly ENTROPY_COUNDUITS_TERRAFORM_PLANET_CLASS_KEY?: string | Authored;
+  readonly ENTROPY_COUNDUITS_TERRAFORM_SPEED?: number | Authored;
+  readonly ENTROPY_COUNDUITS_TERRAFORM_STAR_CLASS?: string | Authored;
+  readonly ENVOY_HARM_RELATION_BASE?: number | Authored;
+  readonly ENVOY_HARM_RELATION_MIN?: number | Authored;
+  readonly ENVOY_IMPROVE_RELATION_BASE?: number | Authored;
+  readonly ENVOY_IMPROVE_RELATION_MAX?: number | Authored;
+  readonly ENVOY_RELATION_EFFECT_DECAY?: number | Authored;
+  readonly ENVOY_STRENGTHEN_IMPERIAL_AUTHORITY_RELATION_DECAY?: number | Authored;
+  readonly ENVOY_STRENGTHEN_IMPERIAL_AUTHORITY_RELATION_GROWTH?: number | Authored;
+  readonly ENVOY_STRENGTHEN_IMPERIAL_AUTHORITY_RELATION_MAX?: number | Authored;
+  readonly ENVOY_UNDERMINE_IMPERIAL_AUTHORITY_RELATION_DECAY?: number | Authored;
+  readonly ENVOY_UNDERMINE_IMPERIAL_AUTHORITY_RELATION_GROWTH?: number | Authored;
+  readonly ENVOY_UNDERMINE_IMPERIAL_AUTHORITY_RELATION_MIN?: number | Authored;
+  readonly ESPIONAGE_OPERATION_BASE_ROLL_FREQUENCY?: number | Authored;
+  readonly ESPIONAGE_OPERATION_DICE_ROLL_MAX?: number | Authored;
+  readonly ESPIONAGE_OPERATION_DICE_ROLL_MIN?: number | Authored;
+  readonly ESPIONAGE_OPERATION_SUCCESS_SCORE?: number | Authored;
+  readonly ETHOS_MAX_POINTS?: number | Authored;
+  readonly EVADE_HOSTILE_CANCEL_ORDERS_THRESHOLD_DAYS?: number | Authored;
+  readonly EVENT_AUTOSELECT_MONTHS?: number | Authored;
+  readonly EXHIBIT_UNLOCK_COSTS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly EXPERIMENTAL_SUBSPACE_NAVIGATION_TIME_MULT?: number | Authored;
+  readonly EXTERNAL_LEADER_POOL_SIZE?: number | Authored;
+  readonly EXTRA_POP_KILL_MULTIPLIER_CHANCE?: number | Authored;
+  readonly FAILED_EMERGENCY_FUND_CONTRIBUTION_FLAG?: string | Authored;
+  readonly FALLEN_CUSTOM_EMPIRE_SPAWN_CHANCE?: number | Authored;
+  readonly FALLEN_EMPIRE_INNER_BOUNDARY?: number | Authored;
+  readonly FALLEN_EMPIRE_OUTER_BOUNDARY?: number | Authored;
+  readonly FALLEN_EMPIRE_REPEATABLE_TECHS?: number | Authored;
+  readonly FAVORS_PER_RESOLUTION_CAP?: number | Authored;
+  readonly FAVOR_CAP?: number | Authored;
+  readonly FEDERATION_BASE_COHESION?: number | Authored;
+  readonly FEDERATION_BASE_ETHICS?: number | Authored;
+  readonly FEDERATION_COHESION_RANGE?: number | Authored;
+  readonly FEDERATION_COHESION_TO_XP?: number | Authored;
+  readonly FEDERATION_ENVOY_BASE_EFFECT?: number | Authored;
+  readonly FEDERATION_ETHICS_PENALTY?: number | Authored;
+  readonly FEDERATION_EXPERIENCE_BUFFER?: number | Authored;
+  readonly FEDERATION_JOIN_COHESION_PENALTY?: number | Authored;
+  readonly FEDERATION_LEADER_POWER_THRESHOLD?: number | Authored;
+  readonly FEDERATION_LEAVE_COHESION_PENALTY?: number | Authored;
+  readonly FEDERATION_LOW_COHESION_CUTOFF?: number | Authored;
+  readonly FEDERATION_MAX_FLEET_SIZE?: number | Authored;
+  readonly FEDERATION_MEMBERS_PENALTY?: number | Authored;
+  readonly FEDERATION_MIN_MEMBERS_TO_KICK?: number | Authored;
+  readonly FEDERATION_NO_MEMBERS_PENALTY?: number | Authored;
+  readonly FEDERATION_OPPOSING_ETHICS_PENALTY?: number | Authored;
+  readonly FEDERATION_PERK_EXPERATION_MONTHS?: number | Authored;
+  readonly FEDERATION_SWITCH_COHESION_PENALTY?: number | Authored;
+  readonly FEDERATION_VOTE_RESUBMIT_DELAY?: number | Authored;
+  readonly FIRST_CONTACT_DICE_ROLL_MAX?: number | Authored;
+  readonly FIRST_CONTACT_DICE_ROLL_MIN?: number | Authored;
+  readonly FIRST_CONTACT_DISCOVERY_DAYS?: number | Authored;
+  readonly FIRST_CONTACT_DISCOVERY_DAYS_AI?: number | Authored;
+  readonly FIRST_CONTACT_DISCOVERY_SCORE?: number | Authored;
+  readonly FIRST_CONTACT_FIRST_STAGE?: FirstContactStageRef | Authored;
+  readonly FIRST_CONTACT_HIGHER_INSIGHT_REWARD?: number | Authored;
+  readonly FIRST_CONTACT_HIGHER_INSIGHT_SCORE?: number | Authored;
+  readonly FIRST_CONTACT_INTEL_TARGET?: number | Authored;
+  readonly FIRST_CONTACT_LOWER_INSIGHT_REWARD?: number | Authored;
+  readonly FIRST_CONTACT_LOWER_INSIGHT_SCORE?: number | Authored;
+  readonly FIRST_CONTACT_POLICY?: PolicyRef | Authored;
+  readonly FIRST_CONTACT_POLICY_FLAG_ATTACK_ALLOWED?: string | Authored;
+  readonly FIRST_CONTACT_POLICY_FLAG_CAUTIOUS?: string | Authored;
+  readonly FIRST_CONTACT_POLICY_FLAG_PROACTIVE?: string | Authored;
+  readonly FIRST_CONTACT_UNKNOWN_SPECIES_PORTRAITS_AMOUNT?: number | Authored;
+  readonly FLEET_FLASH_FORGING_HYPER_RELAY_FLAG?: string | Authored;
+  readonly FLEET_LEASE_DAYS_DEFAULT?: number | Authored;
+  readonly FLEET_LEASE_DAYS_MAXIMUM?: number | Authored;
+  readonly FLEET_MIN_TI_CLEAR_RADIUS?: number | Authored;
+  readonly FLEET_PATHFINDING_COSMIC_STORM_WEIGHT?: number | Authored;
+  readonly FORGE_OUR_OWN_PATH_NB_ACTIVE_ACCORDS?: number | Authored;
+  readonly FORGING_OUR_OWN_PATH_ACTIVE_ACCORDS_COUNT?: number | Authored;
+  readonly FORGING_OUR_OWN_PATH_FLAG?: string | Authored;
+  readonly FORMLESS_COUNTRY_TYPE?: CountryTypeRef | Authored;
+  readonly FORMLESS_REWARD_AVAILABLE?: string | Authored;
+  readonly FRICTION_FROM_BORDERING_SYSTEM?: number | Authored;
+  readonly FTL_MAGNET_DISTANCE?: number | Authored;
+  readonly GALACTIC_DEFENSE_FORCE_NAMELIST?: string | Authored;
+  readonly GALACTIC_EMPIRE_BASE_AUTHORITY?: number | Authored;
+  readonly GALACTIC_EMPIRE_ENVOY_AUTHORITY_CHANGE?: number | Authored;
+  readonly GALACTIC_EMPIRE_MAX_AUTHORITY?: number | Authored;
+  readonly GALACTIC_MARKET_FOUNDED_FLAG?: string | Authored;
+  readonly GALAXY_GENERATION_CENTER_DUMMY_POINTS?: number | Authored;
+  readonly GALAXY_GENERATION_DEFAULT_SHAPE?: MapGalaxyShapeRef | Authored;
+  readonly GALAXY_GENERATION_RELAX_ITERATIONS?: number | Authored;
+  readonly GENERAL_DEATH_CHANCE?: number | Authored;
+  readonly GOVERNMENT_CHANGE_EMPIRE_SIZE_MULT?: number | Authored;
+  readonly GOVERNMENT_CIVIC_POINTS_BASE?: number | Authored;
+  readonly GOVERNMENT_COOLDOWN_YEARS?: number | Authored;
+  readonly GRAND_ARCHIVE_DESTROYED?: string | Authored;
+  readonly GRAND_ARCHIVE_EXHIBITIONS_COUNT?: number | Authored;
+  readonly GRAND_ARCHIVE_EXHIBITS_COUNT?: number | Authored;
+  readonly GRAVITY_SNARE_CAPTURED_SHIPS_COUNT?: number | Authored;
+  readonly GRAVITY_SNARE_CAPTURE_CHANCE_PER_SCIENTIST_LEVEL?: number | Authored;
+  readonly GRAVITY_SNARE_CAPTURE_TIME?: number | Authored;
+  readonly GRAVITY_SNARE_COOLDOWN?: string | Authored;
+  readonly GRAVITY_SNARE_IS_FROM_AUTO_EXPLORE?: string | Authored;
+  readonly GRAVITY_SNARE_MAX_MOVEMENT_TIME?: number | Authored;
+  readonly GRAVITY_SNARE_SHIP_SIZE?: ShipSizeRef | Authored;
+  readonly GREAT_PATRON_RADIUS?: number | Authored;
+  readonly GROWTH_SCALE_DEFAULT?: number | Authored;
+  readonly GROWTH_SCALE_MAGNITUDE_OFFSET?: number | Authored;
+  readonly GROWTH_SCALE_MAX?: number | Authored;
+  readonly GROWTH_SCALE_MIN?: number | Authored;
+  readonly GROWTH_SCALE_SLIDER_INTERVAL?: number | Authored;
+  readonly GUARANTEED_COLONIES_DEFAULT?: number | Authored;
+  readonly GUARANTEED_COLONIES_MAX?: number | Authored;
+  readonly GUARANTEED_COLONIES_MIN?: number | Authored;
+  readonly GUARDIANS_OF_THE_GALAXY_FLAG?: string | Authored;
+  readonly HABITABILITY_AUTO_MIGRATION?: number | Authored;
+  readonly HABITABILITY_IDEAL_PLANET?: number | Authored;
+  readonly HABITABILITY_OPPOSITE_PLANET?: number | Authored;
+  readonly HABITABILITY_WRONG_PLANET?: number | Authored;
+  readonly HIGH_HAPPINESS_STABILITY_EFFECT?: number | Authored;
+  readonly HIGH_PLANET_CRIME?: number | Authored;
+  readonly HIGH_SYNAPTIC_LATHE_EFFICIENCY?: number | Authored;
+  readonly HIVE_EMPIRE_GOVERNMENT_AUTHORITY?: string | Authored;
+  readonly HYPERLANE_GEN_REMOVED_MAX_DIST?: number | Authored;
+  readonly HYPERLANE_GEN_REMOVE_PERC?: number | Authored;
+  readonly HYPERLANE_GEN_REMOVE_TOO_MANY_EDGES?: number | Authored;
+  readonly IMPERIAL_ARMADA_NAMELIST?: string | Authored;
+  readonly IMPERIAL_COUNCIL_CHANGE_MEMBER_INFLUENCE_COST?: number | Authored;
+  readonly INFLUENCE_ADD_UPLIFTED_SPECIES?: number | Authored;
+  readonly INITIATE_COSMIC_STORM_SITUATION_KEY?: string | Authored;
+  readonly INSULT_COOLDOWN_DAYS?: number | Authored;
+  readonly INTEGRATE_SUBJECT_MIN_DAYS?: number | Authored;
+  readonly INTEL_CAP?: number | Authored;
+  readonly INTEL_FROM_BEING_OVERLORD?: number | Authored;
+  readonly INTEL_FROM_BEING_SUBJECT?: number | Authored;
+  readonly INTEL_FROM_COMMERCIAL_PACT?: number | Authored;
+  readonly INTEL_FROM_COMMUNICATIONS?: number | Authored;
+  readonly INTEL_FROM_DEFENSIVE_PACT?: number | Authored;
+  readonly INTEL_FROM_EMBASSY?: number | Authored;
+  readonly INTEL_FROM_FEDERATION_ASSOCIATION?: number | Authored;
+  readonly INTEL_FROM_FEDERATION_CENTRALIZATION?: number | Authored;
+  readonly INTEL_FROM_GALACTIC_COMMUNITY?: number | Authored;
+  readonly INTEL_FROM_GALACTIC_CUSTODIAN?: number | Authored;
+  readonly INTEL_FROM_GALACTIC_EMPEROR?: number | Authored;
+  readonly INTEL_FROM_GALACTIC_EMPEROR_HEIGHTENED_SECURITY?: number | Authored;
+  readonly INTEL_FROM_GUARANTEE?: number | Authored;
+  readonly INTEL_FROM_MIGRATION_PACT?: number | Authored;
+  readonly INTEL_FROM_NON_AGGRESSION_PACT?: number | Authored;
+  readonly INTEL_FROM_RESEARCH_AGREEMENT?: number | Authored;
+  readonly INTEL_FROM_SECRET_FEALTY?: number | Authored;
+  readonly INTEL_FROM_TRUST_MULTIPLIER?: number | Authored;
+  readonly INTEL_YEARLY_DECREASE?: number | Authored;
+  readonly INTEL_YEARLY_INCREASE?: number | Authored;
+  readonly JOIN_COMMUNITY_INFLUENCE_COST?: number | Authored;
+  readonly JUMP_DRIVE_COOLDOWN?: number | Authored;
+  readonly KEYBOARD_DOUBLE_CLICK_TIME?: number | Authored;
+  readonly LAUNCH_RANDOM_COMMON_EVENT_EVENT_KEY?: string | Authored;
+  readonly LAUNCH_RANDOM_FORTUNE_EVENT_EVENT_KEY?: string | Authored;
+  readonly LAUNCH_RANDOM_OMENS_EVENT_EVENT_KEY?: string | Authored;
+  readonly LEADER_ADMIRAL_FLEET_COMBAT_BASE_EXPERIENCE?: number | Authored;
+  readonly LEADER_ADMIRAL_FLEET_COMBAT_EXPERIENCE_SCALE?: number | Authored;
+  readonly LEADER_ADMIRAL_FLEET_COMBAT_SHIPS_DISENGAGED_CONVERSION?: number | Authored;
+  readonly LEADER_ADMIRAL_FLEET_COMBAT_SHIPS_KILLED_CONVERSION?: number | Authored;
+  readonly LEADER_AGE_HEIR_MAX?: number | Authored;
+  readonly LEADER_AGE_HEIR_MIN?: number | Authored;
+  readonly LEADER_AGE_MAX?: number | Authored;
+  readonly LEADER_AGE_MIN?: number | Authored;
+  readonly LEADER_ASSIGNED_MONTHLY_EXPERIENCE?: number | Authored;
+  readonly LEADER_BASE_SKILL_CAP?: number | Authored;
+  readonly LEADER_CAPACITY_XP_SCALE?: number | Authored;
+  readonly LEADER_COUNCILOR_MONTHLY_EXPERIENCE?: number | Authored;
+  readonly LEADER_DESTINY_CHOICE_LEVEL?: number | Authored;
+  readonly LEADER_EXPERIENCE_REQUIREMENT_BASE_VALUE?: number | Authored;
+  readonly LEADER_EXPERIENCE_REQUIREMENT_SCALE_VALUE?: number | Authored;
+  readonly LEADER_GENERAL_GROUND_COMBAT_ARMIES_KILLED_CONVERSION?: number | Authored;
+  readonly LEADER_GENERAL_GROUND_COMBAT_BASE_EXPERIENCE?: number | Authored;
+  readonly LEADER_GENERAL_GROUND_COMBAT_EXPERIENCE_SCALE?: number | Authored;
+  readonly LEADER_HEIR_EXPERIENCE?: number | Authored;
+  readonly LEADER_JOB_BACKGROUND_STRATA_WEIGHTS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly LEADER_LIFESPAN_DEATH_CHANCE_AGE?: number | Authored;
+  readonly LEADER_LIFESPAN_DEATH_CHANCE_INC?: number | Authored;
+  readonly LEADER_LIFESPAN_HIGH_DEATH_CHANCE_AGE?: number | Authored;
+  readonly LEADER_LIFESPAN_HIGH_DEATH_CHANCE_INC?: number | Authored;
+  readonly LEADER_MAX_SKILL_CAP?: number | Authored;
+  readonly LEADER_POOL_REFRESH_TIME?: number | Authored;
+  readonly LEADER_POOL_SIZE?: number | Authored;
+  readonly LEADER_RULER_EXPERIENCE?: number | Authored;
+  readonly LEADER_SCIENTIST_ACTIVE_RECONNAISSANCE_COLONY_LEVEL_MULT?: number | Authored;
+  readonly LEADER_SCIENTIST_ACTIVE_RECONNAISSANCE_EXPERIENCE?: number | Authored;
+  readonly LEADER_SCIENTIST_ACTIVE_RECONNAISSANCE_LEADER_LEVEL_MULT?: number | Authored;
+  readonly LEADER_SCIENTIST_ASSIST_CLOAKING_DETECTION_EXPERIENCE?: number | Authored;
+  readonly LEADER_SCIENTIST_ASSIST_CLOAKING_DETECTION_MULT?: number | Authored;
+  readonly LEADER_SCIENTIST_ASSIST_RESEARCH?: number | Authored;
+  readonly LEADER_SCIENTIST_ASSIST_RESEARCH_MULT?: number | Authored;
+  readonly LEADER_SCIENTIST_COMPLETED_ARCHAEOLOGICAL_SITE_STAGE_EXPERIENCE?: number | Authored;
+  readonly LEADER_SCIENTIST_COMPLETED_SPECIAL_PROJECT_EXPERIENCE?: number | Authored;
+  readonly LEADER_SCIENTIST_LEADING_RESEARCH_FIELD_EXPERIENCE?: number | Authored;
+  readonly LEADER_SCIENTIST_SUCCESSFUL_ANOMALY_RESEARCH_EXPERIENCE?: number | Authored;
+  readonly LEADER_SCIENTIST_SURVEY_EXPERIENCE?: number | Authored;
+  readonly LEADER_SKILL_LEVEL_START?: number | Authored;
+  readonly LEADER_SKILL_MIN?: number | Authored;
+  readonly LEADER_SUBCLASS_CHOICE_LEVEL?: number | Authored;
+  readonly LEADER_TRAIT_SELECTION_LEVELS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly LEAVE_COMMUNITY_INFLUENCE_COST_FACTOR?: number | Authored;
+  readonly LEAVE_COMMUNITY_MAX_INFLUENCE_COST?: number | Authored;
+  readonly LEAVE_COMMUNITY_MIN_INFLUENCE_COST?: number | Authored;
+  readonly LEFT_COMMUNITY_MODIFIER_TIMER?: number | Authored;
+  readonly LIMITED_EXPLORATION?: number | Authored;
+  readonly LOGISTICS_FLEET_UPKEEP_DEFAULT?: number | Authored;
+  readonly LOGISTICS_FLEET_UPKEEP_INTERVAL?: number | Authored;
+  readonly LOGISTICS_FLEET_UPKEEP_MAX?: number | Authored;
+  readonly LOGISTICS_FLEET_UPKEEP_MIN?: number | Authored;
+  readonly LOGISTICS_PLANET_DEFICIT_DEFAULT?: number | Authored;
+  readonly LOGISTICS_PLANET_DEFICIT_INTERVAL?: number | Authored;
+  readonly LOGISTICS_PLANET_DEFICIT_MAX?: number | Authored;
+  readonly LOGISTICS_PLANET_DEFICIT_MIN?: number | Authored;
+  readonly LOGISTIC_CEILING_DEFAULT?: number | Authored;
+  readonly LOGISTIC_CEILING_MAX?: number | Authored;
+  readonly LOGISTIC_CEILING_MIN?: number | Authored;
+  readonly LOGISTIC_CEILING_SLIDER_INTERVAL?: number | Authored;
+  readonly LOW_HAPPINESS_STABILITY_EFFECT?: number | Authored;
+  readonly LOW_PLANET_STABILITY?: number | Authored;
+  readonly MACHINE_EMPIRE_EXCLUSION_TRAIT?: TraitRef | Authored;
+  readonly MACHINE_EMPIRE_GOVERNMENT_AUTHORITY?: string | Authored;
+  readonly MATURE_GALAXY_ARMY?: ArmyRef | Authored;
+  readonly MATURE_GALAXY_CAPITAL?: BuildingRef | Authored;
+  readonly MATURE_GALAXY_COLONY_CAPITAL?: BuildingRef | Authored;
+  readonly MATURE_GALAXY_COLONY_DISTANCE_FIXED?: number | Authored;
+  readonly MATURE_GALAXY_COLONY_DISTANCE_RANDOM?: number | Authored;
+  readonly MATURE_GALAXY_COLONY_DISTANCE_SURVEYED?: number | Authored;
+  readonly MATURE_GALAXY_COLONY_FARM?: BuildingRef | Authored;
+  readonly MATURE_GALAXY_COLONY_LAB?: BuildingRef | Authored;
+  readonly MATURE_GALAXY_COLONY_MINE?: BuildingRef | Authored;
+  readonly MATURE_GALAXY_COLONY_POWER_PLANT?: BuildingRef | Authored;
+  readonly MATURE_GALAXY_EXTRA_ENERGY?: number | Authored;
+  readonly MATURE_GALAXY_EXTRA_INFLUENCE?: number | Authored;
+  readonly MATURE_GALAXY_EXTRA_MINERALS?: number | Authored;
+  readonly MATURE_GALAXY_EXTRA_UNITY?: number | Authored;
+  readonly MATURE_GALAXY_HOME_BUILDINGS?: number | Authored;
+  readonly MATURE_GALAXY_HOME_POPS?: number | Authored;
+  readonly MATURE_GALAXY_MAX_NUM_STARBASES?: number | Authored;
+  readonly MATURE_GALAXY_NAVY_SIZE?: number | Authored;
+  readonly MATURE_GALAXY_NUM_ARMIES?: number | Authored;
+  readonly MATURE_GALAXY_STARBASE_LEVEL?: StarbaseLevelRef | Authored;
+  readonly MATURE_GALAXY_TECH_TIER?: number | Authored;
+  readonly MATURE_GALAXY_YEARS?: number | Authored;
+  readonly MAX_ADDITIONAL_COOP_PLAYERS?: number | Authored;
+  readonly MAX_ATTUNEMENT_VALUE?: number | Authored;
+  readonly MAX_BASIC_TRAITS?: number | Authored;
+  readonly MAX_COOP_PLAYERS?: number | Authored;
+  readonly MAX_FRICTION?: number | Authored;
+  readonly MAX_LEADERS_PER_TRADE?: number | Authored;
+  readonly MAX_PLANET_AMENITIES?: number | Authored;
+  readonly MAX_PLANET_BRANCH_OFFICE_BUILDING_SLOTS?: number | Authored;
+  readonly MAX_PLANET_BUILDING_SLOTS?: number | Authored;
+  readonly MAX_PLANET_CRIME?: number | Authored;
+  readonly MAX_PLANET_RELATIVE_HOUSING?: number | Authored;
+  readonly MAX_PLANET_STABILITY?: number | Authored;
+  readonly MAX_PLANET_SUBJECT_HOLDING_BUILDING_SLOTS?: number | Authored;
+  readonly MAX_SYNAPTIC_LATHE_BUILDING_SLOTS?: number | Authored;
+  readonly MAX_TRADE_DEAL_LENGTH_YEARS?: number | Authored;
+  readonly MAX_VETERAN_TRAITS?: number | Authored;
+  readonly MAX_VIVARIUM_CAPACITY?: number | Authored;
+  readonly MEDIUM_SYNAPTIC_LATHE_EFFICIENCY?: number | Authored;
+  readonly MEGASTRUCTURE_BUILD_CAP_BASE?: number | Authored;
+  readonly MEGASTRUCTURE_PLACEMENT_RADIUS?: number | Authored;
+  readonly MEGASTRUCTURE_SYSTEM_CENTER_RADIUS?: number | Authored;
+  readonly MENACE_PERK_MINIMUM_ACTIVATION_TIME?: number | Authored;
+  readonly MIA_FLEET_MODIFIER_MULT_LOWER_TRESHOLD?: number | Authored;
+  readonly MIA_TIME_MAX?: number | Authored;
+  readonly MIA_TIME_MULT?: number | Authored;
+  readonly MIA_UNKNOWN_PATH_CURVATURE_COEFFICIENT?: number | Authored;
+  readonly MIA_UNKNOWN_PATH_TIME_COEFFICIENT?: number | Authored;
+  readonly MID_GAME_START_DEFAULT?: number | Authored;
+  readonly MID_GAME_START_MAX?: number | Authored;
+  readonly MID_GAME_START_MIN?: number | Authored;
+  readonly MINOR_PATRON_DELVE_ENCOUNTER_CHANCE?: number | Authored;
+  readonly MINOR_PATRON_ENCOUNTER_DISTANCE?: number | Authored;
+  readonly MIN_BLOCKED_DEPOSITS?: number | Authored;
+  readonly MIN_ELECTION_CANDIDATES?: number | Authored;
+  readonly MIN_HABITABILITY?: number | Authored;
+  readonly MIN_PLANET_AMENITIES?: number | Authored;
+  readonly MIN_PLANET_CRIME?: number | Authored;
+  readonly MIN_PLANET_RELATIVE_HOUSING?: number | Authored;
+  readonly MIN_PLANET_STABILITY?: number | Authored;
+  readonly MIN_RIVAL_YEARS?: number | Authored;
+  readonly MIN_TRADE_DEAL_LENGTH_YEARS?: number | Authored;
+  readonly MIN_UNBLOCKED_DEPOSITS?: number | Authored;
+  readonly MISSION_PROGRESS_MAX?: number | Authored;
+  readonly MONTHLY_PATRON_ATTUNEMENT_VALUE_PER_ENVOY?: number | Authored;
+  readonly MOVE_CAPITAL_COOLDOWN_YEARS?: number | Authored;
+  readonly MOVE_CAPITAL_INFLUENCE_COST?: number | Authored;
+  readonly MUTATION_SECTION_NAME?: string | Authored;
+  readonly NAVAL_CAPACITY_BASE?: number | Authored;
+  readonly NAVAL_CAPACITY_BASE_GALACTIC_COMMUNITY?: number | Authored;
+  readonly NAVAL_CAPACITY_MAX?: number | Authored;
+  readonly NAVAL_CAPACITY_MULT_DEFAULT?: number | Authored;
+  readonly NAVAL_CAPACITY_MULT_MAX?: number | Authored;
+  readonly NAVAL_CAPACITY_MULT_MIN?: number | Authored;
+  readonly NAVAL_CAPACITY_MULT_SLIDER_INTERVAL?: number | Authored;
+  readonly NAVAL_CAPACITY_NO_LEADER_PENALTY?: number | Authored;
+  readonly NAVAL_CAPACITY_POP_MULT?: number | Authored;
+  readonly NEWLY_SPAWNED_PSIONIC_AURA_FLAG?: string | Authored;
+  readonly NEW_HEIR_CHANCE?: number | Authored;
+  readonly NEW_RULER_MESSAGE_DAYS?: number | Authored;
+  readonly NEXT_ELECTION_MESSAGE_DAYS?: number | Authored;
+  readonly NON_COLONY_DEPOSITS_FIXED_BASE?: number | Authored;
+  readonly NON_COLONY_DEPOSITS_FIXED_FROM_SIZE?: number | Authored;
+  readonly NON_COLONY_DEPOSITS_RANDOM_BASE?: number | Authored;
+  readonly NON_COLONY_DEPOSITS_RANDOM_FROM_SIZE?: number | Authored;
+  readonly NON_COLONY_DEPOSITS_USE_NULL?: boolean | Authored;
+  readonly NON_PARAGON_TRAIT_OPTIONS_ON_LEVEL_UP?: number | Authored;
+  readonly NUM_COMMANDS_PER_TURN?: number | Authored;
+  readonly NUM_DESTINY_TRAIT_OPTIONS?: number | Authored;
+  readonly NUM_DISTRICTS_BASE?: number | Authored;
+  readonly NUM_DISTRICTS_FROM_PLANET_SIZE?: number | Authored;
+  readonly NUM_TECH_ALTERNATIVES?: number | Authored;
+  readonly OCCUPATION_BASE_VALUE?: number | Authored;
+  readonly OCCUPATION_PLANET_VALUE?: number | Authored;
+  readonly OCCUPATION_POP_VALUE?: number | Authored;
+  readonly OCCUPATION_STARBASE_VALUE?: number | Authored;
+  readonly OPINION_EXCELLENT?: number | Authored;
+  readonly OPINION_GOOD?: number | Authored;
+  readonly OPINION_MAX?: number | Authored;
+  readonly OPINION_MIN?: number | Authored;
+  readonly OPINION_POOR?: number | Authored;
+  readonly OPINION_TERRIBLE?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_ARMY_DMG_SCALE?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_ASSAULT_ARMY_DAMAGE_MULT?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_COLONY_DMG_SCALE?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_FLEET_BASE_SIZE?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_KILL_POP_CHANCE?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_KILL_POP_COOLDOWN?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_OVER_FLEET_FACTOR?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_PLANET_DMG_SCALE?: number | Authored;
+  readonly ORBITAL_BOMBARDMENT_PLANET_SIZE_FACTOR?: number | Authored;
+  readonly ORBITAL_SURRENDER_POLICY?: PolicyRef | Authored;
+  readonly ORBITAL_SURRENDER_POLICY_FLAG_ALLOWED?: string | Authored;
+  readonly ORBITAL_SURRENDER_POLICY_FORBIDDEN?: string | Authored;
+  readonly OUTSIDE_LIMITS_CLAMP_FACTOR?: number | Authored;
+  readonly PATRON_COVENANT_DISTANCE?: number | Authored;
+  readonly PHASE_FLEET_COOLDOWN?: number | Authored;
+  readonly PHASE_FLEET_DURATION?: number | Authored;
+  readonly PHASE_FLEET_THREADS_COST?: number | Authored;
+  readonly PLANETARY_ASCENSION_COST_REDUCTION_MIN?: number | Authored;
+  readonly PLANET_ACQUIRED_STRING?: string | Authored;
+  readonly PLANET_ARMIES_PROTECT_POPS?: number | Authored;
+  readonly PLANET_ASCENSION_COMPLETION_BONUS?: number | Authored;
+  readonly PLANET_ASCENSION_HARD_CAP?: number | Authored;
+  readonly PLANET_ASCENSION_MIN?: number | Authored;
+  readonly PLANET_ASCENSION_MODIFIER_SCALE?: number | Authored;
+  readonly PLANET_ASCENSION_SPRAWL_MODIFIER?: number | Authored;
+  readonly PLANET_ASCENSION_SPRAWL_SCALE?: number | Authored;
+  readonly PLANET_ASCENSION_STARTING_POINT?: number | Authored;
+  readonly PLANET_ASCENSION_SUM_SCALE?: number | Authored;
+  readonly PLANET_COLONIZED_STRING?: string | Authored;
+  readonly PLANET_COMBAT_WIDTH_BASE?: number | Authored;
+  readonly PLANET_COMBAT_WIDTH_FROM_SIZE?: number | Authored;
+  readonly PLANET_COMBAT_WIDTH_MINIMUM?: number | Authored;
+  readonly PLANET_DESTROYER_OFFENSIVE_SHIP_OFFSET?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly PLANET_HEALTH_ARMY_INCREASED_DAMAGE_MULT?: number | Authored;
+  readonly PLANET_HEALTH_ARMY_PROTECTED_DAMAGE_MULT?: number | Authored;
+  readonly PLANET_HEALTH_INCREASE_ARMY_DAMAGE?: number | Authored;
+  readonly PLANET_HEALTH_INHIBIT_FTL?: number | Authored;
+  readonly PLANET_HEALTH_MAX?: number | Authored;
+  readonly PLANET_HEALTH_PROTECT_ARMIES?: number | Authored;
+  readonly PLANET_HEALTH_PROTECT_POPS?: number | Authored;
+  readonly PLANET_HEALTH_REGEN?: number | Authored;
+  readonly PLANET_HEALTH_REGEN_DELAY?: number | Authored;
+  readonly PLANET_HYPERLANE_RANGE?: number | Authored;
+  readonly PLANET_ORBIT_DISTANCE_MIN_SIZE?: number | Authored;
+  readonly PLANET_ORBIT_DISTANCE_SIZE_SCALE?: number | Authored;
+  readonly PLANET_ORBIT_STACK_DISTANCE?: number | Authored;
+  readonly PLANET_ORBIT_STACK_SIZE?: number | Authored;
+  readonly PLANET_SENSOR_RANGE?: number | Authored;
+  readonly PLANET_SHIP_ORBIT_DISTANCE?: number | Authored;
+  readonly PLANET_STATION_ORBIT_DISTANCE?: number | Authored;
+  readonly POLICY_YEARS?: number | Authored;
+  readonly POP_CHANGE_FACTION_CHANCE?: number | Authored;
+  readonly POP_CHANGE_FACTION_MIN_POP_AMOUNT?: number | Authored;
+  readonly POP_CRIME?: number | Authored;
+  readonly POP_CURRENT_FACTION_WEIGHT?: number | Authored;
+  readonly POP_ETHOS_DIVERGENCE_INTERVAL?: number | Authored;
+  readonly POP_ETHOS_DIVERGENCE_MIN_POP_AMOUNT?: number | Authored;
+  readonly POP_ETHOS_DIVERGENCE_RATE_MULT?: number | Authored;
+  readonly POP_ETHOS_DIVERGENCE_SIZE_CHANGE_MAX?: number | Authored;
+  readonly POP_ETHOS_DIVERGENCE_SIZE_CHANGE_MIN?: number | Authored;
+  readonly POP_ETHOS_DIVERGENCE_SIZE_SHIFT_SPEED_DIVIDER?: number | Authored;
+  readonly POP_ETHOS_LOWER_ETHIC_THRESHOLD?: number | Authored;
+  readonly POP_ETHOS_UPPER_ETHIC_THRESHOLD?: number | Authored;
+  readonly POP_FACTION_APPROVAL_BASE?: number | Authored;
+  readonly POP_FACTION_APPROVAL_HIGH?: number | Authored;
+  readonly POP_FACTION_APPROVAL_LOW?: number | Authored;
+  readonly POP_FACTION_APPROVAL_VERY_HIGH?: number | Authored;
+  readonly POP_FACTION_APPROVAL_VERY_LOW?: number | Authored;
+  readonly POP_FACTION_CREATION_COOLDOWN?: number | Authored;
+  readonly POP_FACTION_MIN_POTENTIAL_MEMBERS?: number | Authored;
+  readonly POP_FACTION_MIN_POTENTIAL_MEMBERS_FRACTION?: number | Authored;
+  readonly POP_FACTION_RESOURCE_TABLE_MULT?: number | Authored;
+  readonly POP_MIN_ETHIC_RELATIVE_ATTRACTION?: number | Authored;
+  readonly PRE_COMMUNICATIONS_EMPIRE_FLAG?: string | Authored;
+  readonly PRE_SAPIENTS_POLICY?: string | Authored;
+  readonly PSIONIC_AURA_TECH?: TechnologyRef | Authored;
+  readonly PURGE_TYPE_DEFAULT?: PurgeTypeRef | Authored;
+  readonly QUICK_CLEAR_BLOCKER_GENERAL_MODIFIER_WEIGHT?: number | Authored;
+  readonly QUICK_CLEAR_BLOCKER_SPECIFIC_MODIFIER_WEIGHT?: number | Authored;
+  readonly RANDOMLY_SPAWNED_OBJECTS_ON_OUTER_BORDER_MINIMUM_DISTANCE?: number | Authored;
+  readonly RANDOM_START_DISTANCE?: number | Authored;
+  readonly RARITY_UPGRADE_COST_MULT?: number | Authored;
+  readonly REANIMATE_DEBRIS_COST_MULT?: number | Authored;
+  readonly REINFORCE_ACCEPTABLE_EVASIVE_PATH_MULT?: number | Authored;
+  readonly REINFORCE_ACCEPTABLE_EVASIVE_PATH_OVERRIDE_LOWER_THRESHOLD?: number | Authored;
+  readonly REINFORCE_MIA_TIME_MULT?: number | Authored;
+  readonly RELATIVE_POWER_ECONOMY_MULT?: number | Authored;
+  readonly RELATIVE_POWER_FLEET_MULT?: number | Authored;
+  readonly RELATIVE_POWER_OVERWHELMING?: number | Authored;
+  readonly RELATIVE_POWER_SUPERIOR?: number | Authored;
+  readonly RELATIVE_POWER_TECH_MULT?: number | Authored;
+  readonly RELEVANT_DISTANCE?: number | Authored;
+  readonly RELIC_VIEW_DEFAULT_ROW_COUNT?: number | Authored;
+  readonly RELIC_VIEW_SLOTS_PER_ROW?: number | Authored;
+  readonly RELIC_VIEW_SLOTS_PER_ROW_WIDE?: number | Authored;
+  readonly REPAIR_BUILDING_COST?: number | Authored;
+  readonly REPAIR_BUILDING_TIME?: number | Authored;
+  readonly RESEARCH_AGREEMENT_SPEED_MULT?: number | Authored;
+  readonly RESOLUTION_VOTE_PREMATURE_TIMER?: number | Authored;
+  readonly RESOLUTION_VOTE_TIMER?: number | Authored;
+  readonly RESOURCE_CLUSTER_COUNT?: number | Authored;
+  readonly ROLL_CYCLE_EVENT_KEYS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ROLL_RANDOM_CYCLE_EVENT_KEY?: string | Authored;
+  readonly SCALED_DIFFICULTY_GALAXY_SIZE_MULT?: number | Authored;
+  readonly SCALED_DIFFICULTY_HABITABLE_PLANETS_MULT?: number | Authored;
+  readonly SCALED_DIFFICULTY_MAX_GALAXY_SIZE?: number | Authored;
+  readonly SCAVENGE_DEBRIS_RESOURCE_MULT?: number | Authored;
+  readonly SCIENCE_SHIP_ANOMALY_RESEARCH_DAYS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SCIENCE_SHIP_ASTRAL_RIFT_DIST?: number | Authored;
+  readonly SCIENCE_SHIP_SPECIAL_PROJECT_DIST?: number | Authored;
+  readonly SCIENCE_SHIP_SPECIAL_PROJECT_OFFSET?: number | Authored;
+  readonly SCIENCE_SHIP_SURVEY_SPEED_MULT?: number | Authored;
+  readonly SCORE_CRISIS_KILLS?: number | Authored;
+  readonly SCORE_ECONOMIC_POWER?: number | Authored;
+  readonly SCORE_FEDERATION_MEMBERS?: number | Authored;
+  readonly SCORE_MILITARY_POWER?: number | Authored;
+  readonly SCORE_NO_ECONOMY?: number | Authored;
+  readonly SCORE_PLANETS?: number | Authored;
+  readonly SCORE_POPS?: number | Authored;
+  readonly SCORE_SUBJECTS?: number | Authored;
+  readonly SCORE_SYSTEMS?: number | Authored;
+  readonly SCORE_TECH_POWER?: number | Authored;
+  readonly SECTOR_RESOURCE_TRANSFER_AMOUNT?: number | Authored;
+  readonly SECTOR_RESOURCE_TRANSFER_AMOUNT_LARGE?: number | Authored;
+  readonly SEEN_ALIENS?: string | Authored;
+  readonly SELL_SPECIMEN_ENERGY_VALUES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SENATE_RECESS_TIMER?: number | Authored;
+  readonly SET_DEFENDER_WAR_GOAL_TIME_LIMIT?: number | Authored;
+  readonly SHIPS_MONTHLY_DAMAGE_HEALTH_THRESHOLD?: number | Authored;
+  readonly SHIPYARD_REINFORCE_DISTANCE_MULT?: number | Authored;
+  readonly SHIPYARD_REINFORCE_MAX_JUMPS?: number | Authored;
+  readonly SHIP_DESIGN_SAME_NAME_FACTOR?: number | Authored;
+  readonly SHIP_SIZE_LIMITS_GALACTIC_COMMUNITY?: string | Authored;
+  readonly SHROUD_COVENANT_CONFIRMED_FLAG?: string | Authored;
+  readonly SHROUD_FLAG?: string | Authored;
+  readonly SLAVERY_TYPE_DEFAULT?: SlaveryTypeRef | Authored;
+  readonly SPACE_FAUNA_GROWTH_POLICY_FLAG_CONTROLLED?: string | Authored;
+  readonly SPACE_FAUNA_GROWTH_POLICY_FLAG_EXCESSIVE?: string | Authored;
+  readonly SPAWN_SYSTEM_ATTEMPTS?: number | Authored;
+  readonly SPAWN_SYSTEM_BUFFER_DISTANCE?: number | Authored;
+  readonly SPECIAL_PROJECT_BASE_PROGRESS?: number | Authored;
+  readonly SPECIES_POLICY_YEARS?: number | Authored;
+  readonly SPECIES_RIGHTS_INITIAL_CONFIG_BUILT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SPECIES_RIGHTS_INITIAL_CONFIG_DEFAULT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SPECIES_RIGHTS_INITIAL_CONFIG_PRIMARY?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SPECIMEN_PRODUCTION_MODIFIER?: string | Authored;
+  readonly SPECIMEN_TYPES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SPY_NETWORK_BASE_LEVEL_SCORE?: number | Authored;
+  readonly SPY_NETWORK_DAILY_ENVOY_SCORE?: number | Authored;
+  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_BONUS_MAX?: number | Authored;
+  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_BONUS_MIN?: number | Authored;
+  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_BONUS_MULT?: number | Authored;
+  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_LEVELS_EFFECT?: number | Authored;
+  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_LEVELS_MAX?: number | Authored;
+  readonly SPY_NETWORK_ENCRYPTION_DECRYPTION_LEVELS_MIN?: number | Authored;
+  readonly SPY_NETWORK_LEVELS?: number | Authored;
+  readonly SPY_NETWORK_MAXIMUM_ASSIGNED_ASSETS?: number | Authored;
+  readonly SPY_NETWORK_MAX_ENVOYS_COUNT?: number | Authored;
+  readonly SPY_NETWORK_MAX_LEVELS?: number | Authored;
+  readonly SPY_NETWORK_MAX_POWER?: number | Authored;
+  readonly SPY_NETWORK_MONTHLY_DECAY?: number | Authored;
+  readonly SPY_NETWORK_PER_LEVEL_SCORE?: number | Authored;
+  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_DIFFICULTY_MAX?: number | Authored;
+  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_DIFFICULTY_MIN?: number | Authored;
+  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_DIFFICULTY_MULT?: number | Authored;
+  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_MAX?: number | Authored;
+  readonly SPY_NETWORK_RELATIVE_ENCRYPTION_MIN?: number | Authored;
+  readonly SPY_NETWORK_SPRAWL_SCORE_SCALE?: number | Authored;
+  readonly STARBASE_AUTO_CONTROL_DISTANCE?: number | Authored;
+  readonly STARBASE_BASE_LEVEL?: StarbaseLevelRef | Authored;
+  readonly STARBASE_CAPACITY_BASE?: number | Authored;
+  readonly STARBASE_CAPACITY_MAX?: number | Authored;
+  readonly STARBASE_CAPACITY_POP_MULT?: number | Authored;
+  readonly STARBASE_CAPACITY_SYSTEM_MULT?: number | Authored;
+  readonly STARBASE_DISABLED_HEALTH_PERCENTAGE?: number | Authored;
+  readonly STARBASE_ENABLED_HEALTH_PERCENTAGE?: number | Authored;
+  readonly STARBASE_ORBIT_DISTANCE?: number | Authored;
+  readonly STARBASE_SELF_REPAIR_TIMER_DAYS?: number | Authored;
+  readonly START_YEAR?: number | Authored;
+  readonly START_YEAR_SLIDER_INTERVAL?: number | Authored;
+  readonly STATION_SELF_REPAIR_TIMER_DAYS?: number | Authored;
+  readonly STORM_CLOSEST_ATTRACTIVE_SYSTEM_RANGE?: number | Authored;
+  readonly STORM_DIRECTION_ANGLE_OFFSET?: number | Authored;
+  readonly STORM_INFLUENCE_FIELD_STEPS?: number | Authored;
+  readonly STORM_INFLUENCE_TIER_HIGH?: number | Authored;
+  readonly STORM_INFLUENCE_TIER_LOW?: number | Authored;
+  readonly STORM_INFLUENCE_TIER_MODERATE?: number | Authored;
+  readonly STORM_INTEL_MAX_LEVELS?: number | Authored;
+  readonly STORM_MAX_PATH_LENGTH?: number | Authored;
+  readonly STORM_NOTIFICATION_WARNING_RANGE?: number | Authored;
+  readonly STORM_PATH_INFLUENCE_MULTIPLIER?: number | Authored;
+  readonly STORM_SPAWN_PREDICTION_MONTHS_TIER_1?: number | Authored;
+  readonly STORM_SPAWN_PREDICTION_MONTHS_TIER_2?: number | Authored;
+  readonly STORM_SPAWN_PREDICTION_MONTHS_TIER_3?: number | Authored;
+  readonly STORM_STEP_LENGTH?: number | Authored;
+  readonly STORM_SYSTEM_MAX_NATURAL_WEIGHT?: number | Authored;
+  readonly STORM_SYSTEM_MIN_NATURAL_WEIGHT?: number | Authored;
+  readonly SUBJECTS_INTEGRATION_CAP?: number | Authored;
+  readonly SUBJECT_INTEGRATION_BASE_PROGRESS?: number | Authored;
+  readonly SUBJECT_INTEGRATION_COST_BASE?: number | Authored;
+  readonly SUBJECT_INTEGRATION_COST_PER_PLANET?: number | Authored;
+  readonly SUBJECT_INTEGRATION_COST_PER_POP?: number | Authored;
+  readonly SUBJECT_LOYALTY_MAX?: number | Authored;
+  readonly SUBJECT_LOYALTY_MIN?: number | Authored;
+  readonly SUBJECT_LOYALTY_RELATION_FACTOR?: number | Authored;
+  readonly SUBJECT_LOYALTY_RELATION_SUBTRACT?: number | Authored;
+  readonly SUBJECT_LOYALTY_RELATIVE_POWER_FACTOR?: number | Authored;
+  readonly SUBJECT_LOYALTY_RELATIVE_POWER_SUBTRACT?: number | Authored;
+  readonly SUBJECT_MONTHLY_LOYALTY_INTEGRATION?: number | Authored;
+  readonly SUBJECT_MONTHLY_LOYALTY_OPINION_MULTIPLIER?: number | Authored;
+  readonly SUBJECT_TYPE_CONVERSION_FANATIC_OPPOSITE_ETHIC_SPEED_FACTOR?: number | Authored;
+  readonly SUBJECT_TYPE_CONVERSION_MATCHES_FANATIC_PREFERRED_ETHIC_SPEED_FACTOR?: number | Authored;
+  readonly SUBJECT_TYPE_CONVERSION_MATCHES_PREFERRED_ETHIC_SPEED_FACTOR?: number | Authored;
+  readonly SUBJECT_TYPE_CONVERSION_NO_PREFERRED_ETHIC_SPEED_FACTOR?: number | Authored;
+  readonly SUBJECT_TYPE_CONVERSION_OPPOSITE_ETHIC_SPEED_FACTOR?: number | Authored;
+  readonly SUBJECT_TYPE_CONVERSION_SPRAWL_FACTOR?: number | Authored;
+  readonly SUBJECT_XP_LOYALTY_MULTIPLIER?: number | Authored;
+  readonly SUBSPECIES_INTEGRATION_BASE?: number | Authored;
+  readonly SUBSPECIES_INTEGRATION_TYPE_DEFAULT?: string | Authored;
+  readonly SYNAPTIC_LATHE_EFFICIENCY_SCALE?: number | Authored;
+  readonly SYSTEM_BOTTLENECK_RADIUS?: number | Authored;
+  readonly SYSTEM_INNER_RADIUS_OFFSET?: number | Authored;
+  readonly SYSTEM_LOST_CLAIM_STRENGTH?: number | Authored;
+  readonly SYSTEM_MIN_INNER_RADIUS?: number | Authored;
+  readonly SYSTEM_OUTER_RADIUS_OFFSET?: number | Authored;
+  readonly TECH_BASE_POWER?: number | Authored;
+  readonly TECH_COST_DEFAULT?: number | Authored;
+  readonly TECH_COST_DIFFICULTY_SCALE_MULT?: number | Authored;
+  readonly TECH_COST_MAX?: number | Authored;
+  readonly TECH_COST_MIN?: number | Authored;
+  readonly TECH_COST_MULT_FALLEN_EMPIRE?: number | Authored;
+  readonly TECH_COST_SLIDER_INTERVAL?: number | Authored;
+  readonly TECH_POWER_COST_DIV?: number | Authored;
+  readonly TECH_REPEATABLE_POWER_MULT?: number | Authored;
+  readonly TECH_RESEARCH_NO_LEADER_PENALTY?: number | Authored;
+  readonly TECH_WEIGHT_BASE?: number | Authored;
+  readonly TECH_WEIGHT_POTENTIAL_ADD?: number | Authored;
+  readonly TECH_WEIGHT_PREVIOUS_OPTION?: number | Authored;
+  readonly THE_TEMPEST_INVOCATOR_RELIC_MAX_SACRIFICE_LEADER_COUNT?: number | Authored;
+  readonly TI_CORE_SCALE?: number | Authored;
+  readonly TI_TEXTURE_SIZE?: number | Authored;
+  readonly TRADE_VALUE_SPECIMEN_COMPLETE_CATEGORY_MULT?: number | Authored;
+  readonly TRADE_VALUE_SPECIMEN_EMPTY_CATEGORY_MULT?: number | Authored;
+  readonly TRADE_VALUE_SPECIMEN_MULT?: number | Authored;
+  readonly TRADITION_CATEGORIES_MAX?: number | Authored;
+  readonly TRADITION_COST_DEFAULT?: number | Authored;
+  readonly TRADITION_COST_MAX?: number | Authored;
+  readonly TRADITION_COST_MIN?: number | Authored;
+  readonly TRADITION_COST_MULT_TRADITION_GROUP?: number | Authored;
+  readonly TRADITION_COST_SLIDER_INTERVAL?: number | Authored;
+  readonly TRADITION_COST_TRADITION?: number | Authored;
+  readonly TRADITION_COST_TRADITION_EXP?: number | Authored;
+  readonly TRIGGERED_MODIFIER_UPDATE_DELAY?: number | Authored;
+  readonly TRUCE_YEARS?: number | Authored;
+  readonly TYPE_VOTE_COOLDOWN?: number | Authored;
+  readonly UNLOCK_ASTRAL_JUMP_FLAG?: string | Authored;
+  readonly UNLOCK_PHASE_FLEET_FLAG?: string | Authored;
+  readonly UNRESTRICTED_WARS_POLICY_FLAG?: string | Authored;
+  readonly UPGRADED_STARBASE_BASE_LEVEL?: StarbaseLevelRef | Authored;
+  readonly VETO_COOLDOWN?: number | Authored;
+  readonly VICTORY_YEAR_DEFAULT?: number | Authored;
+  readonly VICTORY_YEAR_MAX?: number | Authored;
+  readonly VICTORY_YEAR_MIN?: number | Authored;
+  readonly VICTORY_YEAR_SLIDER_INTERVAL?: number | Authored;
+  readonly VIRTUAL_JOBS_FLAG?: string | Authored;
+  readonly VIVARIUM_BREEDING_RARITY_COMMON?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly VIVARIUM_BREEDING_RARITY_EPIC?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly VIVARIUM_BREEDING_RARITY_LEGENDARY?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly VIVARIUM_BREEDING_RARITY_RARE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly VIVARIUM_GROWTH_RATE_MULTIPLIER?: number | Authored;
+  readonly VOIDWORMS_SCALING_DEFAULT?: number | Authored;
+  readonly VOIDWORMS_SCALING_MAX?: number | Authored;
+  readonly VOIDWORMS_SCALING_MIN?: number | Authored;
+  readonly VOIDWORMS_SCALING_SLIDER_INTERVAL?: number | Authored;
+  readonly WAR_EXHAUSTION_ARMY_KILLED_MULT?: number | Authored;
+  readonly WAR_EXHAUSTION_FROM_UNITS_CUTOFF?: number | Authored;
+  readonly WAR_EXHAUSTION_HIGH_THRESHOLD?: number | Authored;
+  readonly WAR_EXHAUSTION_NAVAL_CAP_ADD?: number | Authored;
+  readonly WAR_EXHAUSTION_PASSIVE_GAIN_CUTOFF?: number | Authored;
+  readonly WAR_EXHAUSTION_PASSIVE_GAIN_YEARLY?: number | Authored;
+  readonly WAR_EXHAUSTION_PASSIVE_WAR_SIZE_DIV?: number | Authored;
+  readonly WAR_EXHAUSTION_PLANET_DESTRUCTION_MULT?: number | Authored;
+  readonly WAR_EXHAUSTION_SHIP_KILLED_MULT?: number | Authored;
+  readonly WILD_CRITTERS_RARITY_TABLE?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface NgraphicsDefinition {
-  readonly ACTIVE_ACCORDS_ANGLE_BASE_OFFSET?: number;
-  readonly ACTIVE_ACCORDS_ANGLE_OFFSET?: number;
-  readonly ACTIVE_ACCORDS_ANGLE_OFFSET_MULT?: number;
-  readonly ACTIVE_ACCORDS_DISTANCE?: number;
-  readonly ACTIVE_ACCORDS_LOCKED_POS_Y?: number;
-  readonly ACTIVE_ACCORDS_TEXT_LOCKED_Y?: number;
-  readonly ACTIVE_ACCORDS_TEXT_UNLOCKED_Y?: number;
-  readonly ACTIVE_ACCORDS_UNLOCKED_POS_Y?: number;
-  readonly ALIENFX_DEFAULT_COLOR?: Record<string, never>;
-  readonly ARCHAEOLOGICAL_SITE_MAP_ICON_OFFSET?: number;
-  readonly ASTEROID_AMOUNT_RADIUS_SCALER?: number;
-  readonly ASTEROID_DIST_POW?: number;
-  readonly ASTEROID_HEIGHT_OFFSET?: number;
-  readonly ASTEROID_MAX_SCALE?: number;
-  readonly ASTEROID_PLANE?: number;
-  readonly ASTEROID_POSITION_OFFSET?: number;
-  readonly ASTEROID_ROTATION_SPEED?: number;
-  readonly ASTRAL_RIFTS_MAP_ICON_OFFSET?: number;
-  readonly ASTRAL_RIFTS_STATION_OFFSET_MULT?: number;
-  readonly ATTACK_ARROW_GALAXY_TARGET_ENTITY?: ModelEntityRef;
-  readonly ATTACK_ARROW_SYSTEM_TARGET_ENTITY?: ModelEntityRef;
-  readonly BALLISTIC_PROJECTILE_MISSED_LIFETIME?: number;
-  readonly BORDER_FLAG_SCALE?: number;
-  readonly BORDER_HYPERLANE_THICKNESS?: number;
-  readonly BORDER_INFLUENCE_MAX_DISTANCE_FACTOR?: number;
-  readonly BORDER_MIN_SIZE_FOR_SYMBOL?: number;
-  readonly BORDER_OWNERLESS_HYPERLANE_THICKNESS?: number;
-  readonly BORDER_OWNERLESS_INFLUENCE_MAX_DISTANCE_FACTOR?: number;
-  readonly BORDER_OWNERLESS_SYSTEM_RADIUS?: number;
-  readonly BORDER_SYSTEM_RADIUS?: number;
-  readonly BORDER_TEXTURE_SIZE?: number;
-  readonly BORDER_VISIBILITY_THRESHOLD?: number;
-  readonly BYPASS_ARROW_GALAXY_TARGET_ENTITY?: ModelEntityRef;
-  readonly CAMERA_DISTANCE_TO_ZOOM?: number;
-  readonly CARDINAL_PATRON_COVENANT_ICON_DISTANCE?: number;
-  readonly CARDINAL_PATRON_PASSIVE_ACCORD_DISTANCES_VIEW?: Record<string, never>;
-  readonly CATAPULT_DESTINATION_ENTITY?: ModelEntityRef;
-  readonly CATAPULT_INDICATOR_COLOR_CLICKABLE?: Record<string, never>;
-  readonly CATAPULT_INDICATOR_COLOR_DEFAULT?: Record<string, never>;
-  readonly CATAPULT_INDICATOR_COLOR_NO_RANGE?: Record<string, never>;
-  readonly CATAPULT_POTENTIAL_TARGET_INDICATOR_COLOR?: Record<string, never>;
-  readonly CATAPULT_POTENTIAL_TARGET_INDICATOR_ENTITY?: ModelEntityRef;
-  readonly CATAPULT_RANGE_COLOR?: Record<string, never>;
-  readonly CATAPULT_TARGET_ENTITY?: ModelEntityRef;
-  readonly CELESTIAL_WARNING_COORDINATE_VALUE?: number;
-  readonly CONSTRUCTION_COLOR_INVALID?: Record<string, never>;
-  readonly CONSTRUCTION_COLOR_IN_PROGRESS?: Record<string, never>;
-  readonly CONSTRUCTION_COLOR_VALID?: Record<string, never>;
-  readonly CONSTRUCTION_MEGASTRUCTURE_PROGRESS_BLEND_SPEED?: number;
-  readonly CONSTRUCTION_PROGRESS_BLEND_SPEED?: number;
-  readonly CONSTRUCTION_SHIP_TERRAFORMING_BEAM_ENTITY?: ModelEntityRef;
-  readonly CONSTRUCTION_SHIP_TERRAFORMING_BEAM_ENTITY_SCALE_XY?: number;
-  readonly CONSTRUCTION_SHIP_TERRAFORMING_BEAM_ENTITY_SCALE_Z?: number;
-  readonly CONSTRUCTION_SHIP_TERRAFORMING_PLANET_ENTITY?: ModelEntityRef;
-  readonly CONSTRUCTION_SHIP_TERRAFORMING_PLANET_ENTITY_SCALE_R?: number;
-  readonly COUNTRY_BORDER_COLOR_RANDOM_SATURATION_OFFSETS?: Record<string, never>;
-  readonly COUNTRY_BORDER_COLOR_RANDOM_VALUE_OFFSETS?: Record<string, never>;
-  readonly CRITTER_SELECTOR_LIGHT?: string;
-  readonly CUTHOLOID_ENGULF_ANIMATION_DURATION?: number;
-  readonly CUTHOLOID_ENGULF_ANIMATION_SCALE_FRACTION_START?: number;
-  readonly CUTHOLOID_ENGULF_MIN_SCALE?: number;
-  readonly CYCLE_END_ACTIVE_ACCORDS_DEFAULT_POS_X?: number;
-  readonly CYCLE_END_ACTIVE_ACCORDS_DEFAULT_POS_Y?: number;
-  readonly CYCLE_END_ACTIVE_ACCORDS_GRID_POS_X?: number;
-  readonly CYCLE_END_ACTIVE_ACCORDS_GRID_POS_Y?: number;
-  readonly CYCLE_END_ACTIVE_ACCORDS_MAX_ONE_GRID?: number;
-  readonly DEAD_SHIP_DRAG?: number;
-  readonly DEBRIS_ENTITY?: ModelEntityRef;
-  readonly DEFAULT_PLANET_PLANE?: number;
-  readonly DELVE_EYE_SPEED?: number;
-  readonly DELVE_PUPIL_MAX_X?: number;
-  readonly DELVE_PUPIL_MAX_Y?: number;
-  readonly DELVE_SCLERA_PUPIL_RATIO?: number;
-  readonly END_CYCLE_QUADRANT_ROTATION_SPEED?: number;
-  readonly END_OF_THE_CYCLE_ACCORDS_OFFSET?: number;
-  readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY?: string;
-  readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY_LOCATOR?: string;
-  readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY_MAX_SCALE_FACTOR?: number;
-  readonly FAUNA_DEBRIS_ENTITY?: ModelEntityRef;
-  readonly FEDERATION_UNKOWN_FEDERATION_ICON?: SpriteRef;
-  readonly FLEET_EFFECT_ENTITIES?: Record<string, never>;
-  readonly FLEET_EFFECT_ENTITIES_BILLBOARD?: Record<string, never>;
-  readonly FLEET_EFFECT_ENTITIES_SCALE?: Record<string, never>;
-  readonly FORGE_OWN_PATH_ACTIVE_ACCORD_OFFSET?: number;
-  readonly FTL_WINDUP_ENTITY_ASTRAL_JUMP?: ModelEntityRef;
-  readonly FTL_WINDUP_ENTITY_HYPERLANE?: ModelEntityRef;
-  readonly FTL_WINDUP_ENTITY_JUMP?: ModelEntityRef;
-  readonly GALAXY_COSMIC_STORM_DUST_COUNTER_ROTATION_SPEED?: number;
-  readonly GALAXY_COSMIC_STORM_DUST_FADE_TIME?: number;
-  readonly GALAXY_COSMIC_STORM_DUST_LIGHTNING_FLASH_TIME?: number;
-  readonly GALAXY_COSMIC_STORM_DUST_ROTATION_SPEED?: number;
-  readonly GALAXY_COSMIC_STORM_DUST_SIZE?: number;
-  readonly GALAXY_COSMIC_STORM_DUST_SIZE_EXTRA?: number;
-  readonly GALAXY_DUST_ROTATION_SPEED?: number;
-  readonly GALAXY_DUST_SIZE?: number;
-  readonly GALAXY_DUST_SIZE_EXTRA?: number;
-  readonly GALAXY_NEBULA_DUST_ROTATION_SPEED?: number;
-  readonly GALAXY_NEBULA_DUST_SIZE?: number;
-  readonly GALAXY_NEBULA_DUST_SIZE_EXTRA?: number;
-  readonly GALAXY_STAR_ICON_MAX_SCALE?: number;
-  readonly GALAXY_STAR_ICON_SCALE?: number;
-  readonly GDF_BIOSHIP_GRAPHICAL_CULTURE?: GraphicalCultureRef;
-  readonly GDF_SHIP_GRAPHICAL_CULTURE?: GraphicalCultureRef;
-  readonly GRAVITY_SNARE_CAPTURE_ANIMATION_TRAJECTORY_CHANGE_DURATION?: number;
-  readonly GUI_PLANET_RING_DIR?: Record<string, never>;
-  readonly HIDE_HYPERLANES_OUTSIDE_TERRA_INCOGNITA?: boolean;
-  readonly HYPERLANE_DEFAULT_COLOR?: Record<string, never>;
-  readonly HYPERLANE_NO_ACCESS_COLOR?: Record<string, never>;
-  readonly HYPERLANE_RELAY_COLOR?: Record<string, never>;
-  readonly HYPERLANE_RELAY_NOT_CONNECTED_COLOR?: Record<string, never>;
-  readonly HYPERLANE_SCREENSIZE_DEFAULT?: number;
-  readonly HYPERLANE_SCREENSIZE_MAX?: number;
-  readonly HYPERLANE_SCREENSIZE_MIN?: number;
-  readonly HYPERLANE_THICKNESS_DEFAULT?: number;
-  readonly HYPERLANE_THICKNESS_RELAY?: number;
-  readonly MAPNAME_BORDER_MIN_SIZE?: number;
-  readonly MAPNAME_BORDER_OFFSET_ADD?: number;
-  readonly MAPNAME_BORDER_OFFSET_MUL?: number;
-  readonly MAPNAME_BORDER_SCALE?: number;
-  readonly MAPNAME_NEBULA_SCALE?: number;
-  readonly MAPNAME_SECTOR_SCALE?: number;
-  readonly MAP_ICON_COLOR_ACCESSIBLE?: Record<string, never>;
-  readonly MAP_ICON_COLOR_EXPLORING?: Record<string, never>;
-  readonly MAP_ICON_COLOR_INACCESSIBLE?: Record<string, never>;
-  readonly MAP_ICON_COLOR_INACTIVE_HSV?: Record<string, never>;
-  readonly MAP_ICON_COLOR_PENDING_EVENT?: Record<string, never>;
-  readonly MAP_MODE_NEUTRAL_COLOR?: Record<string, never>;
-  readonly MAX_GFX_MISSILES?: number;
-  readonly MAX_GFX_PRIO_PROJECTILES?: number;
-  readonly MAX_GFX_PROJECTILES?: number;
-  readonly MEGASTRUCTURE_MAP_ICON_OFFSET?: number;
-  readonly MINOR_PATRON_ICON_SCALE?: number;
-  readonly MISSED_BEAM_LENGTH?: number;
-  readonly MISSILE_HEIGHT_OFFSET?: number;
-  readonly MISSILE_RANDOM_OFFSET_MAX_RADIUS?: number;
-  readonly MISSILE_RANDOM_OFFSET_MIN_RADIUS?: number;
-  readonly MODIFIER_TEXT_ICON_SCALE?: number;
-  readonly MOON_SCALE?: number;
-  readonly MOVE_ARROW_GALAXY_CONTROL_POINT_SPACING?: number;
-  readonly MOVE_ARROW_GALAXY_TARGET_ENTITY?: ModelEntityRef;
-  readonly MOVE_ARROW_SYSTEM_CONTROL_POINT_SPACING?: number;
-  readonly MOVE_ARROW_SYSTEM_TARGET_ENTITY?: ModelEntityRef;
-  readonly MUZZLE_FLASH_DURATION?: number;
-  readonly MUZZLE_FLASH_LIMIT?: number;
-  readonly NAVIGATION_ARROW_ENTITY?: ModelEntityRef;
-  readonly NAVIGATION_ARROW_FONT?: FontRef;
-  readonly NAVIGATION_ARROW_FONT_SIZE?: number;
-  readonly NAVIGATION_ARROW_FONT_SPECIAL?: Record<string, never>;
-  readonly NAVIGATION_ARROW_OFFSET?: number;
-  readonly NAVIGATION_ARROW_TEXT_KERNING?: number;
-  readonly NAVIGATION_ARROW_TEXT_OFFSET?: number;
-  readonly NAVIGATION_ARROW_TEXT_SCALE?: number;
-  readonly NULL_ENTITY?: ModelEntityRef;
-  readonly NULL_INSTANT_PROJECTILE?: ProjectileRef;
-  readonly NULL_MISSILE_PROJECTILE?: ProjectileRef;
-  readonly ORBIT_HSV?: Record<string, never>;
-  readonly PATRON_CONTACTED_ALPHA?: number;
-  readonly PATRON_CONTACTING_ALPHA?: number;
-  readonly PATRON_DEFAULT_COLOR?: Record<string, never>;
-  readonly PATRON_ICON_SCALE?: number;
-  readonly PATRON_UNCONTACTED_COLOR?: Record<string, never>;
-  readonly PLANET_DESTRUCTION_HIT_ENTITY_SCALE?: number;
-  readonly PLANET_DISSOLVE_ANIMATION_TIME_SCALE?: number;
-  readonly PLANET_MAP_ICON_OFFSET?: number;
-  readonly PLANET_RING_TILT_FROM_SUN?: number;
-  readonly PLANET_SCALE_SYSTEM?: Record<string, never>;
-  readonly PLANET_TILT_FROM_SUN?: number;
-  readonly PLANET_TO_MEGASTRUCTURE_SCALE?: number;
-  readonly PROJECTILE_ENTITY_STOP_STATE?: string;
-  readonly PSIONIC_AURA_ENEMY_DARKEN_FACTOR?: number;
-  readonly PSIONIC_AURA_HYPERLANE_FADE_SPEED?: number;
-  readonly PSIONIC_AURA_HYPERLANE_MOVE_SPEED?: number;
-  readonly PSIONIC_AURA_HYPERLANE_WIDTH?: number;
-  readonly QUADRANT_HOVER_SOUND?: string;
-  readonly RANDOM_HEIGHT_MAX?: number;
-  readonly RANDOM_HEIGHT_MIN?: number;
-  readonly RELATION_COLOR_ALLIED_HSV?: Record<string, never>;
-  readonly RELATION_COLOR_HOSTILE_HSV?: Record<string, never>;
-  readonly RELATION_COLOR_NEUTRAL_HSV?: Record<string, never>;
-  readonly RELATION_COLOR_PLAYER_HSV?: Record<string, never>;
-  readonly RELATION_COLOR_SELECTED_RGB?: Record<string, never>;
-  readonly SCIENCE_SHIP_SURVEY_ENTITY?: ModelEntityRef;
-  readonly SCIENCE_SHIP_SURVEY_ENTITY_LOCATOR?: string;
-  readonly SCIENCE_SHIP_SURVEY_ENTITY_MAX_SCALE_FACTOR?: number;
-  readonly SELECT_PATRON_CLICK_SOUND?: string;
-  readonly SENSOR_RANGE_COLOR_LOW?: Record<string, never>;
-  readonly SENSOR_RANGE_COLOR_MEDIUM?: Record<string, never>;
-  readonly SHIELD_DISTANCE_FROM_SHIP?: Record<string, never>;
-  readonly SHIELD_DISTANCE_FROM_SHIP_MULT?: Record<string, never>;
-  readonly SHIELD_EFFECT_ENTITIES?: Record<string, never>;
-  readonly SHIELD_EFFECT_LOOPING_ENTITIES?: Record<string, never>;
-  readonly SHIELD_EFFECT_LOOP_INTERVAL?: number;
-  readonly SHIELD_EFFECT_TIME_SCALE?: number;
-  readonly SHIP_CLOAK_TEXTURE?: string;
-  readonly SHIP_DAMAGE_TEXTURE?: string;
-  readonly SHIP_DISSOLVE_NOISE_TEXTURE?: string;
-  readonly SHIP_MOVEMENT_LENGTH_CONSIDERED_ZERO?: number;
-  readonly SHIP_RANDOM_HEIGHT_OFFSET?: number;
-  readonly SHIP_TARGET_LOCATOR?: string;
-  readonly SHIP_TURRET_PROJECTILE_SPAWN_LOCATOR?: string;
-  readonly SHROUD_COVENANT_ALPHA?: number;
-  readonly SHROUD_NO_COVENANT_COLOR?: Record<string, never>;
-  readonly STAR_PIN_CIRCLE_NUM_POINTS?: number;
-  readonly STAR_PIN_CIRCLE_RADIUS?: number;
-  readonly STAR_PIN_ENABLE_NEUTRAL?: boolean;
-  readonly STAR_PIN_NEUTRAL_COLOR?: Record<string, never>;
-  readonly STORM_AREA_PLACER_INDICATOR_ENTITY?: ModelEntityRef;
-  readonly STORM_AREA_PLACER_INDICATOR_INVALID_PLACEMENT_COLOR?: Record<string, never>;
-  readonly STORM_AREA_PLACER_INDICATOR_VALID_PLACEMENT_COLOR?: Record<string, never>;
-  readonly STORM_AREA_PLACER_RANGE_ENTITY?: ModelEntityRef;
-  readonly STORM_FORECAST_MESH_EFFECT_FILENAME?: string;
-  readonly STORM_FORECAST_MESH_EFFECT_NAME?: string;
-  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_1_OFFSET_RADIUS?: number;
-  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_1_SCALE?: number;
-  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_2_OFFSET_RADIUS?: number;
-  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_2_SCALE?: number;
-  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_3_OFFSET_RADIUS?: number;
-  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_3_SCALE?: number;
-  readonly STORM_FORECAST_SPAWN_INDICATOR_TOOLTIP_BASE_SIZE?: number;
-  readonly STORM_GALAXY_MAP_ICON_BASE_OFFSET?: number;
-  readonly STORM_GALAXY_MAP_ICON_OFFSET_ZOOM_SCALE?: number;
-  readonly STORM_INFLUENCE_FIELD_GRAPHICS_GRID_TILE_SIZE?: number;
-  readonly STORM_INFLUENCE_FIELD_GRAPHICS_RADIUS?: number;
-  readonly STORM_INFLUENCE_FIELD_GRAPHICS_TEXTURE_PATH?: string;
-  readonly STORM_SPAWN_PREDICTION_INDICATOR_ENTITY?: ModelEntityRef;
-  readonly STRIKE_CRAFT_HEIGHT_OFFSET?: number;
-  readonly STRIKE_CRAFT_HEIGHT_RANDOM?: number;
-  readonly STRIKE_CRAFT_PROJECTILE_SPAWN_LOCATOR?: string;
-  readonly STRIKE_CRAFT_TRAIL_FADE_RATE?: number;
-  readonly SYSTEM_INNER_BORDER_HSV?: Record<string, never>;
-  readonly SYSTEM_LINE_ALPHA_FADE_STEP?: Record<string, never>;
-  readonly SYSTEM_LINE_ALPHA_FADE_VALUE?: Record<string, never>;
-  readonly SYSTEM_OUTER_BORDER_HSV?: Record<string, never>;
-  readonly TASK_ARROW_GALAXY_TARGET_ENTITY?: ModelEntityRef;
-  readonly TASK_ARROW_SYSTEM_TARGET_ENTITY?: ModelEntityRef;
-  readonly TI_TEXTURE_GROW_AMOUNT?: number;
-  readonly TRAILS_ALPHA_FADE?: number;
-  readonly TRAILS_BASE_WIDTH?: number;
-  readonly TRAILS_LOCATOR_NAME?: string;
-  readonly TRAILS_MISSILE_ALPHA_FADE?: number;
-  readonly TRAILS_MISSILE_BASE_WIDTH?: number;
-  readonly UNSELECT_PATRON_CLICK_SOUND?: string;
+  readonly ACTIVE_ACCORDS_ANGLE_BASE_OFFSET?: number | Authored;
+  readonly ACTIVE_ACCORDS_ANGLE_OFFSET?: number | Authored;
+  readonly ACTIVE_ACCORDS_ANGLE_OFFSET_MULT?: number | Authored;
+  readonly ACTIVE_ACCORDS_DISTANCE?: number | Authored;
+  readonly ACTIVE_ACCORDS_LOCKED_POS_Y?: number | Authored;
+  readonly ACTIVE_ACCORDS_TEXT_LOCKED_Y?: number | Authored;
+  readonly ACTIVE_ACCORDS_TEXT_UNLOCKED_Y?: number | Authored;
+  readonly ACTIVE_ACCORDS_UNLOCKED_POS_Y?: number | Authored;
+  readonly ALIENFX_DEFAULT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ARCHAEOLOGICAL_SITE_MAP_ICON_OFFSET?: number | Authored;
+  readonly ASTEROID_AMOUNT_RADIUS_SCALER?: number | Authored;
+  readonly ASTEROID_DIST_POW?: number | Authored;
+  readonly ASTEROID_HEIGHT_OFFSET?: number | Authored;
+  readonly ASTEROID_MAX_SCALE?: number | Authored;
+  readonly ASTEROID_PLANE?: number | Authored;
+  readonly ASTEROID_POSITION_OFFSET?: number | Authored;
+  readonly ASTEROID_ROTATION_SPEED?: number | Authored;
+  readonly ASTRAL_RIFTS_MAP_ICON_OFFSET?: number | Authored;
+  readonly ASTRAL_RIFTS_STATION_OFFSET_MULT?: number | Authored;
+  readonly ATTACK_ARROW_GALAXY_TARGET_ENTITY?: ModelEntityRef | Authored;
+  readonly ATTACK_ARROW_SYSTEM_TARGET_ENTITY?: ModelEntityRef | Authored;
+  readonly BALLISTIC_PROJECTILE_MISSED_LIFETIME?: number | Authored;
+  readonly BORDER_FLAG_SCALE?: number | Authored;
+  readonly BORDER_HYPERLANE_THICKNESS?: number | Authored;
+  readonly BORDER_INFLUENCE_MAX_DISTANCE_FACTOR?: number | Authored;
+  readonly BORDER_MIN_SIZE_FOR_SYMBOL?: number | Authored;
+  readonly BORDER_OWNERLESS_HYPERLANE_THICKNESS?: number | Authored;
+  readonly BORDER_OWNERLESS_INFLUENCE_MAX_DISTANCE_FACTOR?: number | Authored;
+  readonly BORDER_OWNERLESS_SYSTEM_RADIUS?: number | Authored;
+  readonly BORDER_SYSTEM_RADIUS?: number | Authored;
+  readonly BORDER_TEXTURE_SIZE?: number | Authored;
+  readonly BORDER_VISIBILITY_THRESHOLD?: number | Authored;
+  readonly BYPASS_ARROW_GALAXY_TARGET_ENTITY?: ModelEntityRef | Authored;
+  readonly CAMERA_DISTANCE_TO_ZOOM?: number | Authored;
+  readonly CARDINAL_PATRON_COVENANT_ICON_DISTANCE?: number | Authored;
+  readonly CARDINAL_PATRON_PASSIVE_ACCORD_DISTANCES_VIEW?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CATAPULT_DESTINATION_ENTITY?: ModelEntityRef | Authored;
+  readonly CATAPULT_INDICATOR_COLOR_CLICKABLE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CATAPULT_INDICATOR_COLOR_DEFAULT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CATAPULT_INDICATOR_COLOR_NO_RANGE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CATAPULT_POTENTIAL_TARGET_INDICATOR_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CATAPULT_POTENTIAL_TARGET_INDICATOR_ENTITY?: ModelEntityRef | Authored;
+  readonly CATAPULT_RANGE_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CATAPULT_TARGET_ENTITY?: ModelEntityRef | Authored;
+  readonly CELESTIAL_WARNING_COORDINATE_VALUE?: number | Authored;
+  readonly CONSTRUCTION_COLOR_INVALID?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CONSTRUCTION_COLOR_IN_PROGRESS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CONSTRUCTION_COLOR_VALID?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CONSTRUCTION_MEGASTRUCTURE_PROGRESS_BLEND_SPEED?: number | Authored;
+  readonly CONSTRUCTION_PROGRESS_BLEND_SPEED?: number | Authored;
+  readonly CONSTRUCTION_SHIP_TERRAFORMING_BEAM_ENTITY?: ModelEntityRef | Authored;
+  readonly CONSTRUCTION_SHIP_TERRAFORMING_BEAM_ENTITY_SCALE_XY?: number | Authored;
+  readonly CONSTRUCTION_SHIP_TERRAFORMING_BEAM_ENTITY_SCALE_Z?: number | Authored;
+  readonly CONSTRUCTION_SHIP_TERRAFORMING_PLANET_ENTITY?: ModelEntityRef | Authored;
+  readonly CONSTRUCTION_SHIP_TERRAFORMING_PLANET_ENTITY_SCALE_R?: number | Authored;
+  readonly COUNTRY_BORDER_COLOR_RANDOM_SATURATION_OFFSETS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly COUNTRY_BORDER_COLOR_RANDOM_VALUE_OFFSETS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CRITTER_SELECTOR_LIGHT?: string | Authored;
+  readonly CUTHOLOID_ENGULF_ANIMATION_DURATION?: number | Authored;
+  readonly CUTHOLOID_ENGULF_ANIMATION_SCALE_FRACTION_START?: number | Authored;
+  readonly CUTHOLOID_ENGULF_MIN_SCALE?: number | Authored;
+  readonly CYCLE_END_ACTIVE_ACCORDS_DEFAULT_POS_X?: number | Authored;
+  readonly CYCLE_END_ACTIVE_ACCORDS_DEFAULT_POS_Y?: number | Authored;
+  readonly CYCLE_END_ACTIVE_ACCORDS_GRID_POS_X?: number | Authored;
+  readonly CYCLE_END_ACTIVE_ACCORDS_GRID_POS_Y?: number | Authored;
+  readonly CYCLE_END_ACTIVE_ACCORDS_MAX_ONE_GRID?: number | Authored;
+  readonly DEAD_SHIP_DRAG?: number | Authored;
+  readonly DEBRIS_ENTITY?: ModelEntityRef | Authored;
+  readonly DEFAULT_PLANET_PLANE?: number | Authored;
+  readonly DELVE_EYE_SPEED?: number | Authored;
+  readonly DELVE_PUPIL_MAX_X?: number | Authored;
+  readonly DELVE_PUPIL_MAX_Y?: number | Authored;
+  readonly DELVE_SCLERA_PUPIL_RATIO?: number | Authored;
+  readonly END_CYCLE_QUADRANT_ROTATION_SPEED?: number | Authored;
+  readonly END_OF_THE_CYCLE_ACCORDS_OFFSET?: number | Authored;
+  readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY?: string | Authored;
+  readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY_LOCATOR?: string | Authored;
+  readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY_MAX_SCALE_FACTOR?: number | Authored;
+  readonly FAUNA_DEBRIS_ENTITY?: ModelEntityRef | Authored;
+  readonly FEDERATION_UNKOWN_FEDERATION_ICON?: SpriteRef | Authored;
+  readonly FLEET_EFFECT_ENTITIES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly FLEET_EFFECT_ENTITIES_BILLBOARD?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly FLEET_EFFECT_ENTITIES_SCALE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly FORGE_OWN_PATH_ACTIVE_ACCORD_OFFSET?: number | Authored;
+  readonly FTL_WINDUP_ENTITY_ASTRAL_JUMP?: ModelEntityRef | Authored;
+  readonly FTL_WINDUP_ENTITY_HYPERLANE?: ModelEntityRef | Authored;
+  readonly FTL_WINDUP_ENTITY_JUMP?: ModelEntityRef | Authored;
+  readonly GALAXY_COSMIC_STORM_DUST_COUNTER_ROTATION_SPEED?: number | Authored;
+  readonly GALAXY_COSMIC_STORM_DUST_FADE_TIME?: number | Authored;
+  readonly GALAXY_COSMIC_STORM_DUST_LIGHTNING_FLASH_TIME?: number | Authored;
+  readonly GALAXY_COSMIC_STORM_DUST_ROTATION_SPEED?: number | Authored;
+  readonly GALAXY_COSMIC_STORM_DUST_SIZE?: number | Authored;
+  readonly GALAXY_COSMIC_STORM_DUST_SIZE_EXTRA?: number | Authored;
+  readonly GALAXY_DUST_ROTATION_SPEED?: number | Authored;
+  readonly GALAXY_DUST_SIZE?: number | Authored;
+  readonly GALAXY_DUST_SIZE_EXTRA?: number | Authored;
+  readonly GALAXY_NEBULA_DUST_ROTATION_SPEED?: number | Authored;
+  readonly GALAXY_NEBULA_DUST_SIZE?: number | Authored;
+  readonly GALAXY_NEBULA_DUST_SIZE_EXTRA?: number | Authored;
+  readonly GALAXY_STAR_ICON_MAX_SCALE?: number | Authored;
+  readonly GALAXY_STAR_ICON_SCALE?: number | Authored;
+  readonly GDF_BIOSHIP_GRAPHICAL_CULTURE?: GraphicalCultureRef | Authored;
+  readonly GDF_SHIP_GRAPHICAL_CULTURE?: GraphicalCultureRef | Authored;
+  readonly GRAVITY_SNARE_CAPTURE_ANIMATION_TRAJECTORY_CHANGE_DURATION?: number | Authored;
+  readonly GUI_PLANET_RING_DIR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly HIDE_HYPERLANES_OUTSIDE_TERRA_INCOGNITA?: boolean | Authored;
+  readonly HYPERLANE_DEFAULT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly HYPERLANE_NO_ACCESS_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly HYPERLANE_RELAY_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly HYPERLANE_RELAY_NOT_CONNECTED_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly HYPERLANE_SCREENSIZE_DEFAULT?: number | Authored;
+  readonly HYPERLANE_SCREENSIZE_MAX?: number | Authored;
+  readonly HYPERLANE_SCREENSIZE_MIN?: number | Authored;
+  readonly HYPERLANE_THICKNESS_DEFAULT?: number | Authored;
+  readonly HYPERLANE_THICKNESS_RELAY?: number | Authored;
+  readonly MAPNAME_BORDER_MIN_SIZE?: number | Authored;
+  readonly MAPNAME_BORDER_OFFSET_ADD?: number | Authored;
+  readonly MAPNAME_BORDER_OFFSET_MUL?: number | Authored;
+  readonly MAPNAME_BORDER_SCALE?: number | Authored;
+  readonly MAPNAME_NEBULA_SCALE?: number | Authored;
+  readonly MAPNAME_SECTOR_SCALE?: number | Authored;
+  readonly MAP_ICON_COLOR_ACCESSIBLE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly MAP_ICON_COLOR_EXPLORING?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly MAP_ICON_COLOR_INACCESSIBLE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly MAP_ICON_COLOR_INACTIVE_HSV?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly MAP_ICON_COLOR_PENDING_EVENT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly MAP_MODE_NEUTRAL_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly MAX_GFX_MISSILES?: number | Authored;
+  readonly MAX_GFX_PRIO_PROJECTILES?: number | Authored;
+  readonly MAX_GFX_PROJECTILES?: number | Authored;
+  readonly MEGASTRUCTURE_MAP_ICON_OFFSET?: number | Authored;
+  readonly MINOR_PATRON_ICON_SCALE?: number | Authored;
+  readonly MISSED_BEAM_LENGTH?: number | Authored;
+  readonly MISSILE_HEIGHT_OFFSET?: number | Authored;
+  readonly MISSILE_RANDOM_OFFSET_MAX_RADIUS?: number | Authored;
+  readonly MISSILE_RANDOM_OFFSET_MIN_RADIUS?: number | Authored;
+  readonly MODIFIER_TEXT_ICON_SCALE?: number | Authored;
+  readonly MOON_SCALE?: number | Authored;
+  readonly MOVE_ARROW_GALAXY_CONTROL_POINT_SPACING?: number | Authored;
+  readonly MOVE_ARROW_GALAXY_TARGET_ENTITY?: ModelEntityRef | Authored;
+  readonly MOVE_ARROW_SYSTEM_CONTROL_POINT_SPACING?: number | Authored;
+  readonly MOVE_ARROW_SYSTEM_TARGET_ENTITY?: ModelEntityRef | Authored;
+  readonly MUZZLE_FLASH_DURATION?: number | Authored;
+  readonly MUZZLE_FLASH_LIMIT?: number | Authored;
+  readonly NAVIGATION_ARROW_ENTITY?: ModelEntityRef | Authored;
+  readonly NAVIGATION_ARROW_FONT?: FontRef | Authored;
+  readonly NAVIGATION_ARROW_FONT_SIZE?: number | Authored;
+  readonly NAVIGATION_ARROW_FONT_SPECIAL?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly NAVIGATION_ARROW_OFFSET?: number | Authored;
+  readonly NAVIGATION_ARROW_TEXT_KERNING?: number | Authored;
+  readonly NAVIGATION_ARROW_TEXT_OFFSET?: number | Authored;
+  readonly NAVIGATION_ARROW_TEXT_SCALE?: number | Authored;
+  readonly NULL_ENTITY?: ModelEntityRef | Authored;
+  readonly NULL_INSTANT_PROJECTILE?: ProjectileRef | Authored;
+  readonly NULL_MISSILE_PROJECTILE?: ProjectileRef | Authored;
+  readonly ORBIT_HSV?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly PATRON_CONTACTED_ALPHA?: number | Authored;
+  readonly PATRON_CONTACTING_ALPHA?: number | Authored;
+  readonly PATRON_DEFAULT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly PATRON_ICON_SCALE?: number | Authored;
+  readonly PATRON_UNCONTACTED_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly PLANET_DESTRUCTION_HIT_ENTITY_SCALE?: number | Authored;
+  readonly PLANET_DISSOLVE_ANIMATION_TIME_SCALE?: number | Authored;
+  readonly PLANET_MAP_ICON_OFFSET?: number | Authored;
+  readonly PLANET_RING_TILT_FROM_SUN?: number | Authored;
+  readonly PLANET_SCALE_SYSTEM?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly PLANET_TILT_FROM_SUN?: number | Authored;
+  readonly PLANET_TO_MEGASTRUCTURE_SCALE?: number | Authored;
+  readonly PROJECTILE_ENTITY_STOP_STATE?: string | Authored;
+  readonly PSIONIC_AURA_ENEMY_DARKEN_FACTOR?: number | Authored;
+  readonly PSIONIC_AURA_HYPERLANE_FADE_SPEED?: number | Authored;
+  readonly PSIONIC_AURA_HYPERLANE_MOVE_SPEED?: number | Authored;
+  readonly PSIONIC_AURA_HYPERLANE_WIDTH?: number | Authored;
+  readonly QUADRANT_HOVER_SOUND?: string | Authored;
+  readonly RANDOM_HEIGHT_MAX?: number | Authored;
+  readonly RANDOM_HEIGHT_MIN?: number | Authored;
+  readonly RELATION_COLOR_ALLIED_HSV?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly RELATION_COLOR_HOSTILE_HSV?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly RELATION_COLOR_NEUTRAL_HSV?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly RELATION_COLOR_PLAYER_HSV?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly RELATION_COLOR_SELECTED_RGB?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SCIENCE_SHIP_SURVEY_ENTITY?: ModelEntityRef | Authored;
+  readonly SCIENCE_SHIP_SURVEY_ENTITY_LOCATOR?: string | Authored;
+  readonly SCIENCE_SHIP_SURVEY_ENTITY_MAX_SCALE_FACTOR?: number | Authored;
+  readonly SELECT_PATRON_CLICK_SOUND?: string | Authored;
+  readonly SENSOR_RANGE_COLOR_LOW?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SENSOR_RANGE_COLOR_MEDIUM?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SHIELD_DISTANCE_FROM_SHIP?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SHIELD_DISTANCE_FROM_SHIP_MULT?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SHIELD_EFFECT_ENTITIES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SHIELD_EFFECT_LOOPING_ENTITIES?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SHIELD_EFFECT_LOOP_INTERVAL?: number | Authored;
+  readonly SHIELD_EFFECT_TIME_SCALE?: number | Authored;
+  readonly SHIP_CLOAK_TEXTURE?: string | Authored;
+  readonly SHIP_DAMAGE_TEXTURE?: string | Authored;
+  readonly SHIP_DISSOLVE_NOISE_TEXTURE?: string | Authored;
+  readonly SHIP_MOVEMENT_LENGTH_CONSIDERED_ZERO?: number | Authored;
+  readonly SHIP_RANDOM_HEIGHT_OFFSET?: number | Authored;
+  readonly SHIP_TARGET_LOCATOR?: string | Authored;
+  readonly SHIP_TURRET_PROJECTILE_SPAWN_LOCATOR?: string | Authored;
+  readonly SHROUD_COVENANT_ALPHA?: number | Authored;
+  readonly SHROUD_NO_COVENANT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly STAR_PIN_CIRCLE_NUM_POINTS?: number | Authored;
+  readonly STAR_PIN_CIRCLE_RADIUS?: number | Authored;
+  readonly STAR_PIN_ENABLE_NEUTRAL?: boolean | Authored;
+  readonly STAR_PIN_NEUTRAL_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly STORM_AREA_PLACER_INDICATOR_ENTITY?: ModelEntityRef | Authored;
+  readonly STORM_AREA_PLACER_INDICATOR_INVALID_PLACEMENT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly STORM_AREA_PLACER_INDICATOR_VALID_PLACEMENT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly STORM_AREA_PLACER_RANGE_ENTITY?: ModelEntityRef | Authored;
+  readonly STORM_FORECAST_MESH_EFFECT_FILENAME?: string | Authored;
+  readonly STORM_FORECAST_MESH_EFFECT_NAME?: string | Authored;
+  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_1_OFFSET_RADIUS?: number | Authored;
+  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_1_SCALE?: number | Authored;
+  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_2_OFFSET_RADIUS?: number | Authored;
+  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_2_SCALE?: number | Authored;
+  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_3_OFFSET_RADIUS?: number | Authored;
+  readonly STORM_FORECAST_SPAWN_INDICATOR_TIER_3_SCALE?: number | Authored;
+  readonly STORM_FORECAST_SPAWN_INDICATOR_TOOLTIP_BASE_SIZE?: number | Authored;
+  readonly STORM_GALAXY_MAP_ICON_BASE_OFFSET?: number | Authored;
+  readonly STORM_GALAXY_MAP_ICON_OFFSET_ZOOM_SCALE?: number | Authored;
+  readonly STORM_INFLUENCE_FIELD_GRAPHICS_GRID_TILE_SIZE?: number | Authored;
+  readonly STORM_INFLUENCE_FIELD_GRAPHICS_RADIUS?: number | Authored;
+  readonly STORM_INFLUENCE_FIELD_GRAPHICS_TEXTURE_PATH?: string | Authored;
+  readonly STORM_SPAWN_PREDICTION_INDICATOR_ENTITY?: ModelEntityRef | Authored;
+  readonly STRIKE_CRAFT_HEIGHT_OFFSET?: number | Authored;
+  readonly STRIKE_CRAFT_HEIGHT_RANDOM?: number | Authored;
+  readonly STRIKE_CRAFT_PROJECTILE_SPAWN_LOCATOR?: string | Authored;
+  readonly STRIKE_CRAFT_TRAIL_FADE_RATE?: number | Authored;
+  readonly SYSTEM_INNER_BORDER_HSV?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SYSTEM_LINE_ALPHA_FADE_STEP?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SYSTEM_LINE_ALPHA_FADE_VALUE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly SYSTEM_OUTER_BORDER_HSV?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly TASK_ARROW_GALAXY_TARGET_ENTITY?: ModelEntityRef | Authored;
+  readonly TASK_ARROW_SYSTEM_TARGET_ENTITY?: ModelEntityRef | Authored;
+  readonly TI_TEXTURE_GROW_AMOUNT?: number | Authored;
+  readonly TRAILS_ALPHA_FADE?: number | Authored;
+  readonly TRAILS_BASE_WIDTH?: number | Authored;
+  readonly TRAILS_LOCATOR_NAME?: string | Authored;
+  readonly TRAILS_MISSILE_ALPHA_FADE?: number | Authored;
+  readonly TRAILS_MISSILE_BASE_WIDTH?: number | Authored;
+  readonly UNSELECT_PATRON_CLICK_SOUND?: string | Authored;
 }
 
 export interface NpopDefinition {
-  readonly ASSEMBLY_WEIGHT_FOUNDER_SPECIES_MULT?: number;
-  readonly ASSEMBLY_WEIGHT_GROWTH_RATE_MULT?: number;
-  readonly ASSEMBLY_WEIGHT_HABITABILITY_THRESHOLD?: number;
-  readonly ASSEMBLY_WEIGHT_HOMEWORLD_MULT?: number;
-  readonly ASSEMBLY_WEIGHT_LOW_HABITABILITY_PENALTY?: number;
-  readonly ASSEMBLY_WEIGHT_TRAIT_MULT?: number;
-  readonly BASE_HAPPINESS?: number;
-  readonly BASE_POLITICAL_POWER?: number;
-  readonly BASE_POP_ASSEMBLY?: number;
-  readonly BASE_POP_DECLINE?: number;
-  readonly BASE_POP_GROWTH?: number;
-  readonly BASE_PRODUCTION?: number;
-  readonly COLONY_BOMBARDMENT_DAMAGE?: number;
-  readonly COLONY_POPS_REQUIRED?: number;
-  readonly DEFAULT_CHANGE_JOB_THRESHOLD?: number;
-  readonly HIGH_HAPPINESS?: number;
-  readonly LOGISTIC_POP_GROWTH_FLOOR?: number;
-  readonly LOGISTIC_POP_GROWTH_LOWER_THRESHOLD?: number;
-  readonly LOGISTIC_POP_GROWTH_MIN_POPS?: number;
-  readonly LOGISTIC_POP_GROWTH_R?: number;
-  readonly LOW_HAPPINESS?: number;
-  readonly MACHINE_ASSEMBLY_WHEN_OVERCROWDED?: number;
-  readonly MAX_CARRYING_CAPACITY?: number;
-  readonly MAX_NEW_COLONIES_SCALE?: number;
-  readonly MAX_POLITICAL_POWER_NEGATIVE_STABILITY_IMPACT?: number;
-  readonly MAX_POLITICAL_POWER_POSITIVE_STABILITY_IMPACT?: number;
-  readonly MIN_POLITICAL_POWER_NEGATIVE_STABILITY_IMPACT?: number;
-  readonly MIN_POLITICAL_POWER_POSITIVE_STABILITY_IMPACT?: number;
-  readonly NEWLY_ASSEMBLED_POP_TARGET_RANK?: number;
-  readonly OVERCROWDING_ABSOLUTE_THRESHOLD_FOR_NO_GROWTH?: number;
-  readonly OVERCROWDING_DECLINE_THRESHOLD?: number;
-  readonly OVERCROWDING_MACHINE_ABSOLUTE_THRESHOLD_FOR_NO_GROWTH?: number;
-  readonly OVERCROWDING_MACHINE_DECLINE_THRESHOLD?: number;
-  readonly OVERCROWDING_NO_ASSEMBLY_THRESHOLD?: number;
-  readonly OVERCROWDING_NO_GROWTH_THRESHOLD?: number;
-  readonly POP_BULK_UNIT_SIZE?: number;
-  readonly POP_ENSLAVE_MAX_RANK?: number;
-  readonly POP_GROUP_COLLAPSING_THRESHOLD?: number;
-  readonly POP_OUTLINER_CIVILIAN_WARNING?: number;
-  readonly RECENTLY_CONQUERED_DAYS?: number;
-  readonly RESETTLE_ABROAD_MULTIPLIER?: number;
-  readonly RESETTLE_DESTROY_COLONY_COST?: number;
-  readonly RESETTLE_UNEMPLOYED_BASE_RATE?: number;
+  readonly ASSEMBLY_WEIGHT_FOUNDER_SPECIES_MULT?: number | Authored;
+  readonly ASSEMBLY_WEIGHT_GROWTH_RATE_MULT?: number | Authored;
+  readonly ASSEMBLY_WEIGHT_HABITABILITY_THRESHOLD?: number | Authored;
+  readonly ASSEMBLY_WEIGHT_HOMEWORLD_MULT?: number | Authored;
+  readonly ASSEMBLY_WEIGHT_LOW_HABITABILITY_PENALTY?: number | Authored;
+  readonly ASSEMBLY_WEIGHT_TRAIT_MULT?: number | Authored;
+  readonly BASE_HAPPINESS?: number | Authored;
+  readonly BASE_POLITICAL_POWER?: number | Authored;
+  readonly BASE_POP_ASSEMBLY?: number | Authored;
+  readonly BASE_POP_DECLINE?: number | Authored;
+  readonly BASE_POP_GROWTH?: number | Authored;
+  readonly BASE_PRODUCTION?: number | Authored;
+  readonly COLONY_BOMBARDMENT_DAMAGE?: number | Authored;
+  readonly COLONY_POPS_REQUIRED?: number | Authored;
+  readonly DEFAULT_CHANGE_JOB_THRESHOLD?: number | Authored;
+  readonly HIGH_HAPPINESS?: number | Authored;
+  readonly LOGISTIC_POP_GROWTH_FLOOR?: number | Authored;
+  readonly LOGISTIC_POP_GROWTH_LOWER_THRESHOLD?: number | Authored;
+  readonly LOGISTIC_POP_GROWTH_MIN_POPS?: number | Authored;
+  readonly LOGISTIC_POP_GROWTH_R?: number | Authored;
+  readonly LOW_HAPPINESS?: number | Authored;
+  readonly MACHINE_ASSEMBLY_WHEN_OVERCROWDED?: number | Authored;
+  readonly MAX_CARRYING_CAPACITY?: number | Authored;
+  readonly MAX_NEW_COLONIES_SCALE?: number | Authored;
+  readonly MAX_POLITICAL_POWER_NEGATIVE_STABILITY_IMPACT?: number | Authored;
+  readonly MAX_POLITICAL_POWER_POSITIVE_STABILITY_IMPACT?: number | Authored;
+  readonly MIN_POLITICAL_POWER_NEGATIVE_STABILITY_IMPACT?: number | Authored;
+  readonly MIN_POLITICAL_POWER_POSITIVE_STABILITY_IMPACT?: number | Authored;
+  readonly NEWLY_ASSEMBLED_POP_TARGET_RANK?: number | Authored;
+  readonly OVERCROWDING_ABSOLUTE_THRESHOLD_FOR_NO_GROWTH?: number | Authored;
+  readonly OVERCROWDING_DECLINE_THRESHOLD?: number | Authored;
+  readonly OVERCROWDING_MACHINE_ABSOLUTE_THRESHOLD_FOR_NO_GROWTH?: number | Authored;
+  readonly OVERCROWDING_MACHINE_DECLINE_THRESHOLD?: number | Authored;
+  readonly OVERCROWDING_NO_ASSEMBLY_THRESHOLD?: number | Authored;
+  readonly OVERCROWDING_NO_GROWTH_THRESHOLD?: number | Authored;
+  readonly POP_BULK_UNIT_SIZE?: number | Authored;
+  readonly POP_ENSLAVE_MAX_RANK?: number | Authored;
+  readonly POP_GROUP_COLLAPSING_THRESHOLD?: number | Authored;
+  readonly POP_OUTLINER_CIVILIAN_WARNING?: number | Authored;
+  readonly RECENTLY_CONQUERED_DAYS?: number | Authored;
+  readonly RESETTLE_ABROAD_MULTIPLIER?: number | Authored;
+  readonly RESETTLE_DESTROY_COLONY_COST?: number | Authored;
+  readonly RESETTLE_UNEMPLOYED_BASE_RATE?: number | Authored;
 }
 
 export interface NshipDefinition {
-  readonly ABANDONED_STATION_DECAY_RATE?: number;
-  readonly AGGRESSIVE_STANCE_INVASION_ODDS_MULT?: number;
-  readonly AGGRESSIVE_STANCE_MIN_POWER_MULT?: number;
-  readonly ASSIST_CLOAKING_DETECTION_ORBIT_DISTANCE?: number;
-  readonly BIOSHIP_MONTHLY_PROGRESS?: number;
-  readonly CAN_TRAVEL_BETWEEN_UNEXPLORED_SYSTEMS?: boolean;
-  readonly CLOAKING_ANIMATION_SPEED?: number;
-  readonly DEFAULT_ARMOR_RATIO?: number;
-  readonly DEFAULT_SHIELD_RATIO?: number;
-  readonly DESIGNER_UTILITY_ROLE_MUL?: number;
-  readonly DESIGNER_WEAPON_PREF_MUL?: number;
-  readonly DESIGNER_WEAPON_ROLE_MUL?: number;
-  readonly DESIGNER_WEAPON_STACKING_DIV?: number;
-  readonly EXCESS_POWER_BONUS_THRESHOLD_MAX?: number;
-  readonly EXCESS_POWER_BONUS_THRESHOLD_MIN?: number;
-  readonly FLEET_BASE_FORMATION_DIV?: number;
-  readonly FLEET_BASE_FORMATION_SCALE?: number;
-  readonly FLEET_FORMATION_CIRCLE_RADIUS_PER_LAYER_MULT?: number;
-  readonly FLEET_FORMATION_CIRCLE_SHIPS_PER_LAYER_MULT?: number;
-  readonly FLEET_UPGRADE_QUEUE_FACTOR_MULT?: number;
-  readonly HYPERDRIVE_INTERSTELLAR_TRAVEL_SPEED?: number;
-  readonly HYPERLANE_WINDDOWN?: number;
-  readonly HYPERLANE_WINDUP?: number;
-  readonly JUMP_DRIVE_RANGE?: number;
-  readonly JUMP_DRIVE_WINDUP?: number;
-  readonly LANDING_TIME_DAYS?: number;
-  readonly MAX_DAMAGE_SCALING?: number;
-  readonly MILITARY_POWER_ARMOR_DAMAGE_WEIGHT?: number;
-  readonly MILITARY_POWER_ARMOR_PENETRATION_WEIGHT?: number;
-  readonly MILITARY_POWER_ARMOR_WEIGHT?: number;
-  readonly MILITARY_POWER_DAMAGE_WEIGHT?: number;
-  readonly MILITARY_POWER_EXPONENT?: number;
-  readonly MILITARY_POWER_HEALTH_WEIGHT?: number;
-  readonly MILITARY_POWER_HULL_DAMAGE_WEIGHT?: number;
-  readonly MILITARY_POWER_MISSILE_MULT?: number;
-  readonly MILITARY_POWER_PD_MULT?: number;
-  readonly MILITARY_POWER_RANGE_DIV?: number;
-  readonly MILITARY_POWER_SCALE?: number;
-  readonly MILITARY_POWER_SHIELD_DAMAGE_WEIGHT?: number;
-  readonly MILITARY_POWER_SHIELD_PENETRATION_WEIGHT?: number;
-  readonly MILITARY_POWER_SHIELD_WEIGHT?: number;
-  readonly MILITARY_POWER_SIZE_MULTIPLIER_WEIGHT?: number;
-  readonly MILITARY_POWER_TRACKING_WEIGHT?: number;
-  readonly MIN_SPEED_FOR_UTILITIES?: number;
-  readonly MOVE_SHIP_TO_FLEET_MAX_DIST?: number;
-  readonly MOVE_TO_ACTION_THRESHOLD?: number;
-  readonly OUT_OF_COMBAT_ARMOR_REGEN_MULT?: number;
-  readonly OUT_OF_COMBAT_HULL_REGEN_MULT?: number;
-  readonly OUT_OF_COMBAT_SHIELD_REGEN_MULT?: number;
-  readonly QC_WINDUP_SHIP_SIZE?: number;
-  readonly QC_WINDUP_SHIP_SIZE_DIV?: number;
-  readonly RULER_SHIP_SCALE_MULT?: number;
-  readonly SHIELD_RECHARGE_TICKS?: number;
-  readonly SHIP_EXP_ELITE?: number;
-  readonly SHIP_EXP_EXPERIENCED?: number;
-  readonly SHIP_EXP_GAIN_COMBAT?: number;
-  readonly SHIP_EXP_VETERAN?: number;
-  readonly SHIP_MAX_EVASION?: number;
-  readonly SHIP_ROLE_NONE?: string;
-  readonly SHIP_SIZE_EXTRA_LARGE?: number;
-  readonly SHIP_SIZE_LARGE?: number;
-  readonly SHIP_SIZE_MEDIUM?: number;
-  readonly SHIP_SIZE_SMALL?: number;
-  readonly SHIP_SPEED_SCALE?: number;
-  readonly STRIKE_CRAFT_COMBAT_REGEN?: number;
+  readonly ABANDONED_STATION_DECAY_RATE?: number | Authored;
+  readonly AGGRESSIVE_STANCE_INVASION_ODDS_MULT?: number | Authored;
+  readonly AGGRESSIVE_STANCE_MIN_POWER_MULT?: number | Authored;
+  readonly ASSIST_CLOAKING_DETECTION_ORBIT_DISTANCE?: number | Authored;
+  readonly BIOSHIP_MONTHLY_PROGRESS?: number | Authored;
+  readonly CAN_TRAVEL_BETWEEN_UNEXPLORED_SYSTEMS?: boolean | Authored;
+  readonly CLOAKING_ANIMATION_SPEED?: number | Authored;
+  readonly DEFAULT_ARMOR_RATIO?: number | Authored;
+  readonly DEFAULT_SHIELD_RATIO?: number | Authored;
+  readonly DESIGNER_UTILITY_ROLE_MUL?: number | Authored;
+  readonly DESIGNER_WEAPON_PREF_MUL?: number | Authored;
+  readonly DESIGNER_WEAPON_ROLE_MUL?: number | Authored;
+  readonly DESIGNER_WEAPON_STACKING_DIV?: number | Authored;
+  readonly EXCESS_POWER_BONUS_THRESHOLD_MAX?: number | Authored;
+  readonly EXCESS_POWER_BONUS_THRESHOLD_MIN?: number | Authored;
+  readonly FLEET_BASE_FORMATION_DIV?: number | Authored;
+  readonly FLEET_BASE_FORMATION_SCALE?: number | Authored;
+  readonly FLEET_FORMATION_CIRCLE_RADIUS_PER_LAYER_MULT?: number | Authored;
+  readonly FLEET_FORMATION_CIRCLE_SHIPS_PER_LAYER_MULT?: number | Authored;
+  readonly FLEET_UPGRADE_QUEUE_FACTOR_MULT?: number | Authored;
+  readonly HYPERDRIVE_INTERSTELLAR_TRAVEL_SPEED?: number | Authored;
+  readonly HYPERLANE_WINDDOWN?: number | Authored;
+  readonly HYPERLANE_WINDUP?: number | Authored;
+  readonly JUMP_DRIVE_RANGE?: number | Authored;
+  readonly JUMP_DRIVE_WINDUP?: number | Authored;
+  readonly LANDING_TIME_DAYS?: number | Authored;
+  readonly MAX_DAMAGE_SCALING?: number | Authored;
+  readonly MILITARY_POWER_ARMOR_DAMAGE_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_ARMOR_PENETRATION_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_ARMOR_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_DAMAGE_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_EXPONENT?: number | Authored;
+  readonly MILITARY_POWER_HEALTH_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_HULL_DAMAGE_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_MISSILE_MULT?: number | Authored;
+  readonly MILITARY_POWER_PD_MULT?: number | Authored;
+  readonly MILITARY_POWER_RANGE_DIV?: number | Authored;
+  readonly MILITARY_POWER_SCALE?: number | Authored;
+  readonly MILITARY_POWER_SHIELD_DAMAGE_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_SHIELD_PENETRATION_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_SHIELD_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_SIZE_MULTIPLIER_WEIGHT?: number | Authored;
+  readonly MILITARY_POWER_TRACKING_WEIGHT?: number | Authored;
+  readonly MIN_SPEED_FOR_UTILITIES?: number | Authored;
+  readonly MOVE_SHIP_TO_FLEET_MAX_DIST?: number | Authored;
+  readonly MOVE_TO_ACTION_THRESHOLD?: number | Authored;
+  readonly OUT_OF_COMBAT_ARMOR_REGEN_MULT?: number | Authored;
+  readonly OUT_OF_COMBAT_HULL_REGEN_MULT?: number | Authored;
+  readonly OUT_OF_COMBAT_SHIELD_REGEN_MULT?: number | Authored;
+  readonly QC_WINDUP_SHIP_SIZE?: number | Authored;
+  readonly QC_WINDUP_SHIP_SIZE_DIV?: number | Authored;
+  readonly RULER_SHIP_SCALE_MULT?: number | Authored;
+  readonly SHIELD_RECHARGE_TICKS?: number | Authored;
+  readonly SHIP_EXP_ELITE?: number | Authored;
+  readonly SHIP_EXP_EXPERIENCED?: number | Authored;
+  readonly SHIP_EXP_GAIN_COMBAT?: number | Authored;
+  readonly SHIP_EXP_VETERAN?: number | Authored;
+  readonly SHIP_MAX_EVASION?: number | Authored;
+  readonly SHIP_ROLE_NONE?: string | Authored;
+  readonly SHIP_SIZE_EXTRA_LARGE?: number | Authored;
+  readonly SHIP_SIZE_LARGE?: number | Authored;
+  readonly SHIP_SIZE_MEDIUM?: number | Authored;
+  readonly SHIP_SIZE_SMALL?: number | Authored;
+  readonly SHIP_SPEED_SCALE?: number | Authored;
+  readonly STRIKE_CRAFT_COMBAT_REGEN?: number | Authored;
 }
 
 export interface NspeciesDefinition {
-  readonly DEFAULT_GENDER_CHANCE?: number;
-  readonly FEMALE_GENDER_CHANCE?: number;
-  readonly HABITABILITY_CEIL?: number;
-  readonly HABITABILITY_CEIL_UNCAPPED?: number;
-  readonly HABITABILITY_FLOOR?: number;
-  readonly HOMEWORLD_HABITABILITY?: number;
-  readonly MALE_GENDER_CHANCE?: number;
-  readonly MIN_ETHIC_POINTS?: number;
-  readonly MODIFICATION_COST_MULT?: number;
-  readonly MUTATION_ADD_CHANCE?: number;
-  readonly MUTATION_MAX_TRAITS?: number;
-  readonly MUTATION_MIN_TRAITS?: number;
-  readonly MUTATION_REMOVE_CHANCE?: number;
-  readonly NON_GENDERED_CHANCE?: number;
-  readonly ROBO_MODIFICATION_COST_MULT?: number;
-  readonly ROBO_TRAIT_MODIFICATION_BASE_COST?: number;
-  readonly ROBO_TRAIT_MODIFICATION_COST_MULT?: number;
-  readonly TRAIT_CLIMATE_MODIFICATION_COST?: number;
-  readonly TRAIT_MODIFICATION_BASE_COST?: number;
-  readonly TRAIT_MODIFICATION_COST_MULT?: number;
-  readonly TRAIT_MODIFICATION_TIME_LIMIT?: number;
-  readonly UPLIFT_COST_BASE?: number;
+  readonly DEFAULT_GENDER_CHANCE?: number | Authored;
+  readonly FEMALE_GENDER_CHANCE?: number | Authored;
+  readonly HABITABILITY_CEIL?: number | Authored;
+  readonly HABITABILITY_CEIL_UNCAPPED?: number | Authored;
+  readonly HABITABILITY_FLOOR?: number | Authored;
+  readonly HOMEWORLD_HABITABILITY?: number | Authored;
+  readonly MALE_GENDER_CHANCE?: number | Authored;
+  readonly MIN_ETHIC_POINTS?: number | Authored;
+  readonly MODIFICATION_COST_MULT?: number | Authored;
+  readonly MUTATION_ADD_CHANCE?: number | Authored;
+  readonly MUTATION_MAX_TRAITS?: number | Authored;
+  readonly MUTATION_MIN_TRAITS?: number | Authored;
+  readonly MUTATION_REMOVE_CHANCE?: number | Authored;
+  readonly NON_GENDERED_CHANCE?: number | Authored;
+  readonly ROBO_MODIFICATION_COST_MULT?: number | Authored;
+  readonly ROBO_TRAIT_MODIFICATION_BASE_COST?: number | Authored;
+  readonly ROBO_TRAIT_MODIFICATION_COST_MULT?: number | Authored;
+  readonly TRAIT_CLIMATE_MODIFICATION_COST?: number | Authored;
+  readonly TRAIT_MODIFICATION_BASE_COST?: number | Authored;
+  readonly TRAIT_MODIFICATION_COST_MULT?: number | Authored;
+  readonly TRAIT_MODIFICATION_TIME_LIMIT?: number | Authored;
+  readonly UPLIFT_COST_BASE?: number | Authored;
 }
 
 export interface ParagonUiNameTypeDefinition {
@@ -2373,407 +2373,407 @@ export interface ParagonUiNameTypeDefinition {
 }
 
 export interface UncheckedNinterfaceDefinition {
-  readonly ADVISOR_ANNOYED_COUNT?: number;
-  readonly ADVISOR_ANNOYED_SOUNDS?: Record<string, never>;
-  readonly ADVISOR_DEFAULT_CLICK_SOUND?: SoundEffectRef;
-  readonly ADVISOR_DEFAULT_SHOW_SOUND?: SoundEffectRef;
-  readonly ADVISOR_SOUND_BLOCKED_DEFAULT?: number;
-  readonly ADVISOR_SOUND_BLOCKED_FLEET_ENGAGED?: number;
-  readonly ADVISOR_SOUND_BLOCKED_SHIP_LOST?: number;
-  readonly ADVISOR_SOUND_MIN_WAIT?: number;
-  readonly ALWAYS_SHOW_NAVBAR?: boolean;
-  readonly ARCHAEOLOGICAL_SITE_IN_PROGRESS_SPRITE?: SpriteRef;
-  readonly ARCHAEOLOGY_DIFFICULTY_SPRITE_NAME_ROOT?: string;
-  readonly ARCH_VIEW_DEFAULT_MAX_CHAPTERS?: number;
-  readonly ARCH_VIEW_TEXTBOX_LARGE?: number;
-  readonly ARCH_VIEW_TEXTBOX_SMALL?: number;
-  readonly ARCH_VIEW_TEXTLIST_OFFSET?: number;
-  readonly ASTRAL_ACTION_UNLOCK_NOTIFICATION_DURATION?: number;
-  readonly ASTRAL_RIFT_DIFFICULTY_SPRITE_NAME_ROOT?: string;
-  readonly AUTHORITY_DEFAULT_COLOR?: Record<string, never>;
-  readonly AUTOMATION_RESOURCE_ALERT_MIN_MONTHLY?: number;
-  readonly AUTOMATION_RESOURCE_ALERT_MIN_POOL?: number;
-  readonly AWARENESS_SPRITE_FULL?: ProgressbartypeRef;
-  readonly AWARENESS_SPRITE_HIGH?: ProgressbartypeRef;
-  readonly AWARENESS_SPRITE_LOW?: ProgressbartypeRef;
-  readonly AWARENESS_SPRITE_PARTIAL?: ProgressbartypeRef;
-  readonly AWARENESS_SPRITE_UNAWARE?: ProgressbartypeRef;
-  readonly CALLINGS_FADE_OUT?: number;
-  readonly CALLINGS_FADE_OUT_DELAY?: number;
-  readonly CALLINGS_FADE_OUT_FREQUENCY?: number;
-  readonly CALLINGS_PULSE_DELAY?: number;
-  readonly CITY_SELECTION_DEFAULT_PLANET_CLASS?: PlanetClassRef;
-  readonly CLOAKING_BUTTON_SLOT_NUMBER?: number;
-  readonly COLONY_TYPE_DEFAULT_SPRITE?: SpriteRef;
-  readonly CONCEPT_EDICT_ICON?: string;
-  readonly COOP_PRESENCE_ICON_FRAME_EMPTY?: number;
-  readonly COSMIC_STORM_VISIBLE_GUI_CONFIRM_BUTTON_Y_OFFSET?: number;
-  readonly COSMIC_STORM_VISIBLE_GUI_DESC_FRAME_BOTTOM_PADDING?: number;
-  readonly COSMIC_STORM_VISIBLE_GUI_FRAME_BOTTOM_PADDING?: number;
-  readonly COUNCIL_GRID_ARCH_HEIGHT?: number;
-  readonly COUNTRY_FOCUS_CARDS_DISPLAY_COUNT?: number;
-  readonly COUNTRY_FOCUS_CARDS_FADE_OUT_DELAY?: number;
-  readonly COUNTRY_FOCUS_CARDS_FADE_OUT_SPEED?: number;
-  readonly CREATURE_DESIGNER_MUTATION_SLOT_ICON?: string;
-  readonly CREATURE_DESIGNER_MUTATION_SLOT_LOCKED_ICON?: SpriteRef;
-  readonly CREATURE_DESIGNER_SHIP_VIEW_RENDER_TARGET?: string;
-  readonly DAYS_ACCORD_UNLOCKED_NOTIFICATIONS?: number;
-  readonly DAYS_ACTIVE_ACCORD_AVAILABLE_NOTIFICATIONS?: number;
-  readonly DAYS_LEFT_TO_COLORIZE_NUMBER?: number;
-  readonly DAYS_LEFT_TO_SHOW_NUMBER?: number;
-  readonly DAYS_NEW_PATRON_CALLING_NOTIFICATIONS?: number;
-  readonly DAYS_PENDING_ARCHAEOLOGY_NOTIFICATIONS?: number;
-  readonly DAYS_PENDING_ASTRAL_ACTION_ALERT?: number;
-  readonly DAYS_PENDING_COSMIC_STORM_NOTIFICATIONS?: number;
-  readonly DAYS_PENDING_FIRST_CONTACT_NOTIFICATIONS?: number;
-  readonly DEFAULT_CITY_POP_LEVEL?: number;
-  readonly DEFICIT_MONTH_LEFT_ALERT?: number;
-  readonly DIPLO_SCREEN_BG_AGGRESSIVE?: SpriteRef;
-  readonly DIPLO_SCREEN_BG_NEGATIVE?: SpriteRef;
-  readonly DIPLO_SCREEN_BG_NEUTRAL?: SpriteRef;
-  readonly DIPLO_SCREEN_BG_POSITIVE?: SpriteRef;
-  readonly DIPLO_SCREEN_TEXT_HIDE_COOLDOWN?: number;
-  readonly ESPIONAGE_DIFFICULTY_SPRITE_NAME_ROOT?: string;
-  readonly ESPIONAGE_OPERATION_VIEW_DEFAULT_MAX_CHAPTERS?: number;
-  readonly ESPIONAGE_OPERATION_VIEW_TEXTBOX_LARGE?: number;
-  readonly ESPIONAGE_OPERATION_VIEW_TEXTBOX_SMALL?: number;
-  readonly EVENT_PRESENCE_ICON_OFFSET_RATIO_EFFECT_REWARD?: number;
-  readonly EXPANSION_VIEW_NUM_DISTRICTS?: number;
-  readonly FIRSTCONTACT_DIFFICULTY_SPRITE_NAME_ROOT?: string;
-  readonly FIRST_CONTACT_RELATION_ICON_FRIENDLY?: SpriteRef;
-  readonly FIRST_CONTACT_RELATION_ICON_HOSTILE?: SpriteRef;
-  readonly FIRST_CONTACT_RELATION_ICON_ISOLATIONIST?: SpriteRef;
-  readonly FIRST_CONTACT_RELATION_ICON_UNKNOWN?: SpriteRef;
-  readonly FLAG_CAPITAL_DECORATION_SCALE?: number;
-  readonly FLAG_CAPITAL_DECORATION_SCALE_BIG_FRAME?: number;
-  readonly FLEET_ICON_POWER_TIERS?: Record<string, never>;
-  readonly FRONTEND_ANIMATED_BG_ASPECT_RATIO?: number;
-  readonly FRONTEND_ANIMATED_BG_ENTITY?: ModelEntityRef;
-  readonly FRONTEND_BUTTON_SLIDE_CURVE?: number;
-  readonly FRONTEND_BUTTON_SLIDE_DISTANCE?: number;
-  readonly FRONTEND_BUTTON_SLIDE_DURATION?: number;
-  readonly GAME_CONCEPT_ICON_DEFAULT?: string;
-  readonly GC_SENATE_BG_0?: SpriteRef;
-  readonly GC_SENATE_BG_0_MAX?: number;
-  readonly GC_SENATE_BG_100?: SpriteRef;
-  readonly GC_SENATE_BG_25?: SpriteRef;
-  readonly GC_SENATE_BG_25_MAX?: number;
-  readonly GC_SENATE_BG_50?: SpriteRef;
-  readonly GC_SENATE_BG_50_MAX?: number;
-  readonly GC_SENATE_BG_75?: SpriteRef;
-  readonly GC_SENATE_BG_75_MAX?: number;
-  readonly GC_SENATE_BG_EMPTY?: SpriteRef;
-  readonly GRAND_ARCHIVE_COLLECTION_ACTIVE?: SpriteRef;
-  readonly GRAND_ARCHIVE_COLLECTION_INACTIVE?: SpriteRef;
-  readonly GUI_BASELINE_HEIGHT?: number;
-  readonly GUI_BASELINE_WIDTH?: number;
-  readonly GUI_EXTRA_HEIGHT_MAX?: number;
-  readonly HATCHERY_SHIP_ICON_SCALE?: number;
-  readonly HOLDINGS_TAB_ENERGY_ICON?: SpriteRef;
-  readonly HOLDINGS_TAB_LOYALTY_ICON?: SpriteRef;
-  readonly IMPERIUM_SENATE_BG_0?: SpriteRef;
-  readonly IMPERIUM_SENATE_BG_100?: SpriteRef;
-  readonly IMPERIUM_SENATE_BG_25?: SpriteRef;
-  readonly IMPERIUM_SENATE_BG_50?: SpriteRef;
-  readonly IMPERIUM_SENATE_BG_75?: SpriteRef;
-  readonly IMPERIUM_SENATE_BG_EMPTY?: SpriteRef;
-  readonly LEADER_ASSIGN_TRAIT_MIN_WIDTH?: number;
-  readonly MAP_ICON_ITEM_MINIMUM_WIDTH?: number;
-  readonly MAX_COUNCIL_POSITIONS?: number;
-  readonly MAX_NUM_SAVE_GAMES?: number;
-  readonly MAX_WARGOAL_ITEMS?: number;
-  readonly MEGASTRUCTURE_DEFAULT_PORTRAIT?: SpriteRef;
-  readonly MINIMUM_TOAST_DURATION?: number;
-  readonly MINOR_ARTIFACT_DEFAULT_CLICK_SOUND?: SoundRef;
-  readonly MIN_GUI_SCALE?: number;
-  readonly MP_GAMESETUP_PLAYER_COLUMNS?: number;
-  readonly MUSIC_SILENCE_CHANCE?: number;
-  readonly MUSIC_SILENCE_TIME_FIXED?: number;
-  readonly MUSIC_SILENCE_TIME_RANDOM?: number;
-  readonly NAVBAR_CLOSE_DELAY?: number;
-  readonly NOTIFICATION_MESSAGE_CLOSE_WARNING_PERC?: number;
-  readonly NOTIFICATION_MESSAGE_DURATION_STANDARD?: number;
-  readonly NOTIFICATION_MESSAGE_MARGIN_RIGHT?: number;
-  readonly NOTIFICATION_MESSAGE_SPACING?: number;
-  readonly NOTIFICATION_MESSAGE_SPEED?: number;
-  readonly NOTIFICATION_MESSAGE_XPOS?: number;
-  readonly NOTIFICATION_MESSAGE_YPOS?: number;
-  readonly NUM_DEVASTATION_SEGMENTS?: number;
-  readonly NUM_DISTRICT_BOXES_TO_SHOW?: number;
-  readonly NUM_INDENTATION_SPACES?: number;
-  readonly NUM_RARE_DEPOSITS_TO_SHOW?: number;
-  readonly ON_LEADER_MOUSE_OVER_OPACITY?: number;
-  readonly ON_NO_LEADER_MOUSE_OVER_OPACITY?: number;
-  readonly OPINION_PROGRESS_SPRITE_EXCELLENT?: ProgressbartypeRef;
-  readonly OPINION_PROGRESS_SPRITE_GOOD?: ProgressbartypeRef;
-  readonly OPINION_PROGRESS_SPRITE_NEUTRAL?: ProgressbartypeRef;
-  readonly OPINION_PROGRESS_SPRITE_POOR?: ProgressbartypeRef;
-  readonly OPINION_PROGRESS_SPRITE_TERRIBLE?: ProgressbartypeRef;
-  readonly OUTLINER_HABITAT_LEVEL_LIMIT?: number;
-  readonly OUTLINER_PING_TIME?: number;
-  readonly OUTLINER_PLANET_CONSTRUCTION_MAX_ENTRIES?: number;
-  readonly OUTLINER_SHIPYARD_CONSTRUCTION_MAX_ENTRIES?: number;
-  readonly OUTLINER_STARBASE_SHIPYARD_CONSTRUCTION_MAX_ENTRIES?: number;
-  readonly OUTLINER_UPDATE_EVERY_N_FRAMES?: number;
-  readonly PERSISTENT_CHAT_LINES_DURATION?: number;
-  readonly PERSISTENT_CHAT_LINES_FADE?: number;
-  readonly PERSISTENT_CHAT_LINE_HEIGHT?: number;
-  readonly PERSISTENT_CHAT_NUM_LINES?: number;
-  readonly PLANET_SKY_DEFAULT?: string;
-  readonly PLANET_SKY_MOON?: string;
-  readonly PLANET_SKY_MOON_RINGS?: string;
-  readonly PLANET_SKY_ORBITAL_RING?: string;
-  readonly PLANET_SKY_ORBITAL_RING_RUINED?: string;
-  readonly POPS_TO_SHOW_CITY_LEVEL?: Record<string, never>;
-  readonly POP_ENTRY_GROUPING_THRESHOLD?: number;
-  readonly POP_FACTION_HEADER_SPRITE_TYPE_DEFAULT?: SpriteRef;
-  readonly PORTRAIT_GUI_NAME_ANOMALY_CONTROLLER_VIEW?: string;
-  readonly PORTRAIT_GUI_NAME_ANOMALY_LEADER_VIEW?: string;
-  readonly PORTRAIT_GUI_NAME_ARCHAEOLOGY_VIEW?: string;
-  readonly PORTRAIT_GUI_NAME_ASSIGNABLE_COUNCILOR_LIST_ENTRY?: string;
-  readonly PORTRAIT_GUI_NAME_ASSIGNABLE_LEADER_LIST_ENTRY?: string;
-  readonly PORTRAIT_GUI_NAME_ASSIGN_TRAIT?: string;
-  readonly PORTRAIT_GUI_NAME_ATTACKING_GENERAL?: string;
-  readonly PORTRAIT_GUI_NAME_COMBAT_FLEET_VIEW?: string;
-  readonly PORTRAIT_GUI_NAME_COUNCIL_POSITION?: string;
-  readonly PORTRAIT_GUI_NAME_COUNCIL_POSITION_GESTALT?: string;
-  readonly PORTRAIT_GUI_NAME_COUNCIL_VIEW_RULER?: string;
-  readonly PORTRAIT_GUI_NAME_DEFENDING_GENERAL?: string;
-  readonly PORTRAIT_GUI_NAME_DEMOCRATIC_ELECTION_CANDIDATE?: string;
-  readonly PORTRAIT_GUI_NAME_ELECTION_CANDIDATE?: string;
-  readonly PORTRAIT_GUI_NAME_EMPIRE_VIEW_SECTOR_ENTRY?: string;
-  readonly PORTRAIT_GUI_NAME_EVENT_CONVERSATION?: string;
-  readonly PORTRAIT_GUI_NAME_EVENT_CRISIS_CONVERSATION?: string;
-  readonly PORTRAIT_GUI_NAME_EVENT_RECRUIT?: string;
-  readonly PORTRAIT_GUI_NAME_EVENT_STORY?: string;
-  readonly PORTRAIT_GUI_NAME_EXPANDED_LEADER_PORTRAIT?: string;
-  readonly PORTRAIT_GUI_NAME_FLEET_MANAGER_VIEW?: string;
-  readonly PORTRAIT_GUI_NAME_FLEET_VIEW?: string;
-  readonly PORTRAIT_GUI_NAME_GOVERNMENT_VIEW_HEIR?: string;
-  readonly PORTRAIT_GUI_NAME_GOVERNMENT_VIEW_RULER?: string;
-  readonly PORTRAIT_GUI_NAME_HIRE_AND_ASSIGN_LIST_ENTRY?: string;
-  readonly PORTRAIT_GUI_NAME_LEADER_VIEW_ENTRY?: string;
-  readonly PORTRAIT_GUI_NAME_PLANET_GENERAL?: string;
-  readonly PORTRAIT_GUI_NAME_PLANET_GOVERNOR?: string;
-  readonly PORTRAIT_GUI_NAME_PLANET_SECTOR_GOVERNOR?: string;
-  readonly PORTRAIT_GUI_NAME_SITE_LEADER_ENTRY?: string;
-  readonly PORTRAIT_GUI_NAME_TECH_VIEW?: string;
-  readonly PORTRAIT_GUI_NAME_TOAST?: string;
-  readonly PRESAPIENT_RIGHTS_POLICY?: string;
-  readonly PRE_FTL_ROOM_BACKGROUND_OVERRIDE?: string;
-  readonly RECOMMENDED_MINIMUM_PRECURSORS?: number;
-  readonly RIFT_VIEW_DEFAULT_MAX_CHAPTERS?: number;
-  readonly RIFT_VIEW_TEXTBOX_LARGE?: number;
-  readonly RIFT_VIEW_TEXTBOX_SMALL?: number;
-  readonly RIFT_VIEW_TEXTLIST_OFFSET?: number;
-  readonly SELF_INTEL_ICON_FRAME?: number;
-  readonly SHIP_DESIGNER_SHIP_VIEW_RENDER_TARGET?: string;
-  readonly SHIP_NAME_CAP_LENGTH?: number;
-  readonly SHIP_NAME_SIZE_MAX?: number;
-  readonly SHIP_SELECT_ROLE_HEIGHT_PADDING?: number;
-  readonly SHIP_SELECT_ROLE_MIN_HEIGHT?: number;
-  readonly SHIP_SELECT_ROLE_MIN_WIDTH?: number;
-  readonly SITUATION_LOG_ARCHAEOLOGY_ICON_FILENAME?: string;
-  readonly SITUATION_LOG_ARCHAEOLOGY_PICTURE_SPRITE?: SpriteRef;
-  readonly SITUATION_LOG_ASTRAL_RIFT_ICON_FILENAME?: string;
-  readonly SITUATION_LOG_ASTRAL_RIFT_PICTURE_SPRITE?: SpriteRef;
-  readonly SITUATION_LOG_DEBRIS_ICON_FILENAME?: string;
-  readonly SITUATION_LOG_DEBRIS_PICTURE_SPRITE?: SpriteRef;
-  readonly SITUATION_LOG_ESPIONAGE_PICTURE_SPRITE?: SpriteRef;
-  readonly SITUATION_LOG_FAUNA_DEBRIS_PICTURE_SPRITE?: SpriteRef;
-  readonly SITUATION_LOG_FIRST_CONTACT_ICON_FILENAME?: string;
-  readonly SITUATION_LOG_MODIFICATION_ICON_FILENAME?: string;
-  readonly SITUATION_LOG_MODIFICATION_PICTURE_SPRITE?: SpriteRef;
-  readonly SOCIALVIEW_CONTEXT_MENU_BUTTON_OFFSET?: number;
-  readonly SOCIALVIEW_CONTEXT_MENU_MARGIN?: number;
-  readonly SPACE_CRITTER_CAPTURE_NOTIFICATION_DAYS_PENDING?: number;
-  readonly SPECIES_NAME_SIZE_MAX?: number;
-  readonly TOOLTIP_DELAYED_TIME?: number;
-  readonly TOOLTIP_MIDDLE_MOUSE_LOCK_TIME?: number;
-  readonly TOOLTIP_MIN_DAYS_FOR_DECIMAL_YEARS?: number;
-  readonly TOOLTIP_MIN_DAYS_FOR_ROUNDED_YEARS?: number;
-  readonly TOOLTIP_POSITION_NESTED_OFFSET?: Record<string, never>;
-  readonly TOOLTIP_POSITION_OFFSET?: Record<string, never>;
-  readonly TOOLTIP_POSITION_OFFSET_STAR?: Record<string, never>;
-  readonly TOOLTIP_TENDENCY_BUFFER?: number;
-  readonly TOOLTIP_TIME?: number;
-  readonly TOOLTIP_TIMER_LOCK_TIME?: number;
-  readonly TRADE_VIEW_DEFAULT_CREDIT_CHANGE?: number;
-  readonly TRADE_VIEW_LARGE_CREDIT_CHANGE?: number;
-  readonly TRADE_VIEW_MASSIVE_CREDIT_CHANGE?: number;
-  readonly TRADE_VIEW_SMALL_CREDIT_CHANGE?: number;
-  readonly TRADE_VIEW_WIDE_MODE_THRESHHOLD?: number;
-  readonly WAROVERVIEW_BATTLE_RESULT_BASE_EXHAUSTION?: number;
+  readonly ADVISOR_ANNOYED_COUNT?: number | Authored;
+  readonly ADVISOR_ANNOYED_SOUNDS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ADVISOR_DEFAULT_CLICK_SOUND?: SoundEffectRef | Authored;
+  readonly ADVISOR_DEFAULT_SHOW_SOUND?: SoundEffectRef | Authored;
+  readonly ADVISOR_SOUND_BLOCKED_DEFAULT?: number | Authored;
+  readonly ADVISOR_SOUND_BLOCKED_FLEET_ENGAGED?: number | Authored;
+  readonly ADVISOR_SOUND_BLOCKED_SHIP_LOST?: number | Authored;
+  readonly ADVISOR_SOUND_MIN_WAIT?: number | Authored;
+  readonly ALWAYS_SHOW_NAVBAR?: boolean | Authored;
+  readonly ARCHAEOLOGICAL_SITE_IN_PROGRESS_SPRITE?: SpriteRef | Authored;
+  readonly ARCHAEOLOGY_DIFFICULTY_SPRITE_NAME_ROOT?: string | Authored;
+  readonly ARCH_VIEW_DEFAULT_MAX_CHAPTERS?: number | Authored;
+  readonly ARCH_VIEW_TEXTBOX_LARGE?: number | Authored;
+  readonly ARCH_VIEW_TEXTBOX_SMALL?: number | Authored;
+  readonly ARCH_VIEW_TEXTLIST_OFFSET?: number | Authored;
+  readonly ASTRAL_ACTION_UNLOCK_NOTIFICATION_DURATION?: number | Authored;
+  readonly ASTRAL_RIFT_DIFFICULTY_SPRITE_NAME_ROOT?: string | Authored;
+  readonly AUTHORITY_DEFAULT_COLOR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly AUTOMATION_RESOURCE_ALERT_MIN_MONTHLY?: number | Authored;
+  readonly AUTOMATION_RESOURCE_ALERT_MIN_POOL?: number | Authored;
+  readonly AWARENESS_SPRITE_FULL?: ProgressbartypeRef | Authored;
+  readonly AWARENESS_SPRITE_HIGH?: ProgressbartypeRef | Authored;
+  readonly AWARENESS_SPRITE_LOW?: ProgressbartypeRef | Authored;
+  readonly AWARENESS_SPRITE_PARTIAL?: ProgressbartypeRef | Authored;
+  readonly AWARENESS_SPRITE_UNAWARE?: ProgressbartypeRef | Authored;
+  readonly CALLINGS_FADE_OUT?: number | Authored;
+  readonly CALLINGS_FADE_OUT_DELAY?: number | Authored;
+  readonly CALLINGS_FADE_OUT_FREQUENCY?: number | Authored;
+  readonly CALLINGS_PULSE_DELAY?: number | Authored;
+  readonly CITY_SELECTION_DEFAULT_PLANET_CLASS?: PlanetClassRef | Authored;
+  readonly CLOAKING_BUTTON_SLOT_NUMBER?: number | Authored;
+  readonly COLONY_TYPE_DEFAULT_SPRITE?: SpriteRef | Authored;
+  readonly CONCEPT_EDICT_ICON?: string | Authored;
+  readonly COOP_PRESENCE_ICON_FRAME_EMPTY?: number | Authored;
+  readonly COSMIC_STORM_VISIBLE_GUI_CONFIRM_BUTTON_Y_OFFSET?: number | Authored;
+  readonly COSMIC_STORM_VISIBLE_GUI_DESC_FRAME_BOTTOM_PADDING?: number | Authored;
+  readonly COSMIC_STORM_VISIBLE_GUI_FRAME_BOTTOM_PADDING?: number | Authored;
+  readonly COUNCIL_GRID_ARCH_HEIGHT?: number | Authored;
+  readonly COUNTRY_FOCUS_CARDS_DISPLAY_COUNT?: number | Authored;
+  readonly COUNTRY_FOCUS_CARDS_FADE_OUT_DELAY?: number | Authored;
+  readonly COUNTRY_FOCUS_CARDS_FADE_OUT_SPEED?: number | Authored;
+  readonly CREATURE_DESIGNER_MUTATION_SLOT_ICON?: string | Authored;
+  readonly CREATURE_DESIGNER_MUTATION_SLOT_LOCKED_ICON?: SpriteRef | Authored;
+  readonly CREATURE_DESIGNER_SHIP_VIEW_RENDER_TARGET?: string | Authored;
+  readonly DAYS_ACCORD_UNLOCKED_NOTIFICATIONS?: number | Authored;
+  readonly DAYS_ACTIVE_ACCORD_AVAILABLE_NOTIFICATIONS?: number | Authored;
+  readonly DAYS_LEFT_TO_COLORIZE_NUMBER?: number | Authored;
+  readonly DAYS_LEFT_TO_SHOW_NUMBER?: number | Authored;
+  readonly DAYS_NEW_PATRON_CALLING_NOTIFICATIONS?: number | Authored;
+  readonly DAYS_PENDING_ARCHAEOLOGY_NOTIFICATIONS?: number | Authored;
+  readonly DAYS_PENDING_ASTRAL_ACTION_ALERT?: number | Authored;
+  readonly DAYS_PENDING_COSMIC_STORM_NOTIFICATIONS?: number | Authored;
+  readonly DAYS_PENDING_FIRST_CONTACT_NOTIFICATIONS?: number | Authored;
+  readonly DEFAULT_CITY_POP_LEVEL?: number | Authored;
+  readonly DEFICIT_MONTH_LEFT_ALERT?: number | Authored;
+  readonly DIPLO_SCREEN_BG_AGGRESSIVE?: SpriteRef | Authored;
+  readonly DIPLO_SCREEN_BG_NEGATIVE?: SpriteRef | Authored;
+  readonly DIPLO_SCREEN_BG_NEUTRAL?: SpriteRef | Authored;
+  readonly DIPLO_SCREEN_BG_POSITIVE?: SpriteRef | Authored;
+  readonly DIPLO_SCREEN_TEXT_HIDE_COOLDOWN?: number | Authored;
+  readonly ESPIONAGE_DIFFICULTY_SPRITE_NAME_ROOT?: string | Authored;
+  readonly ESPIONAGE_OPERATION_VIEW_DEFAULT_MAX_CHAPTERS?: number | Authored;
+  readonly ESPIONAGE_OPERATION_VIEW_TEXTBOX_LARGE?: number | Authored;
+  readonly ESPIONAGE_OPERATION_VIEW_TEXTBOX_SMALL?: number | Authored;
+  readonly EVENT_PRESENCE_ICON_OFFSET_RATIO_EFFECT_REWARD?: number | Authored;
+  readonly EXPANSION_VIEW_NUM_DISTRICTS?: number | Authored;
+  readonly FIRSTCONTACT_DIFFICULTY_SPRITE_NAME_ROOT?: string | Authored;
+  readonly FIRST_CONTACT_RELATION_ICON_FRIENDLY?: SpriteRef | Authored;
+  readonly FIRST_CONTACT_RELATION_ICON_HOSTILE?: SpriteRef | Authored;
+  readonly FIRST_CONTACT_RELATION_ICON_ISOLATIONIST?: SpriteRef | Authored;
+  readonly FIRST_CONTACT_RELATION_ICON_UNKNOWN?: SpriteRef | Authored;
+  readonly FLAG_CAPITAL_DECORATION_SCALE?: number | Authored;
+  readonly FLAG_CAPITAL_DECORATION_SCALE_BIG_FRAME?: number | Authored;
+  readonly FLEET_ICON_POWER_TIERS?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly FRONTEND_ANIMATED_BG_ASPECT_RATIO?: number | Authored;
+  readonly FRONTEND_ANIMATED_BG_ENTITY?: ModelEntityRef | Authored;
+  readonly FRONTEND_BUTTON_SLIDE_CURVE?: number | Authored;
+  readonly FRONTEND_BUTTON_SLIDE_DISTANCE?: number | Authored;
+  readonly FRONTEND_BUTTON_SLIDE_DURATION?: number | Authored;
+  readonly GAME_CONCEPT_ICON_DEFAULT?: string | Authored;
+  readonly GC_SENATE_BG_0?: SpriteRef | Authored;
+  readonly GC_SENATE_BG_0_MAX?: number | Authored;
+  readonly GC_SENATE_BG_100?: SpriteRef | Authored;
+  readonly GC_SENATE_BG_25?: SpriteRef | Authored;
+  readonly GC_SENATE_BG_25_MAX?: number | Authored;
+  readonly GC_SENATE_BG_50?: SpriteRef | Authored;
+  readonly GC_SENATE_BG_50_MAX?: number | Authored;
+  readonly GC_SENATE_BG_75?: SpriteRef | Authored;
+  readonly GC_SENATE_BG_75_MAX?: number | Authored;
+  readonly GC_SENATE_BG_EMPTY?: SpriteRef | Authored;
+  readonly GRAND_ARCHIVE_COLLECTION_ACTIVE?: SpriteRef | Authored;
+  readonly GRAND_ARCHIVE_COLLECTION_INACTIVE?: SpriteRef | Authored;
+  readonly GUI_BASELINE_HEIGHT?: number | Authored;
+  readonly GUI_BASELINE_WIDTH?: number | Authored;
+  readonly GUI_EXTRA_HEIGHT_MAX?: number | Authored;
+  readonly HATCHERY_SHIP_ICON_SCALE?: number | Authored;
+  readonly HOLDINGS_TAB_ENERGY_ICON?: SpriteRef | Authored;
+  readonly HOLDINGS_TAB_LOYALTY_ICON?: SpriteRef | Authored;
+  readonly IMPERIUM_SENATE_BG_0?: SpriteRef | Authored;
+  readonly IMPERIUM_SENATE_BG_100?: SpriteRef | Authored;
+  readonly IMPERIUM_SENATE_BG_25?: SpriteRef | Authored;
+  readonly IMPERIUM_SENATE_BG_50?: SpriteRef | Authored;
+  readonly IMPERIUM_SENATE_BG_75?: SpriteRef | Authored;
+  readonly IMPERIUM_SENATE_BG_EMPTY?: SpriteRef | Authored;
+  readonly LEADER_ASSIGN_TRAIT_MIN_WIDTH?: number | Authored;
+  readonly MAP_ICON_ITEM_MINIMUM_WIDTH?: number | Authored;
+  readonly MAX_COUNCIL_POSITIONS?: number | Authored;
+  readonly MAX_NUM_SAVE_GAMES?: number | Authored;
+  readonly MAX_WARGOAL_ITEMS?: number | Authored;
+  readonly MEGASTRUCTURE_DEFAULT_PORTRAIT?: SpriteRef | Authored;
+  readonly MINIMUM_TOAST_DURATION?: number | Authored;
+  readonly MINOR_ARTIFACT_DEFAULT_CLICK_SOUND?: SoundRef | Authored;
+  readonly MIN_GUI_SCALE?: number | Authored;
+  readonly MP_GAMESETUP_PLAYER_COLUMNS?: number | Authored;
+  readonly MUSIC_SILENCE_CHANCE?: number | Authored;
+  readonly MUSIC_SILENCE_TIME_FIXED?: number | Authored;
+  readonly MUSIC_SILENCE_TIME_RANDOM?: number | Authored;
+  readonly NAVBAR_CLOSE_DELAY?: number | Authored;
+  readonly NOTIFICATION_MESSAGE_CLOSE_WARNING_PERC?: number | Authored;
+  readonly NOTIFICATION_MESSAGE_DURATION_STANDARD?: number | Authored;
+  readonly NOTIFICATION_MESSAGE_MARGIN_RIGHT?: number | Authored;
+  readonly NOTIFICATION_MESSAGE_SPACING?: number | Authored;
+  readonly NOTIFICATION_MESSAGE_SPEED?: number | Authored;
+  readonly NOTIFICATION_MESSAGE_XPOS?: number | Authored;
+  readonly NOTIFICATION_MESSAGE_YPOS?: number | Authored;
+  readonly NUM_DEVASTATION_SEGMENTS?: number | Authored;
+  readonly NUM_DISTRICT_BOXES_TO_SHOW?: number | Authored;
+  readonly NUM_INDENTATION_SPACES?: number | Authored;
+  readonly NUM_RARE_DEPOSITS_TO_SHOW?: number | Authored;
+  readonly ON_LEADER_MOUSE_OVER_OPACITY?: number | Authored;
+  readonly ON_NO_LEADER_MOUSE_OVER_OPACITY?: number | Authored;
+  readonly OPINION_PROGRESS_SPRITE_EXCELLENT?: ProgressbartypeRef | Authored;
+  readonly OPINION_PROGRESS_SPRITE_GOOD?: ProgressbartypeRef | Authored;
+  readonly OPINION_PROGRESS_SPRITE_NEUTRAL?: ProgressbartypeRef | Authored;
+  readonly OPINION_PROGRESS_SPRITE_POOR?: ProgressbartypeRef | Authored;
+  readonly OPINION_PROGRESS_SPRITE_TERRIBLE?: ProgressbartypeRef | Authored;
+  readonly OUTLINER_HABITAT_LEVEL_LIMIT?: number | Authored;
+  readonly OUTLINER_PING_TIME?: number | Authored;
+  readonly OUTLINER_PLANET_CONSTRUCTION_MAX_ENTRIES?: number | Authored;
+  readonly OUTLINER_SHIPYARD_CONSTRUCTION_MAX_ENTRIES?: number | Authored;
+  readonly OUTLINER_STARBASE_SHIPYARD_CONSTRUCTION_MAX_ENTRIES?: number | Authored;
+  readonly OUTLINER_UPDATE_EVERY_N_FRAMES?: number | Authored;
+  readonly PERSISTENT_CHAT_LINES_DURATION?: number | Authored;
+  readonly PERSISTENT_CHAT_LINES_FADE?: number | Authored;
+  readonly PERSISTENT_CHAT_LINE_HEIGHT?: number | Authored;
+  readonly PERSISTENT_CHAT_NUM_LINES?: number | Authored;
+  readonly PLANET_SKY_DEFAULT?: string | Authored;
+  readonly PLANET_SKY_MOON?: string | Authored;
+  readonly PLANET_SKY_MOON_RINGS?: string | Authored;
+  readonly PLANET_SKY_ORBITAL_RING?: string | Authored;
+  readonly PLANET_SKY_ORBITAL_RING_RUINED?: string | Authored;
+  readonly POPS_TO_SHOW_CITY_LEVEL?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly POP_ENTRY_GROUPING_THRESHOLD?: number | Authored;
+  readonly POP_FACTION_HEADER_SPRITE_TYPE_DEFAULT?: SpriteRef | Authored;
+  readonly PORTRAIT_GUI_NAME_ANOMALY_CONTROLLER_VIEW?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_ANOMALY_LEADER_VIEW?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_ARCHAEOLOGY_VIEW?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_ASSIGNABLE_COUNCILOR_LIST_ENTRY?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_ASSIGNABLE_LEADER_LIST_ENTRY?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_ASSIGN_TRAIT?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_ATTACKING_GENERAL?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_COMBAT_FLEET_VIEW?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_COUNCIL_POSITION?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_COUNCIL_POSITION_GESTALT?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_COUNCIL_VIEW_RULER?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_DEFENDING_GENERAL?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_DEMOCRATIC_ELECTION_CANDIDATE?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_ELECTION_CANDIDATE?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_EMPIRE_VIEW_SECTOR_ENTRY?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_EVENT_CONVERSATION?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_EVENT_CRISIS_CONVERSATION?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_EVENT_RECRUIT?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_EVENT_STORY?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_EXPANDED_LEADER_PORTRAIT?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_FLEET_MANAGER_VIEW?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_FLEET_VIEW?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_GOVERNMENT_VIEW_HEIR?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_GOVERNMENT_VIEW_RULER?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_HIRE_AND_ASSIGN_LIST_ENTRY?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_LEADER_VIEW_ENTRY?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_PLANET_GENERAL?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_PLANET_GOVERNOR?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_PLANET_SECTOR_GOVERNOR?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_SITE_LEADER_ENTRY?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_TECH_VIEW?: string | Authored;
+  readonly PORTRAIT_GUI_NAME_TOAST?: string | Authored;
+  readonly PRESAPIENT_RIGHTS_POLICY?: string | Authored;
+  readonly PRE_FTL_ROOM_BACKGROUND_OVERRIDE?: string | Authored;
+  readonly RECOMMENDED_MINIMUM_PRECURSORS?: number | Authored;
+  readonly RIFT_VIEW_DEFAULT_MAX_CHAPTERS?: number | Authored;
+  readonly RIFT_VIEW_TEXTBOX_LARGE?: number | Authored;
+  readonly RIFT_VIEW_TEXTBOX_SMALL?: number | Authored;
+  readonly RIFT_VIEW_TEXTLIST_OFFSET?: number | Authored;
+  readonly SELF_INTEL_ICON_FRAME?: number | Authored;
+  readonly SHIP_DESIGNER_SHIP_VIEW_RENDER_TARGET?: string | Authored;
+  readonly SHIP_NAME_CAP_LENGTH?: number | Authored;
+  readonly SHIP_NAME_SIZE_MAX?: number | Authored;
+  readonly SHIP_SELECT_ROLE_HEIGHT_PADDING?: number | Authored;
+  readonly SHIP_SELECT_ROLE_MIN_HEIGHT?: number | Authored;
+  readonly SHIP_SELECT_ROLE_MIN_WIDTH?: number | Authored;
+  readonly SITUATION_LOG_ARCHAEOLOGY_ICON_FILENAME?: string | Authored;
+  readonly SITUATION_LOG_ARCHAEOLOGY_PICTURE_SPRITE?: SpriteRef | Authored;
+  readonly SITUATION_LOG_ASTRAL_RIFT_ICON_FILENAME?: string | Authored;
+  readonly SITUATION_LOG_ASTRAL_RIFT_PICTURE_SPRITE?: SpriteRef | Authored;
+  readonly SITUATION_LOG_DEBRIS_ICON_FILENAME?: string | Authored;
+  readonly SITUATION_LOG_DEBRIS_PICTURE_SPRITE?: SpriteRef | Authored;
+  readonly SITUATION_LOG_ESPIONAGE_PICTURE_SPRITE?: SpriteRef | Authored;
+  readonly SITUATION_LOG_FAUNA_DEBRIS_PICTURE_SPRITE?: SpriteRef | Authored;
+  readonly SITUATION_LOG_FIRST_CONTACT_ICON_FILENAME?: string | Authored;
+  readonly SITUATION_LOG_MODIFICATION_ICON_FILENAME?: string | Authored;
+  readonly SITUATION_LOG_MODIFICATION_PICTURE_SPRITE?: SpriteRef | Authored;
+  readonly SOCIALVIEW_CONTEXT_MENU_BUTTON_OFFSET?: number | Authored;
+  readonly SOCIALVIEW_CONTEXT_MENU_MARGIN?: number | Authored;
+  readonly SPACE_CRITTER_CAPTURE_NOTIFICATION_DAYS_PENDING?: number | Authored;
+  readonly SPECIES_NAME_SIZE_MAX?: number | Authored;
+  readonly TOOLTIP_DELAYED_TIME?: number | Authored;
+  readonly TOOLTIP_MIDDLE_MOUSE_LOCK_TIME?: number | Authored;
+  readonly TOOLTIP_MIN_DAYS_FOR_DECIMAL_YEARS?: number | Authored;
+  readonly TOOLTIP_MIN_DAYS_FOR_ROUNDED_YEARS?: number | Authored;
+  readonly TOOLTIP_POSITION_NESTED_OFFSET?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly TOOLTIP_POSITION_OFFSET?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly TOOLTIP_POSITION_OFFSET_STAR?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly TOOLTIP_TENDENCY_BUFFER?: number | Authored;
+  readonly TOOLTIP_TIME?: number | Authored;
+  readonly TOOLTIP_TIMER_LOCK_TIME?: number | Authored;
+  readonly TRADE_VIEW_DEFAULT_CREDIT_CHANGE?: number | Authored;
+  readonly TRADE_VIEW_LARGE_CREDIT_CHANGE?: number | Authored;
+  readonly TRADE_VIEW_MASSIVE_CREDIT_CHANGE?: number | Authored;
+  readonly TRADE_VIEW_SMALL_CREDIT_CHANGE?: number | Authored;
+  readonly TRADE_VIEW_WIDE_MODE_THRESHHOLD?: number | Authored;
+  readonly WAROVERVIEW_BATTLE_RESULT_BASE_EXHAUSTION?: number | Authored;
 }
 
 export interface AchievementDefinition {
-  readonly happened: PdxBlock;
-  readonly id: number;
-  readonly possible: PdxBlock;
+  readonly happened: PdxBlock | readonly PdxValue[] | Authored;
+  readonly id: number | Authored;
+  readonly possible: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface AdvisorVoiceDefinition {
-  readonly icon: string;
-  readonly name: string;
-  readonly playable?: PdxBlock;
-  readonly weight: PdxBlock;
+  readonly icon: string | Authored;
+  readonly name: string | Authored;
+  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface AgreementPresetDefinition {
-  readonly can_preset_be_changed?: boolean;
-  readonly hidden?: boolean;
-  readonly icon?: SpriteRef;
-  readonly overlord_weight?: PdxBlock;
-  readonly parent?: AgreementPresetRef;
-  readonly potential?: PdxBlock;
-  readonly should_ai_use_for_proposals?: boolean;
-  readonly specialist_type?: SubjectSpecialistTypeRef;
-  readonly subject_weight?: PdxBlock;
+  readonly can_preset_be_changed?: boolean | Authored;
+  readonly hidden?: boolean | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly overlord_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly parent?: AgreementPresetRef | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly should_ai_use_for_proposals?: boolean | Authored;
+  readonly specialist_type?: SubjectSpecialistTypeRef | Authored;
+  readonly subject_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly term_data?: {
-  readonly discrete_terms?: Record<string, never>;
-  readonly forced_initial_loyalty?: number;
-  readonly has_cooldown_on_first_renegotiation?: boolean;
-  readonly resource_terms?: Record<string, never>;
-};
+  readonly discrete_terms?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly forced_initial_loyalty?: number | Authored;
+  readonly has_cooldown_on_first_renegotiation?: boolean | Authored;
+  readonly resource_terms?: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
 }
 
 export interface AgreementResourceDefinition {
   readonly resources: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 }
 
 export interface AgreementTermDefinition {
-  readonly hidden?: boolean;
-  readonly term_type: "discrete" | "discrete_number" | "specialist_type" | "resource";
+  readonly hidden?: boolean | Authored;
+  readonly term_type: "discrete" | "discrete_number" | "specialist_type" | "resource" | Authored;
 }
 
 export interface AgreementTermValueDefinition {
-  readonly activate_effect?: PdxBlock;
+  readonly activate_effect?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_acceptance?: {
-  readonly overlord?: number;
-  readonly subject?: number;
-};
-  readonly deactivate_effect?: PdxBlock;
-  readonly extra_term_text_overlord?: string;
-  readonly extra_term_text_subject?: string;
-  readonly loyalty_change?: number;
+  readonly overlord?: number | Authored;
+  readonly subject?: number | Authored;
+} | Authored;
+  readonly deactivate_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly extra_term_text_overlord?: string | Authored;
+  readonly extra_term_text_subject?: string | Authored;
+  readonly loyalty_change?: number | Authored;
   readonly overlord_resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly owner_modifier?: PdxBlock;
-  readonly possible?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly resource_max?: PdxBlock;
-  readonly resource_min?: PdxBlock;
-  readonly resources?: Record<string, never>;
+} | Authored;
+  readonly owner_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resource_max?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resource_min?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resources?: PdxBlock | readonly PdxValue[] | Authored;
   readonly subject_resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly subsidy_monthly_multiplier?: number;
-  readonly subsidy_multiplier?: number;
-  readonly target_modifier?: PdxBlock;
-  readonly term?: AgreementTermRef;
-  readonly triggered_loyalty_change?: {
+} | Authored;
+  readonly subsidy_monthly_multiplier?: number | Authored;
+  readonly subsidy_multiplier?: number | Authored;
+  readonly target_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly term?: AgreementTermRef | Authored;
+  readonly triggered_loyalty_change?: ({
   readonly ai_acceptance?: {
-  readonly overlord?: number;
-  readonly subject?: number;
-};
-  readonly loyalty_change: number;
-  readonly trigger: PdxBlock;
-} | readonly {
+  readonly overlord?: number | Authored;
+  readonly subject?: number | Authored;
+} | Authored;
+  readonly loyalty_change: number | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
   readonly ai_acceptance?: {
-  readonly overlord?: number;
-  readonly subject?: number;
-};
-  readonly loyalty_change: number;
-  readonly trigger: PdxBlock;
-}[];
-  readonly unique_owner_modifier?: PdxBlock;
-  readonly unique_target_modifier?: PdxBlock;
+  readonly overlord?: number | Authored;
+  readonly subject?: number | Authored;
+} | Authored;
+  readonly loyalty_change: number | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly unique_owner_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly unique_target_modifier?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface AiBudgetDefinition {
-  readonly category: EconomicCategoryRef;
-  readonly desired_max?: PdxBlock;
+  readonly category: EconomicCategoryRef | Authored;
+  readonly desired_max?: PdxBlock | readonly PdxValue[] | Authored;
   readonly desired_min?: {
   readonly modifier?: ({
-  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count";
+  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
 }) | readonly ({
-  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count";
-})[];
+  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential: PdxBlock;
-  readonly resource: ResourceRef;
-  readonly type: "expenditure" | "upkeep";
-  readonly weight?: PdxBlock;
+} | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resource: ResourceRef | Authored;
+  readonly type: "expenditure" | "upkeep" | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface AiPersonalityDefinition {
-  readonly advanced_start_chance?: number;
-  readonly aggressiveness?: number;
-  readonly ai_module_overrides?: Record<string, never>;
-  readonly allow?: PdxBlock;
-  readonly armor_ratio?: number;
+  readonly advanced_start_chance?: number | Authored;
+  readonly aggressiveness?: number | Authored;
+  readonly ai_module_overrides?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly armor_ratio?: number | Authored;
   readonly behaviour?: {
-  readonly attack_neutrals?: boolean;
-  readonly berserker?: boolean;
-  readonly caste_system?: boolean;
-  readonly conqueror?: boolean;
-  readonly crisis_fighter?: boolean;
-  readonly crisis_leader?: boolean;
-  readonly custodian?: boolean;
-  readonly decadent?: boolean;
-  readonly demands_clear_borders?: boolean;
-  readonly displacer?: boolean;
-  readonly dominator?: boolean;
-  readonly enigmatic?: boolean;
-  readonly holy_planets?: boolean;
-  readonly infiltrator?: boolean;
-  readonly isolationist?: boolean;
-  readonly liberator?: boolean;
-  readonly limited?: boolean;
-  readonly multispecies?: boolean;
-  readonly opportunist?: boolean;
-  readonly propagator?: boolean;
-  readonly purger?: boolean;
-  readonly robot_exploiter?: boolean;
-  readonly robot_liberator?: boolean;
-  readonly slaver?: boolean;
-  readonly sneak_attacker?: boolean;
-  readonly subjugator?: boolean;
-  readonly uplifter?: boolean;
-  readonly wants_tribute?: boolean;
-};
-  readonly bravery?: number;
-  readonly claims_modifier?: number;
-  readonly colony_spending?: number;
-  readonly combat_bravery?: number;
-  readonly commercial_pact_acceptance?: number;
-  readonly defensive_pact_acceptance?: number;
-  readonly federation_acceptance?: number;
-  readonly friction_modifier?: number;
-  readonly hull_ratio?: number;
-  readonly loyalty_acceptance?: number;
-  readonly migration_pact_acceptance?: number;
-  readonly military_spending?: number;
-  readonly nap_acceptance?: number;
-  readonly research_agreement_acceptance?: number;
-  readonly shields_ratio?: number;
-  readonly ship_roles?: PdxBlock;
-  readonly threat_modifier?: number;
-  readonly threat_others_modifier?: number;
-  readonly trade_willingness?: number;
-  readonly weapon_preferences?: string;
-  readonly weight_modifier?: PdxBlock;
+  readonly attack_neutrals?: boolean | Authored;
+  readonly berserker?: boolean | Authored;
+  readonly caste_system?: boolean | Authored;
+  readonly conqueror?: boolean | Authored;
+  readonly crisis_fighter?: boolean | Authored;
+  readonly crisis_leader?: boolean | Authored;
+  readonly custodian?: boolean | Authored;
+  readonly decadent?: boolean | Authored;
+  readonly demands_clear_borders?: boolean | Authored;
+  readonly displacer?: boolean | Authored;
+  readonly dominator?: boolean | Authored;
+  readonly enigmatic?: boolean | Authored;
+  readonly holy_planets?: boolean | Authored;
+  readonly infiltrator?: boolean | Authored;
+  readonly isolationist?: boolean | Authored;
+  readonly liberator?: boolean | Authored;
+  readonly limited?: boolean | Authored;
+  readonly multispecies?: boolean | Authored;
+  readonly opportunist?: boolean | Authored;
+  readonly propagator?: boolean | Authored;
+  readonly purger?: boolean | Authored;
+  readonly robot_exploiter?: boolean | Authored;
+  readonly robot_liberator?: boolean | Authored;
+  readonly slaver?: boolean | Authored;
+  readonly sneak_attacker?: boolean | Authored;
+  readonly subjugator?: boolean | Authored;
+  readonly uplifter?: boolean | Authored;
+  readonly wants_tribute?: boolean | Authored;
+} | Authored;
+  readonly bravery?: number | Authored;
+  readonly claims_modifier?: number | Authored;
+  readonly colony_spending?: number | Authored;
+  readonly combat_bravery?: number | Authored;
+  readonly commercial_pact_acceptance?: number | Authored;
+  readonly defensive_pact_acceptance?: number | Authored;
+  readonly federation_acceptance?: number | Authored;
+  readonly friction_modifier?: number | Authored;
+  readonly hull_ratio?: number | Authored;
+  readonly loyalty_acceptance?: number | Authored;
+  readonly migration_pact_acceptance?: number | Authored;
+  readonly military_spending?: number | Authored;
+  readonly nap_acceptance?: number | Authored;
+  readonly research_agreement_acceptance?: number | Authored;
+  readonly shields_ratio?: number | Authored;
+  readonly ship_roles?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly threat_modifier?: number | Authored;
+  readonly threat_others_modifier?: number | Authored;
+  readonly trade_willingness?: number | Authored;
+  readonly weapon_preferences?: string | Authored;
+  readonly weight_modifier?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface AlertDefinition {
-  readonly sound: SoundEffectRef;
+  readonly sound: SoundEffectRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
@@ -2783,878 +2783,878 @@ export interface AlertIconDefinition {
 }
 
 export interface AmbientObjectDefinition {
-  readonly description?: string;
-  readonly entity: ModelEntityRef;
-  readonly name?: string;
-  readonly selectable?: boolean;
-  readonly show_name?: boolean;
-  readonly tooltip?: string;
+  readonly description?: string | Authored;
+  readonly entity: ModelEntityRef | Authored;
+  readonly name?: string | Authored;
+  readonly selectable?: boolean | Authored;
+  readonly show_name?: boolean | Authored;
+  readonly tooltip?: string | Authored;
 }
 
 export interface AnomalyCategoryDefinition {
   readonly desc?: (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-})[];
-  readonly level: number;
-  readonly max_once?: boolean;
-  readonly max_once_global?: boolean;
-  readonly null_spawn_chance?: number;
-  readonly on_spawn?: PdxBlock;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly level: number | Authored;
+  readonly max_once?: boolean | Authored;
+  readonly max_once_global?: boolean | Authored;
+  readonly null_spawn_chance?: number | Authored;
+  readonly on_spawn?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_success: EventRef | {
   readonly int?: (EventRef | {
-  readonly anomaly_event?: EventRef;
-  readonly max_once?: boolean;
-  readonly max_once_global?: boolean;
-  readonly ship_event?: EventRef;
+  readonly anomaly_event?: EventRef | Authored;
+  readonly max_once?: boolean | Authored;
+  readonly max_once_global?: boolean | Authored;
+  readonly ship_event?: EventRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly (EventRef | {
-  readonly anomaly_event?: EventRef;
-  readonly max_once?: boolean;
-  readonly max_once_global?: boolean;
-  readonly ship_event?: EventRef;
+  readonly anomaly_event?: EventRef | Authored;
+  readonly max_once?: boolean | Authored;
+  readonly max_once_global?: boolean | Authored;
+  readonly ship_event?: EventRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
-  readonly picture?: SpriteRef;
-  readonly should_ai_and_humans_use?: boolean;
-  readonly should_ai_use?: boolean;
+})[] | Authored;
+} | Authored;
+  readonly picture?: SpriteRef | Authored;
+  readonly should_ai_and_humans_use?: boolean | Authored;
+  readonly should_ai_use?: boolean | Authored;
   readonly spawn_chance?: {
   readonly modifier?: ({
-  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count";
+  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
 }) | readonly ({
-  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count";
-})[];
+  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 }
 
 export interface ArchaeologicalSiteTypeDefinition {
-  readonly allow: PdxBlock;
+  readonly allow: PdxBlock | readonly PdxValue[] | Authored;
   readonly desc: (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-})[];
-  readonly max_instances?: number;
-  readonly notification_duration?: number;
-  readonly on_create?: PdxBlock;
-  readonly on_roll_failed: PdxBlock;
-  readonly on_visible?: PdxBlock;
-  readonly picture?: SpriteRef;
-  readonly potential?: PdxBlock;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly max_instances?: number | Authored;
+  readonly notification_duration?: number | Authored;
+  readonly on_create?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_roll_failed: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_visible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly picture?: SpriteRef | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly stage?: ({
   readonly difficulty: number | {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly event: EventRef;
-  readonly icon: SpriteRef;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly event: EventRef | Authored;
+  readonly icon: SpriteRef | Authored;
 }) | readonly ({
   readonly difficulty: number | {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly event: EventRef;
-  readonly icon: SpriteRef;
-})[];
-  readonly stages: number;
-  readonly visible: PdxBlock;
-  readonly weight?: PdxBlock | number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly event: EventRef | Authored;
+  readonly icon: SpriteRef | Authored;
+})[] | Authored;
+  readonly stages: number | Authored;
+  readonly visible: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | number | Authored;
 }
 
 export interface ArmyDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly army_modifier?: PdxBlock;
-  readonly collateral_damage?: number;
-  readonly damage?: number;
-  readonly defensive?: boolean;
-  readonly disband_if_species_lacks_rights?: boolean;
-  readonly has_morale?: boolean;
-  readonly has_species?: boolean;
-  readonly health?: number;
-  readonly icon?: SpriteRef;
-  readonly is_building_spawned?: boolean;
-  readonly is_pop_spawned?: boolean;
-  readonly morale?: number;
-  readonly morale_damage?: number;
-  readonly occupation?: boolean;
-  readonly on_queued?: PdxBlock;
-  readonly on_unqueued?: PdxBlock;
-  readonly pop_limited?: boolean;
-  readonly potential?: PdxBlock;
-  readonly potential_country?: PdxBlock;
-  readonly prerequisites?: Record<string, never>;
-  readonly rebel?: boolean;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly army_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly collateral_damage?: number | Authored;
+  readonly damage?: number | Authored;
+  readonly defensive?: boolean | Authored;
+  readonly disband_if_species_lacks_rights?: boolean | Authored;
+  readonly has_morale?: boolean | Authored;
+  readonly has_species?: boolean | Authored;
+  readonly health?: number | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly is_building_spawned?: boolean | Authored;
+  readonly is_pop_spawned?: boolean | Authored;
+  readonly morale?: number | Authored;
+  readonly morale_damage?: number | Authored;
+  readonly occupation?: boolean | Authored;
+  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly pop_limited?: boolean | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential_country?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rebel?: boolean | Authored;
   readonly resources?: {
-  readonly category?: EconomicCategoryRef;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly show_tech_unlock_if?: PdxBlock;
+} | Authored;
+  readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
   readonly spawn_chance?: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly time?: number;
-  readonly use_armynames_from?: ArmyRef;
-  readonly war_exhaustion?: number;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly use_armynames_from?: ArmyRef | Authored;
+  readonly war_exhaustion?: number | Authored;
 }
 
 export interface ArtifactActionDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly effect?: PdxBlock;
-  readonly potential: PdxBlock;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly sound?: SoundEffectRef;
+} | Authored;
+  readonly sound?: SoundEffectRef | Authored;
 }
 
 export interface ArtifactActionsDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly effect?: PdxBlock;
-  readonly potential?: PdxBlock;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: "artifact_actions";
+  readonly category: "artifact_actions" | Authored;
   readonly cost: {
-  readonly multiplier?: number | string;
+  readonly multiplier?: number | string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-};
-  readonly sound?: SoundEffectRef;
+} | Authored;
+} | Authored;
+  readonly sound?: SoundEffectRef | Authored;
 }
 
 export interface AscensionPerkDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly custom_tooltip?: string | readonly string[];
-  readonly custom_tooltip_with_modifiers?: string;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly custom_tooltip_with_modifiers?: string | Authored;
   readonly modifier?: {
-  readonly custom_tooltip?: string | readonly string[];
-  readonly description?: string;
-  readonly description_parameters?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly description?: string | Authored;
+  readonly description_parameters?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly on_enabled?: PdxBlock;
-  readonly possible?: PdxBlock;
-  readonly potential: PdxBlock;
+} | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly tradition_swap?: ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly custom_tooltip_with_modifiers?: string | readonly string[];
-  readonly inherit_effects?: boolean;
-  readonly inherit_icon?: boolean;
-  readonly inherit_name?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly custom_tooltip_with_modifiers?: string | readonly string[] | Authored;
+  readonly inherit_effects?: boolean | Authored;
+  readonly inherit_icon?: boolean | Authored;
+  readonly inherit_name?: boolean | Authored;
   readonly modifier?: {
-  readonly custom_tooltip?: string | readonly string[];
-  readonly description?: string;
-  readonly description_parameters?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly description?: string | Authored;
+  readonly description_parameters?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly name?: string;
-  readonly on_enabled?: PdxBlock;
-  readonly trigger?: PdxBlock;
-  readonly weight?: PdxBlock;
+} | Authored;
+  readonly name?: string | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly custom_tooltip_with_modifiers?: string | readonly string[];
-  readonly inherit_effects?: boolean;
-  readonly inherit_icon?: boolean;
-  readonly inherit_name?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly custom_tooltip_with_modifiers?: string | readonly string[] | Authored;
+  readonly inherit_effects?: boolean | Authored;
+  readonly inherit_icon?: boolean | Authored;
+  readonly inherit_name?: boolean | Authored;
   readonly modifier?: {
-  readonly custom_tooltip?: string | readonly string[];
-  readonly description?: string;
-  readonly description_parameters?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly description?: string | Authored;
+  readonly description_parameters?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly name?: string;
-  readonly on_enabled?: PdxBlock;
-  readonly trigger?: PdxBlock;
-  readonly weight?: PdxBlock;
-})[];
+} | Authored;
+  readonly name?: string | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface AssetSelectorDefinition {
-  readonly default?: string | ModelEntityRef;
+  readonly default?: string | ModelEntityRef | Authored;
   readonly game_setup?: {
-  readonly default?: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly default?: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly leader?: {
-  readonly bg_admiral?: PdxBlock;
-  readonly bg_official?: PdxBlock;
-  readonly bg_scientist?: PdxBlock;
-  readonly default?: string;
-  readonly default_background?: PdxBlock;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly legendary_bg_azaryn?: PdxBlock;
-  readonly legendary_bg_beholder?: PdxBlock;
-  readonly legendary_bg_keides?: PdxBlock;
-  readonly legendary_bg_skrand?: PdxBlock;
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
+  readonly bg_admiral?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly bg_official?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly bg_scientist?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly default?: string | Authored;
+  readonly default_background?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly legendary_bg_azaryn?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly legendary_bg_beholder?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly legendary_bg_keides?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly legendary_bg_skrand?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
 } | {
-  readonly default?: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly default?: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly no_texture?: {
-  readonly default: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
+  readonly default: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
 } | {
-  readonly default: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly default: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly pop?: {
-  readonly default?: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly default?: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly pop_group?: {
-  readonly default?: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly default?: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly ruler?: {
-  readonly bg_ruler?: PdxBlock;
-  readonly default?: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly legendary_bg_azaryn?: PdxBlock;
-  readonly legendary_bg_beholder?: PdxBlock;
-  readonly legendary_bg_keides?: PdxBlock;
-  readonly legendary_bg_skrand?: PdxBlock;
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
+  readonly bg_ruler?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly default?: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly legendary_bg_azaryn?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly legendary_bg_beholder?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly legendary_bg_keides?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly legendary_bg_skrand?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
 } | {
-  readonly default?: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
+  readonly default?: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
 } | {
-  readonly default?: ModelEntityRef;
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
+  readonly default?: ModelEntityRef | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly species?: {
-  readonly default?: string;
-  readonly filepath?: PdxBlock | readonly PdxBlock[];
-  readonly random?: {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly list: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly default?: string | Authored;
+  readonly filepath?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly random?: ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly list: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
 }
 
 export interface AsteroidBeltTypeDefinition {
-  readonly density?: number;
-  readonly mesh: string | readonly string[];
-  readonly shader?: string;
-  readonly width?: number;
+  readonly density?: number | Authored;
+  readonly mesh: string | readonly string[] | Authored;
+  readonly shader?: string | Authored;
+  readonly width?: number | Authored;
 }
 
 export interface AstralActionDefinition {
-  readonly activation_cost?: PdxBlock;
-  readonly ai_weight?: PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly allow_unlock?: PdxBlock;
-  readonly cooldown?: number;
-  readonly custom_usage_tooltip?: string;
-  readonly effect?: PdxBlock;
-  readonly is_exhausted?: PdxBlock;
-  readonly picture: SpriteRef;
-  readonly potential?: PdxBlock;
-  readonly sound?: SoundEffectRef;
-  readonly unlock_threshold?: number;
-  readonly upgrade?: AstralActionRef;
-  readonly usages?: number;
-  readonly uses_custom_cooldown?: true;
+  readonly activation_cost?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow_unlock?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly cooldown?: number | Authored;
+  readonly custom_usage_tooltip?: string | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly is_exhausted?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly picture: SpriteRef | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sound?: SoundEffectRef | Authored;
+  readonly unlock_threshold?: number | Authored;
+  readonly upgrade?: AstralActionRef | Authored;
+  readonly usages?: number | Authored;
+  readonly uses_custom_cooldown?: true | Authored;
 }
 
 export interface AstralActionsDefinition {
   readonly activation_cost?: {
   readonly cost?: ({
-  readonly astral_threads?: number;
-  readonly multiplier?: number | string;
-  readonly trigger?: PdxBlock;
+  readonly astral_threads?: number | Authored;
+  readonly multiplier?: number | string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly astral_threads?: number;
-  readonly multiplier?: number | string;
-  readonly trigger?: PdxBlock;
+  readonly astral_threads?: number | Authored;
+  readonly multiplier?: number | string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
   readonly ai_weight?: {
-  readonly weight: number;
+  readonly weight: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly allow_unlock?: PdxBlock;
-  readonly cooldown?: number;
-  readonly custom_usage_tooltip?: string;
-  readonly effect?: PdxBlock;
-  readonly is_exhausted?: PdxBlock;
-  readonly picture?: SpriteRef;
-  readonly potential?: PdxBlock;
-  readonly sound?: SoundRef | SoundEffectRef;
-  readonly unlock_threshold?: number;
-  readonly upgrade?: "action_flash_forge_hyper_relay" | "action_quantum_catapult_insight_2";
-  readonly usages?: number;
-  readonly uses_custom_cooldown?: boolean;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow_unlock?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly cooldown?: number | Authored;
+  readonly custom_usage_tooltip?: string | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly is_exhausted?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly picture?: SpriteRef | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sound?: SoundRef | SoundEffectRef | Authored;
+  readonly unlock_threshold?: number | Authored;
+  readonly upgrade?: "action_flash_forge_hyper_relay" | "action_quantum_catapult_insight_2" | Authored;
+  readonly usages?: number | Authored;
+  readonly uses_custom_cooldown?: boolean | Authored;
 }
 
 export interface AstralRiftDefinition {
-  readonly event?: EventRef;
+  readonly event?: EventRef | Authored;
   readonly event_weight?: ({
   readonly modifier?: ({
-  readonly factor?: number;
+  readonly factor?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly factor?: number;
+  readonly factor?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly weight: number;
+})[] | Authored;
+  readonly weight: number | Authored;
 }) | readonly ({
   readonly modifier?: ({
-  readonly factor?: number;
+  readonly factor?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly factor?: number;
+  readonly factor?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly weight: number;
-})[];
-  readonly flags?: Record<string, never>;
-  readonly name: string;
-  readonly on_roll_failed?: PdxBlock;
-  readonly randomized?: boolean;
+})[] | Authored;
+  readonly weight: number | Authored;
+})[] | Authored;
+  readonly flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name: string | Authored;
+  readonly on_roll_failed?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly randomized?: boolean | Authored;
 }
 
 export interface AttitudeDefinition {
   readonly behaviour: {
-  readonly alliance?: boolean;
-  readonly attack?: boolean;
-  readonly coexist?: boolean;
-  readonly trade?: boolean;
-  readonly vassalize?: boolean;
-  readonly weaken?: boolean;
-};
-  readonly type: string;
+  readonly alliance?: boolean | Authored;
+  readonly attack?: boolean | Authored;
+  readonly coexist?: boolean | Authored;
+  readonly trade?: boolean | Authored;
+  readonly vassalize?: boolean | Authored;
+  readonly weaken?: boolean | Authored;
+} | Authored;
+  readonly type: string | Authored;
 }
 
 export interface AuthorityDefinition {
   readonly advanced_authority_swap?: ({
-  readonly description: string;
-  readonly has_heir?: boolean;
-  readonly inherit_effects: boolean;
-  readonly inherit_icon: boolean;
+  readonly description: string | Authored;
+  readonly has_heir?: boolean | Authored;
+  readonly inherit_effects: boolean | Authored;
+  readonly inherit_icon: boolean | Authored;
   readonly modifier: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly name: string;
-  readonly ruler_council_position?: CouncilorRef;
-  readonly tags?: Record<string, never>;
-  readonly trigger: PdxBlock;
+} | Authored;
+  readonly name: string | Authored;
+  readonly ruler_council_position?: CouncilorRef | Authored;
+  readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
-  readonly description: string;
-  readonly has_heir?: boolean;
-  readonly inherit_effects: boolean;
-  readonly inherit_icon: boolean;
+  readonly description: string | Authored;
+  readonly has_heir?: boolean | Authored;
+  readonly inherit_effects: boolean | Authored;
+  readonly inherit_icon: boolean | Authored;
   readonly modifier: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly name: string;
-  readonly ruler_council_position?: CouncilorRef;
-  readonly tags?: Record<string, never>;
-  readonly trigger: PdxBlock;
-})[];
-  readonly can_have_emergency_elections?: boolean;
-  readonly can_reform?: boolean;
-  readonly color?: Record<string, never>;
+} | Authored;
+  readonly name: string | Authored;
+  readonly ruler_council_position?: CouncilorRef | Authored;
+  readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly can_have_emergency_elections?: boolean | Authored;
+  readonly can_reform?: boolean | Authored;
+  readonly color?: PdxBlock | readonly PdxValue[] | Authored;
   readonly country_modifier?: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: false;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: false | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly election_term_variance?: number;
-  readonly election_term_years?: number;
-  readonly election_type?: "none" | "oligarchic" | "democratic";
-  readonly has_agendas?: boolean;
-  readonly has_factions?: boolean;
-  readonly has_heir?: boolean;
-  readonly icon?: string;
-  readonly localization_postfix?: string;
-  readonly machine_empire?: true;
-  readonly max_election_candidates?: number;
-  readonly playable?: PdxBlock;
+} | Authored;
+  readonly election_term_variance?: number | Authored;
+  readonly election_term_years?: number | Authored;
+  readonly election_type?: "none" | "oligarchic" | "democratic" | Authored;
+  readonly has_agendas?: boolean | Authored;
+  readonly has_factions?: boolean | Authored;
+  readonly has_heir?: boolean | Authored;
+  readonly icon?: string | Authored;
+  readonly localization_postfix?: string | Authored;
+  readonly machine_empire?: true | Authored;
+  readonly max_election_candidates?: number | Authored;
+  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: {
-  readonly always?: boolean;
-  readonly text?: string;
+  readonly always?: boolean | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly potential?: {
-  readonly always?: boolean;
-  readonly text?: string;
+  readonly always?: boolean | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly random_weight?: PdxBlock | readonly PdxBlock[];
-  readonly re_election_allowed?: boolean;
-  readonly ruler_council_position: CouncilorRef;
-  readonly tags?: Record<string, never>;
-  readonly trait_localization_postfix?: string;
+} | Authored;
+  readonly random_weight?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly re_election_allowed?: boolean | Authored;
+  readonly ruler_council_position: CouncilorRef | Authored;
+  readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trait_localization_postfix?: string | Authored;
   readonly traits?: {
-  readonly trait?: TraitRef | readonly TraitRef[];
-};
-  readonly uses_mandates?: boolean;
-  readonly valid_for_released_vassal?: boolean;
+  readonly trait?: TraitRef | readonly TraitRef[] | Authored;
+} | Authored;
+  readonly uses_mandates?: boolean | Authored;
+  readonly valid_for_released_vassal?: boolean | Authored;
 }
 
 export interface BitmapfontDefinition {
-  readonly color: string;
-  readonly cursor_offset?: Record<string, never>;
-  readonly fontfiles?: Record<string, never>;
-  readonly name: string;
-  readonly path?: string;
-  readonly selection_offset?: Record<string, never>;
+  readonly color: string | Authored;
+  readonly cursor_offset?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fontfiles?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name: string | Authored;
+  readonly path?: string | Authored;
+  readonly selection_offset?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface BitmapfontOverrideDefinition {
-  readonly fontfiles?: Record<string, never>;
-  readonly languages: Record<string, never>;
+  readonly fontfiles?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly languages: PdxBlock | readonly PdxValue[] | Authored;
   readonly multiline?: {
-  readonly forbidden_start?: Record<string, never>;
-  readonly line_break?: Record<string, never>;
-};
-  readonly name: BitmapfontRef;
-  readonly ttf_font?: FontRef;
-  readonly ttf_size?: number;
-  readonly vertical_offset?: number;
+  readonly forbidden_start?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly line_break?: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly name: BitmapfontRef | Authored;
+  readonly ttf_font?: FontRef | Authored;
+  readonly ttf_size?: number | Authored;
+  readonly vertical_offset?: number | Authored;
 }
 
 export interface BombardmentStanceDefinition {
-  readonly abduct_pops?: boolean;
-  readonly accept_surrender?: boolean;
-  readonly ai_weight: PdxBlock;
-  readonly army_damage?: number;
-  readonly default: boolean;
+  readonly abduct_pops?: boolean | Authored;
+  readonly accept_surrender?: boolean | Authored;
+  readonly ai_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly army_damage?: number | Authored;
+  readonly default: boolean | Authored;
   readonly kill_pop_amount?: {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly kill_pop_chance?: PdxBlock;
-  readonly min_pops_to_kill_pop?: number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly kill_pop_chance?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly min_pops_to_kill_pop?: number | Authored;
   readonly planet_damage?: number | {
-  readonly base: number;
+  readonly base: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly stop_when_armies_dead?: boolean;
-  readonly stop_when_ground_combat?: boolean;
-  readonly trigger: PdxBlock;
+} | Authored;
+  readonly stop_when_armies_dead?: boolean | Authored;
+  readonly stop_when_ground_combat?: boolean | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface BuildingDefinition {
-  readonly abort_trigger?: PdxBlock;
-  readonly add_to_first_building_slot?: true;
-  readonly additional_ai_weight?: number;
-  readonly ai_estimate_without_unemployment?: boolean;
-  readonly ai_weight?: PdxBlock;
-  readonly ai_weight_coefficient?: number;
-  readonly allow?: PdxBlock;
-  readonly army_modifier?: PdxBlock;
-  readonly auto_generate_description?: boolean;
-  readonly base_buildtime?: number;
-  readonly base_cap_amount?: number;
-  readonly building_sets?: Record<string, never>;
-  readonly can_be_disabled?: boolean;
-  readonly can_be_ruined?: boolean;
-  readonly can_build?: boolean;
-  readonly can_demolish?: boolean;
-  readonly capital?: boolean;
-  readonly capital_tier?: number;
-  readonly category?: ("army" | "manufacturing" | "government" | "pop_assembly" | "resource" | "unity" | "research" | "trade" | "amenity" | "planet_buildings" | "amenities") | readonly ("army" | "manufacturing" | "government" | "pop_assembly" | "resource" | "unity" | "research" | "trade" | "amenity" | "planet_buildings" | "amenities")[];
-  readonly convert_to?: Record<string, never> | readonly Record<string, never>[];
-  readonly country_modifier?: PdxBlock;
-  readonly custom_storm_ai_weight?: PdxBlock;
-  readonly custom_tooltip?: string | readonly string[];
-  readonly desc?: {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly destroy_trigger?: PdxBlock;
-  readonly district_limit?: number;
-  readonly empire_limit?: PdxBlock | number;
-  readonly exempt_from_ai_planet_specialization?: boolean;
-  readonly icon?: string | BuildingRef;
-  readonly is_capped_by_modifier?: boolean;
-  readonly is_essential?: boolean;
-  readonly on_built?: PdxBlock;
-  readonly on_destroy?: PdxBlock;
-  readonly on_enabled?: PdxBlock;
-  readonly on_queued?: PdxBlock;
-  readonly on_repaired?: PdxBlock;
-  readonly on_unqueued?: PdxBlock;
-  readonly owner_type?: "corporate" | "subject_holding";
+  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly add_to_first_building_slot?: true | Authored;
+  readonly additional_ai_weight?: number | Authored;
+  readonly ai_estimate_without_unemployment?: boolean | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight_coefficient?: number | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly army_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly auto_generate_description?: boolean | Authored;
+  readonly base_buildtime?: number | Authored;
+  readonly base_cap_amount?: number | Authored;
+  readonly building_sets?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_be_disabled?: boolean | Authored;
+  readonly can_be_ruined?: boolean | Authored;
+  readonly can_build?: boolean | Authored;
+  readonly can_demolish?: boolean | Authored;
+  readonly capital?: boolean | Authored;
+  readonly capital_tier?: number | Authored;
+  readonly category?: ("army" | "manufacturing" | "government" | "pop_assembly" | "resource" | "unity" | "research" | "trade" | "amenity" | "planet_buildings" | "amenities") | readonly ("army" | "manufacturing" | "government" | "pop_assembly" | "resource" | "unity" | "research" | "trade" | "amenity" | "planet_buildings" | "amenities")[] | Authored;
+  readonly convert_to?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_storm_ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly desc?: ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly destroy_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly district_limit?: number | Authored;
+  readonly empire_limit?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly exempt_from_ai_planet_specialization?: boolean | Authored;
+  readonly icon?: string | BuildingRef | Authored;
+  readonly is_capped_by_modifier?: boolean | Authored;
+  readonly is_essential?: boolean | Authored;
+  readonly on_built?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_destroy?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_repaired?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly owner_type?: "corporate" | "subject_holding" | Authored;
   readonly planet_limit?: number | {
-  readonly base: number;
+  readonly base: number | Authored;
   readonly modifier?: ({
-  readonly add?: number;
-  readonly factor?: number;
-  readonly has_country_flag?: string;
-  readonly mult?: number | string;
+  readonly add?: number | Authored;
+  readonly factor?: number | Authored;
+  readonly has_country_flag?: string | Authored;
+  readonly mult?: number | string | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add?: number;
-  readonly factor?: number;
-  readonly has_country_flag?: string;
-  readonly mult?: number | string;
+  readonly add?: number | Authored;
+  readonly factor?: number | Authored;
+  readonly has_country_flag?: string | Authored;
+  readonly mult?: number | string | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
-  readonly planet_modifier?: PdxBlock | readonly PdxBlock[];
-  readonly planetary_ftl_inhibitor?: boolean;
-  readonly position_priority?: number;
-  readonly potential?: PdxBlock;
-  readonly prerequisites?: Record<string, never>;
+})[] | Authored;
+} | Authored;
+  readonly planet_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly planetary_ftl_inhibitor?: boolean | Authored;
+  readonly position_priority?: number | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly ruined_icon?: string | BuildingRef;
-  readonly ruined_trigger?: PdxBlock;
-  readonly show_in_tech?: TechnologyRef;
-  readonly show_tech_unlock_if?: PdxBlock;
-  readonly skip_automation_upgrading?: boolean;
-  readonly system_modifier?: PdxBlock;
-  readonly upgrades?: Record<string, never>;
+} | Authored;
+  readonly ruined_icon?: string | BuildingRef | Authored;
+  readonly ruined_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_in_tech?: TechnologyRef | Authored;
+  readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly skip_automation_upgrading?: boolean | Authored;
+  readonly system_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly upgrades?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ButtonEffectDefinition {
-  readonly allow: PdxBlock;
-  readonly effect?: PdxBlock;
-  readonly potential: PdxBlock;
+  readonly allow: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface BypassDefinition {
-  readonly always_active: boolean;
-  readonly animation_time: number;
-  readonly block_access_if_hostile?: boolean;
-  readonly bypass_effect?: string;
-  readonly can_bypass_be_locked?: boolean;
-  readonly connection_type: "any_other" | "one_to_one" | "scripted_connection" | "hyper_relay" | "to_any_system";
-  readonly country_can_use?: PdxBlock;
-  readonly extends_sensors?: boolean;
-  readonly ftl_bypass_effect: ModelEntityRef;
-  readonly ftl_multiplier?: number;
-  readonly ftl_ship_effect: string;
-  readonly galactic_map_tooltip_desc: string;
-  readonly galactic_map_tooltip_header: string;
-  readonly icon_frame: number;
-  readonly is_pathfind: boolean;
-  readonly name: string;
-  readonly on_action?: string;
-  readonly on_pre_explore?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly prerequisites?: Record<string, never>;
-  readonly remember_instances: boolean;
-  readonly requires_exploration?: boolean;
-  readonly respect_closed_borders?: boolean;
+  readonly always_active: boolean | Authored;
+  readonly animation_time: number | Authored;
+  readonly block_access_if_hostile?: boolean | Authored;
+  readonly bypass_effect?: string | Authored;
+  readonly can_bypass_be_locked?: boolean | Authored;
+  readonly connection_type: "any_other" | "one_to_one" | "scripted_connection" | "hyper_relay" | "to_any_system" | Authored;
+  readonly country_can_use?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly extends_sensors?: boolean | Authored;
+  readonly ftl_bypass_effect: ModelEntityRef | Authored;
+  readonly ftl_multiplier?: number | Authored;
+  readonly ftl_ship_effect: string | Authored;
+  readonly galactic_map_tooltip_desc: string | Authored;
+  readonly galactic_map_tooltip_header: string | Authored;
+  readonly icon_frame: number | Authored;
+  readonly is_pathfind: boolean | Authored;
+  readonly name: string | Authored;
+  readonly on_action?: string | Authored;
+  readonly on_pre_explore?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly remember_instances: boolean | Authored;
+  readonly requires_exploration?: boolean | Authored;
+  readonly respect_closed_borders?: boolean | Authored;
   readonly scripted_connection?: {
-  readonly nexus: PdxBlock;
-  readonly node: PdxBlock;
-};
-  readonly system_view_tooltip_header?: string;
-  readonly uses_action: boolean;
-  readonly winddown_time: number;
-  readonly windup_time: number;
+  readonly nexus: PdxBlock | readonly PdxValue[] | Authored;
+  readonly node: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly system_view_tooltip_header?: string | Authored;
+  readonly uses_action: boolean | Authored;
+  readonly winddown_time: number | Authored;
+  readonly windup_time: number | Authored;
 }
 
 export interface CardCategoriesDefinition {
-  readonly background?: SpriteRef;
-  readonly background_expanded?: SpriteRef;
-  readonly desc: string;
-  readonly icon?: SpriteRef;
-  readonly name: string;
+  readonly background?: SpriteRef | Authored;
+  readonly background_expanded?: SpriteRef | Authored;
+  readonly desc: string | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly name: string | Authored;
   readonly resources?: {
-  readonly category: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity";
+  readonly category: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity" | Authored;
   readonly cost: {
-  readonly trigger: PdxBlock;
-  readonly unity: number;
-};
-};
-  readonly selectable?: boolean;
-  readonly small_icon?: string;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly unity: number | Authored;
+} | Authored;
+} | Authored;
+  readonly selectable?: boolean | Authored;
+  readonly small_icon?: string | Authored;
   readonly starting_weight?: {
-  readonly base: number;
+  readonly base: number | Authored;
   readonly modifier?: ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
-  readonly weights?: Record<string, never>;
+})[] | Authored;
+} | Authored;
+  readonly weights?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface CasusBelliDefinition {
-  readonly aggregated_message_key?: string;
-  readonly destroy_if?: PdxBlock;
-  readonly is_valid?: PdxBlock;
-  readonly on_proxy_war_start?: PdxBlock;
-  readonly potential?: PdxBlock;
+  readonly aggregated_message_key?: string | Authored;
+  readonly destroy_if?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly is_valid?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_proxy_war_start?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly proxy_war_resources?: {
-  readonly category: "all" | "fleet" | "technology" | "economy" | "proxy_war";
-  readonly cost: PdxBlock;
-};
-  readonly show_in_diplomacy?: boolean;
-  readonly show_notification: boolean;
+  readonly category: "all" | "fleet" | "technology" | "economy" | "proxy_war" | Authored;
+  readonly cost: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly show_in_diplomacy?: boolean | Authored;
+  readonly show_notification: boolean | Authored;
 }
 
 export interface CitizenshipTypeDefinition {
   readonly ai_will_do: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly free_pop_modifier?: PdxBlock;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly is_assimilation?: true;
-  readonly is_full_citizenship?: true;
-  readonly is_purge?: true;
-  readonly is_robot_servant?: true;
-  readonly is_slavery?: true;
-  readonly modifier?: PdxBlock;
-  readonly new_pop_weight?: number;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly free_pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly is_assimilation?: true | Authored;
+  readonly is_full_citizenship?: true | Authored;
+  readonly is_purge?: true | Authored;
+  readonly is_robot_servant?: true | Authored;
+  readonly is_slavery?: true | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly new_pop_weight?: number | Authored;
   readonly pop_group_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly pop_status_frame?: number;
-  readonly pop_tooltip?: string;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly pop_status_frame?: number | Authored;
+  readonly pop_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface CivicOrOriginDefinition {
-  readonly added_climate_labels?: Record<string, never>;
-  readonly added_planet_types?: Record<string, never>;
-  readonly advanced_start?: boolean;
-  readonly ai_playable?: PdxBlock;
-  readonly ai_weight?: PdxBlock;
-  readonly alternate_civic_version?: CivicOrOriginRef;
-  readonly blocks_random_machine_empire_generation?: boolean;
-  readonly can_build_ruler_ship?: boolean;
-  readonly city_graphical_culture?: GraphicalCultureRef;
-  readonly custom_tooltip_with_modifiers?: string;
-  readonly description?: string | readonly string[];
-  readonly flags?: Record<string, never>;
-  readonly habitability_preference?: PlanetClassRef;
+  readonly added_climate_labels?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly added_planet_types?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly advanced_start?: boolean | Authored;
+  readonly ai_playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly alternate_civic_version?: CivicOrOriginRef | Authored;
+  readonly blocks_random_machine_empire_generation?: boolean | Authored;
+  readonly can_build_ruler_ship?: boolean | Authored;
+  readonly city_graphical_culture?: GraphicalCultureRef | Authored;
+  readonly custom_tooltip_with_modifiers?: string | Authored;
+  readonly description?: string | readonly string[] | Authored;
+  readonly flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly habitability_preference?: PlanetClassRef | Authored;
   readonly has_secondary_species?: {
-  readonly title: string;
+  readonly title: string | Authored;
   readonly traits?: {
-  readonly trait: TraitRef | readonly TraitRef[];
-};
-};
-  readonly hide_modifiers?: boolean;
-  readonly icon?: string;
-  readonly initializers?: Record<string, never>;
-  readonly is_origin?: true;
-  readonly leader_background_job_weight?: PdxBlock;
-  readonly max_once_global?: true;
+  readonly trait: TraitRef | readonly TraitRef[] | Authored;
+} | Authored;
+} | Authored;
+  readonly hide_modifiers?: boolean | Authored;
+  readonly icon?: string | Authored;
+  readonly initializers?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly is_origin?: true | Authored;
+  readonly leader_background_job_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly max_once_global?: true | Authored;
   readonly modification?: {
-  readonly add?: PdxBlock;
-  readonly moddable_conditions_custom_tooltip?: string;
+  readonly add?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly moddable_conditions_custom_tooltip?: string | Authored;
   readonly remove?: {
-  readonly fail_text?: string;
+  readonly fail_text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-} | boolean;
-  readonly modifier?: PdxBlock | readonly PdxBlock[];
-  readonly multiply_by_habitability_effect_modifier?: PdxBlock | readonly PdxBlock[];
-  readonly negative_description?: string;
-  readonly non_colonizable_planet_class_neighbor?: true;
-  readonly pickable_at_start?: boolean;
-  readonly picture?: SpriteRef;
-  readonly playable?: PdxBlock;
-  readonly portrait?: PortraitRef;
+} | Authored;
+} | boolean | Authored;
+  readonly modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly multiply_by_habitability_effect_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly negative_description?: string | Authored;
+  readonly non_colonizable_planet_class_neighbor?: true | Authored;
+  readonly pickable_at_start?: boolean | Authored;
+  readonly picture?: SpriteRef | Authored;
+  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly portrait?: PortraitRef | Authored;
   readonly possible?: ({
-  readonly always?: boolean;
-  readonly text?: string;
+  readonly always?: boolean | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly always?: boolean;
-  readonly text?: string;
+  readonly always?: boolean | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly potential?: {
-  readonly always?: boolean;
-  readonly text?: string;
+  readonly always?: boolean | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly preferred_planet_class_neighbor?: false;
-  readonly random_weight?: PdxBlock | readonly PdxBlock[];
-  readonly removed_climate_labels?: Record<string, never>;
-  readonly removed_planet_types?: Record<string, never>;
-  readonly room?: string;
+} | Authored;
+  readonly preferred_planet_class_neighbor?: false | Authored;
+  readonly random_weight?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly removed_climate_labels?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly removed_planet_types?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly room?: string | Authored;
   readonly soft_traits?: {
-  readonly trait?: TraitRef | readonly TraitRef[];
-};
-  readonly starting_colony?: PlanetClassRef;
-  readonly swap_type?: {
-  readonly description?: string;
-  readonly modifier?: PdxBlock;
-  readonly name?: string;
-  readonly negative_description?: string;
-  readonly trigger: PdxBlock;
-} | readonly {
-  readonly description?: string;
-  readonly modifier?: PdxBlock;
-  readonly name?: string;
-  readonly negative_description?: string;
-  readonly trigger: PdxBlock;
-}[];
+  readonly trait?: TraitRef | readonly TraitRef[] | Authored;
+} | Authored;
+  readonly starting_colony?: PlanetClassRef | Authored;
+  readonly swap_type?: ({
+  readonly description?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name?: string | Authored;
+  readonly negative_description?: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly description?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name?: string | Authored;
+  readonly negative_description?: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly traits?: {
-  readonly trait?: TraitRef | readonly TraitRef[];
-};
+  readonly trait?: TraitRef | readonly TraitRef[] | Authored;
+} | Authored;
 }
 
 export interface CloudTypeDefinition {
   readonly ambient_object?: {
-  readonly centric: boolean;
-  readonly scale: number;
-  readonly type: "synth_queen_tempest";
-};
-  readonly condition?: PdxBlock;
-  readonly on_system_added?: PdxBlock;
-  readonly on_system_removed?: PdxBlock;
+  readonly centric: boolean | Authored;
+  readonly scale: number | Authored;
+  readonly type: "synth_queen_tempest" | Authored;
+} | Authored;
+  readonly condition?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_system_added?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_system_removed?: PdxBlock | readonly PdxValue[] | Authored;
   readonly parameters: {
-  readonly counter_rotation_speed: number;
-  readonly lightning_duration_max: number;
-  readonly lightning_duration_min: number;
-  readonly lightning_intencity_max: number;
-  readonly lightning_intencity_min: number;
-  readonly lightning_switch_interval_max: number;
-  readonly lightning_switch_interval_min: number;
-  readonly max_opacity: number;
-  readonly max_size: number;
-  readonly min_opacity: number;
-  readonly min_size: number;
-  readonly opacity_change_reversion: boolean;
-  readonly opacity_change_speed: number;
-  readonly rotation_speed: number;
-  readonly size_change_reversion: boolean;
-  readonly size_change_speed: number;
-};
+  readonly counter_rotation_speed: number | Authored;
+  readonly lightning_duration_max: number | Authored;
+  readonly lightning_duration_min: number | Authored;
+  readonly lightning_intencity_max: number | Authored;
+  readonly lightning_intencity_min: number | Authored;
+  readonly lightning_switch_interval_max: number | Authored;
+  readonly lightning_switch_interval_min: number | Authored;
+  readonly max_opacity: number | Authored;
+  readonly max_size: number | Authored;
+  readonly min_opacity: number | Authored;
+  readonly min_size: number | Authored;
+  readonly opacity_change_reversion: boolean | Authored;
+  readonly opacity_change_speed: number | Authored;
+  readonly rotation_speed: number | Authored;
+  readonly size_change_reversion: boolean | Authored;
+  readonly size_change_speed: number | Authored;
+} | Authored;
   readonly textures: {
-  readonly diffuse_texture: string;
-  readonly lightning_horisontal_tiles: number;
-  readonly lightning_texture_atlas: string;
-  readonly lightning_vertical_tiles: number;
-  readonly opacity_texture: string;
-};
+  readonly diffuse_texture: string | Authored;
+  readonly lightning_horisontal_tiles: number | Authored;
+  readonly lightning_texture_atlas: string | Authored;
+  readonly lightning_vertical_tiles: number | Authored;
+  readonly opacity_texture: string | Authored;
+} | Authored;
 }
 
 export interface ColonizationControlDefinition {
   readonly ai_will_do: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly can_colonize?: false;
-  readonly free_pop_modifier?: PdxBlock;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_colonize?: false | Authored;
+  readonly free_pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly pop_group_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly pop_status_frame?: number;
-  readonly pop_tooltip?: string;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly pop_status_frame?: number | Authored;
+  readonly pop_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ColonyAutomationDefinition {
-  readonly available: PdxBlock;
-  readonly buildings: PdxBlock;
-  readonly category: string;
-  readonly prio_districts?: Record<string, never>;
-  readonly prio_zones?: Record<string, never>;
+  readonly available: PdxBlock | readonly PdxValue[] | Authored;
+  readonly buildings: PdxBlock | readonly PdxValue[] | Authored;
+  readonly category: string | Authored;
+  readonly prio_districts?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prio_zones?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface ColonyAutomationExceptionDefinition {
@@ -3663,268 +3663,268 @@ export interface ColonyAutomationExceptionDefinition {
 
 export interface ColonyTypeDefinition {
   readonly ai_resource_conversion?: {
-  readonly trigger: PdxBlock;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly ai_resource_current_conversion?: {
-  readonly trigger: PdxBlock;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly custom_tooltip?: string;
-  readonly icon: SpriteRef;
+} | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly icon: SpriteRef | Authored;
   readonly planet_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential: PdxBlock;
-  readonly weight_modifier: PdxBlock;
+} | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight_modifier: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ColorDefineDefinition {
-  readonly flag: string;
-  readonly map: string;
-  readonly ship: string;
-  readonly use_as_border_color?: false;
+  readonly flag: string | Authored;
+  readonly map: string | Authored;
+  readonly ship: string | Authored;
+  readonly use_as_border_color?: false | Authored;
 }
 
 export interface ComponentSetDefinition {
-  readonly affects_target_type?: boolean;
-  readonly icon?: string | SpriteRef;
-  readonly icon_frame?: string | number;
-  readonly is_core_component_set?: boolean;
-  readonly is_default_space_fauna_component_set?: boolean;
-  readonly is_space_fauna_component_set?: boolean;
-  readonly key?: string;
-  readonly required_component_set?: boolean;
+  readonly affects_target_type?: boolean | Authored;
+  readonly icon?: string | SpriteRef | Authored;
+  readonly icon_frame?: string | number | Authored;
+  readonly is_core_component_set?: boolean | Authored;
+  readonly is_default_space_fauna_component_set?: boolean | Authored;
+  readonly is_space_fauna_component_set?: boolean | Authored;
+  readonly key?: string | Authored;
+  readonly required_component_set?: boolean | Authored;
 }
 
 export interface ComponentSlotTemplateDefinition {
-  readonly component: "weapon" | "strike_craft" | "any";
-  readonly entities?: PdxBlock;
-  readonly is_fixed?: true;
-  readonly size: "extra_large" | "large" | "medium" | "small" | "torpedo" | "point_defence" | "planet_killer" | "titanic" | "engulf" | "any";
+  readonly component: "weapon" | "strike_craft" | "any" | Authored;
+  readonly entities?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly is_fixed?: true | Authored;
+  readonly size: "extra_large" | "large" | "medium" | "small" | "torpedo" | "point_defence" | "planet_killer" | "titanic" | "engulf" | "any" | Authored;
 }
 
 export interface ComponentTemplateDefinition {
-  readonly acceleration?: number;
-  readonly accuracy?: number;
-  readonly ai_tag_weight?: number;
-  readonly ai_tags?: Record<string, never>;
-  readonly ai_weight?: PdxBlock;
-  readonly armor?: number;
-  readonly armor_damage?: number;
-  readonly armor_penetration?: number;
-  readonly attack_range?: number;
-  readonly blocked_by?: Record<string, never>;
-  readonly can_destroy_stars?: boolean;
-  readonly class_restriction?: Record<string, never>;
-  readonly color?: Record<string, never>;
-  readonly component_set?: ComponentSetRef;
-  readonly cooldown?: number;
-  readonly count?: number | string;
+  readonly acceleration?: number | Authored;
+  readonly accuracy?: number | Authored;
+  readonly ai_tag_weight?: number | Authored;
+  readonly ai_tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly armor?: number | Authored;
+  readonly armor_damage?: number | Authored;
+  readonly armor_penetration?: number | Authored;
+  readonly attack_range?: number | Authored;
+  readonly blocked_by?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_destroy_stars?: boolean | Authored;
+  readonly class_restriction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly color?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly component_set?: ComponentSetRef | Authored;
+  readonly cooldown?: number | Authored;
+  readonly count?: number | string | Authored;
   readonly custom_tooltip?: {
-  readonly is_reanimator?: boolean;
-  readonly success_text?: string;
-} | string;
+  readonly is_reanimator?: boolean | Authored;
+  readonly success_text?: string | Authored;
+} | string | Authored;
   readonly damage?: {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly engagement_range?: number;
-  readonly entity?: string;
-  readonly evasion?: number;
-  readonly firing_arc?: number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly engagement_range?: number | Authored;
+  readonly entity?: string | Authored;
+  readonly evasion?: number | Authored;
+  readonly firing_arc?: number | Authored;
   readonly friendly_aura?: {
-  readonly apply_on?: "ships" | "fleets";
+  readonly apply_on?: "ships" | "fleets" | Authored;
   readonly graphics?: {
-  readonly area_effect?: {
-  readonly dynamic_scale: boolean;
-  readonly entity: ModelEntityRef;
-} | readonly {
-  readonly dynamic_scale: boolean;
-  readonly entity: ModelEntityRef;
-}[];
-  readonly ship_effect?: {
-  readonly dynamic_scale: boolean;
-  readonly entity: ModelEntityRef;
-} | readonly {
-  readonly dynamic_scale: boolean;
-  readonly entity: ModelEntityRef;
-}[];
-};
-  readonly limit?: PdxBlock;
-  readonly modifier?: PdxBlock;
-  readonly name: string;
-  readonly radius?: number;
+  readonly area_effect?: ({
+  readonly dynamic_scale: boolean | Authored;
+  readonly entity: ModelEntityRef | Authored;
+}) | readonly ({
+  readonly dynamic_scale: boolean | Authored;
+  readonly entity: ModelEntityRef | Authored;
+})[] | Authored;
+  readonly ship_effect?: ({
+  readonly dynamic_scale: boolean | Authored;
+  readonly entity: ModelEntityRef | Authored;
+}) | readonly ({
+  readonly dynamic_scale: boolean | Authored;
+  readonly entity: ModelEntityRef | Authored;
+})[] | Authored;
+} | Authored;
+  readonly limit?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name: string | Authored;
+  readonly radius?: number | Authored;
   readonly stack_info: {
-  readonly id: string;
-  readonly priority?: number;
-};
-  readonly system_wide?: boolean;
-};
-  readonly ftl?: boolean;
-  readonly ftl_inhibitor?: boolean;
-  readonly health?: number;
-  readonly hidden?: boolean;
-  readonly hide_damage_values_from_tooltip?: boolean;
+  readonly id: string | Authored;
+  readonly priority?: number | Authored;
+} | Authored;
+  readonly system_wide?: boolean | Authored;
+} | Authored;
+  readonly ftl?: boolean | Authored;
+  readonly ftl_inhibitor?: boolean | Authored;
+  readonly health?: number | Authored;
+  readonly hidden?: boolean | Authored;
+  readonly hide_damage_values_from_tooltip?: boolean | Authored;
   readonly hostile_aura?: {
-  readonly apply_on?: "ships" | "fleets";
+  readonly apply_on?: "ships" | "fleets" | Authored;
   readonly damage_per_day?: {
-  readonly accuracy?: number;
-  readonly armor_penetration?: number;
+  readonly accuracy?: number | Authored;
+  readonly armor_penetration?: number | Authored;
   readonly damage?: {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly shield_damage?: number;
-  readonly shield_penetration?: number;
-  readonly size_damage_factor?: number;
-};
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly shield_damage?: number | Authored;
+  readonly shield_penetration?: number | Authored;
+  readonly size_damage_factor?: number | Authored;
+} | Authored;
   readonly graphics?: {
-  readonly area_effect?: {
-  readonly dynamic_scale: boolean;
-  readonly entity: ModelEntityRef;
-} | readonly {
-  readonly dynamic_scale: boolean;
-  readonly entity: ModelEntityRef;
-}[];
-  readonly ship_effect?: {
-  readonly dynamic_scale: boolean;
-  readonly entity: ModelEntityRef;
-} | readonly {
-  readonly dynamic_scale: boolean;
-  readonly entity: ModelEntityRef;
-}[];
-};
-  readonly limit?: PdxBlock;
-  readonly modifier?: PdxBlock;
-  readonly name: string;
-  readonly radius?: number;
+  readonly area_effect?: ({
+  readonly dynamic_scale: boolean | Authored;
+  readonly entity: ModelEntityRef | Authored;
+}) | readonly ({
+  readonly dynamic_scale: boolean | Authored;
+  readonly entity: ModelEntityRef | Authored;
+})[] | Authored;
+  readonly ship_effect?: ({
+  readonly dynamic_scale: boolean | Authored;
+  readonly entity: ModelEntityRef | Authored;
+}) | readonly ({
+  readonly dynamic_scale: boolean | Authored;
+  readonly entity: ModelEntityRef | Authored;
+})[] | Authored;
+} | Authored;
+  readonly limit?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name: string | Authored;
+  readonly radius?: number | Authored;
   readonly stack_info: {
-  readonly id: string;
-  readonly priority: number;
-};
-  readonly system_wide?: boolean;
-};
-  readonly hull_damage?: number;
-  readonly hyperlane_range?: number;
-  readonly icon: SpriteRef;
-  readonly icon_frame?: number;
+  readonly id: string | Authored;
+  readonly priority: number | Authored;
+} | Authored;
+  readonly system_wide?: boolean | Authored;
+} | Authored;
+  readonly hull_damage?: number | Authored;
+  readonly hyperlane_range?: number | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly icon_frame?: number | Authored;
   readonly injected_modifier?: {
-  readonly days?: number;
+  readonly days?: number | Authored;
   readonly modifier?: StaticModifierRef | {
-  readonly days?: number;
-  readonly modifier: StaticModifierRef;
-};
+  readonly days?: number | Authored;
+  readonly modifier: StaticModifierRef | Authored;
+} | Authored;
   readonly stack_info?: {
-  readonly id: "anti_evasion" | "anti_fire_rate" | "bio_anti_evasion" | "bio_anti_fire_rate" | "bio_evasion" | "bio_fire_rate" | "bio_healing" | "disruptor_regen" | "evasion" | "fire_rate" | "healing";
-  readonly priority: number;
-};
-};
-  readonly is_default_component?: boolean;
-  readonly jumpdrive?: boolean;
-  readonly key: string;
-  readonly launch_time?: number;
-  readonly military_power_multiplier?: number;
-  readonly min_range?: number;
-  readonly missile_armor?: number;
-  readonly missile_evasion?: number;
-  readonly missile_health?: number;
-  readonly missile_retarget_range?: number;
-  readonly missile_shield?: number;
-  readonly missile_speed?: number;
-  readonly modifier?: PdxBlock;
+  readonly id: "anti_evasion" | "anti_fire_rate" | "bio_anti_evasion" | "bio_anti_fire_rate" | "bio_evasion" | "bio_fire_rate" | "bio_healing" | "disruptor_regen" | "evasion" | "fire_rate" | "healing" | Authored;
+  readonly priority: number | Authored;
+} | Authored;
+} | Authored;
+  readonly is_default_component?: boolean | Authored;
+  readonly jumpdrive?: boolean | Authored;
+  readonly key: string | Authored;
+  readonly launch_time?: number | Authored;
+  readonly military_power_multiplier?: number | Authored;
+  readonly min_range?: number | Authored;
+  readonly missile_armor?: number | Authored;
+  readonly missile_evasion?: number | Authored;
+  readonly missile_health?: number | Authored;
+  readonly missile_retarget_range?: number | Authored;
+  readonly missile_shield?: number | Authored;
+  readonly missile_speed?: number | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_hit?: {
-  readonly custom_tooltip?: string | readonly string[];
-  readonly hidden_effect?: PdxBlock | readonly PdxBlock[];
-};
-  readonly planet_destruction_gfx?: string;
-  readonly point_defence_targets?: Record<string, never>;
-  readonly potential?: PdxBlock;
-  readonly power?: number;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly hidden_effect?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+} | Authored;
+  readonly planet_destruction_gfx?: string | Authored;
+  readonly point_defence_targets?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly power?: number | Authored;
   readonly prerequisites?: {
-  readonly OR?: Record<string, never> | readonly Record<string, never>[];
-};
-  readonly prio_projectile?: boolean;
-  readonly projectile_gfx?: string;
-  readonly range?: number;
-  readonly regeneration_per_day?: number | string;
+  readonly OR?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+} | Authored;
+  readonly prio_projectile?: boolean | Authored;
+  readonly projectile_gfx?: string | Authored;
+  readonly range?: number | Authored;
+  readonly regeneration_per_day?: number | string | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly rotation_speed?: number;
+} | Authored;
+  readonly rotation_speed?: number | Authored;
   readonly scripted_action?: {
-  readonly activity_key?: string;
-  readonly button_clickable?: PdxBlock;
-  readonly button_visible?: PdxBlock;
-  readonly context_menu_name?: string;
-  readonly cooldown?: number;
-  readonly cost?: PdxBlock;
-  readonly finish_anim_state?: "rage" | "superweapon";
-  readonly finished?: PdxBlock;
-  readonly icon?: SpriteRef;
-  readonly icon_selected?: SpriteRef;
-  readonly name: string;
-  readonly on_cancel?: string;
-  readonly on_click_sound?: string;
-  readonly possible?: PdxBlock;
-  readonly progress_activity_key?: string;
-  readonly required_progress?: number;
-  readonly scope: "self" | "planet";
-  readonly shortcut?: string;
-  readonly slot?: number;
-  readonly tooltip: string;
-  readonly wait?: boolean;
-};
-  readonly scripted_action_activity_key?: string;
-  readonly scripted_action_button_possible?: PdxBlock;
-  readonly scripted_action_context_menu_name?: string;
-  readonly scripted_action_finished?: PdxBlock;
-  readonly scripted_action_icon?: SpriteRef;
-  readonly scripted_action_name?: OnActionRef;
-  readonly scripted_action_on_cancel?: OnActionRef;
-  readonly scripted_action_possible?: PdxBlock;
-  readonly scripted_action_progress_activity_key?: string;
-  readonly scripted_action_required_progress?: number;
-  readonly scripted_action_tooltip?: string;
-  readonly sensor_range?: number;
-  readonly shield?: number;
-  readonly shield_damage?: number;
-  readonly shield_penetration?: number;
-  readonly ship_behavior?: ShipBehaviorRef;
-  readonly ship_limit?: number;
-  readonly ship_modifier?: PdxBlock;
-  readonly should_ai_use?: boolean;
-  readonly show_tech_unlock_if?: PdxBlock;
-  readonly size?: "extra_large" | "large" | "medium" | "small" | "aux" | "torpedo" | "point_defence" | "planet_killer" | "titanic" | "engulf" | "any";
-  readonly size_damage_factor?: number;
-  readonly size_restriction?: Record<string, never>;
-  readonly speed?: number;
-  readonly static_rotation?: boolean;
-  readonly tags?: Record<string, never> | readonly Record<string, never>[];
-  readonly target_focus?: "single" | "spread";
-  readonly target_type?: "target_allies" | "target_controlled" | "target_enemies" | "target_own";
-  readonly target_weights?: PdxBlock;
-  readonly targetable_ship_sizes?: Record<string, never>;
-  readonly total_fire_time?: number;
-  readonly tracking?: number;
+  readonly activity_key?: string | Authored;
+  readonly button_clickable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly button_visible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly context_menu_name?: string | Authored;
+  readonly cooldown?: number | Authored;
+  readonly cost?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly finish_anim_state?: "rage" | "superweapon" | Authored;
+  readonly finished?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly icon_selected?: SpriteRef | Authored;
+  readonly name: string | Authored;
+  readonly on_cancel?: string | Authored;
+  readonly on_click_sound?: string | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly progress_activity_key?: string | Authored;
+  readonly required_progress?: number | Authored;
+  readonly scope: "self" | "planet" | Authored;
+  readonly shortcut?: string | Authored;
+  readonly slot?: number | Authored;
+  readonly tooltip: string | Authored;
+  readonly wait?: boolean | Authored;
+} | Authored;
+  readonly scripted_action_activity_key?: string | Authored;
+  readonly scripted_action_button_possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scripted_action_context_menu_name?: string | Authored;
+  readonly scripted_action_finished?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scripted_action_icon?: SpriteRef | Authored;
+  readonly scripted_action_name?: OnActionRef | Authored;
+  readonly scripted_action_on_cancel?: OnActionRef | Authored;
+  readonly scripted_action_possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scripted_action_progress_activity_key?: string | Authored;
+  readonly scripted_action_required_progress?: number | Authored;
+  readonly scripted_action_tooltip?: string | Authored;
+  readonly sensor_range?: number | Authored;
+  readonly shield?: number | Authored;
+  readonly shield_damage?: number | Authored;
+  readonly shield_penetration?: number | Authored;
+  readonly ship_behavior?: ShipBehaviorRef | Authored;
+  readonly ship_limit?: number | Authored;
+  readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly should_ai_use?: boolean | Authored;
+  readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size?: "extra_large" | "large" | "medium" | "small" | "aux" | "torpedo" | "point_defence" | "planet_killer" | "titanic" | "engulf" | "any" | Authored;
+  readonly size_damage_factor?: number | Authored;
+  readonly size_restriction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly speed?: number | Authored;
+  readonly static_rotation?: boolean | Authored;
+  readonly tags?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly target_focus?: "single" | "spread" | Authored;
+  readonly target_type?: "target_allies" | "target_controlled" | "target_enemies" | "target_own" | Authored;
+  readonly target_weights?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly targetable_ship_sizes?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly total_fire_time?: number | Authored;
+  readonly tracking?: number | Authored;
   readonly triggered_ship_design_modifier?: {
-  readonly potential: PdxBlock;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly type?: "instant" | "point_defence" | "missile" | "planet_killer" | "engulf";
-  readonly upgrade_path?: "artillery" | "buffer" | "carrier" | "debuffer" | "default" | "empty" | "growth" | "harbinger_chitin" | "harbinger_incubator" | "mauler_biter" | "mauler_pursuit" | "picket" | "line" | "stinger_fire_rate" | "stinger_range" | "swarm" | "torpedo" | "weaver_booster" | "weaver_growth_aura";
-  readonly upgrades_to?: ComponentTemplateRef;
-  readonly use_ship_kill_target?: boolean;
-  readonly use_ship_main_target?: boolean;
-  readonly valid_for_country?: PdxBlock;
-  readonly weapon_type?: "instant" | "point_defence" | "missile" | "planet_killer" | "engulf";
+} | Authored;
+  readonly type?: "instant" | "point_defence" | "missile" | "planet_killer" | "engulf" | Authored;
+  readonly upgrade_path?: "artillery" | "buffer" | "carrier" | "debuffer" | "default" | "empty" | "growth" | "harbinger_chitin" | "harbinger_incubator" | "mauler_biter" | "mauler_pursuit" | "picket" | "line" | "stinger_fire_rate" | "stinger_range" | "swarm" | "torpedo" | "weaver_booster" | "weaver_growth_aura" | Authored;
+  readonly upgrades_to?: ComponentTemplateRef | Authored;
+  readonly use_ship_kill_target?: boolean | Authored;
+  readonly use_ship_main_target?: boolean | Authored;
+  readonly valid_for_country?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weapon_type?: "instant" | "point_defence" | "missile" | "planet_killer" | "engulf" | Authored;
   readonly windup?: {
-  readonly max: number;
-  readonly min: number;
-};
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
@@ -3933,599 +3933,599 @@ export interface ComponentTemplateStarbaseDefinition {
 }
 
 export interface ConceptDefinition {
-  readonly alias?: Record<string, never>;
+  readonly alias?: PdxBlock | readonly PdxValue[] | Authored;
   readonly databank?: {
-  readonly category: ConceptCategoriesRef;
-  readonly icon: SpriteRef;
-  readonly picture: SpriteRef;
-};
-  readonly icon?: string;
-  readonly tooltip_override?: string;
-  readonly wiki?: string;
+  readonly category: ConceptCategoriesRef | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly picture: SpriteRef | Authored;
+} | Authored;
+  readonly icon?: string | Authored;
+  readonly tooltip_override?: string | Authored;
+  readonly wiki?: string | Authored;
 }
 
 export interface ConceptCategoriesDefinition {
-  readonly icon: SpriteRef;
-  readonly name: string;
+  readonly icon: SpriteRef | Authored;
+  readonly name: string | Authored;
 }
 
 export interface CosmicStormMissionDefinition {
-  readonly abort_trigger: PdxBlock;
+  readonly abort_trigger: PdxBlock | readonly PdxValue[] | Authored;
   readonly counter?: ({
-  readonly localisation?: {
-  readonly max?: number;
-} | readonly {
-  readonly max?: number;
-}[];
+  readonly localisation?: ({
+  readonly max?: number | Authored;
 }) | readonly ({
-  readonly localisation?: {
-  readonly max?: number;
-} | readonly {
-  readonly max?: number;
-}[];
-})[];
-  readonly desc: string;
-  readonly event_chain: EventChainRef;
-  readonly icon: string;
-  readonly location?: true;
-  readonly on_daily?: PdxBlock;
-  readonly on_monthly?: PdxBlock;
-  readonly on_stop?: PdxBlock;
-  readonly on_success?: PdxBlock;
-  readonly picture: SpriteRef;
+  readonly max?: number | Authored;
+})[] | Authored;
+}) | readonly ({
+  readonly localisation?: ({
+  readonly max?: number | Authored;
+}) | readonly ({
+  readonly max?: number | Authored;
+})[] | Authored;
+})[] | Authored;
+  readonly desc: string | Authored;
+  readonly event_chain: EventChainRef | Authored;
+  readonly icon: string | Authored;
+  readonly location?: true | Authored;
+  readonly on_daily?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_monthly?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_stop?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_success?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly picture: SpriteRef | Authored;
 }
 
 export interface CouncilAgendaDefinition {
-  readonly agenda_cooldown?: number | string;
-  readonly agenda_cost: number | string;
-  readonly agenda_finish_modifier_duration?: number | string;
-  readonly ai_weight?: PdxBlock;
-  readonly allow: PdxBlock;
-  readonly effect?: PdxBlock;
-  readonly finish_modifier?: StaticModifierRef;
-  readonly init_effect?: PdxBlock;
-  readonly initial_effect_custom_loc?: string;
-  readonly modifier?: PdxBlock;
-  readonly potential: PdxBlock;
+  readonly agenda_cooldown?: number | string | Authored;
+  readonly agenda_cost: number | string | Authored;
+  readonly agenda_finish_modifier_duration?: number | string | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly finish_modifier?: StaticModifierRef | Authored;
+  readonly init_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly initial_effect_custom_loc?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface CouncilorDefinition {
   readonly ai_hiring_weight?: {
-  readonly base?: number;
+  readonly base?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly ai_priority?: number;
-  readonly civic?: "none" | CivicOrOriginRef;
-  readonly conditional_tooltip?: string;
-  readonly custom_tooltip?: string;
-  readonly custom_tooltip_with_modifiers?: string;
-  readonly custom_unlock_title?: string;
-  readonly icon?: SpriteRef;
-  readonly is_leader_possible?: PdxBlock;
-  readonly leader_class?: "none" | Record<string, never>;
-  readonly modifier?: PdxBlock;
-  readonly optional?: PdxBlock;
-  readonly possible?: PdxBlock;
-  readonly required?: boolean;
+} | Authored;
+  readonly ai_priority?: number | Authored;
+  readonly civic?: "none" | CivicOrOriginRef | Authored;
+  readonly conditional_tooltip?: string | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly custom_tooltip_with_modifiers?: string | Authored;
+  readonly custom_unlock_title?: string | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly is_leader_possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly leader_class?: "none" | PdxBlock | readonly PdxValue[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly optional?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly required?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface CountryCustomizationDefinition {
   readonly colony_shelter: {
-  readonly default: BuildingRef;
+  readonly default: BuildingRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly graphical_culture_for_random_empire?: PdxBlock;
-  readonly weight?: PdxBlock;
+} | Authored;
+  readonly graphical_culture_for_random_empire?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface CountryTypeDefinition {
   readonly ai: {
-  readonly ascension_perks?: boolean;
-  readonly avoid_enemies?: boolean;
-  readonly can_use_market?: boolean;
-  readonly colonizer?: boolean;
-  readonly construction?: boolean;
-  readonly declare_war?: boolean;
-  readonly diplomacy?: boolean;
-  readonly enabled: boolean;
-  readonly espionage?: boolean;
-  readonly follow?: boolean;
-  readonly government?: boolean;
-  readonly internal_policies?: boolean;
-  readonly limited_construction?: boolean;
-  readonly limited_leaders?: boolean;
-  readonly limited_military_construction?: boolean;
-  readonly min_assault_armies_for_wars?: number;
-  readonly min_navy_for_wars?: number;
-  readonly modification?: boolean;
-  readonly modules?: Record<string, never>;
-  readonly starbase_upgrade?: boolean;
-  readonly tech?: boolean;
-  readonly traditions?: boolean;
-};
-  readonly always_valid_target_aggressive?: boolean;
-  readonly anti_end_game_crisis?: boolean;
-  readonly army_disengagement?: boolean;
-  readonly attack_unarmed_orbital_stations?: boolean;
-  readonly awakened_fallen_empire?: boolean;
-  readonly blocks_piracy?: boolean;
-  readonly blocks_pirate?: boolean;
+  readonly ascension_perks?: boolean | Authored;
+  readonly avoid_enemies?: boolean | Authored;
+  readonly can_use_market?: boolean | Authored;
+  readonly colonizer?: boolean | Authored;
+  readonly construction?: boolean | Authored;
+  readonly declare_war?: boolean | Authored;
+  readonly diplomacy?: boolean | Authored;
+  readonly enabled: boolean | Authored;
+  readonly espionage?: boolean | Authored;
+  readonly follow?: boolean | Authored;
+  readonly government?: boolean | Authored;
+  readonly internal_policies?: boolean | Authored;
+  readonly limited_construction?: boolean | Authored;
+  readonly limited_leaders?: boolean | Authored;
+  readonly limited_military_construction?: boolean | Authored;
+  readonly min_assault_armies_for_wars?: number | Authored;
+  readonly min_navy_for_wars?: number | Authored;
+  readonly modification?: boolean | Authored;
+  readonly modules?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly starbase_upgrade?: boolean | Authored;
+  readonly tech?: boolean | Authored;
+  readonly traditions?: boolean | Authored;
+} | Authored;
+  readonly always_valid_target_aggressive?: boolean | Authored;
+  readonly anti_end_game_crisis?: boolean | Authored;
+  readonly army_disengagement?: boolean | Authored;
+  readonly attack_unarmed_orbital_stations?: boolean | Authored;
+  readonly awakened_fallen_empire?: boolean | Authored;
+  readonly blocks_piracy?: boolean | Authored;
+  readonly blocks_pirate?: boolean | Authored;
   readonly branch_office_resources?: {
-  readonly category: "planet_branch_offices";
+  readonly category: "planet_branch_offices" | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly can_have_their_comms_shared?: boolean;
-  readonly can_own_empty_planets?: boolean;
-  readonly can_planets_be_attacked?: boolean;
-  readonly can_receive_envoys?: boolean;
-  readonly can_use_invalid_technology?: boolean;
-  readonly colonizing_desc?: string;
-  readonly colonizing_title?: string;
-  readonly counts_for_victory?: boolean;
-  readonly custom_diplomacy?: boolean;
-  readonly custom_opinion?: boolean;
-  readonly custom_starbase?: ShipSizeRef;
-  readonly default_ships?: boolean;
-  readonly destroys_starbases?: boolean;
-  readonly diplomatic_wars?: boolean;
-  readonly do_critters_age?: boolean;
-  readonly end_game_crisis?: boolean;
-  readonly enforces_borders?: boolean;
+} | Authored;
+  readonly can_have_their_comms_shared?: boolean | Authored;
+  readonly can_own_empty_planets?: boolean | Authored;
+  readonly can_planets_be_attacked?: boolean | Authored;
+  readonly can_receive_envoys?: boolean | Authored;
+  readonly can_use_invalid_technology?: boolean | Authored;
+  readonly colonizing_desc?: string | Authored;
+  readonly colonizing_title?: string | Authored;
+  readonly counts_for_victory?: boolean | Authored;
+  readonly custom_diplomacy?: boolean | Authored;
+  readonly custom_opinion?: boolean | Authored;
+  readonly custom_starbase?: ShipSizeRef | Authored;
+  readonly default_ships?: boolean | Authored;
+  readonly destroys_starbases?: boolean | Authored;
+  readonly diplomatic_wars?: boolean | Authored;
+  readonly do_critters_age?: boolean | Authored;
+  readonly end_game_crisis?: boolean | Authored;
+  readonly enforces_borders?: boolean | Authored;
   readonly faction?: {
-  readonly auto_delete?: boolean;
-  readonly follow?: boolean;
-  readonly generate_borders?: boolean;
-  readonly hostile?: boolean;
-  readonly hostile_when_attacked?: boolean;
-  readonly intel_effects_surveyed?: boolean;
-  readonly needs_border_access?: boolean;
-  readonly needs_colony?: boolean;
-  readonly neutral?: boolean;
-  readonly pirate?: boolean;
-  readonly primitive?: boolean;
-  readonly primitive_age?: PreFtlAgeRef;
-  readonly show_borders_in_us?: boolean;
-  readonly space_creatures?: boolean;
-};
-  readonly fallen_empire?: boolean;
+  readonly auto_delete?: boolean | Authored;
+  readonly follow?: boolean | Authored;
+  readonly generate_borders?: boolean | Authored;
+  readonly hostile?: boolean | Authored;
+  readonly hostile_when_attacked?: boolean | Authored;
+  readonly intel_effects_surveyed?: boolean | Authored;
+  readonly needs_border_access?: boolean | Authored;
+  readonly needs_colony?: boolean | Authored;
+  readonly neutral?: boolean | Authored;
+  readonly pirate?: boolean | Authored;
+  readonly primitive?: boolean | Authored;
+  readonly primitive_age?: PreFtlAgeRef | Authored;
+  readonly show_borders_in_us?: boolean | Authored;
+  readonly space_creatures?: boolean | Authored;
+} | Authored;
+  readonly fallen_empire?: boolean | Authored;
   readonly fleet_manager?: {
-  readonly on_contract_broken: PdxBlock;
-  readonly on_contract_cancelled: PdxBlock;
-  readonly on_contract_expired: PdxBlock;
-  readonly on_contract_started: PdxBlock;
-};
-  readonly government?: boolean;
-  readonly has_capital?: boolean;
-  readonly has_complete_sensor?: boolean;
-  readonly has_deficits?: true;
-  readonly has_difficulty_bonuses?: boolean;
-  readonly has_plural_name?: boolean;
-  readonly has_pulse_events?: boolean;
-  readonly hide_names_if_no_communication?: boolean;
-  readonly home_system?: string;
-  readonly hub_system?: string;
-  readonly ignore_ftl_inhibitors?: boolean;
-  readonly is_enclave?: boolean;
-  readonly is_mercenary?: true;
-  readonly is_space_critter?: boolean;
-  readonly is_the_shroud?: boolean;
-  readonly mid_game_crisis?: boolean;
-  readonly min_assault_armies_for_wars?: number;
-  readonly min_navy_for_wars?: number;
-  readonly minimalist_contacts_list_profile?: boolean;
+  readonly on_contract_broken: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_contract_cancelled: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_contract_expired: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_contract_started: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly government?: boolean | Authored;
+  readonly has_capital?: boolean | Authored;
+  readonly has_complete_sensor?: boolean | Authored;
+  readonly has_deficits?: true | Authored;
+  readonly has_difficulty_bonuses?: boolean | Authored;
+  readonly has_plural_name?: boolean | Authored;
+  readonly has_pulse_events?: boolean | Authored;
+  readonly hide_names_if_no_communication?: boolean | Authored;
+  readonly home_system?: string | Authored;
+  readonly hub_system?: string | Authored;
+  readonly ignore_ftl_inhibitors?: boolean | Authored;
+  readonly is_enclave?: boolean | Authored;
+  readonly is_mercenary?: true | Authored;
+  readonly is_space_critter?: boolean | Authored;
+  readonly is_the_shroud?: boolean | Authored;
+  readonly mid_game_crisis?: boolean | Authored;
+  readonly min_assault_armies_for_wars?: number | Authored;
+  readonly min_navy_for_wars?: number | Authored;
+  readonly minimalist_contacts_list_profile?: boolean | Authored;
   readonly modules?: {
-  readonly all_technology_module?: Record<string, never>;
-  readonly basic_technology_module?: Record<string, never>;
+  readonly all_technology_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly basic_technology_module?: PdxBlock | readonly PdxValue[] | Authored;
   readonly exclusive_diplomacy_module?: {
-  readonly can_receive?: Record<string, never>;
-  readonly can_send?: Record<string, never>;
-  readonly contact_rule?: "always" | "never" | "on_action_only" | "does_first_contact_sites" | "auto";
-};
+  readonly can_receive?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_send?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly contact_rule?: "always" | "never" | "on_action_only" | "does_first_contact_sites" | "auto" | Authored;
+} | Authored;
   readonly standard_diplomacy_module?: {
-  readonly contact_rule?: "always" | "never" | "on_action_only" | "does_first_contact_sites" | "auto";
-};
-  readonly standard_economy_module?: Record<string, never>;
-  readonly standard_event_module?: Record<string, never>;
-  readonly standard_expansion_module?: Record<string, never>;
-  readonly standard_grand_archive_module?: Record<string, never>;
-  readonly standard_leader_module?: Record<string, never>;
-  readonly standard_pop_factions_module?: Record<string, never>;
-  readonly standard_shroud_module?: Record<string, never>;
-  readonly standard_species_rights_module?: Record<string, never>;
-  readonly standard_technology_module?: Record<string, never>;
-  readonly standard_trade_routes_module?: Record<string, never>;
+  readonly contact_rule?: "always" | "never" | "on_action_only" | "does_first_contact_sites" | "auto" | Authored;
+} | Authored;
+  readonly standard_economy_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_event_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_expansion_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_grand_archive_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_leader_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_pop_factions_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_shroud_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_species_rights_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_technology_module?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly standard_trade_routes_module?: PdxBlock | readonly PdxValue[] | Authored;
   readonly tiered_technology_module?: {
-  readonly rare: boolean;
-  readonly tier: number;
-};
-};
-  readonly needs_survey?: boolean;
-  readonly observable?: boolean;
-  readonly orbital_bombardment?: boolean;
-  readonly ownership_limits?: OwnershipLimitRef;
-  readonly piracy_risk?: boolean;
-  readonly playable?: boolean;
-  readonly pop_growth?: boolean;
-  readonly pre_communications_fleet_name?: string;
-  readonly prevent_automatic_genocidal_hostilities?: boolean;
-  readonly randomize_ethos?: boolean;
-  readonly relations?: boolean;
+  readonly rare: boolean | Authored;
+  readonly tier: number | Authored;
+} | Authored;
+} | Authored;
+  readonly needs_survey?: boolean | Authored;
+  readonly observable?: boolean | Authored;
+  readonly orbital_bombardment?: boolean | Authored;
+  readonly ownership_limits?: OwnershipLimitRef | Authored;
+  readonly piracy_risk?: boolean | Authored;
+  readonly playable?: boolean | Authored;
+  readonly pop_growth?: boolean | Authored;
+  readonly pre_communications_fleet_name?: string | Authored;
+  readonly prevent_automatic_genocidal_hostilities?: boolean | Authored;
+  readonly randomize_ethos?: boolean | Authored;
+  readonly relations?: boolean | Authored;
   readonly replace_scope?: {
-  readonly root: "country";
-  readonly this: "country";
-};
+  readonly root: "country" | Authored;
+  readonly this: "country" | Authored;
+} | Authored;
   readonly resources?: {
-  readonly category: "country_base";
+  readonly category: "country_base" | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly scaled_difficulty_bonuses?: number;
-  readonly share_communications?: boolean;
-  readonly share_survey_data?: boolean;
-  readonly ship_disengagement?: boolean;
-  readonly show_in_contacts_list?: boolean;
-  readonly shuffle_pop_ethos?: boolean;
-  readonly sub_title?: string;
-  readonly sub_title_desc?: string;
-  readonly targets?: Record<string, never>;
-  readonly trade_routes_available?: PdxBlock;
-  readonly uses_origins?: boolean;
-  readonly uses_special_buildables?: boolean;
+} | Authored;
+  readonly scaled_difficulty_bonuses?: number | Authored;
+  readonly share_communications?: boolean | Authored;
+  readonly share_survey_data?: boolean | Authored;
+  readonly ship_disengagement?: boolean | Authored;
+  readonly show_in_contacts_list?: boolean | Authored;
+  readonly shuffle_pop_ethos?: boolean | Authored;
+  readonly sub_title?: string | Authored;
+  readonly sub_title_desc?: string | Authored;
+  readonly targets?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trade_routes_available?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uses_origins?: boolean | Authored;
+  readonly uses_special_buildables?: boolean | Authored;
 }
 
 export interface CrisisLevelDefinition {
-  readonly allow?: PdxBlock;
-  readonly on_unlock: PdxBlock;
-  readonly perks: Record<string, never>;
-  readonly required_crisis_currency: number;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_unlock: PdxBlock | readonly PdxValue[] | Authored;
+  readonly perks: PdxBlock | readonly PdxValue[] | Authored;
+  readonly required_crisis_currency: number | Authored;
 }
 
 export interface CrisisObjectiveDefinition {
-  readonly potential?: PdxBlock;
-  readonly recurring?: true;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly recurring?: true | Authored;
   readonly reward: {
-  readonly divide?: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count";
+  readonly divide?: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 }
 
 export interface CrisisPathDefinition {
-  readonly crisis_currency: ResourceRef;
-  readonly levels: Record<string, never>;
-  readonly objectives: Record<string, never>;
+  readonly crisis_currency: ResourceRef | Authored;
+  readonly levels: PdxBlock | readonly PdxValue[] | Authored;
+  readonly objectives: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface DecisionDefinition {
-  readonly abort_effect?: PdxBlock;
-  readonly abort_trigger?: PdxBlock;
-  readonly ai_weight?: PdxBlock;
-  readonly allow?: PdxBlock;
+  readonly abort_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
   readonly custom_tooltip?: {
-  readonly success_text?: string;
+  readonly success_text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly effect: PdxBlock;
-  readonly enactment_time?: number;
-  readonly icon?: string | DecisionRef;
-  readonly on_queued?: PdxBlock;
-  readonly on_unqueued?: PdxBlock;
-  readonly owned_planets_only?: boolean;
-  readonly potential?: PdxBlock;
-  readonly prerequisites?: Record<string, never>;
+} | Authored;
+  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly enactment_time?: number | Authored;
+  readonly icon?: string | DecisionRef | Authored;
+  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly owned_planets_only?: boolean | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category?: EconomicCategoryRef;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly show_tech_unlock_if?: PdxBlock;
-  readonly sound?: SoundRef | SoundEffectRef;
+} | Authored;
+  readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sound?: SoundRef | SoundEffectRef | Authored;
 }
 
 export interface DepositDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly all_blocker_swap_types?: true;
-  readonly blocker_swap_types?: Record<string, never>;
-  readonly can_be_cleared?: PdxBlock;
-  readonly can_be_cleared_potential?: PdxBlock;
-  readonly category?: DepositCategoryRef | "deposit_cat_rare" | "deposit_cat_blockers";
-  readonly country_modifier?: PdxBlock;
-  readonly custom_tooltip?: string;
-  readonly custom_tooltip_short?: string;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly all_blocker_swap_types?: true | Authored;
+  readonly blocker_swap_types?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_be_cleared?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_be_cleared_potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly category?: DepositCategoryRef | "deposit_cat_rare" | "deposit_cat_blockers" | Authored;
+  readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly custom_tooltip_short?: string | Authored;
   readonly drop_weight?: ({
-  readonly factor: number;
-} | PdxBlock | {
-  readonly weight: 0;
+  readonly factor: number | Authored;
+} | PdxBlock | readonly PdxValue[] | {
+  readonly weight: 0 | Authored;
 }) | readonly ({
-  readonly factor: number;
-} | PdxBlock | {
-  readonly weight: 0;
-})[];
-  readonly habitat_modifier?: PdxBlock;
-  readonly icon?: string;
-  readonly is_for_colonizable?: boolean;
-  readonly is_null?: true;
-  readonly on_cleared?: PdxBlock;
-  readonly planet_modifier?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly prerequisites?: Record<string, never>;
-  readonly should_swap_deposit_on_terraforming?: boolean;
-  readonly station?: "shipclass_mining_station" | "shipclass_research_station";
-  readonly terraforming_swap_types?: Record<string, never>;
-  readonly time?: number;
-  readonly use_for_min_max_adjustments?: boolean;
-  readonly use_weights_for_blocker_swap_types?: boolean;
-  readonly use_weights_for_terraforming_swap_types?: boolean;
+  readonly factor: number | Authored;
+} | PdxBlock | readonly PdxValue[] | {
+  readonly weight: 0 | Authored;
+})[] | Authored;
+  readonly habitat_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon?: string | Authored;
+  readonly is_for_colonizable?: boolean | Authored;
+  readonly is_null?: true | Authored;
+  readonly on_cleared?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly planet_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly should_swap_deposit_on_terraforming?: boolean | Authored;
+  readonly station?: "shipclass_mining_station" | "shipclass_research_station" | Authored;
+  readonly terraforming_swap_types?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly time?: number | Authored;
+  readonly use_for_min_max_adjustments?: boolean | Authored;
+  readonly use_weights_for_blocker_swap_types?: boolean | Authored;
+  readonly use_weights_for_terraforming_swap_types?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface DepositCategoryDefinition {
-  readonly blocker?: true;
-  readonly important?: true;
+  readonly blocker?: true | Authored;
+  readonly important?: true | Authored;
 }
 
 export interface DiploPhraseDefinition {
-  readonly action_ask?: PdxBlock | readonly PdxBlock[];
-  readonly action_demand?: PdxBlock | readonly PdxBlock[];
+  readonly action_ask?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly action_demand?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly greetings?: {
   readonly localisation?: ({
-  readonly trigger: PdxBlock;
-  readonly weight?: PdxBlock | readonly PdxBlock[];
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
 }) | readonly ({
-  readonly trigger: PdxBlock;
-  readonly weight?: PdxBlock | readonly PdxBlock[];
-})[];
-};
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface DiplomacyEconomyDefinition {
-  readonly once: PdxBlock;
-  readonly per_relation: PdxBlock;
+  readonly once: PdxBlock | readonly PdxValue[] | Authored;
+  readonly per_relation: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface DiplomaticActionDefinition {
-  readonly AI_acceptance_base_value?: number;
-  readonly action_type?: "positive" | "negative" | "aggressive" | "neutral";
-  readonly ai_acceptance?: PdxBlock;
-  readonly auto_accepted?: boolean;
-  readonly diplo_view_acceptance_icon?: boolean;
-  readonly envoy_assignment?: string;
-  readonly icon?: SpriteRef;
-  readonly is_listed?: boolean;
-  readonly on_accept?: PdxBlock;
-  readonly on_decline?: PdxBlock;
-  readonly possible?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly prerequisites?: Record<string, never>;
-  readonly proposable?: PdxBlock;
-  readonly require_envoy?: true;
-  readonly requires_actor_federation_leader?: boolean;
-  readonly requires_actor_independence?: boolean;
-  readonly requires_actor_peace?: boolean;
-  readonly requires_alliance_vote?: boolean;
-  readonly requires_recipient_alliance_vote?: boolean;
-  readonly requires_recipient_federation_leader?: boolean;
-  readonly requires_recipient_independence?: boolean;
-  readonly requires_recipient_peace?: boolean;
-  readonly requires_unanimous_vote?: boolean;
-  readonly should_ai_propose?: PdxBlock;
-  readonly should_notify_all_communications?: boolean;
-  readonly should_notify_auto_recipient_on_vote_fail?: boolean;
-  readonly should_open_auto_accept_message_recipient?: boolean;
-  readonly should_remove_response_message_when_not_possible?: boolean;
-  readonly should_show_accept_message?: boolean;
-  readonly should_show_auto_accept_message_actor?: boolean;
-  readonly should_show_auto_accept_message_recipient?: boolean;
-  readonly show_decline_to_alliance_members?: boolean;
-  readonly show_to_alliance_members?: boolean;
-  readonly sound?: SoundEffectRef;
+  readonly AI_acceptance_base_value?: number | Authored;
+  readonly action_type?: "positive" | "negative" | "aggressive" | "neutral" | Authored;
+  readonly ai_acceptance?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly auto_accepted?: boolean | Authored;
+  readonly diplo_view_acceptance_icon?: boolean | Authored;
+  readonly envoy_assignment?: string | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly is_listed?: boolean | Authored;
+  readonly on_accept?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_decline?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly proposable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly require_envoy?: true | Authored;
+  readonly requires_actor_federation_leader?: boolean | Authored;
+  readonly requires_actor_independence?: boolean | Authored;
+  readonly requires_actor_peace?: boolean | Authored;
+  readonly requires_alliance_vote?: boolean | Authored;
+  readonly requires_recipient_alliance_vote?: boolean | Authored;
+  readonly requires_recipient_federation_leader?: boolean | Authored;
+  readonly requires_recipient_independence?: boolean | Authored;
+  readonly requires_recipient_peace?: boolean | Authored;
+  readonly requires_unanimous_vote?: boolean | Authored;
+  readonly should_ai_propose?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly should_notify_all_communications?: boolean | Authored;
+  readonly should_notify_auto_recipient_on_vote_fail?: boolean | Authored;
+  readonly should_open_auto_accept_message_recipient?: boolean | Authored;
+  readonly should_remove_response_message_when_not_possible?: boolean | Authored;
+  readonly should_show_accept_message?: boolean | Authored;
+  readonly should_show_auto_accept_message_actor?: boolean | Authored;
+  readonly should_show_auto_accept_message_recipient?: boolean | Authored;
+  readonly show_decline_to_alliance_members?: boolean | Authored;
+  readonly show_to_alliance_members?: boolean | Authored;
+  readonly sound?: SoundEffectRef | Authored;
 }
 
 export interface DistrictDefinition {
-  readonly additional_ai_weight?: number;
-  readonly ai_estimate_without_unemployment?: boolean;
-  readonly ai_weight?: PdxBlock;
-  readonly ai_weight_coefficient?: number;
-  readonly allow?: PdxBlock;
-  readonly base_buildtime?: number;
-  readonly base_cap_amount?: number;
-  readonly can_demolish?: boolean;
-  readonly conversion_ratio?: number;
-  readonly convert_to?: Record<string, never>;
-  readonly default_starting_district?: boolean;
+  readonly additional_ai_weight?: number | Authored;
+  readonly ai_estimate_without_unemployment?: boolean | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight_coefficient?: number | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly base_buildtime?: number | Authored;
+  readonly base_cap_amount?: number | Authored;
+  readonly can_demolish?: boolean | Authored;
+  readonly conversion_ratio?: number | Authored;
+  readonly convert_to?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly default_starting_district?: boolean | Authored;
   readonly desc?: (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-})[];
-  readonly destroy_trigger?: PdxBlock;
-  readonly exempt_from_ai_planet_specialization?: boolean;
-  readonly expansion_planner?: boolean;
-  readonly expansion_planner_type?: DistrictRef;
-  readonly gridbox?: "district_arcology_mixed_industry" | "district_arcology_research" | "district_resort" | "district_industrial" | "district_generator";
-  readonly icon?: string;
-  readonly inherits_capped_modifiers_from?: DistrictRef;
-  readonly is_capped_by_modifier?: boolean;
-  readonly is_uncapped?: PdxBlock;
-  readonly max_for_deposits_on_planet?: number;
-  readonly min_for_deposits_on_planet?: number;
-  readonly on_built?: PdxBlock;
-  readonly on_destroy?: PdxBlock;
-  readonly on_queued?: PdxBlock;
-  readonly on_unqueued?: PdxBlock;
-  readonly overlay_icon?: SpriteRef;
-  readonly planet_modifier?: PdxBlock | readonly PdxBlock[];
-  readonly potential: PdxBlock;
-  readonly prerequisites?: Record<string, never>;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly destroy_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly exempt_from_ai_planet_specialization?: boolean | Authored;
+  readonly expansion_planner?: boolean | Authored;
+  readonly expansion_planner_type?: DistrictRef | Authored;
+  readonly gridbox?: "district_arcology_mixed_industry" | "district_arcology_research" | "district_resort" | "district_industrial" | "district_generator" | Authored;
+  readonly icon?: string | Authored;
+  readonly inherits_capped_modifiers_from?: DistrictRef | Authored;
+  readonly is_capped_by_modifier?: boolean | Authored;
+  readonly is_uncapped?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly max_for_deposits_on_planet?: number | Authored;
+  readonly min_for_deposits_on_planet?: number | Authored;
+  readonly on_built?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_destroy?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly overlay_icon?: SpriteRef | Authored;
+  readonly planet_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly show_on_uncolonized?: PdxBlock;
-  readonly show_tech_unlock_if?: PdxBlock;
-  readonly triggered_flavor_desc?: {
-  readonly text?: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text?: string;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly triggered_name?: {
-  readonly text?: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text?: string;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly zone_slots?: Record<string, never>;
+} | Authored;
+  readonly show_on_uncolonized?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly triggered_flavor_desc?: ({
+  readonly text?: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly triggered_name?: ({
+  readonly text?: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly zone_slots?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface EconomicCategoryDefinition {
-  readonly add_unscaled_value_to_tooltip?: boolean;
-  readonly ai_use_parent_for_resources_upkeep?: Record<string, never>;
-  readonly category?: "all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade";
-  readonly generate_add_modifiers?: Record<string, never> | readonly Record<string, never>[];
-  readonly generate_mult_modifiers?: Record<string, never> | readonly Record<string, never>[];
-  readonly hidden?: true | boolean;
-  readonly icon?: string;
-  readonly modifier_category?: ("all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade") | readonly ("all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade")[];
-  readonly parent?: EconomicCategoryRef;
-  readonly scaled_value_key?: string;
-  readonly triggered_cost_modifier?: {
-  readonly key: string;
-  readonly modifier_types: Record<string, never>;
-  readonly trigger?: PdxBlock;
-  readonly use_parent_icon?: true;
-} | readonly {
-  readonly key: string;
-  readonly modifier_types: Record<string, never>;
-  readonly trigger?: PdxBlock;
-  readonly use_parent_icon?: true;
-}[];
-  readonly triggered_produces_modifier?: {
-  readonly key: string;
-  readonly modifier_types: Record<string, never>;
-  readonly trigger?: PdxBlock;
-  readonly use_parent_icon?: true;
-} | readonly {
-  readonly key: string;
-  readonly modifier_types: Record<string, never>;
-  readonly trigger?: PdxBlock;
-  readonly use_parent_icon?: true;
-}[];
-  readonly triggered_upkeep_modifier?: {
-  readonly key: string;
-  readonly modifier_types: Record<string, never>;
-  readonly trigger?: PdxBlock;
-  readonly use_parent_icon?: true;
-} | readonly {
-  readonly key: string;
-  readonly modifier_types: Record<string, never>;
-  readonly trigger?: PdxBlock;
-  readonly use_parent_icon?: true;
-}[];
-  readonly use_for_ai_budget?: boolean;
+  readonly add_unscaled_value_to_tooltip?: boolean | Authored;
+  readonly ai_use_parent_for_resources_upkeep?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly category?: "all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade" | Authored;
+  readonly generate_add_modifiers?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly generate_mult_modifiers?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly hidden?: true | boolean | Authored;
+  readonly icon?: string | Authored;
+  readonly modifier_category?: ("all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade") | readonly ("all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade")[] | Authored;
+  readonly parent?: EconomicCategoryRef | Authored;
+  readonly scaled_value_key?: string | Authored;
+  readonly triggered_cost_modifier?: ({
+  readonly key: string | Authored;
+  readonly modifier_types: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_parent_icon?: true | Authored;
+}) | readonly ({
+  readonly key: string | Authored;
+  readonly modifier_types: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_parent_icon?: true | Authored;
+})[] | Authored;
+  readonly triggered_produces_modifier?: ({
+  readonly key: string | Authored;
+  readonly modifier_types: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_parent_icon?: true | Authored;
+}) | readonly ({
+  readonly key: string | Authored;
+  readonly modifier_types: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_parent_icon?: true | Authored;
+})[] | Authored;
+  readonly triggered_upkeep_modifier?: ({
+  readonly key: string | Authored;
+  readonly modifier_types: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_parent_icon?: true | Authored;
+}) | readonly ({
+  readonly key: string | Authored;
+  readonly modifier_types: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_parent_icon?: true | Authored;
+})[] | Authored;
+  readonly use_for_ai_budget?: boolean | Authored;
 }
 
 export interface EconomicPlanDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly empire_size?: number;
-  readonly focus?: PdxBlock;
-  readonly income?: PdxBlock;
-  readonly naval_cap?: number;
-  readonly pops?: number;
-  readonly subplan: {
-  readonly empire_size?: number;
-  readonly focus?: PdxBlock;
-  readonly income?: PdxBlock;
-  readonly naval_cap?: number;
-  readonly optional?: boolean;
-  readonly pops?: number;
-  readonly potential?: PdxBlock;
-  readonly scaling?: boolean;
-  readonly set_name?: string;
-} | readonly {
-  readonly empire_size?: number;
-  readonly focus?: PdxBlock;
-  readonly income?: PdxBlock;
-  readonly naval_cap?: number;
-  readonly optional?: boolean;
-  readonly pops?: number;
-  readonly potential?: PdxBlock;
-  readonly scaling?: boolean;
-  readonly set_name?: string;
-}[];
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly empire_size?: number | Authored;
+  readonly focus?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly income?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly naval_cap?: number | Authored;
+  readonly pops?: number | Authored;
+  readonly subplan: ({
+  readonly empire_size?: number | Authored;
+  readonly focus?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly income?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly naval_cap?: number | Authored;
+  readonly optional?: boolean | Authored;
+  readonly pops?: number | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scaling?: boolean | Authored;
+  readonly set_name?: string | Authored;
+}) | readonly ({
+  readonly empire_size?: number | Authored;
+  readonly focus?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly income?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly naval_cap?: number | Authored;
+  readonly optional?: boolean | Authored;
+  readonly pops?: number | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scaling?: boolean | Authored;
+  readonly set_name?: string | Authored;
+})[] | Authored;
 }
 
 export interface EdictDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly edict_cap_usage?: number;
-  readonly edict_lock_in_months?: number;
-  readonly effect?: PdxBlock;
-  readonly icon: SpriteRef;
-  readonly is_ambition?: true;
-  readonly is_wartime_edict?: true;
-  readonly length: number;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly edict_cap_usage?: number | Authored;
+  readonly edict_lock_in_months?: number | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly is_ambition?: true | Authored;
+  readonly is_wartime_edict?: true | Authored;
+  readonly length: number | Authored;
   readonly modifier?: ({
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly on_disabled?: PdxBlock;
-  readonly potential?: PdxBlock | readonly PdxBlock[];
-  readonly prerequisites?: Record<string, never>;
-  readonly relay_network_modifier?: PdxBlock;
+})[] | Authored;
+  readonly on_disabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly relay_network_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly show_tech_unlock_if?: PdxBlock;
-  readonly unity_cost_mult?: number;
+} | Authored;
+  readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly unity_cost_mult?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface EmpireNameFormatDefinition {
-  readonly adjective?: string;
-  readonly format: string;
-  readonly noun?: string;
-  readonly prefix_format?: string;
+  readonly adjective?: string | Authored;
+  readonly format: string | Authored;
+  readonly noun?: string | Authored;
+  readonly prefix_format?: string | Authored;
   readonly random_weight: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly modifier?: ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
 }
 
 export interface EmpireNamePartsListDefinition {
-  readonly key: string;
+  readonly key: string | Authored;
   readonly parts: {
-  readonly localisation?: number | readonly number[];
-};
+  readonly localisation?: number | readonly number[] | Authored;
+} | Authored;
 }
 
 export interface EspionageAssetDefinition {
-  readonly active: PdxBlock;
+  readonly active: PdxBlock | readonly PdxValue[] | Authored;
   readonly appearance: {
-  readonly default_portrait?: SpriteRef;
-  readonly name_generation_method: "random_person" | "nongenerated";
-  readonly portrait_generation_method: "random_person" | "nongenerated";
-};
-  readonly categories: Record<string, never>;
-  readonly passive: PdxBlock;
-  readonly possible: PdxBlock;
-  readonly potential: PdxBlock;
+  readonly default_portrait?: SpriteRef | Authored;
+  readonly name_generation_method: "random_person" | "nongenerated" | Authored;
+  readonly portrait_generation_method: "random_person" | "nongenerated" | Authored;
+} | Authored;
+  readonly categories: PdxBlock | readonly PdxValue[] | Authored;
+  readonly passive: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface EspionageCategoryDefinition {
@@ -4533,38 +4533,38 @@ export interface EspionageCategoryDefinition {
 }
 
 export interface EspionageOperationDefinition {
-  readonly abort?: PdxBlock;
-  readonly allow: PdxBlock;
-  readonly categories: Record<string, never>;
+  readonly abort?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow: PdxBlock | readonly PdxValue[] | Authored;
+  readonly categories: PdxBlock | readonly PdxValue[] | Authored;
   readonly desc: (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-})[];
-  readonly on_create: PdxBlock;
-  readonly on_roll_failed: PdxBlock;
-  readonly picture: SpriteRef;
-  readonly potential: PdxBlock;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly on_create: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_roll_failed: PdxBlock | readonly PdxValue[] | Authored;
+  readonly picture: SpriteRef | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly spy_power_cost: number;
-  readonly stage: {
-  readonly difficulty: number;
-  readonly event: EventRef;
-  readonly icon: SpriteRef;
-} | readonly {
-  readonly difficulty: number;
-  readonly event: EventRef;
-  readonly icon: SpriteRef;
-}[];
-  readonly stages: number;
-  readonly target?: "none" | "megastructure" | "country" | "fleet" | "army" | "pop_faction" | "federation" | "starbase" | "spynetwork";
-  readonly target_allow?: PdxBlock;
-  readonly target_potential?: PdxBlock;
+} | Authored;
+  readonly spy_power_cost: number | Authored;
+  readonly stage: ({
+  readonly difficulty: number | Authored;
+  readonly event: EventRef | Authored;
+  readonly icon: SpriteRef | Authored;
+}) | readonly ({
+  readonly difficulty: number | Authored;
+  readonly event: EventRef | Authored;
+  readonly icon: SpriteRef | Authored;
+})[] | Authored;
+  readonly stages: number | Authored;
+  readonly target?: "none" | "megastructure" | "country" | "fleet" | "army" | "pop_faction" | "federation" | "starbase" | "spynetwork" | Authored;
+  readonly target_allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly target_potential?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface EthicCategoryDefinition {
@@ -4572,375 +4572,375 @@ export interface EthicCategoryDefinition {
 }
 
 export interface EthosDefinition {
-  readonly category: EthicCategoryRef;
-  readonly category_opposite?: boolean;
-  readonly category_value: number;
-  readonly cost: number;
-  readonly country_attraction?: PdxBlock;
+  readonly category: EthicCategoryRef | Authored;
+  readonly category_opposite?: boolean | Authored;
+  readonly category_value: number | Authored;
+  readonly cost: number | Authored;
+  readonly country_attraction?: PdxBlock | readonly PdxValue[] | Authored;
   readonly country_modifier?: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly fanatic_variant?: EthosRef;
-  readonly leader_background_job_weight?: PdxBlock;
-  readonly playable?: PdxBlock;
-  readonly pop_attraction?: PdxBlock;
-  readonly pop_attraction_tag?: {
-  readonly desc: string;
-  readonly trigger: PdxBlock;
-} | readonly {
-  readonly desc: string;
-  readonly trigger: PdxBlock;
-}[];
-  readonly random_weight: PdxBlock;
-  readonly regular_variant?: EthosRef;
-  readonly tags?: Record<string, never>;
-  readonly use_for_pops?: boolean;
-  readonly xenophile?: boolean;
-  readonly xenophobe?: boolean;
+} | Authored;
+  readonly fanatic_variant?: EthosRef | Authored;
+  readonly leader_background_job_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly pop_attraction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly pop_attraction_tag?: ({
+  readonly desc: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly desc: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly random_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly regular_variant?: EthosRef | Authored;
+  readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_for_pops?: boolean | Authored;
+  readonly xenophile?: boolean | Authored;
+  readonly xenophobe?: boolean | Authored;
 }
 
 export interface EventDefinition {
-  readonly abort_effect?: PdxBlock;
-  readonly abort_trigger?: PdxBlock;
-  readonly after?: PdxBlock | readonly PdxBlock[];
-  readonly archaeology?: boolean;
-  readonly astral_rift?: true;
-  readonly auto_opens?: boolean;
-  readonly auto_select?: boolean;
-  readonly base?: EventRef;
-  readonly custom_gui?: string;
-  readonly custom_gui_option?: string;
+  readonly abort_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly after?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly archaeology?: boolean | Authored;
+  readonly astral_rift?: true | Authored;
+  readonly auto_opens?: boolean | Authored;
+  readonly auto_select?: boolean | Authored;
+  readonly base?: EventRef | Authored;
+  readonly custom_gui?: string | Authored;
+  readonly custom_gui_option?: string | Authored;
   readonly desc?: string | {
   readonly exclusive_trigger?: {
   readonly switch?: {
-  readonly trigger: string;
+  readonly trigger: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly show_sound?: SoundEffectRef;
-  readonly text?: string | readonly string[];
+} | Authored;
+  readonly show_sound?: SoundEffectRef | Authored;
+  readonly text?: string | readonly string[] | Authored;
   readonly trigger?: {
   readonly switch?: {
-  readonly trigger: string;
+  readonly trigger: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-} | PdxValue;
-  readonly desc_clear?: true;
-  readonly difficulty?: string;
-  readonly diplomatic?: boolean;
-  readonly diplomatic_title?: string;
-  readonly espionage_operation?: boolean;
-  readonly event_chain?: EventChainRef;
-  readonly event_message_type?: string;
-  readonly event_picture_background?: SpriteRef;
-  readonly event_window_type?: "crisis_leader_conversation" | "leader_recruit" | "leader_story" | "leader_conversation";
-  readonly fire_only_once?: boolean;
-  readonly first_contact?: boolean;
-  readonly force_open?: boolean;
-  readonly hide_window?: boolean;
-  readonly id: string;
+} | Authored;
+} | PdxValue | Authored;
+  readonly desc_clear?: true | Authored;
+  readonly difficulty?: string | Authored;
+  readonly diplomatic?: boolean | Authored;
+  readonly diplomatic_title?: string | Authored;
+  readonly espionage_operation?: boolean | Authored;
+  readonly event_chain?: EventChainRef | Authored;
+  readonly event_message_type?: string | Authored;
+  readonly event_picture_background?: SpriteRef | Authored;
+  readonly event_window_type?: "crisis_leader_conversation" | "leader_recruit" | "leader_story" | "leader_conversation" | Authored;
+  readonly fire_only_once?: boolean | Authored;
+  readonly first_contact?: boolean | Authored;
+  readonly force_open?: boolean | Authored;
+  readonly hide_window?: boolean | Authored;
+  readonly id: string | Authored;
   readonly immediate?: ({
   readonly ai_chance?: {
-  readonly factor: 1;
-};
+  readonly factor: 1 | Authored;
+} | Authored;
   readonly ai_trade_facility?: {
   readonly allow?: {
   readonly can_afford_special_offer?: {
-  readonly target: string;
-};
+  readonly target: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly info_gathering?: {
   readonly get_trade_data: {
-  readonly target: string;
-};
-};
-  readonly offer_hire_mercenary_fleet?: boolean;
-  readonly offer_prolong_fleet_contract?: boolean;
+  readonly target: string | Authored;
+} | Authored;
+} | Authored;
+  readonly offer_hire_mercenary_fleet?: boolean | Authored;
+  readonly offer_prolong_fleet_contract?: boolean | Authored;
   readonly option_selection?: {
   readonly if?: {
   readonly limit: {
   readonly is_offer_terms_actual?: {
-  readonly target: string;
-};
+  readonly target: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-};
+} | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly name?: string;
-  readonly run_in_ai_mode?: boolean;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name?: string | Authored;
+  readonly run_in_ai_mode?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
   readonly ai_chance?: {
-  readonly factor: 1;
-};
+  readonly factor: 1 | Authored;
+} | Authored;
   readonly ai_trade_facility?: {
   readonly allow?: {
   readonly can_afford_special_offer?: {
-  readonly target: string;
-};
+  readonly target: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly info_gathering?: {
   readonly get_trade_data: {
-  readonly target: string;
-};
-};
-  readonly offer_hire_mercenary_fleet?: boolean;
-  readonly offer_prolong_fleet_contract?: boolean;
+  readonly target: string | Authored;
+} | Authored;
+} | Authored;
+  readonly offer_hire_mercenary_fleet?: boolean | Authored;
+  readonly offer_prolong_fleet_contract?: boolean | Authored;
   readonly option_selection?: {
   readonly if?: {
   readonly limit: {
   readonly is_offer_terms_actual?: {
-  readonly target: string;
-};
+  readonly target: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-};
+} | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly name?: string;
-  readonly run_in_ai_mode?: boolean;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name?: string | Authored;
+  readonly run_in_ai_mode?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly is_advisor_event?: boolean;
-  readonly is_test_event?: true | boolean;
-  readonly is_triggered_only?: boolean;
-  readonly location?: string;
+})[] | Authored;
+  readonly is_advisor_event?: boolean | Authored;
+  readonly is_test_event?: true | boolean | Authored;
+  readonly is_triggered_only?: boolean | Authored;
+  readonly location?: string | Authored;
   readonly mean_time_to_happen?: {
-  readonly days?: number;
-  readonly months?: number;
-  readonly years?: number;
+  readonly days?: number | Authored;
+  readonly months?: number | Authored;
+  readonly years?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly message_desc?: string;
-  readonly notification_event_icon?: SpriteRef;
-  readonly notification_event_icon_frame?: number;
+} | Authored;
+  readonly message_desc?: string | Authored;
+  readonly notification_event_icon?: SpriteRef | Authored;
+  readonly notification_event_icon_frame?: number | Authored;
   readonly option?: ({
-  readonly ai_chance?: PdxBlock;
+  readonly ai_chance?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_trade_facility?: {
   readonly allow?: {
   readonly can_afford_special_offer?: {
-  readonly target: string;
-};
+  readonly target: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly info_gathering?: {
   readonly get_trade_data: {
-  readonly target: string;
-};
-};
-  readonly offer_hire_mercenary_fleet?: boolean;
-  readonly offer_prolong_fleet_contract?: boolean;
+  readonly target: string | Authored;
+} | Authored;
+} | Authored;
+  readonly offer_hire_mercenary_fleet?: boolean | Authored;
+  readonly offer_prolong_fleet_contract?: boolean | Authored;
   readonly option_selection?: {
   readonly if?: {
   readonly limit: {
   readonly is_offer_terms_actual?: {
-  readonly target: string;
-};
+  readonly target: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-};
+} | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock | readonly PdxBlock[];
-  readonly custom_gui?: string;
-  readonly default_hide_option?: boolean;
-  readonly exclusive_trigger?: PdxBlock;
-  readonly hide_option_if_not_allowed?: boolean;
+} | Authored;
+  readonly allow?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly custom_gui?: string | Authored;
+  readonly default_hide_option?: boolean | Authored;
+  readonly exclusive_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly hide_option_if_not_allowed?: boolean | Authored;
   readonly icon?: {
-  readonly icon: SpriteRef;
-  readonly icon_background?: SpriteRef;
-  readonly text?: string;
-};
-  readonly is_dialog_only?: boolean | true;
+  readonly icon: SpriteRef | Authored;
+  readonly icon_background?: SpriteRef | Authored;
+  readonly text?: string | Authored;
+} | Authored;
+  readonly is_dialog_only?: boolean | true | Authored;
   readonly name: (string | {
-  readonly text?: string;
+  readonly text?: string | Authored;
   readonly trigger: {
   readonly switch?: {
-  readonly trigger: string;
+  readonly trigger: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 } | {
-  readonly exclusive_trigger: PdxBlock;
-  readonly text: string;
+  readonly exclusive_trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text: string | Authored;
 }) | readonly (string | {
-  readonly text?: string;
+  readonly text?: string | Authored;
   readonly trigger: {
   readonly switch?: {
-  readonly trigger: string;
+  readonly trigger: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 } | {
-  readonly exclusive_trigger: PdxBlock;
-  readonly text: string;
-})[];
-  readonly response_text?: string;
-  readonly sound?: string;
-  readonly tag?: "hire_leader" | "dismiss_leader";
-  readonly trigger?: PdxBlock;
+  readonly exclusive_trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text: string | Authored;
+})[] | Authored;
+  readonly response_text?: string | Authored;
+  readonly sound?: string | Authored;
+  readonly tag?: "hire_leader" | "dismiss_leader" | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly ai_chance?: PdxBlock;
+  readonly ai_chance?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_trade_facility?: {
   readonly allow?: {
   readonly can_afford_special_offer?: {
-  readonly target: string;
-};
+  readonly target: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly info_gathering?: {
   readonly get_trade_data: {
-  readonly target: string;
-};
-};
-  readonly offer_hire_mercenary_fleet?: boolean;
-  readonly offer_prolong_fleet_contract?: boolean;
+  readonly target: string | Authored;
+} | Authored;
+} | Authored;
+  readonly offer_hire_mercenary_fleet?: boolean | Authored;
+  readonly offer_prolong_fleet_contract?: boolean | Authored;
   readonly option_selection?: {
   readonly if?: {
   readonly limit: {
   readonly is_offer_terms_actual?: {
-  readonly target: string;
-};
+  readonly target: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-};
+} | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock | readonly PdxBlock[];
-  readonly custom_gui?: string;
-  readonly default_hide_option?: boolean;
-  readonly exclusive_trigger?: PdxBlock;
-  readonly hide_option_if_not_allowed?: boolean;
+} | Authored;
+  readonly allow?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly custom_gui?: string | Authored;
+  readonly default_hide_option?: boolean | Authored;
+  readonly exclusive_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly hide_option_if_not_allowed?: boolean | Authored;
   readonly icon?: {
-  readonly icon: SpriteRef;
-  readonly icon_background?: SpriteRef;
-  readonly text?: string;
-};
-  readonly is_dialog_only?: boolean | true;
+  readonly icon: SpriteRef | Authored;
+  readonly icon_background?: SpriteRef | Authored;
+  readonly text?: string | Authored;
+} | Authored;
+  readonly is_dialog_only?: boolean | true | Authored;
   readonly name: (string | {
-  readonly text?: string;
+  readonly text?: string | Authored;
   readonly trigger: {
   readonly switch?: {
-  readonly trigger: string;
+  readonly trigger: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 } | {
-  readonly exclusive_trigger: PdxBlock;
-  readonly text: string;
+  readonly exclusive_trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text: string | Authored;
 }) | readonly (string | {
-  readonly text?: string;
+  readonly text?: string | Authored;
   readonly trigger: {
   readonly switch?: {
-  readonly trigger: string;
+  readonly trigger: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 } | {
-  readonly exclusive_trigger: PdxBlock;
-  readonly text: string;
-})[];
-  readonly response_text?: string;
-  readonly sound?: string;
-  readonly tag?: "hire_leader" | "dismiss_leader";
-  readonly trigger?: PdxBlock;
+  readonly exclusive_trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text: string | Authored;
+})[] | Authored;
+  readonly response_text?: string | Authored;
+  readonly sound?: string | Authored;
+  readonly tag?: "hire_leader" | "dismiss_leader" | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly option_clear?: true;
+})[] | Authored;
+  readonly option_clear?: true | Authored;
   readonly picture?: (SpriteRef | {
   readonly picture?: (SpriteRef | {
-  readonly picture: SpriteRef;
-  readonly trigger: PdxBlock;
+  readonly picture: SpriteRef | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (SpriteRef | {
-  readonly picture: SpriteRef;
-  readonly trigger: PdxBlock;
-})[];
-  readonly trigger?: PdxBlock;
+  readonly picture: SpriteRef | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
 } | string) | readonly (SpriteRef | {
   readonly picture?: (SpriteRef | {
-  readonly picture: SpriteRef;
-  readonly trigger: PdxBlock;
+  readonly picture: SpriteRef | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (SpriteRef | {
-  readonly picture: SpriteRef;
-  readonly trigger: PdxBlock;
-})[];
-  readonly trigger?: PdxBlock;
-} | string)[];
-  readonly picture_clear?: true;
-  readonly pre_triggers?: PdxBlock;
+  readonly picture: SpriteRef | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+} | string)[] | Authored;
+  readonly picture_clear?: true | Authored;
+  readonly pre_triggers?: PdxBlock | readonly PdxValue[] | Authored;
   readonly show_sound?: (SoundEffectRef | {
-  readonly sound: SoundEffectRef;
-  readonly sound_is_advisor?: boolean;
-  readonly trigger?: PdxBlock;
+  readonly sound: SoundEffectRef | Authored;
+  readonly sound_is_advisor?: boolean | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
 } | string) | readonly (SoundEffectRef | {
-  readonly sound: SoundEffectRef;
-  readonly sound_is_advisor?: boolean;
-  readonly trigger?: PdxBlock;
-} | string)[];
-  readonly show_sound_clear?: true;
-  readonly situation?: string;
-  readonly specimen?: SpecimenRef;
-  readonly title?: string | PdxValue;
-  readonly trackable?: boolean;
-  readonly trigger?: PdxBlock;
-  readonly trigger_clear?: true;
+  readonly sound: SoundEffectRef | Authored;
+  readonly sound_is_advisor?: boolean | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+} | string)[] | Authored;
+  readonly show_sound_clear?: true | Authored;
+  readonly situation?: string | Authored;
+  readonly specimen?: SpecimenRef | Authored;
+  readonly title?: string | PdxValue | Authored;
+  readonly trackable?: boolean | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger_clear?: true | Authored;
   readonly weight_multiplier?: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | {
-  readonly factor?: number;
+  readonly factor?: number | Authored;
   readonly modifier?: ({
-  readonly add?: number | string;
-  readonly factor?: number;
+  readonly add?: number | string | Authored;
+  readonly factor?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add?: number | string;
-  readonly factor?: number;
+  readonly add?: number | string | Authored;
+  readonly factor?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
 }
 
 export interface EventChainDefinition {
-  readonly abort_trigger?: PdxBlock;
+  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly counter?: ({
-  readonly localisation?: {
-  readonly max?: number;
-} | readonly {
-  readonly max?: number;
-}[];
+  readonly localisation?: ({
+  readonly max?: number | Authored;
 }) | readonly ({
-  readonly localisation?: {
-  readonly max?: number;
-} | readonly {
-  readonly max?: number;
-}[];
-})[];
-  readonly icon?: string;
-  readonly picture?: SpriteRef;
+  readonly max?: number | Authored;
+})[] | Authored;
+}) | readonly ({
+  readonly localisation?: ({
+  readonly max?: number | Authored;
+}) | readonly ({
+  readonly max?: number | Authored;
+})[] | Authored;
+})[] | Authored;
+  readonly icon?: string | Authored;
+  readonly picture?: SpriteRef | Authored;
 }
 
 export interface FallenEmpireInitializerDefinition {
@@ -4948,265 +4948,265 @@ export interface FallenEmpireInitializerDefinition {
 }
 
 export interface FallenEmpiresDefinition {
-  readonly allow_custom_empire_design?: boolean;
-  readonly create_country_effect: PdxBlock;
-  readonly graphical_culture: GraphicalCultureRef;
-  readonly initializer?: SolarSystemInitializerRef | "fallen_hive_last_thought";
-  readonly possible?: PdxBlock;
-  readonly weight_modifier: PdxBlock;
+  readonly allow_custom_empire_design?: boolean | Authored;
+  readonly create_country_effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly graphical_culture: GraphicalCultureRef | Authored;
+  readonly initializer?: SolarSystemInitializerRef | "fallen_hive_last_thought" | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight_modifier: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface FederationLawDefinition {
-  readonly ai_weight: PdxBlock;
-  readonly allow: PdxBlock;
-  readonly cohesion_growth?: number;
-  readonly display_level?: number;
+  readonly ai_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow: PdxBlock | readonly PdxValue[] | Authored;
+  readonly cohesion_growth?: number | Authored;
+  readonly display_level?: number | Authored;
   readonly modifier?: {
-  readonly description?: string;
+  readonly description?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly on_enact?: PdxBlock;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly on_enact?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly required_centralization?: {
-  readonly base: number;
-};
-  readonly unlocks_centralization?: number;
+  readonly base: number | Authored;
+} | Authored;
+  readonly unlocks_centralization?: number | Authored;
 }
 
 export interface FederationLawCategoryDefinition {
-  readonly centralization?: true;
-  readonly laws: Record<string, never>;
-  readonly potential?: PdxBlock;
-  readonly show_succession_date?: true;
+  readonly centralization?: true | Authored;
+  readonly laws: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_succession_date?: true | Authored;
 }
 
 export interface FederationPerkDefinition {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly envoy_modifier?: {
-  readonly description?: string;
+  readonly description?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly federation_modifier?: {
-  readonly description?: string;
+  readonly description?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly federation_triggered_modifier?: ({
-  readonly potential?: PdxBlock;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly potential?: PdxBlock;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly leader_modifier?: {
-  readonly description?: string;
+  readonly description?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly leader_triggered_modifier?: ({
-  readonly key?: string;
-  readonly potential?: PdxBlock;
+  readonly key?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly key?: string;
-  readonly potential?: PdxBlock;
+  readonly key?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly member_triggered_modifier?: ({
-  readonly key?: string;
-  readonly potential?: PdxBlock;
+  readonly key?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly key?: string;
-  readonly potential?: PdxBlock;
+  readonly key?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly members_modifier?: {
-  readonly description?: string;
+  readonly description?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly on_activate?: PdxBlock;
-  readonly on_deactivate?: PdxBlock;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly on_activate?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_deactivate?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface FederationTypeDefinition {
-  readonly ai_weight: PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly base_intel: number;
-  readonly icon: SpriteRef;
+  readonly ai_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly base_intel: number | Authored;
+  readonly icon: SpriteRef | Authored;
   readonly levels: {
-  readonly localisation: {
-  readonly experience?: number;
-  readonly perks: Record<string, never>;
-} | readonly {
-  readonly experience?: number;
-  readonly perks: Record<string, never>;
-}[];
-};
-  readonly on_create: PdxBlock;
-  readonly ownership_limits?: OwnershipLimitRef;
-  readonly potential: PdxBlock;
-  readonly valid_leader?: PdxBlock;
+  readonly localisation: ({
+  readonly experience?: number | Authored;
+  readonly perks: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly experience?: number | Authored;
+  readonly perks: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
+  readonly on_create: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ownership_limits?: OwnershipLimitRef | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly valid_leader?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface FirstContactStageDefinition {
   readonly difficulty: number | {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly icon?: SpriteRef;
-  readonly on_roll_failed: PdxBlock;
-  readonly picture?: SpriteRef;
-  readonly stage_event: {
-  readonly event: EventRef;
-  readonly event_weight: PdxBlock;
-  readonly icon?: SpriteRef;
-  readonly summary?: string;
-} | readonly {
-  readonly event: EventRef;
-  readonly event_weight: PdxBlock;
-  readonly icon?: SpriteRef;
-  readonly summary?: string;
-}[];
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly on_roll_failed: PdxBlock | readonly PdxValue[] | Authored;
+  readonly picture?: SpriteRef | Authored;
+  readonly stage_event: ({
+  readonly event: EventRef | Authored;
+  readonly event_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly summary?: string | Authored;
+}) | readonly ({
+  readonly event: EventRef | Authored;
+  readonly event_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly summary?: string | Authored;
+})[] | Authored;
 }
 
 export interface FocusCardKeyDefinition {
-  readonly background?: SpriteRef;
-  readonly base?: FocusCardKeyRef;
-  readonly category?: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity";
-  readonly condition_for_achievement: PdxBlock;
-  readonly desc: string;
-  readonly hint: string;
-  readonly lore: string;
-  readonly name: string;
-  readonly on_success?: PdxBlock;
-  readonly possible?: PdxBlock;
-  readonly tier?: number;
+  readonly background?: SpriteRef | Authored;
+  readonly base?: FocusCardKeyRef | Authored;
+  readonly category?: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity" | Authored;
+  readonly condition_for_achievement: PdxBlock | readonly PdxValue[] | Authored;
+  readonly desc: string | Authored;
+  readonly hint: string | Authored;
+  readonly lore: string | Authored;
+  readonly name: string | Authored;
+  readonly on_success?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly tier?: number | Authored;
 }
 
 export interface FocusRewardsDefinition {
-  readonly category?: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity";
-  readonly cost: number;
-  readonly mode: "end" | "left" | "right";
-  readonly on_success?: PdxBlock;
+  readonly category?: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity" | Authored;
+  readonly cost: number | Authored;
+  readonly mode: "end" | "left" | "right" | Authored;
+  readonly on_success?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface FontDefinition {
   readonly fontstyle: {
-  readonly file: string;
-  readonly style: "regular";
-};
-  readonly name: string;
+  readonly file: string | Authored;
+  readonly style: "regular" | Authored;
+} | Authored;
+  readonly name: string | Authored;
 }
 
 export interface GalacticFocusDefinition {
-  readonly effect: PdxBlock;
-  readonly icon: SpriteRef;
-  readonly potential: PdxBlock;
-  readonly trigger: PdxBlock;
+  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface GameRuleDefinition {
-  readonly mult?: ("aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly ("aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[];
+  readonly mult?: ("aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly ("aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface GlobalShipDesignDefinition {
-  readonly allow_buildable_trigger?: ScriptedTriggerRef;
-  readonly country_type?: CountryTypeRef;
-  readonly creature_designer_template?: boolean;
-  readonly custom_trade_weight?: number;
-  readonly fleet_specialization_tag?: string;
-  readonly graphical_culture?: GraphicalCultureRef;
-  readonly growth_stages?: Record<string, never>;
-  readonly hide_size?: boolean;
-  readonly is_event_design?: boolean;
-  readonly is_special_buildable?: boolean;
-  readonly name?: string;
-  readonly newborn_ship_design?: string;
-  readonly regenerates_when_disabled?: boolean;
-  readonly required_component?: ComponentTemplateRef | readonly ComponentTemplateRef[];
-  readonly roles?: "artillery" | "artillery_stealth" | "brawler" | "brawler_stealth" | "buffer_role" | "buffer_role_stealth" | "carrier" | "carrier_stealth" | "citadel" | "debuffer_role" | "debuffer_role_stealth" | "energy_torpedoes" | "energy_torpedoes_stealth" | "explosive" | "explosive_stealth" | "gunship" | "gunship_stealth" | "screen" | "screen_stealth";
+  readonly allow_buildable_trigger?: ScriptedTriggerRef | Authored;
+  readonly country_type?: CountryTypeRef | Authored;
+  readonly creature_designer_template?: boolean | Authored;
+  readonly custom_trade_weight?: number | Authored;
+  readonly fleet_specialization_tag?: string | Authored;
+  readonly graphical_culture?: GraphicalCultureRef | Authored;
+  readonly growth_stages?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly hide_size?: boolean | Authored;
+  readonly is_event_design?: boolean | Authored;
+  readonly is_special_buildable?: boolean | Authored;
+  readonly name?: string | Authored;
+  readonly newborn_ship_design?: string | Authored;
+  readonly regenerates_when_disabled?: boolean | Authored;
+  readonly required_component?: ComponentTemplateRef | readonly ComponentTemplateRef[] | Authored;
+  readonly roles?: "artillery" | "artillery_stealth" | "brawler" | "brawler_stealth" | "buffer_role" | "buffer_role_stealth" | "carrier" | "carrier_stealth" | "citadel" | "debuffer_role" | "debuffer_role_stealth" | "energy_torpedoes" | "energy_torpedoes_stealth" | "explosive" | "explosive_stealth" | "gunship" | "gunship_stealth" | "screen" | "screen_stealth" | Authored;
   readonly section?: ({
-  readonly component?: {
-  readonly slot?: string;
-  readonly template?: ComponentTemplateRef;
-} | readonly {
-  readonly slot?: string;
-  readonly template?: ComponentTemplateRef;
-}[];
-  readonly slot?: string;
-  readonly template?: SectionTemplateRef;
+  readonly component?: ({
+  readonly slot?: string | Authored;
+  readonly template?: ComponentTemplateRef | Authored;
 }) | readonly ({
-  readonly component?: {
-  readonly slot?: string;
-  readonly template?: ComponentTemplateRef;
-} | readonly {
-  readonly slot?: string;
-  readonly template?: ComponentTemplateRef;
-}[];
-  readonly slot?: string;
-  readonly template?: SectionTemplateRef;
-})[];
-  readonly ship_size?: ShipSizeRef;
-  readonly upgrades_to?: string | Record<string, never>;
-  readonly use_design_name?: boolean;
+  readonly slot?: string | Authored;
+  readonly template?: ComponentTemplateRef | Authored;
+})[] | Authored;
+  readonly slot?: string | Authored;
+  readonly template?: SectionTemplateRef | Authored;
+}) | readonly ({
+  readonly component?: ({
+  readonly slot?: string | Authored;
+  readonly template?: ComponentTemplateRef | Authored;
+}) | readonly ({
+  readonly slot?: string | Authored;
+  readonly template?: ComponentTemplateRef | Authored;
+})[] | Authored;
+  readonly slot?: string | Authored;
+  readonly template?: SectionTemplateRef | Authored;
+})[] | Authored;
+  readonly ship_size?: ShipSizeRef | Authored;
+  readonly upgrades_to?: string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_design_name?: boolean | Authored;
 }
 
 export interface GovernmentDefinition {
-  readonly dynastic_last_names?: boolean;
-  readonly heir_title?: string;
-  readonly heir_title_female?: string;
-  readonly possible: PdxBlock;
-  readonly ruler_title: string;
-  readonly ruler_title_female?: string;
-  readonly should_force_rename?: boolean;
-  readonly use_regnal_names?: boolean;
-  readonly weight: PdxBlock;
+  readonly dynastic_last_names?: boolean | Authored;
+  readonly heir_title?: string | Authored;
+  readonly heir_title_female?: string | Authored;
+  readonly possible: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ruler_title: string | Authored;
+  readonly ruler_title_female?: string | Authored;
+  readonly should_force_rename?: boolean | Authored;
+  readonly use_regnal_names?: boolean | Authored;
+  readonly weight: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface GrandArchiveShipCategoryTypeDefinition {
-  readonly desc?: string;
-  readonly growth_tooltip?: string;
-  readonly namelist?: NameListRef;
-  readonly preferred_planet_class?: PlanetClassRef;
-  readonly prefers_nebula?: boolean;
-  readonly rarity_icons?: SpriteRef;
-  readonly sexual_breeding?: boolean;
-  readonly uses_name_list?: boolean;
+  readonly desc?: string | Authored;
+  readonly growth_tooltip?: string | Authored;
+  readonly namelist?: NameListRef | Authored;
+  readonly preferred_planet_class?: PlanetClassRef | Authored;
+  readonly prefers_nebula?: boolean | Authored;
+  readonly rarity_icons?: SpriteRef | Authored;
+  readonly sexual_breeding?: boolean | Authored;
+  readonly uses_name_list?: boolean | Authored;
 }
 
 export interface GraphicalCultureDefinition {
-  readonly fallback?: GraphicalCultureRef;
-  readonly has_city_graphics?: false;
-  readonly randomized?: PdxBlock;
-  readonly selectable?: PdxBlock;
-  readonly ship_color?: boolean;
-  readonly ship_kinds?: Record<string, never>;
+  readonly fallback?: GraphicalCultureRef | Authored;
+  readonly has_city_graphics?: false | Authored;
+  readonly randomized?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly selectable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ship_color?: boolean | Authored;
+  readonly ship_kinds?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ship_lighting?: {
-  readonly ambient_far?: number;
-  readonly ambient_near?: number;
-  readonly cam_light_1_dir: Record<string, never>;
-  readonly cam_light_2_dir: Record<string, never>;
-  readonly cam_light_3_dir: Record<string, never>;
-  readonly far_value?: number;
-  readonly intensity_far?: number;
-  readonly intensity_near?: number;
-  readonly near_value?: number;
-  readonly rim_start_far?: number;
-  readonly rim_start_near?: number;
-  readonly rim_stop_far?: number;
-  readonly rim_stop_near?: number;
-};
+  readonly ambient_far?: number | Authored;
+  readonly ambient_near?: number | Authored;
+  readonly cam_light_1_dir: PdxBlock | readonly PdxValue[] | Authored;
+  readonly cam_light_2_dir: PdxBlock | readonly PdxValue[] | Authored;
+  readonly cam_light_3_dir: PdxBlock | readonly PdxValue[] | Authored;
+  readonly far_value?: number | Authored;
+  readonly intensity_far?: number | Authored;
+  readonly intensity_near?: number | Authored;
+  readonly near_value?: number | Authored;
+  readonly rim_start_far?: number | Authored;
+  readonly rim_start_near?: number | Authored;
+  readonly rim_stop_far?: number | Authored;
+  readonly rim_stop_near?: number | Authored;
+} | Authored;
   readonly ship_selection_weight?: {
-  readonly base: number;
+  readonly base: number | Authored;
   readonly modifier?: ({
-  readonly set: number;
+  readonly set: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly set: number;
+  readonly set: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
 }
 
 export interface GuiTypeDefinition {
@@ -5215,144 +5215,144 @@ export interface GuiTypeDefinition {
 }
 
 export interface IntelCategoryDefinition {
-  readonly intel_level?: Record<string, never> | readonly Record<string, never>[];
+  readonly intel_level?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
 }
 
 export interface IntelLevelDefinition {
-  readonly frame: number;
-  readonly intel: Record<string, never>;
+  readonly frame: number | Authored;
+  readonly intel: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface JobDefinition {
-  readonly allow_only_same_rank_pops?: boolean;
-  readonly auto_generate_description?: boolean | readonly boolean[];
-  readonly auto_trait_prio?: Record<string, never>;
-  readonly building_icon?: BuildingRef | string;
-  readonly can_be_automated?: boolean;
-  readonly can_set_priority?: boolean;
-  readonly category?: SocialStrataRef;
-  readonly clothes_texture_index?: number;
-  readonly condition_string?: string;
-  readonly contributes_to_diplo_weight?: boolean;
-  readonly count_as_available_for_ai?: boolean;
-  readonly country_modifier?: PdxBlock;
-  readonly demotion?: {
-  readonly effect: PdxBlock;
-  readonly time: number;
-} | readonly {
-  readonly effect: PdxBlock;
-  readonly time: number;
-}[];
-  readonly desc?: {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-}[];
-  readonly exempt_from_ai_amenity_prioritization?: boolean;
-  readonly first_come_first_served?: boolean;
-  readonly icon?: string;
-  readonly ignores_favorite?: boolean;
-  readonly ignores_sapience?: boolean;
-  readonly is_capped_by_modifier?: boolean;
-  readonly is_pre_sapient?: boolean;
+  readonly allow_only_same_rank_pops?: boolean | Authored;
+  readonly auto_generate_description?: boolean | readonly boolean[] | Authored;
+  readonly auto_trait_prio?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly building_icon?: BuildingRef | string | Authored;
+  readonly can_be_automated?: boolean | Authored;
+  readonly can_set_priority?: boolean | Authored;
+  readonly category?: SocialStrataRef | Authored;
+  readonly clothes_texture_index?: number | Authored;
+  readonly condition_string?: string | Authored;
+  readonly contributes_to_diplo_weight?: boolean | Authored;
+  readonly count_as_available_for_ai?: boolean | Authored;
+  readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly demotion?: ({
+  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly time: number | Authored;
+}) | readonly ({
+  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly time: number | Authored;
+})[] | Authored;
+  readonly desc?: ({
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly exempt_from_ai_amenity_prioritization?: boolean | Authored;
+  readonly first_come_first_served?: boolean | Authored;
+  readonly icon?: string | Authored;
+  readonly ignores_favorite?: boolean | Authored;
+  readonly ignores_sapience?: boolean | Authored;
+  readonly is_capped_by_modifier?: boolean | Authored;
+  readonly is_pre_sapient?: boolean | Authored;
   readonly overlord_resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly planet_modifier?: PdxBlock | readonly PdxBlock[];
-  readonly pop_modifier?: PdxBlock;
-  readonly possible?: PdxBlock;
-  readonly possible_pre_triggers?: PdxBlock;
-  readonly possible_precalc?: "can_fill_ruler_job" | "can_fill_specialist_job" | "can_fill_worker_job" | "can_fill_drone_job" | "can_fill_precursor_job";
+} | Authored;
+  readonly planet_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible_pre_triggers?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible_precalc?: "can_fill_ruler_job" | "can_fill_specialist_job" | "can_fill_worker_job" | "can_fill_drone_job" | "can_fill_precursor_job" | Authored;
   readonly promotion?: {
-  readonly effect: PdxBlock;
-  readonly time: number;
-};
-  readonly purge?: PurgeTypeRef;
+  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly time: number | Authored;
+} | Authored;
+  readonly purge?: PurgeTypeRef | Authored;
   readonly resources?: ({
-  readonly category?: EconomicCategoryRef;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly produces?: ({
-  readonly mult?: (number | string) | readonly (number | string)[];
-  readonly multiplier?: (number | string) | readonly (number | string)[];
-  readonly trigger?: PdxBlock;
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
+  readonly multiplier?: (number | string) | readonly (number | string)[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: (number | string) | readonly (number | string)[];
-  readonly multiplier?: (number | string) | readonly (number | string)[];
-  readonly trigger?: PdxBlock;
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
+  readonly multiplier?: (number | string) | readonly (number | string)[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly upkeep?: ({
-  readonly mult?: (number | string) | readonly (number | string)[];
-  readonly multiplier?: (number | string) | readonly (number | string)[];
-  readonly trigger?: PdxBlock;
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
+  readonly multiplier?: (number | string) | readonly (number | string)[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: (number | string) | readonly (number | string)[];
-  readonly multiplier?: (number | string) | readonly (number | string)[];
-  readonly trigger?: PdxBlock;
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
+  readonly multiplier?: (number | string) | readonly (number | string)[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
 }) | readonly ({
-  readonly category?: EconomicCategoryRef;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly produces?: ({
-  readonly mult?: (number | string) | readonly (number | string)[];
-  readonly multiplier?: (number | string) | readonly (number | string)[];
-  readonly trigger?: PdxBlock;
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
+  readonly multiplier?: (number | string) | readonly (number | string)[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: (number | string) | readonly (number | string)[];
-  readonly multiplier?: (number | string) | readonly (number | string)[];
-  readonly trigger?: PdxBlock;
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
+  readonly multiplier?: (number | string) | readonly (number | string)[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly upkeep?: ({
-  readonly mult?: (number | string) | readonly (number | string)[];
-  readonly multiplier?: (number | string) | readonly (number | string)[];
-  readonly trigger?: PdxBlock;
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
+  readonly multiplier?: (number | string) | readonly (number | string)[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: (number | string) | readonly (number | string)[];
-  readonly multiplier?: (number | string) | readonly (number | string)[];
-  readonly trigger?: PdxBlock;
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
+  readonly multiplier?: (number | string) | readonly (number | string)[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-})[];
+})[] | Authored;
+})[] | Authored;
   readonly swappable_data?: {
   readonly default: {
-  readonly building_icon?: string | BuildingRef;
-  readonly condition_string?: string;
-  readonly desc?: string;
-  readonly icon?: string;
-};
+  readonly building_icon?: string | BuildingRef | Authored;
+  readonly condition_string?: string | Authored;
+  readonly desc?: string | Authored;
+  readonly icon?: string | Authored;
+} | Authored;
   readonly swap_type?: ({
-  readonly building_icon?: string | BuildingRef;
-  readonly condition_string?: string;
-  readonly desc?: string;
-  readonly icon?: string;
-  readonly name?: JobRef | string;
-  readonly trigger: PdxBlock;
-  readonly weight: number;
+  readonly building_icon?: string | BuildingRef | Authored;
+  readonly condition_string?: string | Authored;
+  readonly desc?: string | Authored;
+  readonly icon?: string | Authored;
+  readonly name?: JobRef | string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight: number | Authored;
 }) | readonly ({
-  readonly building_icon?: string | BuildingRef;
-  readonly condition_string?: string;
-  readonly desc?: string;
-  readonly icon?: string;
-  readonly name?: JobRef | string;
-  readonly trigger: PdxBlock;
-  readonly weight: number;
-})[];
-};
-  readonly system_modifier?: PdxBlock;
-  readonly tags?: Record<string, never>;
+  readonly building_icon?: string | BuildingRef | Authored;
+  readonly condition_string?: string | Authored;
+  readonly desc?: string | Authored;
+  readonly icon?: string | Authored;
+  readonly name?: JobRef | string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight: number | Authored;
+})[] | Authored;
+} | Authored;
+  readonly system_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_tags?: {
-  readonly tags: Record<string, never>;
-  readonly trigger: PdxBlock;
-};
-  readonly weight?: PdxBlock;
+  readonly tags: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
@@ -5361,2386 +5361,2386 @@ export interface JobTagsDefinition {
 }
 
 export interface LeaderClassDefinition {
-  readonly ai_location_weight?: PdxBlock;
-  readonly ai_weight?: PdxBlock;
-  readonly assignment_cooldown?: 360;
-  readonly can_be_assigned_to_federation?: boolean;
-  readonly can_be_assigned_to_galactic_community?: boolean;
-  readonly can_be_envoy?: boolean;
-  readonly can_boost_cloaking_detection?: boolean;
-  readonly can_conduct_active_reconnaissance?: boolean;
-  readonly can_crew_science_ship?: boolean;
-  readonly can_explore_rifts?: boolean;
-  readonly can_govern_planet?: boolean;
-  readonly can_have_traits?: boolean;
-  readonly can_lead_army?: boolean;
-  readonly can_lead_navy?: boolean;
-  readonly can_research?: boolean;
-  readonly can_research_anomalies?: boolean;
-  readonly can_research_archaeology_site?: boolean;
-  readonly can_research_special_projects?: boolean;
-  readonly can_research_tech?: boolean;
-  readonly can_rule_empire?: boolean;
-  readonly can_survey?: boolean;
-  readonly default_category?: "official" | "commander" | "scientist" | "envoy";
-  readonly description: string;
-  readonly icon?: number;
-  readonly leader_background_job_weight?: PdxBlock;
-  readonly leader_capacity?: "@base_leader_cap";
-  readonly max_trait_points?: number;
-  readonly minimum_ai_target?: number;
-  readonly name: string;
-  readonly name_plural: string;
-  readonly paragon_background_selector?: string;
-  readonly recruitable?: boolean;
-  readonly replaces_old_class?: ("governor" | "admiral" | "general") | readonly ("governor" | "admiral" | "general")[];
+  readonly ai_location_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly assignment_cooldown?: 360 | Authored;
+  readonly can_be_assigned_to_federation?: boolean | Authored;
+  readonly can_be_assigned_to_galactic_community?: boolean | Authored;
+  readonly can_be_envoy?: boolean | Authored;
+  readonly can_boost_cloaking_detection?: boolean | Authored;
+  readonly can_conduct_active_reconnaissance?: boolean | Authored;
+  readonly can_crew_science_ship?: boolean | Authored;
+  readonly can_explore_rifts?: boolean | Authored;
+  readonly can_govern_planet?: boolean | Authored;
+  readonly can_have_traits?: boolean | Authored;
+  readonly can_lead_army?: boolean | Authored;
+  readonly can_lead_navy?: boolean | Authored;
+  readonly can_research?: boolean | Authored;
+  readonly can_research_anomalies?: boolean | Authored;
+  readonly can_research_archaeology_site?: boolean | Authored;
+  readonly can_research_special_projects?: boolean | Authored;
+  readonly can_research_tech?: boolean | Authored;
+  readonly can_rule_empire?: boolean | Authored;
+  readonly can_survey?: boolean | Authored;
+  readonly default_category?: "official" | "commander" | "scientist" | "envoy" | Authored;
+  readonly description: string | Authored;
+  readonly icon?: number | Authored;
+  readonly leader_background_job_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly leader_capacity?: "@base_leader_cap" | Authored;
+  readonly max_trait_points?: number | Authored;
+  readonly minimum_ai_target?: number | Authored;
+  readonly name: string | Authored;
+  readonly name_plural: string | Authored;
+  readonly paragon_background_selector?: string | Authored;
+  readonly recruitable?: boolean | Authored;
+  readonly replaces_old_class?: ("governor" | "admiral" | "general") | readonly ("governor" | "admiral" | "general")[] | Authored;
   readonly resources?: {
-  readonly category?: EconomicCategoryRef;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 }
 
 export interface LeaderTiersDefinition {
-  readonly texture_postfix?: string;
-  readonly tier: number;
+  readonly texture_postfix?: string | Authored;
+  readonly tier: number | Authored;
 }
 
 export interface LightDefinition {
   readonly animation?: {
-  readonly curve: Record<string, never>;
-  readonly duration: number;
-  readonly maxValue?: number;
-  readonly minValue?: number;
-  readonly name: string;
-  readonly op: "MUL" | "ADD" | "ABS";
-  readonly repeat?: boolean;
-  readonly start: number;
-};
+  readonly curve: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+  readonly maxValue?: number | Authored;
+  readonly minValue?: number | Authored;
+  readonly name: string | Authored;
+  readonly op: "MUL" | "ADD" | "ABS" | Authored;
+  readonly repeat?: boolean | Authored;
+  readonly start: number | Authored;
+} | Authored;
   readonly color: {
-  readonly b: Record<string, never>;
-  readonly g: Record<string, never>;
-  readonly r: Record<string, never>;
-};
-  readonly duration?: number;
-  readonly falloff: number;
-  readonly name: string;
+  readonly b: PdxBlock | readonly PdxValue[] | Authored;
+  readonly g: PdxBlock | readonly PdxValue[] | Authored;
+  readonly r: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly duration?: number | Authored;
+  readonly falloff: number | Authored;
+  readonly name: string | Authored;
   readonly position: {
-  readonly x: number;
-  readonly y: number;
-  readonly z: number;
-};
-  readonly radius: number;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+  readonly z: number | Authored;
+} | Authored;
+  readonly radius: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface LivingStandardDefinition {
   readonly ai_will_do: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly free_pop_modifier?: PdxBlock;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly free_pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly pop_group_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly pop_status_frame?: number;
-  readonly pop_tooltip?: string;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly pop_status_frame?: number | Authored;
+  readonly pop_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_pop_group_modifier?: ({
-  readonly custom_tooltip?: string;
-  readonly potential: PdxBlock;
+  readonly custom_tooltip?: string | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string;
-  readonly potential: PdxBlock;
+  readonly custom_tooltip?: string | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface MapGalaxyShapeDefinition {
   readonly arms?: {
-  readonly fuzz: number;
-  readonly seperation: number;
-  readonly tightness_winding: number;
-  readonly width: number;
-};
-  readonly button_icon?: SpriteRef;
-  readonly core_radius_perc?: number;
+  readonly fuzz: number | Authored;
+  readonly seperation: number | Authored;
+  readonly tightness_winding: number | Authored;
+  readonly width: number | Authored;
+} | Authored;
+  readonly button_icon?: SpriteRef | Authored;
+  readonly core_radius_perc?: number | Authored;
   readonly countries?: {
-  readonly ideal_sq_dist_between: number;
-  readonly min_sq_dist_between: number;
-};
-  readonly desc?: string;
+  readonly ideal_sq_dist_between: number | Authored;
+  readonly min_sq_dist_between: number | Authored;
+} | Authored;
+  readonly desc?: string | Authored;
   readonly fallen_empires?: {
-  readonly ideal_sq_dist_between: number;
-  readonly min_sq_dist_between: number;
-};
-  readonly num_arms?: number;
-  readonly num_stars_core_perc?: number;
-  readonly preview_icon?: SpriteRef;
+  readonly ideal_sq_dist_between: number | Authored;
+  readonly min_sq_dist_between: number | Authored;
+} | Authored;
+  readonly num_arms?: number | Authored;
+  readonly num_stars_core_perc?: number | Authored;
+  readonly preview_icon?: SpriteRef | Authored;
   readonly ring?: {
-  readonly offset: number;
-  readonly width: number;
-};
-  readonly stars_min_dist?: number;
+  readonly offset: number | Authored;
+  readonly width: number | Authored;
+} | Authored;
+  readonly stars_min_dist?: number | Authored;
 }
 
 export interface MapModeDefinition {
-  readonly can_change_point_of_view?: boolean;
+  readonly can_change_point_of_view?: boolean | Authored;
   readonly color: ({
-  readonly condition: PdxBlock;
-  readonly custom_tooltip?: string;
-  readonly filter?: "exploration" | "expansion" | "exploitation" | "details" | "unions" | "players" | "sectors" | "trade_routes";
-  readonly hardcoded_tooltip?: "opinion" | "country" | "intel";
-  readonly type?: "country_and_borders" | "country" | "borders";
-  readonly value: "country" | "union" | Record<string, never>;
-  readonly zoom?: number;
+  readonly condition: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly filter?: "exploration" | "expansion" | "exploitation" | "details" | "unions" | "players" | "sectors" | "trade_routes" | Authored;
+  readonly hardcoded_tooltip?: "opinion" | "country" | "intel" | Authored;
+  readonly type?: "country_and_borders" | "country" | "borders" | Authored;
+  readonly value: "country" | "union" | PdxBlock | readonly PdxValue[] | Authored;
+  readonly zoom?: number | Authored;
 }) | readonly ({
-  readonly condition: PdxBlock;
-  readonly custom_tooltip?: string;
-  readonly filter?: "exploration" | "expansion" | "exploitation" | "details" | "unions" | "players" | "sectors" | "trade_routes";
-  readonly hardcoded_tooltip?: "opinion" | "country" | "intel";
-  readonly type?: "country_and_borders" | "country" | "borders";
-  readonly value: "country" | "union" | Record<string, never>;
-  readonly zoom?: number;
-})[];
-  readonly display_claims?: boolean;
-  readonly display_espionage_operations?: boolean;
-  readonly display_storms?: boolean;
-  readonly enable_terra_incognita: boolean;
-  readonly icon: SpriteRef;
-  readonly shortcut?: string;
-  readonly tutorial?: "STORM_FORECAST_MAP_MODE";
-  readonly visible?: PdxBlock;
+  readonly condition: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly filter?: "exploration" | "expansion" | "exploitation" | "details" | "unions" | "players" | "sectors" | "trade_routes" | Authored;
+  readonly hardcoded_tooltip?: "opinion" | "country" | "intel" | Authored;
+  readonly type?: "country_and_borders" | "country" | "borders" | Authored;
+  readonly value: "country" | "union" | PdxBlock | readonly PdxValue[] | Authored;
+  readonly zoom?: number | Authored;
+})[] | Authored;
+  readonly display_claims?: boolean | Authored;
+  readonly display_espionage_operations?: boolean | Authored;
+  readonly display_storms?: boolean | Authored;
+  readonly enable_terra_incognita: boolean | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly shortcut?: string | Authored;
+  readonly tutorial?: "STORM_FORECAST_MAP_MODE" | Authored;
+  readonly visible?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface MapSetupScenarioDefinition {
-  readonly add_hyperlane?: {
-  readonly from: number;
-  readonly to: number;
-} | readonly {
-  readonly from: number;
-  readonly to: number;
-}[];
-  readonly advanced_empire_default: number;
+  readonly add_hyperlane?: ({
+  readonly from: number | Authored;
+  readonly to: number | Authored;
+}) | readonly ({
+  readonly from: number | Authored;
+  readonly to: number | Authored;
+})[] | Authored;
+  readonly advanced_empire_default: number | Authored;
   readonly cluster_count?: {
-  readonly max?: number;
-  readonly method: "one_every_x_empire" | "constant";
-  readonly value: number;
-};
-  readonly cluster_distance_from_core?: number;
-  readonly cluster_radius?: number;
-  readonly colonizable_planet_odds?: number;
+  readonly max?: number | Authored;
+  readonly method: "one_every_x_empire" | "constant" | Authored;
+  readonly value: number | Authored;
+} | Authored;
+  readonly cluster_distance_from_core?: number | Authored;
+  readonly cluster_radius?: number | Authored;
+  readonly colonizable_planet_odds?: number | Authored;
   readonly coordinate_transform?: {
-  readonly x?: PdxBlock;
-  readonly y?: PdxBlock;
-  readonly z?: PdxBlock;
-};
-  readonly core_radius?: number;
-  readonly crisis_strength: number;
-  readonly default?: boolean;
-  readonly extra_crisis_strength?: Record<string, never>;
-  readonly fallen_empire_default: number;
-  readonly fallen_empire_max: number;
+  readonly x?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly y?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly z?: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly core_radius?: number | Authored;
+  readonly crisis_strength: number | Authored;
+  readonly default?: boolean | Authored;
+  readonly extra_crisis_strength?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fallen_empire_default: number | Authored;
+  readonly fallen_empire_max: number | Authored;
   readonly home_system_partitions?: {
-  readonly max_bridges: number;
-  readonly max_systems: number;
-  readonly method: "breadth_first";
-  readonly min_bridges: number;
-  readonly min_systems: number;
-};
-  readonly marauder_empire_default: number;
-  readonly marauder_empire_max: number;
-  readonly max_hyperlane_distance?: number;
-  readonly name: string;
-  readonly nebula?: {
-  readonly name: string;
+  readonly max_bridges: number | Authored;
+  readonly max_systems: number | Authored;
+  readonly method: "breadth_first" | Authored;
+  readonly min_bridges: number | Authored;
+  readonly min_systems: number | Authored;
+} | Authored;
+  readonly marauder_empire_default: number | Authored;
+  readonly marauder_empire_max: number | Authored;
+  readonly max_hyperlane_distance?: number | Authored;
+  readonly name: string | Authored;
+  readonly nebula?: ({
+  readonly name: string | Authored;
   readonly position: {
-  readonly x: number;
-  readonly y: number;
-  readonly z?: number;
-};
-  readonly radius: number;
-} | readonly {
-  readonly name: string;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+  readonly z?: number | Authored;
+} | Authored;
+  readonly radius: number | Authored;
+}) | readonly ({
+  readonly name: string | Authored;
   readonly position: {
-  readonly x: number;
-  readonly y: number;
-  readonly z?: number;
-};
-  readonly radius: number;
-}[];
-  readonly nebula_min_dist?: number;
-  readonly nebula_size?: number;
-  readonly num_empire_default: number;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+  readonly z?: number | Authored;
+} | Authored;
+  readonly radius: number | Authored;
+})[] | Authored;
+  readonly nebula_min_dist?: number | Authored;
+  readonly nebula_size?: number | Authored;
+  readonly num_empire_default: number | Authored;
   readonly num_empires: {
-  readonly max: number;
-  readonly min: number;
-};
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
   readonly num_gateways?: {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly num_gateways_default?: number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly num_gateways_default?: number | Authored;
   readonly num_hyperlanes: {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly num_hyperlanes_default: number;
-  readonly num_nebulas?: number;
-  readonly num_stars?: number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly num_hyperlanes_default: number | Authored;
+  readonly num_nebulas?: number | Authored;
+  readonly num_stars?: number | Authored;
   readonly num_wormhole_pairs?: {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly num_wormhole_pairs_default?: number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly num_wormhole_pairs_default?: number | Authored;
   readonly open_space_partitions?: {
-  readonly max_bridges: number;
-  readonly max_systems: number;
-  readonly method: "depth_first";
-  readonly min_bridges: number;
-  readonly min_systems: number;
-};
-  readonly primitive_odds?: number;
-  readonly priority: number;
-  readonly radius?: number;
-  readonly random_hyperlanes?: boolean;
-  readonly remove_hyperlane?: {
-  readonly from: number;
-  readonly to: number;
-} | readonly {
-  readonly from: number;
-  readonly to: number;
-}[];
-  readonly supports_shape?: MapGalaxyShapeRef | readonly MapGalaxyShapeRef[];
+  readonly max_bridges: number | Authored;
+  readonly max_systems: number | Authored;
+  readonly method: "depth_first" | Authored;
+  readonly min_bridges: number | Authored;
+  readonly min_systems: number | Authored;
+} | Authored;
+  readonly primitive_odds?: number | Authored;
+  readonly priority: number | Authored;
+  readonly radius?: number | Authored;
+  readonly random_hyperlanes?: boolean | Authored;
+  readonly remove_hyperlane?: ({
+  readonly from: number | Authored;
+  readonly to: number | Authored;
+}) | readonly ({
+  readonly from: number | Authored;
+  readonly to: number | Authored;
+})[] | Authored;
+  readonly supports_shape?: MapGalaxyShapeRef | readonly MapGalaxyShapeRef[] | Authored;
   readonly system?: {
-  readonly effect?: PdxBlock;
-  readonly id: number;
-  readonly initializer?: SolarSystemInitializerRef | SolarSystemInitializerRandomListRef;
-  readonly name: string;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly id: number | Authored;
+  readonly initializer?: SolarSystemInitializerRef | SolarSystemInitializerRandomListRef | Authored;
+  readonly name: string | Authored;
   readonly position: {
-  readonly x: number;
-  readonly y: number;
-  readonly z?: number;
-};
-  readonly spawn_weight?: PdxBlock;
-};
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+  readonly z?: number | Authored;
+} | Authored;
+  readonly spawn_weight?: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
 }
 
 export interface MegaOverclockDefinition {
-  readonly icon: SpriteRef;
+  readonly icon: SpriteRef | Authored;
   readonly modifier: {
-  readonly custom_tooltip?: string | readonly string[];
+  readonly custom_tooltip?: string | readonly string[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-  readonly resources?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resources?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface MegastructureDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly build_megastructure_no_cost_localization_key?: string;
-  readonly build_outside_gravity_well?: boolean;
-  readonly build_system_tooltip?: string;
-  readonly build_time?: number;
-  readonly build_type?: "inside_gravity_well" | "outside_gravity_well" | "around_planet";
-  readonly bypass_type?: BypassRef;
-  readonly can_be_dismantled_by_non_owner?: boolean;
-  readonly construction_blocks_and_blocked_by?: "none" | "self_type" | "multi_stage_type";
-  readonly construction_blocks_others?: boolean;
-  readonly construction_entity?: string;
-  readonly construction_scale?: number;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly build_megastructure_no_cost_localization_key?: string | Authored;
+  readonly build_outside_gravity_well?: boolean | Authored;
+  readonly build_system_tooltip?: string | Authored;
+  readonly build_time?: number | Authored;
+  readonly build_type?: "inside_gravity_well" | "outside_gravity_well" | "around_planet" | Authored;
+  readonly bypass_type?: BypassRef | Authored;
+  readonly can_be_dismantled_by_non_owner?: boolean | Authored;
+  readonly construction_blocks_and_blocked_by?: "none" | "self_type" | "multi_stage_type" | Authored;
+  readonly construction_blocks_others?: boolean | Authored;
+  readonly construction_entity?: string | Authored;
+  readonly construction_scale?: number | Authored;
   readonly country_modifier?: {
-  readonly custom_tooltip?: string | readonly string[];
+  readonly custom_tooltip?: string | readonly string[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly custom_tooltip_requirements?: string;
-  readonly cycle_desc?: string;
-  readonly cycle_icon?: SpriteRef;
-  readonly cycle_length_in_days?: number | string;
-  readonly cycle_title?: string;
+} | Authored;
+  readonly custom_tooltip_requirements?: string | Authored;
+  readonly cycle_desc?: string | Authored;
+  readonly cycle_icon?: SpriteRef | Authored;
+  readonly cycle_length_in_days?: number | string | Authored;
+  readonly cycle_title?: string | Authored;
   readonly dismantle_cost?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly dismantle_possible?: PdxBlock;
-  readonly dismantle_potential?: PdxBlock;
-  readonly dismantle_time?: number;
-  readonly entity: string;
+} | Authored;
+  readonly dismantle_possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly dismantle_potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly dismantle_time?: number | Authored;
+  readonly entity: string | Authored;
   readonly entity_offset?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly hide_name?: boolean;
-  readonly hyperlane_range?: number;
-  readonly is_grand_archive?: boolean;
-  readonly is_ruined_orbital_ring?: boolean;
-  readonly is_shroud_seal?: boolean;
-  readonly must_select_ship_design?: boolean;
-  readonly on_build_cancel?: PdxBlock;
-  readonly on_build_complete?: PdxBlock;
-  readonly on_build_queued?: PdxBlock;
-  readonly on_build_start?: PdxBlock;
-  readonly on_build_unqueued?: PdxBlock;
-  readonly on_cycle_complete?: PdxBlock;
-  readonly on_dismantle_complete?: PdxBlock;
-  readonly outliner_trigger?: PdxBlock;
-  readonly overclock_types?: Record<string, never>;
-  readonly overlord_can_upgrade?: boolean;
-  readonly place_entity_on_planet_plane?: boolean;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly hide_name?: boolean | Authored;
+  readonly hyperlane_range?: number | Authored;
+  readonly is_grand_archive?: boolean | Authored;
+  readonly is_ruined_orbital_ring?: boolean | Authored;
+  readonly is_shroud_seal?: boolean | Authored;
+  readonly must_select_ship_design?: boolean | Authored;
+  readonly on_build_cancel?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_build_complete?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_build_queued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_build_start?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_build_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_cycle_complete?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_dismantle_complete?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly outliner_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly overclock_types?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly overlord_can_upgrade?: boolean | Authored;
+  readonly place_entity_on_planet_plane?: boolean | Authored;
   readonly placement_rules?: {
-  readonly planet_possible?: PdxBlock;
+  readonly planet_possible?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly plane_offset?: number;
-  readonly portrait?: SpriteRef;
-  readonly possible?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly prereq_name?: string;
-  readonly prerequisites?: Record<string, never>;
+} | Authored;
+  readonly plane_offset?: number | Authored;
+  readonly portrait?: SpriteRef | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prereq_name?: string | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly rotate_to_center?: boolean;
-  readonly scale_offset?: boolean;
-  readonly scales_with_planet?: boolean;
-  readonly sensor_range?: number;
-  readonly ship_modifier?: PdxBlock;
-  readonly should_ai_dismantle?: PdxBlock;
-  readonly show_galactic_map_icon?: boolean;
-  readonly show_in_outliner?: boolean;
-  readonly show_prereqs?: boolean;
-  readonly starbase?: StarbaseLevelRef;
-  readonly station_modifier?: PdxBlock;
-  readonly upgrade_desc?: string;
-  readonly upgrade_from?: Record<string, never>;
-  readonly use_planet_resource?: boolean;
-  readonly victory_score?: number;
+} | Authored;
+  readonly rotate_to_center?: boolean | Authored;
+  readonly scale_offset?: boolean | Authored;
+  readonly scales_with_planet?: boolean | Authored;
+  readonly sensor_range?: number | Authored;
+  readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly should_ai_dismantle?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_galactic_map_icon?: boolean | Authored;
+  readonly show_in_outliner?: boolean | Authored;
+  readonly show_prereqs?: boolean | Authored;
+  readonly starbase?: StarbaseLevelRef | Authored;
+  readonly station_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly upgrade_desc?: string | Authored;
+  readonly upgrade_from?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_planet_resource?: boolean | Authored;
+  readonly victory_score?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface MenacePerkDefinition {
-  readonly modifier?: PdxBlock;
-  readonly on_unlock?: PdxBlock;
-  readonly portrait: SpriteRef;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_unlock?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly portrait: SpriteRef | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 }
 
 export interface MessageTypeDefinition {
-  readonly auto_opens?: "none" | "player" | "others" | "all" | "always";
-  readonly can_disable?: boolean;
-  readonly category?: "diplomacy" | "military" | "economy" | "government" | "science" | "fleets" | "planets" | "leaders" | "other" | "cosmic_storm" | "focuses";
-  readonly default_autopause?: boolean;
-  readonly default_disabled?: boolean;
-  readonly default_notification?: boolean;
-  readonly default_popup?: boolean;
-  readonly default_toast?: boolean;
-  readonly hidden_in_message_settings?: boolean;
-  readonly icon: SpriteRef;
-  readonly icon_frame?: number;
-  readonly key: string;
-  readonly message_setting_key?: string;
-  readonly name?: string;
-  readonly ping?: PingmapRef;
-  readonly sound?: SoundEffectRef;
-  readonly sound_is_advisor?: boolean;
+  readonly auto_opens?: "none" | "player" | "others" | "all" | "always" | Authored;
+  readonly can_disable?: boolean | Authored;
+  readonly category?: "diplomacy" | "military" | "economy" | "government" | "science" | "fleets" | "planets" | "leaders" | "other" | "cosmic_storm" | "focuses" | Authored;
+  readonly default_autopause?: boolean | Authored;
+  readonly default_disabled?: boolean | Authored;
+  readonly default_notification?: boolean | Authored;
+  readonly default_popup?: boolean | Authored;
+  readonly default_toast?: boolean | Authored;
+  readonly hidden_in_message_settings?: boolean | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly icon_frame?: number | Authored;
+  readonly key: string | Authored;
+  readonly message_setting_key?: string | Authored;
+  readonly name?: string | Authored;
+  readonly ping?: PingmapRef | Authored;
+  readonly sound?: SoundEffectRef | Authored;
+  readonly sound_is_advisor?: boolean | Authored;
 }
 
 export interface MigrationControlDefinition {
   readonly ai_will_do: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly can_migrate?: false;
-  readonly free_pop_modifier?: PdxBlock;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_migrate?: false | Authored;
+  readonly free_pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly pop_group_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly pop_status_frame?: number;
-  readonly pop_tooltip?: string;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly pop_status_frame?: number | Authored;
+  readonly pop_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface MilitaryServiceTypeDefinition {
   readonly ai_will_do: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly free_pop_modifier?: PdxBlock;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly free_pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly pop_group_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly pop_status_frame?: number;
-  readonly pop_tooltip?: string;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly pop_status_frame?: number | Authored;
+  readonly pop_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ModelAnimationDefinition {
-  readonly file: string;
-  readonly name: string;
+  readonly file: string | Authored;
+  readonly name: string | Authored;
 }
 
 export interface ModelEntityDefinition {
   readonly attach?: ({
-  readonly name?: string;
-  readonly root?: ModelEntityRef;
-  readonly scene_main?: ModelEntityRef;
+  readonly name?: string | Authored;
+  readonly root?: ModelEntityRef | Authored;
+  readonly scene_main?: ModelEntityRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly name?: string;
-  readonly root?: ModelEntityRef;
-  readonly scene_main?: ModelEntityRef;
+  readonly name?: string | Authored;
+  readonly root?: ModelEntityRef | Authored;
+  readonly scene_main?: ModelEntityRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly clone?: ModelEntityRef;
-  readonly cull_radius?: number | readonly number[];
-  readonly default_state?: string;
-  readonly erosion_in?: number;
-  readonly erosion_out?: number;
-  readonly game_data?: {
-  readonly bloom_factor?: number;
-  readonly custom_texture?: string;
-  readonly dissolve_on_death?: number;
-  readonly emissive_recolor_crunch?: number;
-  readonly flowmap_intensity?: number;
-  readonly raytrace_projectiles?: boolean;
-  readonly shader_type?: string;
-  readonly ship_color?: Record<string, never>;
-  readonly size?: number;
-  readonly special_effect_intensity?: number;
-  readonly special_effect_speed?: number;
-  readonly trail_locators?: PdxBlock;
-  readonly uv_animation_direction?: Record<string, never>;
-  readonly uv_animation_speed?: number;
-  readonly wpo_animation_big_scale?: number;
-  readonly wpo_animation_direction?: Record<string, never>;
-  readonly wpo_animation_offset_strength?: number;
-  readonly wpo_animation_scale?: number;
-  readonly wpo_animation_speed?: number;
-} | readonly {
-  readonly bloom_factor?: number;
-  readonly custom_texture?: string;
-  readonly dissolve_on_death?: number;
-  readonly emissive_recolor_crunch?: number;
-  readonly flowmap_intensity?: number;
-  readonly raytrace_projectiles?: boolean;
-  readonly shader_type?: string;
-  readonly ship_color?: Record<string, never>;
-  readonly size?: number;
-  readonly special_effect_intensity?: number;
-  readonly special_effect_speed?: number;
-  readonly trail_locators?: PdxBlock;
-  readonly uv_animation_direction?: Record<string, never>;
-  readonly uv_animation_speed?: number;
-  readonly wpo_animation_big_scale?: number;
-  readonly wpo_animation_direction?: Record<string, never>;
-  readonly wpo_animation_offset_strength?: number;
-  readonly wpo_animation_scale?: number;
-  readonly wpo_animation_speed?: number;
-}[];
-  readonly get_state_from_parent?: boolean;
-  readonly locator?: {
-  readonly name: string;
-  readonly parent_joint?: string;
-  readonly position?: Record<string, never>;
-  readonly rotation?: Record<string, never>;
-  readonly scale?: number;
-} | readonly {
-  readonly name: string;
-  readonly parent_joint?: string;
-  readonly position?: Record<string, never>;
-  readonly rotation?: Record<string, never>;
-  readonly scale?: number;
-}[];
-  readonly meshsettings?: {
-  readonly index?: number;
-  readonly name?: string;
-  readonly shader?: string;
-  readonly texture_diffuse?: string;
-  readonly texture_normal?: string;
-  readonly texture_specular?: string;
-  readonly texture_wpo?: string;
-} | readonly {
-  readonly index?: number;
-  readonly name?: string;
-  readonly shader?: string;
-  readonly texture_diffuse?: string;
-  readonly texture_normal?: string;
-  readonly texture_specular?: string;
-  readonly texture_wpo?: string;
-}[];
-  readonly name: string;
-  readonly pdxmesh?: ModelMeshRef;
-  readonly playback_rate?: number;
-  readonly scale?: number;
+})[] | Authored;
+  readonly clone?: ModelEntityRef | Authored;
+  readonly cull_radius?: number | readonly number[] | Authored;
+  readonly default_state?: string | Authored;
+  readonly erosion_in?: number | Authored;
+  readonly erosion_out?: number | Authored;
+  readonly game_data?: ({
+  readonly bloom_factor?: number | Authored;
+  readonly custom_texture?: string | Authored;
+  readonly dissolve_on_death?: number | Authored;
+  readonly emissive_recolor_crunch?: number | Authored;
+  readonly flowmap_intensity?: number | Authored;
+  readonly raytrace_projectiles?: boolean | Authored;
+  readonly shader_type?: string | Authored;
+  readonly ship_color?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size?: number | Authored;
+  readonly special_effect_intensity?: number | Authored;
+  readonly special_effect_speed?: number | Authored;
+  readonly trail_locators?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uv_animation_direction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uv_animation_speed?: number | Authored;
+  readonly wpo_animation_big_scale?: number | Authored;
+  readonly wpo_animation_direction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly wpo_animation_offset_strength?: number | Authored;
+  readonly wpo_animation_scale?: number | Authored;
+  readonly wpo_animation_speed?: number | Authored;
+}) | readonly ({
+  readonly bloom_factor?: number | Authored;
+  readonly custom_texture?: string | Authored;
+  readonly dissolve_on_death?: number | Authored;
+  readonly emissive_recolor_crunch?: number | Authored;
+  readonly flowmap_intensity?: number | Authored;
+  readonly raytrace_projectiles?: boolean | Authored;
+  readonly shader_type?: string | Authored;
+  readonly ship_color?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size?: number | Authored;
+  readonly special_effect_intensity?: number | Authored;
+  readonly special_effect_speed?: number | Authored;
+  readonly trail_locators?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uv_animation_direction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uv_animation_speed?: number | Authored;
+  readonly wpo_animation_big_scale?: number | Authored;
+  readonly wpo_animation_direction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly wpo_animation_offset_strength?: number | Authored;
+  readonly wpo_animation_scale?: number | Authored;
+  readonly wpo_animation_speed?: number | Authored;
+})[] | Authored;
+  readonly get_state_from_parent?: boolean | Authored;
+  readonly locator?: ({
+  readonly name: string | Authored;
+  readonly parent_joint?: string | Authored;
+  readonly position?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scale?: number | Authored;
+}) | readonly ({
+  readonly name: string | Authored;
+  readonly parent_joint?: string | Authored;
+  readonly position?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scale?: number | Authored;
+})[] | Authored;
+  readonly meshsettings?: ({
+  readonly index?: number | Authored;
+  readonly name?: string | Authored;
+  readonly shader?: string | Authored;
+  readonly texture_diffuse?: string | Authored;
+  readonly texture_normal?: string | Authored;
+  readonly texture_specular?: string | Authored;
+  readonly texture_wpo?: string | Authored;
+}) | readonly ({
+  readonly index?: number | Authored;
+  readonly name?: string | Authored;
+  readonly shader?: string | Authored;
+  readonly texture_diffuse?: string | Authored;
+  readonly texture_normal?: string | Authored;
+  readonly texture_specular?: string | Authored;
+  readonly texture_wpo?: string | Authored;
+})[] | Authored;
+  readonly name: string | Authored;
+  readonly pdxmesh?: ModelMeshRef | Authored;
+  readonly playback_rate?: number | Authored;
+  readonly scale?: number | Authored;
   readonly state?: ({
-  readonly animation?: ModelAnimationRef | string;
-  readonly animation_blend_time?: number;
-  readonly animation_speed?: number;
+  readonly animation?: ModelAnimationRef | string | Authored;
+  readonly animation_blend_time?: number | Authored;
+  readonly animation_speed?: number | Authored;
   readonly chance?: boolean | number | {
-  readonly default?: number;
-  readonly if_current_state: PdxBlock;
-};
-  readonly event?: {
-  readonly entity?: ModelEntityRef;
-  readonly erosion_in?: number;
-  readonly erosion_out?: number;
-  readonly id?: "beam_start";
-  readonly keep_particle?: boolean;
-  readonly life?: number;
-  readonly light?: LightRef;
-  readonly node?: string;
-  readonly particle?: ParticleRef;
+  readonly default?: number | Authored;
+  readonly if_current_state: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly event?: ({
+  readonly entity?: ModelEntityRef | Authored;
+  readonly erosion_in?: number | Authored;
+  readonly erosion_out?: number | Authored;
+  readonly id?: "beam_start" | Authored;
+  readonly keep_particle?: boolean | Authored;
+  readonly life?: number | Authored;
+  readonly light?: LightRef | Authored;
+  readonly node?: string | Authored;
+  readonly particle?: ParticleRef | Authored;
   readonly sound?: {
-  readonly soundeffect: SoundEffectRef;
-  readonly stop_on_state_change?: boolean;
-};
-  readonly time?: number;
-  readonly trigger_once?: boolean;
-  readonly use_parent_nodes?: boolean;
-} | readonly {
-  readonly entity?: ModelEntityRef;
-  readonly erosion_in?: number;
-  readonly erosion_out?: number;
-  readonly id?: "beam_start";
-  readonly keep_particle?: boolean;
-  readonly life?: number;
-  readonly light?: LightRef;
-  readonly node?: string;
-  readonly particle?: ParticleRef;
-  readonly sound?: {
-  readonly soundeffect: SoundEffectRef;
-  readonly stop_on_state_change?: boolean;
-};
-  readonly time?: number;
-  readonly trigger_once?: boolean;
-  readonly use_parent_nodes?: boolean;
-}[];
-  readonly game_data?: {
-  readonly bloom_factor: number;
-  readonly flowmap_intensity?: number;
-  readonly uv_animation_direction: Record<string, never>;
-  readonly uv_animation_speed: number;
-} | readonly {
-  readonly bloom_factor: number;
-  readonly flowmap_intensity?: number;
-  readonly uv_animation_direction: Record<string, never>;
-  readonly uv_animation_speed: number;
-}[];
-  readonly get_state_from_parent?: boolean;
-  readonly locator?: {
-  readonly name: string;
-  readonly position?: Record<string, never>;
-  readonly rotation?: Record<string, never>;
-  readonly scale: number;
-} | readonly {
-  readonly name: string;
-  readonly position?: Record<string, never>;
-  readonly rotation?: Record<string, never>;
-  readonly scale: number;
-}[];
-  readonly looping?: boolean;
-  readonly name: string;
-  readonly next_state?: string;
-  readonly propagate_state?: {
-  readonly outpost: "idle";
-} | {
-  readonly effect: "death_idle";
-} | {
-  readonly effect: "death_open";
-} | {
-  readonly effect: "idle";
-} | {
-  readonly effect: "idle_closing";
-} | {
-  readonly effect: "moving_closing";
-} | {
-  readonly move: "idle";
-} | {
-  readonly move: "moving";
-};
-  readonly start_event?: {
-  readonly keep_particle?: boolean;
-  readonly light?: LightRef;
-  readonly node?: string;
-  readonly particle?: ParticleRef;
-  readonly sound?: {
-  readonly soundeffect: SoundEffectRef;
-  readonly stop_on_state_change?: boolean;
-};
-  readonly time?: number;
-  readonly trigger_once?: boolean;
-} | readonly {
-  readonly keep_particle?: boolean;
-  readonly light?: LightRef;
-  readonly node?: string;
-  readonly particle?: ParticleRef;
-  readonly sound?: {
-  readonly soundeffect: SoundEffectRef;
-  readonly stop_on_state_change?: boolean;
-};
-  readonly time?: number;
-  readonly trigger_once?: boolean;
-}[];
-  readonly state_time?: number;
-  readonly time_offset?: number | Record<string, never>;
+  readonly soundeffect: SoundEffectRef | Authored;
+  readonly stop_on_state_change?: boolean | Authored;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly trigger_once?: boolean | Authored;
+  readonly use_parent_nodes?: boolean | Authored;
 }) | readonly ({
-  readonly animation?: ModelAnimationRef | string;
-  readonly animation_blend_time?: number;
-  readonly animation_speed?: number;
-  readonly chance?: boolean | number | {
-  readonly default?: number;
-  readonly if_current_state: PdxBlock;
-};
-  readonly event?: {
-  readonly entity?: ModelEntityRef;
-  readonly erosion_in?: number;
-  readonly erosion_out?: number;
-  readonly id?: "beam_start";
-  readonly keep_particle?: boolean;
-  readonly life?: number;
-  readonly light?: LightRef;
-  readonly node?: string;
-  readonly particle?: ParticleRef;
+  readonly entity?: ModelEntityRef | Authored;
+  readonly erosion_in?: number | Authored;
+  readonly erosion_out?: number | Authored;
+  readonly id?: "beam_start" | Authored;
+  readonly keep_particle?: boolean | Authored;
+  readonly life?: number | Authored;
+  readonly light?: LightRef | Authored;
+  readonly node?: string | Authored;
+  readonly particle?: ParticleRef | Authored;
   readonly sound?: {
-  readonly soundeffect: SoundEffectRef;
-  readonly stop_on_state_change?: boolean;
-};
-  readonly time?: number;
-  readonly trigger_once?: boolean;
-  readonly use_parent_nodes?: boolean;
-} | readonly {
-  readonly entity?: ModelEntityRef;
-  readonly erosion_in?: number;
-  readonly erosion_out?: number;
-  readonly id?: "beam_start";
-  readonly keep_particle?: boolean;
-  readonly life?: number;
-  readonly light?: LightRef;
-  readonly node?: string;
-  readonly particle?: ParticleRef;
-  readonly sound?: {
-  readonly soundeffect: SoundEffectRef;
-  readonly stop_on_state_change?: boolean;
-};
-  readonly time?: number;
-  readonly trigger_once?: boolean;
-  readonly use_parent_nodes?: boolean;
-}[];
-  readonly game_data?: {
-  readonly bloom_factor: number;
-  readonly flowmap_intensity?: number;
-  readonly uv_animation_direction: Record<string, never>;
-  readonly uv_animation_speed: number;
-} | readonly {
-  readonly bloom_factor: number;
-  readonly flowmap_intensity?: number;
-  readonly uv_animation_direction: Record<string, never>;
-  readonly uv_animation_speed: number;
-}[];
-  readonly get_state_from_parent?: boolean;
-  readonly locator?: {
-  readonly name: string;
-  readonly position?: Record<string, never>;
-  readonly rotation?: Record<string, never>;
-  readonly scale: number;
-} | readonly {
-  readonly name: string;
-  readonly position?: Record<string, never>;
-  readonly rotation?: Record<string, never>;
-  readonly scale: number;
-}[];
-  readonly looping?: boolean;
-  readonly name: string;
-  readonly next_state?: string;
+  readonly soundeffect: SoundEffectRef | Authored;
+  readonly stop_on_state_change?: boolean | Authored;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly trigger_once?: boolean | Authored;
+  readonly use_parent_nodes?: boolean | Authored;
+})[] | Authored;
+  readonly game_data?: ({
+  readonly bloom_factor: number | Authored;
+  readonly flowmap_intensity?: number | Authored;
+  readonly uv_animation_direction: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uv_animation_speed: number | Authored;
+}) | readonly ({
+  readonly bloom_factor: number | Authored;
+  readonly flowmap_intensity?: number | Authored;
+  readonly uv_animation_direction: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uv_animation_speed: number | Authored;
+})[] | Authored;
+  readonly get_state_from_parent?: boolean | Authored;
+  readonly locator?: ({
+  readonly name: string | Authored;
+  readonly position?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scale: number | Authored;
+}) | readonly ({
+  readonly name: string | Authored;
+  readonly position?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scale: number | Authored;
+})[] | Authored;
+  readonly looping?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly next_state?: string | Authored;
   readonly propagate_state?: {
-  readonly outpost: "idle";
+  readonly outpost: "idle" | Authored;
 } | {
-  readonly effect: "death_idle";
+  readonly effect: "death_idle" | Authored;
 } | {
-  readonly effect: "death_open";
+  readonly effect: "death_open" | Authored;
 } | {
-  readonly effect: "idle";
+  readonly effect: "idle" | Authored;
 } | {
-  readonly effect: "idle_closing";
+  readonly effect: "idle_closing" | Authored;
 } | {
-  readonly effect: "moving_closing";
+  readonly effect: "moving_closing" | Authored;
 } | {
-  readonly move: "idle";
+  readonly move: "idle" | Authored;
 } | {
-  readonly move: "moving";
-};
-  readonly start_event?: {
-  readonly keep_particle?: boolean;
-  readonly light?: LightRef;
-  readonly node?: string;
-  readonly particle?: ParticleRef;
+  readonly move: "moving" | Authored;
+} | Authored;
+  readonly start_event?: ({
+  readonly keep_particle?: boolean | Authored;
+  readonly light?: LightRef | Authored;
+  readonly node?: string | Authored;
+  readonly particle?: ParticleRef | Authored;
   readonly sound?: {
-  readonly soundeffect: SoundEffectRef;
-  readonly stop_on_state_change?: boolean;
-};
-  readonly time?: number;
-  readonly trigger_once?: boolean;
-} | readonly {
-  readonly keep_particle?: boolean;
-  readonly light?: LightRef;
-  readonly node?: string;
-  readonly particle?: ParticleRef;
+  readonly soundeffect: SoundEffectRef | Authored;
+  readonly stop_on_state_change?: boolean | Authored;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly trigger_once?: boolean | Authored;
+}) | readonly ({
+  readonly keep_particle?: boolean | Authored;
+  readonly light?: LightRef | Authored;
+  readonly node?: string | Authored;
+  readonly particle?: ParticleRef | Authored;
   readonly sound?: {
-  readonly soundeffect: SoundEffectRef;
-  readonly stop_on_state_change?: boolean;
-};
-  readonly time?: number;
-  readonly trigger_once?: boolean;
-}[];
-  readonly state_time?: number;
-  readonly time_offset?: number | Record<string, never>;
-})[];
+  readonly soundeffect: SoundEffectRef | Authored;
+  readonly stop_on_state_change?: boolean | Authored;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly trigger_once?: boolean | Authored;
+})[] | Authored;
+  readonly state_time?: number | Authored;
+  readonly time_offset?: number | PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly animation?: ModelAnimationRef | string | Authored;
+  readonly animation_blend_time?: number | Authored;
+  readonly animation_speed?: number | Authored;
+  readonly chance?: boolean | number | {
+  readonly default?: number | Authored;
+  readonly if_current_state: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly event?: ({
+  readonly entity?: ModelEntityRef | Authored;
+  readonly erosion_in?: number | Authored;
+  readonly erosion_out?: number | Authored;
+  readonly id?: "beam_start" | Authored;
+  readonly keep_particle?: boolean | Authored;
+  readonly life?: number | Authored;
+  readonly light?: LightRef | Authored;
+  readonly node?: string | Authored;
+  readonly particle?: ParticleRef | Authored;
+  readonly sound?: {
+  readonly soundeffect: SoundEffectRef | Authored;
+  readonly stop_on_state_change?: boolean | Authored;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly trigger_once?: boolean | Authored;
+  readonly use_parent_nodes?: boolean | Authored;
+}) | readonly ({
+  readonly entity?: ModelEntityRef | Authored;
+  readonly erosion_in?: number | Authored;
+  readonly erosion_out?: number | Authored;
+  readonly id?: "beam_start" | Authored;
+  readonly keep_particle?: boolean | Authored;
+  readonly life?: number | Authored;
+  readonly light?: LightRef | Authored;
+  readonly node?: string | Authored;
+  readonly particle?: ParticleRef | Authored;
+  readonly sound?: {
+  readonly soundeffect: SoundEffectRef | Authored;
+  readonly stop_on_state_change?: boolean | Authored;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly trigger_once?: boolean | Authored;
+  readonly use_parent_nodes?: boolean | Authored;
+})[] | Authored;
+  readonly game_data?: ({
+  readonly bloom_factor: number | Authored;
+  readonly flowmap_intensity?: number | Authored;
+  readonly uv_animation_direction: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uv_animation_speed: number | Authored;
+}) | readonly ({
+  readonly bloom_factor: number | Authored;
+  readonly flowmap_intensity?: number | Authored;
+  readonly uv_animation_direction: PdxBlock | readonly PdxValue[] | Authored;
+  readonly uv_animation_speed: number | Authored;
+})[] | Authored;
+  readonly get_state_from_parent?: boolean | Authored;
+  readonly locator?: ({
+  readonly name: string | Authored;
+  readonly position?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scale: number | Authored;
+}) | readonly ({
+  readonly name: string | Authored;
+  readonly position?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly scale: number | Authored;
+})[] | Authored;
+  readonly looping?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly next_state?: string | Authored;
+  readonly propagate_state?: {
+  readonly outpost: "idle" | Authored;
+} | {
+  readonly effect: "death_idle" | Authored;
+} | {
+  readonly effect: "death_open" | Authored;
+} | {
+  readonly effect: "idle" | Authored;
+} | {
+  readonly effect: "idle_closing" | Authored;
+} | {
+  readonly effect: "moving_closing" | Authored;
+} | {
+  readonly move: "idle" | Authored;
+} | {
+  readonly move: "moving" | Authored;
+} | Authored;
+  readonly start_event?: ({
+  readonly keep_particle?: boolean | Authored;
+  readonly light?: LightRef | Authored;
+  readonly node?: string | Authored;
+  readonly particle?: ParticleRef | Authored;
+  readonly sound?: {
+  readonly soundeffect: SoundEffectRef | Authored;
+  readonly stop_on_state_change?: boolean | Authored;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly trigger_once?: boolean | Authored;
+}) | readonly ({
+  readonly keep_particle?: boolean | Authored;
+  readonly light?: LightRef | Authored;
+  readonly node?: string | Authored;
+  readonly particle?: ParticleRef | Authored;
+  readonly sound?: {
+  readonly soundeffect: SoundEffectRef | Authored;
+  readonly stop_on_state_change?: boolean | Authored;
+} | Authored;
+  readonly time?: number | Authored;
+  readonly trigger_once?: boolean | Authored;
+})[] | Authored;
+  readonly state_time?: number | Authored;
+  readonly time_offset?: number | PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
 }
 
 export interface ModelMeshDefinition {
-  readonly animation?: {
-  readonly id: string;
-  readonly type: ModelAnimationRef;
-} | readonly {
-  readonly id: string;
-  readonly type: ModelAnimationRef;
-}[];
-  readonly cull_distance?: string;
-  readonly file: string;
-  readonly meshsettings?: {
-  readonly index?: number;
-  readonly name?: string;
-  readonly shader?: string;
-  readonly texture_diffuse?: string;
-  readonly texture_normal?: string;
-  readonly texture_specular?: string;
-  readonly texture_wpo?: string;
-} | readonly {
-  readonly index?: number;
-  readonly name?: string;
-  readonly shader?: string;
-  readonly texture_diffuse?: string;
-  readonly texture_normal?: string;
-  readonly texture_specular?: string;
-  readonly texture_wpo?: string;
-}[];
-  readonly name: string;
-  readonly scale?: number;
+  readonly animation?: ({
+  readonly id: string | Authored;
+  readonly type: ModelAnimationRef | Authored;
+}) | readonly ({
+  readonly id: string | Authored;
+  readonly type: ModelAnimationRef | Authored;
+})[] | Authored;
+  readonly cull_distance?: string | Authored;
+  readonly file: string | Authored;
+  readonly meshsettings?: ({
+  readonly index?: number | Authored;
+  readonly name?: string | Authored;
+  readonly shader?: string | Authored;
+  readonly texture_diffuse?: string | Authored;
+  readonly texture_normal?: string | Authored;
+  readonly texture_specular?: string | Authored;
+  readonly texture_wpo?: string | Authored;
+}) | readonly ({
+  readonly index?: number | Authored;
+  readonly name?: string | Authored;
+  readonly shader?: string | Authored;
+  readonly texture_diffuse?: string | Authored;
+  readonly texture_normal?: string | Authored;
+  readonly texture_specular?: string | Authored;
+  readonly texture_wpo?: string | Authored;
+})[] | Authored;
+  readonly name: string | Authored;
+  readonly scale?: number | Authored;
 }
 
 export interface MusicDefinition {
-  readonly file: string;
-  readonly name: SongRef;
-  readonly volume?: number;
+  readonly file: string | Authored;
+  readonly name: SongRef | Authored;
+  readonly volume?: number | Authored;
 }
 
 export interface MutationsTypeDefinition {
-  readonly component_slot_size_to_disable?: "extra_large" | "large" | "medium" | "small" | "torpedo" | "point_defence" | "planet_killer" | "titanic" | "engulf" | "any";
-  readonly custom_tooltip?: string;
-  readonly icon: SpriteRef;
-  readonly is_unique?: boolean;
+  readonly component_slot_size_to_disable?: "extra_large" | "large" | "medium" | "small" | "torpedo" | "point_defence" | "planet_killer" | "titanic" | "engulf" | "any" | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly is_unique?: boolean | Authored;
   readonly ship_components?: {
-  readonly extra_large?: ComponentTemplateRef;
-  readonly large?: ComponentTemplateRef;
-  readonly medium?: ComponentTemplateRef;
-  readonly small?: ComponentTemplateRef;
-};
-  readonly ship_limit?: number;
-  readonly type?: "offensive" | "defensive" | "aux";
-  readonly upgrades_to?: MutationsTypeRef;
+  readonly extra_large?: ComponentTemplateRef | Authored;
+  readonly large?: ComponentTemplateRef | Authored;
+  readonly medium?: ComponentTemplateRef | Authored;
+  readonly small?: ComponentTemplateRef | Authored;
+} | Authored;
+  readonly ship_limit?: number | Authored;
+  readonly type?: "offensive" | "defensive" | "aux" | Authored;
+  readonly upgrades_to?: MutationsTypeRef | Authored;
 }
 
 export interface NameListDefinition {
-  readonly alias?: string;
+  readonly alias?: string | Authored;
   readonly army_names?: {
   readonly general?: {
-  readonly sequential_name?: string | readonly string[];
-};
+  readonly sequential_name?: string | readonly string[] | Authored;
+} | Authored;
   readonly generic?: {
-  readonly sequential_name?: string;
-};
+  readonly sequential_name?: string | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly by_rarity_names?: {
-  readonly common: Record<string, never>;
-  readonly epic: Record<string, never>;
-  readonly exceptional: Record<string, never>;
-  readonly rare: Record<string, never>;
-};
-  readonly category?: string;
+  readonly common: PdxBlock | readonly PdxValue[] | Authored;
+  readonly epic: PdxBlock | readonly PdxValue[] | Authored;
+  readonly exceptional: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rare: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly category?: string | Authored;
   readonly character_names?: {
   readonly default?: {
-  readonly first_names?: Record<string, never>;
-  readonly first_names_female?: Record<string, never>;
-  readonly first_names_male?: Record<string, never>;
-  readonly full_names?: Record<string, never>;
-  readonly full_names_female?: Record<string, never>;
-  readonly full_names_male?: Record<string, never>;
-  readonly regnal_first_names?: Record<string, never>;
-  readonly regnal_first_names_female?: Record<string, never>;
-  readonly regnal_first_names_male?: Record<string, never>;
-  readonly regnal_full_names?: Record<string, never>;
-  readonly regnal_second_names?: Record<string, never>;
-  readonly second_names?: Record<string, never>;
-  readonly second_names_female?: Record<string, never>;
-  readonly second_names_male?: Record<string, never>;
-  readonly use_full_regnal_name?: boolean;
-  readonly use_full_regnal_name_female?: boolean;
-  readonly use_full_regnal_name_male?: boolean;
-};
+  readonly first_names?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly first_names_female?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly first_names_male?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly full_names?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly full_names_female?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly full_names_male?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly regnal_first_names?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly regnal_first_names_female?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly regnal_first_names_male?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly regnal_full_names?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly regnal_second_names?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly second_names?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly second_names_female?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly second_names_male?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_full_regnal_name?: boolean | Authored;
+  readonly use_full_regnal_name_female?: boolean | Authored;
+  readonly use_full_regnal_name_male?: boolean | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly customize_random_override?: string;
-  readonly design_names?: Record<string, never>;
+} | Authored;
+  readonly customize_random_override?: string | Authored;
+  readonly design_names?: PdxBlock | readonly PdxValue[] | Authored;
   readonly fleet_names?: {
-  readonly generic?: Record<string, never>;
-  readonly random_names?: Record<string, never>;
-  readonly sequential_name?: string;
-};
-  readonly language?: string;
+  readonly generic?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly random_names?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sequential_name?: string | Authored;
+} | Authored;
+  readonly language?: string | Authored;
   readonly planet_names?: {
   readonly generic?: {
-  readonly names: Record<string, never>;
-};
+  readonly names: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly randomized?: false;
+} | Authored;
+  readonly randomized?: false | Authored;
   readonly ruler_names?: {
   readonly default: {
-  readonly full_names: Record<string, never>;
-};
-};
-  readonly selectable?: PdxBlock;
+  readonly full_names: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+} | Authored;
+  readonly selectable?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ship_class_names?: {
-  readonly generic?: Record<string, never>;
+  readonly generic?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly ship_names?: {
-  readonly generic?: Record<string, never>;
+  readonly generic?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly should_name_home_system_planets?: boolean;
-  readonly trigger?: PdxBlock;
+} | Authored;
+  readonly should_name_home_system_planets?: boolean | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface NamedColorDefinition {
-  readonly color: string;
+  readonly color: string | Authored;
 }
 
 export interface NotificationModifierDefinition {
-  readonly icon: string;
+  readonly icon: string | Authored;
 }
 
 export interface ObservationStationMissionDefinition {
-  readonly ai_weight: PdxBlock;
-  readonly completion_event?: EventRef;
-  readonly completion_sound?: SoundEffectRef;
-  readonly icon: SpriteRef;
-  readonly monthly_progress?: number;
-  readonly potential?: PdxBlock;
+  readonly ai_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly completion_event?: EventRef | Authored;
+  readonly completion_sound?: SoundEffectRef | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly monthly_progress?: number | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly small_icon: number;
-  readonly valid?: PdxBlock;
+} | Authored;
+  readonly small_icon: number | Authored;
+  readonly valid?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface OnActionDefinition {
-  readonly events?: Record<string, never>;
+  readonly events?: PdxBlock | readonly PdxValue[] | Authored;
   readonly random_events?: {
-  readonly int?: (0 | EventRef) | readonly (0 | EventRef)[];
-};
+  readonly int?: (0 | EventRef) | readonly (0 | EventRef)[] | Authored;
+} | Authored;
 }
 
 export interface OpinionModifierDefinition {
-  readonly accumulative?: boolean;
-  readonly block_triggered?: true;
-  readonly decay?: number | PdxBlock;
-  readonly growth?: number | PdxBlock;
-  readonly max?: number;
-  readonly min?: number;
-  readonly monthly?: true;
-  readonly months?: number;
+  readonly accumulative?: boolean | Authored;
+  readonly block_triggered?: true | Authored;
+  readonly decay?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly growth?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly max?: number | Authored;
+  readonly min?: number | Authored;
+  readonly monthly?: true | Authored;
+  readonly months?: number | Authored;
   readonly opinion: {
   readonly modifier?: ({
-  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count";
+  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
 }) | readonly ({
-  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count";
-})[];
+  readonly factor: "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-} | number;
-  readonly trigger?: PdxBlock;
-  readonly unique?: boolean;
+} | number | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly unique?: boolean | Authored;
 }
 
 export interface OwnershipLimitDefinition {
-  readonly ship_of_size_limits?: Record<string, never>;
+  readonly ship_of_size_limits?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface ParticleDefinition {
-  readonly name: string;
-  readonly scale?: number;
-  readonly type: ParticleTypeRef;
+  readonly name: string | Authored;
+  readonly scale?: number | Authored;
+  readonly type: ParticleTypeRef | Authored;
 }
 
 export interface ParticleTypeDefinition {
   readonly animation?: ({
-  readonly curve: Record<string, never>;
-  readonly duration: number;
-  readonly maxValue: number;
-  readonly minValue: number;
-  readonly name: string;
-  readonly op: "MUL" | "ADD" | "ABS";
-  readonly repeat?: boolean;
-  readonly start: number;
-  readonly time: "life" | "life_abs" | "system" | "spawn";
+  readonly curve: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+  readonly maxValue: number | Authored;
+  readonly minValue: number | Authored;
+  readonly name: string | Authored;
+  readonly op: "MUL" | "ADD" | "ABS" | Authored;
+  readonly repeat?: boolean | Authored;
+  readonly start: number | Authored;
+  readonly time: "life" | "life_abs" | "system" | "spawn" | Authored;
 }) | readonly ({
-  readonly curve: Record<string, never>;
-  readonly duration: number;
-  readonly maxValue: number;
-  readonly minValue: number;
-  readonly name: string;
-  readonly op: "MUL" | "ADD" | "ABS";
-  readonly repeat?: boolean;
-  readonly start: number;
-  readonly time: "life" | "life_abs" | "system" | "spawn";
-})[];
+  readonly curve: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+  readonly maxValue: number | Authored;
+  readonly minValue: number | Authored;
+  readonly name: string | Authored;
+  readonly op: "MUL" | "ADD" | "ABS" | Authored;
+  readonly repeat?: boolean | Authored;
+  readonly start: number | Authored;
+  readonly time: "life" | "life_abs" | "system" | "spawn" | Authored;
+})[] | Authored;
   readonly force?: ({
-  readonly amount?: string;
-  readonly direction?: Record<string, never>;
-  readonly division?: number;
-  readonly local_force?: boolean;
-  readonly name: string;
-  readonly position?: Record<string, never>;
-  readonly type: "planar" | "friction" | "point" | "spin" | "turbulence" | "vortex";
-  readonly yaw?: number;
+  readonly amount?: string | Authored;
+  readonly direction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly division?: number | Authored;
+  readonly local_force?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly position?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly type: "planar" | "friction" | "point" | "spin" | "turbulence" | "vortex" | Authored;
+  readonly yaw?: number | Authored;
 }) | readonly ({
-  readonly amount?: string;
-  readonly direction?: Record<string, never>;
-  readonly division?: number;
-  readonly local_force?: boolean;
-  readonly name: string;
-  readonly position?: Record<string, never>;
-  readonly type: "planar" | "friction" | "point" | "spin" | "turbulence" | "vortex";
-  readonly yaw?: number;
-})[];
-  readonly name: string;
+  readonly amount?: string | Authored;
+  readonly direction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly division?: number | Authored;
+  readonly local_force?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly position?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly type: "planar" | "friction" | "point" | "spin" | "turbulence" | "vortex" | Authored;
+  readonly yaw?: number | Authored;
+})[] | Authored;
+  readonly name: string | Authored;
   readonly subsystem: ({
-  readonly billboard?: boolean;
-  readonly box_emitter_x?: number | string | Record<string, never>;
-  readonly box_emitter_y?: Record<string, never> | string;
-  readonly box_emitter_z?: Record<string, never> | string;
+  readonly billboard?: boolean | Authored;
+  readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly childsystem?: ({
-  readonly billboard?: boolean;
-  readonly box_emitter_x?: number | string | Record<string, never>;
-  readonly box_emitter_y?: Record<string, never> | string;
-  readonly box_emitter_z?: Record<string, never> | string;
-  readonly duration?: number;
-  readonly emission_pulse_duration?: Record<string, never> | number;
-  readonly emission_pulse_silence?: number;
-  readonly emitter_pitch?: number | Record<string, never>;
-  readonly emitter_type?: "point" | "sphere" | "box";
-  readonly emitter_yaw?: number | Record<string, never>;
-  readonly force?: string;
-  readonly hide?: boolean;
-  readonly invert?: boolean;
-  readonly life: Record<string, never> | number;
-  readonly local_space?: boolean;
-  readonly max_amount?: number;
-  readonly name?: string;
-  readonly particle_pitch?: Record<string, never> | number;
-  readonly particle_roll?: Record<string, never>;
-  readonly particle_yaw?: Record<string, never> | number;
+  readonly billboard?: boolean | Authored;
+  readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly duration?: number | Authored;
+  readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission_pulse_silence?: number | Authored;
+  readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly emitter_type?: "point" | "sphere" | "box" | Authored;
+  readonly emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly force?: string | Authored;
+  readonly hide?: boolean | Authored;
+  readonly invert?: boolean | Authored;
+  readonly life: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly local_space?: boolean | Authored;
+  readonly max_amount?: number | Authored;
+  readonly name?: string | Authored;
+  readonly particle_pitch?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly particle_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly particle_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly position?: {
-  readonly x?: number;
-  readonly y?: number;
-  readonly z?: number;
-};
-  readonly rotation?: number | Record<string, never>;
-  readonly rotation_speed?: number | Record<string, never>;
-  readonly rotation_speed_pitch?: number;
-  readonly rotation_speed_roll?: Record<string, never>;
-  readonly size: Record<string, never> | number;
-  readonly slave_particles?: number;
-  readonly sort?: "depth" | "age" | "distance";
-  readonly sphere_emitter_pitch?: Record<string, never>;
-  readonly sphere_emitter_radius?: number | Record<string, never>;
-  readonly sphere_emitter_yaw?: number | Record<string, never>;
-  readonly spritesheet_animation?: boolean;
-  readonly spritesheet_animation_loop?: number;
-  readonly start?: number | Record<string, never>;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+  readonly z?: number | Authored;
+} | Authored;
+  readonly rotation?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed_pitch?: number | Authored;
+  readonly rotation_speed_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly slave_particles?: number | Authored;
+  readonly sort?: "depth" | "age" | "distance" | Authored;
+  readonly sphere_emitter_pitch?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_radius?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly spritesheet_animation?: boolean | Authored;
+  readonly spritesheet_animation_loop?: number | Authored;
+  readonly start?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly texture?: {
-  readonly file: string;
-  readonly shader: string;
-  readonly x?: number;
-  readonly y?: number;
-};
-  readonly trail?: boolean;
-  readonly velocity?: number | Record<string, never>;
-  readonly velocity_pitch?: Record<string, never> | string;
-  readonly velocity_yaw?: Record<string, never> | number;
+  readonly file: string | Authored;
+  readonly shader: string | Authored;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+} | Authored;
+  readonly trail?: boolean | Authored;
+  readonly velocity?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly billboard?: boolean;
-  readonly box_emitter_x?: number | string | Record<string, never>;
-  readonly box_emitter_y?: Record<string, never> | string;
-  readonly box_emitter_z?: Record<string, never> | string;
-  readonly duration?: number;
-  readonly emission_pulse_duration?: Record<string, never> | number;
-  readonly emission_pulse_silence?: number;
-  readonly emitter_pitch?: number | Record<string, never>;
-  readonly emitter_type?: "point" | "sphere" | "box";
-  readonly emitter_yaw?: number | Record<string, never>;
-  readonly force?: string;
-  readonly hide?: boolean;
-  readonly invert?: boolean;
-  readonly life: Record<string, never> | number;
-  readonly local_space?: boolean;
-  readonly max_amount?: number;
-  readonly name?: string;
-  readonly particle_pitch?: Record<string, never> | number;
-  readonly particle_roll?: Record<string, never>;
-  readonly particle_yaw?: Record<string, never> | number;
+  readonly billboard?: boolean | Authored;
+  readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly duration?: number | Authored;
+  readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission_pulse_silence?: number | Authored;
+  readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly emitter_type?: "point" | "sphere" | "box" | Authored;
+  readonly emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly force?: string | Authored;
+  readonly hide?: boolean | Authored;
+  readonly invert?: boolean | Authored;
+  readonly life: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly local_space?: boolean | Authored;
+  readonly max_amount?: number | Authored;
+  readonly name?: string | Authored;
+  readonly particle_pitch?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly particle_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly particle_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly position?: {
-  readonly x?: number;
-  readonly y?: number;
-  readonly z?: number;
-};
-  readonly rotation?: number | Record<string, never>;
-  readonly rotation_speed?: number | Record<string, never>;
-  readonly rotation_speed_pitch?: number;
-  readonly rotation_speed_roll?: Record<string, never>;
-  readonly size: Record<string, never> | number;
-  readonly slave_particles?: number;
-  readonly sort?: "depth" | "age" | "distance";
-  readonly sphere_emitter_pitch?: Record<string, never>;
-  readonly sphere_emitter_radius?: number | Record<string, never>;
-  readonly sphere_emitter_yaw?: number | Record<string, never>;
-  readonly spritesheet_animation?: boolean;
-  readonly spritesheet_animation_loop?: number;
-  readonly start?: number | Record<string, never>;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+  readonly z?: number | Authored;
+} | Authored;
+  readonly rotation?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed_pitch?: number | Authored;
+  readonly rotation_speed_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly slave_particles?: number | Authored;
+  readonly sort?: "depth" | "age" | "distance" | Authored;
+  readonly sphere_emitter_pitch?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_radius?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly spritesheet_animation?: boolean | Authored;
+  readonly spritesheet_animation_loop?: number | Authored;
+  readonly start?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly texture?: {
-  readonly file: string;
-  readonly shader: string;
-  readonly x?: number;
-  readonly y?: number;
-};
-  readonly trail?: boolean;
-  readonly velocity?: number | Record<string, never>;
-  readonly velocity_pitch?: Record<string, never> | string;
-  readonly velocity_yaw?: Record<string, never> | number;
+  readonly file: string | Authored;
+  readonly shader: string | Authored;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+} | Authored;
+  readonly trail?: boolean | Authored;
+  readonly velocity?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly duration?: Record<string, never> | number;
-  readonly emission_pulse_duration?: Record<string, never> | number;
-  readonly emission_pulse_silence?: Record<string, never> | number;
-  readonly emitter_pitch?: number | Record<string, never>;
-  readonly emitter_type?: "point" | "sphere" | "box";
-  readonly emitter_yaw?: number | Record<string, never>;
-  readonly force?: string;
-  readonly hide?: boolean;
-  readonly invert?: boolean;
-  readonly life: Record<string, never> | number;
-  readonly local_space?: boolean;
-  readonly mass?: string | Record<string, never>;
-  readonly max_amount?: number;
-  readonly name?: string;
-  readonly particle_pitch?: Record<string, never> | number;
-  readonly particle_roll?: Record<string, never>;
-  readonly particle_yaw?: Record<string, never> | string;
+})[] | Authored;
+  readonly duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission_pulse_silence?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly emitter_type?: "point" | "sphere" | "box" | Authored;
+  readonly emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly force?: string | Authored;
+  readonly hide?: boolean | Authored;
+  readonly invert?: boolean | Authored;
+  readonly life: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly local_space?: boolean | Authored;
+  readonly mass?: string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly max_amount?: number | Authored;
+  readonly name?: string | Authored;
+  readonly particle_pitch?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly particle_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly particle_yaw?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly position?: {
-  readonly x?: number | Record<string, never>;
-  readonly y?: number | Record<string, never>;
-  readonly z?: number | Record<string, never>;
-};
-  readonly rotation?: number | Record<string, never>;
-  readonly rotation_speed?: number | Record<string, never>;
-  readonly rotation_speed_pitch?: Record<string, never> | number;
-  readonly rotation_speed_roll?: Record<string, never>;
-  readonly rotation_speed_yaw?: Record<string, never> | number;
-  readonly size: Record<string, never> | number | string;
-  readonly slave_particles?: number;
-  readonly sort?: "depth" | "age" | "distance";
-  readonly sphere_emitter_pitch?: number | Record<string, never>;
-  readonly sphere_emitter_radius?: number | Record<string, never>;
-  readonly sphere_emitter_yaw?: number | Record<string, never>;
-  readonly spritesheet_animation?: boolean;
-  readonly spritesheet_animation_loop?: number;
-  readonly start?: number | Record<string, never>;
+  readonly x?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly y?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly z?: number | PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly rotation?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed_pitch?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly rotation_speed_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly size: PdxBlock | readonly PdxValue[] | number | string | Authored;
+  readonly slave_particles?: number | Authored;
+  readonly sort?: "depth" | "age" | "distance" | Authored;
+  readonly sphere_emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_radius?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly spritesheet_animation?: boolean | Authored;
+  readonly spritesheet_animation_loop?: number | Authored;
+  readonly start?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly texture?: {
-  readonly file: string;
-  readonly shader: string;
-  readonly x?: number;
-  readonly y?: number;
-};
-  readonly trail?: boolean;
-  readonly velocity?: string | Record<string, never>;
-  readonly velocity_pitch?: Record<string, never> | string;
-  readonly velocity_yaw?: Record<string, never> | number;
+  readonly file: string | Authored;
+  readonly shader: string | Authored;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+} | Authored;
+  readonly trail?: boolean | Authored;
+  readonly velocity?: string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly billboard?: boolean;
-  readonly box_emitter_x?: number | string | Record<string, never>;
-  readonly box_emitter_y?: Record<string, never> | string;
-  readonly box_emitter_z?: Record<string, never> | string;
+  readonly billboard?: boolean | Authored;
+  readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly childsystem?: ({
-  readonly billboard?: boolean;
-  readonly box_emitter_x?: number | string | Record<string, never>;
-  readonly box_emitter_y?: Record<string, never> | string;
-  readonly box_emitter_z?: Record<string, never> | string;
-  readonly duration?: number;
-  readonly emission_pulse_duration?: Record<string, never> | number;
-  readonly emission_pulse_silence?: number;
-  readonly emitter_pitch?: number | Record<string, never>;
-  readonly emitter_type?: "point" | "sphere" | "box";
-  readonly emitter_yaw?: number | Record<string, never>;
-  readonly force?: string;
-  readonly hide?: boolean;
-  readonly invert?: boolean;
-  readonly life: Record<string, never> | number;
-  readonly local_space?: boolean;
-  readonly max_amount?: number;
-  readonly name?: string;
-  readonly particle_pitch?: Record<string, never> | number;
-  readonly particle_roll?: Record<string, never>;
-  readonly particle_yaw?: Record<string, never> | number;
+  readonly billboard?: boolean | Authored;
+  readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly duration?: number | Authored;
+  readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission_pulse_silence?: number | Authored;
+  readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly emitter_type?: "point" | "sphere" | "box" | Authored;
+  readonly emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly force?: string | Authored;
+  readonly hide?: boolean | Authored;
+  readonly invert?: boolean | Authored;
+  readonly life: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly local_space?: boolean | Authored;
+  readonly max_amount?: number | Authored;
+  readonly name?: string | Authored;
+  readonly particle_pitch?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly particle_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly particle_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly position?: {
-  readonly x?: number;
-  readonly y?: number;
-  readonly z?: number;
-};
-  readonly rotation?: number | Record<string, never>;
-  readonly rotation_speed?: number | Record<string, never>;
-  readonly rotation_speed_pitch?: number;
-  readonly rotation_speed_roll?: Record<string, never>;
-  readonly size: Record<string, never> | number;
-  readonly slave_particles?: number;
-  readonly sort?: "depth" | "age" | "distance";
-  readonly sphere_emitter_pitch?: Record<string, never>;
-  readonly sphere_emitter_radius?: number | Record<string, never>;
-  readonly sphere_emitter_yaw?: number | Record<string, never>;
-  readonly spritesheet_animation?: boolean;
-  readonly spritesheet_animation_loop?: number;
-  readonly start?: number | Record<string, never>;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+  readonly z?: number | Authored;
+} | Authored;
+  readonly rotation?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed_pitch?: number | Authored;
+  readonly rotation_speed_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly slave_particles?: number | Authored;
+  readonly sort?: "depth" | "age" | "distance" | Authored;
+  readonly sphere_emitter_pitch?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_radius?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly spritesheet_animation?: boolean | Authored;
+  readonly spritesheet_animation_loop?: number | Authored;
+  readonly start?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly texture?: {
-  readonly file: string;
-  readonly shader: string;
-  readonly x?: number;
-  readonly y?: number;
-};
-  readonly trail?: boolean;
-  readonly velocity?: number | Record<string, never>;
-  readonly velocity_pitch?: Record<string, never> | string;
-  readonly velocity_yaw?: Record<string, never> | number;
+  readonly file: string | Authored;
+  readonly shader: string | Authored;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+} | Authored;
+  readonly trail?: boolean | Authored;
+  readonly velocity?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly billboard?: boolean;
-  readonly box_emitter_x?: number | string | Record<string, never>;
-  readonly box_emitter_y?: Record<string, never> | string;
-  readonly box_emitter_z?: Record<string, never> | string;
-  readonly duration?: number;
-  readonly emission_pulse_duration?: Record<string, never> | number;
-  readonly emission_pulse_silence?: number;
-  readonly emitter_pitch?: number | Record<string, never>;
-  readonly emitter_type?: "point" | "sphere" | "box";
-  readonly emitter_yaw?: number | Record<string, never>;
-  readonly force?: string;
-  readonly hide?: boolean;
-  readonly invert?: boolean;
-  readonly life: Record<string, never> | number;
-  readonly local_space?: boolean;
-  readonly max_amount?: number;
-  readonly name?: string;
-  readonly particle_pitch?: Record<string, never> | number;
-  readonly particle_roll?: Record<string, never>;
-  readonly particle_yaw?: Record<string, never> | number;
+  readonly billboard?: boolean | Authored;
+  readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly duration?: number | Authored;
+  readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission_pulse_silence?: number | Authored;
+  readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly emitter_type?: "point" | "sphere" | "box" | Authored;
+  readonly emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly force?: string | Authored;
+  readonly hide?: boolean | Authored;
+  readonly invert?: boolean | Authored;
+  readonly life: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly local_space?: boolean | Authored;
+  readonly max_amount?: number | Authored;
+  readonly name?: string | Authored;
+  readonly particle_pitch?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly particle_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly particle_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly position?: {
-  readonly x?: number;
-  readonly y?: number;
-  readonly z?: number;
-};
-  readonly rotation?: number | Record<string, never>;
-  readonly rotation_speed?: number | Record<string, never>;
-  readonly rotation_speed_pitch?: number;
-  readonly rotation_speed_roll?: Record<string, never>;
-  readonly size: Record<string, never> | number;
-  readonly slave_particles?: number;
-  readonly sort?: "depth" | "age" | "distance";
-  readonly sphere_emitter_pitch?: Record<string, never>;
-  readonly sphere_emitter_radius?: number | Record<string, never>;
-  readonly sphere_emitter_yaw?: number | Record<string, never>;
-  readonly spritesheet_animation?: boolean;
-  readonly spritesheet_animation_loop?: number;
-  readonly start?: number | Record<string, never>;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+  readonly z?: number | Authored;
+} | Authored;
+  readonly rotation?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed_pitch?: number | Authored;
+  readonly rotation_speed_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly slave_particles?: number | Authored;
+  readonly sort?: "depth" | "age" | "distance" | Authored;
+  readonly sphere_emitter_pitch?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_radius?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly spritesheet_animation?: boolean | Authored;
+  readonly spritesheet_animation_loop?: number | Authored;
+  readonly start?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly texture?: {
-  readonly file: string;
-  readonly shader: string;
-  readonly x?: number;
-  readonly y?: number;
-};
-  readonly trail?: boolean;
-  readonly velocity?: number | Record<string, never>;
-  readonly velocity_pitch?: Record<string, never> | string;
-  readonly velocity_yaw?: Record<string, never> | number;
+  readonly file: string | Authored;
+  readonly shader: string | Authored;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+} | Authored;
+  readonly trail?: boolean | Authored;
+  readonly velocity?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly duration?: Record<string, never> | number;
-  readonly emission_pulse_duration?: Record<string, never> | number;
-  readonly emission_pulse_silence?: Record<string, never> | number;
-  readonly emitter_pitch?: number | Record<string, never>;
-  readonly emitter_type?: "point" | "sphere" | "box";
-  readonly emitter_yaw?: number | Record<string, never>;
-  readonly force?: string;
-  readonly hide?: boolean;
-  readonly invert?: boolean;
-  readonly life: Record<string, never> | number;
-  readonly local_space?: boolean;
-  readonly mass?: string | Record<string, never>;
-  readonly max_amount?: number;
-  readonly name?: string;
-  readonly particle_pitch?: Record<string, never> | number;
-  readonly particle_roll?: Record<string, never>;
-  readonly particle_yaw?: Record<string, never> | string;
+})[] | Authored;
+  readonly duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission_pulse_silence?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly emitter_type?: "point" | "sphere" | "box" | Authored;
+  readonly emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly force?: string | Authored;
+  readonly hide?: boolean | Authored;
+  readonly invert?: boolean | Authored;
+  readonly life: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly local_space?: boolean | Authored;
+  readonly mass?: string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly max_amount?: number | Authored;
+  readonly name?: string | Authored;
+  readonly particle_pitch?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly particle_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly particle_yaw?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly position?: {
-  readonly x?: number | Record<string, never>;
-  readonly y?: number | Record<string, never>;
-  readonly z?: number | Record<string, never>;
-};
-  readonly rotation?: number | Record<string, never>;
-  readonly rotation_speed?: number | Record<string, never>;
-  readonly rotation_speed_pitch?: Record<string, never> | number;
-  readonly rotation_speed_roll?: Record<string, never>;
-  readonly rotation_speed_yaw?: Record<string, never> | number;
-  readonly size: Record<string, never> | number | string;
-  readonly slave_particles?: number;
-  readonly sort?: "depth" | "age" | "distance";
-  readonly sphere_emitter_pitch?: number | Record<string, never>;
-  readonly sphere_emitter_radius?: number | Record<string, never>;
-  readonly sphere_emitter_yaw?: number | Record<string, never>;
-  readonly spritesheet_animation?: boolean;
-  readonly spritesheet_animation_loop?: number;
-  readonly start?: number | Record<string, never>;
+  readonly x?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly y?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly z?: number | PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly rotation?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed_pitch?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly rotation_speed_roll?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly rotation_speed_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly size: PdxBlock | readonly PdxValue[] | number | string | Authored;
+  readonly slave_particles?: number | Authored;
+  readonly sort?: "depth" | "age" | "distance" | Authored;
+  readonly sphere_emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_radius?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly sphere_emitter_yaw?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly spritesheet_animation?: boolean | Authored;
+  readonly spritesheet_animation_loop?: number | Authored;
+  readonly start?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly texture?: {
-  readonly file: string;
-  readonly shader: string;
-  readonly x?: number;
-  readonly y?: number;
-};
-  readonly trail?: boolean;
-  readonly velocity?: string | Record<string, never>;
-  readonly velocity_pitch?: Record<string, never> | string;
-  readonly velocity_yaw?: Record<string, never> | number;
+  readonly file: string | Authored;
+  readonly shader: string | Authored;
+  readonly x?: number | Authored;
+  readonly y?: number | Authored;
+} | Authored;
+  readonly trail?: boolean | Authored;
+  readonly velocity?: string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
 }
 
 export interface PatronsDefinition {
   readonly active_accord?: ({
   readonly activation_cost?: {
-  readonly cost: PdxBlock;
-};
+  readonly cost: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
   readonly ai_will_do?: {
-  readonly factor?: number;
+  readonly factor?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly cooldown?: number;
-  readonly cost_override_key?: string;
+} | Authored;
+  readonly cooldown?: number | Authored;
+  readonly cost_override_key?: string | Authored;
   readonly effect?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly first_cooldown?: number;
-  readonly icon?: string;
-  readonly name?: string;
-  readonly on_revert?: PdxBlock;
+} | Authored;
+  readonly first_cooldown?: number | Authored;
+  readonly icon?: string | Authored;
+  readonly name?: string | Authored;
+  readonly on_revert?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: {
   readonly custom_tooltip?: string | {
-  readonly fail_text?: string;
-  readonly text?: string;
+  readonly fail_text?: string | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-  readonly sound?: SoundEffectRef;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sound?: SoundEffectRef | Authored;
 }) | readonly ({
   readonly activation_cost?: {
-  readonly cost: PdxBlock;
-};
+  readonly cost: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
   readonly ai_will_do?: {
-  readonly factor?: number;
+  readonly factor?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly cooldown?: number;
-  readonly cost_override_key?: string;
+} | Authored;
+  readonly cooldown?: number | Authored;
+  readonly cost_override_key?: string | Authored;
   readonly effect?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly first_cooldown?: number;
-  readonly icon?: string;
-  readonly name?: string;
-  readonly on_revert?: PdxBlock;
+} | Authored;
+  readonly first_cooldown?: number | Authored;
+  readonly icon?: string | Authored;
+  readonly name?: string | Authored;
+  readonly on_revert?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: {
   readonly custom_tooltip?: string | {
-  readonly fail_text?: string;
-  readonly text?: string;
+  readonly fail_text?: string | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-  readonly sound?: SoundEffectRef;
-})[];
-  readonly add_modifier?: boolean;
-  readonly callings?: Record<string, never>;
-  readonly category?: "minor_patron" | "major_patron" | "great_patron";
-  readonly color: Record<string, never>;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sound?: SoundEffectRef | Authored;
+})[] | Authored;
+  readonly add_modifier?: boolean | Authored;
+  readonly callings?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly category?: "minor_patron" | "major_patron" | "great_patron" | Authored;
+  readonly color: PdxBlock | readonly PdxValue[] | Authored;
   readonly covenant?: {
-  readonly custom_tooltip?: string;
-  readonly desc?: string;
-  readonly icon?: string;
-  readonly name?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly desc?: string | Authored;
+  readonly icon?: string | Authored;
+  readonly name?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly covenant_confirmation_time?: number | string;
-  readonly covenant_event?: EventRef;
-  readonly deeds?: Record<string, never>;
-  readonly first_contact_event?: EventRef;
+} | Authored;
+  readonly covenant_confirmation_time?: number | string | Authored;
+  readonly covenant_event?: EventRef | Authored;
+  readonly deeds?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly first_contact_event?: EventRef | Authored;
   readonly passive_accord?: ({
-  readonly desc?: {
-  readonly text?: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text?: string;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly hide_desc?: boolean;
-  readonly icon?: string;
-  readonly name?: string;
+  readonly desc?: ({
+  readonly text?: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly hide_desc?: boolean | Authored;
+  readonly icon?: string | Authored;
+  readonly name?: string | Authored;
   readonly on_revert?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly on_unlock?: ({
-  readonly custom_tooltip?: string;
-  readonly potential?: PdxBlock;
+  readonly custom_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string;
-  readonly potential?: PdxBlock;
+  readonly custom_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly desc?: {
-  readonly text?: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text?: string;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly hide_desc?: boolean;
-  readonly icon?: string;
-  readonly name?: string;
+  readonly desc?: ({
+  readonly text?: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly hide_desc?: boolean | Authored;
+  readonly icon?: string | Authored;
+  readonly name?: string | Authored;
   readonly on_revert?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly on_unlock?: ({
-  readonly custom_tooltip?: string;
-  readonly potential?: PdxBlock;
+  readonly custom_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string;
-  readonly potential?: PdxBlock;
+  readonly custom_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly position?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly potential?: PdxBlock;
-  readonly pre_communications_name_format?: string;
-  readonly text_color_code?: string;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly pre_communications_name_format?: string | Authored;
+  readonly text_color_code?: string | Authored;
 }
 
 export interface PatronsCallingsDefinition {
-  readonly first_tier?: number;
-  readonly on_dismissed?: PdxBlock;
-  readonly on_start?: PdxBlock;
-  readonly potential?: PdxBlock;
+  readonly first_tier?: number | Authored;
+  readonly on_dismissed?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_start?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly tier?: ({
-  readonly attunement: number | string;
-  readonly counter?: PdxBlock;
-  readonly trigger?: PdxBlock;
+  readonly attunement: number | string | Authored;
+  readonly counter?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
-  readonly attunement: number | string;
-  readonly counter?: PdxBlock;
-  readonly trigger?: PdxBlock;
-})[];
+  readonly attunement: number | string | Authored;
+  readonly counter?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
 }
 
 export interface PatronsDeedsDefinition {
-  readonly attunement?: number | string;
-  readonly counter?: PdxBlock;
-  readonly has_desc?: boolean;
-  readonly potential?: PdxBlock;
+  readonly attunement?: number | string | Authored;
+  readonly counter?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly has_desc?: boolean | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface PiechartDefinition {
   readonly colors?: {
-  readonly rgb?: Record<string, never> | readonly Record<string, never>[];
-};
-  readonly is_hover?: boolean;
-  readonly name: string;
-  readonly size: number;
+  readonly rgb?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+} | Authored;
+  readonly is_hover?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly size: number | Authored;
 }
 
 export interface PingmapDefinition {
-  readonly duration: number;
-  readonly galaxy_entity: ModelEntityRef;
-  readonly galaxy_normal_zoom: number;
-  readonly system_entity: ModelEntityRef;
-  readonly system_normal_zoom: number;
+  readonly duration: number | Authored;
+  readonly galaxy_entity: ModelEntityRef | Authored;
+  readonly galaxy_normal_zoom: number | Authored;
+  readonly system_entity: ModelEntityRef | Authored;
+  readonly system_normal_zoom: number | Authored;
 }
 
 export interface PlanetClassDefinition {
-  readonly allowed_archetypes?: Record<string, never>;
-  readonly asteroid?: boolean;
-  readonly astral_rift_gfx?: true;
-  readonly astral_scar?: true;
-  readonly atmosphere_color?: string;
-  readonly atmosphere_intensity?: number;
-  readonly atmosphere_width?: number;
-  readonly auto_trait_prio?: Record<string, never>;
-  readonly can_be_invaded?: boolean;
-  readonly can_be_moon?: boolean;
-  readonly can_have_no_pop_colony?: boolean;
-  readonly carry_cap_per_free_district?: number;
-  readonly chance_of_ring?: number;
-  readonly city_color_lut?: string;
-  readonly climate?: string;
-  readonly colonizable?: boolean;
-  readonly colonizable_by_event?: boolean;
-  readonly colonization_tech?: Record<string, never>;
-  readonly default_planet_selection?: boolean;
-  readonly district_set?: string;
-  readonly enable_tilt?: boolean;
-  readonly entity: string;
-  readonly entity_face_object?: boolean;
-  readonly entity_scale?: number;
-  readonly extra_orbit_size?: number;
-  readonly extra_planet_count?: number;
-  readonly fixed_city_level?: number;
-  readonly fixed_entity_scale?: boolean;
-  readonly habitat?: boolean;
-  readonly has_colonization_influence_cost?: boolean;
-  readonly icon?: SpriteRef;
-  readonly icon_large: SpriteRef;
-  readonly ideal?: boolean | true;
-  readonly inherit_country_building_modifiers?: boolean;
-  readonly initial?: true;
-  readonly is_artificial_planet?: boolean;
-  readonly max_distance_from_sun?: number;
-  readonly min_distance_from_sun?: number;
-  readonly modifier?: PdxBlock;
+  readonly allowed_archetypes?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly asteroid?: boolean | Authored;
+  readonly astral_rift_gfx?: true | Authored;
+  readonly astral_scar?: true | Authored;
+  readonly atmosphere_color?: string | Authored;
+  readonly atmosphere_intensity?: number | Authored;
+  readonly atmosphere_width?: number | Authored;
+  readonly auto_trait_prio?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_be_invaded?: boolean | Authored;
+  readonly can_be_moon?: boolean | Authored;
+  readonly can_have_no_pop_colony?: boolean | Authored;
+  readonly carry_cap_per_free_district?: number | Authored;
+  readonly chance_of_ring?: number | Authored;
+  readonly city_color_lut?: string | Authored;
+  readonly climate?: string | Authored;
+  readonly colonizable?: boolean | Authored;
+  readonly colonizable_by_event?: boolean | Authored;
+  readonly colonization_tech?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly default_planet_selection?: boolean | Authored;
+  readonly district_set?: string | Authored;
+  readonly enable_tilt?: boolean | Authored;
+  readonly entity: string | Authored;
+  readonly entity_face_object?: boolean | Authored;
+  readonly entity_scale?: number | Authored;
+  readonly extra_orbit_size?: number | Authored;
+  readonly extra_planet_count?: number | Authored;
+  readonly fixed_city_level?: number | Authored;
+  readonly fixed_entity_scale?: boolean | Authored;
+  readonly habitat?: boolean | Authored;
+  readonly has_colonization_influence_cost?: boolean | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly icon_large: SpriteRef | Authored;
+  readonly ideal?: boolean | true | Authored;
+  readonly inherit_country_building_modifiers?: boolean | Authored;
+  readonly initial?: true | Authored;
+  readonly is_artificial_planet?: boolean | Authored;
+  readonly max_distance_from_sun?: number | Authored;
+  readonly min_distance_from_sun?: number | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly moon_size?: number | {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly orbit_lines?: boolean;
-  readonly outliner_planet_type?: "special";
-  readonly overlay_entity?: string;
-  readonly picture?: string;
-  readonly place_entity_on_planet_plane?: boolean;
-  readonly planet_custom_label_offset?: number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly orbit_lines?: boolean | Authored;
+  readonly outliner_planet_type?: "special" | Authored;
+  readonly overlay_entity?: string | Authored;
+  readonly picture?: string | Authored;
+  readonly place_entity_on_planet_plane?: boolean | Authored;
+  readonly planet_custom_label_offset?: number | Authored;
   readonly planet_size?: {
-  readonly max: number;
-  readonly min: number;
-} | number;
-  readonly potential?: PdxBlock;
-  readonly preview_entity?: string;
-  readonly production_spawn_chance?: number;
-  readonly ringworld?: boolean;
-  readonly show_city?: boolean | false;
-  readonly show_health_bar_in_planet_view?: boolean;
-  readonly space_monster_target?: boolean;
-  readonly spawn_odds?: number;
-  readonly star?: boolean;
-  readonly star_gfx?: boolean;
-  readonly starting_district?: DistrictRef;
-  readonly starting_planet?: boolean | false;
-  readonly survey_time_factor?: number;
-  readonly synaptic_lathe?: boolean;
-  readonly tile_set?: PlanetClassRef;
-  readonly uses_alternative_skies_for_moons?: boolean;
-  readonly uses_alternative_skies_if_has_orbital_ring?: boolean;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | number | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly preview_entity?: string | Authored;
+  readonly production_spawn_chance?: number | Authored;
+  readonly ringworld?: boolean | Authored;
+  readonly show_city?: boolean | false | Authored;
+  readonly show_health_bar_in_planet_view?: boolean | Authored;
+  readonly space_monster_target?: boolean | Authored;
+  readonly spawn_odds?: number | Authored;
+  readonly star?: boolean | Authored;
+  readonly star_gfx?: boolean | Authored;
+  readonly starting_district?: DistrictRef | Authored;
+  readonly starting_planet?: boolean | false | Authored;
+  readonly survey_time_factor?: number | Authored;
+  readonly synaptic_lathe?: boolean | Authored;
+  readonly tile_set?: PlanetClassRef | Authored;
+  readonly uses_alternative_skies_for_moons?: boolean | Authored;
+  readonly uses_alternative_skies_if_has_orbital_ring?: boolean | Authored;
 }
 
 export interface PlanetClassRandomListDefinition {
-  readonly name: string;
-  readonly planets: Record<string, never>;
+  readonly name: string | Authored;
+  readonly planets: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface PlanetKillerAnimationDefinition {
-  readonly color: Record<string, never>;
+  readonly color: PdxBlock | readonly PdxValue[] | Authored;
   readonly end: {
-  readonly alpha: Record<string, never>;
-  readonly duration: number;
-  readonly texture_scroll_speed: number;
-  readonly texture_tiling: number;
-  readonly width: Record<string, never>;
-};
+  readonly alpha: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+  readonly texture_scroll_speed: number | Authored;
+  readonly texture_tiling: number | Authored;
+  readonly width: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
   readonly fade: {
-  readonly fade_in: Record<string, never>;
-  readonly fade_out: Record<string, never>;
-};
-  readonly hit_entity_positioning?: string;
+  readonly fade_in: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fade_out: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly hit_entity_positioning?: string | Authored;
   readonly in_progress: {
-  readonly alpha: Record<string, never>;
-  readonly duration: number;
-  readonly texture_scroll_speed: Record<string, never>;
-  readonly texture_tiling: Record<string, never>;
-  readonly width: Record<string, never>;
-};
-  readonly megastructure_hit_entity?: ModelEntityRef;
-  readonly planet_dissolve_color_mult?: Record<string, never>;
-  readonly planet_hit_entity?: ModelEntityRef;
-  readonly planet_overlay_entity?: ModelEntityRef;
-  readonly ship_fire_entity?: ModelEntityRef;
-  readonly star_hit_entity?: ModelEntityRef;
+  readonly alpha: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+  readonly texture_scroll_speed: PdxBlock | readonly PdxValue[] | Authored;
+  readonly texture_tiling: PdxBlock | readonly PdxValue[] | Authored;
+  readonly width: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly megastructure_hit_entity?: ModelEntityRef | Authored;
+  readonly planet_dissolve_color_mult?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly planet_hit_entity?: ModelEntityRef | Authored;
+  readonly planet_overlay_entity?: ModelEntityRef | Authored;
+  readonly ship_fire_entity?: ModelEntityRef | Authored;
+  readonly star_hit_entity?: ModelEntityRef | Authored;
   readonly start: {
-  readonly alpha: Record<string, never>;
-  readonly duration: number;
-  readonly texture_scroll_speed: Record<string, never>;
-  readonly texture_tiling: number;
-  readonly width: Record<string, never>;
-};
-  readonly texture: string;
+  readonly alpha: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+  readonly texture_scroll_speed: PdxBlock | readonly PdxValue[] | Authored;
+  readonly texture_tiling: number | Authored;
+  readonly width: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly texture: string | Authored;
   readonly windup: {
-  readonly alpha?: Record<string, never>;
-  readonly duration: number;
-  readonly texture_scroll_speed?: Record<string, never>;
-  readonly texture_tiling?: number;
-  readonly width?: Record<string, never>;
-};
-  readonly windup_entity?: ModelEntityRef;
+  readonly alpha?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+  readonly texture_scroll_speed?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly texture_tiling?: number | Authored;
+  readonly width?: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly windup_entity?: ModelEntityRef | Authored;
 }
 
 export interface PlanetModifierDefinition {
-  readonly is_null?: boolean;
-  readonly modifier?: StaticModifierRef;
-  readonly potential?: PdxBlock;
-  readonly spawn_chance: PdxBlock;
+  readonly is_null?: boolean | Authored;
+  readonly modifier?: StaticModifierRef | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly spawn_chance: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface PolicyDefinition {
-  readonly allow?: PdxBlock;
-  readonly on_activate?: PdxBlock;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_activate?: PdxBlock | readonly PdxValue[] | Authored;
   readonly option: ({
-  readonly AI_weight?: PdxBlock;
-  readonly icon?: SpriteRef;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
-  readonly name: string;
-  readonly on_disabled?: PdxBlock;
-  readonly on_enabled?: PdxBlock;
-  readonly policy_flags?: Record<string, never>;
-  readonly potential?: PdxBlock;
-  readonly pre_sapient_purge?: PurgeTypeRef;
-  readonly prerequisites?: Record<string, never>;
-  readonly valid?: PdxBlock;
+  readonly AI_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name: string | Authored;
+  readonly on_disabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly policy_flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly pre_sapient_purge?: PurgeTypeRef | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly valid?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
-  readonly AI_weight?: PdxBlock;
-  readonly icon?: SpriteRef;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
-  readonly name: string;
-  readonly on_disabled?: PdxBlock;
-  readonly on_enabled?: PdxBlock;
-  readonly policy_flags?: Record<string, never>;
-  readonly potential?: PdxBlock;
-  readonly pre_sapient_purge?: PurgeTypeRef;
-  readonly prerequisites?: Record<string, never>;
-  readonly valid?: PdxBlock;
-})[];
-  readonly potential?: PdxBlock;
+  readonly AI_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name: string | Authored;
+  readonly on_disabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly policy_flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly pre_sapient_purge?: PurgeTypeRef | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly valid?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface PopFactionDefinition {
-  readonly actions?: PdxBlock;
-  readonly attraction?: PdxBlock;
-  readonly can_join_faction: PdxBlock;
-  readonly can_join_pre_triggers?: PdxBlock;
-  readonly can_rename?: boolean;
-  readonly demand?: {
-  readonly council_demand?: boolean;
-  readonly desc?: string;
-  readonly fulfilled_effect?: number;
-  readonly potential?: PdxBlock;
-  readonly title?: string;
-  readonly trigger: PdxBlock;
-  readonly unfulfilled_effect?: number;
-  readonly unfulfilled_title?: string;
-} | readonly {
-  readonly council_demand?: boolean;
-  readonly desc?: string;
-  readonly fulfilled_effect?: number;
-  readonly potential?: PdxBlock;
-  readonly title?: string;
-  readonly trigger: PdxBlock;
-  readonly unfulfilled_effect?: number;
-  readonly unfulfilled_title?: string;
-}[];
-  readonly election_header?: SpriteRef;
+  readonly actions?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly attraction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_join_faction: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_join_pre_triggers?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_rename?: boolean | Authored;
+  readonly demand?: ({
+  readonly council_demand?: boolean | Authored;
+  readonly desc?: string | Authored;
+  readonly fulfilled_effect?: number | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly title?: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly unfulfilled_effect?: number | Authored;
+  readonly unfulfilled_title?: string | Authored;
+}) | readonly ({
+  readonly council_demand?: boolean | Authored;
+  readonly desc?: string | Authored;
+  readonly fulfilled_effect?: number | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly title?: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly unfulfilled_effect?: number | Authored;
+  readonly unfulfilled_title?: string | Authored;
+})[] | Authored;
+  readonly election_header?: SpriteRef | Authored;
   readonly extortion_resource?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly guiding_ethic?: EthosRef;
-  readonly is_potential?: PdxBlock;
-  readonly leader?: PdxBlock;
-  readonly on_create?: PdxBlock;
-  readonly on_destroy?: PdxBlock;
-  readonly parameters?: PdxBlock;
-  readonly persistent_faction?: boolean;
+} | Authored;
+  readonly guiding_ethic?: EthosRef | Authored;
+  readonly is_potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly leader?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_create?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_destroy?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly parameters?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly persistent_faction?: boolean | Authored;
   readonly resources: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly support_multiplier?: number;
-  readonly unique: boolean;
-  readonly use_guiding_ethic_as_pop_filter?: boolean;
+} | Authored;
+  readonly support_multiplier?: number | Authored;
+  readonly unique: boolean | Authored;
+  readonly use_guiding_ethic_as_pop_filter?: boolean | Authored;
   readonly valid?: {
   readonly "parameter:sector"?: {
-  readonly debug_scope_type?: string;
+  readonly debug_scope_type?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly visual_ethic?: string;
+} | Authored;
+  readonly visual_ethic?: string | Authored;
 }
 
 export interface PopFactionNameFormatDefinition {
-  readonly format: string;
-  readonly lookups?: string;
+  readonly format: string | Authored;
+  readonly lookups?: string | Authored;
   readonly random_weight: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly modifier?: ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
 }
 
 export interface PopFactionNamePartsListDefinition {
-  readonly key: string;
+  readonly key: string | Authored;
   readonly parts: {
-  readonly localisation?: number | readonly number[];
-};
+  readonly localisation?: number | readonly number[] | Authored;
+} | Authored;
 }
 
 export interface PopulationControlDefinition {
   readonly ai_will_do: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly can_reproduce?: false;
-  readonly free_pop_modifier?: PdxBlock;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_reproduce?: false | Authored;
+  readonly free_pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly pop_group_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly pop_status_frame?: number;
-  readonly pop_tooltip?: string;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly pop_status_frame?: number | Authored;
+  readonly pop_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface PortraitDefinition {
-  readonly attachment_selector: AssetSelectorRef;
+  readonly attachment_selector: AssetSelectorRef | Authored;
   readonly character_textures?: {
-  readonly tied_texture?: {
-  readonly evolution_variants: Record<string, never>;
-  readonly texture: string;
-} | readonly {
-  readonly evolution_variants: Record<string, never>;
-  readonly texture: string;
-}[];
-};
-  readonly clothes_selector: AssetSelectorRef;
-  readonly custom_attachment_label?: string;
+  readonly tied_texture?: ({
+  readonly evolution_variants: PdxBlock | readonly PdxValue[] | Authored;
+  readonly texture: string | Authored;
+}) | readonly ({
+  readonly evolution_variants: PdxBlock | readonly PdxValue[] | Authored;
+  readonly texture: string | Authored;
+})[] | Authored;
+} | Authored;
+  readonly clothes_selector: AssetSelectorRef | Authored;
+  readonly custom_attachment_label?: string | Authored;
   readonly custom_close_up_position_offset?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly custom_close_up_scale?: number;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly custom_close_up_scale?: number | Authored;
   readonly custom_mid_close_up_position_offset?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly custom_mid_close_up_scale?: number;
-  readonly entity: ModelEntityRef;
-  readonly greeting_sound?: SoundEffectRef;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly custom_mid_close_up_scale?: number | Authored;
+  readonly entity: ModelEntityRef | Authored;
+  readonly greeting_sound?: SoundEffectRef | Authored;
   readonly portrait_evolution?: {
-  readonly variants: Record<string, never>;
-};
+  readonly variants: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
 }
 
 export interface PortraitGroupDefinition {
-  readonly default?: PortraitRef;
+  readonly default?: PortraitRef | Authored;
   readonly game_setup?: {
-  readonly add?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly set?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly add?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly set?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly leader?: {
-  readonly add?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly set?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly add?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly set?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly pop?: {
-  readonly add?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly set?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly add?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly set?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly ruler?: {
-  readonly add?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly set?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly add?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly set?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
   readonly species?: {
-  readonly add?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly set?: {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly portraits: Record<string, never>;
-  readonly trigger?: PdxBlock;
-}[];
-};
+  readonly add?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly set?: ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
 }
 
 export interface PreCommunicationsNameFormatDefinition {
-  readonly format: string;
+  readonly format: string | Authored;
   readonly random_weight: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly modifier?: ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
 }
 
 export interface PreCommunicationsNamePartsListDefinition {
-  readonly cyclic?: boolean;
-  readonly key: string;
+  readonly cyclic?: boolean | Authored;
+  readonly key: string | Authored;
   readonly parts: {
-  readonly localisation?: number | readonly number[];
-};
+  readonly localisation?: number | readonly number[] | Authored;
+} | Authored;
 }
 
 export interface PreFtlAgeDefinition {
-  readonly next_age?: PreFtlAgeRef;
+  readonly next_age?: PreFtlAgeRef | Authored;
 }
 
 export interface PrecursorsDefinition {
-  readonly picture?: SpriteRef;
-  readonly possible?: PdxBlock;
-  readonly size: number;
+  readonly picture?: SpriteRef | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size: number | Authored;
 }
 
 export interface PrescriptedCountryDefinition {
-  readonly adjective: string;
-  readonly advisor_voice_type?: AdvisorVoiceRef;
-  readonly authority?: AuthorityRef;
-  readonly city_graphical_culture: GraphicalCultureRef;
-  readonly civics?: Record<string, never>;
-  readonly default?: true;
+  readonly adjective: string | Authored;
+  readonly advisor_voice_type?: AdvisorVoiceRef | Authored;
+  readonly authority?: AuthorityRef | Authored;
+  readonly city_graphical_culture: GraphicalCultureRef | Authored;
+  readonly civics?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly default?: true | Authored;
   readonly empire_flag: {
   readonly background: {
-  readonly category: string;
-  readonly file: string;
-};
-  readonly colors: Record<string, never>;
+  readonly category: string | Authored;
+  readonly file: string | Authored;
+} | Authored;
+  readonly colors: PdxBlock | readonly PdxValue[] | Authored;
   readonly icon: {
-  readonly category: string;
-  readonly file: string;
-};
-};
-  readonly ethic?: EthosRef | readonly EthosRef[];
-  readonly flag?: PrescriptedCountryFlagsRef;
-  readonly flags?: Record<string, never>;
-  readonly government?: GovernmentRef;
-  readonly graphical_culture: GraphicalCultureRef;
-  readonly ignore_portrait_duplication?: boolean;
-  readonly initializer?: SolarSystemInitializerRef | "";
-  readonly name: string;
-  readonly name_list?: NameListRef;
-  readonly origin?: CivicOrOriginRef;
-  readonly planet_class: PlanetClassRef;
-  readonly planet_name: string;
-  readonly playable?: ScriptedTriggerRef;
-  readonly portrait?: PortraitRef | PortraitGroupRef;
-  readonly room: string;
+  readonly category: string | Authored;
+  readonly file: string | Authored;
+} | Authored;
+} | Authored;
+  readonly ethic?: EthosRef | readonly EthosRef[] | Authored;
+  readonly flag?: PrescriptedCountryFlagsRef | Authored;
+  readonly flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly government?: GovernmentRef | Authored;
+  readonly graphical_culture: GraphicalCultureRef | Authored;
+  readonly ignore_portrait_duplication?: boolean | Authored;
+  readonly initializer?: SolarSystemInitializerRef | "" | Authored;
+  readonly name: string | Authored;
+  readonly name_list?: NameListRef | Authored;
+  readonly origin?: CivicOrOriginRef | Authored;
+  readonly planet_class: PlanetClassRef | Authored;
+  readonly planet_name: string | Authored;
+  readonly playable?: ScriptedTriggerRef | Authored;
+  readonly portrait?: PortraitRef | PortraitGroupRef | Authored;
+  readonly room: string | Authored;
   readonly ruler: {
-  readonly attachment?: number;
-  readonly clothes?: number;
-  readonly evolution_mask?: number;
-  readonly gender: "male" | "female" | "indeterminable" | "not_set";
-  readonly heir_title?: string;
-  readonly heir_title_female?: string;
-  readonly leader_class?: "official" | "commander" | "scientist" | "envoy";
+  readonly attachment?: number | Authored;
+  readonly clothes?: number | Authored;
+  readonly evolution_mask?: number | Authored;
+  readonly gender: "male" | "female" | "indeterminable" | "not_set" | Authored;
+  readonly heir_title?: string | Authored;
+  readonly heir_title_female?: string | Authored;
+  readonly leader_class?: "official" | "commander" | "scientist" | "envoy" | Authored;
   readonly name: string | {
-  readonly first_name: string;
-  readonly second_name: string;
-};
-  readonly portrait: PortraitRef | PortraitGroupRef;
-  readonly ruler_title?: string;
-  readonly ruler_title_female?: string;
-  readonly ruler_title_male?: string;
-  readonly texture: number;
-  readonly trait?: TraitRef | readonly TraitRef[];
-};
+  readonly first_name: string | Authored;
+  readonly second_name: string | Authored;
+} | Authored;
+  readonly portrait: PortraitRef | PortraitGroupRef | Authored;
+  readonly ruler_title?: string | Authored;
+  readonly ruler_title_female?: string | Authored;
+  readonly ruler_title_male?: string | Authored;
+  readonly texture: number | Authored;
+  readonly trait?: TraitRef | readonly TraitRef[] | Authored;
+} | Authored;
   readonly secondary_species?: {
-  readonly adjective: string;
-  readonly class: SpeciesClassRef;
-  readonly gender?: "male" | "female" | "indeterminable" | "not_set";
-  readonly name: string;
-  readonly name_list: NameListRef;
-  readonly plural: string;
-  readonly portrait: PortraitRef | PortraitGroupRef;
-  readonly species_bio?: string;
-  readonly trait?: TraitRef | readonly TraitRef[];
-};
-  readonly ship_prefix: string;
-  readonly spawn_as_fallen?: boolean;
-  readonly spawn_enabled?: boolean | "always";
+  readonly adjective: string | Authored;
+  readonly class: SpeciesClassRef | Authored;
+  readonly gender?: "male" | "female" | "indeterminable" | "not_set" | Authored;
+  readonly name: string | Authored;
+  readonly name_list: NameListRef | Authored;
+  readonly plural: string | Authored;
+  readonly portrait: PortraitRef | PortraitGroupRef | Authored;
+  readonly species_bio?: string | Authored;
+  readonly trait?: TraitRef | readonly TraitRef[] | Authored;
+} | Authored;
+  readonly ship_prefix: string | Authored;
+  readonly spawn_as_fallen?: boolean | Authored;
+  readonly spawn_enabled?: boolean | "always" | Authored;
   readonly species?: {
-  readonly adjective?: string;
-  readonly class: SpeciesClassRef;
-  readonly gender?: "male" | "female" | "indeterminable" | "not_set";
-  readonly name?: string;
-  readonly name_list: NameListRef;
-  readonly plural?: string;
-  readonly portrait: PortraitRef | PortraitGroupRef;
-  readonly species_adjective?: string;
-  readonly species_bio?: string;
-  readonly species_name?: string;
-  readonly species_plural?: string;
-  readonly trait?: TraitRef | readonly TraitRef[];
-};
-  readonly species_adjective?: string;
-  readonly species_bio?: string;
-  readonly species_class?: SpeciesClassRef;
-  readonly species_name?: string;
-  readonly species_plural?: string;
-  readonly system_name: string;
-  readonly trait?: TraitRef | readonly TraitRef[];
+  readonly adjective?: string | Authored;
+  readonly class: SpeciesClassRef | Authored;
+  readonly gender?: "male" | "female" | "indeterminable" | "not_set" | Authored;
+  readonly name?: string | Authored;
+  readonly name_list: NameListRef | Authored;
+  readonly plural?: string | Authored;
+  readonly portrait: PortraitRef | PortraitGroupRef | Authored;
+  readonly species_adjective?: string | Authored;
+  readonly species_bio?: string | Authored;
+  readonly species_name?: string | Authored;
+  readonly species_plural?: string | Authored;
+  readonly trait?: TraitRef | readonly TraitRef[] | Authored;
+} | Authored;
+  readonly species_adjective?: string | Authored;
+  readonly species_bio?: string | Authored;
+  readonly species_class?: SpeciesClassRef | Authored;
+  readonly species_name?: string | Authored;
+  readonly species_plural?: string | Authored;
+  readonly system_name: string | Authored;
+  readonly trait?: TraitRef | readonly TraitRef[] | Authored;
 }
 
 export interface PrescriptedCountryFlagsDefinition {
-  readonly flags: Record<string, never>;
+  readonly flags: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface ProgressbartypeDefinition {
-  readonly color: Record<string, never>;
-  readonly colortwo: Record<string, never>;
-  readonly effectFile: string;
-  readonly flipdirection?: boolean;
-  readonly horizontal?: boolean;
-  readonly name: string;
+  readonly color: PdxBlock | readonly PdxValue[] | Authored;
+  readonly colortwo: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effectFile: string | Authored;
+  readonly flipdirection?: boolean | Authored;
+  readonly horizontal?: boolean | Authored;
+  readonly name: string | Authored;
   readonly size?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly textureFile?: string;
-  readonly textureFile1?: string;
-  readonly textureFile2?: string;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly textureFile?: string | Authored;
+  readonly textureFile1?: string | Authored;
+  readonly textureFile2?: string | Authored;
 }
 
 export interface ProjectileDefinition {
-  readonly color: Record<string, never>;
-  readonly entity?: ModelEntityRef;
+  readonly color: PdxBlock | readonly PdxValue[] | Authored;
+  readonly entity?: ModelEntityRef | Authored;
   readonly hit?: {
-  readonly alpha_curve: Record<string, never>;
-  readonly duration: number;
-};
-  readonly hit_entity?: ModelEntityRef;
-  readonly max_duration?: number;
+  readonly alpha_curve: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+} | Authored;
+  readonly hit_entity?: ModelEntityRef | Authored;
+  readonly max_duration?: number | Authored;
   readonly miss?: {
-  readonly alpha_curve: Record<string, never>;
-  readonly duration: number;
-};
-  readonly muzzle_flash_entity?: ModelEntityRef;
-  readonly name: string;
+  readonly alpha_curve: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+} | Authored;
+  readonly muzzle_flash_entity?: ModelEntityRef | Authored;
+  readonly name: string | Authored;
   readonly random_scale_multiplier?: {
-  readonly max: number;
-  readonly min: number;
-};
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
   readonly set_state?: {
-  readonly section: "attack";
-};
-  readonly shield_hit_entity?: ModelEntityRef;
+  readonly section: "attack" | Authored;
+} | Authored;
+  readonly shield_hit_entity?: ModelEntityRef | Authored;
   readonly shield_impact?: {
-  readonly delay: number;
-  readonly loop_duration?: number;
-  readonly size: "small" | "medium" | "large";
-};
-  readonly speed?: number;
-  readonly stretch_to_fit?: boolean;
-  readonly texture?: string;
-  readonly texture_scroll_speed?: number;
-  readonly texture_tiling?: number;
-  readonly width?: number;
-  readonly windup_entity?: ModelEntityRef | PdxBlock;
+  readonly delay: number | Authored;
+  readonly loop_duration?: number | Authored;
+  readonly size: "small" | "medium" | "large" | Authored;
+} | Authored;
+  readonly speed?: number | Authored;
+  readonly stretch_to_fit?: boolean | Authored;
+  readonly texture?: string | Authored;
+  readonly texture_scroll_speed?: number | Authored;
+  readonly texture_tiling?: number | Authored;
+  readonly width?: number | Authored;
+  readonly windup_entity?: ModelEntityRef | PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface PsionicAurasDefinition {
-  readonly aura_galaxy_texture: string;
-  readonly aura_hyperlane_texture: string;
-  readonly background?: SpriteRef;
+  readonly aura_galaxy_texture: string | Authored;
+  readonly aura_hyperlane_texture: string | Authored;
+  readonly background?: SpriteRef | Authored;
   readonly daily_decrease?: ({
-  readonly base: number;
+  readonly base: number | Authored;
   readonly modifier?: ({
-  readonly add?: number | string;
-  readonly desc?: string;
+  readonly add?: number | string | Authored;
+  readonly desc?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add?: number | string;
-  readonly desc?: string;
+  readonly add?: number | string | Authored;
+  readonly desc?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
 }) | readonly ({
-  readonly base: number;
+  readonly base: number | Authored;
   readonly modifier?: ({
-  readonly add?: number | string;
-  readonly desc?: string;
+  readonly add?: number | string | Authored;
+  readonly desc?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add?: number | string;
-  readonly desc?: string;
+  readonly add?: number | string | Authored;
+  readonly desc?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-})[];
-  readonly increase_trigger?: PdxBlock;
+})[] | Authored;
+})[] | Authored;
+  readonly increase_trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly intensity_level?: ({
-  readonly ai_weight_coefficient?: number;
-  readonly end: number | string;
+  readonly ai_weight_coefficient?: number | Authored;
+  readonly end: number | string | Authored;
   readonly neutral_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly neutral_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly owner_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly owner_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly rival_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly rival_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
 }) | readonly ({
-  readonly ai_weight_coefficient?: number;
-  readonly end: number | string;
+  readonly ai_weight_coefficient?: number | Authored;
+  readonly end: number | string | Authored;
   readonly neutral_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly neutral_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly owner_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly owner_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly rival_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly rival_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+})[] | Authored;
   readonly monthly_decrease?: {
-  readonly base: number;
+  readonly base: number | Authored;
   readonly modifier?: ({
-  readonly add?: number | string;
-  readonly custom_tooltip?: string;
-  readonly desc?: string;
-  readonly subtract?: number | string;
+  readonly add?: number | string | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly desc?: string | Authored;
+  readonly subtract?: number | string | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add?: number | string;
-  readonly custom_tooltip?: string;
-  readonly desc?: string;
-  readonly subtract?: number | string;
+  readonly add?: number | string | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly desc?: string | Authored;
+  readonly subtract?: number | string | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
   readonly monthly_increase?: {
-  readonly base: number;
+  readonly base: number | Authored;
   readonly modifier?: ({
-  readonly add?: number | string;
-  readonly custom_tooltip?: string;
-  readonly desc?: string;
-  readonly subtract?: number | string;
+  readonly add?: number | string | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly desc?: string | Authored;
+  readonly subtract?: number | string | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add?: number | string;
-  readonly custom_tooltip?: string;
-  readonly desc?: string;
-  readonly subtract?: number | string;
+  readonly add?: number | string | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly desc?: string | Authored;
+  readonly subtract?: number | string | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
   readonly neutral_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly neutral_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly on_gain_level?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly on_lose_level?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly on_monthly?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly on_progress_complete?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly on_start?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly on_type_change?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly on_vanish?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly owner_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly owner_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
-  readonly patron?: PatronsRef;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly patron?: PatronsRef | Authored;
   readonly rival_fleet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly rival_planet_modifier?: ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly modifier: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
-})[];
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly triggered_system_modifier?: ({
-  readonly custom_tooltip?: string;
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly custom_tooltip?: string | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string;
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly custom_tooltip?: string | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
 }
 
 export interface PurgeTypeDefinition {
   readonly ai_will_do?: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly free_pop_modifier?: PdxBlock;
-  readonly hidden?: PdxBlock;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
-  readonly pop_decline_rate: number | string;
-  readonly pop_escape_chance: number;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly free_pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly hidden?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly pop_decline_rate: number | string | Authored;
+  readonly pop_escape_chance: number | Authored;
   readonly pop_group_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly pop_status_frame?: number;
-  readonly pop_tooltip?: string;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly pop_status_frame?: number | Authored;
+  readonly pop_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
@@ -7749,99 +7749,99 @@ export interface RandomizableComboDefinition {
 }
 
 export interface RelicDefinition {
-  readonly activation_duration?: number;
-  readonly active_effect?: PdxBlock;
-  readonly ai_weight?: PdxBlock;
-  readonly can_be_stolen?: boolean;
-  readonly portrait: SpriteRef;
-  readonly possible: PdxBlock;
+  readonly activation_duration?: number | Authored;
+  readonly active_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_be_stolen?: boolean | Authored;
+  readonly portrait: SpriteRef | Authored;
+  readonly possible: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly score?: number;
-  readonly sound?: SoundEffectRef | SoundRef | "relic_activation_the_rulerchip";
+} | Authored;
+  readonly score?: number | Authored;
+  readonly sound?: SoundEffectRef | SoundRef | "relic_activation_the_rulerchip" | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ResolutionDefinition {
-  readonly active?: PdxBlock;
-  readonly ai_weight: PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly breach?: PdxBlock;
-  readonly effect?: PdxBlock;
-  readonly fail_effects?: PdxBlock;
-  readonly fire_and_forget?: true;
-  readonly harmful?: boolean;
-  readonly icon: string;
-  readonly level?: number;
+  readonly active?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly breach?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fail_effects?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fire_and_forget?: true | Authored;
+  readonly harmful?: boolean | Authored;
+  readonly icon: string | Authored;
+  readonly level?: number | Authored;
   readonly modifier?: ({
-  readonly custom_tooltip?: string;
-  readonly description?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly description?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string;
-  readonly description?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly description?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly potential?: PdxBlock;
+})[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly sanction?: true;
-  readonly target: boolean;
-  readonly valid_target?: PdxBlock;
+} | Authored;
+  readonly sanction?: true | Authored;
+  readonly target: boolean | Authored;
+  readonly valid_target?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ResolutionCategoryDefinition {
-  readonly group: string;
-  readonly icon: SpriteRef;
-  readonly multiple_active_resolutions?: true;
-  readonly resolution_types: Record<string, never>;
+  readonly group: string | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly multiple_active_resolutions?: true | Authored;
+  readonly resolution_types: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface ResourceDefinition {
-  readonly ai_wants?: PdxBlock;
-  readonly ai_weight?: PdxBlock;
-  readonly allow_deficit?: boolean;
-  readonly category?: "basic" | "advanced" | "strategic" | "rare" | "other";
-  readonly culling_conversion_value?: number;
-  readonly deficit_modifier?: StaticModifierRef;
-  readonly deficit_situation?: SituationTypeRef;
-  readonly deficit_trade_conversion_mult?: number;
+  readonly ai_wants?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow_deficit?: boolean | Authored;
+  readonly category?: "basic" | "advanced" | "strategic" | "rare" | "other" | Authored;
+  readonly culling_conversion_value?: number | Authored;
+  readonly deficit_modifier?: StaticModifierRef | Authored;
+  readonly deficit_situation?: SituationTypeRef | Authored;
+  readonly deficit_trade_conversion_mult?: number | Authored;
   readonly dynamic_capacity?: {
-  readonly base: number;
+  readonly base: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly fixed_max_amount?: boolean;
-  readonly hide_gain?: boolean;
-  readonly intangible_weight?: number;
-  readonly market_amount?: number;
-  readonly market_price?: number;
-  readonly max?: number;
-  readonly prerequisites?: Record<string, never>;
-  readonly special_max_amount?: boolean;
-  readonly tooltip_decimals?: number;
-  readonly tradable?: boolean;
-  readonly tradable_in_market?: PdxBlock;
-  readonly visibility_prerequisite?: PdxBlock;
+} | Authored;
+  readonly fixed_max_amount?: boolean | Authored;
+  readonly hide_gain?: boolean | Authored;
+  readonly intangible_weight?: number | Authored;
+  readonly market_amount?: number | Authored;
+  readonly market_price?: number | Authored;
+  readonly max?: number | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly special_max_amount?: boolean | Authored;
+  readonly tooltip_decimals?: number | Authored;
+  readonly tradable?: boolean | Authored;
+  readonly tradable_in_market?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly visibility_prerequisite?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface RoomTexturesDefinition {
-  readonly default: string;
-  readonly game_setup?: PdxBlock;
-  readonly ruler?: PdxBlock;
+  readonly default: string | Authored;
+  readonly game_setup?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ruler?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface ScriptValueDefinition {
-  readonly add?: (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[];
-  readonly divide?: (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[];
-  readonly mult?: (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[];
-  readonly subtract?: (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[];
+  readonly add?: (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly divide?: (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly mult?: (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly subtract?: (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_size_option" | "number_fleets_spawned" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
@@ -7851,33 +7851,33 @@ export interface ScriptedEffectDefinition {
 }
 
 export interface ScriptedLocDefinition {
-  readonly default?: string;
-  readonly name: string;
-  readonly random?: boolean;
+  readonly default?: string | Authored;
+  readonly name: string | Authored;
+  readonly random?: boolean | Authored;
   readonly text?: ({
-  readonly localization_key: string;
-  readonly trigger?: PdxBlock;
-  readonly weight?: PdxBlock | number;
+  readonly localization_key: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | number | Authored;
 }) | readonly ({
-  readonly localization_key: string;
-  readonly trigger?: PdxBlock;
-  readonly weight?: PdxBlock | number;
-})[];
-  readonly value?: number | string;
+  readonly localization_key: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | number | Authored;
+})[] | Authored;
+  readonly value?: number | string | Authored;
 }
 
 export interface ScriptedModifierDefinition {
-  readonly cap_zero_to_one?: boolean;
-  readonly category: "all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade";
-  readonly good?: boolean;
-  readonly hidden?: boolean;
-  readonly icon?: string;
-  readonly localize_with_value_key?: boolean;
-  readonly max_decimals?: number;
-  readonly min_mult?: number;
-  readonly neutral?: boolean;
-  readonly no_diff?: boolean;
-  readonly percentage?: boolean;
+  readonly cap_zero_to_one?: boolean | Authored;
+  readonly category: "all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade" | Authored;
+  readonly good?: boolean | Authored;
+  readonly hidden?: boolean | Authored;
+  readonly icon?: string | Authored;
+  readonly localize_with_value_key?: boolean | Authored;
+  readonly max_decimals?: number | Authored;
+  readonly min_mult?: number | Authored;
+  readonly neutral?: boolean | Authored;
+  readonly no_diff?: boolean | Authored;
+  readonly percentage?: boolean | Authored;
 }
 
 export interface ScriptedTriggerDefinition {
@@ -7886,719 +7886,719 @@ export interface ScriptedTriggerDefinition {
 }
 
 export interface SectionTemplateDefinition {
-  readonly ai_tags?: Record<string, never>;
-  readonly ai_weight?: PdxBlock;
-  readonly aux_utility_slots?: number;
-  readonly compatible_with_all_ship_sizes?: boolean;
-  readonly component_slot?: {
-  readonly is_side_slot?: boolean;
-  readonly locatorname?: string;
-  readonly name: string;
+  readonly ai_tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly aux_utility_slots?: number | Authored;
+  readonly compatible_with_all_ship_sizes?: boolean | Authored;
+  readonly component_slot?: ({
+  readonly is_side_slot?: boolean | Authored;
+  readonly locatorname?: string | Authored;
+  readonly name: string | Authored;
   readonly position?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly rotation?: number;
-  readonly section_instance?: number;
-  readonly template: ComponentSlotTemplateRef;
-} | readonly {
-  readonly is_side_slot?: boolean;
-  readonly locatorname?: string;
-  readonly name: string;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly rotation?: number | Authored;
+  readonly section_instance?: number | Authored;
+  readonly template: ComponentSlotTemplateRef | Authored;
+}) | readonly ({
+  readonly is_side_slot?: boolean | Authored;
+  readonly locatorname?: string | Authored;
+  readonly name: string | Authored;
   readonly position?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly rotation?: number;
-  readonly section_instance?: number;
-  readonly template: ComponentSlotTemplateRef;
-}[];
-  readonly entity: string;
-  readonly fits_on_slot?: string | readonly string[];
-  readonly icon?: string;
-  readonly icon_frame?: number;
-  readonly key: string;
-  readonly large_utility_slots?: number;
-  readonly medium_utility_slots?: number;
-  readonly modifier?: PdxBlock;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly rotation?: number | Authored;
+  readonly section_instance?: number | Authored;
+  readonly template: ComponentSlotTemplateRef | Authored;
+})[] | Authored;
+  readonly entity: string | Authored;
+  readonly fits_on_slot?: string | readonly string[] | Authored;
+  readonly icon?: string | Authored;
+  readonly icon_frame?: number | Authored;
+  readonly key: string | Authored;
+  readonly large_utility_slots?: number | Authored;
+  readonly medium_utility_slots?: number | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly prerequisites?: {
-  readonly OR?: Record<string, never> | readonly Record<string, never>[];
-};
+  readonly OR?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+} | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly ship_modifier?: PdxBlock;
-  readonly ship_size?: ShipSizeRef | readonly ShipSizeRef[];
-  readonly should_draw_components?: boolean;
-  readonly small_utility_slots?: number;
+} | Authored;
+  readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ship_size?: ShipSizeRef | readonly ShipSizeRef[] | Authored;
+  readonly should_draw_components?: boolean | Authored;
+  readonly small_utility_slots?: number | Authored;
 }
 
 export interface SectorFocusDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly building?: {
-  readonly exempt_from_jobs_check?: true;
-  readonly key: BuildingRef;
-  readonly priority?: true;
-  readonly weight: PdxBlock;
-} | readonly {
-  readonly exempt_from_jobs_check?: true;
-  readonly key: BuildingRef;
-  readonly priority?: true;
-  readonly weight: PdxBlock;
-}[];
-  readonly clear_blockers?: boolean;
-  readonly district?: {
-  readonly key: DistrictRef;
-  readonly weight: PdxBlock;
-} | readonly {
-  readonly key: DistrictRef;
-  readonly weight: PdxBlock;
-}[];
-  readonly hidden?: true;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly building?: ({
+  readonly exempt_from_jobs_check?: true | Authored;
+  readonly key: BuildingRef | Authored;
+  readonly priority?: true | Authored;
+  readonly weight: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly exempt_from_jobs_check?: true | Authored;
+  readonly key: BuildingRef | Authored;
+  readonly priority?: true | Authored;
+  readonly weight: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly clear_blockers?: boolean | Authored;
+  readonly district?: ({
+  readonly key: DistrictRef | Authored;
+  readonly weight: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly key: DistrictRef | Authored;
+  readonly weight: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly hidden?: true | Authored;
 }
 
 export interface SectorTypeDefinition {
-  readonly local_capital_scores: PdxBlock;
-  readonly max_jumps: number;
+  readonly local_capital_scores: PdxBlock | readonly PdxValue[] | Authored;
+  readonly max_jumps: number | Authored;
   readonly resource_conversion_table: {
-  readonly energy: number;
-  readonly minerals: number;
-};
+  readonly energy: number | Authored;
+  readonly minerals: number | Authored;
+} | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
-};
-  readonly system_scores: PdxBlock;
+  readonly category: EconomicCategoryRef | Authored;
+} | Authored;
+  readonly system_scores: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface ShipBehaviorDefinition {
-  readonly attack_move_pattern?: "none" | "stationary" | "charge" | "orbit" | "follow" | "stay_at_range" | "flee" | "maintain_distance";
-  readonly collision_awareness?: number;
-  readonly collision_radius?: number;
-  readonly collision_strafe?: number;
-  readonly combat_source_anchor?: "root" | "parent";
-  readonly combat_target_anchor?: "root" | "parent";
-  readonly desc?: string;
-  readonly formation_distance?: number | "min" | "max" | "median";
-  readonly ignore_combat_movement?: boolean;
-  readonly name: string;
-  readonly passive_move_pattern?: "none" | "stationary" | "charge" | "orbit" | "follow" | "stay_at_range" | "flee" | "maintain_distance";
-  readonly preferred_attack_range?: number | "min" | "max" | "median";
-  readonly range_components?: "weapon" | "strike_craft";
-  readonly return_to_formation_distance?: number | "min" | "max" | "median";
-  readonly source_target_anchor_factor?: number;
+  readonly attack_move_pattern?: "none" | "stationary" | "charge" | "orbit" | "follow" | "stay_at_range" | "flee" | "maintain_distance" | Authored;
+  readonly collision_awareness?: number | Authored;
+  readonly collision_radius?: number | Authored;
+  readonly collision_strafe?: number | Authored;
+  readonly combat_source_anchor?: "root" | "parent" | Authored;
+  readonly combat_target_anchor?: "root" | "parent" | Authored;
+  readonly desc?: string | Authored;
+  readonly formation_distance?: number | "min" | "max" | "median" | Authored;
+  readonly ignore_combat_movement?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly passive_move_pattern?: "none" | "stationary" | "charge" | "orbit" | "follow" | "stay_at_range" | "flee" | "maintain_distance" | Authored;
+  readonly preferred_attack_range?: number | "min" | "max" | "median" | Authored;
+  readonly range_components?: "weapon" | "strike_craft" | Authored;
+  readonly return_to_formation_distance?: number | "min" | "max" | "median" | Authored;
+  readonly source_target_anchor_factor?: number | Authored;
 }
 
 export interface ShipOfSizeLimitDefinition {
-  readonly base: number;
-  readonly max?: number;
-  readonly naval_cap_fraction?: number;
-  readonly ship_types: Record<string, never>;
-  readonly show: PdxBlock;
+  readonly base: number | Authored;
+  readonly max?: number | Authored;
+  readonly naval_cap_fraction?: number | Authored;
+  readonly ship_types: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface ShipSizeDefinition {
-  readonly acceleration?: number;
+  readonly acceleration?: number | Authored;
   readonly ai_ship_data?: {
-  readonly fraction?: PdxBlock | number;
-  readonly max?: number | string;
-  readonly min?: number | string;
-  readonly planet_mult?: number | string;
-  readonly system_mult?: number | string;
-};
-  readonly auto_upgrade?: boolean;
-  readonly available_to_everyone?: boolean;
-  readonly base_buildtime?: number;
-  readonly bioship_growth_progress_required?: number | string;
-  readonly build_block_radius?: number;
-  readonly build_time?: number;
-  readonly can_be_inspected?: boolean;
-  readonly can_disable?: boolean;
-  readonly can_have_federation_design?: boolean;
-  readonly class: string;
-  readonly cloaking_forbidden?: true;
-  readonly collision_radius?: number;
-  readonly combat_disengage_chance?: number;
-  readonly combat_size_multiplier?: number;
-  readonly components_add_to_cost?: boolean;
-  readonly construction_type?: "starbase" | "starbase_shipyard" | "spaceport" | "starbase_defenses" | Record<string, never>;
-  readonly custom_state_loc_prefix?: string;
-  readonly default_behavior?: ShipBehaviorRef;
-  readonly enable_3dview_in_ship_browser?: boolean | true;
-  readonly enable_default_design?: boolean;
-  readonly entity?: ModelEntityRef | string;
-  readonly evaluation_resource?: ResourceRef;
-  readonly fleet_slot_size?: number;
-  readonly flip_control_on_disable?: boolean;
-  readonly formation_priority?: number;
-  readonly graphical_culture?: (Record<string, never> | boolean) | readonly (Record<string, never> | boolean)[];
-  readonly growth_stage_descriptor?: string;
-  readonly hero_ship_fleet_background?: SpriteRef;
-  readonly hull_scale?: number;
-  readonly icon?: string;
-  readonly icon_cloned?: string;
-  readonly icon_frame?: number;
-  readonly is_bio_ship?: boolean;
-  readonly is_civilian?: boolean;
-  readonly is_designable?: boolean;
-  readonly is_entropy_conduit?: boolean;
-  readonly is_hero_ship?: boolean;
-  readonly is_listed?: boolean;
-  readonly is_reanimated?: boolean;
-  readonly is_reckoning_ship?: boolean;
-  readonly is_space_fauna_ship?: boolean;
-  readonly is_space_object?: boolean;
-  readonly is_space_station?: boolean;
-  readonly map_counter_icon?: string;
+  readonly fraction?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly max?: number | string | Authored;
+  readonly min?: number | string | Authored;
+  readonly planet_mult?: number | string | Authored;
+  readonly system_mult?: number | string | Authored;
+} | Authored;
+  readonly auto_upgrade?: boolean | Authored;
+  readonly available_to_everyone?: boolean | Authored;
+  readonly base_buildtime?: number | Authored;
+  readonly bioship_growth_progress_required?: number | string | Authored;
+  readonly build_block_radius?: number | Authored;
+  readonly build_time?: number | Authored;
+  readonly can_be_inspected?: boolean | Authored;
+  readonly can_disable?: boolean | Authored;
+  readonly can_have_federation_design?: boolean | Authored;
+  readonly class: string | Authored;
+  readonly cloaking_forbidden?: true | Authored;
+  readonly collision_radius?: number | Authored;
+  readonly combat_disengage_chance?: number | Authored;
+  readonly combat_size_multiplier?: number | Authored;
+  readonly components_add_to_cost?: boolean | Authored;
+  readonly construction_type?: "starbase" | "starbase_shipyard" | "spaceport" | "starbase_defenses" | PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_state_loc_prefix?: string | Authored;
+  readonly default_behavior?: ShipBehaviorRef | Authored;
+  readonly enable_3dview_in_ship_browser?: boolean | true | Authored;
+  readonly enable_default_design?: boolean | Authored;
+  readonly entity?: ModelEntityRef | string | Authored;
+  readonly evaluation_resource?: ResourceRef | Authored;
+  readonly fleet_slot_size?: number | Authored;
+  readonly flip_control_on_disable?: boolean | Authored;
+  readonly formation_priority?: number | Authored;
+  readonly graphical_culture?: (PdxBlock | readonly PdxValue[] | boolean) | readonly (PdxBlock | readonly PdxValue[] | boolean)[] | Authored;
+  readonly growth_stage_descriptor?: string | Authored;
+  readonly hero_ship_fleet_background?: SpriteRef | Authored;
+  readonly hull_scale?: number | Authored;
+  readonly icon?: string | Authored;
+  readonly icon_cloned?: string | Authored;
+  readonly icon_frame?: number | Authored;
+  readonly is_bio_ship?: boolean | Authored;
+  readonly is_civilian?: boolean | Authored;
+  readonly is_designable?: boolean | Authored;
+  readonly is_entropy_conduit?: boolean | Authored;
+  readonly is_hero_ship?: boolean | Authored;
+  readonly is_listed?: boolean | Authored;
+  readonly is_reanimated?: boolean | Authored;
+  readonly is_reckoning_ship?: boolean | Authored;
+  readonly is_space_fauna_ship?: boolean | Authored;
+  readonly is_space_object?: boolean | Authored;
+  readonly is_space_station?: boolean | Authored;
+  readonly map_counter_icon?: string | Authored;
   readonly map_icon_override?: {
-  readonly cloaked: SpriteRef;
-  readonly mixed: SpriteRef;
-  readonly normal: SpriteRef;
-};
-  readonly max_hitpoints?: number;
-  readonly max_speed?: number;
-  readonly min_upgrade_cost?: PdxBlock;
-  readonly modifier?: PdxBlock;
-  readonly mutation_components_size?: "small" | "medium" | "large" | "extra_large";
-  readonly never_lost?: boolean;
-  readonly never_mia?: boolean;
-  readonly num_target_locators?: number;
-  readonly on_click_sound?: SoundEffectRef;
-  readonly possible_construction?: PdxBlock;
-  readonly possible_country?: PdxBlock;
-  readonly possible_planet?: PdxBlock;
-  readonly possible_starbase?: PdxBlock;
-  readonly potential_construction?: PdxBlock;
-  readonly potential_country?: PdxBlock;
-  readonly potential_planet?: PdxBlock;
-  readonly potential_starbase?: PdxBlock;
-  readonly pre_communications_name?: string;
-  readonly prerequisites?: Record<string, never>;
-  readonly required_component_set?: ComponentSetRef | readonly ComponentSetRef[];
+  readonly cloaked: SpriteRef | Authored;
+  readonly mixed: SpriteRef | Authored;
+  readonly normal: SpriteRef | Authored;
+} | Authored;
+  readonly max_hitpoints?: number | Authored;
+  readonly max_speed?: number | Authored;
+  readonly min_upgrade_cost?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mutation_components_size?: "small" | "medium" | "large" | "extra_large" | Authored;
+  readonly never_lost?: boolean | Authored;
+  readonly never_mia?: boolean | Authored;
+  readonly num_target_locators?: number | Authored;
+  readonly on_click_sound?: SoundEffectRef | Authored;
+  readonly possible_construction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible_country?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible_planet?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible_starbase?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential_construction?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential_country?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential_planet?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential_starbase?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly pre_communications_name?: string | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly required_component_set?: ComponentSetRef | readonly ComponentSetRef[] | Authored;
   readonly resources?: {
-  readonly category?: EconomicCategoryRef;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly role_background?: SpriteRef;
-  readonly rotation_speed?: number;
-  readonly scales_with_planet?: boolean;
-  readonly section_slots?: PdxBlock;
+} | Authored;
+  readonly role_background?: SpriteRef | Authored;
+  readonly rotation_speed?: number | Authored;
+  readonly scales_with_planet?: boolean | Authored;
+  readonly section_slots?: PdxBlock | readonly PdxValue[] | Authored;
   readonly selectable?: {
-  readonly host_has_dlc?: "Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait";
-} | PdxBlock;
-  readonly ship_category?: GrandArchiveShipCategoryTypeRef;
-  readonly ship_class_icon_frame?: number;
-  readonly ship_family_name?: "harbinger_class" | "mauler_class" | "offspring_harbinger_class" | "offspring_mauler_class" | "offspring_stinger_class" | "offspring_weaver_class" | "stinger_class" | "weaver_class";
-  readonly ship_modifier?: PdxBlock;
-  readonly ship_roles?: Record<string, never>;
-  readonly size_multiplier?: number;
+  readonly host_has_dlc?: "Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | Authored;
+} | PdxBlock | readonly PdxValue[] | Authored;
+  readonly ship_category?: GrandArchiveShipCategoryTypeRef | Authored;
+  readonly ship_class_icon_frame?: number | Authored;
+  readonly ship_family_name?: "harbinger_class" | "mauler_class" | "offspring_harbinger_class" | "offspring_mauler_class" | "offspring_stinger_class" | "offspring_weaver_class" | "stinger_class" | "weaver_class" | Authored;
+  readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ship_roles?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly size_multiplier?: number | Authored;
   readonly space_fauna_values?: {
   readonly age_threshold: {
-  readonly max?: number;
-  readonly min?: number;
-};
-  readonly breeding_cooldown_months?: number;
-  readonly can_breed_alone?: boolean;
+  readonly max?: number | Authored;
+  readonly min?: number | Authored;
+} | Authored;
+  readonly breeding_cooldown_months?: number | Authored;
+  readonly can_breed_alone?: boolean | Authored;
   readonly culling_value: {
-  readonly category: "vivarium";
-  readonly produces: PdxBlock;
-};
-  readonly icon_frame: number;
-  readonly merge_with_individuals_amount_to_upgrade?: number;
-  readonly monthly_increased_breeding_chance?: number;
-  readonly monthly_initial_breeding_chance?: number;
-  readonly reanimated_ship_design?: string;
-};
-  readonly takes_name_from_ship_design?: boolean;
-  readonly triggered_ship_roles?: Record<string, never>;
-  readonly upgrades_to?: ShipSizeRef;
-  readonly use_shipnames_from?: ShipSizeRef;
-  readonly uses_name_prefix?: boolean;
-  readonly valid_target_aggressive_stance?: boolean;
+  readonly category: "vivarium" | Authored;
+  readonly produces: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly icon_frame: number | Authored;
+  readonly merge_with_individuals_amount_to_upgrade?: number | Authored;
+  readonly monthly_increased_breeding_chance?: number | Authored;
+  readonly monthly_initial_breeding_chance?: number | Authored;
+  readonly reanimated_ship_design?: string | Authored;
+} | Authored;
+  readonly takes_name_from_ship_design?: boolean | Authored;
+  readonly triggered_ship_roles?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly upgrades_to?: ShipSizeRef | Authored;
+  readonly use_shipnames_from?: ShipSizeRef | Authored;
+  readonly uses_name_prefix?: boolean | Authored;
+  readonly valid_target_aggressive_stance?: boolean | Authored;
 }
 
 export interface ShipsetDefinition {
-  readonly name: string;
-  readonly potential: PdxBlock;
+  readonly name: string | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface SituationTypeDefinition {
-  readonly abort_trigger?: PdxBlock;
+  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly approach?: ({
-  readonly active_tooltip?: string;
-  readonly ai_weight?: number | PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly default?: true;
-  readonly icon: SpriteRef;
-  readonly icon_background: SpriteRef;
-  readonly modifier?: PdxBlock;
-  readonly name: string;
-  readonly on_select?: PdxBlock;
-  readonly potential?: PdxBlock;
+  readonly active_tooltip?: string | Authored;
+  readonly ai_weight?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly default?: true | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly icon_background: SpriteRef | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name: string | Authored;
+  readonly on_select?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category?: EconomicCategoryRef;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly target_modifier?: PdxBlock;
+} | Authored;
+  readonly target_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly active_tooltip?: string;
-  readonly ai_weight?: number | PdxBlock;
-  readonly allow?: PdxBlock;
-  readonly default?: true;
-  readonly icon: SpriteRef;
-  readonly icon_background: SpriteRef;
-  readonly modifier?: PdxBlock;
-  readonly name: string;
-  readonly on_select?: PdxBlock;
-  readonly potential?: PdxBlock;
+  readonly active_tooltip?: string | Authored;
+  readonly ai_weight?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly default?: true | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly icon_background: SpriteRef | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly name: string | Authored;
+  readonly on_select?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category?: EconomicCategoryRef;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly target_modifier?: PdxBlock;
+} | Authored;
+  readonly target_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly category?: "positive" | "negative" | "neutral";
-  readonly complete_category?: "positive" | "negative" | "neutral";
-  readonly complete_icon?: SpriteRef | readonly SpriteRef[];
-  readonly complete_icon_frame?: SpriteRef | readonly SpriteRef[];
+})[] | Authored;
+  readonly category?: "positive" | "negative" | "neutral" | Authored;
+  readonly complete_category?: "positive" | "negative" | "neutral" | Authored;
+  readonly complete_icon?: SpriteRef | readonly SpriteRef[] | Authored;
+  readonly complete_icon_frame?: SpriteRef | readonly SpriteRef[] | Authored;
   readonly desc?: (string | {
-  readonly text?: string;
-  readonly trigger: PdxBlock;
+  readonly text?: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (string | {
-  readonly text?: string;
-  readonly trigger: PdxBlock;
-})[];
-  readonly fail_category?: "positive" | "negative" | "neutral";
-  readonly fail_icon?: SpriteRef;
-  readonly fail_icon_frame?: SpriteRef;
-  readonly initial_progress?: number;
-  readonly modifier?: PdxBlock;
+  readonly text?: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly fail_category?: "positive" | "negative" | "neutral" | Authored;
+  readonly fail_icon?: SpriteRef | Authored;
+  readonly fail_icon_frame?: SpriteRef | Authored;
+  readonly initial_progress?: number | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly monthly_progress: {
-  readonly add?: number;
+  readonly add?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly on_abort?: PdxBlock;
-  readonly on_fail?: PdxBlock;
+} | Authored;
+  readonly on_abort?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_fail?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_monthly?: {
-  readonly events?: Record<string, never>;
+  readonly events?: PdxBlock | readonly PdxValue[] | Authored;
   readonly random_events?: {
-  readonly int?: (0 | EventRef) | readonly (0 | EventRef)[];
-};
-};
-  readonly on_progress_complete?: PdxBlock;
-  readonly on_start?: PdxBlock;
+  readonly int?: (0 | EventRef) | readonly (0 | EventRef)[] | Authored;
+} | Authored;
+} | Authored;
+  readonly on_progress_complete?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_start?: PdxBlock | readonly PdxValue[] | Authored;
   readonly picture?: (SpriteRef | {
-  readonly picture: SpriteRef;
-  readonly trigger: PdxBlock;
+  readonly picture: SpriteRef | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (SpriteRef | {
-  readonly picture: SpriteRef;
-  readonly trigger: PdxBlock;
-})[];
-  readonly progress_direction?: "monodirectional" | "bidirectional";
-  readonly stages?: PdxBlock | readonly PdxBlock[];
-  readonly start_value?: number;
-  readonly target_modifier?: PdxBlock;
+  readonly picture: SpriteRef | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly progress_direction?: "monodirectional" | "bidirectional" | Authored;
+  readonly stages?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly start_value?: number | Authored;
+  readonly target_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly title?: (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (string | {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-})[];
-  readonly triggered_blocked_desc?: {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-}[];
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly triggered_blocked_desc?: ({
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SlaveryTypeDefinition {
-  readonly ai_can_colonize?: true;
+  readonly ai_can_colonize?: true | Authored;
   readonly ai_will_do: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly allow?: PdxBlock;
-  readonly free_pop_modifier?: PdxBlock;
-  readonly in_breach_of?: Record<string, never> | readonly Record<string, never>[];
-  readonly modifier?: PdxBlock;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly free_pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly pop_group_modifier?: {
-  readonly custom_tooltip?: string;
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly pop_status_frame?: number;
-  readonly pop_tooltip?: string;
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly pop_status_frame?: number | Authored;
+  readonly pop_tooltip?: string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SocialStrataDefinition {
-  readonly allow_resettlement: PdxBlock;
-  readonly assign_to_pop?: PdxBlock;
+  readonly allow_resettlement: PdxBlock | readonly PdxValue[] | Authored;
+  readonly assign_to_pop?: PdxBlock | readonly PdxValue[] | Authored;
   readonly automation_resources?: ({
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly can_change_category?: PdxBlock | boolean;
-  readonly change_job_threshold?: number;
-  readonly clothes_texture_index?: number;
-  readonly custom_demotion_icon?: string;
-  readonly custom_demotion_loc?: string;
-  readonly custom_promotion_icon?: string;
-  readonly custom_promotion_loc?: string;
-  readonly demotion_time?: number;
-  readonly display_category?: SocialStrataRef;
-  readonly display_unemployment?: boolean;
-  readonly keep_from_former_job?: boolean;
-  readonly pop_group_modifier?: PdxBlock | readonly PdxBlock[];
-  readonly rank: number;
+})[] | Authored;
+  readonly can_change_category?: PdxBlock | readonly PdxValue[] | boolean | Authored;
+  readonly change_job_threshold?: number | Authored;
+  readonly clothes_texture_index?: number | Authored;
+  readonly custom_demotion_icon?: string | Authored;
+  readonly custom_demotion_loc?: string | Authored;
+  readonly custom_promotion_icon?: string | Authored;
+  readonly custom_promotion_loc?: string | Authored;
+  readonly demotion_time?: number | Authored;
+  readonly display_category?: SocialStrataRef | Authored;
+  readonly display_unemployment?: boolean | Authored;
+  readonly keep_from_former_job?: boolean | Authored;
+  readonly pop_group_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly rank: number | Authored;
   readonly resettlement_cost?: ({
-  readonly trigger?: PdxBlock;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly trigger?: PdxBlock;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly should_apply_unemployment_penalties?: PdxBlock;
+} | Authored;
+  readonly should_apply_unemployment_penalties?: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_pop_group_modifier?: ({
-  readonly potential: PdxBlock;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly potential: PdxBlock;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly unemployment_penalties?: PdxBlock;
+})[] | Authored;
+  readonly unemployment_penalties?: PdxBlock | readonly PdxValue[] | Authored;
   readonly unemployment_resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly weight?: PdxBlock;
+} | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SolarSystemInitializerDefinition {
-  readonly SIZE?: "tiny" | "small" | "medium" | "large" | "huge";
+  readonly SIZE?: "tiny" | "small" | "medium" | "large" | "huge" | Authored;
   readonly asteroid_belt?: ({
   readonly radius: number | {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly type: AsteroidBeltTypeRef;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly type: AsteroidBeltTypeRef | Authored;
 }) | readonly ({
   readonly radius: number | {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly type: AsteroidBeltTypeRef;
-})[];
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly type: AsteroidBeltTypeRef | Authored;
+})[] | Authored;
   readonly change_orbit?: (number | {
-  readonly max: number;
-  readonly min: number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
 }) | readonly (number | {
-  readonly max: number;
-  readonly min: number;
-})[];
-  readonly class: StarClassRef | string;
-  readonly flags?: Record<string, never>;
-  readonly init_effect?: PdxBlock | readonly PdxBlock[];
-  readonly inner_radius_offset?: number;
-  readonly mandatory_neighbors?: boolean;
-  readonly max_instances?: number;
-  readonly name?: string;
-  readonly namelist?: string;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly class: StarClassRef | string | Authored;
+  readonly flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly init_effect?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly inner_radius_offset?: number | Authored;
+  readonly mandatory_neighbors?: boolean | Authored;
+  readonly max_instances?: number | Authored;
+  readonly name?: string | Authored;
+  readonly namelist?: string | Authored;
   readonly neighbor_system?: ({
   readonly distance?: number | {
-  readonly max: number;
-  readonly min: number;
-};
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
   readonly hyperlane_distance?: number | {
-  readonly max: number;
-  readonly min: number;
-};
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
   readonly hyperlane_jumps?: number | {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly initializer: SolarSystemInitializerRef;
-  readonly max_orientation_angle?: number;
-  readonly min_orientation_angle?: number;
-  readonly spawn_chance?: number;
-  readonly trigger?: PdxBlock;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly initializer: SolarSystemInitializerRef | Authored;
+  readonly max_orientation_angle?: number | Authored;
+  readonly min_orientation_angle?: number | Authored;
+  readonly spawn_chance?: number | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
   readonly distance?: number | {
-  readonly max: number;
-  readonly min: number;
-};
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
   readonly hyperlane_distance?: number | {
-  readonly max: number;
-  readonly min: number;
-};
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
   readonly hyperlane_jumps?: number | {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly initializer: SolarSystemInitializerRef;
-  readonly max_orientation_angle?: number;
-  readonly min_orientation_angle?: number;
-  readonly spawn_chance?: number;
-  readonly trigger?: PdxBlock;
-})[];
-  readonly orbital_line?: {
-  readonly orbit_distance_from_parent: number;
-} | readonly {
-  readonly orbit_distance_from_parent: number;
-}[];
-  readonly outer_radius_offset?: number;
-  readonly prevent_anomalies?: boolean;
-  readonly primitive_system?: boolean;
-  readonly scaled_spawn_chance?: number;
-  readonly scaled_spawn_settings?: string;
-  readonly spawn_chance?: number;
-  readonly usage?: ("empire_init" | "misc_system_init" | "custom_empire" | "fallen_empire_init" | "origin") | readonly ("empire_init" | "misc_system_init" | "custom_empire" | "fallen_empire_init" | "origin")[];
-  readonly usage_odds?: number | PdxBlock;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly initializer: SolarSystemInitializerRef | Authored;
+  readonly max_orientation_angle?: number | Authored;
+  readonly min_orientation_angle?: number | Authored;
+  readonly spawn_chance?: number | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly orbital_line?: ({
+  readonly orbit_distance_from_parent: number | Authored;
+}) | readonly ({
+  readonly orbit_distance_from_parent: number | Authored;
+})[] | Authored;
+  readonly outer_radius_offset?: number | Authored;
+  readonly prevent_anomalies?: boolean | Authored;
+  readonly primitive_system?: boolean | Authored;
+  readonly scaled_spawn_chance?: number | Authored;
+  readonly scaled_spawn_settings?: string | Authored;
+  readonly spawn_chance?: number | Authored;
+  readonly usage?: ("empire_init" | "misc_system_init" | "custom_empire" | "fallen_empire_init" | "origin") | readonly ("empire_init" | "misc_system_init" | "custom_empire" | "fallen_empire_init" | "origin")[] | Authored;
+  readonly usage_odds?: number | PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface SolarSystemInitializerRandomListDefinition {
-  readonly name: string;
+  readonly name: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SongDefinition {
-  readonly name: string;
+  readonly name: string | Authored;
 }
 
 export interface SoundDefinition {
-  readonly always_load?: boolean;
-  readonly file: string;
-  readonly name: string;
-  readonly priority?: number;
-  readonly volume?: number;
+  readonly always_load?: boolean | Authored;
+  readonly file: string | Authored;
+  readonly name: string | Authored;
+  readonly priority?: number | Authored;
+  readonly volume?: number | Authored;
 }
 
 export interface SoundCategoryDefinition {
   readonly compressor?: {
-  readonly attacktime: number;
-  readonly enabled: boolean;
-  readonly postgain: number;
-  readonly pregain: number;
-  readonly ratio: number;
-  readonly releasetime: number;
-  readonly threshold: number;
-};
-  readonly name: string;
-  readonly soundeffects: Record<string, never>;
+  readonly attacktime: number | Authored;
+  readonly enabled: boolean | Authored;
+  readonly postgain: number | Authored;
+  readonly pregain: number | Authored;
+  readonly ratio: number | Authored;
+  readonly releasetime: number | Authored;
+  readonly threshold: number | Authored;
+} | Authored;
+  readonly name: string | Authored;
+  readonly soundeffects: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface SoundEffectDefinition {
-  readonly delay_random_offset?: Record<string, never>;
-  readonly fade_in?: number;
-  readonly fade_out?: number;
-  readonly falloff?: SoundFalloffRef;
-  readonly is3d?: boolean;
-  readonly loop?: boolean;
-  readonly looping_delay_random_offset?: boolean;
-  readonly looping_playbackrate_random_offset?: boolean;
-  readonly looping_volume_random_offset?: boolean;
-  readonly max_audible?: number;
-  readonly max_audible_behaviour?: "fail";
-  readonly name: string;
-  readonly playbackrate?: number;
-  readonly playbackrate_random_offset?: Record<string, never>;
-  readonly prevent_random_repetition?: boolean;
-  readonly random_sound_when_looping?: boolean;
+  readonly delay_random_offset?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fade_in?: number | Authored;
+  readonly fade_out?: number | Authored;
+  readonly falloff?: SoundFalloffRef | Authored;
+  readonly is3d?: boolean | Authored;
+  readonly loop?: boolean | Authored;
+  readonly looping_delay_random_offset?: boolean | Authored;
+  readonly looping_playbackrate_random_offset?: boolean | Authored;
+  readonly looping_volume_random_offset?: boolean | Authored;
+  readonly max_audible?: number | Authored;
+  readonly max_audible_behaviour?: "fail" | Authored;
+  readonly name: string | Authored;
+  readonly playbackrate?: number | Authored;
+  readonly playbackrate_random_offset?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly prevent_random_repetition?: boolean | Authored;
+  readonly random_sound_when_looping?: boolean | Authored;
   readonly sounds: {
-  readonly sound?: SoundRef | readonly SoundRef[];
-  readonly weighted_sound?: {
-  readonly sound: SoundRef;
-  readonly weight: number;
-} | readonly {
-  readonly sound: SoundRef;
-  readonly weight: number;
-}[];
-};
-  readonly volume?: number;
-  readonly volume_random_offset?: Record<string, never>;
+  readonly sound?: SoundRef | readonly SoundRef[] | Authored;
+  readonly weighted_sound?: ({
+  readonly sound: SoundRef | Authored;
+  readonly weight: number | Authored;
+}) | readonly ({
+  readonly sound: SoundRef | Authored;
+  readonly weight: number | Authored;
+})[] | Authored;
+} | Authored;
+  readonly volume?: number | Authored;
+  readonly volume_random_offset?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface SoundFalloffDefinition {
-  readonly height_scale?: number;
-  readonly max_distance: number;
-  readonly min_distance: number;
-  readonly name: string;
-  readonly type?: "linear";
+  readonly height_scale?: number | Authored;
+  readonly max_distance: number | Authored;
+  readonly min_distance: number | Authored;
+  readonly name: string | Authored;
+  readonly type?: "linear" | Authored;
 }
 
 export interface SoundGroupDefinition {
-  readonly name: string;
-  readonly sort_order?: number;
-  readonly soundeffectoverrides?: PdxBlock;
-  readonly soundfileoverrides?: PdxBlock;
-  readonly soundoverride?: {
-  readonly file: string;
-  readonly name: SoundRef;
-} | readonly {
-  readonly file: string;
-  readonly name: SoundRef;
-}[];
+  readonly name: string | Authored;
+  readonly sort_order?: number | Authored;
+  readonly soundeffectoverrides?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly soundfileoverrides?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly soundoverride?: ({
+  readonly file: string | Authored;
+  readonly name: SoundRef | Authored;
+}) | readonly ({
+  readonly file: string | Authored;
+  readonly name: SoundRef | Authored;
+})[] | Authored;
 }
 
 export interface SoundMasterCompressorDefinition {
-  readonly attacktime: number;
-  readonly postgain: number;
-  readonly pregain: number;
-  readonly ratio: number;
-  readonly releasetime: number;
-  readonly threshold: number;
+  readonly attacktime: number | Authored;
+  readonly postgain: number | Authored;
+  readonly pregain: number | Authored;
+  readonly ratio: number | Authored;
+  readonly releasetime: number | Authored;
+  readonly threshold: number | Authored;
 }
 
 export interface SoundMusicCompressorDefinition {
-  readonly attacktime: number;
-  readonly enabled: boolean;
-  readonly postgain: number;
-  readonly pregain: number;
-  readonly ratio: number;
-  readonly releasetime: number;
-  readonly threshold: number;
+  readonly attacktime: number | Authored;
+  readonly enabled: boolean | Authored;
+  readonly postgain: number | Authored;
+  readonly pregain: number | Authored;
+  readonly ratio: number | Authored;
+  readonly releasetime: number | Authored;
+  readonly threshold: number | Authored;
 }
 
 export interface SpecialProjectDefinition {
-  readonly AI_wait_days?: PdxBlock;
-  readonly abort_trigger?: PdxBlock;
-  readonly cost?: number | PdxBlock;
-  readonly days_to_research?: number;
-  readonly desc?: {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-}[];
-  readonly event_chain?: EventChainRef;
-  readonly event_scope: "ship_event" | "planet_event" | "country_event";
-  readonly fail_trigger?: PdxBlock;
-  readonly icon?: string;
-  readonly key: string;
-  readonly location?: boolean;
-  readonly on_cancel?: PdxBlock;
-  readonly on_fail?: PdxBlock;
-  readonly on_progress_25?: PdxBlock;
-  readonly on_progress_50?: PdxBlock;
-  readonly on_progress_75?: PdxBlock;
-  readonly on_start?: PdxBlock;
-  readonly on_success?: PdxBlock;
-  readonly picture?: SpriteRef;
-  readonly project_type?: "project_type_research" | "project_type_bombardment";
-  readonly remove_when_completed?: boolean;
+  readonly AI_wait_days?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly cost?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly days_to_research?: number | Authored;
+  readonly desc?: ({
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly event_chain?: EventChainRef | Authored;
+  readonly event_scope: "ship_event" | "planet_event" | "country_event" | Authored;
+  readonly fail_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon?: string | Authored;
+  readonly key: string | Authored;
+  readonly location?: boolean | Authored;
+  readonly on_cancel?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_fail?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_progress_25?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_progress_50?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_progress_75?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_start?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_success?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly picture?: SpriteRef | Authored;
+  readonly project_type?: "project_type_research" | "project_type_bombardment" | Authored;
+  readonly remove_when_completed?: boolean | Authored;
   readonly requirements?: {
-  readonly assault_armies?: number;
-  readonly defense_armies?: number;
-  readonly fleet_power?: number;
-  readonly handled_by_event_tooltip?: string;
-  readonly has_technology?: TechnologyRef;
-  readonly has_trait?: TraitRef;
-  readonly is_founder_species?: boolean;
-  readonly leader?: "official" | "commander" | "scientist" | "envoy";
-  readonly mining_station?: true;
-  readonly observation_station?: true;
-  readonly research_station?: true;
-  readonly shipclass_colonizer?: number;
-  readonly shipclass_constructor?: number;
-  readonly shipclass_military?: number;
-  readonly shipclass_science_ship?: number;
-  readonly shipclass_transport?: number;
+  readonly assault_armies?: number | Authored;
+  readonly defense_armies?: number | Authored;
+  readonly fleet_power?: number | Authored;
+  readonly handled_by_event_tooltip?: string | Authored;
+  readonly has_technology?: TechnologyRef | Authored;
+  readonly has_trait?: TraitRef | Authored;
+  readonly is_founder_species?: boolean | Authored;
+  readonly leader?: "official" | "commander" | "scientist" | "envoy" | Authored;
+  readonly mining_station?: true | Authored;
+  readonly observation_station?: true | Authored;
+  readonly research_station?: true | Authored;
+  readonly shipclass_colonizer?: number | Authored;
+  readonly shipclass_constructor?: number | Authored;
+  readonly shipclass_military?: number | Authored;
+  readonly shipclass_science_ship?: number | Authored;
+  readonly shipclass_transport?: number | Authored;
   readonly size_requirement?: {
-  readonly count: number;
-  readonly ship_size: ShipSizeRef;
-};
-  readonly skill?: number;
-};
-  readonly same_option_group_as?: Record<string, never>;
-  readonly sound?: boolean;
-  readonly tech_department?: "society_technology" | "engineering_technology" | "physics_technology";
-  readonly timelimit?: number;
+  readonly count: number | Authored;
+  readonly ship_size: ShipSizeRef | Authored;
+} | Authored;
+  readonly skill?: number | Authored;
+} | Authored;
+  readonly same_option_group_as?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly sound?: boolean | Authored;
+  readonly tech_department?: "society_technology" | "engineering_technology" | "physics_technology" | Authored;
+  readonly timelimit?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SpeciesArchetypeDefinition {
-  readonly inherit_trait_points_from?: SpeciesArchetypeRef;
-  readonly inherit_traits_from?: Record<string, never>;
+  readonly inherit_trait_points_from?: SpeciesArchetypeRef | Authored;
+  readonly inherit_traits_from?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly robotic?: boolean;
-  readonly species_max_traits?: number;
-  readonly species_trait_points?: number;
-  readonly uses_modifiers?: boolean;
+} | Authored;
+  readonly robotic?: boolean | Authored;
+  readonly species_max_traits?: number | Authored;
+  readonly species_trait_points?: number | Authored;
+  readonly uses_modifiers?: boolean | Authored;
 }
 
 export interface SpeciesClassDefinition {
-  readonly added_climate_labels?: Record<string, never>;
-  readonly added_planet_types?: Record<string, never>;
-  readonly archetype?: SpeciesArchetypeRef;
-  readonly custom_portraits?: {
-  readonly playable?: PdxBlock;
-  readonly portraits: Record<string, never>;
-  readonly randomized?: PdxBlock;
-} | readonly {
-  readonly playable?: PdxBlock;
-  readonly portraits: Record<string, never>;
-  readonly randomized?: PdxBlock;
-}[];
-  readonly ethics_to_prefer?: Record<string, never>;
-  readonly gender?: boolean;
-  readonly generate_shipset?: boolean;
-  readonly graphical_culture?: GraphicalCultureRef;
-  readonly leader_age_max?: number;
-  readonly leader_age_min?: number;
-  readonly modifier?: PdxBlock;
-  readonly move_pop_sound_effect?: string;
-  readonly non_pre_ftl_portraits?: Record<string, never> | readonly Record<string, never>[];
-  readonly non_randomized_portraits?: Record<string, never>;
-  readonly playable?: PdxBlock;
-  readonly portrait_modding?: boolean;
-  readonly portraits?: Record<string, never>;
+  readonly added_climate_labels?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly added_planet_types?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly archetype?: SpeciesArchetypeRef | Authored;
+  readonly custom_portraits?: ({
+  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly randomized?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly portraits: PdxBlock | readonly PdxValue[] | Authored;
+  readonly randomized?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly ethics_to_prefer?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly gender?: boolean | Authored;
+  readonly generate_shipset?: boolean | Authored;
+  readonly graphical_culture?: GraphicalCultureRef | Authored;
+  readonly leader_age_max?: number | Authored;
+  readonly leader_age_min?: number | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly move_pop_sound_effect?: string | Authored;
+  readonly non_pre_ftl_portraits?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly non_randomized_portraits?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly portrait_modding?: boolean | Authored;
+  readonly portraits?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: {
-  readonly always?: boolean;
-  readonly authority?: PdxBlock;
-  readonly text?: string;
+  readonly always?: boolean | Authored;
+  readonly authority?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly possible_secondary?: {
-  readonly always?: boolean;
-  readonly authority?: PdxBlock;
-  readonly text?: string;
+  readonly always?: boolean | Authored;
+  readonly authority?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly preferred_ethics_weight?: {
-  readonly base: number;
-};
+  readonly base: number | Authored;
+} | Authored;
   readonly random_weight?: {
-  readonly base: number;
-};
-  readonly randomized?: boolean | PdxBlock;
-  readonly removed_climate_labels?: Record<string, never>;
-  readonly removed_planet_types?: Record<string, never>;
-  readonly resources?: Record<string, never> | {
-  readonly category: EconomicCategoryRef;
+  readonly base: number | Authored;
+} | Authored;
+  readonly randomized?: boolean | PdxBlock | readonly PdxValue[] | Authored;
+  readonly removed_climate_labels?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly removed_planet_types?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resources?: PdxBlock | readonly PdxValue[] | {
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly trait?: TraitRef;
-  readonly uplifted_into?: SpeciesClassRef;
-  readonly uplifted_portraits?: Record<string, never>;
-  readonly use_climate_preference?: boolean;
+} | Authored;
+  readonly trait?: TraitRef | Authored;
+  readonly uplifted_into?: SpeciesClassRef | Authored;
+  readonly uplifted_portraits?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly use_climate_preference?: boolean | Authored;
 }
 
 export interface SpeciesNameDefinition {
@@ -8612,405 +8612,405 @@ export interface SpeciesNamedListDefinition {
 }
 
 export interface SpecimenDefinition {
-  readonly RARITY?: "common" | "epic" | "exceptional" | "rare" | "highest";
-  readonly icon: SpriteRef;
-  readonly is_sellable?: boolean;
-  readonly is_tradable?: boolean;
+  readonly RARITY?: "common" | "epic" | "exceptional" | "rare" | "highest" | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly is_sellable?: boolean | Authored;
+  readonly is_tradable?: boolean | Authored;
   readonly resources?: ({
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly upkeep?: {
-  readonly mult?: (number | string) | readonly (number | string)[];
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly upkeep?: {
-  readonly mult?: (number | string) | readonly (number | string)[];
+  readonly mult?: (number | string) | readonly (number | string)[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly type: "aesthetic_wonder" | "historical_item" | "xeno_geology";
+})[] | Authored;
+  readonly type: "aesthetic_wonder" | "historical_item" | "xeno_geology" | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SpriteDefinition {
-  readonly alternate_configurations?: Record<string, never> | readonly Record<string, never>[];
-  readonly alwaysTransparent?: boolean;
+  readonly alternate_configurations?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly alwaysTransparent?: boolean | Authored;
   readonly animation?: ({
-  readonly animationblendmode?: "overlay" | "add" | "multiply";
-  readonly animationdelay?: number;
-  readonly animationframes?: Record<string, never>;
-  readonly animationlooping?: boolean;
-  readonly animationmaskfile?: string;
-  readonly animationrotation?: number;
+  readonly animationblendmode?: "overlay" | "add" | "multiply" | Authored;
+  readonly animationdelay?: number | Authored;
+  readonly animationframes?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly animationlooping?: boolean | Authored;
+  readonly animationmaskfile?: string | Authored;
+  readonly animationrotation?: number | Authored;
   readonly animationrotationoffset?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly animationtexturefile?: string;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly animationtexturefile?: string | Authored;
   readonly animationtexturescale?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly animationtime?: number;
-  readonly animationtype?: "scrolling" | "rotating" | "pulsing" | "rotating_ccw" | "rotating_cw";
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly animationtime?: number | Authored;
+  readonly animationtype?: "scrolling" | "rotating" | "pulsing" | "rotating_ccw" | "rotating_cw" | Authored;
 }) | readonly ({
-  readonly animationblendmode?: "overlay" | "add" | "multiply";
-  readonly animationdelay?: number;
-  readonly animationframes?: Record<string, never>;
-  readonly animationlooping?: boolean;
-  readonly animationmaskfile?: string;
-  readonly animationrotation?: number;
+  readonly animationblendmode?: "overlay" | "add" | "multiply" | Authored;
+  readonly animationdelay?: number | Authored;
+  readonly animationframes?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly animationlooping?: boolean | Authored;
+  readonly animationmaskfile?: string | Authored;
+  readonly animationrotation?: number | Authored;
   readonly animationrotationoffset?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly animationtexturefile?: string;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly animationtexturefile?: string | Authored;
   readonly animationtexturescale?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly animationtime?: number;
-  readonly animationtype?: "scrolling" | "rotating" | "pulsing" | "rotating_ccw" | "rotating_cw";
-})[];
-  readonly animation_rate_fps?: number;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly animationtime?: number | Authored;
+  readonly animationtype?: "scrolling" | "rotating" | "pulsing" | "rotating_ccw" | "rotating_cw" | Authored;
+})[] | Authored;
+  readonly animation_rate_fps?: number | Authored;
   readonly bg_position?: {
-  readonly x: number;
-  readonly y: number;
-};
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
   readonly bg_size?: {
-  readonly height: number;
-  readonly width: number;
-};
+  readonly height: number | Authored;
+  readonly width: number | Authored;
+} | Authored;
   readonly borderSize?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly character?: boolean;
-  readonly clicksound?: SoundEffectRef;
-  readonly close_up?: boolean;
-  readonly default_frame?: number;
-  readonly effectFile?: string;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly character?: boolean | Authored;
+  readonly clicksound?: SoundEffectRef | Authored;
+  readonly close_up?: boolean | Authored;
+  readonly default_frame?: number | Authored;
+  readonly effectFile?: string | Authored;
   readonly hitbox_margin?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly legacy_lazy_load?: boolean | readonly boolean[];
-  readonly loadType?: string;
-  readonly looping?: boolean;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly legacy_lazy_load?: boolean | readonly boolean[] | Authored;
+  readonly loadType?: string | Authored;
+  readonly looping?: boolean | Authored;
   readonly lower_right?: {
-  readonly x: number;
-  readonly y: number;
-};
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
   readonly mask_offset?: {
-  readonly x: number;
-  readonly y: number;
-};
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
   readonly mask_size?: {
-  readonly height: number;
-  readonly width: number;
-};
-  readonly masking_texture?: string;
-  readonly mid_close_up?: true;
-  readonly name: string;
-  readonly noOfFrames?: number;
-  readonly parent?: SpriteRef;
-  readonly play_on_show?: boolean;
+  readonly height: number | Authored;
+  readonly width: number | Authored;
+} | Authored;
+  readonly masking_texture?: string | Authored;
+  readonly mid_close_up?: true | Authored;
+  readonly name: string | Authored;
+  readonly noOfFrames?: number | Authored;
+  readonly parent?: SpriteRef | Authored;
+  readonly play_on_show?: boolean | Authored;
   readonly size?: {
-  readonly x: number;
-  readonly y: number;
-};
-  readonly sprite_sheet_sprite_type?: SpriteRef;
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly sprite_sheet_sprite_type?: SpriteRef | Authored;
   readonly symbol_position?: {
-  readonly x: number;
-  readonly y: number;
-};
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
   readonly symbol_size?: {
-  readonly height: number;
-  readonly width: number;
-};
-  readonly textureFile?: string;
-  readonly texture_size?: "small";
-  readonly tilingCenter?: boolean;
-  readonly transParencecheck?: boolean;
-  readonly type?: "character" | "character_large" | "character_without_room" | "empty_room" | "room" | "planet";
+  readonly height: number | Authored;
+  readonly width: number | Authored;
+} | Authored;
+  readonly textureFile?: string | Authored;
+  readonly texture_size?: "small" | Authored;
+  readonly tilingCenter?: boolean | Authored;
+  readonly transParencecheck?: boolean | Authored;
+  readonly type?: "character" | "character_large" | "character_without_room" | "empty_room" | "room" | "planet" | Authored;
   readonly upper_left?: {
-  readonly x: number;
-  readonly y: number;
-};
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
 }
 
 export interface StarClassDefinition {
-  readonly can_be_crisis_terraformed?: boolean;
-  readonly class: string;
-  readonly crisis_star_class?: StarClassRef;
-  readonly icon?: string;
-  readonly icon_scale?: number;
-  readonly is_environmental_hazard?: boolean;
-  readonly modifier?: PdxBlock;
+  readonly can_be_crisis_terraformed?: boolean | Authored;
+  readonly class: string | Authored;
+  readonly crisis_star_class?: StarClassRef | Authored;
+  readonly icon?: string | Authored;
+  readonly icon_scale?: number | Authored;
+  readonly is_environmental_hazard?: boolean | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly num_planets?: {
-  readonly max: number;
-  readonly min: number;
-};
-  readonly planet?: {
-  readonly class?: string;
-  readonly key: PlanetClassRef;
-} | readonly {
-  readonly class?: string;
-  readonly key: PlanetClassRef;
-}[];
-  readonly spawn_odds?: number;
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly planet?: ({
+  readonly class?: string | Authored;
+  readonly key: PlanetClassRef | Authored;
+}) | readonly ({
+  readonly class?: string | Authored;
+  readonly key: PlanetClassRef | Authored;
+})[] | Authored;
+  readonly spawn_odds?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface StarClassRandomListDefinition {
-  readonly name: string;
-  readonly stars: Record<string, never>;
+  readonly name: string | Authored;
+  readonly stars: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface StarbaseBuildingDefinition {
-  readonly abort_construction_trigger?: PdxBlock;
-  readonly abort_trigger?: PdxBlock;
-  readonly ai_build_at_chokepoint?: boolean;
-  readonly ai_build_outside_chokepoint?: boolean;
-  readonly ai_weight?: PdxBlock;
-  readonly construction_days?: number;
-  readonly country_modifier?: PdxBlock;
-  readonly custom_tooltip?: string | readonly string[];
-  readonly defense_platform_modifier?: PdxBlock;
-  readonly desc?: {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly destroy_trigger?: PdxBlock;
-  readonly equipped_component?: ComponentTemplateRef;
+  readonly abort_construction_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_build_at_chokepoint?: boolean | Authored;
+  readonly ai_build_outside_chokepoint?: boolean | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly construction_days?: number | Authored;
+  readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly defense_platform_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly desc?: ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly destroy_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly equipped_component?: ComponentTemplateRef | Authored;
   readonly icon?: (SpriteRef | {
-  readonly text: SpriteRef;
-  readonly trigger?: PdxBlock;
+  readonly text: SpriteRef | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly (SpriteRef | {
-  readonly text: SpriteRef;
-  readonly trigger?: PdxBlock;
-})[];
-  readonly initial?: boolean;
-  readonly name?: {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly on_destroyed?: PdxBlock;
-  readonly on_finished?: PdxBlock;
-  readonly orbit_modifier?: PdxBlock;
+  readonly text: SpriteRef | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly initial?: boolean | Authored;
+  readonly name?: ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly on_destroyed?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_finished?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly orbit_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly planet_modifier?: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly possible?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly replaceable?: PdxBlock;
+} | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly replaceable?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly scripted_effect_cooldown?: string | readonly string[];
-  readonly scripted_effect_cooldown_flag?: string | readonly string[];
-  readonly scripted_effect_cooldown_flag_desc?: {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-}[];
-  readonly ship_modifier?: PdxBlock;
-  readonly show_in_tech?: TechnologyRef | readonly TechnologyRef[];
-  readonly starbase_type?: StarbaseTypeRef | MegastructureRef;
-  readonly station_modifier?: PdxBlock;
+} | Authored;
+  readonly scripted_effect_cooldown?: string | readonly string[] | Authored;
+  readonly scripted_effect_cooldown_flag?: string | readonly string[] | Authored;
+  readonly scripted_effect_cooldown_flag_desc?: ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_in_tech?: TechnologyRef | readonly TechnologyRef[] | Authored;
+  readonly starbase_type?: StarbaseTypeRef | MegastructureRef | Authored;
+  readonly station_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly system_modifier?: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface StarbaseLevelDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly can_always_dismantle?: boolean;
-  readonly collects_trade?: boolean;
-  readonly display_empire_shield?: boolean;
-  readonly display_map_icon?: boolean;
-  readonly downgrade_potential?: PdxBlock;
-  readonly level_weight?: number;
-  readonly next_level?: StarbaseLevelRef;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_always_dismantle?: boolean | Authored;
+  readonly collects_trade?: boolean | Authored;
+  readonly display_empire_shield?: boolean | Authored;
+  readonly display_map_icon?: boolean | Authored;
+  readonly downgrade_potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly level_weight?: number | Authored;
+  readonly next_level?: StarbaseLevelRef | Authored;
   readonly picture?: {
-  readonly picture: SpriteRef;
-  readonly trigger: PdxBlock;
-} | SpriteRef;
-  readonly portrait?: SpriteRef;
-  readonly potential_home_base?: boolean;
-  readonly ship_size: ShipSizeRef;
-  readonly show_in_outliner?: boolean;
-  readonly special_construction?: boolean;
-  readonly upgrade_possible?: PdxBlock;
+  readonly picture: SpriteRef | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+} | SpriteRef | Authored;
+  readonly portrait?: SpriteRef | Authored;
+  readonly potential_home_base?: boolean | Authored;
+  readonly ship_size: ShipSizeRef | Authored;
+  readonly show_in_outliner?: boolean | Authored;
+  readonly special_construction?: boolean | Authored;
+  readonly upgrade_possible?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface StarbaseModuleDefinition {
-  readonly abort_construction_trigger?: PdxBlock;
-  readonly ai_build_at_chokepoint?: boolean;
-  readonly ai_build_outside_chokepoint?: boolean;
-  readonly ai_weight?: PdxBlock;
-  readonly component_set?: ComponentSetRef;
-  readonly construction_days?: number;
-  readonly country_modifier?: PdxBlock;
-  readonly custom_tooltip?: string | readonly string[];
-  readonly defense_platform_modifier?: PdxBlock;
-  readonly equipped_component?: ComponentTemplateRef;
-  readonly icon?: SpriteRef;
-  readonly initial?: boolean;
-  readonly on_destroyed?: PdxBlock;
-  readonly on_finished?: PdxBlock;
-  readonly orbit_modifier?: PdxBlock;
+  readonly abort_construction_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_build_at_chokepoint?: boolean | Authored;
+  readonly ai_build_outside_chokepoint?: boolean | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly component_set?: ComponentSetRef | Authored;
+  readonly construction_days?: number | Authored;
+  readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly defense_platform_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly equipped_component?: ComponentTemplateRef | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly initial?: boolean | Authored;
+  readonly on_destroyed?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_finished?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly orbit_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly planet_modifier?: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly possible?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly replaceable?: PdxBlock;
+} | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly replaceable?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly section?: SectionTemplateRef;
-  readonly ship_modifier?: PdxBlock;
-  readonly show_in_tech?: TechnologyRef | readonly TechnologyRef[];
-  readonly starbase_type?: StarbaseTypeRef | MegastructureRef;
+} | Authored;
+  readonly section?: SectionTemplateRef | Authored;
+  readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_in_tech?: TechnologyRef | readonly TechnologyRef[] | Authored;
+  readonly starbase_type?: StarbaseTypeRef | MegastructureRef | Authored;
   readonly station_modifier?: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly system_modifier?: {
-  readonly custom_tooltip?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface StarbaseTypeDefinition {
   readonly ai_design?: {
-  readonly buildings: PdxBlock;
-  readonly min?: PdxBlock;
-  readonly modules: PdxBlock;
-  readonly ratio?: PdxBlock;
-};
-  readonly ai_use_defense_platforms?: boolean;
-  readonly potential: PdxBlock;
-  readonly weight_modifier?: PdxBlock;
+  readonly buildings: PdxBlock | readonly PdxValue[] | Authored;
+  readonly min?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly modules: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ratio?: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly ai_use_defense_platforms?: boolean | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight_modifier?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface StartScreenMessageDefinition {
-  readonly localization: string;
-  readonly location: number;
-  readonly trigger: PdxBlock;
+  readonly localization: string | Authored;
+  readonly location: number | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface StaticModifierDefinition {
-  readonly apply_modifier_to_other_planets?: StaticModifierRef;
-  readonly custom_tooltip?: string;
-  readonly hide_from_country_list?: true;
-  readonly icon?: string;
-  readonly icon_frame?: number;
-  readonly important?: boolean;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly apply_modifier_to_other_planets?: StaticModifierRef | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly hide_from_country_list?: true | Authored;
+  readonly icon?: string | Authored;
+  readonly icon_frame?: number | Authored;
+  readonly important?: boolean | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface StormTypeDefinition {
-  readonly affect_armor_regen?: true;
-  readonly affect_hp_regen?: true;
-  readonly affect_shield_regen?: true;
-  readonly cosmic_storm_event_sprite: SpriteRef;
-  readonly cosmic_storm_galaxy_lightning_time: number;
-  readonly cosmic_storm_galaxy_max_opacity: number;
-  readonly cosmic_storm_texture_color_path: string;
-  readonly cosmic_storm_texture_lightning_paths: Record<string, never>;
-  readonly cosmic_storm_texture_path: string;
-  readonly custom_tooltip?: string;
-  readonly description: string;
-  readonly icon: SpriteRef;
-  readonly occlude_system?: true;
-  readonly on_finished: PdxBlock;
-  readonly on_moved: PdxBlock;
-  readonly on_start: PdxBlock;
-  readonly show_notification?: PdxBlock | readonly PdxBlock[];
+  readonly affect_armor_regen?: true | Authored;
+  readonly affect_hp_regen?: true | Authored;
+  readonly affect_shield_regen?: true | Authored;
+  readonly cosmic_storm_event_sprite: SpriteRef | Authored;
+  readonly cosmic_storm_galaxy_lightning_time: number | Authored;
+  readonly cosmic_storm_galaxy_max_opacity: number | Authored;
+  readonly cosmic_storm_texture_color_path: string | Authored;
+  readonly cosmic_storm_texture_lightning_paths: PdxBlock | readonly PdxValue[] | Authored;
+  readonly cosmic_storm_texture_path: string | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly description: string | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly occlude_system?: true | Authored;
+  readonly on_finished: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_moved: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_start: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_notification?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly spawn_weight?: number | {
-  readonly base: number;
+  readonly base: number | Authored;
   readonly modifier?: ({
-  readonly factor?: number;
-  readonly mult?: number | string;
-  readonly set?: number;
+  readonly factor?: number | Authored;
+  readonly mult?: number | string | Authored;
+  readonly set?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly factor?: number;
-  readonly mult?: number | string;
-  readonly set?: number;
+  readonly factor?: number | Authored;
+  readonly mult?: number | string | Authored;
+  readonly set?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
-  readonly storm_activation_period_in_months?: PdxBlock;
-  readonly storm_max_radius?: PdxBlock;
-  readonly storm_max_steps?: PdxBlock;
-  readonly storm_min_radius?: PdxBlock;
-  readonly storm_min_steps?: PdxBlock;
-  readonly storm_monthly_added_devastation?: PdxBlock;
-  readonly storm_speed?: PdxBlock;
+})[] | Authored;
+} | Authored;
+  readonly storm_activation_period_in_months?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly storm_max_radius?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly storm_max_steps?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly storm_min_radius?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly storm_min_steps?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly storm_monthly_added_devastation?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly storm_speed?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SubjectSpecialistPerkDefinition {
-  readonly activate_effect?: PdxBlock;
-  readonly deactivate_effect?: PdxBlock;
+  readonly activate_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly deactivate_effect?: PdxBlock | readonly PdxValue[] | Authored;
   readonly desc?: {
-  readonly description: string;
-};
-  readonly icon?: SpriteRef;
-  readonly main_perk?: boolean;
+  readonly description: string | Authored;
+} | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly main_perk?: boolean | Authored;
   readonly overlord_modifier?: {
-  readonly description?: string;
+  readonly description?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly overlord_relay_network_modifier?: PdxBlock;
+} | Authored;
+  readonly overlord_relay_network_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly subject_modifier?: {
-  readonly description?: string;
+  readonly description?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
+} | Authored;
 }
 
 export interface SubjectSpecialistTypeDefinition {
-  readonly base_conversion_time: number;
-  readonly icon: SpriteRef;
-  readonly icon_large: SpriteRef;
-  readonly levels: Record<string, never>;
-  readonly on_progress_complete?: PdxBlock;
-  readonly preferred_ethic: EthosRef;
+  readonly base_conversion_time: number | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly icon_large: SpriteRef | Authored;
+  readonly levels: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_progress_complete?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly preferred_ethic: EthosRef | Authored;
 }
 
 export interface SubspeciesIntegrationTypeDefinition {
   readonly ai_will_do: {
-  readonly factor: number;
-};
-  readonly allow?: PdxBlock;
-  readonly integration: boolean;
+  readonly factor: number | Authored;
+} | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly integration: boolean | Authored;
 }
 
 export interface SwappedCivicDefinition {
@@ -9018,153 +9018,153 @@ export interface SwappedCivicDefinition {
 }
 
 export interface SystemTypeDefinition {
-  readonly potential: PdxBlock;
-  readonly weight_modifier?: PdxBlock;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight_modifier?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface TargettypeDefinition {
-  readonly target_type: "enemy" | "ally" | "controlled" | "owned";
+  readonly target_type: "enemy" | "ally" | "controlled" | "owned" | Authored;
 }
 
 export interface TechnologyDefinition {
-  readonly ai_update_type?: "all" | "military";
-  readonly ai_weight?: PdxBlock;
-  readonly area: "engineering" | "physics" | "psionics" | "society";
-  readonly category: Record<string, never>;
-  readonly cost?: PdxBlock | number | string;
-  readonly cost_per_level?: number;
-  readonly feature_flags?: Record<string, never>;
-  readonly gateway?: string;
-  readonly icon?: string;
-  readonly is_dangerous?: boolean;
-  readonly is_insight?: boolean;
-  readonly is_rare?: boolean;
-  readonly is_reverse_engineerable?: boolean;
-  readonly levels?: number;
-  readonly mod_weight_if_group_picked?: PdxBlock | readonly PdxBlock[];
+  readonly ai_update_type?: "all" | "military" | Authored;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly area: "engineering" | "physics" | "psionics" | "society" | Authored;
+  readonly category: PdxBlock | readonly PdxValue[] | Authored;
+  readonly cost?: PdxBlock | readonly PdxValue[] | number | string | Authored;
+  readonly cost_per_level?: number | Authored;
+  readonly feature_flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly gateway?: string | Authored;
+  readonly icon?: string | Authored;
+  readonly is_dangerous?: boolean | Authored;
+  readonly is_insight?: boolean | Authored;
+  readonly is_rare?: boolean | Authored;
+  readonly is_reverse_engineerable?: boolean | Authored;
+  readonly levels?: number | Authored;
+  readonly mod_weight_if_group_picked?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly modifier?: {
-  readonly custom_tooltip?: string;
-  readonly description?: string;
+  readonly custom_tooltip?: string | Authored;
+  readonly description?: string | Authored;
   readonly description_parameters?: {
-  readonly POINTS: number;
-};
-  readonly show_only_custom_tooltip?: boolean;
+  readonly POINTS: number | Authored;
+} | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly potential?: PdxBlock;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly prereqfor_desc?: ({
-  readonly hide_prereq_for_desc?: ("ship" | "custom" | "component" | "diplo_action" | "feature" | "resource") | readonly ("ship" | "custom" | "component" | "diplo_action" | "feature" | "resource")[];
+  readonly hide_prereq_for_desc?: ("ship" | "custom" | "component" | "diplo_action" | "feature" | "resource") | readonly ("ship" | "custom" | "component" | "diplo_action" | "feature" | "resource")[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly hide_prereq_for_desc?: ("ship" | "custom" | "component" | "diplo_action" | "feature" | "resource") | readonly ("ship" | "custom" | "component" | "diplo_action" | "feature" | "resource")[];
+  readonly hide_prereq_for_desc?: ("ship" | "custom" | "component" | "diplo_action" | "feature" | "resource") | readonly ("ship" | "custom" | "component" | "diplo_action" | "feature" | "resource")[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly prerequisites?: {
-  readonly OR?: Record<string, never>;
-};
-  readonly start_tech?: boolean;
-  readonly starting_potential?: PdxBlock;
+  readonly OR?: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly start_tech?: boolean | Authored;
+  readonly starting_potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly technology_swap?: ({
-  readonly area?: "engineering" | "physics" | "psionics" | "society";
-  readonly category?: Record<string, never>;
-  readonly inherit_effects?: boolean;
-  readonly inherit_icon?: boolean;
+  readonly area?: "engineering" | "physics" | "psionics" | "society" | Authored;
+  readonly category?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly inherit_effects?: boolean | Authored;
+  readonly inherit_icon?: boolean | Authored;
   readonly modifier?: {
-  readonly custom_tooltip?: string;
-  readonly description?: string;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | Authored;
+  readonly description?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly name?: TechnologyRef | string;
-  readonly prereqfor_desc?: {
+} | Authored;
+  readonly name?: TechnologyRef | string | Authored;
+  readonly prereqfor_desc?: ({
   readonly custom: {
-  readonly desc?: string;
-  readonly title: string;
-};
-} | readonly {
-  readonly custom: {
-  readonly desc?: string;
-  readonly title: string;
-};
-}[];
-  readonly trigger?: PdxBlock;
-  readonly weight?: {
-  readonly factor: number;
-};
+  readonly desc?: string | Authored;
+  readonly title: string | Authored;
+} | Authored;
 }) | readonly ({
-  readonly area?: "engineering" | "physics" | "psionics" | "society";
-  readonly category?: Record<string, never>;
-  readonly inherit_effects?: boolean;
-  readonly inherit_icon?: boolean;
-  readonly modifier?: {
-  readonly custom_tooltip?: string;
-  readonly description?: string;
-  readonly show_only_custom_tooltip?: boolean;
-  readonly [key: string]: PdxValue | undefined;
-};
-  readonly name?: TechnologyRef | string;
-  readonly prereqfor_desc?: {
   readonly custom: {
-  readonly desc?: string;
-  readonly title: string;
-};
-} | readonly {
-  readonly custom: {
-  readonly desc?: string;
-  readonly title: string;
-};
-}[];
-  readonly trigger?: PdxBlock;
+  readonly desc?: string | Authored;
+  readonly title: string | Authored;
+} | Authored;
+})[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly weight?: {
-  readonly factor: number;
-};
-})[];
-  readonly tier: TechnologyTierRef;
-  readonly weight?: number;
-  readonly weight_groups?: Record<string, never>;
-  readonly weight_modifier?: PdxBlock | readonly PdxBlock[];
+  readonly factor: number | Authored;
+} | Authored;
+}) | readonly ({
+  readonly area?: "engineering" | "physics" | "psionics" | "society" | Authored;
+  readonly category?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly inherit_effects?: boolean | Authored;
+  readonly inherit_icon?: boolean | Authored;
+  readonly modifier?: {
+  readonly custom_tooltip?: string | Authored;
+  readonly description?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+} | Authored;
+  readonly name?: TechnologyRef | string | Authored;
+  readonly prereqfor_desc?: ({
+  readonly custom: {
+  readonly desc?: string | Authored;
+  readonly title: string | Authored;
+} | Authored;
+}) | readonly ({
+  readonly custom: {
+  readonly desc?: string | Authored;
+  readonly title: string | Authored;
+} | Authored;
+})[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight?: {
+  readonly factor: number | Authored;
+} | Authored;
+})[] | Authored;
+  readonly tier: TechnologyTierRef | Authored;
+  readonly weight?: number | Authored;
+  readonly weight_groups?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
 }
 
 export interface TechnologyCategoryDefinition {
-  readonly icon: string;
-  readonly weight_modifier?: PdxBlock | readonly PdxBlock[];
+  readonly icon: string | Authored;
+  readonly weight_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
 }
 
 export interface TechnologyTierDefinition {
-  readonly previously_unlocked?: number;
-  readonly weight_modifier?: PdxBlock | readonly PdxBlock[];
+  readonly previously_unlocked?: number | Authored;
+  readonly weight_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
 }
 
 export interface TerraformLinkDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly condition?: PdxBlock;
-  readonly duration: number;
-  readonly effect?: PdxBlock;
-  readonly from: PlanetClassRef;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly condition?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly duration: number | Authored;
+  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly from: PlanetClassRef | Authored;
   readonly on_queued?: {
   readonly if?: ({
-  readonly limit: PdxBlock;
+  readonly limit: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly limit: PdxBlock;
+  readonly limit: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
   readonly on_unqueued?: {
   readonly if?: ({
-  readonly limit: PdxBlock;
+  readonly limit: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly limit: PdxBlock;
+  readonly limit: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
-  readonly potential?: PdxBlock;
+})[] | Authored;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly to: PlanetClassRef;
+} | Authored;
+  readonly to: PlanetClassRef | Authored;
 }
 
 export interface TextcolorsDefinition {
@@ -9173,125 +9173,125 @@ export interface TextcolorsDefinition {
 }
 
 export interface TimelineEventsTypeDefinition {
-  readonly fire_only_once?: boolean;
-  readonly gui: Record<string, never>;
-  readonly text?: Record<string, never>;
-  readonly texture?: Record<string, never>;
-  readonly types?: Record<string, never>;
+  readonly fire_only_once?: boolean | Authored;
+  readonly gui: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly texture?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly types?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface TradableActionsDefinition {
-  readonly active?: PdxBlock;
+  readonly active?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight?: {
   readonly modifier?: ({
-  readonly factor?: number;
-  readonly weight?: number;
+  readonly factor?: number | Authored;
+  readonly weight?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly factor?: number;
-  readonly weight?: number;
+  readonly factor?: number | Authored;
+  readonly weight?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly weight: number;
-};
-  readonly fire_and_forget?: boolean;
-  readonly on_deal_ended_recipient_effect?: PdxBlock;
-  readonly on_deal_ended_sender_effect?: PdxBlock;
-  readonly on_traded_effect?: PdxBlock;
-  readonly potential?: PdxBlock;
+})[] | Authored;
+  readonly weight: number | Authored;
+} | Authored;
+  readonly fire_and_forget?: boolean | Authored;
+  readonly on_deal_ended_recipient_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_deal_ended_sender_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_traded_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface TradeConversionDefinition {
-  readonly conversion_rate: PdxBlock;
-  readonly economic_category: EconomicCategoryRef;
-  readonly potential: PdxBlock;
-  readonly weight: PdxBlock;
+  readonly conversion_rate: PdxBlock | readonly PdxValue[] | Authored;
+  readonly economic_category: EconomicCategoryRef | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly weight: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface TraditionDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly custom_tooltip?: string | readonly string[];
-  readonly custom_tooltip_with_modifiers?: string | readonly string[];
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly custom_tooltip_with_modifiers?: string | readonly string[] | Authored;
   readonly modifier?: {
-  readonly custom_tooltip?: string | readonly string[];
-  readonly description?: string;
-  readonly description_parameters?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly description?: string | Authored;
+  readonly description_parameters?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly on_enabled?: PdxBlock;
-  readonly possible?: PdxBlock;
+} | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
   readonly tradition_swap?: ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly custom_tooltip_with_modifiers?: string | readonly string[];
-  readonly inherit_effects?: boolean;
-  readonly inherit_icon?: boolean;
-  readonly inherit_name?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly custom_tooltip_with_modifiers?: string | readonly string[] | Authored;
+  readonly inherit_effects?: boolean | Authored;
+  readonly inherit_icon?: boolean | Authored;
+  readonly inherit_name?: boolean | Authored;
   readonly modifier?: {
-  readonly custom_tooltip?: string | readonly string[];
-  readonly description?: string;
-  readonly description_parameters?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean | readonly boolean[];
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly description?: string | Authored;
+  readonly description_parameters?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | readonly boolean[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly name?: string;
-  readonly on_enabled?: PdxBlock;
-  readonly trigger?: PdxBlock;
+} | Authored;
+  readonly name?: string | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_modifier?: ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly weight?: PdxBlock;
+})[] | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly custom_tooltip_with_modifiers?: string | readonly string[];
-  readonly inherit_effects?: boolean;
-  readonly inherit_icon?: boolean;
-  readonly inherit_name?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly custom_tooltip_with_modifiers?: string | readonly string[] | Authored;
+  readonly inherit_effects?: boolean | Authored;
+  readonly inherit_icon?: boolean | Authored;
+  readonly inherit_name?: boolean | Authored;
   readonly modifier?: {
-  readonly custom_tooltip?: string | readonly string[];
-  readonly description?: string;
-  readonly description_parameters?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean | readonly boolean[];
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly description?: string | Authored;
+  readonly description_parameters?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | readonly boolean[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly name?: string;
-  readonly on_enabled?: PdxBlock;
-  readonly trigger?: PdxBlock;
+} | Authored;
+  readonly name?: string | Authored;
+  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_modifier?: ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly weight?: PdxBlock;
-})[];
-  readonly unlocks_agenda?: CouncilAgendaRef;
+})[] | Authored;
+  readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly unlocks_agenda?: CouncilAgendaRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
 export interface TraditionCategoryDefinition {
-  readonly adoption_bonus: TraditionRef;
-  readonly ai_weight: PdxBlock;
-  readonly desc?: {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger: PdxBlock;
-}[];
-  readonly finish_bonus: TraditionRef;
-  readonly potential?: PdxBlock;
-  readonly traditions: Record<string, never>;
-  readonly tree_template: string;
+  readonly adoption_bonus: TraditionRef | Authored;
+  readonly ai_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly desc?: ({
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly finish_bonus: TraditionRef | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly traditions: PdxBlock | readonly PdxValue[] | Authored;
+  readonly tree_template: string | Authored;
 }
 
 export interface TraditionSwapDefinition {
@@ -9299,257 +9299,257 @@ export interface TraditionSwapDefinition {
 }
 
 export interface TraitDefinition {
-  readonly advanced_trait?: boolean;
-  readonly ai_categories?: Record<string, never>;
-  readonly ai_weight?: number | PdxBlock;
-  readonly allowed_archetypes?: Record<string, never>;
-  readonly allowed_civics?: Record<string, never>;
-  readonly allowed_ethics?: Record<string, never>;
-  readonly allowed_origins?: Record<string, never>;
-  readonly allowed_planet_classes?: Record<string, never>;
-  readonly allowed_planet_classes_override?: PdxBlock;
-  readonly army_modifier?: PdxBlock;
-  readonly assembling_modifier?: PdxBlock;
-  readonly assembly_score?: PdxBlock;
-  readonly assist_research_planet_modifier?: PdxBlock | readonly PdxBlock[];
-  readonly auto_mod?: boolean;
-  readonly auto_mod_habitability?: boolean;
-  readonly background_icon?: SpriteRef;
-  readonly background_planet_modifier?: PdxBlock;
-  readonly bound_to_planet_classes?: Record<string, never>;
-  readonly can_retreat?: boolean;
-  readonly category?: "normal" | "cyborg" | "robotic" | "psionic" | "advanced_genetic" | "overtuned" | "malleable" | "mutation";
-  readonly cost?: number | PdxBlock;
-  readonly councilor_modifier?: PdxBlock;
-  readonly councilor_trait?: boolean;
-  readonly country_modifier?: PdxBlock;
-  readonly custom_subtitle?: string;
-  readonly custom_tooltip?: string;
-  readonly custom_tooltip_with_modifiers?: string;
-  readonly declining_modifier?: PdxBlock;
-  readonly destiny_background_icon?: SpriteRef;
-  readonly destiny_trait?: true;
-  readonly ethic_destiny_trait?: boolean;
-  readonly federation_modifier?: PdxBlock;
-  readonly fleet_modifier?: PdxBlock;
-  readonly fleet_specialization_tag?: string;
-  readonly forbidden_ethics?: Record<string, never>;
-  readonly forbidden_origins?: Record<string, never>;
-  readonly force_councilor_trait?: true;
-  readonly forced_happiness?: boolean;
+  readonly advanced_trait?: boolean | Authored;
+  readonly ai_categories?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly allowed_archetypes?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allowed_civics?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allowed_ethics?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allowed_origins?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allowed_planet_classes?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allowed_planet_classes_override?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly army_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly assembling_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly assembly_score?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly assist_research_planet_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly auto_mod?: boolean | Authored;
+  readonly auto_mod_habitability?: boolean | Authored;
+  readonly background_icon?: SpriteRef | Authored;
+  readonly background_planet_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly bound_to_planet_classes?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_retreat?: boolean | Authored;
+  readonly category?: "normal" | "cyborg" | "robotic" | "psionic" | "advanced_genetic" | "overtuned" | "malleable" | "mutation" | Authored;
+  readonly cost?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly councilor_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly councilor_trait?: boolean | Authored;
+  readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_subtitle?: string | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly custom_tooltip_with_modifiers?: string | Authored;
+  readonly declining_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly destiny_background_icon?: SpriteRef | Authored;
+  readonly destiny_trait?: true | Authored;
+  readonly ethic_destiny_trait?: boolean | Authored;
+  readonly federation_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fleet_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fleet_specialization_tag?: string | Authored;
+  readonly forbidden_ethics?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly forbidden_origins?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly force_councilor_trait?: true | Authored;
+  readonly forced_happiness?: boolean | Authored;
   readonly forced_integration?: {
-  readonly integration_rate?: number;
-  readonly minimum_colony_age?: number;
-};
-  readonly ftl_inhibitor?: true;
-  readonly galcom_modifier?: PdxBlock;
-  readonly growing_modifier?: PdxBlock;
-  readonly hidden?: boolean;
-  readonly hide_age?: boolean;
-  readonly host_has_dlc?: "Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait";
+  readonly integration_rate?: number | Authored;
+  readonly minimum_colony_age?: number | Authored;
+} | Authored;
+  readonly ftl_inhibitor?: true | Authored;
+  readonly galcom_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly growing_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly hidden?: boolean | Authored;
+  readonly hide_age?: boolean | Authored;
+  readonly host_has_dlc?: "Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | Authored;
   readonly icon?: string | {
-  readonly icon?: SpriteRef;
+  readonly icon?: SpriteRef | Authored;
   readonly layer: ({
-  readonly color?: NamedColorRef;
-  readonly icon?: SpriteRef | string;
-  readonly visible?: PdxBlock;
+  readonly color?: NamedColorRef | Authored;
+  readonly icon?: SpriteRef | string | Authored;
+  readonly visible?: PdxBlock | readonly PdxValue[] | Authored;
 }) | readonly ({
-  readonly color?: NamedColorRef;
-  readonly icon?: SpriteRef | string;
-  readonly visible?: PdxBlock;
-})[];
-};
-  readonly ideal_planet_class?: PlanetClassRef;
-  readonly immortal_leaders?: boolean;
-  readonly improves_leaders?: boolean;
-  readonly infertile?: boolean;
-  readonly initial?: boolean;
-  readonly is_councilor_trait_for_ruler?: boolean;
-  readonly leader_age_max?: number;
-  readonly leader_age_min?: number;
-  readonly leader_class?: "all" | Record<string, never>;
-  readonly leader_potential_add?: PdxBlock;
-  readonly leader_trait_rarity?: "common" | "veteran" | "paragon" | "free_or_veteran" | "negative" | "destiny" | "subclass";
-  readonly leader_trait_type?: "common" | "veteran" | "paragon" | "free_or_veteran" | "negative" | "destiny" | "subclass";
-  readonly localized_tags?: Record<string, never>;
-  readonly modifier?: PdxBlock;
-  readonly negative?: boolean;
-  readonly notify_on_gained?: boolean;
-  readonly on_gained_effect?: PdxBlock;
-  readonly opposites?: Record<string, never>;
-  readonly planet_modifier?: PdxBlock;
-  readonly portrait_override?: Record<string, never>;
-  readonly potential_crossbreeding_chance?: number;
+  readonly color?: NamedColorRef | Authored;
+  readonly icon?: SpriteRef | string | Authored;
+  readonly visible?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+} | Authored;
+  readonly ideal_planet_class?: PlanetClassRef | Authored;
+  readonly immortal_leaders?: boolean | Authored;
+  readonly improves_leaders?: boolean | Authored;
+  readonly infertile?: boolean | Authored;
+  readonly initial?: boolean | Authored;
+  readonly is_councilor_trait_for_ruler?: boolean | Authored;
+  readonly leader_age_max?: number | Authored;
+  readonly leader_age_min?: number | Authored;
+  readonly leader_class?: "all" | PdxBlock | readonly PdxValue[] | Authored;
+  readonly leader_potential_add?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly leader_trait_rarity?: "common" | "veteran" | "paragon" | "free_or_veteran" | "negative" | "destiny" | "subclass" | Authored;
+  readonly leader_trait_type?: "common" | "veteran" | "paragon" | "free_or_veteran" | "negative" | "destiny" | "subclass" | Authored;
+  readonly localized_tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly negative?: boolean | Authored;
+  readonly notify_on_gained?: boolean | Authored;
+  readonly on_gained_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly opposites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly planet_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly portrait_override?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential_crossbreeding_chance?: number | Authored;
   readonly prerequisites?: {
-  readonly OR?: Record<string, never>;
-};
-  readonly random_weight?: PdxBlock;
-  readonly randomized?: boolean;
-  readonly replace_traits?: Record<string, never>;
-  readonly requires_governments?: Record<string, never>;
-  readonly requires_traits?: Record<string, never>;
+  readonly OR?: PdxBlock | readonly PdxValue[] | Authored;
+} | Authored;
+  readonly random_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly randomized?: boolean | Authored;
+  readonly replace_traits?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly requires_governments?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly requires_traits?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef;
+  readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly sapient?: boolean;
-  readonly sector_modifier?: PdxBlock;
-  readonly selectable_weight?: number | PdxBlock;
-  readonly self_modifier?: PdxBlock;
-  readonly short_name?: string;
+} | Authored;
+  readonly sapient?: boolean | Authored;
+  readonly sector_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly selectable_weight?: number | PdxBlock | readonly PdxValue[] | Authored;
+  readonly self_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly short_name?: string | Authored;
   readonly slave_cost?: {
-  readonly energy: number;
-};
-  readonly sorting_priority?: number;
-  readonly species_class?: Record<string, never>;
-  readonly species_class_override?: PdxBlock;
-  readonly species_possible_add?: PdxBlock;
-  readonly species_possible_merge_add?: PdxBlock;
-  readonly species_possible_merge_remove?: PdxBlock;
-  readonly species_possible_remove?: PdxBlock;
-  readonly species_potential_add?: PdxBlock;
-  readonly species_potential_remove?: PdxBlock;
-  readonly starting_ruler_trait?: true;
-  readonly subclass_background_icon?: SpriteRef;
-  readonly subclass_trait?: true;
-  readonly system_modifier?: PdxBlock;
-  readonly tags?: Record<string, never>;
-  readonly trade_acceptance_weight?: number;
+  readonly energy: number | Authored;
+} | Authored;
+  readonly sorting_priority?: number | Authored;
+  readonly species_class?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly species_class_override?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly species_possible_add?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly species_possible_merge_add?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly species_possible_merge_remove?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly species_possible_remove?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly species_potential_add?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly species_potential_remove?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly starting_ruler_trait?: true | Authored;
+  readonly subclass_background_icon?: SpriteRef | Authored;
+  readonly subclass_trait?: true | Authored;
+  readonly system_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trade_acceptance_weight?: number | Authored;
   readonly triggered_army_modifier?: ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_background_planet_modifier?: ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_councilor_modifier?: ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly triggered_desc?: {
-  readonly exclusive_trigger?: PdxBlock;
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly exclusive_trigger?: PdxBlock;
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-}[];
+})[] | Authored;
+  readonly triggered_desc?: ({
+  readonly exclusive_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly exclusive_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly triggered_federation_modifier?: ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_fleet_modifier?: ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_galcom_modifier?: ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_modifier?: ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_planet_modifier?: ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_sector_modifier?: ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly custom_tooltip?: string | readonly string[];
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
-  readonly show_only_custom_tooltip?: boolean;
+  readonly custom_tooltip?: string | readonly string[] | Authored;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_species_modifier?: ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
+})[] | Authored;
   readonly triggered_system_modifier?: ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly mult?: number | string;
-  readonly potential?: PdxBlock;
+  readonly mult?: number | string | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly valid_for_all_ethics?: boolean;
-  readonly valid_for_all_origins?: boolean;
-  readonly veteran_class_locked_trait?: true;
+})[] | Authored;
+  readonly valid_for_all_ethics?: boolean | Authored;
+  readonly valid_for_all_origins?: boolean | Authored;
+  readonly veteran_class_locked_trait?: true | Authored;
 }
 
 export interface TraitTagsDefinition {
@@ -9561,121 +9561,121 @@ export interface TraitcolorsDefinition {
 }
 
 export interface WarGoalDefinition {
-  readonly ai_weight?: PdxBlock;
-  readonly casus_belli: CasusBelliRef;
-  readonly cede_claims?: "true" | "occupied_only" | "false";
-  readonly defender_default?: boolean;
-  readonly destroy_starbases?: true;
+  readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly casus_belli: CasusBelliRef | Authored;
+  readonly cede_claims?: "true" | "occupied_only" | "false" | Authored;
+  readonly defender_default?: boolean | Authored;
+  readonly destroy_starbases?: true | Authored;
   readonly forbidden_peace_offers?: {
-  readonly demand_surrender: "";
-  readonly surrender: "";
+  readonly demand_surrender: "" | Authored;
+  readonly surrender: "" | Authored;
 } | {
-  readonly demand_surrender: "";
+  readonly demand_surrender: "" | Authored;
 } | {
-  readonly surrender: "";
+  readonly surrender: "" | Authored;
 } | {
-  readonly demand_surrender: "";
-  readonly status_quo: "";
-  readonly surrender: "";
+  readonly demand_surrender: "" | Authored;
+  readonly status_quo: "" | Authored;
+  readonly surrender: "" | Authored;
 } | {
-  readonly status_quo: "";
-};
-  readonly galactic_empire_joins_defender?: PdxBlock;
-  readonly hide_if_no_cb?: boolean;
-  readonly on_accept?: PdxBlock;
-  readonly on_status_quo?: PdxBlock;
-  readonly on_wargoal_set?: PdxBlock;
-  readonly possible?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly proxy_wars_only?: boolean;
-  readonly release_occupied_systems_on_status_quo?: boolean;
-  readonly secret_fealties_join_attacker?: boolean;
-  readonly set_defender_wargoal?: WarGoalRef;
-  readonly should_ignore_federations?: boolean;
-  readonly show_agreement_terms?: boolean;
-  readonly show_claims_in_description?: boolean;
-  readonly surrender_acceptance?: number;
-  readonly threat_multiplier?: number;
-  readonly total_war?: boolean;
-  readonly war_exhaustion?: number;
+  readonly status_quo: "" | Authored;
+} | Authored;
+  readonly galactic_empire_joins_defender?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly hide_if_no_cb?: boolean | Authored;
+  readonly on_accept?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_status_quo?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_wargoal_set?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly proxy_wars_only?: boolean | Authored;
+  readonly release_occupied_systems_on_status_quo?: boolean | Authored;
+  readonly secret_fealties_join_attacker?: boolean | Authored;
+  readonly set_defender_wargoal?: WarGoalRef | Authored;
+  readonly should_ignore_federations?: boolean | Authored;
+  readonly show_agreement_terms?: boolean | Authored;
+  readonly show_claims_in_description?: boolean | Authored;
+  readonly surrender_acceptance?: number | Authored;
+  readonly threat_multiplier?: number | Authored;
+  readonly total_war?: boolean | Authored;
+  readonly war_exhaustion?: number | Authored;
 }
 
 export interface WarNameFormatDefinition {
-  readonly format: string;
+  readonly format: string | Authored;
   readonly random_weight: {
-  readonly factor: number;
+  readonly factor: number | Authored;
   readonly modifier?: ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly add: number;
+  readonly add: number | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-};
+})[] | Authored;
+} | Authored;
 }
 
 export interface WarNamePartsListDefinition {
-  readonly key: string;
+  readonly key: string | Authored;
   readonly parts: {
-  readonly localisation?: number | readonly number[];
-};
+  readonly localisation?: number | readonly number[] | Authored;
+} | Authored;
 }
 
 export interface ZoneSlotsDefinition {
-  readonly exclude?: Record<string, never>;
-  readonly include?: Record<string, never>;
-  readonly included_zone_sets?: Record<string, never>;
-  readonly potential?: PdxBlock;
-  readonly start?: ZonesRef | "all" | "any";
-  readonly unlock?: PdxBlock;
+  readonly exclude?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly include?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly included_zone_sets?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly start?: ZonesRef | "all" | "any" | Authored;
+  readonly unlock?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface ZonesDefinition {
-  readonly ai_priority?: number;
+  readonly ai_priority?: number | Authored;
   readonly ai_resource_production?: {
-  readonly trigger?: PdxBlock;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-};
-  readonly ai_weight_coefficient?: number | readonly number[];
-  readonly base_buildtime?: number;
-  readonly convert_to?: Record<string, never>;
-  readonly excluded_building_sets?: Record<string, never>;
-  readonly icon?: SpriteRef;
-  readonly include?: Record<string, never>;
-  readonly included_building_sets?: Record<string, never> | readonly Record<string, never>[];
-  readonly max_buildings?: number;
-  readonly max_buildings_planet_class?: boolean;
+} | Authored;
+  readonly ai_weight_coefficient?: number | readonly number[] | Authored;
+  readonly base_buildtime?: number | Authored;
+  readonly convert_to?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly excluded_building_sets?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly icon?: SpriteRef | Authored;
+  readonly include?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly included_building_sets?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly max_buildings?: number | Authored;
+  readonly max_buildings_planet_class?: boolean | Authored;
   readonly planet_limit?: number | {
-  readonly base: number;
-};
-  readonly planet_modifier?: PdxBlock;
-  readonly potential?: PdxBlock;
-  readonly resources?: {
-  readonly category: "planet_zones";
-  readonly cost: PdxBlock;
-} | readonly {
-  readonly category: "planet_zones";
-  readonly cost: PdxBlock;
-}[];
-  readonly show_in_tech?: TechnologyRef;
-  readonly swap_type?: DistrictRef;
-  readonly swap_type_weight?: number;
-  readonly triggered_desc?: {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-} | readonly {
-  readonly text: string;
-  readonly trigger?: PdxBlock;
-}[];
+  readonly base: number | Authored;
+} | Authored;
+  readonly planet_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resources?: ({
+  readonly category: "planet_zones" | Authored;
+  readonly cost: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly category: "planet_zones" | Authored;
+  readonly cost: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
+  readonly show_in_tech?: TechnologyRef | Authored;
+  readonly swap_type?: DistrictRef | Authored;
+  readonly swap_type_weight?: number | Authored;
+  readonly triggered_desc?: ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}) | readonly ({
+  readonly text: string | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+})[] | Authored;
   readonly triggered_district_planet_modifier?: ({
-  readonly potential?: PdxBlock;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly potential?: PdxBlock;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[];
-  readonly unlock?: PdxBlock;
-  readonly zone_sets?: Record<string, never>;
+})[] | Authored;
+  readonly unlock?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly zone_sets?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 

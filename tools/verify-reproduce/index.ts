@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { renderDefinitions } from "../../src/runtime/build.js";
 import { schema } from "../../src/schema/index.js";
 import { NodeKind, parse, type Block, type EntryNode } from "../../src/syntax/index.js";
+import { isEntries } from "../../src/runtime/values.js";
 import { convertBlock, type ConversionFailure, type ConversionResult } from "./roundtrip.js";
 
 /**
@@ -301,16 +302,19 @@ await mapWithLimit([...new Set(listings.flat())], READ_CONCURRENCY, async (file)
       continue;
     }
 
-    // A definition whose whole body is a bare value list has no object form, so
-    // `define()` cannot take it; those go through `mod.file()`. Counted as its
-    // own cause rather than absorbed into the mismatches.
-    const body: Record<string, unknown> = converted.value;
-    const bodyKeys: readonly string[] = Object.keys(body);
+    // The converter wraps a body that is not a plain object under a sentinel
+    // key: either an ordered entry list, which `define()` takes, or a bare
+    // value list, which has no object form at all and needs `mod.file()`.
+    const wrapper: Record<string, unknown> = converted.value;
+    const wrapperKeys: readonly string[] = Object.keys(wrapper);
+    const wrapped: unknown = wrapperKeys.length === 1 && wrapperKeys[0] === "" ? wrapper[""] : undefined;
 
-    if (bodyKeys.length === 1 && bodyKeys[0] === "") {
+    if (wrapped !== undefined && !isEntries(wrapped)) {
       record("list-body", relative, id);
       continue;
     }
+
+    const body: object = isEntries(wrapped) ? wrapped : wrapper;
 
     let printed: string;
     try {
@@ -405,11 +409,11 @@ await writeFile(REPORT_PATH, `${lines.join("\n")}\n`, "utf8");
 /**
  * How much of vanilla the authoring model can express.
  *
- * Pinned so the number can only go up. It rose from 34% to 98% as comparisons,
- * repeated keys and raw script each got a spelling; what still blocks the rest
- * is listed in the report.
+ * Pinned so the number can only go up. It rose from 34% to 99% as comparisons,
+ * repeated keys, raw script and ordered entry lists each got a spelling; what
+ * still blocks the rest is listed in the report.
  */
-const REPRODUCTION_FLOOR = 98.4;
+const REPRODUCTION_FLOOR = 99.0;
 
 console.log(
   [

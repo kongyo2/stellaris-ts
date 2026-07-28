@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { define, defineIn } from "../src/builders/index.js";
-import { defineMod, emit, parse, print, type EmitPlan } from "../src/index.js";
+import { bare, defineMod, emit, entries, gt, parse, print, raw, repeated, rgb, type EmitPlan } from "../src/index.js";
 import { BYTE_ORDER_MARK } from "../src/runtime/localisation.js";
 
 function fileNamed(plan: EmitPlan, path: string): string {
@@ -100,5 +100,65 @@ describe("mod emit", () => {
     expect(again.files.map((file) => file.contents)).toEqual(
       emit(mod, { vanillaFiles: {} }).files.map((file) => file.contents),
     );
+  });
+});
+
+describe("the format's awkward corners", () => {
+  it("writes a comparison rather than an assignment", () => {
+    const mod = defineMod({ name: "Cmp", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "cmp", { potential: { num_owned_planets: gt(1) } }),
+    );
+
+    expect(fileNamed(emit(mod), "common/buildings/zz_cmp_building.txt")).toContain("num_owned_planets > 1");
+  });
+
+  it("repeats a key rather than collapsing it into a value list", () => {
+    const mod = defineMod({ name: "Rep", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "rep", { potential: { has_modifier: repeated("a", "b") } }),
+    );
+    const script: string = fileNamed(emit(mod), "common/buildings/zz_rep_building.txt");
+
+    expect(script).toContain("has_modifier = a");
+    expect(script).toContain("has_modifier = b");
+    expect(script).not.toContain("has_modifier = {");
+  });
+
+  it("keeps a plain array a value list, which is a different thing", () => {
+    const mod = defineMod({ name: "List", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "lst", { convert_to: ["a", "b"] }),
+    );
+
+    expect(fileNamed(emit(mod), "common/buildings/zz_list_building.txt")).toMatch(/convert_to = \{\s+a\s+b\s+\}/u);
+  });
+
+  it("takes raw script for what has no object shape, and rejects it when malformed", () => {
+    const mod = defineMod({ name: "Raw", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "raw_one", { base_buildtime: raw("@[ base * 2 ]"), colour: rgb(255, 0, 0) }),
+    );
+    const script: string = fileNamed(emit(mod), "common/buildings/zz_raw_building.txt");
+
+    expect(script).toContain("@[ base * 2 ]");
+    // Raw script is parsed and re-printed in the canonical style, so a colour
+    // comes back as a block rather than the one-liner it went in as. The game
+    // reads both the same.
+    expect(script).toMatch(/colour = rgb \{\s+255\s+0\s+0\s+\}/u);
+
+    const broken = defineMod({ name: "Broken", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "broken", { x: raw("} = =") }),
+    );
+    expect(() => emit(broken)).toThrow(/not valid PDX script/u);
+  });
+
+  it("keeps written order when bare values sit among keyed ones", () => {
+    const mod = defineMod({ name: "Ord", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "ord", {
+        potential: entries([["first", 1], bare("loose"), ["second", 2]]),
+      }),
+    );
+    const script: string = fileNamed(emit(mod), "common/buildings/zz_ord_building.txt");
+    const order: readonly number[] = ["first = 1", "loose", "second = 2"].map((part) => script.indexOf(part));
+
+    expect(order.every((index) => index >= 0)).toBe(true);
+    expect([...order].sort((left, right) => left - right)).toEqual(order);
   });
 });

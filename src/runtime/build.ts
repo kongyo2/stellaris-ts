@@ -1,4 +1,15 @@
-import { isCompared, isRaw, isRepeated, type ComparedValue, type RawValue, type RepeatedValue } from "./values.js";
+import {
+  isBare,
+  isCompared,
+  isEntries,
+  isRaw,
+  isRepeated,
+  type ComparedValue,
+  type EntriesValue,
+  type Entry,
+  type RawValue,
+  type RepeatedValue,
+} from "./values.js";
 import {
   AssignmentOperator,
   NodeKind,
@@ -25,7 +36,15 @@ import {
 
 /** Any value a definition can hold. Arrays stand for a key repeated in script. */
 export type ScriptValue =
-  boolean | number | string | ScriptObject | readonly ScriptValue[] | ComparedValue | RawValue | RepeatedValue;
+  | boolean
+  | number
+  | string
+  | ScriptObject
+  | readonly ScriptValue[]
+  | ComparedValue
+  | EntriesValue
+  | RawValue
+  | RepeatedValue;
 
 export interface ScriptObject {
   readonly [key: string]: ScriptValue | undefined;
@@ -150,8 +169,31 @@ function entriesOf(object: object): EntryNode[] {
   return entries;
 }
 
+/** Renders an ordered entry list, where a plain object cannot keep the order. */
+function orderedEntries(items: readonly Entry[]): EntryNode[] {
+  const nodes: EntryNode[] = [];
+
+  for (const item of items) {
+    if (isBare(item)) {
+      nodes.push(valueNode(asScriptValue("<bare>", item.bare)));
+      continue;
+    }
+
+    const [key, value] = item;
+    if (value !== undefined && value !== null) {
+      nodes.push(entryFor(key, value));
+    }
+  }
+
+  return nodes;
+}
+
 /** One `key op value` entry, whatever kind of value it is. */
 function entryFor(key: string, value: unknown): Assignment {
+  if (isEntries(value)) {
+    return assignment(key, block(orderedEntries(value.entries)));
+  }
+
   // Raw script is parsed here so a malformed fragment fails at authoring time
   // rather than silently producing something the game cannot read.
   if (isRaw(value)) {
@@ -181,7 +223,7 @@ function asScriptValue(key: string, value: unknown): ScriptValue {
   // cannot parse and says nothing about where it came from.
   // A marked value is resolved where its key is known, which can be any depth
   // down. Rebuilding the object around it here would strip the marker.
-  if (isCompared(value) || isRepeated(value) || isRaw(value)) {
+  if (isCompared(value) || isRepeated(value) || isRaw(value) || isEntries(value)) {
     return value;
   }
 
@@ -211,7 +253,9 @@ function parseRawValue(key: string, text: string): ValueNode {
 export function toDocument(definitions: readonly (readonly [string, object])[]): Document {
   return {
     kind: NodeKind.Document,
-    entries: definitions.map(([id, body]) => assignment(id, block(entriesOf(body)))),
+    entries: definitions.map(([id, body]) =>
+      assignment(id, block(isEntries(body) ? orderedEntries(body.entries) : entriesOf(body))),
+    ),
     span: SPAN,
   };
 }

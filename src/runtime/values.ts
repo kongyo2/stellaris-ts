@@ -17,6 +17,7 @@
 const COMPARISON_KEY: unique symbol = Symbol("stellaris-ts.comparison");
 const REPEATED_KEY: unique symbol = Symbol("stellaris-ts.repeated");
 const RAW_KEY: unique symbol = Symbol("stellaris-ts.raw");
+const ENTRIES_KEY: unique symbol = Symbol("stellaris-ts.entries");
 
 export type ComparisonOperator = "=" | "==" | "!=" | ">" | ">=" | "<" | "<=";
 
@@ -65,6 +66,48 @@ export function rgb(red: number, green: number, blue: number, alpha?: number): R
 export function hsv(hue: number, saturation: number, value: number, alpha?: number): RawValue {
   const parts: readonly number[] = alpha === undefined ? [hue, saturation, value] : [hue, saturation, value, alpha];
   return raw(`hsv { ${parts.map((part) => String(part)).join(" ")} }`);
+}
+
+/**
+ * A block written as an ordered sequence.
+ *
+ * A PDX block is a list, not a map: it keeps its order, the same key may appear
+ * several times, and a bare value may sit between two keyed ones. A JavaScript
+ * object is none of those things, which is why a definition body that is just
+ * `{ a b c }`, a block holding `{ ... }` with no key, and a block mixing bare
+ * values with assignments all fail to convert. This is the one shape that
+ * covers all three.
+ */
+export interface EntriesValue {
+  readonly [ENTRIES_KEY]: true;
+  readonly entries: readonly Entry[];
+}
+
+/** One entry: a keyed value, or a bare value with no key. */
+export type Entry = readonly [key: string, value: unknown] | { readonly bare: unknown };
+
+export function isEntries(value: unknown): value is EntriesValue {
+  return typeof value === "object" && value !== null && ENTRIES_KEY in value;
+}
+
+export function isBare(entry: Entry): entry is { readonly bare: unknown } {
+  return !Array.isArray(entry);
+}
+
+/**
+ * `entries([["a", 1], bare("x"), ["a", 2]])` gives `{ a = 1 x a = 2 }`.
+ *
+ * Reach for it when order matters, when a key repeats around other keys, or
+ * when a bare value sits inside a keyed block. A plain object is shorter and
+ * says the same thing whenever none of those apply.
+ */
+export function entries(items: readonly Entry[]): EntriesValue {
+  return { [ENTRIES_KEY]: true, entries: items };
+}
+
+/** A value with no key, for use inside {@link entries}. */
+export function bare(value: unknown): { readonly bare: unknown } {
+  return { bare: value };
 }
 
 export function isCompared(value: unknown): value is ComparedValue {

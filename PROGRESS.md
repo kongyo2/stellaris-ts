@@ -134,3 +134,9 @@
 - Blockers: none.
 - Notes: three of the five causes are the same missing feature seen from different angles. A PDX block holds an *ordered* sequence that may mix bare values with keyed ones; a JavaScript object holds unordered keys and nothing else. `define()` needs a way to pass an ordered entry list, and that one addition covers list bodies, anonymous blocks and mixed blocks together — 583 of the remaining 650. The other 67 are 39 parse-error nodes in vanilla and 28 mismatches still to name.
 
+## Reverse-Derivation Loop — Fifth Pass
+- Proof: `npm run verify:reproduce` is 99.01% (40,150 of 40,550), pinned; `npm run verify` is 14/14 exit 0 with 77 tests.
+- Remaining: 400 across 2 causes — 335 definitions whose whole body is a bare value list, and 65 mismatches still to name.
+- Blockers: none.
+- Notes: `entries()` closed three causes at once, as predicted: a PDX block is an ordered sequence that may mix bare values with keyed ones, and one shape covers list bodies, anonymous blocks and mixed blocks. Two type-level gaps surfaced while writing the tests for it — every generated field now accepts the marked values, since any field can need one, and a block the schema says nothing about was typed as `Record<string, never>`, which claimed it holds nothing when `convert_to` holds a list of building ids.
+

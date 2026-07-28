@@ -239,8 +239,10 @@ function renderProperties(drafts: readonly PropertyDraft[], indent: string): str
   return drafts
     .map((draft) => {
       const union: string = mergeTypes(draft.types);
-      const type: string = draft.repeatable ? `${wrapUnion(union)} | readonly ${wrapUnion(union)}[]` : union;
-      return `${indent}readonly ${propertyName(draft.key)}${draft.optional ? "?" : ""}: ${type};`;
+      const listed: string = draft.repeatable ? `${wrapUnion(union)} | readonly ${wrapUnion(union)}[]` : union;
+      // Any field may need a comparison, a repetition, an ordered list or raw
+      // script, so every field accepts them.
+      return `${indent}readonly ${propertyName(draft.key)}${draft.optional ? "?" : ""}: ${listed} | Authored;`;
     })
     .join("\n");
 }
@@ -260,7 +262,10 @@ function blockType(context: RenderContext, entries: readonly EntryRule[], depth:
   );
 
   if (ordered.length === 0) {
-    return hasOpenEntry ? "PdxBlock" : "Record<string, never>";
+    // A block the schema says nothing about is not a block that holds nothing.
+    // `convert_to` has no declared fields and vanilla fills it with a list of
+    // building ids; typing it as an empty object would reject that.
+    return "PdxBlock | readonly PdxValue[]";
   }
 
   const body: string = renderProperties(ordered, "  ");
@@ -309,6 +314,7 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
   // the shapes this emission actually referenced.
   const rendered: string = declarations.join("\n\n");
   const scriptNames: readonly string[] = [
+    "Authored",
     "EffectBlock",
     "ModifierBlock",
     "ModifierRuleBlock",
