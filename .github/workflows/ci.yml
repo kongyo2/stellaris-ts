@@ -20,6 +20,13 @@ jobs:
           node-version: 22
           cache: npm
 
+      # npm 10 and npm 11 disagree about the optional `@emnapi` packages the
+      # linter's WASM binding pulls in, and each rejects a lock file the other
+      # wrote. `setup-node` installs whichever npm the current Node 22 patch
+      # ships, so without pinning, a lock that works today fails on a release
+      # nobody here made. This is the version `package-lock.json` was written by.
+      - run: npm install --global npm@11
+
       - run: npm ci
 
       # Everything that does not need the game installed. The gates that read
