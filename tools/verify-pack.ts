@@ -171,7 +171,7 @@ function collectSourcePaths(directory: string): string[] {
 }
 
 function expectedPackageFiles(): string[] {
-  const files: string[] = ["LICENSE", "THIRD_PARTY.md", "package.json"];
+  const files: string[] = ["LICENSE", "README.md", "THIRD_PARTY.md", "package.json"];
 
   for (const sourcePath of collectSourcePaths(SOURCE_ROOT)) {
     const stem: string = sourcePath.slice(0, -".ts".length);
