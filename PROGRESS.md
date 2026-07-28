@@ -146,3 +146,9 @@
 - Blockers: none.
 - Notes: two things fell out at once. Raw script in a bare position — a colour block sitting inside a definition with no key of its own — was being treated as an object, the same class of bug as a comparison inside a repetition, which suggests every marked value needs testing in every position rather than only where it was first needed. And a body that is a bare value list turned out to need nothing new: it is an ordered sequence with no keys in it, so `entries([bare(...)])` says it, which closed all 335 at once.
 
+## Reverse-Derivation Loop — Seventh Pass
+- Proof: `npm run verify:reproduce` is 99.98% (40,540 of 40,550); `npm run verify` is 14/14 exit 0 with 79 tests.
+- Remaining: 10 definitions across 6 files, unnamed.
+- Blockers: none.
+- Notes: the printer was quoting with `JSON.stringify`, which doubles a backslash. PDX does not use a backslash as an escape — `"- This: \[This.GetName]"` is a literal backslash, and doubling it changes the string the game reads. Only the quote itself needs escaping. This was invisible until the harness compared a scripted effect that logs scope names, which is the argument for pointing it at all 40,550 definitions rather than a sample.
+

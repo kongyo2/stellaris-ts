@@ -15,8 +15,8 @@ These are the ones that actually failed the round trip.
 | | |
 | --- | --- |
 | definitions inspected | 40550 |
-| reproduced exactly | 40525 (99.94%) |
-| blocked | 25 |
+| reproduced exactly | 40540 (99.98%) |
+| blocked | 10 |
 | distinct causes | 1 |
 | files read | 2507 |
 
@@ -24,5 +24,5 @@ These are the ones that actually failed the round trip.
 
 | cause | definitions | files | example |
 | --- | --- | --- | --- |
-| `print-mismatch` | 25 | 12 | print_scope_effect in `common/scripted_effects/00_scripted_effects.txt` |
+| `print-mismatch` | 10 | 6 | update_eotc_accords in `common/scripted_effects/shroud_shadows_scripted_effects.txt` |
 

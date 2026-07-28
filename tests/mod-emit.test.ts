@@ -162,3 +162,23 @@ describe("the format's awkward corners", () => {
     expect([...order].sort((left, right) => left - right)).toEqual(order);
   });
 });
+
+describe("quoting", () => {
+  it("does not double a backslash, which PDX does not use as an escape", () => {
+    const mod = defineMod({ name: "Esc", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "esc", { potential: { log: "- This: \[This.GetName]" } }),
+    );
+    const script: string = fileNamed(emit(mod), "common/buildings/zz_esc_building.txt");
+
+    expect(script).toContain('log = "- This: \[This.GetName]"');
+    expect(script).not.toContain("\\[");
+  });
+
+  it("still escapes a quote, which would end the string", () => {
+    const mod = defineMod({ name: "Q", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "q", { potential: { log: 'say "hi"' } }),
+    );
+
+    expect(fileNamed(emit(mod), "common/buildings/zz_q_building.txt")).toContain('log = "say \\"hi\\""');
+  });
+});

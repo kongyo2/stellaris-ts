@@ -74,7 +74,10 @@ function scalar(value: string | number | boolean): Scalar {
   }
 
   if (needsQuotes(value)) {
-    const raw: string = JSON.stringify(value);
+    // Not `JSON.stringify`: PDX does not use a backslash as an escape, so
+    // `"- This: \[This.GetName]"` is a literal backslash and doubling it
+    // changes the string the game reads. Only the quote needs escaping.
+    const raw: string = `"${value.replaceAll('"', '\\"')}"`;
     return { kind: NodeKind.Scalar, raw, value, scalarKind: ScalarKind.QuotedString, span: SPAN };
   }
 
