@@ -42,6 +42,8 @@ export interface GameIndex {
   readonly version: string;
   /** What the launcher compares a mod's `supported_version` against. */
   readonly modsCompatibilityVersion: string;
+  /** The languages the game ships, from its own `localisation/languages.yml`. */
+  readonly languages: readonly string[];
   readonly types: readonly TypeIndex[];
   readonly enums: readonly EnumIndex[];
   readonly filesRead: number;
@@ -621,6 +623,7 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
   return {
     version,
     modsCompatibilityVersion: await compatibilityVersion(gamePath),
+    languages: await collectLanguages(gamePath),
     types: types.sort((left, right) => compareOrdinal(left.type, right.type)),
     enums: enums.sort((left, right) => compareOrdinal(left.id, right.id)),
     filesRead,
@@ -645,6 +648,34 @@ async function compatibilityVersion(gamePath: string): Promise<string> {
     return /"modsCompatibilityVersion"\s*:\s*"([^"]+)"/u.exec(raw)?.[1] ?? "";
   } catch {
     return "";
+  }
+}
+
+/**
+ * The languages the game ships.
+ *
+ * A localisation file named for anything else is not read, and nothing says so:
+ * the strings simply never appear. The list is the game's own, taken from the
+ * file it keeps them in rather than written out here, so a language added by a
+ * patch arrives with the next index.
+ */
+async function collectLanguages(gamePath: string): Promise<readonly string[]> {
+  try {
+    const text: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(
+      await readFile(join(gamePath, "localisation", "languages.yml")),
+    );
+    const names = new Set<string>();
+
+    for (const line of text.split(/\r?\n/u)) {
+      const match: RegExpExecArray | null = /^(l_[a-z_]+):\s*$/u.exec(line.replace(/^\uFEFF/u, ""));
+      if (match?.[1] !== undefined) {
+        names.add(match[1]);
+      }
+    }
+
+    return [...names].sort(compareOrdinal);
+  } catch {
+    return [];
   }
 }
 

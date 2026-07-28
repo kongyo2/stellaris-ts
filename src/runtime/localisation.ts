@@ -1,3 +1,5 @@
+import { vanillaLanguages } from "../generated/vanilla/game-version.js";
+
 /**
  * Writes Stellaris localisation files.
  *
@@ -13,19 +15,14 @@
 
 export const BYTE_ORDER_MARK = "\uFEFF";
 
-/** The languages the game ships. A file must be named for one of them. */
-export const LOCALISATION_LANGUAGES: readonly string[] = [
-  "l_braz_por",
-  "l_english",
-  "l_french",
-  "l_german",
-  "l_japanese",
-  "l_korean",
-  "l_polish",
-  "l_russian",
-  "l_simp_chinese",
-  "l_spanish",
-];
+/**
+ * The languages the game ships. A file must be named for one of them.
+ *
+ * Read from the game's own `localisation/languages.yml` rather than written out
+ * here: a list kept by hand is a list that drifts, and a file named for a
+ * language the game does not have is simply never read.
+ */
+export const LOCALISATION_LANGUAGES: readonly string[] = vanillaLanguages;
 
 export interface LocalisationEntry {
   readonly key: string;

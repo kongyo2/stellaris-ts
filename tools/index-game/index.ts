@@ -235,6 +235,9 @@ await writeFile(
     `export const vanillaGameVersion = ${JSON.stringify(index.version)};`,
     `export const vanillaModsCompatibilityVersion = ${JSON.stringify(index.modsCompatibilityVersion)};`,
     "",
+    "/** The languages the game reads a localisation file for, and no others. */",
+    `export const vanillaLanguages: readonly string[] = [${index.languages.map((name) => JSON.stringify(name)).join(", ")}];`,
+    "",
   ].join("\n"),
   "utf8",
 );
@@ -296,6 +299,7 @@ console.log(
     `callablesIndexed=${String(Object.keys(index.scriptedParameters).length)}`,
     `callableParameters=${String(Object.values(index.scriptedParameters).reduce((total, names) => total + names.length, 0))}`,
     `taggedTypes=${String(index.types.filter((entry) => entry.tags.length > 0).length)}`,
+    `languages=${String(index.languages.length)}`,
   ].join(" "),
 );
 

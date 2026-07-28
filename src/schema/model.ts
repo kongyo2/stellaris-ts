@@ -13,6 +13,7 @@ import { withModifierCorrections } from "./modifier-corrections.js";
 import { links, scopes } from "./scopes.js";
 import { vanillaLinks, vanillaScopes } from "./vanilla-scopes.js";
 import { vanillaCommands } from "./vanilla-commands.js";
+import { withEntryScopes } from "./vanilla-entry-scopes.js";
 import { vanillaDefinitionTypes } from "./vanilla-types.js";
 
 /**
@@ -26,9 +27,8 @@ import { vanillaDefinitionTypes } from "./vanilla-types.js";
 export const schema: SchemaModel = defineSchema({
   policy: defaultSchemaPolicy,
   modifiers: withModifierCorrections(modifierNamespace),
-  definitionTypes: withGameDeclaredFields(
-    withCorrections([...definitionTypes, ...vanillaDefinitionTypes]),
-    vanillaFieldNames,
+  definitionTypes: withEntryScopes(
+    withGameDeclaredFields(withCorrections([...definitionTypes, ...vanillaDefinitionTypes]), vanillaFieldNames),
   ),
   enums,
   scopes: [...scopes, ...vanillaScopes],

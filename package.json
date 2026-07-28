@@ -96,7 +96,8 @@
     "build:ci": "tsc -p tsconfig.json --incremental false --pretty false --checkers 4",
     "propose:corrections": "tsx tools/propose-corrections/index.ts",
     "propose:commands": "tsx tools/propose-commands/index.ts",
-    "typecheck:examples": "tsc -p tsconfig.examples.json --pretty false --checkers 4"
+    "typecheck:examples": "tsc -p tsconfig.examples.json --pretty false --checkers 4",
+    "propose:scopes": "tsx tools/propose-scopes/index.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

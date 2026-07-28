@@ -19,7 +19,7 @@ import {
   type ScriptFamily,
 } from "../../src/schema/resolve.js";
 import { NodeKind, parse, type Block, type Document, type ValueNode } from "../../src/syntax/index.js";
-import type { DefinitionType, EntryRule, SchemaModel } from "../../src/schema/ir.js";
+import type { DefinitionType, EntryRule, SchemaModel, ScriptCommandDefinition } from "../../src/schema/ir.js";
 
 /**
  * Checks the schema against the installed game rather than against cwt.
@@ -190,6 +190,20 @@ export interface TypeReport {
   readonly scopeViolations: readonly ScopeFinding[];
 }
 
+/**
+ * Told about every command vanilla writes while the scope is still the one the
+ * definition body started in.
+ *
+ * That is what makes a type's entry scope inferable: the corpus states it for 16
+ * of 235 types, and the game documents which scopes each command reads, so the
+ * commands written straight into a body pin down what that body is.
+ */
+export type CommandObserver = (type: string, command: ScriptCommandDefinition, atEntryScope: boolean) => void;
+
+export interface ConformanceOptions {
+  readonly observeCommands?: CommandObserver;
+}
+
 export interface ConformanceReport {
   readonly types: readonly TypeReport[];
   readonly missingDirectories: readonly string[];
@@ -314,7 +328,11 @@ function modifierNames(model: SchemaModel): ReadonlySet<string> {
   return resolvedModifiers;
 }
 
-export async function checkConformance(model: SchemaModel, gamePath: string): Promise<ConformanceReport> {
+export async function checkConformance(
+  model: SchemaModel,
+  gamePath: string,
+  options: ConformanceOptions = {},
+): Promise<ConformanceReport> {
   const reports: TypeReport[] = [];
   const missingDirectories: string[] = [];
 
@@ -377,7 +395,14 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
       unknown.set(identity, entry);
     };
 
-    const walk = (block: Block, rules: BlockRules, trail: string, file: string, scope: ScopeState): void => {
+    const walk = (
+      block: Block,
+      rules: BlockRules,
+      trail: string,
+      file: string,
+      scope: ScopeState,
+      atEntryScope: boolean,
+    ): void => {
       for (const entry of block.entries) {
         if (entry.kind !== NodeKind.Assignment) {
           continue;
@@ -395,6 +420,10 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
         if (!resolution.accepted) {
           record(trail, key, file, contextOf(rules), shapeOf(entry.value));
           continue;
+        }
+
+        for (const command of resolution.commands) {
+          options.observeCommands?.(type.id, command, atEntryScope);
         }
 
         // A command reads one kind of object. Written where the current scope is
@@ -449,6 +478,7 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
           trail.length === 0 ? key : `${trail}.${key}`,
           file,
           applyScope(scope, resolution.scope),
+          atEntryScope && resolution.scope === undefined,
         );
       }
     };
@@ -465,7 +495,7 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
 
       for (const block of definitionBlocks(model, type, result.document)) {
         definitionsSeen += 1;
-        walk(block, root, "", display, entryScope);
+        walk(block, root, "", display, entryScope, true);
 
         if (required.length === 0) {
           continue;

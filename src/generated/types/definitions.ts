@@ -6,6 +6,7 @@
 /* oxlint-disable typescript/no-redundant-type-constituents */
 
 import type { Authored, PdxBlock, PdxValue } from "./script.js";
+import type { EffectsByScope, TriggersByScope } from "./scopes.js";
 import type { VanillaId } from "./refs.js";
 
 /** Any `advisor_voice` identifier: the ones vanilla ships, or one this mod defines. */
@@ -2719,7 +2720,7 @@ export interface AchievementDefinition {
 export interface AdvisorVoiceDefinition {
   readonly icon: string | Authored;
   readonly name: string | Authored;
-  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly playable?: TriggersByScope["country"] | Authored;
   readonly weight: PdxBlock | readonly PdxValue[] | Authored;
 }
 
@@ -2812,7 +2813,7 @@ export interface AiBudgetDefinition {
 })[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: TriggersByScope["country"] | Authored;
   readonly resource: ResourceRef | Authored;
   readonly type: "expenditure" | "upkeep" | Authored;
   readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
@@ -2822,7 +2823,7 @@ export interface AiPersonalityDefinition {
   readonly advanced_start_chance?: number | Authored;
   readonly aggressiveness?: number | Authored;
   readonly ai_module_overrides?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
   readonly armor_ratio?: number | Authored;
   readonly behaviour?: {
   readonly attack_neutrals?: boolean | Authored;
@@ -2980,7 +2981,7 @@ export interface ArchaeologicalSiteTypeDefinition {
 
 export interface ArmyDefinition {
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["planet"] | Authored;
   readonly army_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly collateral_damage?: number | Authored;
   readonly damage?: number | Authored;
@@ -2995,10 +2996,10 @@ export interface ArmyDefinition {
   readonly morale?: number | Authored;
   readonly morale_damage?: number | Authored;
   readonly occupation?: boolean | Authored;
-  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_queued?: EffectsByScope["planet"] | Authored;
+  readonly on_unqueued?: EffectsByScope["planet"] | Authored;
   readonly pop_limited?: boolean | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["planet"] | Authored;
   readonly potential_country?: PdxBlock | readonly PdxValue[] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly rebel?: boolean | Authored;
@@ -3018,9 +3019,9 @@ export interface ArmyDefinition {
 
 export interface ArtifactActionDefinition {
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
+  readonly effect?: EffectsByScope["country"] | Authored;
+  readonly potential: TriggersByScope["country"] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -3030,9 +3031,9 @@ export interface ArtifactActionDefinition {
 
 export interface ArtifactActionsDefinition {
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
+  readonly effect?: EffectsByScope["country"] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly resources?: {
   readonly category: "artifact_actions" | Authored;
   readonly cost: {
@@ -3056,7 +3057,7 @@ export interface AscensionPerkDefinition {
 } | Authored;
   readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: TriggersByScope["country"] | Authored;
   readonly tradition_swap?: ({
   readonly custom_tooltip?: string | readonly string[] | Authored;
   readonly custom_tooltip_with_modifiers?: string | readonly string[] | Authored;
@@ -3232,14 +3233,14 @@ export interface AsteroidBeltTypeDefinition {
 export interface AstralActionDefinition {
   readonly activation_cost?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow_unlock?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
+  readonly allow_unlock?: TriggersByScope["country"] | Authored;
   readonly cooldown?: number | Authored;
   readonly custom_usage_tooltip?: string | Authored;
-  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly is_exhausted?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect?: EffectsByScope["country"] | Authored;
+  readonly is_exhausted?: TriggersByScope["country"] | Authored;
   readonly picture: SpriteRef | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly sound?: SoundEffectRef | Authored;
   readonly unlock_threshold?: number | Authored;
   readonly upgrade?: AstralActionRef | Authored;
@@ -3252,12 +3253,12 @@ export interface AstralActionsDefinition {
   readonly cost?: ({
   readonly astral_threads?: number | Authored;
   readonly multiplier?: number | string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
   readonly astral_threads?: number | Authored;
   readonly multiplier?: number | string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
 } | Authored;
@@ -3265,14 +3266,14 @@ export interface AstralActionsDefinition {
   readonly weight: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow_unlock?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
+  readonly allow_unlock?: TriggersByScope["country"] | Authored;
   readonly cooldown?: number | Authored;
   readonly custom_usage_tooltip?: string | Authored;
-  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly is_exhausted?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect?: EffectsByScope["country"] | Authored;
+  readonly is_exhausted?: TriggersByScope["country"] | Authored;
   readonly picture?: SpriteRef | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly sound?: SoundRef | SoundEffectRef | Authored;
   readonly unlock_threshold?: number | Authored;
   readonly upgrade?: "action_flash_forge_hyper_relay" | "action_quantum_catapult_insight_2" | Authored;
@@ -3283,21 +3284,17 @@ export interface AstralActionsDefinition {
 export interface AstralRiftDefinition {
   readonly event?: EventRef | Authored;
   readonly event_weight?: ({
-  readonly modifier?: ({
+  readonly modifier?: (TriggersByScope["country"] & {
   readonly factor?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+}) | readonly (TriggersByScope["country"] & {
   readonly factor?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
   readonly weight: number | Authored;
 }) | readonly ({
-  readonly modifier?: ({
+  readonly modifier?: (TriggersByScope["country"] & {
   readonly factor?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+}) | readonly (TriggersByScope["country"] & {
   readonly factor?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
   readonly weight: number | Authored;
 })[] | Authored;
@@ -3333,7 +3330,7 @@ export interface AuthorityDefinition {
   readonly name: string | Authored;
   readonly ruler_council_position?: CouncilorRef | Authored;
   readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["country"] | Authored;
 }) | readonly ({
   readonly description: string | Authored;
   readonly has_heir?: boolean | Authored;
@@ -3347,7 +3344,7 @@ export interface AuthorityDefinition {
   readonly name: string | Authored;
   readonly ruler_council_position?: CouncilorRef | Authored;
   readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["country"] | Authored;
 })[] | Authored;
   readonly can_have_emergency_elections?: boolean | Authored;
   readonly can_reform?: boolean | Authored;
@@ -3367,7 +3364,7 @@ export interface AuthorityDefinition {
   readonly localization_postfix?: string | Authored;
   readonly machine_empire?: true | Authored;
   readonly max_election_candidates?: number | Authored;
-  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly playable?: TriggersByScope["country"] | Authored;
   readonly possible?: {
   readonly always?: boolean | Authored;
   readonly text?: string | Authored;
@@ -3433,13 +3430,13 @@ export interface BombardmentStanceDefinition {
 }
 
 export interface BuildingDefinition {
-  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_trigger?: TriggersByScope["planet"] | Authored;
   readonly add_to_first_building_slot?: true | Authored;
   readonly additional_ai_weight?: number | Authored;
   readonly ai_estimate_without_unemployment?: boolean | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight_coefficient?: number | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["planet"] | Authored;
   readonly army_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly auto_generate_description?: boolean | Authored;
   readonly base_buildtime?: number | Authored;
@@ -3463,40 +3460,38 @@ export interface BuildingDefinition {
   readonly text: string | Authored;
   readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
 })[] | Authored;
-  readonly destroy_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly destroy_trigger?: TriggersByScope["planet"] | Authored;
   readonly district_limit?: number | Authored;
   readonly empire_limit?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly exempt_from_ai_planet_specialization?: boolean | Authored;
   readonly icon?: string | BuildingRef | Authored;
   readonly is_capped_by_modifier?: boolean | Authored;
   readonly is_essential?: boolean | Authored;
-  readonly on_built?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_destroy?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_repaired?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_built?: EffectsByScope["planet"] | Authored;
+  readonly on_destroy?: EffectsByScope["planet"] | Authored;
+  readonly on_enabled?: EffectsByScope["planet"] | Authored;
+  readonly on_queued?: EffectsByScope["planet"] | Authored;
+  readonly on_repaired?: EffectsByScope["planet"] | Authored;
+  readonly on_unqueued?: EffectsByScope["planet"] | Authored;
   readonly owner_type?: "corporate" | "subject_holding" | Authored;
   readonly planet_limit?: number | {
   readonly base: number | Authored;
-  readonly modifier?: ({
+  readonly modifier?: (TriggersByScope["planet"] & {
   readonly add?: number | Authored;
   readonly factor?: number | Authored;
   readonly has_country_flag?: string | Authored;
   readonly mult?: number | string | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+}) | readonly (TriggersByScope["planet"] & {
   readonly add?: number | Authored;
   readonly factor?: number | Authored;
   readonly has_country_flag?: string | Authored;
   readonly mult?: number | string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
 } | Authored;
   readonly planet_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly planetary_ftl_inhibitor?: boolean | Authored;
   readonly position_priority?: number | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["planet"] | Authored;
   readonly prerequisites?: {
   readonly AND?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly NOR?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
@@ -3508,7 +3503,7 @@ export interface BuildingDefinition {
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly ruined_icon?: string | BuildingRef | Authored;
-  readonly ruined_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ruined_trigger?: TriggersByScope["planet"] | Authored;
   readonly show_in_tech?: TechnologyRef | Authored;
   readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
   readonly skip_automation_upgrading?: boolean | Authored;
@@ -3541,8 +3536,8 @@ export interface BypassDefinition {
   readonly is_pathfind: boolean | Authored;
   readonly name: string | Authored;
   readonly on_action?: string | Authored;
-  readonly on_pre_explore?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_pre_explore?: EffectsByScope["country"] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly remember_instances: boolean | Authored;
   readonly requires_exploration?: boolean | Authored;
@@ -3566,7 +3561,7 @@ export interface CardCategoriesDefinition {
   readonly resources?: {
   readonly category: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity" | Authored;
   readonly cost: {
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["country"] | Authored;
   readonly unity: number | Authored;
 } | Authored;
 } | Authored;
@@ -3574,12 +3569,10 @@ export interface CardCategoriesDefinition {
   readonly small_icon?: string | Authored;
   readonly starting_weight?: {
   readonly base: number | Authored;
-  readonly modifier?: ({
+  readonly modifier?: (TriggersByScope["country"] & {
   readonly add: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+}) | readonly (TriggersByScope["country"] & {
   readonly add: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
 } | Authored;
   readonly weights?: PdxBlock | readonly PdxValue[] | Authored;
@@ -3590,7 +3583,7 @@ export interface CasusBelliDefinition {
   readonly destroy_if?: PdxBlock | readonly PdxValue[] | Authored;
   readonly is_valid?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_proxy_war_start?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly proxy_war_resources?: {
   readonly category: "all" | "fleet" | "technology" | "economy" | "proxy_war" | Authored;
   readonly cost: PdxBlock | readonly PdxValue[] | Authored;
@@ -3629,7 +3622,7 @@ export interface CivicOrOriginDefinition {
   readonly added_climate_labels?: PdxBlock | readonly PdxValue[] | Authored;
   readonly added_planet_types?: PdxBlock | readonly PdxValue[] | Authored;
   readonly advanced_start?: boolean | Authored;
-  readonly ai_playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_playable?: TriggersByScope["country"] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly alternate_civic_version?: CivicOrOriginRef | Authored;
   readonly blocks_random_machine_empire_generation?: boolean | Authored;
@@ -3652,11 +3645,10 @@ export interface CivicOrOriginDefinition {
   readonly leader_background_job_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly max_once_global?: true | Authored;
   readonly modification?: {
-  readonly add?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly add?: TriggersByScope["country"] | Authored;
   readonly moddable_conditions_custom_tooltip?: string | Authored;
-  readonly remove?: {
+  readonly remove?: TriggersByScope["country"] & {
   readonly fail_text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
 } | boolean | Authored;
   readonly modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
@@ -3665,7 +3657,7 @@ export interface CivicOrOriginDefinition {
   readonly non_colonizable_planet_class_neighbor?: true | Authored;
   readonly pickable_at_start?: boolean | Authored;
   readonly picture?: SpriteRef | Authored;
-  readonly playable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly playable?: TriggersByScope["country"] | Authored;
   readonly portrait?: PortraitRef | Authored;
   readonly possible?: ({
   readonly always?: boolean | Authored;
@@ -3695,13 +3687,13 @@ export interface CivicOrOriginDefinition {
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly name?: string | Authored;
   readonly negative_description?: string | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["country"] | Authored;
 }) | readonly ({
   readonly description?: string | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly name?: string | Authored;
   readonly negative_description?: string | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["country"] | Authored;
 })[] | Authored;
   readonly traits?: {
   readonly trait?: TraitRef | readonly TraitRef[] | Authored;
@@ -3765,7 +3757,7 @@ export interface ColonizationControlDefinition {
 }
 
 export interface ColonyAutomationDefinition {
-  readonly available: PdxBlock | readonly PdxValue[] | Authored;
+  readonly available: TriggersByScope["planet"] | Authored;
   readonly buildings: PdxBlock | readonly PdxValue[] | Authored;
   readonly category: string | Authored;
   readonly prio_districts?: PdxBlock | readonly PdxValue[] | Authored;
@@ -3773,7 +3765,7 @@ export interface ColonyAutomationDefinition {
 }
 
 export interface ColonyAutomationExceptionDefinition {
-  readonly available: PdxBlock | readonly PdxValue[] | Authored;
+  readonly available: TriggersByScope["planet"] | Authored;
   readonly buildings?: PdxBlock | readonly PdxValue[] | Authored;
   readonly category: string | Authored;
   readonly emergency?: boolean | Authored;
@@ -3799,7 +3791,7 @@ export interface ColonyTypeDefinition {
   readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: TriggersByScope["planet"] | Authored;
   readonly weight_modifier: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
@@ -3877,7 +3869,7 @@ export interface ComponentTemplateDefinition {
   readonly entity: ModelEntityRef | Authored;
 })[] | Authored;
 } | Authored;
-  readonly limit?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly limit?: TriggersByScope["ship"] | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly name: string | Authored;
   readonly radius?: number | Authored;
@@ -3921,7 +3913,7 @@ export interface ComponentTemplateDefinition {
   readonly entity: ModelEntityRef | Authored;
 })[] | Authored;
 } | Authored;
-  readonly limit?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly limit?: TriggersByScope["ship"] | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly name: string | Authored;
   readonly radius?: number | Authored;
@@ -4084,7 +4076,7 @@ export interface ConceptCategoriesDefinition {
 }
 
 export interface CosmicStormMissionDefinition {
-  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_trigger?: TriggersByScope["country"] | Authored;
   readonly ai_behaviour?: string | readonly string[] | Authored;
   readonly ai_weight?: PdxValue | readonly PdxValue[] | Authored;
   readonly category?: string | readonly string[] | Authored;
@@ -4100,11 +4092,11 @@ export interface CosmicStormMissionDefinition {
   readonly lore_issued?: string | readonly string[] | Authored;
   readonly on_accept?: PdxValue | readonly PdxValue[] | Authored;
   readonly on_cancel?: PdxValue | readonly PdxValue[] | Authored;
-  readonly on_daily?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_daily?: EffectsByScope["country"] | Authored;
   readonly on_issue?: PdxValue | readonly PdxValue[] | Authored;
-  readonly on_monthly?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_stop?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_success?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_monthly?: EffectsByScope["country"] | Authored;
+  readonly on_stop?: EffectsByScope["country"] | Authored;
+  readonly on_success?: EffectsByScope["country"] | Authored;
   readonly picture?: SpriteRef | Authored;
   readonly possible_issuer?: PdxValue | readonly PdxValue[] | Authored;
   readonly possible_operator?: PdxValue | readonly PdxValue[] | Authored;
@@ -4120,13 +4112,13 @@ export interface CouncilAgendaDefinition {
   readonly agenda_cost: number | string | Authored;
   readonly agenda_finish_modifier_duration?: number | string | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
+  readonly effect?: EffectsByScope["country"] | Authored;
   readonly finish_modifier?: StaticModifierRef | Authored;
-  readonly init_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly init_effect?: EffectsByScope["country"] | Authored;
   readonly initial_effect_custom_loc?: string | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: TriggersByScope["country"] | Authored;
 }
 
 export interface CouncilorDefinition {
@@ -4230,10 +4222,10 @@ export interface CountryTypeDefinition {
 } | Authored;
   readonly fallen_empire?: boolean | Authored;
   readonly fleet_manager?: {
-  readonly on_contract_broken: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_contract_cancelled: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_contract_expired: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_contract_started: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_contract_broken: EffectsByScope["country"] | Authored;
+  readonly on_contract_cancelled: EffectsByScope["country"] | Authored;
+  readonly on_contract_expired: EffectsByScope["country"] | Authored;
+  readonly on_contract_started: EffectsByScope["country"] | Authored;
 } | Authored;
   readonly government?: boolean | Authored;
   readonly has_capital?: boolean | Authored;
@@ -4308,14 +4300,14 @@ export interface CountryTypeDefinition {
   readonly sub_title?: string | Authored;
   readonly sub_title_desc?: string | Authored;
   readonly targets?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly trade_routes_available?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trade_routes_available?: TriggersByScope["country"] | Authored;
   readonly uses_origins?: boolean | Authored;
   readonly uses_special_buildables?: boolean | Authored;
 }
 
 export interface CrisisLevelDefinition {
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_unlock: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
+  readonly on_unlock: EffectsByScope["country"] | Authored;
   readonly perks: PdxBlock | readonly PdxValue[] | Authored;
   readonly required_crisis_currency: number | Authored;
 }
@@ -4336,22 +4328,21 @@ export interface CrisisPathDefinition {
 }
 
 export interface DecisionDefinition {
-  readonly abort_effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_effect?: EffectsByScope["planet"] | Authored;
+  readonly abort_trigger?: TriggersByScope["planet"] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly custom_tooltip?: {
+  readonly allow?: TriggersByScope["planet"] | Authored;
+  readonly custom_tooltip?: TriggersByScope["planet"] & {
   readonly success_text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect: EffectsByScope["planet"] | Authored;
   readonly enactment_time?: number | Authored;
   readonly icon?: string | DecisionRef | Authored;
   readonly important?: string | readonly string[] | Authored;
-  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_queued?: EffectsByScope["planet"] | Authored;
+  readonly on_unqueued?: EffectsByScope["planet"] | Authored;
   readonly owned_planets_only?: boolean | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["planet"] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category?: EconomicCategoryRef | Authored;
@@ -4365,8 +4356,8 @@ export interface DepositDefinition {
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly all_blocker_swap_types?: true | Authored;
   readonly blocker_swap_types?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly can_be_cleared?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly can_be_cleared_potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_be_cleared?: TriggersByScope["planet"] | Authored;
+  readonly can_be_cleared_potential?: TriggersByScope["planet"] | Authored;
   readonly category?: DepositCategoryRef | "deposit_cat_rare" | "deposit_cat_blockers" | Authored;
   readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly custom_tooltip?: string | Authored;
@@ -4384,9 +4375,9 @@ export interface DepositDefinition {
   readonly icon?: string | Authored;
   readonly is_for_colonizable?: boolean | Authored;
   readonly is_null?: true | Authored;
-  readonly on_cleared?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_cleared?: EffectsByScope["planet"] | Authored;
   readonly planet_modifier?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["planet"] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly should_swap_deposit_on_terraforming?: boolean | Authored;
   readonly station?: "shipclass_mining_station" | "shipclass_research_station" | Authored;
@@ -4458,7 +4449,7 @@ export interface DistrictDefinition {
   readonly ai_estimate_without_unemployment?: boolean | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight_coefficient?: number | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["planet"] | Authored;
   readonly base_buildtime?: number | Authored;
   readonly base_cap_amount?: number | Authored;
   readonly can_demolish?: boolean | Authored;
@@ -4467,12 +4458,12 @@ export interface DistrictDefinition {
   readonly default_starting_district?: boolean | Authored;
   readonly desc?: (string | {
   readonly text: string | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["planet"] | Authored;
 }) | readonly (string | {
   readonly text: string | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["planet"] | Authored;
 })[] | Authored;
-  readonly destroy_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly destroy_trigger?: TriggersByScope["planet"] | Authored;
   readonly exempt_from_ai_planet_specialization?: boolean | Authored;
   readonly expansion_planner?: boolean | Authored;
   readonly expansion_planner_type?: DistrictRef | Authored;
@@ -4480,37 +4471,37 @@ export interface DistrictDefinition {
   readonly icon?: string | Authored;
   readonly inherits_capped_modifiers_from?: DistrictRef | Authored;
   readonly is_capped_by_modifier?: boolean | Authored;
-  readonly is_uncapped?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly is_uncapped?: TriggersByScope["planet"] | Authored;
   readonly max_for_deposits_on_planet?: number | Authored;
   readonly min_for_deposits_on_planet?: number | Authored;
-  readonly on_built?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_destroy?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_built?: EffectsByScope["planet"] | Authored;
+  readonly on_destroy?: EffectsByScope["planet"] | Authored;
+  readonly on_queued?: EffectsByScope["planet"] | Authored;
+  readonly on_unqueued?: EffectsByScope["planet"] | Authored;
   readonly overlay_icon?: SpriteRef | Authored;
   readonly planet_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
-  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: TriggersByScope["planet"] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly shared_capacity_modifier?: string | readonly string[] | Authored;
-  readonly show_on_uncolonized?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_on_uncolonized?: TriggersByScope["planet"] | Authored;
   readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_flavor_desc?: ({
   readonly text?: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
 }) | readonly ({
   readonly text?: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
 })[] | Authored;
   readonly triggered_name?: ({
   readonly text?: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
 }) | readonly ({
   readonly text?: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
 })[] | Authored;
   readonly zone_slots?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -4595,10 +4586,10 @@ export interface EconomicPlanDefinition {
 
 export interface EdictDefinition {
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
   readonly edict_cap_usage?: number | Authored;
   readonly edict_lock_in_months?: number | Authored;
-  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect?: EffectsByScope["country"] | Authored;
   readonly icon: SpriteRef | Authored;
   readonly is_ambition?: true | Authored;
   readonly is_wartime_edict?: true | Authored;
@@ -4612,8 +4603,8 @@ export interface EdictDefinition {
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
-  readonly on_disabled?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly on_disabled?: EffectsByScope["country"] | Authored;
+  readonly potential?: TriggersByScope["country"] | readonly TriggersByScope["country"][] | Authored;
   readonly prerequisites?: {
   readonly AND?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly NOR?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
@@ -4625,7 +4616,7 @@ export interface EdictDefinition {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_tech_unlock_if?: TriggersByScope["country"] | Authored;
   readonly unity_cost_mult?: number | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
@@ -4668,20 +4659,20 @@ export interface EspionageCategoryDefinition {
 }
 
 export interface EspionageOperationDefinition {
-  readonly abort?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort?: TriggersByScope["spy_network"] | Authored;
+  readonly allow: TriggersByScope["spy_network"] | Authored;
   readonly categories: PdxBlock | readonly PdxValue[] | Authored;
   readonly desc: (string | {
   readonly text: string | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["spy_network"] | Authored;
 }) | readonly (string | {
   readonly text: string | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["spy_network"] | Authored;
 })[] | Authored;
-  readonly on_create: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_roll_failed: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_create: EffectsByScope["spy_network"] | Authored;
+  readonly on_roll_failed: EffectsByScope["spy_network"] | Authored;
   readonly picture: SpriteRef | Authored;
-  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential: TriggersByScope["spy_network"] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -5179,7 +5170,7 @@ export interface FirstContactStageDefinition {
   readonly min: number | Authored;
 } | Authored;
   readonly icon?: SpriteRef | Authored;
-  readonly on_roll_failed: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_roll_failed: EffectsByScope["first_contact"] | Authored;
   readonly picture?: SpriteRef | Authored;
   readonly stage_event: ({
   readonly event: EventRef | Authored;
@@ -5198,13 +5189,13 @@ export interface FocusCardKeyDefinition {
   readonly background?: SpriteRef | Authored;
   readonly base?: FocusCardKeyRef | Authored;
   readonly category?: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity" | Authored;
-  readonly condition_for_achievement: PdxBlock | readonly PdxValue[] | Authored;
+  readonly condition_for_achievement: TriggersByScope["country"] | Authored;
   readonly desc: string | Authored;
   readonly hint: string | Authored;
   readonly lore: string | Authored;
   readonly name: string | Authored;
-  readonly on_success?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_success?: EffectsByScope["country"] | Authored;
+  readonly possible?: TriggersByScope["country"] | Authored;
   readonly tier?: number | Authored;
 }
 
@@ -5212,7 +5203,7 @@ export interface FocusRewardsDefinition {
   readonly category?: "country_focus" | "core_focus" | "exploration" | "conquest" | "development" | "unity" | "research" | "trade" | "amenity" | Authored;
   readonly cost: number | Authored;
   readonly mode: "end" | "left" | "right" | Authored;
-  readonly on_success?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_success?: EffectsByScope["country"] | Authored;
 }
 
 export interface FontDefinition {
@@ -5361,10 +5352,10 @@ export interface JobDefinition {
   readonly count_as_available_for_ai?: boolean | Authored;
   readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly demotion?: ({
-  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect: EffectsByScope["pop_group"] | Authored;
   readonly time: number | Authored;
 }) | readonly ({
-  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect: EffectsByScope["pop_group"] | Authored;
   readonly time: number | Authored;
 })[] | Authored;
   readonly desc?: ({
@@ -5387,11 +5378,11 @@ export interface JobDefinition {
 } | Authored;
   readonly planet_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: TriggersByScope["pop_group"] | Authored;
   readonly possible_pre_triggers?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible_precalc?: "can_fill_ruler_job" | "can_fill_specialist_job" | "can_fill_worker_job" | "can_fill_drone_job" | "can_fill_precursor_job" | Authored;
   readonly promotion?: {
-  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
+  readonly effect: EffectsByScope["pop_group"] | Authored;
   readonly time: number | Authored;
 } | Authored;
   readonly purge?: PurgeTypeRef | Authored;
@@ -6807,57 +6798,49 @@ export interface PatronsDefinition {
   readonly activation_cost?: {
   readonly cost: PdxBlock | readonly PdxValue[] | Authored;
 } | Authored;
-  readonly ai_will_do?: {
+  readonly ai_will_do?: TriggersByScope["country"] & {
   readonly factor?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly cooldown?: number | Authored;
   readonly cost_override_key?: string | Authored;
-  readonly effect?: {
+  readonly effect?: EffectsByScope["country"] & {
   readonly custom_tooltip?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly first_cooldown?: number | Authored;
   readonly icon?: string | Authored;
   readonly name?: string | Authored;
-  readonly on_revert?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly possible?: {
-  readonly custom_tooltip?: string | {
+  readonly on_revert?: EffectsByScope["country"] | Authored;
+  readonly possible?: TriggersByScope["country"] & {
+  readonly custom_tooltip?: string | TriggersByScope["country"] & {
   readonly fail_text?: string | Authored;
   readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly sound?: SoundEffectRef | Authored;
 }) | readonly ({
   readonly activation_cost?: {
   readonly cost: PdxBlock | readonly PdxValue[] | Authored;
 } | Authored;
-  readonly ai_will_do?: {
+  readonly ai_will_do?: TriggersByScope["country"] & {
   readonly factor?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly cooldown?: number | Authored;
   readonly cost_override_key?: string | Authored;
-  readonly effect?: {
+  readonly effect?: EffectsByScope["country"] & {
   readonly custom_tooltip?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly first_cooldown?: number | Authored;
   readonly icon?: string | Authored;
   readonly name?: string | Authored;
-  readonly on_revert?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly possible?: {
-  readonly custom_tooltip?: string | {
+  readonly on_revert?: EffectsByScope["country"] | Authored;
+  readonly possible?: TriggersByScope["country"] & {
+  readonly custom_tooltip?: string | TriggersByScope["country"] & {
   readonly fail_text?: string | Authored;
   readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly sound?: SoundEffectRef | Authored;
 })[] | Authored;
   readonly add_modifier?: boolean | Authored;
@@ -6879,51 +6862,45 @@ export interface PatronsDefinition {
   readonly passive_accord?: ({
   readonly desc?: ({
   readonly text?: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
 }) | readonly ({
   readonly text?: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
 })[] | Authored;
   readonly hide_desc?: boolean | Authored;
   readonly icon?: string | Authored;
   readonly name?: string | Authored;
-  readonly on_revert?: {
+  readonly on_revert?: EffectsByScope["country"] & {
   readonly custom_tooltip?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly on_unlock?: ({
+  readonly on_unlock?: (EffectsByScope["country"] & {
   readonly custom_tooltip?: string | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+  readonly potential?: TriggersByScope["country"] | Authored;
+}) | readonly (EffectsByScope["country"] & {
   readonly custom_tooltip?: string | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly potential?: TriggersByScope["country"] | Authored;
 })[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
   readonly desc?: ({
   readonly text?: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
 }) | readonly ({
   readonly text?: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
 })[] | Authored;
   readonly hide_desc?: boolean | Authored;
   readonly icon?: string | Authored;
   readonly name?: string | Authored;
-  readonly on_revert?: {
+  readonly on_revert?: EffectsByScope["country"] & {
   readonly custom_tooltip?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly on_unlock?: ({
+  readonly on_unlock?: (EffectsByScope["country"] & {
   readonly custom_tooltip?: string | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+  readonly potential?: TriggersByScope["country"] | Authored;
+}) | readonly (EffectsByScope["country"] & {
   readonly custom_tooltip?: string | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly potential?: TriggersByScope["country"] | Authored;
 })[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
@@ -6931,24 +6908,24 @@ export interface PatronsDefinition {
   readonly x: number | Authored;
   readonly y: number | Authored;
 } | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly pre_communications_name_format?: string | Authored;
   readonly text_color_code?: string | Authored;
 }
 
 export interface PatronsCallingsDefinition {
   readonly first_tier?: number | Authored;
-  readonly on_dismissed?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_start?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_dismissed?: EffectsByScope["country"] | Authored;
+  readonly on_start?: EffectsByScope["country"] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly tier?: ({
   readonly attunement: number | string | Authored;
   readonly counter?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
 }) | readonly ({
   readonly attunement: number | string | Authored;
   readonly counter?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
 })[] | Authored;
 }
 
@@ -6956,7 +6933,7 @@ export interface PatronsDeedsDefinition {
   readonly attunement?: number | string | Authored;
   readonly counter?: PdxBlock | readonly PdxValue[] | Authored;
   readonly has_desc?: boolean | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
 }
 
 export interface PiechartDefinition {
@@ -7102,13 +7079,13 @@ export interface PlanetKillerAnimationDefinition {
 export interface PlanetModifierDefinition {
   readonly is_null?: boolean | Authored;
   readonly modifier?: StaticModifierRef | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["planet"] | Authored;
   readonly spawn_chance?: PdxBlock | readonly PdxValue[] | Authored;
 }
 
 export interface PolicyDefinition {
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_activate?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
+  readonly on_activate?: EffectsByScope["country"] | Authored;
   readonly option: ({
   readonly AI_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
@@ -7116,13 +7093,13 @@ export interface PolicyDefinition {
   readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly name: string | Authored;
-  readonly on_disabled?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_disabled?: EffectsByScope["country"] | Authored;
+  readonly on_enabled?: EffectsByScope["country"] | Authored;
   readonly policy_flags?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly pre_sapient_purge?: PurgeTypeRef | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly valid?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly valid?: TriggersByScope["country"] | Authored;
 }) | readonly ({
   readonly AI_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
@@ -7130,15 +7107,15 @@ export interface PolicyDefinition {
   readonly in_breach_of?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly name: string | Authored;
-  readonly on_disabled?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_enabled?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_disabled?: EffectsByScope["country"] | Authored;
+  readonly on_enabled?: EffectsByScope["country"] | Authored;
   readonly policy_flags?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly pre_sapient_purge?: PurgeTypeRef | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly valid?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly valid?: TriggersByScope["country"] | Authored;
 })[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
 }
 
 export interface PopFactionDefinition {
@@ -7199,12 +7176,10 @@ export interface PopFactionNameFormatDefinition {
   readonly lookups?: string | Authored;
   readonly random_weight: {
   readonly factor: number | Authored;
-  readonly modifier?: ({
+  readonly modifier?: (TriggersByScope["pop_faction"] & {
   readonly add: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+}) | readonly (TriggersByScope["pop_faction"] & {
   readonly add: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
 } | Authored;
 }
@@ -7351,12 +7326,10 @@ export interface PortraitGroupDefinition {
 export interface PreCommunicationsNameFormatDefinition {
   readonly random_weight: {
   readonly factor: number | Authored;
-  readonly modifier?: ({
+  readonly modifier?: (TriggersByScope["country"] & {
   readonly add: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+}) | readonly (TriggersByScope["country"] & {
   readonly add: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
 } | Authored;
 }
@@ -7908,12 +7881,12 @@ export interface RelicDefinition {
 }
 
 export interface ResolutionDefinition {
-  readonly active?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly active?: TriggersByScope["country"] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly breach?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly fail_effects?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow?: TriggersByScope["country"] | Authored;
+  readonly breach?: TriggersByScope["country"] | Authored;
+  readonly effect?: EffectsByScope["country"] | Authored;
+  readonly fail_effects?: EffectsByScope["country"] | Authored;
   readonly fire_and_forget?: true | Authored;
   readonly harmful?: boolean | Authored;
   readonly icon?: string | Authored;
@@ -7929,14 +7902,14 @@ export interface ResolutionDefinition {
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly sanction?: true | Authored;
   readonly target: boolean | Authored;
-  readonly valid_target?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly valid_target?: TriggersByScope["country"] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
@@ -7975,8 +7948,8 @@ export interface ResourceDefinition {
   readonly special_max_amount?: boolean | Authored;
   readonly tooltip_decimals?: number | Authored;
   readonly tradable?: boolean | Authored;
-  readonly tradable_in_market?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly visibility_prerequisite?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly tradable_in_market?: TriggersByScope["country"] | Authored;
+  readonly visibility_prerequisite?: TriggersByScope["country"] | Authored;
 }
 
 export interface RoomTexturesDefinition {
@@ -8418,8 +8391,8 @@ export interface SlaveryTypeDefinition {
 }
 
 export interface SocialStrataDefinition {
-  readonly allow_resettlement: PdxBlock | readonly PdxValue[] | Authored;
-  readonly assign_to_pop?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly allow_resettlement: TriggersByScope["pop_group"] | Authored;
+  readonly assign_to_pop?: TriggersByScope["pop_group"] | Authored;
   readonly automation_resources?: ({
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -8427,7 +8400,7 @@ export interface SocialStrataDefinition {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
-  readonly can_change_category?: PdxBlock | readonly PdxValue[] | boolean | Authored;
+  readonly can_change_category?: TriggersByScope["pop_group"] | boolean | Authored;
   readonly change_job_threshold?: number | Authored;
   readonly clothes_texture_index?: number | Authored;
   readonly custom_demotion_icon?: string | Authored;
@@ -8444,17 +8417,17 @@ export interface SocialStrataDefinition {
   readonly pop_group_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly rank: number | Authored;
   readonly resettlement_cost?: ({
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["pop_group"] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["pop_group"] | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly should_apply_unemployment_penalties?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly should_apply_unemployment_penalties?: TriggersByScope["pop_group"] | Authored;
   readonly triggered_pop_group_modifier?: ({
   readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -8653,7 +8626,7 @@ export interface SoundMusicCompressorDefinition {
 
 export interface SpecialProjectDefinition {
   readonly AI_wait_days?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_trigger?: TriggersByScope["country"] | Authored;
   readonly cost?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly days_to_research?: number | Authored;
   readonly desc?: ({
@@ -8665,11 +8638,11 @@ export interface SpecialProjectDefinition {
 })[] | Authored;
   readonly event_chain?: EventChainRef | Authored;
   readonly event_scope?: "ship_event" | "planet_event" | "country_event" | Authored;
-  readonly fail_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly fail_trigger?: TriggersByScope["country"] | Authored;
   readonly icon?: string | Authored;
   readonly location?: boolean | Authored;
-  readonly on_cancel?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_fail?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_cancel?: EffectsByScope["country"] | Authored;
+  readonly on_fail?: EffectsByScope["country"] | Authored;
   readonly on_progress_25?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_progress_50?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_progress_75?: PdxBlock | readonly PdxValue[] | Authored;
@@ -8965,8 +8938,8 @@ export interface StarClassRandomListDefinition {
 }
 
 export interface StarbaseBuildingDefinition {
-  readonly abort_construction_trigger?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_construction_trigger?: TriggersByScope["starbase"] | Authored;
+  readonly abort_trigger?: TriggersByScope["starbase"] | Authored;
   readonly ai_build_at_chokepoint?: boolean | Authored;
   readonly ai_build_outside_chokepoint?: boolean | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
@@ -8977,40 +8950,40 @@ export interface StarbaseBuildingDefinition {
   readonly defense_platform_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly desc?: ({
   readonly text: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
 }) | readonly ({
   readonly text: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
 })[] | Authored;
-  readonly destroy_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly destroy_trigger?: TriggersByScope["starbase"] | Authored;
   readonly empire_limit?: number | readonly number[] | Authored;
   readonly equipped_component?: ComponentTemplateRef | Authored;
   readonly icon?: (SpriteRef | {
   readonly text: SpriteRef | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
 }) | readonly (SpriteRef | {
   readonly text: SpriteRef | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
 })[] | Authored;
   readonly initial?: boolean | Authored;
   readonly name?: ({
   readonly text: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
 }) | readonly ({
   readonly text: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
 })[] | Authored;
-  readonly on_destroyed?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_finished?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_destroyed?: EffectsByScope["starbase"] | Authored;
+  readonly on_finished?: EffectsByScope["starbase"] | Authored;
   readonly orbit_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly planet_modifier?: {
   readonly custom_tooltip?: string | Authored;
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly replaceable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: TriggersByScope["starbase"] | Authored;
+  readonly potential?: TriggersByScope["starbase"] | Authored;
+  readonly replaceable?: TriggersByScope["starbase"] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -9019,10 +8992,10 @@ export interface StarbaseBuildingDefinition {
   readonly scripted_effect_cooldown_flag?: string | readonly string[] | Authored;
   readonly scripted_effect_cooldown_flag_desc?: ({
   readonly text: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
 }) | readonly ({
   readonly text: string | Authored;
-  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
 })[] | Authored;
   readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly show_component_tooltips?: string | readonly string[] | Authored;
@@ -9066,7 +9039,7 @@ export interface StarbaseLevelDefinition {
 }
 
 export interface StarbaseModuleDefinition {
-  readonly abort_construction_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_construction_trigger?: TriggersByScope["starbase"] | Authored;
   readonly ai_build_at_chokepoint?: boolean | Authored;
   readonly ai_build_outside_chokepoint?: boolean | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
@@ -9086,18 +9059,18 @@ export interface StarbaseModuleDefinition {
   readonly fits_on_slots?: PdxValue | readonly PdxValue[] | Authored;
   readonly icon?: SpriteRef | Authored;
   readonly initial?: boolean | Authored;
-  readonly on_destroyed?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_finished?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_destroyed?: EffectsByScope["starbase"] | Authored;
+  readonly on_finished?: EffectsByScope["starbase"] | Authored;
   readonly orbit_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly planet_modifier?: {
   readonly custom_tooltip?: string | Authored;
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible?: TriggersByScope["starbase"] | Authored;
+  readonly potential?: TriggersByScope["starbase"] | Authored;
   readonly remote_network_resource_collection?: string | readonly string[] | Authored;
-  readonly replaceable?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly replaceable?: TriggersByScope["starbase"] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -9241,7 +9214,7 @@ export interface SwappedCivicDefinition {
   readonly description?: string | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly negative_description?: string | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: TriggersByScope["country"] | Authored;
 }
 
 export interface SystemTypeDefinition {
@@ -9408,24 +9381,22 @@ export interface TimelineEventsTypeDefinition {
 }
 
 export interface TradableActionsDefinition {
-  readonly active?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly active?: TriggersByScope["country"] | Authored;
   readonly ai_weight?: {
-  readonly modifier?: ({
+  readonly modifier?: (TriggersByScope["country"] & {
   readonly factor?: number | Authored;
   readonly weight?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+}) | readonly (TriggersByScope["country"] & {
   readonly factor?: number | Authored;
   readonly weight?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
   readonly weight: number | Authored;
 } | Authored;
   readonly fire_and_forget?: boolean | Authored;
-  readonly on_deal_ended_recipient_effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_deal_ended_sender_effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_traded_effect?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_deal_ended_recipient_effect?: EffectsByScope["country"] | Authored;
+  readonly on_deal_ended_sender_effect?: EffectsByScope["country"] | Authored;
+  readonly on_traded_effect?: EffectsByScope["country"] | Authored;
+  readonly potential?: TriggersByScope["country"] | Authored;
 }
 
 export interface TradeConversionDefinition {
@@ -9858,12 +9829,10 @@ export interface WarGoalDefinition {
 export interface WarNameFormatDefinition {
   readonly random_weight: {
   readonly factor: number | Authored;
-  readonly modifier?: ({
+  readonly modifier?: (TriggersByScope["war"] & {
   readonly add: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+}) | readonly (TriggersByScope["war"] & {
   readonly add: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
 } | Authored;
 }

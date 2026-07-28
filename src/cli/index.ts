@@ -31,7 +31,9 @@ function fromValidation(diagnostic: ValidationDiagnostic): Diagnostic {
     severity: diagnostic.severity,
     code: diagnostic.code,
     message: diagnostic.message,
-    where: diagnostic.definition,
+    // The path is most of the value of the report: a mod has hundreds of keys
+    // under one definition, and "somewhere in this building" is not a location.
+    where: diagnostic.path.length === 0 ? diagnostic.definition : `${diagnostic.definition}.${diagnostic.path}`,
   };
 }
 

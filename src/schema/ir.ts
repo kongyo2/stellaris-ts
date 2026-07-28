@@ -340,7 +340,12 @@ export interface NoScopeReference {
   readonly kind: "no-scope";
 }
 
-export type ScopeReference = AnyScopeReference | NoScopeReference | ScopeId;
+/**
+ * `ScopeId` completes; a plain string is still accepted. The game gains scopes —
+ * `colony` and `carrier` arrived in 4.4 — and the catalog is generated from a
+ * corpus that predates them.
+ */
+export type ScopeReference = AnyScopeReference | NoScopeReference | ScopeId | (string & {});
 
 export interface ScopeAlternatives {
   readonly kind: "scope-alternatives";

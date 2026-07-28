@@ -4,6 +4,7 @@ import type {
   EnumDefinition,
   Occurrence,
   SchemaModel,
+  ScopeChange,
   ValueRule,
 } from "../../src/schema/ir.js";
 
@@ -57,10 +58,32 @@ interface RenderContext {
   readonly model: SchemaModel;
   readonly usedRefs: Set<string>;
   readonly usedScript: Set<string>;
+  readonly usedScopes: Set<string>;
+  readonly scopeNames: ReadonlySet<string>;
   counters: { literalUnions: number };
 }
 
-function valueType(context: RenderContext, value: ValueRule, depth: number): string {
+/**
+ * Where the block being rendered runs, when the schema says.
+ *
+ * A trigger block is not one shape: `allow` on a building reads a planet and
+ * `potential` on a country type reads a country, and the game's own
+ * documentation says which triggers each takes. Carrying the scope through the
+ * render is what turns `PdxBlock` into the set that actually belongs there.
+ */
+function nextScope(scope: string | undefined, change: ScopeChange | undefined): string | undefined {
+  if (change === undefined) {
+    return scope;
+  }
+
+  if (change.kind === "enter") {
+    return typeof change.scope === "string" ? change.scope : undefined;
+  }
+
+  return typeof change.frame.current === "string" ? change.frame.current : undefined;
+}
+
+function valueType(context: RenderContext, value: ValueRule, depth: number, scope?: string): string {
   if (depth > MAX_DEPTH) {
     return "PdxValue";
   }
@@ -105,6 +128,17 @@ function valueType(context: RenderContext, value: ValueRule, depth: number): str
     case "interpolated-type":
       return "string";
     case "script-block": {
+      // The scope narrows a trigger or effect block to what that scope accepts.
+      if (
+        scope !== undefined &&
+        context.scopeNames.has(scope) &&
+        (value.family === "trigger" || value.family === "effect")
+      ) {
+        const table: string = value.family === "trigger" ? "TriggersByScope" : "EffectsByScope";
+        context.usedScopes.add(table);
+        return `${table}[${JSON.stringify(scope)}]`;
+      }
+
       const name: string =
         value.family === "trigger"
           ? "TriggerBlock"
@@ -117,7 +151,7 @@ function valueType(context: RenderContext, value: ValueRule, depth: number): str
       return name;
     }
     case "block":
-      return blockType(context, value.entries, depth + 1);
+      return blockType(context, value.entries, depth + 1, scope);
     case "list":
       return `readonly ${wrapUnion(valueType(context, value.item, depth + 1))}[]`;
     case "choice": {
@@ -159,12 +193,13 @@ function collectProperties(
   depth: number,
   into: Map<string, PropertyDraft>,
   forceOptional: boolean,
+  scope?: string,
 ): void {
   for (const entry of entries) {
     if (entry.kind === "variant-rules") {
       // A variant's fields only apply to some definitions of the type, so they
       // are always optional on the shared shape.
-      collectProperties(context, entry.entries, depth, into, true);
+      collectProperties(context, entry.entries, depth, into, true, scope);
       continue;
     }
 
@@ -178,7 +213,7 @@ function collectProperties(
       optional: true,
       repeatable: false,
     };
-    const rendered: string = valueType(context, entry.value, depth);
+    const rendered: string = valueType(context, entry.value, depth, nextScope(scope, entry.scope));
 
     if (!draft.types.includes(rendered)) {
       draft.types.push(rendered);
@@ -247,9 +282,9 @@ function renderProperties(drafts: readonly PropertyDraft[], indent: string): str
     .join("\n");
 }
 
-function blockType(context: RenderContext, entries: readonly EntryRule[], depth: number): string {
+function blockType(context: RenderContext, entries: readonly EntryRule[], depth: number, scope?: string): string {
   const drafts = new Map<string, PropertyDraft>();
-  collectProperties(context, entries, depth, drafts, false);
+  collectProperties(context, entries, depth, drafts, false, scope);
 
   const hasOpenEntry: boolean = entries.some(
     (entry) =>
@@ -260,6 +295,31 @@ function blockType(context: RenderContext, entries: readonly EntryRule[], depth:
   const ordered: readonly PropertyDraft[] = [...drafts.values()].sort((left, right) =>
     compareOrdinal(left.key, right.key),
   );
+
+  // A block whose entries are a trigger or effect family is that family, and
+  // the scope says which of it. `allow = { ... }` on a building is every trigger
+  // a planet accepts, not every trigger there is.
+  const family: "effect" | "trigger" | undefined = entries
+    .map((entry) =>
+      entry.kind === "script-entries" && (entry.family === "trigger" || entry.family === "effect")
+        ? entry.family
+        : undefined,
+    )
+    .find((found): found is "effect" | "trigger" => found !== undefined);
+
+  if (family !== undefined && scope !== undefined && context.scopeNames.has(scope)) {
+    const table: string = family === "trigger" ? "TriggersByScope" : "EffectsByScope";
+    context.usedScopes.add(table);
+    const scoped: string = `${table}[${JSON.stringify(scope)}]`;
+
+    if (ordered.length === 0) {
+      return scoped;
+    }
+
+    return `${scoped} & {
+${renderProperties(ordered, "  ")}
+}`;
+  }
 
   if (ordered.length === 0) {
     // A block the schema says nothing about is not a block that holds nothing.
@@ -293,6 +353,8 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
     model,
     usedRefs: new Set<string>(),
     usedScript: new Set<string>(),
+    usedScopes: new Set<string>(),
+    scopeNames: new Set(model.scopes.map((scope) => scope.id)),
     counters: { literalUnions: 0 },
   };
   const declarations: string[] = [];
@@ -304,7 +366,10 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
 
   for (const type of ordered) {
     const drafts = new Map<string, PropertyDraft>();
-    collectProperties(context, type.entries, 0, drafts, false);
+    // A definition body runs in the scope its type names, and every trigger or
+    // effect block inside inherits it until a rule says otherwise.
+    const entryScope: string | undefined = typeof type.entryScope === "string" ? type.entryScope : undefined;
+    collectProperties(context, type.entries, 0, drafts, false, entryScope);
     propertyCount += drafts.size;
 
     const hasOpenEntry: boolean = type.entries.some(
@@ -344,6 +409,9 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
   ].filter((name) => new RegExp(String.raw`\b${name}\b`, "u").test(rendered));
   const scriptImport: string =
     scriptNames.length === 0 ? "" : `import type { ${scriptNames.join(", ")} } from "./script.js";`;
+  const scopeNames: readonly string[] = [...context.usedScopes].sort(compareOrdinal);
+  const scopeImport: string =
+    scopeNames.length === 0 ? "" : `import type { ${scopeNames.join(", ")} } from "./scopes.js";`;
   const refDeclarations: string = refNames
     .map(
       (id) =>
@@ -364,6 +432,7 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
         "/* oxlint-disable typescript/no-redundant-type-constituents */",
         "",
         scriptImport,
+        scopeImport,
         refNames.length === 0 ? "" : 'import type { VanillaId } from "./refs.js";',
         "",
         refDeclarations,

@@ -17766,8 +17766,10 @@ export interface ShipTriggers {
   readonly inverted_switch?: PdxValue;
   readonly is_active_resolution?: PdxValue;
   readonly is_being_repaired?: PdxValue;
+  readonly is_capital?: PdxValue;
   readonly is_civilian?: PdxValue;
   readonly is_cloaked?: PdxValue;
+  readonly is_colony?: PdxValue;
   readonly is_constructing?: PdxValue;
   readonly is_controlled_by?: PdxValue;
   readonly is_crises_allowed?: PdxValue;
@@ -17843,6 +17845,7 @@ export interface ShipTriggers {
   readonly num_owned_colonies?: PdxValue;
   readonly num_ships?: PdxValue;
   readonly num_waystation_pacts?: PdxValue;
+  readonly planet_resource_compare?: PdxValue;
   readonly pop_amount?: PdxValue;
   readonly psionic_pop_amount?: PdxValue;
   readonly resource_stockpile_percent?: PdxValue;
@@ -18156,6 +18159,7 @@ export interface ShipEffects {
   readonly set_faction_properties?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
+  readonly set_graphical_culture?: PdxValue;
   readonly set_name?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
   readonly set_resource_converter?: PdxValue;
