@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { renderDefinitions } from "../../src/runtime/build.js";
 import { schema } from "../../src/schema/index.js";
 import { NodeKind, parse, type Block, type EntryNode } from "../../src/syntax/index.js";
-import { isEntries } from "../../src/runtime/values.js";
+import { bare, entries as orderedEntries, isEntries } from "../../src/runtime/values.js";
 import { convertBlock, type ConversionFailure, type ConversionResult } from "./roundtrip.js";
 
 /**
@@ -309,12 +309,13 @@ await mapWithLimit([...new Set(listings.flat())], READ_CONCURRENCY, async (file)
     const wrapperKeys: readonly string[] = Object.keys(wrapper);
     const wrapped: unknown = wrapperKeys.length === 1 && wrapperKeys[0] === "" ? wrapper[""] : undefined;
 
-    if (wrapped !== undefined && !isEntries(wrapped)) {
-      record("list-body", relative, id);
-      continue;
-    }
-
-    const body: object = isEntries(wrapped) ? wrapped : wrapper;
+    // A body that is a bare value list is still an ordered sequence — just one
+    // with no keys in it — so it goes through `entries` like any other.
+    const body: object = isEntries(wrapped)
+      ? wrapped
+      : Array.isArray(wrapped)
+        ? orderedEntries(wrapped.map((item) => bare(item)))
+        : wrapper;
 
     let printed: string;
     try {
@@ -409,11 +410,11 @@ await writeFile(REPORT_PATH, `${lines.join("\n")}\n`, "utf8");
 /**
  * How much of vanilla the authoring model can express.
  *
- * Pinned so the number can only go up. It rose from 34% to 99% as comparisons,
- * repeated keys, raw script and ordered entry lists each got a spelling; what
- * still blocks the rest is listed in the report.
+ * Pinned so the number can only go up. It rose from 34% to 99.94% as
+ * comparisons, repeated keys, raw script and ordered entry lists each got a
+ * spelling; what still blocks the rest is listed in the report.
  */
-const REPRODUCTION_FLOOR = 99.0;
+const REPRODUCTION_FLOOR = 99.9;
 
 console.log(
   [

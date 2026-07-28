@@ -175,7 +175,9 @@ function orderedEntries(items: readonly Entry[]): EntryNode[] {
 
   for (const item of items) {
     if (isBare(item)) {
-      nodes.push(valueNode(asScriptValue("<bare>", item.bare)));
+      // A bare value can be raw script too — a colour block sitting inside a
+      // definition has no key of its own.
+      nodes.push(isRaw(item.bare) ? parseRawValue("x", item.bare.text) : valueNode(asScriptValue("<bare>", item.bare)));
       continue;
     }
 

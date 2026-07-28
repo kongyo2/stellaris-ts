@@ -140,3 +140,9 @@
 - Blockers: none.
 - Notes: `entries()` closed three causes at once, as predicted: a PDX block is an ordered sequence that may mix bare values with keyed ones, and one shape covers list bodies, anonymous blocks and mixed blocks. Two type-level gaps surfaced while writing the tests for it — every generated field now accepts the marked values, since any field can need one, and a block the schema says nothing about was typed as `Record<string, never>`, which claimed it holds nothing when `convert_to` holds a list of building ids.
 
+## Reverse-Derivation Loop — Sixth Pass
+- Proof: `npm run verify:reproduce` is 99.94% (40,525 of 40,550), pinned at 99.9; `npm run verify` is 14/14 exit 0.
+- Remaining: 25 definitions across 12 files, one cause, still to name.
+- Blockers: none.
+- Notes: two things fell out at once. Raw script in a bare position — a colour block sitting inside a definition with no key of its own — was being treated as an object, the same class of bug as a comparison inside a repetition, which suggests every marked value needs testing in every position rather than only where it was first needed. And a body that is a bare value list turned out to need nothing new: it is an ordered sequence with no keys in it, so `entries([bare(...)])` says it, which closed all 335 at once.
+

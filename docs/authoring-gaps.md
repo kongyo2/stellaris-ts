@@ -15,15 +15,14 @@ These are the ones that actually failed the round trip.
 | | |
 | --- | --- |
 | definitions inspected | 40550 |
-| reproduced exactly | 40150 (99.01%) |
-| blocked | 400 |
-| distinct causes | 2 |
+| reproduced exactly | 40525 (99.94%) |
+| blocked | 25 |
+| distinct causes | 1 |
 | files read | 2507 |
 
 ## Causes
 
 | cause | definitions | files | example |
 | --- | --- | --- | --- |
-| `list-body` | 335 | 70 | prerequisites in `common/inline_scripts/grand_archive/mutations/camouflage/camouflage_mutation.txt` |
-| `print-mismatch` | 65 | 23 | country in `common/colors/00_colors.txt` |
+| `print-mismatch` | 25 | 12 | print_scope_effect in `common/scripted_effects/00_scripted_effects.txt` |
 
