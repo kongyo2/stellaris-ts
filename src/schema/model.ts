@@ -5,7 +5,9 @@ import { namedValues, scopeGroups, valueSets } from "./dynamic-sets.js";
 import { definitionTypes } from "./definitions/index.js";
 import { enums } from "./enums.js";
 import { defaultSchemaPolicy, defineSchema } from "./ir.js";
+import { modifierNamespace } from "./modifiers.js";
 import type { SchemaModel } from "./ir.js";
+import { withModifierCorrections } from "./modifier-corrections.js";
 import { links, scopes } from "./scopes.js";
 
 /**
@@ -17,6 +19,7 @@ import { links, scopes } from "./scopes.js";
  */
 export const schema: SchemaModel = defineSchema({
   policy: defaultSchemaPolicy,
+  modifiers: withModifierCorrections(modifierNamespace),
   definitionTypes: withCorrections(definitionTypes),
   enums,
   scopes,

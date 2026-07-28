@@ -1,6 +1,8 @@
-import { extractedEnumMembers, vanillaIdsByType } from "../generated/vanilla/index.js";
+import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../generated/vanilla/index.js";
 import type { Mod } from "../runtime/mod.js";
+import { isBare, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { schema } from "../schema/index.js";
+import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import type { DefinitionType, EntryRule, KeyRule, SchemaModel, ValueRule } from "../schema/ir.js";
 
 /**
@@ -28,12 +30,15 @@ export interface ValidationOptions {
 interface AcceptorDraft {
   open: boolean;
   readonly literals: Set<string>;
+  /** Names the game matches without regard to case; compared lowercased. */
+  readonly insensitive: Set<string>;
   readonly patterns: { prefix: string; suffix: string }[];
 }
 
 interface Acceptor {
   readonly open: boolean;
   readonly literals: ReadonlySet<string>;
+  readonly insensitive: ReadonlySet<string>;
   readonly patterns: readonly { readonly prefix: string; readonly suffix: string }[];
 }
 
@@ -90,17 +95,31 @@ function addNames(names: readonly string[], into: AcceptorDraft): void {
   }
 }
 
-function collectEntry(model: SchemaModel, entry: EntryRule, into: AcceptorDraft): void {
+function collectEntry(model: SchemaModel, entry: EntryRule, into: AcceptorDraft, modifiers: ReadonlySet<string>): void {
   switch (entry.kind) {
     case "field":
       collectKey(model, entry.key, into);
       return;
     case "variant-rules":
       for (const child of entry.entries) {
-        collectEntry(model, child, into);
+        collectEntry(model, child, into, modifiers);
       }
       return;
     case "script-entries":
+      // A modifier block is keyed by modifier name, and those are a namespace of
+      // their own: mostly generated from definitions rather than declared, and
+      // matched without regard to case.
+      if (entry.family === "modifier") {
+        if (modifiers.size === 0) {
+          into.open = true;
+          return;
+        }
+        for (const name of modifiers) {
+          into.insensitive.add(name);
+        }
+        return;
+      }
+
       addNames(
         model.commands.filter((command) => command.family === entry.family).map((command) => command.id),
         into,
@@ -173,11 +192,70 @@ function referenceTargets(type: DefinitionType): ReadonlyMap<string, string> {
   return targets;
 }
 
-function acceptorFor(model: SchemaModel, type: DefinitionType): Acceptor {
-  const draft: AcceptorDraft = { open: false, literals: new Set<string>(), patterns: [] };
+/**
+ * Which top-level fields hold a block of modifiers.
+ *
+ * `planet_modifier = { job_researcher_add = 2 }` is where a typo costs the most:
+ * the field itself is spelled right, so nothing above notices, and the game drops
+ * the line without a word. The schema marks these blocks, so they can be read off
+ * rather than guessed at from the name.
+ */
+function modifierBlockFields(type: DefinitionType): ReadonlySet<string> {
+  const fields = new Set<string>();
+
+  const visit = (entries: readonly EntryRule[]): void => {
+    for (const entry of entries) {
+      if (entry.kind === "variant-rules") {
+        visit(entry.entries);
+        continue;
+      }
+
+      if (
+        entry.kind === "field" &&
+        typeof entry.key === "string" &&
+        entry.value.kind === "block" &&
+        entry.value.entries.some((inner) => inner.kind === "script-entries" && inner.family === "modifier")
+      ) {
+        fields.add(entry.key);
+      }
+    }
+  };
+
+  visit(type.entries);
+  return fields;
+}
+
+/** The keys a body value writes, for the shapes that carry keys at all. */
+function keysOf(value: unknown): readonly string[] {
+  if (isEntries(value)) {
+    const keys: string[] = [];
+
+    for (const entry of value.entries) {
+      if (!isBare(entry)) {
+        keys.push(entry[0]);
+      }
+    }
+
+    return keys;
+  }
+
+  if (typeof value === "object" && value !== null && !Array.isArray(value) && !isRaw(value) && !isRepeated(value)) {
+    return Object.keys(value);
+  }
+
+  return [];
+}
+
+function acceptorFor(model: SchemaModel, type: DefinitionType, modifiers: ReadonlySet<string>): Acceptor {
+  const draft: AcceptorDraft = {
+    open: false,
+    literals: new Set<string>(),
+    insensitive: new Set<string>(),
+    patterns: [],
+  };
 
   for (const entry of type.entries) {
-    collectEntry(model, entry, draft);
+    collectEntry(model, entry, draft, modifiers);
   }
 
   for (const macro of model.policy.macros) {
@@ -191,6 +269,7 @@ function accepts(acceptor: Acceptor, key: string): boolean {
   return (
     acceptor.open ||
     acceptor.literals.has(key) ||
+    acceptor.insensitive.has(key.toLowerCase()) ||
     acceptor.patterns.some(
       (pattern) =>
         key.length >= pattern.prefix.length + pattern.suffix.length &&
@@ -206,6 +285,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const diagnostics: ValidationDiagnostic[] = [];
   const acceptors = new Map<string, Acceptor>();
   const referenceMaps = new Map<string, ReadonlyMap<string, string>>();
+  const modifierBlocks = new Map<string, ReadonlySet<string>>();
   const declared = new Set<string>(mod.definitions.map((definition) => `${definition.type}:${definition.id}`));
   const strings = new Map<string, ReadonlySet<string>>();
   const seen = new Set<string>();
@@ -213,6 +293,19 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   for (const [language, entries] of mod.localisation) {
     strings.set(language, new Set(entries.map((entry) => entry.key)));
   }
+
+  // A mod's own definitions generate modifiers exactly as vanilla's do: adding a
+  // job called `my_job` brings `job_my_job_add` into existence, so the mod has to
+  // be part of what the namespace is expanded over.
+  const ownIds: Record<string, string[]> = {};
+  for (const definition of mod.definitions) {
+    (ownIds[definition.type] ??= []).push(definition.id);
+  }
+  const modifiers: ReadonlySet<string> = expandModifierNames(
+    model.modifiers,
+    mergeIdsByType(vanillaIdsByType, ownIds),
+    vanillaModifierNames,
+  );
 
   for (const definition of mod.definitions) {
     const type: DefinitionType | undefined = model.definitionTypes.find(
@@ -244,7 +337,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
     let acceptor: Acceptor | undefined = acceptors.get(type.id);
     if (acceptor === undefined) {
-      acceptor = acceptorFor(model, type);
+      acceptor = acceptorFor(model, type, modifiers);
       acceptors.set(type.id, acceptor);
     }
 
@@ -254,7 +347,26 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       referenceMaps.set(type.id, targets);
     }
 
+    let modifierFields: ReadonlySet<string> | undefined = modifierBlocks.get(type.id);
+    if (modifierFields === undefined) {
+      modifierFields = modifierBlockFields(type);
+      modifierBlocks.set(type.id, modifierFields);
+    }
+
     for (const [field, value] of Object.entries(definition.body)) {
+      if (modifierFields.has(field)) {
+        for (const name of keysOf(value)) {
+          if (!modifiers.has(name.toLowerCase())) {
+            diagnostics.push({
+              severity: "error",
+              code: "unknown-modifier",
+              message: `${name} is not a modifier, so ${field} would drop it silently.`,
+              definition: definition.id,
+            });
+          }
+        }
+      }
+
       if (!accepts(acceptor, field)) {
         diagnostics.push({
           severity: "error",

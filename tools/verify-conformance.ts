@@ -10,11 +10,39 @@ const REPOSITORY_ROOT: string = fileURLToPath(new URL("../", import.meta.url));
 const REPORT_PATH: string = join(REPOSITORY_ROOT, "docs", "schema-conformance.md");
 
 /**
- * The four types the MVP takes end to end. These must have no unknown fields:
- * a hole here would show up as a mod that fails to load. Every other type has
- * its numbers recorded without gating, because closing all 234 is Phase 8 work.
+ * Types that must have no unknown fields.
+ *
+ * A hole in one of these shows up as a mod that fails to load. The first four
+ * are what the MVP takes end to end; `static_modifier` joins them because its
+ * fields are modifier names, so it is the one type whose verdict proves the
+ * modifier namespace resolves.
  */
-const GATED_TYPES: readonly string[] = ["building", "technology", "trait", "event"];
+const GATED_TYPES: readonly string[] = ["building", "technology", "trait", "event", "static_modifier"];
+
+/**
+ * Fields vanilla writes that are not fields of anything.
+ *
+ * Each of these is a `static_modifier` id written where a modifier name belongs,
+ * inside another static modifier's body. None of the 3,081 static modifier ids
+ * is a modifier — the game's own documentation lists zero of them — so the game
+ * reads these lines and drops them. They are vanilla's mistakes, not the
+ * schema's, and they are listed by name so that a seventh one still fails.
+ */
+const VANILLA_DEFECTS: Readonly<Record<string, readonly string[]>> = {
+  static_modifier: [
+    // 16_static_modifiers_paragon.txt:359, inside its own definition
+    "paragon_death_the_hive_endures",
+    // 23_static_modifiers_unplugged.txt:62
+    "planet_new_colony_militarist_attraction",
+    // 11_static_modifiers_federations.txt:853 and :858
+    "proclaim_religious_finding",
+    "proclaim_superiority",
+    // 25_static_modifiers_nomads.txt:396
+    "sacred_path_jobs_bonus_workforce_mult",
+    // 21_static_modifiers_cosmic_storms.txt
+    "storm_attraction_field_modifier",
+  ],
+};
 
 /**
  * How many of the gated types can currently detect an unknown field at all.
@@ -25,7 +53,7 @@ const GATED_TYPES: readonly string[] = ["building", "technology", "trait", "even
  * on a permissive type proves nothing, so the count is pinned here: it may rise
  * as extraction lands in Phase 8, never fall silently.
  */
-const STRICT_GATED_BUDGET = 4;
+const STRICT_GATED_BUDGET = 5;
 
 async function gameVersion(gamePath: string): Promise<string> {
   try {
@@ -45,8 +73,23 @@ await mkdir(dirname(REPORT_PATH), { recursive: true });
 await writeFile(REPORT_PATH, `${renderConformanceReport(report, version)}\n`, "utf8");
 
 const gated: readonly { readonly type: string; readonly fields: readonly string[] }[] = report.types
-  .filter((entry) => GATED_TYPES.includes(entry.type) && entry.unknownFields.length > 0)
-  .map((entry) => ({ type: entry.type, fields: entry.unknownFields.map((finding) => finding.field) }));
+  .filter((entry) => GATED_TYPES.includes(entry.type))
+  .map((entry) => ({
+    type: entry.type,
+    fields: entry.unknownFields
+      .map((finding) => finding.field)
+      .filter((field) => !(VANILLA_DEFECTS[entry.type] ?? []).includes(field)),
+  }))
+  .filter((entry) => entry.fields.length > 0);
+
+const defectsFound: number = report.types
+  .filter((entry) => GATED_TYPES.includes(entry.type))
+  .reduce(
+    (total, entry) =>
+      total +
+      entry.unknownFields.filter((finding) => (VANILLA_DEFECTS[entry.type] ?? []).includes(finding.field)).length,
+    0,
+  );
 
 for (const entry of gated) {
   for (const field of entry.fields) {
@@ -94,6 +137,8 @@ console.log(
     `gatedUnknownFields=${String(gated.reduce((total, entry) => total + entry.fields.length, 0))}`,
     `gatedStrict=${String(strictGated.length)}/${String(GATED_TYPES.length)}`,
     `gatedPermissive=${permissiveGated.join(",") || "none"}`,
+    `vanillaDefects=${String(defectsFound)}`,
+    `modifierDump=${schema.modifiers.source}`,
   ].join(" "),
 );
 

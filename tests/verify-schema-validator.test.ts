@@ -139,6 +139,7 @@ function validModel(): SchemaModel {
   };
   return {
     policy: defaultSchemaPolicy,
+    modifiers: { source: "test", base: [], templates: [] },
     definitionTypes: [validDefinition()],
     enums: [staticEnum(EnumId.BuildingCategories, ["capital", "regular"])],
     scopes: [{ id: ScopeId.Planet, aliases: ["planet"] }],
@@ -289,6 +290,7 @@ describe("schema self-validator", () => {
       policy: {
         macros: [duplicateMacro, duplicateMacro],
       },
+      modifiers: { source: "test", base: [], templates: [] },
       definitionTypes: [malformedDefinition, duplicateDefinition],
       enums: [
         staticEnum(EnumId.BuildingCategories, ["one"]),
@@ -408,6 +410,7 @@ describe("schema self-validator", () => {
   it("uses only caller-provided structural minimums", () => {
     const empty: SchemaModel = {
       policy: { macros: [] },
+      modifiers: { source: "test", base: [], templates: [] },
       definitionTypes: [],
       enums: [],
       scopes: [],

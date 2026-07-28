@@ -2,7 +2,8 @@ import { readdir, readFile } from "node:fs/promises";
 import type { Dirent } from "node:fs";
 import { join, relative } from "node:path";
 
-import { extractedEnumMembers } from "../../src/generated/vanilla/index.js";
+import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../../src/generated/vanilla/index.js";
+import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
 import { NodeKind, parse, type Block, type Document } from "../../src/syntax/index.js";
 import type { DefinitionType, EntryRule, EnumDefinition, KeyRule, SchemaModel } from "../../src/schema/ir.js";
 
@@ -121,7 +122,16 @@ async function collectFiles(directory: string, recurse: boolean): Promise<string
 interface KeyAcceptor {
   readonly wildcard: boolean;
   readonly literals: ReadonlySet<string>;
+  /** Names matched without regard to case; held lowercased. */
+  readonly insensitive: ReadonlySet<string>;
   readonly prefixes: readonly { readonly prefix: string; readonly suffix: string }[];
+}
+
+interface AcceptorDraft {
+  wildcard: boolean;
+  readonly literals: Set<string>;
+  readonly insensitive: Set<string>;
+  readonly prefixes: { prefix: string; suffix: string }[];
 }
 
 /**
@@ -139,11 +149,7 @@ function enumValues(model: SchemaModel, id: string): readonly string[] {
   return definition.kind === "static-enum" ? definition.values : (extractedEnumMembers[id] ?? []);
 }
 
-function collectKey(
-  model: SchemaModel,
-  key: KeyRule,
-  into: { wildcard: boolean; literals: Set<string>; prefixes: { prefix: string; suffix: string }[] },
-): void {
+function collectKey(model: SchemaModel, key: KeyRule, into: AcceptorDraft): void {
   if (typeof key === "string") {
     into.literals.add(key);
     return;
@@ -171,11 +177,7 @@ function collectKey(
   }
 }
 
-function collectEntry(
-  model: SchemaModel,
-  entry: EntryRule,
-  into: { wildcard: boolean; literals: Set<string>; prefixes: { prefix: string; suffix: string }[] },
-): void {
+function collectEntry(model: SchemaModel, entry: EntryRule, into: AcceptorDraft): void {
   switch (entry.kind) {
     case "field":
       collectKey(model, entry.key, into);
@@ -186,6 +188,16 @@ function collectEntry(
       }
       return;
     case "script-entries": {
+      // A modifier block is keyed by modifier name. Those are a namespace of
+      // their own — mostly generated from definitions, matched without regard to
+      // case — so they are resolved rather than looked up among the commands.
+      if (entry.family === "modifier") {
+        for (const name of modifierNames(model)) {
+          into.insensitive.add(name);
+        }
+        return;
+      }
+
       // A trigger or effect block accepts every command declared in that
       // family. The set is known, so enumerate it rather than giving up: a
       // wildcard here is what stopped most types reporting an unknown field.
@@ -224,8 +236,21 @@ function collectEntry(
   }
 }
 
+/** The modifier namespace, expanded once against what vanilla declares. */
+let resolvedModifiers: ReadonlySet<string> | undefined;
+
+function modifierNames(model: SchemaModel): ReadonlySet<string> {
+  resolvedModifiers ??= expandModifierNames(model.modifiers, vanillaIdsByType, vanillaModifierNames);
+  return resolvedModifiers;
+}
+
 function acceptorFor(model: SchemaModel, type: DefinitionType): KeyAcceptor {
-  const into = { wildcard: false, literals: new Set<string>(), prefixes: [] as { prefix: string; suffix: string }[] };
+  const into: AcceptorDraft = {
+    wildcard: false,
+    literals: new Set<string>(),
+    insensitive: new Set<string>(),
+    prefixes: [],
+  };
 
   for (const entry of type.entries) {
     collectEntry(model, entry, into);
@@ -236,11 +261,16 @@ function acceptorFor(model: SchemaModel, type: DefinitionType): KeyAcceptor {
     into.literals.add(macro.key);
   }
 
-  return { wildcard: into.wildcard, literals: into.literals, prefixes: into.prefixes };
+  return {
+    wildcard: into.wildcard,
+    literals: into.literals,
+    insensitive: into.insensitive,
+    prefixes: into.prefixes,
+  };
 }
 
 function accepts(acceptor: KeyAcceptor, key: string): boolean {
-  if (acceptor.wildcard || acceptor.literals.has(key)) {
+  if (acceptor.wildcard || acceptor.literals.has(key) || acceptor.insensitive.has(key.toLowerCase())) {
     return true;
   }
 
@@ -321,7 +351,12 @@ function topLevelKeys(block: Block): string[] {
 }
 
 function literalRuleKeys(model: SchemaModel, type: DefinitionType): readonly string[] {
-  const into = { wildcard: false, literals: new Set<string>(), prefixes: [] as { prefix: string; suffix: string }[] };
+  const into: AcceptorDraft = {
+    wildcard: false,
+    literals: new Set<string>(),
+    insensitive: new Set<string>(),
+    prefixes: [],
+  };
 
   for (const entry of type.entries) {
     if (entry.kind === "field" && typeof entry.key === "string") {

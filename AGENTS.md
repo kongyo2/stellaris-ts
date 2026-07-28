@@ -127,6 +127,28 @@ optional block — goes through it and is parsed on the way in, so a malformed f
 - The dumps trail the current build slightly (4.3.7 against a 4.4.6 install), so the version read is recorded in the
   generated file rather than assumed to match.
 
+## Where Modifier Names Come From
+
+- A modifier name is mostly **not declared anywhere**. The game generates one per definition of certain types:
+  `researcher` being a job is what makes `job_researcher_add` exist. The corpus carries five modifier commands against
+  the 41,016 names the game prints, which is why `static_modifier` reported 966 unknown fields.
+- `npm run import:modifiers` factors the `-debug` modifier dump against the indexed vanilla identifiers and writes
+  `src/schema/modifiers.ts`: **394 rules** of the form `prefix + <id of type T> + suffix`, plus the **1,482** names no
+  rule explains, which are the ones fixed in the executable.
+- A rule is kept only when it accounts for ≥70% of a type's identifiers, of which there must be ≥4 and none shorter
+  than three characters. Without the length floor, `technology_tier` — whose ids are `1`, `2`, `3` — matches any name
+  with a digit in it and invents 200 rules.
+- The set is **expanded, never frozen**: `expandModifierNames` runs the rules over vanilla's ids *and the mod's own*, so
+  a mod that adds a job gets its generated modifiers exactly as the game does.
+- Case is not significant. Vanilla writes `COUNTRY_NAVAL_COVERAGE_MULT` for `country_naval_coverage_mult`, and
+  localisation writes `MOD_TRADITION_COST_MULT`. Everything is compared lowercased.
+- Two sources close the gap left by the dump lagging the install: the `mod_*` localisation keys, indexed by
+  `index:game` (7,819 names, of which 3,591 no rule produces), and `src/schema/modifier-corrections.ts` for whole
+  families the dump predates. Corrections take **families only, never single names** — admitting names one at a time
+  would make conformance agree with whatever vanilla contains and stop it being a check.
+- **A `static_modifier` id is not a modifier.** Zero of the 3,081 appear in the game's own list. Vanilla writes one as a
+  field six times anyway; those are its own dead lines, listed by name in `verify-conformance.ts` so a seventh fails.
+
 ## The CLI
 
 - `stellaris-ts check <entry>` validates without writing; `stellaris-ts build <entry>` validates then writes. The entry

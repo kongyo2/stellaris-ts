@@ -92,6 +92,7 @@
     "index:game": "tsx tools/index-game/index.ts",
     "codegen": "tsx tools/codegen/index.ts",
     "import:scopes": "tsx tools/import-scopes/index.ts",
+    "import:modifiers": "tsx tools/import-modifiers/index.ts",
     "verify:reproduce": "tsx tools/verify-reproduce/index.ts",
     "build:ci": "tsc -p tsconfig.json --incremental false --pretty false --checkers 4"
   },

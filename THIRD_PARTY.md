@@ -34,11 +34,13 @@ SOFTWARE.
 
 ## stellaris-triggers-modifiers-effects-list
 
-The scope constraints in `src/schema/scope-constraints.ts` are derived from the
-game's own `-debug` documentation, as collected at
+The scope constraints in `src/schema/scope-constraints.ts` and the modifier
+namespace in `src/schema/modifiers.ts` are derived from the game's own `-debug`
+documentation, as collected at
 [OldEnt/stellaris-triggers-modifiers-effects-list](https://github.com/OldEnt/stellaris-triggers-modifiers-effects-list).
 The content is output produced by Stellaris itself; the repository gathers it.
-Only the trigger and effect names and the scopes each accepts are used.
+Only names are used: the trigger and effect names with the scopes each accepts,
+and the modifier names with the rules that generate them.
 
 ## Stellaris
 

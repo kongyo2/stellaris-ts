@@ -67,6 +67,7 @@ import { bare, entries, gt, raw, repeated, rgb } from "@kongyo2/stellaris-ts";
 `stellaris-ts check` catches what the game accepts silently and then ignores:
 
 - a field the definition type does not have
+- a modifier name nothing generates, inside a modifier block
 - the same id defined twice, where only the last one loads
 - a required localisation key that would ship as its own name
 - a reference to something neither vanilla nor your mod defines
@@ -81,13 +82,32 @@ checker; narrowing the type instead would reject script the game accepts.
 ## Types
 
 234 definition types, 2,339 triggers and effects, 206 enums, 41 scopes, and the
-59,802 identifiers vanilla declares — generated from a schema ported once from
+70,727 identifiers vanilla declares — generated from a schema ported once from
 [cwtools-stellaris-config](https://github.com/cwtools/cwtools-stellaris-config)
 and since checked against the game itself.
 
 Triggers and effects are typed per scope, so a country-only trigger is not
 offered in a planet block. That constraint comes from the game's own `-debug`
 documentation; the ported corpus carries none.
+
+## Modifiers
+
+`planet_modifier = { job_reseacher_add = 2 }` is the most expensive typo in
+Stellaris after a file-name collision: the block is right, the field is right,
+and the game drops the line without a word. `check` catches it.
+
+It can, because modifier names are not a list here. The game generates them —
+`job_researcher_add` exists because `researcher` is a job — so the rules are
+stored and expanded against whatever is defined, **including your mod**. Add a
+job called `my_job` and `job_my_job_add` starts validating, exactly as the game
+would treat it.
+
+```ts
+planet_modifier: {
+  job_researcher_add: 2,       // ok — researcher is a vanilla job
+  job_reseacher_add: 2,        // error: not a modifier
+}
+```
 
 ```ts
 import type { BuildingDefinition, CountryTriggers } from "@kongyo2/stellaris-ts/types";

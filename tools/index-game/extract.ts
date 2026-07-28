@@ -44,6 +44,15 @@ export interface GameIndex {
    * cannot warn about that without knowing these names.
    */
   readonly vanillaFiles: Readonly<Record<string, readonly string[]>>;
+  /**
+   * Modifier names the game localises.
+   *
+   * Every modifier the executable carries has a `mod_<name>` string, so the keys
+   * of those strings name modifiers that no rule generates and that a dump older
+   * than this build has not heard of. Keys only — the strings themselves stay
+   * where they are.
+   */
+  readonly modifierNames: readonly string[];
 }
 
 function compareOrdinal(left: string, right: string): number {
@@ -348,5 +357,56 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     enums: enums.sort((left, right) => compareOrdinal(left.id, right.id)),
     filesRead,
     vanillaFiles,
+    modifierNames: await collectModifierNames(gamePath),
   };
+}
+
+/**
+ * Modifier names taken from the keys of the game's own modifier strings.
+ *
+ * Case is not meaningful: vanilla writes `MOD_TRADITION_COST_MULT` for the
+ * modifier its documentation calls `tradition_cost_mult`, and script uses either
+ * spelling. Everything is lowercased so one comparison serves both.
+ */
+async function collectModifierNames(gamePath: string): Promise<readonly string[]> {
+  const files: readonly string[] = await collectLocalisationFiles(join(gamePath, "localisation"));
+  const names = new Set<string>();
+
+  await mapWithLimit(files, READ_CONCURRENCY, async (file): Promise<void> => {
+    const text: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file));
+
+    for (const line of text.split(/\r?\n/u)) {
+      const match: RegExpExecArray | null = /^\s*mod_([A-Za-z0-9_.]+):/iu.exec(line);
+
+      if (match?.[1] !== undefined) {
+        names.add(match[1].toLowerCase());
+      }
+    }
+  });
+
+  return [...names].sort(compareOrdinal);
+}
+
+async function collectLocalisationFiles(directory: string): Promise<string[]> {
+  let entries: readonly Dirent[];
+
+  try {
+    entries = await readdir(directory, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+
+  const groups: string[][] = await Promise.all(
+    entries.map(async (entry): Promise<string[]> => {
+      const path: string = join(directory, entry.name);
+
+      if (entry.isDirectory()) {
+        return collectLocalisationFiles(path);
+      }
+
+      return entry.isFile() && entry.name.toLowerCase().endsWith(".yml") ? [path] : [];
+    }),
+  );
+
+  return groups.flat();
 }

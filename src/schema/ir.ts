@@ -548,6 +548,36 @@ export interface GeneratedModifier {
   readonly variant?: string;
 }
 
+/**
+ * One rule the game applies to turn definitions into modifier names.
+ *
+ * Stellaris generates a modifier for every definition of certain types: a job
+ * called `researcher` brings `job_researcher_add` into existence, a ship size
+ * called `corvette` brings `shipsize_corvette_hull_add`. The name is
+ * `prefix + id + suffix`, so the rule is what has to be stored — expanding it
+ * against a mod's own definitions is what makes a mod's generated modifiers
+ * known too.
+ */
+export interface ModifierTemplate {
+  readonly type: string;
+  readonly prefix: string;
+  readonly suffix: string;
+}
+
+/**
+ * Every name that may appear where a modifier is expected.
+ *
+ * Two parts, because the game has two kinds. `base` is fixed in the executable
+ * and can only be listed. `templates` are generated per definition and have to
+ * be expanded, which is why the set cannot be a plain list.
+ */
+export interface ModifierNamespace {
+  readonly base: readonly string[];
+  readonly templates: readonly ModifierTemplate[];
+  /** The game build the base list and the templates were read from. */
+  readonly source: string;
+}
+
 export interface DefinitionType {
   readonly id: DefinitionTypeId;
   readonly source: DefinitionSource;
@@ -600,6 +630,7 @@ export interface ValueSetDefinition {
 
 export interface SchemaModel {
   readonly policy: SchemaPolicy;
+  readonly modifiers: ModifierNamespace;
   readonly definitionTypes: readonly DefinitionType[];
   readonly enums: readonly EnumDefinition[];
   readonly scopes: readonly ScopeDefinition[];
