@@ -13,3 +13,5 @@ export * from "./scope-constraints.js";
 export * from "./script-keys.js";
 export * from "./scope-model.js";
 export * from "./scopes.js";
+export * from "./vanilla-corrections.js";
+export * from "./vanilla-defects.js";

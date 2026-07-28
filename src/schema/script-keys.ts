@@ -1,4 +1,18 @@
-import type { ScriptBlockValue, SchemaModel } from "./ir.js";
+import type { DefinitionType, ScriptBlockValue, SchemaModel } from "./ir.js";
+
+/**
+ * Whether a type is read by the interface parser, which ignores case on keys.
+ *
+ * `interface/` and `gfx/` hold `.gui`, `.gfx` and `.asset` files, and vanilla
+ * writes `texturefile` in 6,295 places against `textureFile` in the rest. Both
+ * load sprites, so the reader plainly does not distinguish them. Script under
+ * `common/` is left alone: vanilla is consistent there, and there is no evidence
+ * either way.
+ */
+export function usesInterfaceFormat(type: DefinitionType): boolean {
+  const directory: string = type.source.directory;
+  return directory === "interface" || directory === "gfx" || /^(interface|gfx)\//u.test(directory);
+}
 
 /**
  * Keys that are syntax rather than fields of anything.

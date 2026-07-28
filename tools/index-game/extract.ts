@@ -3,6 +3,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 import { NodeKind, parse, type Block, type Document, type EntryNode } from "../../src/syntax/index.js";
+import { gameDeclaredFieldTypes } from "../../src/schema/open-fields.js";
 import type { DefinitionType, EnumDefinition, ExtractionStep, SchemaModel } from "../../src/schema/ir.js";
 
 /**
@@ -54,6 +55,13 @@ export interface GameIndex {
    * where they are.
    */
   readonly modifierNames: readonly string[];
+  /**
+   * Field names the game declares, for the types that declare their own.
+   *
+   * `common/defines` holds a few thousand engine constants that no ported corpus
+   * can stay ahead of. What the game ships is the whole valid set.
+   */
+  readonly fieldNames: Readonly<Record<string, readonly string[]>>;
 }
 
 function compareOrdinal(left: string, right: string): number {
@@ -195,6 +203,62 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
   return ids.map((id) => id.replace(/^"|"$/gu, "")).filter((id) => id.length > 0);
 }
 
+/**
+ * The top-level keys of every block a definition type claims from one file.
+ *
+ * Where {@link definitionIds} reads what the definitions are called, this reads
+ * what they contain — which for a defines block is the whole point, since the
+ * engine constants are the fields.
+ */
+function definitionFieldKeys(type: DefinitionType, document: Document, into: Set<string>): void {
+  const filter = type.source.rootKeyFilter;
+  const accepted = (key: string): boolean =>
+    filter === undefined
+      ? true
+      : filter.mode === "include"
+        ? filter.values.includes(key)
+        : !filter.values.includes(key);
+
+  const claim = (body: Block): void => {
+    for (const entry of body.entries) {
+      const key: string | undefined = keyOf(entry);
+      if (key !== undefined) {
+        into.add(key);
+      }
+    }
+  };
+
+  if (type.source.kind === "file-definitions") {
+    claim({ kind: NodeKind.Block, entries: document.entries, closed: true, span: document.span });
+    return;
+  }
+
+  const container = type.source.container;
+
+  for (const entry of document.entries) {
+    const key: string | undefined = keyOf(entry);
+    const block: Block | undefined = blockOf(entry);
+
+    if (key === undefined || block === undefined || !accepted(key)) {
+      continue;
+    }
+
+    if (container === undefined) {
+      claim(block);
+      continue;
+    }
+
+    if (container.kind === "any-container" || container.key === key) {
+      for (const nested of block.entries) {
+        const nestedBlock: Block | undefined = blockOf(nested);
+        if (nestedBlock !== undefined) {
+          claim(nestedBlock);
+        }
+      }
+    }
+  }
+}
+
 /** Follows an extraction route from a block, collecting whatever the route captures. */
 function captureAlong(entries: readonly EntryNode[], route: readonly ExtractionStep[], into: Set<string>): void {
   const step: ExtractionStep | undefined = route[0];
@@ -277,8 +341,11 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     });
   };
 
+  const fieldNames: Record<string, string[]> = {};
+
   const types: TypeIndex[] = await mapWithLimit(model.definitionTypes, 2, async (type): Promise<TypeIndex> => {
     const ids = new Set<string>();
+    const fields: Set<string> | undefined = gameDeclaredFieldTypes.includes(type.id) ? new Set<string>() : undefined;
 
     await forEachDocument(
       type.source.directory,
@@ -287,9 +354,17 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
         for (const id of definitionIds(type, document, fileName)) {
           ids.add(id);
         }
+
+        if (fields !== undefined) {
+          definitionFieldKeys(type, document, fields);
+        }
       },
       type.source.files,
     );
+
+    if (fields !== undefined) {
+      fieldNames[type.id] = [...fields].sort(compareOrdinal);
+    }
 
     return {
       type: type.id,
@@ -369,6 +444,7 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     filesRead,
     vanillaFiles,
     modifierNames: await collectModifierNames(gamePath),
+    fieldNames,
   };
 }
 

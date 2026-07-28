@@ -1,9 +1,20 @@
-import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../generated/vanilla/index.js";
+import {
+  extractedEnumMembers,
+  vanillaFieldNames,
+  vanillaIdsByType,
+  vanillaModifierNames,
+} from "../generated/vanilla/index.js";
 import type { Mod } from "../runtime/mod.js";
 import { isBare, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
-import { isScopeKey, isSyntacticKey, scopeEntryNames, scriptBlockNames } from "../schema/script-keys.js";
+import {
+  isScopeKey,
+  isSyntacticKey,
+  scopeEntryNames,
+  scriptBlockNames,
+  usesInterfaceFormat,
+} from "../schema/script-keys.js";
 import type { DefinitionType, EntryRule, KeyRule, SchemaModel, ValueRule } from "../schema/ir.js";
 
 /**
@@ -286,6 +297,18 @@ function acceptorFor(
 
   for (const macro of model.policy.macros) {
     draft.literals.add(macro.key);
+  }
+
+  // A defines block's fields are whatever the engine reads, which only the game
+  // says. A corpus listing them is a patch behind by construction.
+  for (const name of vanillaFieldNames[type.id] ?? []) {
+    draft.literals.add(name);
+  }
+
+  if (usesInterfaceFormat(type)) {
+    for (const name of draft.literals) {
+      draft.insensitive.add(name.toLowerCase());
+    }
   }
 
   return draft;

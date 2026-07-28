@@ -2,9 +2,20 @@ import { readdir, readFile } from "node:fs/promises";
 import type { Dirent } from "node:fs";
 import { join, relative } from "node:path";
 
-import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../../src/generated/vanilla/index.js";
+import {
+  extractedEnumMembers,
+  vanillaFieldNames,
+  vanillaIdsByType,
+  vanillaModifierNames,
+} from "../../src/generated/vanilla/index.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
-import { isScopeKey, isSyntacticKey, scopeEntryNames, scriptBlockNames } from "../../src/schema/script-keys.js";
+import {
+  isScopeKey,
+  isSyntacticKey,
+  scopeEntryNames,
+  scriptBlockNames,
+  usesInterfaceFormat,
+} from "../../src/schema/script-keys.js";
 import { NodeKind, parse, type Block, type Document } from "../../src/syntax/index.js";
 import type { DefinitionType, EntryRule, EnumDefinition, KeyRule, SchemaModel } from "../../src/schema/ir.js";
 
@@ -264,6 +275,18 @@ function acceptorFor(model: SchemaModel, type: DefinitionType): KeyAcceptor {
   // The global inline_script macro is legal in every block.
   for (const macro of model.policy.macros) {
     into.literals.add(macro.key);
+  }
+
+  // A defines block's fields are whatever the engine reads, which only the game
+  // says. A corpus listing them is a patch behind by construction.
+  for (const name of vanillaFieldNames[type.id] ?? []) {
+    into.literals.add(name);
+  }
+
+  if (usesInterfaceFormat(type)) {
+    for (const name of into.literals) {
+      into.insensitive.add(name.toLowerCase());
+    }
   }
 
   return {

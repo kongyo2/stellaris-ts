@@ -93,7 +93,8 @@
     "import:scopes": "tsx tools/import-scopes/index.ts",
     "import:modifiers": "tsx tools/import-modifiers/index.ts",
     "verify:reproduce": "tsx tools/verify-reproduce/index.ts",
-    "build:ci": "tsc -p tsconfig.json --incremental false --pretty false --checkers 4"
+    "build:ci": "tsc -p tsconfig.json --incremental false --pretty false --checkers 4",
+    "propose:corrections": "tsx tools/propose-corrections/index.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
