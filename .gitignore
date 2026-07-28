@@ -1,6 +1,6 @@
-# Reference repositories cloned for one-shot porting only.
-# See PLAN.md §0.1 — the build must never depend on these.
-# Re-fetch with `npm run refs:sync`.
+# Reference repositories cloned for one-shot porting and for the game's own
+# -debug dumps. The build must never depend on these; `npm run verify:norefs`
+# proves it. Re-fetch with `npm run refs:sync`.
 /refs/
 
 node_modules/

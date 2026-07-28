@@ -22,7 +22,7 @@ import type {
  *
  * The output is committed and then maintained by hand: this importer runs once
  * per upstream cwt refresh and only ever proposes a diff. Nothing downstream of
- * `src/schema/` may read `.cwt` — see PLAN.md §0.1.
+ * `src/schema/` may read `.cwt`.
  */
 
 export interface EmittedFile {

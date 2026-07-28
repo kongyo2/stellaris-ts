@@ -113,7 +113,7 @@ function parseCli(arguments_: readonly string[]): CliOptions | undefined {
 /**
  * Writes the emitted schema sources. `--check` reports what would change
  * instead of writing, which is how an upstream cwt refresh proposes a diff
- * rather than silently overwriting hand-maintained sources (PLAN.md §0.1).
+ * rather than silently overwriting hand-maintained sources.
  */
 async function applyEmit(files: readonly { readonly path: string; readonly source: string }[], check: boolean) {
   const definitionsDirectory: string = join(REPOSITORY_ROOT, "src", "schema", "definitions");

@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 /**
  * Proves the package does not depend on the reference corpus.
  *
- * `.cwt` is a one-shot porting source, not an input to the build (PLAN.md §0.1).
+ * `.cwt` is a one-shot porting source, not an input to the build.
  * That promise is only worth anything if something checks it, so this moves
  * `refs/` out of the way, builds and typechecks without it, and puts it back.
  * It also greps the shipped surface for any path that would reintroduce the

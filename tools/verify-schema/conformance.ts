@@ -11,8 +11,8 @@ import type { DefinitionType, EntryRule, EnumDefinition, KeyRule, SchemaModel } 
 /**
  * Checks the schema against the installed game rather than against cwt.
  *
- * cwtools-stellaris-config is a porting source, not an oracle (PLAN.md §0.1).
- * Vanilla is: 2,214 files that the game actually loads. This reports both
+ * cwtools-stellaris-config is a porting source, not an oracle. Vanilla is:
+ * 2,214 files that the game actually loads. This reports both
  * directions of disagreement —
  *
  *   A. the schema rejects a field vanilla really uses  → a hole in the schema
@@ -391,9 +391,15 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
 
   await mapWithLimit(model.definitionTypes, 8, async (type): Promise<void> => {
     const directory: string = join(gamePath, ...type.source.directory.split("/"));
-    const files: readonly string[] = await collectFiles(directory, type.source.includeSubdirectories);
+    const found: readonly string[] = await collectFiles(directory, type.source.includeSubdirectories);
+    // A type that names its files means those files. `alert` reads
+    // `common/alerts.txt`; without this it reads every file under `common` and
+    // reports each root key it finds there as a field it does not have.
+    const only: readonly string[] | undefined = type.source.files;
+    const files: readonly string[] =
+      only === undefined ? found : found.filter((file) => only.includes(file.split(/[\\/]/u).at(-1) ?? ""));
 
-    if (files.length === 0) {
+    if (found.length === 0) {
       missingDirectories.push(type.source.directory);
       return;
     }

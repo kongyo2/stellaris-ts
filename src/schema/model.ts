@@ -15,7 +15,8 @@ import { links, scopes } from "./scopes.js";
  *
  * Assembled from sources that were imported once from cwtools-stellaris-config
  * and are now maintained by hand. Nothing here reads `.cwt` at build or run
- * time — see PLAN.md §0.1.
+ * time; `npm run verify:norefs` proves it by building with the reference
+ * checkouts taken away.
  */
 export const schema: SchemaModel = defineSchema({
   policy: defaultSchemaPolicy,

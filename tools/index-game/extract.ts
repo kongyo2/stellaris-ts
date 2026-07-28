@@ -14,7 +14,8 @@ import type { DefinitionType, EnumDefinition, ExtractionStep, SchemaModel } from
  * either can be checked or offered as a type.
  *
  * Only names are collected. Localisation text, numeric balance and script
- * bodies stay where they are — see PLAN.md R1.
+ * bodies stay where they are: names are what a mod must write to refer to base
+ * game content, and nothing else may be redistributed.
  */
 
 const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(["", ".txt", ".gui", ".gfx", ".asset", ".sound"]);
@@ -255,8 +256,13 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     directory: string,
     recurse: boolean,
     visit: (fileName: string, document: Document) => void,
+    only?: readonly string[],
   ): Promise<void> => {
-    const files: readonly string[] = await collectFiles(join(gamePath, ...directory.split("/")), recurse);
+    const all: readonly string[] = await collectFiles(join(gamePath, ...directory.split("/")), recurse);
+    // A type that names its files means those files. `alert` reads
+    // `common/alerts.txt`, not every file under `common`.
+    const files: readonly string[] =
+      only === undefined ? all : all.filter((file) => only.includes(file.split(/[\\/]/u).at(-1) ?? ""));
 
     await mapWithLimit(files, READ_CONCURRENCY, async (file): Promise<void> => {
       const source: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file));
@@ -274,11 +280,16 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
   const types: TypeIndex[] = await mapWithLimit(model.definitionTypes, 2, async (type): Promise<TypeIndex> => {
     const ids = new Set<string>();
 
-    await forEachDocument(type.source.directory, type.source.includeSubdirectories, (fileName, document) => {
-      for (const id of definitionIds(type, document, fileName)) {
-        ids.add(id);
-      }
-    });
+    await forEachDocument(
+      type.source.directory,
+      type.source.includeSubdirectories,
+      (fileName, document) => {
+        for (const id of definitionIds(type, document, fileName)) {
+          ids.add(id);
+        }
+      },
+      type.source.files,
+    );
 
     return {
       type: type.id,

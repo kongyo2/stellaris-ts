@@ -17,7 +17,7 @@ import {
 
 describe("schema IR", () => {
   it("covers every imported definition type and keeps ids unique", () => {
-    // The importer measured 234 `type[x] = {` declarations; see PLAN.md §1.
+    // The importer measured 234 `type[x] = {` declarations in the cwt corpus.
     expect(definitionTypes.length).toBe(234);
     expect(new Set(definitionTypes.map((definition) => definition.id)).size).toBe(definitionTypes.length);
 

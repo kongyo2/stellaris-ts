@@ -12,7 +12,6 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.md",
     "THIRD_PARTY.md"
   ],
   "exports": {

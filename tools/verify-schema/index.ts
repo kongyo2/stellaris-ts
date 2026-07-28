@@ -6,8 +6,8 @@ import { validateSchema, type SchemaStructuralMinimums, type SchemaValidationDia
  *
  * Every minimum below is measured, and carries the definition that produced it.
  * Five are independently derivable from the cwt corpus structure; the rest are
- * the importer's own output acting as regression guards. None is an estimate —
- * PLAN.md §1 records what happens when a guessed number is frozen into a gate.
+ * the importer's own output acting as regression guards. None is an estimate: a
+ * guessed minimum frozen into a gate has already passed a broken build here.
  */
 const MINIMUMS: SchemaStructuralMinimums = {
   // `type[x] = {` declarations
@@ -36,8 +36,8 @@ const MINIMUMS: SchemaStructuralMinimums = {
  *
  * These are holes in cwtools-stellaris-config itself — an enum, type or variant
  * a rule points at that the corpus never declares. They are recorded rather
- * than hidden (PLAN.md §8): the gate fails if the count rises, and each one is
- * a candidate to fix by hand in `src/schema/` once vanilla says what is right.
+ * than hidden: the gate fails if the count rises, and each one is a candidate
+ * to fix by hand in `src/schema/` once vanilla says what is right.
  */
 const KNOWN_DEBT = 20;
 
