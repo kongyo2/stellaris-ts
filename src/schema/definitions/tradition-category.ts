@@ -24,7 +24,7 @@ export const traditionCategory: DefinitionType = defineType({
   id: DefinitionTypeId.TraditionCategory,
   source: keyedBlocks("common/tradition_categories"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Desc", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Desc", "$_desc", true)],
   modifiers: [],
   entries: [
     field(

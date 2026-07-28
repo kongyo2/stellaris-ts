@@ -27,7 +27,7 @@ export const resolution: DefinitionType = defineType({
   id: DefinitionTypeId.Resolution,
   source: keyedBlocks("common/resolutions"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("icon", primitive("scalar"), occurs.one),

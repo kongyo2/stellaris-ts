@@ -23,7 +23,7 @@ export const starClass: DefinitionType = defineType({
   id: DefinitionTypeId.StarClass,
   source: keyedBlocks("common/star_classes", false, { rootKeyFilter: { mode: "exclude", values: ["random_list"] } }),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", false)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", false)],
   modifiers: [],
   entries: [
     field("class", primitive("scalar"), occurs.one),

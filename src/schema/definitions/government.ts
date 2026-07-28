@@ -22,7 +22,7 @@ export const government: DefinitionType = defineType({
   id: DefinitionTypeId.Government,
   source: keyedBlocks("common/governments", false),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("possible", block([triggerEntries()]), occurs.one, {

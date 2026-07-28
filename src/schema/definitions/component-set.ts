@@ -23,8 +23,8 @@ export const componentSet: DefinitionType = defineType({
   source: taggedBlocks("common/component_sets", "key", []),
   variants: [{ id: "required_component", when: fieldEquals("required_component_set", true) }],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Description", "_DESC", false),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Description", "$_DESC", false),
     definitionLocalisation("Ship Description", "ship_$_DESC", false),
     definitionLocalisation("Station Description", "station_$_DESC", false),
   ],

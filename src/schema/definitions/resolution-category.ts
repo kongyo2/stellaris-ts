@@ -22,7 +22,7 @@ export const resolutionCategory: DefinitionType = defineType({
   id: DefinitionTypeId.ResolutionCategory,
   source: keyedBlocks("common/resolution_categories"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true)],
+  localisation: [definitionLocalisation("Name", "$", true)],
   modifiers: [],
   entries: [
     field("group", primitive("localisation"), occurs.one),

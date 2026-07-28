@@ -21,7 +21,7 @@ export const concept: DefinitionType = defineType({
   id: DefinitionTypeId.Concept,
   source: keyedBlocks("common/game_concepts"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Desc", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Desc", "$_desc", true)],
   modifiers: [],
   entries: [
     field("icon", primitive("file"), occurs.optional),

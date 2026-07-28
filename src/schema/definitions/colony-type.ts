@@ -26,7 +26,7 @@ export const colonyType: DefinitionType = defineType({
   id: DefinitionTypeId.ColonyType,
   source: keyedBlocks("common/colony_types"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("icon", typeRef("sprite"), occurs.one),

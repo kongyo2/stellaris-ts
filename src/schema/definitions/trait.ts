@@ -45,10 +45,10 @@ export const trait: DefinitionType = defineType({
     { id: "leader_trait_not_replacement", when: fieldPresent("replace_traits") },
   ],
   localisation: [
-    definitionLocalisation("Name", "", false),
-    definitionLocalisation("Description", "_desc", false),
-    definitionLocalisation("Name", "", true, "leader_trait_not_replacement"),
-    definitionLocalisation("Description", "_desc", true, "leader_trait_not_replacement"),
+    definitionLocalisation("Name", "$", false),
+    definitionLocalisation("Description", "$_desc", false),
+    definitionLocalisation("Name", "$", true, "leader_trait_not_replacement"),
+    definitionLocalisation("Description", "$_desc", true, "leader_trait_not_replacement"),
   ],
   modifiers: [],
   entries: [

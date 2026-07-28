@@ -35,9 +35,9 @@ export const army: DefinitionType = defineType({
     { id: "has_species", when: fieldEquals("has_species", false) },
   ],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Desc", "_desc", false),
-    definitionLocalisation("Desc", "_desc", true, "buildable"),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Desc", "$_desc", false),
+    definitionLocalisation("Desc", "$_desc", true, "buildable"),
   ],
   modifiers: [],
   entries: [

@@ -11,7 +11,7 @@ export const notificationModifier: DefinitionType = defineType({
   id: DefinitionTypeId.NotificationModifier,
   source: keyedBlocks("common/notification_modifiers"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [field("icon", primitive("file"), occurs.one)],
 });

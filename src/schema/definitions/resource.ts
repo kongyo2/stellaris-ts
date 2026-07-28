@@ -31,7 +31,7 @@ export const resource: DefinitionType = defineType({
     { id: "tradable", when: fieldEquals("tradable", true) },
     { id: "max", when: fieldPresent("max") },
   ],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("tradable", primitive("boolean"), occurs.optional),

@@ -26,7 +26,7 @@ export const decision: DefinitionType = defineType({
   id: DefinitionTypeId.Decision,
   source: keyedBlocks("common/decisions"),
   variants: [],
-  localisation: [definitionLocalisation("name", "", true), definitionLocalisation("desc", "_desc", true)],
+  localisation: [definitionLocalisation("name", "$", true), definitionLocalisation("desc", "$_desc", true)],
   modifiers: [],
   entries: [
     field("owned_planets_only", primitive("boolean"), occurs.optional),

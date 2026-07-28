@@ -23,7 +23,7 @@ export const menacePerk: DefinitionType = defineType({
   id: DefinitionTypeId.MenacePerk,
   source: keyedBlocks("common/menace_perks"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("portrait", typeRef("sprite"), occurs.one),

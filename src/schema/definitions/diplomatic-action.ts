@@ -29,11 +29,11 @@ export const diplomaticAction: DefinitionType = defineType({
   source: keyedBlocks("common/diplomatic_actions"),
   variants: [],
   localisation: [
-    definitionLocalisation("Name", "_TITLE", false),
-    definitionLocalisation("Description", "_DESC", false),
-    definitionLocalisation("Long desc", "_LONG_DESC", false),
-    definitionLocalisation("Type", "_TYPE", false),
-    definitionLocalisation("Type desc", "_TYPE_DESC", false),
+    definitionLocalisation("Name", "$_TITLE", false),
+    definitionLocalisation("Description", "$_DESC", false),
+    definitionLocalisation("Long desc", "$_LONG_DESC", false),
+    definitionLocalisation("Type", "$_TYPE", false),
+    definitionLocalisation("Type desc", "$_TYPE_DESC", false),
   ],
   modifiers: [],
   entries: [

@@ -36,7 +36,7 @@ export const building: DefinitionType = defineType({
     { id: "corporate", when: fieldEquals("owner_type", "corporate") },
     { id: "holding", when: fieldEquals("owner_type", "subject_holding") },
   ],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [generatedModifier("planet_", "_build_speed_mult", "Planets")],
   entries: [
     field(

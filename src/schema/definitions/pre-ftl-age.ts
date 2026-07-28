@@ -11,7 +11,7 @@ export const preFtlAge: DefinitionType = defineType({
   id: DefinitionTypeId.PreFtlAge,
   source: keyedBlocks("common/technology_ages/preftl"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [field("next_age", typeRef("pre_ftl_age"), occurs.optional)],
 });

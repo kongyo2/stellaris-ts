@@ -29,7 +29,7 @@ export const subjectSpecialistPerk: DefinitionType = defineType({
     { id: "main", when: fieldEquals("main_perk", true) },
     { id: "non_main", when: fieldEquals("main_perk", false) },
   ],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", false)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", false)],
   modifiers: [],
   entries: [
     field("main_perk", primitive("boolean"), occurs.optional),

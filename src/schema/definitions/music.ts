@@ -11,7 +11,7 @@ export const music: DefinitionType = defineType({
   id: DefinitionTypeId.Music,
   source: taggedBlocks("music", "name", [], true, { rootKeyFilter: { mode: "include", values: ["music"] } }),
   variants: [],
-  localisation: [definitionLocalisation("name", "", false)],
+  localisation: [definitionLocalisation("name", "$", false)],
   modifiers: [],
   entries: [
     field("name", typeRef("song"), occurs.one),

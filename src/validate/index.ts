@@ -6,6 +6,7 @@ import {
 } from "../generated/vanilla/index.js";
 import type { Mod } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
+import { localisationKey } from "../schema/ir.js";
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import {
@@ -572,7 +573,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         continue;
       }
 
-      const key: string = `${definition.id}${requirement.source.suffix}`;
+      const key: string = localisationKey(requirement.source.pattern, definition.id);
 
       for (const language of languages) {
         if (strings.get(language)?.has(key) !== true) {

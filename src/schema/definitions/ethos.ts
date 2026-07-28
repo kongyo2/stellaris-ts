@@ -27,7 +27,7 @@ export const ethos: DefinitionType = defineType({
   id: DefinitionTypeId.Ethos,
   source: keyedBlocks("common/ethics"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("cost", primitive("integer"), occurs.one),

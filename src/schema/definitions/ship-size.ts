@@ -41,7 +41,7 @@ export const shipSize: DefinitionType = defineType({
     { id: "starbase", when: fieldEquals("class", "shipclass_starbase") },
     { id: "designable", when: fieldEquals("is_designable", true) },
   ],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Plural", "_plural", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Plural", "$_plural", true)],
   modifiers: [],
   entries: [
     field("graphical_culture", block([item(typeRef("graphical_culture"), occurs.oneOrMore)]), between(0, 2)),

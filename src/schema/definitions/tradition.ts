@@ -29,9 +29,9 @@ export const tradition: DefinitionType = defineType({
   source: keyedBlocks("common/traditions"),
   variants: [],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Flavor", "_delayed", false),
-    definitionLocalisation("Effects", "_desc", false),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Flavor", "$_delayed", false),
+    definitionLocalisation("Effects", "$_desc", false),
   ],
   modifiers: [],
   entries: [

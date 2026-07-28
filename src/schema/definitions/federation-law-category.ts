@@ -23,7 +23,7 @@ export const federationLawCategory: DefinitionType = defineType({
   id: DefinitionTypeId.FederationLawCategory,
   source: keyedBlocks("common/federation_law_categories"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("show_succession_date", literal(true), occurs.optional),

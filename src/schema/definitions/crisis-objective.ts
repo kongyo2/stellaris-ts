@@ -22,7 +22,7 @@ export const crisisObjective: DefinitionType = defineType({
   id: DefinitionTypeId.CrisisObjective,
   source: keyedBlocks("common/crisis_objectives"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "_name", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$_name", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("potential", block([triggerEntries()]), occurs.optional),

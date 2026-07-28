@@ -32,7 +32,7 @@ export const specialProject: DefinitionType = defineType({
   id: DefinitionTypeId.SpecialProject,
   source: taggedBlocks("common/special_projects", "key", []),
   variants: [{ id: "cost", when: fieldPresent("cost") }],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_DESC", false)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_DESC", false)],
   modifiers: [],
   entries: [
     field("key", primitive("localisation"), occurs.one),

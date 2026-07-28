@@ -658,8 +658,9 @@ function localisationExpression(
     }
 
     const requiredValue: boolean = rule.requirements.includes("required");
-    const suffix: string = rule.template.replace(/^\$/u, "");
-    const parts: string[] = [quote(rule.role), quote(suffix), requiredValue ? "true" : "false"];
+    // Whole, with the `$` in it: the id is not always at the front. Stripping
+    // the leading one made `job_$` unreconstructable from `_desc`.
+    const parts: string[] = [quote(rule.role), quote(rule.template), requiredValue ? "true" : "false"];
     if (variant !== undefined) {
       parts.push(quote(variant));
     }

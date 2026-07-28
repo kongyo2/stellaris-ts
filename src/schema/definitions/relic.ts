@@ -26,7 +26,7 @@ export const relic: DefinitionType = defineType({
   id: DefinitionTypeId.Relic,
   source: keyedBlocks("common/relics"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Desc", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Desc", "$_desc", true)],
   modifiers: [],
   entries: [
     field("activation_duration", primitive("integer", { min: 0, max: null }), occurs.optional),

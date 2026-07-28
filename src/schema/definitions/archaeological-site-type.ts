@@ -25,7 +25,7 @@ export const archaeologicalSiteType: DefinitionType = defineType({
   source: keyedBlocks("common/archaeological_site_types"),
   entryScope: ScopeId.ArchaeologicalSite,
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true)],
+  localisation: [definitionLocalisation("Name", "$", true)],
   modifiers: [],
   entries: [
     field("picture", typeRef("sprite"), occurs.optional),

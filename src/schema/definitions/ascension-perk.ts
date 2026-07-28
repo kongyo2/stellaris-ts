@@ -26,7 +26,7 @@ export const ascensionPerk: DefinitionType = defineType({
   id: DefinitionTypeId.AscensionPerk,
   source: keyedBlocks("common/ascension_perks"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Desc", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Desc", "$_desc", true)],
   modifiers: [],
   entries: [
     field("custom_tooltip_with_modifiers", primitive("localisation"), occurs.optional, {

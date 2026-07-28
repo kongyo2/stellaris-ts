@@ -576,7 +576,14 @@ export type DefinitionSource = FileDefinitionSource | KeyedBlockSource | TaggedB
 
 export interface DefinitionIdLocalisation {
   readonly kind: "definition-id";
-  readonly suffix: string;
+  /**
+   * The key, with `$` standing for the definition's id.
+   *
+   * Not a suffix: a job's name is `job_$`, its modifier `mod_job_$_add`. cwt
+   * writes the whole key and 48 of the 231 requirements put the id somewhere
+   * other than the front, so appending would have asked for `my_jobjob_$`.
+   */
+  readonly pattern: string;
 }
 
 export interface FieldLocalisation {
@@ -1111,16 +1118,21 @@ export function fileDefinitions(
 
 export function definitionLocalisation(
   role: string,
-  suffix: string,
+  pattern: string,
   requiredValue: boolean,
   variant?: string,
 ): LocalisationRequirement {
   return {
     role,
-    source: { kind: "definition-id", suffix },
+    source: { kind: "definition-id", pattern },
     required: requiredValue,
     ...(variant === undefined ? {} : { variant }),
   };
+}
+
+/** The key one requirement asks for, for a definition of this id. */
+export function localisationKey(pattern: string, id: string): string {
+  return pattern.replaceAll("$", id);
 }
 
 export function fieldLocalisation(

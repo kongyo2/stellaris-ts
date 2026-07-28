@@ -34,7 +34,7 @@ export const agreementTermValue: DefinitionType = defineType({
     { id: "specialist_type", when: fieldPresent("term") },
     { id: "resource", when: fieldPresent("term") },
   ],
-  localisation: [definitionLocalisation("Name", "", false)],
+  localisation: [definitionLocalisation("Name", "$", false)],
   modifiers: [],
   entries: [
     field("term", typeRef("agreement_term"), occurs.one, {

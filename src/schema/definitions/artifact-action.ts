@@ -24,7 +24,7 @@ export const artifactAction: DefinitionType = defineType({
   source: keyedBlocks("common/artifact_action"),
   entryScope: ScopeId.Country,
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Desc", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Desc", "$_desc", true)],
   modifiers: [],
   entries: [
     field(

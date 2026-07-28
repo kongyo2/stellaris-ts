@@ -26,7 +26,7 @@ export const federationType: DefinitionType = defineType({
   id: DefinitionTypeId.FederationType,
   source: keyedBlocks("common/federation_types"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("icon", typeRef("sprite"), occurs.one),

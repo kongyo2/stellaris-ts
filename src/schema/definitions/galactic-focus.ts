@@ -23,7 +23,7 @@ export const galacticFocus: DefinitionType = defineType({
   id: DefinitionTypeId.GalacticFocus,
   source: keyedBlocks("common/galactic_focuses"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("icon", typeRef("sprite"), occurs.one),

@@ -38,7 +38,7 @@ export const espionageOperation: DefinitionType = defineType({
     { id: "starbase", when: fieldEquals("target", "starbase") },
     { id: "spynetwork", when: fieldEquals("target", "spynetwork") },
   ],
-  localisation: [definitionLocalisation("Name", "", true)],
+  localisation: [definitionLocalisation("Name", "$", true)],
   modifiers: [],
   entries: [
     field("target", enumRef(EnumId.EspionageOperationTargets), occurs.optional),

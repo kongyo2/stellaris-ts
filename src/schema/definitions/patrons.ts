@@ -30,7 +30,7 @@ export const patrons: DefinitionType = defineType({
   source: keyedBlocks("common/patrons", false),
   entryScope: ScopeId.Country,
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("category", enumRef(EnumId.PatronsCategory), occurs.optional),

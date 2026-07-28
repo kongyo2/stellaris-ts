@@ -23,7 +23,7 @@ export const federationPerk: DefinitionType = defineType({
   id: DefinitionTypeId.FederationPerk,
   source: keyedBlocks("common/federation_perks"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("custom_tooltip", primitive("localisation"), occurs.optional),

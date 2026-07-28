@@ -35,9 +35,9 @@ export const councilor: DefinitionType = defineType({
     { id: "civic", when: fieldPresent("civic") },
   ],
   localisation: [
-    definitionLocalisation("Title", "", true),
-    definitionLocalisation("Title (Female)", "_female", false),
-    definitionLocalisation("Description", "_desc", true),
+    definitionLocalisation("Title", "$", true),
+    definitionLocalisation("Title (Female)", "$_female", false),
+    definitionLocalisation("Description", "$_desc", true),
   ],
   modifiers: [],
   entries: [

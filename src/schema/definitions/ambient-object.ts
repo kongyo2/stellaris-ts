@@ -25,7 +25,7 @@ export const ambientObject: DefinitionType = defineType({
     { id: "show_name", when: fieldEquals("show_name", true) },
     { id: "selectable", when: fieldEquals("selectable", true) },
   ],
-  localisation: [definitionLocalisation("name", "", true, "show_name")],
+  localisation: [definitionLocalisation("name", "$", true, "show_name")],
   modifiers: [],
   entries: [
     whenVariant("show_name", [

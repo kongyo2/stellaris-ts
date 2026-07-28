@@ -21,7 +21,7 @@ export const technologyCategory: DefinitionType = defineType({
   id: DefinitionTypeId.TechnologyCategory,
   source: keyedBlocks("common/technology/category"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("icon", primitive("file"), occurs.one),

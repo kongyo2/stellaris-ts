@@ -21,7 +21,7 @@ export const agreementResource: DefinitionType = defineType({
   id: DefinitionTypeId.AgreementResource,
   source: keyedBlocks("common/agreement_resources"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true)],
+  localisation: [definitionLocalisation("Name", "$", true)],
   modifiers: [],
   entries: [
     field(

@@ -29,7 +29,7 @@ export const sectionTemplate: DefinitionType = defineType({
   id: DefinitionTypeId.SectionTemplate,
   source: taggedBlocks("common/section_templates", "key", []),
   variants: [{ id: "needs_locs", when: fieldPresent("ship_size") }],
-  localisation: [definitionLocalisation("Name", "", true, "needs_locs")],
+  localisation: [definitionLocalisation("Name", "$", true, "needs_locs")],
   modifiers: [],
   entries: [
     field("key", primitive("scalar"), occurs.one),

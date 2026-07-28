@@ -21,7 +21,7 @@ export const systemType: DefinitionType = defineType({
   id: DefinitionTypeId.SystemType,
   source: keyedBlocks("common/system_types"),
   variants: [],
-  localisation: [definitionLocalisation("name", "", true)],
+  localisation: [definitionLocalisation("name", "$", true)],
   modifiers: [],
   entries: [
     field("potential", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.System }) }),

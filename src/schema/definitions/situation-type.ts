@@ -39,10 +39,10 @@ export const situationType: DefinitionType = defineType({
     { id: "bidirectional", when: fieldEquals("progress_direction", "bidirectional") },
   ],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Type Name", "_type", true),
-    definitionLocalisation("Description", "_desc", false),
-    definitionLocalisation("Monthly Change Tooltip", "_monthly_change_tooltip", true),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Type Name", "$_type", true),
+    definitionLocalisation("Description", "$_desc", false),
+    definitionLocalisation("Monthly Change Tooltip", "$_monthly_change_tooltip", true),
   ],
   modifiers: [],
   entries: [

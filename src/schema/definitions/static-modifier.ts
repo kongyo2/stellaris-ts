@@ -23,7 +23,7 @@ export const staticModifier: DefinitionType = defineType({
   id: DefinitionTypeId.StaticModifier,
   source: keyedBlocks("common/static_modifiers"),
   variants: [{ id: "planet", when: fieldPresent("icon_frame") }],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", false)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", false)],
   modifiers: [],
   entries: [
     modifierEntries(),

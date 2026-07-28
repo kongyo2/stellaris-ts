@@ -26,7 +26,7 @@ export const mapMode: DefinitionType = defineType({
   id: DefinitionTypeId.MapMode,
   source: keyedBlocks("common/map_modes"),
   variants: [],
-  localisation: [definitionLocalisation("name", "", true), definitionLocalisation("desc", "_desc", true)],
+  localisation: [definitionLocalisation("name", "$", true), definitionLocalisation("desc", "$_desc", true)],
   modifiers: [],
   entries: [
     field("icon", typeRef("sprite"), occurs.one),

@@ -15,8 +15,8 @@ export const swappedCivic: DefinitionType = defineType({
   }),
   variants: [{ id: "localised", when: fieldPresent("name") }],
   localisation: [
-    definitionLocalisation("Name", "", true, "localised"),
-    definitionLocalisation("Description", "_desc", true, "localised"),
+    definitionLocalisation("Name", "$", true, "localised"),
+    definitionLocalisation("Description", "$_desc", true, "localised"),
   ],
   modifiers: [],
   entries: [],

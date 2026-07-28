@@ -39,7 +39,7 @@ export const technology: DefinitionType = defineType({
     { id: "repeatable", when: fieldPresent("levels") },
     { id: "start_tech", when: fieldEquals("start_tech", true) },
   ],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("area", enumRef(EnumId.ResearchAreas), occurs.one),

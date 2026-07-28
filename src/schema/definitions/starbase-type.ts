@@ -23,7 +23,7 @@ export const starbaseType: DefinitionType = defineType({
   id: DefinitionTypeId.StarbaseType,
   source: keyedBlocks("common/starbase_types"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true)],
+  localisation: [definitionLocalisation("Name", "$", true)],
   modifiers: [],
   entries: [
     field("potential", block([triggerEntries()]), occurs.one, {

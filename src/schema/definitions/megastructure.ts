@@ -36,10 +36,10 @@ export const megastructure: DefinitionType = defineType({
     { id: "has_prereqs", when: fieldPresent("prerequisites") },
   ],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Description", "_DESC", true),
-    definitionLocalisation("Details", "_MEGASTRUCTURE_DETAILS", true, "base_level"),
-    definitionLocalisation("Delayed info", "_CONSTRUCTION_INFO_DELAYED", false, "base_level"),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Description", "$_DESC", true),
+    definitionLocalisation("Details", "$_MEGASTRUCTURE_DETAILS", true, "base_level"),
+    definitionLocalisation("Delayed info", "$_CONSTRUCTION_INFO_DELAYED", false, "base_level"),
   ],
   modifiers: [],
   entries: [

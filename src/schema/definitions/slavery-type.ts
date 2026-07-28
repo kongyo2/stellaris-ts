@@ -28,9 +28,9 @@ export const slaveryType: DefinitionType = defineType({
   source: keyedBlocks("common/species_rights/slavery_types"),
   variants: [],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Tooltip", "_tooltip", true),
-    definitionLocalisation("Delayed tooltip", "_tooltip_delayed", true),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Tooltip", "$_tooltip", true),
+    definitionLocalisation("Delayed tooltip", "$_tooltip_delayed", true),
   ],
   modifiers: [],
   entries: [

@@ -31,7 +31,7 @@ export const opinionModifier: DefinitionType = defineType({
     { id: "triggered_opinion_modifier", when: fieldPresent("trigger") },
     { id: "block_triggered", when: fieldEquals("block_triggered", true) },
   ],
-  localisation: [definitionLocalisation("Name", "", true)],
+  localisation: [definitionLocalisation("Name", "$", true)],
   modifiers: [],
   entries: [
     field(

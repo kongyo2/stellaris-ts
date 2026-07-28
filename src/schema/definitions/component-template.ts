@@ -44,7 +44,7 @@ export const componentTemplate: DefinitionType = defineType({
     { id: "strike_craft_component_template", when: rootKeyIs("strike_craft_component_template") },
     { id: "scripted_action", when: fieldPresent("scripted_action_name") },
   ],
-  localisation: [definitionLocalisation("Name", "", true)],
+  localisation: [definitionLocalisation("Name", "$", true)],
   modifiers: [],
   entries: [
     field("key", primitive("scalar"), occurs.one),

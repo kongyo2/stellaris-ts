@@ -21,9 +21,9 @@ export const subspeciesIntegrationType: DefinitionType = defineType({
   source: keyedBlocks("common/species_rights/subspecies_integration_types"),
   variants: [],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Tooltip", "_tooltip", true),
-    definitionLocalisation("Delayed tooltip", "_tooltip_delayed", true),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Tooltip", "$_tooltip", true),
+    definitionLocalisation("Delayed tooltip", "$_tooltip_delayed", true),
   ],
   modifiers: [],
   entries: [

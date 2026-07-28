@@ -35,9 +35,9 @@ export const district: DefinitionType = defineType({
     { id: "uncapped", when: fieldEquals("is_capped_by_modifier", false) },
   ],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Desc", "_desc", true),
-    definitionLocalisation("Plural", "_plural", true),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Desc", "$_desc", true),
+    definitionLocalisation("Plural", "$_plural", true),
   ],
   modifiers: [generatedModifier("planet_", "_build_speed_mult", "Planets")],
   entries: [

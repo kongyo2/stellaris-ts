@@ -24,8 +24,8 @@ export const subjectSpecialistType: DefinitionType = defineType({
   source: keyedBlocks("common/specialist_subject_types"),
   variants: [],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Description", "_desc", false),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Description", "$_desc", false),
     definitionLocalisation("Subject Level Up", "MESSAGE_SUBJECT_LEVEL_UP_$_TITLE", true),
     definitionLocalisation("We Level Up", "MESSAGE_WE_LEVEL_UP_$_TITLE", true),
   ],

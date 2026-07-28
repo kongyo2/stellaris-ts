@@ -36,8 +36,8 @@ export const planetClass: DefinitionType = defineType({
     { id: "unhabitable_ringworld", when: allOf(fieldEquals("ringworld", true), fieldEquals("colonizable", false)) },
   ],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Description", "_desc", true),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Description", "$_desc", true),
     definitionLocalisation("Habitability", "mod_$_habitability", true, "habitable_planet"),
     definitionLocalisation("Preference trait", "trait_$_preference", true, "habitable_planet"),
     definitionLocalisation("Preference trait description", "trait_$_preference_desc", true, "habitable_planet"),

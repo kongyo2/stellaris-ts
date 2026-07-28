@@ -166,7 +166,7 @@ export const event: DefinitionType = defineType({
     { id: "triggered", when: fieldEquals("is_triggered_only", true) },
     { id: "inherited", when: fieldPresent("base") },
   ],
-  localisation: [definitionLocalisation("title", "title", false)],
+  localisation: [definitionLocalisation("title", "$title", false)],
   modifiers: [],
   entries: [
     field("id", primitive("scalar"), occurs.one),

@@ -21,7 +21,7 @@ export const sectorType: DefinitionType = defineType({
   id: DefinitionTypeId.SectorType,
   source: keyedBlocks("common/sector_types"),
   variants: [],
-  localisation: [definitionLocalisation("name", "", true)],
+  localisation: [definitionLocalisation("name", "$", true)],
   modifiers: [],
   entries: [
     field("system_scores", block([modifierRuleEntries()]), occurs.one),

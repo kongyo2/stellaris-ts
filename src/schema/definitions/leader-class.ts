@@ -27,11 +27,11 @@ export const leaderClass: DefinitionType = defineType({
   source: keyedBlocks("common/leader_classes"),
   variants: [],
   localisation: [
-    definitionLocalisation("Name", "", true),
-    definitionLocalisation("Name w/Icon", "_with_icon", true),
-    definitionLocalisation("Plural", "_plural", false),
-    definitionLocalisation("Plural w/Icon", "_plural_with_icon", false),
-    definitionLocalisation("Desc", "_description", false),
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Name w/Icon", "$_with_icon", true),
+    definitionLocalisation("Plural", "$_plural", false),
+    definitionLocalisation("Plural w/Icon", "$_plural_with_icon", false),
+    definitionLocalisation("Desc", "$_description", false),
   ],
   modifiers: [],
   entries: [

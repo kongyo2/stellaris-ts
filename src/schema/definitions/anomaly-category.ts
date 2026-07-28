@@ -27,7 +27,7 @@ export const anomalyCategory: DefinitionType = defineType({
   id: DefinitionTypeId.AnomalyCategory,
   source: keyedBlocks("common/anomalies"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true)],
+  localisation: [definitionLocalisation("Name", "$", true)],
   modifiers: [],
   entries: [
     field("should_ai_use", primitive("boolean"), occurs.optional, {

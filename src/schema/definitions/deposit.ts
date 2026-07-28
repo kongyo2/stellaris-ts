@@ -47,8 +47,8 @@ export const deposit: DefinitionType = defineType({
     { id: "not_dropped", when: fieldPresent("potential") },
   ],
   localisation: [
-    definitionLocalisation("Name", "", true, "colonisable"),
-    definitionLocalisation("Description", "_desc", true, "colonisable"),
+    definitionLocalisation("Name", "$", true, "colonisable"),
+    definitionLocalisation("Description", "$_desc", true, "colonisable"),
   ],
   modifiers: [],
   entries: [

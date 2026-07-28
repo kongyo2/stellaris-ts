@@ -24,7 +24,7 @@ export const federationLaw: DefinitionType = defineType({
   id: DefinitionTypeId.FederationLaw,
   source: keyedBlocks("common/federation_laws"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("unlocks_centralization", primitive("integer"), occurs.optional),

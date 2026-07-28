@@ -75,7 +75,7 @@ function validDefinition(): DefinitionType {
     localisation: [
       {
         role: "name",
-        source: { kind: "definition-id", suffix: "" },
+        source: { kind: "definition-id", pattern: "$" },
         required: true,
         variant: "planet",
       },
@@ -212,7 +212,7 @@ describe("schema self-validator", () => {
       localisation: [
         {
           role: "name",
-          source: { kind: "definition-id", suffix: "" },
+          source: { kind: "definition-id", pattern: "$" },
           required: true,
           variant: "unknown-localisation-variant",
         },

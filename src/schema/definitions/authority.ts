@@ -30,7 +30,7 @@ export const authority: DefinitionType = defineType({
   id: DefinitionTypeId.Authority,
   source: keyedBlocks("common/governments/authorities"),
   variants: [],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("machine_empire", literal(true), occurs.optional),

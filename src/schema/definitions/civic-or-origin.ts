@@ -35,7 +35,7 @@ export const civicOrOrigin: DefinitionType = defineType({
     { id: "origin", when: fieldEquals("is_origin", true) },
     { id: "civic", when: fieldEquals("is_origin", false) },
   ],
-  localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Description", "$_desc", true)],
   modifiers: [],
   entries: [
     field("playable", block([triggerEntries()]), occurs.optional, {

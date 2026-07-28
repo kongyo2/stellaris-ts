@@ -23,7 +23,10 @@ export const eventChain: DefinitionType = defineType({
   id: DefinitionTypeId.EventChain,
   source: keyedBlocks("common/event_chains"),
   variants: [],
-  localisation: [definitionLocalisation("Title", "_title", true), definitionLocalisation("Description", "_desc", true)],
+  localisation: [
+    definitionLocalisation("Title", "$_title", true),
+    definitionLocalisation("Description", "$_desc", true),
+  ],
   modifiers: [],
   entries: [
     field("icon", primitive("file"), occurs.optional),
