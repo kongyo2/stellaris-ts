@@ -121,30 +121,19 @@ function entriesOf(object: object): EntryNode[] {
       continue;
     }
 
-    // Raw script is parsed here so a malformed fragment fails at authoring time
-    // rather than silently producing something the game cannot read.
-    if (isRaw(raw)) {
-      entries.push(assignment(key, parseRawValue(key, raw.text)));
-      continue;
-    }
-
-    // `num_owned_planets > 1` is a comparison, not an assignment.
-    if (isCompared(raw)) {
-      entries.push(assignment(key, scalar(raw.value), raw.operator));
-      continue;
-    }
-
     // A key written once per value, which is not the same as one key holding a
-    // value list.
+    // value list. Each occurrence goes through the same path as a lone value,
+    // so a comparison inside a repetition keeps its operator.
     if (isRepeated(raw)) {
       for (const item of raw.values) {
-        if (item === undefined || item === null) {
-          continue;
+        if (item !== undefined && item !== null) {
+          entries.push(entryFor(key, item));
         }
-        entries.push(assignment(key, valueNode(asScriptValue(key, item))));
       }
       continue;
     }
+
+    entries.push(entryFor(key, raw));
 
     const value: ScriptValue = asScriptValue(key, raw);
 
@@ -156,11 +145,26 @@ function entriesOf(object: object): EntryNode[] {
       }
       continue;
     }
-
-    entries.push(assignment(key, valueNode(value)));
   }
 
   return entries;
+}
+
+/** One `key op value` entry, whatever kind of value it is. */
+function entryFor(key: string, value: unknown): Assignment {
+  // Raw script is parsed here so a malformed fragment fails at authoring time
+  // rather than silently producing something the game cannot read.
+  if (isRaw(value)) {
+    return assignment(key, parseRawValue(key, value.text));
+  }
+
+  // `num_owned_planets > 1` is a comparison, not an assignment. The right side
+  // is usually a number, but `switch` compares a key against a whole block.
+  if (isCompared(value)) {
+    return assignment(key, valueNode(asScriptValue(key, value.value)), value.operator);
+  }
+
+  return assignment(key, valueNode(asScriptValue(key, value)));
 }
 
 function asScriptValue(key: string, value: unknown): ScriptValue {

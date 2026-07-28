@@ -28,7 +28,7 @@ const REPORT_PATH: string = join(REPOSITORY_ROOT, "docs", "authoring-gaps.md");
 const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(["", ".txt"]);
 const READ_CONCURRENCY = 32;
 
-type Failure = ConversionFailure | "print-mismatch" | "reparse-failed";
+type Failure = ConversionFailure | "list-body" | "print-mismatch" | "reparse-failed";
 
 interface Sample {
   readonly file: string;
@@ -149,6 +149,55 @@ function sameShape(left: readonly EntryNode[], right: readonly EntryNode[]): boo
   return sameShapes(shapesOf(left), shapesOf(right));
 }
 
+/** Names the first place two shapes differ, for `--explain`. */
+function firstDifference(left: readonly Shape[], right: readonly Shape[], path: string): string | undefined {
+  if (left.length !== right.length) {
+    const l = new Set(left.map(keyOf));
+    const r = new Set(right.map(keyOf));
+    const missing: readonly string[] = [...l].filter((key) => !r.has(key));
+    const extra: readonly string[] = [...r].filter((key) => !l.has(key));
+    return `${path}: ${String(left.length)} vs ${String(right.length)} entries; missing=[${missing.slice(0, 4).join(", ")}] extra=[${extra.slice(0, 4).join(", ")}]`;
+  }
+
+  const group = (shapes: readonly Shape[]): Map<string, Shape[]> => {
+    const grouped = new Map<string, Shape[]>();
+    for (const shape of shapes) {
+      const bucket: Shape[] = grouped.get(keyOf(shape)) ?? [];
+      bucket.push(shape);
+      grouped.set(keyOf(shape), bucket);
+    }
+    return grouped;
+  };
+
+  const l: Map<string, Shape[]> = group(left);
+  const r: Map<string, Shape[]> = group(right);
+
+  for (const [key, lefts] of l) {
+    const rights: Shape[] | undefined = r.get(key);
+
+    if (rights === undefined) {
+      return `${path}: right is missing ${key}`;
+    }
+
+    if (rights.length !== lefts.length) {
+      return `${path}.${key}: repeated ${String(lefts.length)} vs ${String(rights.length)} times`;
+    }
+
+    for (let index = 0; index < lefts.length; index += 1) {
+      const deeper: string | undefined = firstDifference(
+        lefts[index]?.children ?? [],
+        rights[index]?.children ?? [],
+        `${path}.${key}`,
+      );
+      if (deeper !== undefined) {
+        return deeper;
+      }
+    }
+  }
+
+  return undefined;
+}
+
 function sameShapes(left: readonly Shape[], right: readonly Shape[]): boolean {
   if (left.length !== right.length) {
     return false;
@@ -205,6 +254,8 @@ const directories: readonly { readonly path: string; readonly recurse: boolean }
   ).values(),
 ];
 
+const explain: boolean = process.argv.includes("--explain");
+let explained = 0;
 const failures = new Map<Failure, { count: number; files: Set<string>; samples: Sample[] }>();
 let filesRead = 0;
 let definitions = 0;
@@ -275,6 +326,13 @@ await mapWithLimit([...new Set(listings.flat())], READ_CONCURRENCY, async (file)
       reproduced += 1;
     } else {
       record("print-mismatch", relative, id);
+
+      if (explain && explained < 10) {
+        explained += 1;
+        const why: string =
+          firstDifference(shapesOf(original.entries), shapesOf(round.value.entries), "root") ?? "unknown";
+        console.error(`EXPLAIN ${relative} :: ${id}: ${why}`);
+      }
     }
   }
 });
@@ -340,7 +398,7 @@ await writeFile(REPORT_PATH, `${lines.join("\n")}\n`, "utf8");
  * repeated keys and raw script each got a spelling; what still blocks the rest
  * is listed in the report.
  */
-const REPRODUCTION_FLOOR = 98.0;
+const REPRODUCTION_FLOOR = 98.4;
 
 console.log(
   [

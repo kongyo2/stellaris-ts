@@ -23,7 +23,8 @@ export type ComparisonOperator = "=" | "==" | "!=" | ">" | ">=" | "<" | "<=";
 export interface ComparedValue {
   readonly [COMPARISON_KEY]: true;
   readonly operator: ComparisonOperator;
-  readonly value: boolean | number | string;
+  /** Usually a number, but `switch` compares a key against a whole block. */
+  readonly value: unknown;
 }
 
 export interface RepeatedValue {
@@ -74,37 +75,37 @@ export function isRepeated(value: unknown): value is RepeatedValue {
   return typeof value === "object" && value !== null && REPEATED_KEY in value;
 }
 
-function compared(operator: ComparisonOperator, value: boolean | number | string): ComparedValue {
+function compared(operator: ComparisonOperator, value: unknown): ComparedValue {
   return { [COMPARISON_KEY]: true, operator, value };
 }
 
 /** `key > value` */
-export function gt(value: number | string): ComparedValue {
+export function gt(value: unknown): ComparedValue {
   return compared(">", value);
 }
 
 /** `key >= value` */
-export function gte(value: number | string): ComparedValue {
+export function gte(value: unknown): ComparedValue {
   return compared(">=", value);
 }
 
 /** `key < value` */
-export function lt(value: number | string): ComparedValue {
+export function lt(value: unknown): ComparedValue {
   return compared("<", value);
 }
 
 /** `key <= value` */
-export function lte(value: number | string): ComparedValue {
+export function lte(value: unknown): ComparedValue {
   return compared("<=", value);
 }
 
 /** `key != value` */
-export function ne(value: boolean | number | string): ComparedValue {
+export function ne(value: unknown): ComparedValue {
   return compared("!=", value);
 }
 
 /** `key == value`, which PDX distinguishes from `=` in trigger position. */
-export function eq(value: boolean | number | string): ComparedValue {
+export function eq(value: unknown): ComparedValue {
   return compared("==", value);
 }
 

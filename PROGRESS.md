@@ -122,3 +122,9 @@
 - Blockers: none.
 - Notes: `raw()` closed the three exotic-syntax causes at once and, more importantly, means nothing in the format is unreachable — a library that cannot express one line forces a whole file out of the typed path. What goes in is parsed, so a malformed fragment fails at authoring time rather than in the game. The two structural causes left both need the same thing: a block that can hold bare values and keyed values in one order, which a plain object cannot.
 
+## Reverse-Derivation Loop — Third Pass
+- Proof: `npm run verify:reproduce` is 98.40% (39,900 of 40,550), pinned; `npm run verify` is 14/14 exit 0.
+- Remaining: 650 across 4 causes — 363 print mismatches, 137 anonymous blocks, 111 blocks mixing bare values with assignments, 39 error nodes.
+- Blockers: none.
+- Notes: added `--explain`, which names the first place two definitions diverge, because reading a diff of printed text kept pointing at quoting differences the comparison already ignores. It found two real bugs immediately: a comparison nested inside a repetition lost its operator and printed as a block, and `switch` compares a key against a whole block while `ComparedValue` only carried a scalar. A definition whose entire body is a bare value list has no object form at all; those are now counted as their own cause rather than absorbed into print mismatches, since the honest answer is that they go through `mod.file()`.
+
