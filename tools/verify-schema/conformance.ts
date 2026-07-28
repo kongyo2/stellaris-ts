@@ -557,29 +557,39 @@ export async function checkConformance(
 
         // A command reads one kind of object. Written where the current scope is
         // known and not one of them, the game answers `false` for ever.
-        if (scope.current !== undefined) {
-          for (const command of resolution.commands) {
-            if (command.input.kind !== "listed-scopes" || command.input.scopes.length === 0) {
-              continue;
-            }
-            if (command.input.scopes.some((allowed): boolean => allowed === scope.current)) {
-              continue;
-            }
-            const identity = `${command.id} ${scope.current} ${trail}`;
-            const issue = scopeIssues.get(identity) ?? {
-              command: command.id,
-              path: trail,
-              writtenIn: scope.current,
-              accepts: command.input.scopes,
-              count: 0,
-              examples: [],
-            };
-            issue.count += 1;
-            if (issue.examples.length < 3 && !issue.examples.includes(file)) {
-              issue.examples.push(file);
-            }
-            scopeIssues.set(identity, issue);
+        // One name can resolve to several rules, one per value shape. They are
+        // alternatives, so the scope is wrong only when none of them accepts it.
+        const constrained = resolution.commands.filter(
+          (command) => command.input.kind === "listed-scopes" && command.input.scopes.length > 0,
+        );
+        const here: string | undefined = scope.current;
+
+        if (
+          here !== undefined &&
+          constrained.length > 0 &&
+          !constrained.some(
+            (command) => command.input.kind === "listed-scopes" && command.input.scopes.some((one) => one === here),
+          )
+        ) {
+          const first = constrained[0];
+          const identity = `${first?.id ?? key} ${here} ${trail}`;
+          const issue = scopeIssues.get(identity) ?? {
+            command: first?.id ?? key,
+            path: trail,
+            writtenIn: here,
+            accepts: [
+              ...new Set(
+                constrained.flatMap((command) => (command.input.kind === "listed-scopes" ? command.input.scopes : [])),
+              ),
+            ],
+            count: 0,
+            examples: [],
+          };
+          issue.count += 1;
+          if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+            issue.examples.push(file);
           }
+          scopeIssues.set(identity, issue);
         }
 
         // A value outside what the rules accept is dropped as silently as an

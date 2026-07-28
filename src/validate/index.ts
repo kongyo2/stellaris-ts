@@ -17,7 +17,7 @@ import {
   type ResolvedValue,
   type ScopeState,
 } from "../schema/resolve.js";
-import type { DefinitionType, EnumDefinition, SchemaModel, ValueRule } from "../schema/ir.js";
+import type { DefinitionType, EnumDefinition, SchemaModel, ScriptCommandDefinition, ValueRule } from "../schema/ir.js";
 
 /**
  * Checks a mod against the schema before it reaches the game.
@@ -328,21 +328,36 @@ function checkScope(
     return;
   }
 
-  for (const command of resolution.commands) {
-    if (command.input.kind !== "listed-scopes" || command.input.scopes.length === 0) {
-      continue;
-    }
+  // The corpus declares a command once per value shape, so one name can resolve
+  // to several rules. They are alternatives: the scope is wrong only when none
+  // of them accepts it, and it is one mistake however many rules said so.
+  const constrained: readonly ScriptCommandDefinition[] = resolution.commands.filter(
+    (command) => command.input.kind === "listed-scopes" && command.input.scopes.length > 0,
+  );
 
-    if (!command.input.scopes.some((allowed) => allowed === current)) {
-      walker.diagnostics.push({
-        severity: "error",
-        code: "wrong-scope",
-        message: `${key} reads a ${command.input.scopes.join(" or a ")}, and here the scope is ${current}. The game answers it false for ever rather than reporting anything.`,
-        definition,
-        path,
-      });
-    }
+  if (constrained.length === 0) {
+    return;
   }
+
+  const accepted: boolean = constrained.some(
+    (command) => command.input.kind === "listed-scopes" && command.input.scopes.some((allowed) => allowed === current),
+  );
+
+  if (accepted) {
+    return;
+  }
+
+  const allowed: readonly string[] = [
+    ...new Set(constrained.flatMap((command) => (command.input.kind === "listed-scopes" ? command.input.scopes : []))),
+  ];
+
+  walker.diagnostics.push({
+    severity: "error",
+    code: "wrong-scope",
+    message: `${key} reads a ${allowed.join(" or a ")}, and here the scope is ${current}. The game answers it false for ever rather than reporting anything.`,
+    definition,
+    path,
+  });
 }
 
 function walkBlock(
@@ -532,6 +547,12 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     // violates is not one — so this fires only on a field every definition of
     // the type carries.
     const present = new Set<string>(entriesOf(definition.body).keyed.map(([key]) => key.toLowerCase()));
+
+    // A tagged type carries its identity in a field the body does not hold:
+    // `define` writes it, so the definition has it.
+    if (definition.nameField !== undefined) {
+      present.add(definition.nameField.toLowerCase());
+    }
 
     for (const key of requiredKeys(type)) {
       if (!present.has(key.toLowerCase())) {

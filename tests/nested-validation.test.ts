@@ -150,6 +150,25 @@ describe("validation below the first level", () => {
     expect(wrong[0]?.definition).toBe("sts_kind.2");
   });
 
+  it("reports one mistake once, however many rules declared the command", () => {
+    // The corpus declares `has_country_flag` several times, one per value shape.
+    const mod = defineMod({ name: "Once", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "once_lab", { category: "research", allow: { has_country_flag: "x" } }),
+    );
+
+    expect(at(mod, "wrong-scope")).toHaveLength(1);
+  });
+
+  it("counts the identity a tagged type carries as present", () => {
+    // `define` writes `id` into the block, so the definition has one even though
+    // the body does not mention it.
+    const mod = defineMod({ name: "Tagged", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("event", "sts_tagged.1", { is_triggered_only: true }, { as: "country_event" }),
+    );
+
+    expect(at(mod, "missing-field")).toHaveLength(0);
+  });
+
   it("names an event id with no namespace", () => {
     const mod = defineMod({ name: "NoNs", version: "1", supportedVersion: "v4.4.*" }).add(
       define("event", "sts_demo_one", { is_triggered_only: true }, { as: "country_event" }),
