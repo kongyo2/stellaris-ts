@@ -1,6 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import { extname, join, relative, resolve } from "node:path";
 import { TextDecoder } from "node:util";
+import { requireGamePath } from "./game-path.js";
 
 import {
   isTriviaToken,
@@ -16,7 +17,6 @@ import {
 } from "../src/syntax/index.js";
 import { roundtripExclusions } from "../tests/roundtrip-exclusions.js";
 
-const DEFAULT_GAME_PATH: string = String.raw`D:\steam\steamapps\common\Stellaris`;
 const CORPUS_ROOTS: readonly string[] = ["common", "events", "prescripted_countries", "map"];
 const NON_SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set([".csv", ".json", ".ods"]);
 
@@ -768,8 +768,7 @@ async function main(): Promise<void> {
   }
 
   const mode: string = cliArguments[0] ?? "roundtrip";
-  const configuredGamePath: string | undefined = process.env["STELLARIS_GAME_PATH"];
-  const gamePath: string = resolve(configuredGamePath ?? DEFAULT_GAME_PATH);
+  const gamePath: string = resolve(requireGamePath());
   const corpusFileGroups: string[][] = await Promise.all(
     CORPUS_ROOTS.map(async (root): Promise<string[]> => collectCorpusFiles(join(gamePath, root))),
   );

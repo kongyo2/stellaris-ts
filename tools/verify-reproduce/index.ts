@@ -2,6 +2,7 @@ import type { Dirent } from "node:fs";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { requireGamePath } from "../game-path.js";
 
 import { renderDefinitions } from "../../src/runtime/build.js";
 import { schema } from "../../src/schema/index.js";
@@ -24,7 +25,6 @@ import { convertBlock, type ConversionFailure, type ConversionResult } from "./r
  */
 
 const REPOSITORY_ROOT: string = fileURLToPath(new URL("../../", import.meta.url));
-const DEFAULT_GAME_PATH: string = String.raw`D:\steam\steamapps\common\Stellaris`;
 const REPORT_PATH: string = join(REPOSITORY_ROOT, "docs", "authoring-gaps.md");
 const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(["", ".txt"]);
 const READ_CONCURRENCY = 32;
@@ -245,7 +245,7 @@ function sameShapes(left: readonly Shape[], right: readonly Shape[]): boolean {
   return true;
 }
 
-const gamePath: string = process.env["STELLARIS_GAME_PATH"] ?? DEFAULT_GAME_PATH;
+const gamePath: string = requireGamePath();
 const directories: readonly { readonly path: string; readonly recurse: boolean }[] = [
   ...new Map(
     schema.definitionTypes.map((type) => [

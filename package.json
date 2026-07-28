@@ -1,5 +1,5 @@
 {
-  "name": "stellaris-ts",
+  "name": "@kongyo2/stellaris-ts",
   "version": "0.1.0",
   "description": "TypeScript tooling for Stellaris PDX scripts and mod projects.",
   "type": "module",
@@ -106,5 +106,27 @@
   },
   "bin": {
     "stellaris-ts": "./dist/cli/main.js"
-  }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kongyo2/stellaris-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kongyo2/stellaris-ts/issues"
+  },
+  "homepage": "https://github.com/kongyo2/stellaris-ts#readme",
+  "keywords": [
+    "stellaris",
+    "paradox",
+    "clausewitz",
+    "pdx",
+    "modding",
+    "mod",
+    "typescript",
+    "codegen"
+  ]
 }

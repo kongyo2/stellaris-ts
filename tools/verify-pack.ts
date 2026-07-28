@@ -39,6 +39,19 @@ const REPOSITORY_ROOT: string = fileURLToPath(new URL("../", import.meta.url));
 const SOURCE_ROOT: string = join(REPOSITORY_ROOT, "src");
 const MAX_COMMAND_OUTPUT_BYTES = 64 * 1024 * 1024;
 
+/** Read from the manifest so renaming or rescoping the package needs no edit here. */
+const PACKAGE_NAME: string = readPackageName();
+
+function readPackageName(): string {
+  const parsed: unknown = JSON.parse(readFileSync(join(REPOSITORY_ROOT, "package.json"), "utf8"));
+
+  if (typeof parsed !== "object" || parsed === null || !("name" in parsed) || typeof parsed.name !== "string") {
+    throw new Error("package.json has no name.");
+  }
+
+  return parsed.name;
+}
+
 function quoteCommandPart(part: string): string {
   return /^[A-Za-z0-9_./:=\\-]+$/u.test(part) ? part : (JSON.stringify(part) ?? '""');
 }
@@ -231,8 +244,8 @@ function assertExportTarget(packageDirectory: string, subpath: string, condition
 function assertInstalledManifest(packageDirectory: string): void {
   const manifest: JsonRecord = readJsonRecord(join(packageDirectory, "package.json"), "installed package manifest");
 
-  if (manifest["name"] !== "stellaris-ts") {
-    throw new Error(`Installed package name is not stellaris-ts: ${JSON.stringify(manifest["name"])}.`);
+  if (manifest["name"] !== PACKAGE_NAME) {
+    throw new Error(`Installed package name is not ${PACKAGE_NAME}: ${JSON.stringify(manifest["name"])}.`);
   }
 
   for (const field of ["dependencies", "optionalDependencies", "peerDependencies"] as const) {
@@ -282,43 +295,43 @@ function writeScratchConsumer(consumerDirectory: string): void {
   )}\n`;
   const runtimeProbe = `import assert from "node:assert/strict";
 
-import "stellaris-ts";
-import "stellaris-ts/builders";
-import "stellaris-ts/ids";
-import "stellaris-ts/schema";
-import "stellaris-ts/scope";
-import "stellaris-ts/types";
-import "stellaris-ts/validate";
-import metadata from "stellaris-ts/package.json" with { type: "json" };
-import { NodeKind, parse, print } from "stellaris-ts/syntax";
+import "${PACKAGE_NAME}";
+import "${PACKAGE_NAME}/builders";
+import "${PACKAGE_NAME}/ids";
+import "${PACKAGE_NAME}/schema";
+import "${PACKAGE_NAME}/scope";
+import "${PACKAGE_NAME}/types";
+import "${PACKAGE_NAME}/validate";
+import metadata from "${PACKAGE_NAME}/package.json" with { type: "json" };
+import { NodeKind, parse, print } from "${PACKAGE_NAME}/syntax";
 
 const source = "key = value\\n";
 const result = parse(source);
 const firstEntry = result.document.entries[0];
 
-assert.equal(metadata.name, "stellaris-ts");
+assert.equal(metadata.name, "${PACKAGE_NAME}");
 assert.equal(result.diagnostics.length, 0);
 assert.equal(result.document.kind, NodeKind.Document);
 assert.equal(firstEntry?.kind, NodeKind.Assignment);
 assert.equal(print(result.document), source);
 
 await assert.rejects(
-  import("stellaris-ts/dist/syntax/parser.js"),
+  import("${PACKAGE_NAME}/dist/syntax/parser.js"),
   (error) => error instanceof Error && "code" in error && error.code === "ERR_PACKAGE_PATH_NOT_EXPORTED",
 );
 `;
-  const typeProbe = `import "stellaris-ts";
-import "stellaris-ts/builders";
-import "stellaris-ts/ids";
-import "stellaris-ts/schema";
-import "stellaris-ts/scope";
-import "stellaris-ts/types";
-import "stellaris-ts/validate";
-import metadata from "stellaris-ts/package.json" with { type: "json" };
-import { NodeKind, parse, print, type Document, type ParseResult } from "stellaris-ts/syntax";
+  const typeProbe = `import "${PACKAGE_NAME}";
+import "${PACKAGE_NAME}/builders";
+import "${PACKAGE_NAME}/ids";
+import "${PACKAGE_NAME}/schema";
+import "${PACKAGE_NAME}/scope";
+import "${PACKAGE_NAME}/types";
+import "${PACKAGE_NAME}/validate";
+import metadata from "${PACKAGE_NAME}/package.json" with { type: "json" };
+import { NodeKind, parse, print, type Document, type ParseResult } from "${PACKAGE_NAME}/syntax";
 
 // @ts-expect-error Package internals must remain outside the public exports map.
-import "stellaris-ts/dist/syntax/parser.js";
+import "${PACKAGE_NAME}/dist/syntax/parser.js";
 
 const result: ParseResult = parse("key = value\\n");
 const document: Document = result.document;
@@ -440,7 +453,7 @@ function verifyPackage(): string {
       cwd: consumerDirectory,
       environment: process.env,
     });
-    assertInstalledManifest(join(consumerDirectory, "node_modules", "stellaris-ts"));
+    assertInstalledManifest(join(consumerDirectory, "node_modules", ...PACKAGE_NAME.split("/")));
     runCommand({
       command: process.execPath,
       arguments: [join(consumerDirectory, "index.mjs")],

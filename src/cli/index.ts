@@ -1,5 +1,6 @@
+import { homedir, platform } from "node:os";
 import { pathToFileURL } from "node:url";
-import { resolve } from "node:path";
+import { join, resolve } from "node:path";
 
 import { emit, type EmitDiagnostic, type EmitPlan } from "../runtime/emit.js";
 import { Mod } from "../runtime/mod.js";
@@ -13,8 +14,6 @@ import { validate, type ValidationDiagnostic } from "../validate/index.js";
  * The reader is as likely to be an agent as a person, and a wrapped, coloured,
  * multi-line report is not something either can grep.
  */
-
-const DEFAULT_MODS_DIRECTORY: string = String.raw`C:\Users\prett\Documents\Paradox Interactive\Stellaris\mod`;
 
 interface Diagnostic {
   readonly severity: "error" | "warning";
@@ -63,6 +62,19 @@ async function loadMod(entry: string): Promise<Mod> {
   }
 
   return value;
+}
+
+/**
+ * Where the launcher keeps local mods.
+ *
+ * Read at call time rather than fixed: it sits under the user's home
+ * directory, so one machine's copy of it is no use to anyone else.
+ */
+function defaultModsDirectory(): string {
+  const home: string = homedir();
+  return platform() === "linux"
+    ? join(home, ".local", "share", "Paradox Interactive", "Stellaris", "mod")
+    : join(home, "Documents", "Paradox Interactive", "Stellaris", "mod");
 }
 
 function usage(): string {
@@ -116,7 +128,7 @@ export async function run(argv: readonly string[]): Promise<number> {
 
   const outIndex: number = rest.indexOf("--out");
   const explicit: string | undefined = outIndex < 0 ? undefined : rest[outIndex + 1];
-  const modsDirectory: string = explicit ?? process.env["STELLARIS_MODS_DIR"] ?? DEFAULT_MODS_DIRECTORY;
+  const modsDirectory: string = explicit ?? process.env["STELLARIS_MODS_DIR"] ?? defaultModsDirectory();
   const result = await writePlan(mod, plan, modsDirectory);
 
   console.log(`WROTE files=${String(result.written.length)} directory=${result.modDirectory}`);

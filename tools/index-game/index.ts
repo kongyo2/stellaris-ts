@@ -1,12 +1,12 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { requireGamePath } from "../game-path.js";
 
 import { schema } from "../../src/schema/index.js";
 import { indexGame, type GameIndex } from "./extract.js";
 
 const REPOSITORY_ROOT: string = fileURLToPath(new URL("../../", import.meta.url));
-const DEFAULT_GAME_PATH: string = String.raw`D:\steam\steamapps\common\Stellaris`;
 const OUTPUT_DIRECTORY: string = join(REPOSITORY_ROOT, "src", "generated", "vanilla");
 
 function compareOrdinal(left: string, right: string): number {
@@ -137,7 +137,7 @@ async function gameVersion(gamePath: string): Promise<string> {
   }
 }
 
-const gamePath: string = process.env["STELLARIS_GAME_PATH"] ?? DEFAULT_GAME_PATH;
+const gamePath: string = requireGamePath();
 const version: string = await gameVersion(gamePath);
 const index: GameIndex = await indexGame(schema, gamePath, version);
 

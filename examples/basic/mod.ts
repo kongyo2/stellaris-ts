@@ -1,3 +1,6 @@
+import { homedir } from "node:os";
+import { join } from "node:path";
+
 import { define } from "stellaris-ts/builders";
 import { defineMod, emit, writePlan } from "stellaris-ts";
 
@@ -49,8 +52,10 @@ for (const diagnostic of plan.diagnostics) {
   console.error(`${diagnostic.severity.toUpperCase()} ${diagnostic.path}: ${diagnostic.code}: ${diagnostic.message}`);
 }
 
-const modsDirectory =
-  process.env["STELLARIS_MODS_DIR"] ?? String.raw`C:\Users\prett\Documents\Paradox Interactive\Stellaris\mod`;
+// `stellaris-ts build` locates this itself; the example spells it out so it
+// runs standalone.
+const modsDirectory: string =
+  process.env["STELLARIS_MODS_DIR"] ?? join(homedir(), "Documents", "Paradox Interactive", "Stellaris", "mod");
 
 const result = await writePlan(mod, plan, modsDirectory);
 console.log(`Wrote ${String(result.written.length)} files to ${result.modDirectory}`);
