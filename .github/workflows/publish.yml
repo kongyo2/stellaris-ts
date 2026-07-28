@@ -28,10 +28,6 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
-      # The version `package-lock.json` was written by; see ci.yml for why it is
-      # pinned rather than left to whichever npm the Node release ships.
-      - run: npm install --global npm@11
-
       - run: npm ci
 
       # The same gates CI runs. Publishing an unverified build would defeat

@@ -102,6 +102,9 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
+    "@emnapi/core": "1.11.1",
+    "@emnapi/runtime": "1.11.1",
+    "@emnapi/wasi-threads": "1.2.2",
     "@types/node": "22.20.1",
     "oxlint": "1.75.0",
     "oxlint-tsgolint": "7.0.2001",
@@ -110,6 +113,11 @@
     "tsx": "4.23.1",
     "typescript": "7.0.2",
     "vitest": "4.1.10"
+  },
+  "overrides": {
+    "@emnapi/core": "1.11.1",
+    "@emnapi/runtime": "1.11.1",
+    "@emnapi/wasi-threads": "1.2.2"
   },
   "bin": {
     "stellaris-ts": "./dist/cli/main.js"
