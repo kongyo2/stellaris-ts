@@ -12,7 +12,8 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "THIRD_PARTY.md"
   ],
   "exports": {
     ".": {
@@ -91,7 +92,8 @@
     "index:game": "tsx tools/index-game/index.ts",
     "codegen": "tsx tools/codegen/index.ts",
     "import:scopes": "tsx tools/import-scopes/index.ts",
-    "verify:reproduce": "tsx tools/verify-reproduce/index.ts"
+    "verify:reproduce": "tsx tools/verify-reproduce/index.ts",
+    "build:ci": "tsc -p tsconfig.json --incremental false --pretty false --checkers 4"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

@@ -1,7 +1,7 @@
 import { extractedEnumMembers, vanillaIdsByType } from "../generated/vanilla/index.js";
 import type { Mod } from "../runtime/mod.js";
 import { schema } from "../schema/index.js";
-import type { DefinitionType, EntryRule, KeyRule, SchemaModel } from "../schema/ir.js";
+import type { DefinitionType, EntryRule, KeyRule, SchemaModel, ValueRule } from "../schema/ir.js";
 
 /**
  * Checks a mod against the schema before it reaches the game.
@@ -120,6 +120,59 @@ function collectEntry(model: SchemaModel, entry: EntryRule, into: AcceptorDraft)
   }
 }
 
+/**
+ * Which definition type each top-level field points at.
+ *
+ * Matching a field name against a type name catches `technology = x` and misses
+ * everything else — `picture = GFX_evt_x` points at a sprite, `icon` at an icon,
+ * `prerequisites` at technologies. The schema already says which, so it is read
+ * rather than guessed.
+ */
+function referenceTargets(type: DefinitionType): ReadonlyMap<string, string> {
+  const targets = new Map<string, string>();
+
+  const note = (key: KeyRule, value: ValueRule): void => {
+    if (typeof key !== "string") {
+      return;
+    }
+
+    if (value.kind === "type-reference") {
+      targets.set(key, value.type);
+      return;
+    }
+
+    // A list of references is still a list of references.
+    if (value.kind === "list" && value.item.kind === "type-reference") {
+      targets.set(key, value.item.type);
+      return;
+    }
+
+    // `prerequisites = { tech_a tech_b }` is a block whose bare items are the
+    // references, which is how PDX spells a list.
+    if (value.kind === "block") {
+      for (const entry of value.entries) {
+        if (entry.kind === "item" && entry.value.kind === "type-reference") {
+          targets.set(key, entry.value.type);
+          return;
+        }
+      }
+    }
+  };
+
+  const visit = (entries: readonly EntryRule[]): void => {
+    for (const entry of entries) {
+      if (entry.kind === "field") {
+        note(entry.key, entry.value);
+      } else if (entry.kind === "variant-rules") {
+        visit(entry.entries);
+      }
+    }
+  };
+
+  visit(type.entries);
+  return targets;
+}
+
 function acceptorFor(model: SchemaModel, type: DefinitionType): Acceptor {
   const draft: AcceptorDraft = { open: false, literals: new Set<string>(), patterns: [] };
 
@@ -152,6 +205,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const languages: readonly string[] = options.languages ?? ["l_english"];
   const diagnostics: ValidationDiagnostic[] = [];
   const acceptors = new Map<string, Acceptor>();
+  const referenceMaps = new Map<string, ReadonlyMap<string, string>>();
   const declared = new Set<string>(mod.definitions.map((definition) => `${definition.type}:${definition.id}`));
   const strings = new Map<string, ReadonlySet<string>>();
   const seen = new Set<string>();
@@ -194,6 +248,12 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       acceptors.set(type.id, acceptor);
     }
 
+    let targets: ReadonlyMap<string, string> | undefined = referenceMaps.get(type.id);
+    if (targets === undefined) {
+      targets = referenceTargets(type);
+      referenceMaps.set(type.id, targets);
+    }
+
     for (const [field, value] of Object.entries(definition.body)) {
       if (!accepts(acceptor, field)) {
         diagnostics.push({
@@ -206,20 +266,24 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
       // A reference to something neither vanilla nor this mod defines fails when
       // the game reaches it, which can be a long way into a session.
-      const targets: readonly string[] | undefined = vanillaIdsByType[field];
+      const targetType: string | undefined = targets.get(field);
+      const known: readonly string[] | undefined = targetType === undefined ? undefined : vanillaIdsByType[targetType];
 
-      if (
-        typeof value === "string" &&
-        targets !== undefined &&
-        !targets.includes(value) &&
-        !declared.has(`${field}:${value}`)
-      ) {
-        diagnostics.push({
-          severity: "warning",
-          code: "unresolved-reference",
-          message: `${field} points at ${value}, which is neither in vanilla nor defined by this mod.`,
-          definition: definition.id,
-        });
+      if (known !== undefined && targetType !== undefined) {
+        for (const reference of typeof value === "string" ? [value] : Array.isArray(value) ? value : []) {
+          if (
+            typeof reference === "string" &&
+            !known.includes(reference) &&
+            !declared.has(`${targetType}:${reference}`)
+          ) {
+            diagnostics.push({
+              severity: "warning",
+              code: "unresolved-reference",
+              message: `${field} points at ${targetType} ${reference}, which is neither in vanilla nor defined by this mod.`,
+              definition: definition.id,
+            });
+          }
+        }
       }
     }
 

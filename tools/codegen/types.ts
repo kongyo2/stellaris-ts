@@ -268,8 +268,24 @@ function blockType(context: RenderContext, entries: readonly EntryRule[], depth:
     return "PdxBlock | readonly PdxValue[]";
   }
 
+  // A block with bare-item rules is a value list as well as a keyed block —
+  // `prerequisites = { tech_a tech_b }` is the ordinary way to write it, and a
+  // type that only allowed keys would send everyone to `entries()`.
+  // A block with bare-item rules is a value list as well as a keyed block —
+  // `prerequisites = { tech_a tech_b }` is the ordinary way to write it, and a
+  // type that only allowed keys would send everyone to `entries()`.
+  const listable: string = entries.some((entry) => entry.kind === "item") ? " | readonly PdxValue[]" : "";
   const body: string = renderProperties(ordered, "  ");
-  return hasOpenEntry ? `{\n${body}\n  readonly [key: string]: PdxValue | undefined;\n}` : `{\n${body}\n}`;
+  const shape: string = hasOpenEntry
+    ? `{
+${body}
+  readonly [key: string]: PdxValue | undefined;
+}`
+    : `{
+${body}
+}`;
+
+  return `${shape}${listable}`;
 }
 
 export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {

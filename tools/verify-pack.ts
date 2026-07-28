@@ -171,7 +171,7 @@ function collectSourcePaths(directory: string): string[] {
 }
 
 function expectedPackageFiles(): string[] {
-  const files: string[] = ["LICENSE", "README.md", "package.json"];
+  const files: string[] = ["LICENSE", "README.md", "THIRD_PARTY.md", "package.json"];
 
   for (const sourcePath of collectSourcePaths(SOURCE_ROOT)) {
     const stem: string = sourcePath.slice(0, -".ts".length);
@@ -396,9 +396,11 @@ function verifyPackage(): string {
 
   const npmCliPath: string = resolveNpmCliPath();
 
+  // Cache-free: a stale .tsbuildinfo after a hand-deleted dist makes the build
+  // a no-op and the pack a lie about what would ship.
   runCommand({
     command: process.execPath,
-    arguments: [npmCliPath, "run", "build"],
+    arguments: [npmCliPath, "run", "build:ci"],
     cwd: REPOSITORY_ROOT,
     environment: process.env,
   });

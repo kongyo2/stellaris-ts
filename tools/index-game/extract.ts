@@ -111,7 +111,14 @@ function keyOf(entry: EntryNode): string | undefined {
   return entry.kind === NodeKind.Assignment ? String(entry.key.value) : undefined;
 }
 
-/** Ids a definition type claims from one file, mirroring how the game loads them. */
+/**
+ * Ids a definition type claims from one file, mirroring how the game loads them.
+ *
+ * Container and naming compose. A sprite lives at
+ * `spriteTypes = { spriteType = { name = "GFX_x" } }`: a container to descend
+ * into, and then a name field to read — not the nested key, which is
+ * `spriteType` for every one of them.
+ */
 function definitionIds(type: DefinitionType, document: Document, fileName: string): string[] {
   if (type.source.kind === "file-definitions") {
     return [type.source.stripExtension ? fileName.replace(/\.[^.]+$/u, "") : fileName];
@@ -125,7 +132,23 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
         ? filter.values.includes(key)
         : !filter.values.includes(key);
 
+  const container = type.source.container;
+  const nameField: string | undefined = type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
   const ids: string[] = [];
+
+  /** Reads one definition block: its key, or the field the type names. */
+  const claim = (key: string, body: Block): void => {
+    if (nameField === undefined) {
+      ids.push(key);
+      return;
+    }
+
+    for (const field of body.entries) {
+      if (keyOf(field) === nameField && field.kind === NodeKind.Assignment && field.value.kind === NodeKind.Scalar) {
+        ids.push(String(field.value.value));
+      }
+    }
+  };
 
   for (const entry of document.entries) {
     const key: string | undefined = keyOf(entry);
@@ -135,34 +158,26 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
       continue;
     }
 
-    const container = type.source.container;
-    const inner: readonly EntryNode[] =
-      container !== undefined && (container.kind === "any-container" || container.key === key) ? block.entries : [];
+    const inContainer: boolean =
+      container !== undefined && (container.kind === "any-container" || container.key === key);
 
-    if (inner.length > 0 || container !== undefined) {
-      for (const nested of inner) {
-        const nestedKey: string | undefined = keyOf(nested);
-        if (nestedKey !== undefined && blockOf(nested) !== undefined) {
-          ids.push(nestedKey);
-        }
-      }
-      continue;
-    }
-
-    if (type.source.kind === "tagged-blocks") {
+    if (inContainer) {
       for (const nested of block.entries) {
-        if (
-          keyOf(nested) === type.source.nameField &&
-          nested.kind === NodeKind.Assignment &&
-          nested.value.kind === NodeKind.Scalar
-        ) {
-          ids.push(String(nested.value.value));
+        const nestedKey: string | undefined = keyOf(nested);
+        const nestedBlock: Block | undefined = blockOf(nested);
+        if (nestedKey !== undefined && nestedBlock !== undefined) {
+          claim(nestedKey, nestedBlock);
         }
       }
       continue;
     }
 
-    ids.push(key);
+    if (container !== undefined) {
+      // A container was named and this root key is not it.
+      continue;
+    }
+
+    claim(key, block);
   }
 
   // A quoted key keeps its quotes in the raw value; the identifier is the text

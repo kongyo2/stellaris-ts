@@ -3845,7 +3845,7 @@ export interface ComponentTemplateDefinition {
   readonly power?: number | Authored;
   readonly prerequisites?: {
   readonly OR?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
   readonly prio_projectile?: boolean | Authored;
   readonly projectile_gfx?: string | Authored;
   readonly range?: number | Authored;
@@ -4512,7 +4512,7 @@ export interface EmpireNamePartsListDefinition {
   readonly key: string | Authored;
   readonly parts: {
   readonly localisation?: number | readonly number[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
 }
 
 export interface EspionageAssetDefinition {
@@ -6177,7 +6177,7 @@ export interface NameListDefinition {
 } | Authored;
   readonly generic?: {
   readonly sequential_name?: string | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly by_rarity_names?: {
@@ -7064,7 +7064,7 @@ export interface PopFactionNamePartsListDefinition {
   readonly key: string | Authored;
   readonly parts: {
   readonly localisation?: number | readonly number[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
 }
 
 export interface PopulationControlDefinition {
@@ -7097,7 +7097,7 @@ export interface PortraitDefinition {
   readonly evolution_variants: PdxBlock | readonly PdxValue[] | Authored;
   readonly texture: string | Authored;
 })[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
   readonly clothes_selector: AssetSelectorRef | Authored;
   readonly custom_attachment_label?: string | Authored;
   readonly custom_close_up_position_offset?: {
@@ -7220,7 +7220,7 @@ export interface PreCommunicationsNamePartsListDefinition {
   readonly key: string | Authored;
   readonly parts: {
   readonly localisation?: number | readonly number[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
 }
 
 export interface PreFtlAgeDefinition {
@@ -7923,7 +7923,7 @@ export interface SectionTemplateDefinition {
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly prerequisites?: {
   readonly OR?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -9061,7 +9061,7 @@ export interface TechnologyDefinition {
 })[] | Authored;
   readonly prerequisites?: {
   readonly OR?: PdxBlock | readonly PdxValue[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
   readonly start_tech?: boolean | Authored;
   readonly starting_potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly technology_swap?: ({
@@ -9382,7 +9382,7 @@ export interface TraitDefinition {
   readonly potential_crossbreeding_chance?: number | Authored;
   readonly prerequisites?: {
   readonly OR?: PdxBlock | readonly PdxValue[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
   readonly random_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly randomized?: boolean | Authored;
   readonly replace_traits?: PdxBlock | readonly PdxValue[] | Authored;
@@ -9618,7 +9618,7 @@ export interface WarNamePartsListDefinition {
   readonly key: string | Authored;
   readonly parts: {
   readonly localisation?: number | readonly number[] | Authored;
-} | Authored;
+} | readonly PdxValue[] | Authored;
 }
 
 export interface ZoneSlotsDefinition {

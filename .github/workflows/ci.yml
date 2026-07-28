@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Everything that does not need the game installed. The gates that read
+      # vanilla — conformance, reproduce, round-trip over the real corpus — are
+      # run locally by whoever has it, and their results are committed to
+      # `docs/`. Skipping them here silently would be worse than saying so.
+      - run: npm run format:check
+      - run: npm run lint:strict
+      - run: npm run lint:types
+      - run: npm run typecheck:ci
+      - run: npm run typecheck:tools:ci
+      - run: npm run typecheck:test:ci
+      - run: npm test
+      - run: npm run verify:schema
+      - run: npm run verify:norefs
+      - run: npm run verify:pack
+      - run: npm run verify:publish

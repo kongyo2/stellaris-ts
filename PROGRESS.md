@@ -158,3 +158,9 @@
 - Blockers: none.
 - Notes: the last cause was a comparison against inline maths, which was the third time a marked value had been missed in a position nobody had written it in yet. Fixing it at each call site would have been a fourth patch waiting to happen, so they are resolved in `valueNode` instead and every position works by construction. The rate went 34.20 → 97.77 → 98.09 → 98.40 → 98.78 → 99.01 → 99.11 → 99.94 → 99.98 → 100.00 across seven passes, and every step came from a failing example rather than from reasoning about which constructs looked hard.
 
+## Reverse-Derivation Loop — Asset and Reference Correspondence
+- Proof: the index finds 70,727 identifiers, up from 59,802; `picture = GFX_evt_mining_station` now validates and a typo in it does not; `npm run verify` is 14/14 exit 0 with 82 tests.
+- Remaining: 2,809 unknown fields in the conformance report, outside the four gated types.
+- Blockers: none.
+- Notes: sprites were indexed 11 out of roughly 9,171. A sprite lives at `spriteTypes = { spriteType = { name = "GFX_x" } }` — a container to descend into *and* a name field to read — and the indexer treated those as alternatives rather than composing them, taking `spriteType` as the id for every one of them. Separately, the validator matched a field name against a type name, which catches `technology = x` and nothing else; `picture` points at a sprite and no amount of reading the word says so. It now reads what the schema declares, including bare items inside a block, which is how `prerequisites = { tech_a tech_b }` is spelled. That last one also showed the generated type would not take an array there, so a block with item rules now accepts one.
+

@@ -35,7 +35,8 @@
     "isolatedDeclarations": true,
     "noEmitOnError": true,
     "allowImportingTsExtensions": false,
-    "noEmit": true
+    "noEmit": true,
+    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.test.tsbuildinfo"
   },
   "include": ["src/**/*", "tests/**/*"],
   "exclude": ["dist"]
