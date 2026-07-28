@@ -55,6 +55,14 @@ export interface DefinitionRecord {
   readonly blockKey?: string;
   /** The field inside the block that carries the id, for a tagged type. */
   readonly nameField?: string;
+  /**
+   * Which of the type's variants this is.
+   *
+   * A country event and a planet event are one type with one set of fields and
+   * two different scopes; the block key is what says which, and the scope is
+   * what every trigger inside is checked against.
+   */
+  readonly variant?: string;
   /** Lines the file needs before any definition, such as an event namespace. */
   readonly headers?: readonly string[];
 }

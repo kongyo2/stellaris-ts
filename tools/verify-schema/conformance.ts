@@ -333,9 +333,36 @@ async function collectFiles(directory: string, recurse: boolean): Promise<string
   return groups.flat();
 }
 
-/** The blocks a definition type claims from one parsed file. */
-function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Document): Block[] {
-  const blocks: Block[] = [];
+/**
+ * The scope each of a type's variants runs in, by the key that selects it.
+ *
+ * A type with one entry scope states it once; `event` has nineteen, one per kind
+ * of event, and the block key is what says which. Without this the whole of
+ * `events/` — a third of the corpus — is read with no scope at all.
+ */
+function variantScopes(type: DefinitionType): ReadonlyMap<string, string> {
+  const scopes = new Map<string, string>();
+
+  for (const variant of type.variants) {
+    if (variant.when.kind !== "root-key" || typeof variant.entryScope !== "string") {
+      continue;
+    }
+
+    for (const key of variant.when.values) {
+      scopes.set(key.toLowerCase(), variant.entryScope);
+    }
+  }
+
+  return scopes;
+}
+
+/** The blocks a definition type claims from one parsed file, and the key each was under. */
+function definitionBlocks(
+  model: SchemaModel,
+  type: DefinitionType,
+  document: Document,
+): { block: Block; key: string }[] {
+  const blocks: { block: Block; key: string }[] = [];
   const filter = type.source.rootKeyFilter;
   // `inline_script = { script = x PARAM = y }` at the root injects script; it is
   // not a definition, and counting its parameters as fields of the surrounding
@@ -351,7 +378,7 @@ function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Do
 
   if (type.source.kind === "file-definitions") {
     const synthetic: Block = { kind: NodeKind.Block, entries: document.entries, closed: true, span: document.span };
-    blocks.push(synthetic);
+    blocks.push({ block: synthetic, key: "" });
     return blocks;
   }
 
@@ -374,7 +401,7 @@ function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Do
           if (nested.kind === NodeKind.Assignment && nested.value.kind === NodeKind.Block) {
             const nestedKey: string = String(nested.key.value);
             if (accept(nestedKey) && !macroKeys.has(nestedKey)) {
-              blocks.push(nested.value);
+              blocks.push({ block: nested.value, key: nestedKey });
             }
           }
         }
@@ -383,7 +410,7 @@ function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Do
     }
 
     if (accept(key) && !macroKeys.has(key)) {
-      blocks.push(entry.value);
+      blocks.push({ block: entry.value, key });
     }
   }
 
@@ -459,6 +486,7 @@ export async function checkConformance(
     // A definition body runs in the scope the type names, when it names one.
     const entryScope: ScopeState =
       typeof type.entryScope === "string" ? { current: type.entryScope, root: type.entryScope } : {};
+    const variants: ReadonlyMap<string, string> = variantScopes(type);
     const ruleKeys: readonly string[] = literalRuleKeys(type);
     const required: readonly string[] = requiredKeys(type);
     const missingRequired = new Map<string, { count: number; examples: string[] }>();
@@ -618,16 +646,18 @@ export async function checkConformance(
 
       const display: string = relative(gamePath, file).replaceAll("\\", "/");
 
-      for (const block of definitionBlocks(model, type, result.document)) {
+      for (const claimed of definitionBlocks(model, type, result.document)) {
         definitionsSeen += 1;
-        walk(block, root, "", display, entryScope, true);
+        const variant: string | undefined = variants.get(claimed.key.toLowerCase());
+        const blockScope: ScopeState = variant === undefined ? entryScope : { current: variant, root: variant };
+        walk(claimed.block, root, "", display, blockScope, true);
 
         if (required.length === 0) {
           continue;
         }
 
         const present = new Set<string>();
-        for (const entry of block.entries) {
+        for (const entry of claimed.block.entries) {
           if (entry.kind === NodeKind.Assignment) {
             present.add(String(entry.key.value).toLowerCase());
           }

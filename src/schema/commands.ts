@@ -7950,7 +7950,12 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "effect",
     input: unspecifiedScope(),
     operator: "=",
+    // The queue belongs to the fleet, so that is what the actions read. What
+    // `root` means inside them is left unsaid: vanilla writes it for the fleet
+    // in one place and for the event's own country in another, and nothing here
+    // can tell which without running the game.
     value: block([ruleSetEntries("fleet_action")]),
+    scope: replaceScope({ current: ScopeId.Fleet }),
     documentation: "Adds actions to the scoped fleet's action queue",
   }),
   scriptCommand({

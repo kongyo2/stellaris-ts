@@ -89,6 +89,17 @@ function headersFor(type: DefinitionType, id: string): readonly string[] {
   return namespace === undefined || namespace === id ? [] : [`namespace = ${namespace}`];
 }
 
+/** Which variant a block key selects, when the type has one per key. */
+function variantFor(type: DefinitionType, key: string | undefined): string | undefined {
+  if (key === undefined) {
+    return undefined;
+  }
+
+  return type.variants.find(
+    (variant) => variant.when.kind === "root-key" && variant.when.values.some((value) => value === key),
+  )?.id;
+}
+
 export function define<Type extends keyof DefinitionShapes>(
   type: Type,
   id: string,
@@ -98,6 +109,7 @@ export function define<Type extends keyof DefinitionShapes>(
   const schemaType: DefinitionType = typeFor(type);
   const placement = taggedPlacement(schemaType, options);
   const headers: readonly string[] = headersFor(schemaType, id);
+  const variant: string | undefined = variantFor(schemaType, placement.key);
 
   return {
     type,
@@ -106,6 +118,7 @@ export function define<Type extends keyof DefinitionShapes>(
     body,
     ...(placement.key === undefined ? {} : { blockKey: placement.key }),
     ...(placement.nameField === undefined ? {} : { nameField: placement.nameField }),
+    ...(variant === undefined ? {} : { variant }),
     ...(headers.length === 0 ? {} : { headers }),
     ...(options.file === undefined ? {} : { file: options.file }),
   };

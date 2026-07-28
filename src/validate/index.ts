@@ -512,8 +512,18 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       });
     }
 
-    const entryScope: ScopeState =
-      typeof type.entryScope === "string" ? { current: type.entryScope, root: type.entryScope } : {};
+    // A country event and a planet event are the same type read on different
+    // objects, and the variant is what says which.
+    const variantScope = type.variants.find(
+      (candidate) => candidate.id === definition.variant && typeof candidate.entryScope === "string",
+    )?.entryScope;
+    const scopeName: string | undefined =
+      typeof variantScope === "string"
+        ? variantScope
+        : typeof type.entryScope === "string"
+          ? type.entryScope
+          : undefined;
+    const entryScope: ScopeState = scopeName === undefined ? {} : { current: scopeName, root: scopeName };
 
     walkBlock(walker, definition.id, "", walker.resolver.rulesForType(type), definition.body, entryScope);
 

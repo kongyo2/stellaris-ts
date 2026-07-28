@@ -138,6 +138,18 @@ describe("validation below the first level", () => {
     expect(unknown.map((diagnostic) => diagnostic.message).join(" ")).toContain("reserach");
   });
 
+  it("reads an event on the object its kind names", () => {
+    // A planet event reads a planet and a country event a country, and the two
+    // are the same type with the same fields.
+    const mod = defineMod({ name: "Kinds", version: "1", supportedVersion: "v4.4.*" })
+      .add(define("event", "sts_kind.1", { trigger: { is_colony: true } }, { as: "planet_event" }))
+      .add(define("event", "sts_kind.2", { trigger: { is_colony: true } }, { as: "country_event" }));
+
+    const wrong = at(mod, "wrong-scope");
+    expect(wrong).toHaveLength(1);
+    expect(wrong[0]?.definition).toBe("sts_kind.2");
+  });
+
   it("names an event id with no namespace", () => {
     const mod = defineMod({ name: "NoNs", version: "1", supportedVersion: "v4.4.*" }).add(
       define("event", "sts_demo_one", { is_triggered_only: true }, { as: "country_event" }),
