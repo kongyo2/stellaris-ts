@@ -86,6 +86,24 @@ differently later. The importer's structural output is canonical; prose in `PLAN
   increase declaration baselines. The pinned import baseline is 234 types, 257 subtypes under 45 types, 179 fixed plus
   27 derived unique enum names, and 86 link declarations / 85 unique names.
 
+## Reverse-Deriving What Is Missing
+
+`npm run verify:reproduce` converts every vanilla definition back into what `define({ ... })` would take, prints it,
+re-parses it and compares. It answers the question the conformance report cannot: **could a mod author have written
+this?** The rate is pinned and can only go up; `docs/authoring-gaps.md` lists what still blocks the remainder.
+
+Two rules learned the hard way, both from being wrong in the flattering direction:
+
+- **Do not reason about which constructs look hard.** A value list and a script-variable reference look exotic and were
+  always writable; quoted values were being double-quoted and nobody would have guessed it. Run the harness, read a
+  failing example, fix that.
+- **Compare by what the game loads, not by bytes.** `"x"` and `x` are the same string, `0.50` and `0.5` the same
+  number, and a plain object cannot interleave duplicate keys — none of which changes what the game reads. Comparing
+  raw text reported 66% failures that were not failures.
+
+`raw()` exists so nothing is unreachable. A construct with no object shape — inline maths, `rgb { 255 0 0 }`, an
+optional block — goes through it and is parsed on the way in, so a malformed fragment fails at authoring time.
+
 ## Where Scope Data Comes From
 
 - The ported corpus constrains **none** of the 2,328 scripted commands, so on its own the scope-typed surface would

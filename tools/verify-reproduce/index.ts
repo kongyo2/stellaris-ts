@@ -336,11 +336,11 @@ await writeFile(REPORT_PATH, `${lines.join("\n")}\n`, "utf8");
 /**
  * How much of vanilla the authoring model can express.
  *
- * Pinned so the number can only go up. It rose from 34% to 97.77% once
- * comparisons and repeated keys had a spelling; what still blocks the rest is
- * listed in the report.
+ * Pinned so the number can only go up. It rose from 34% to 98% as comparisons,
+ * repeated keys and raw script each got a spelling; what still blocks the rest
+ * is listed in the report.
  */
-const REPRODUCTION_FLOOR = 97.7;
+const REPRODUCTION_FLOOR = 98.0;
 
 console.log(
   [

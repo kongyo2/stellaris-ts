@@ -116,3 +116,9 @@
 - Blockers: none.
 - Notes: the rate started at 34.20%. Every step forward came from an actual failing example rather than from reasoning about which constructs looked hard — twice a guess was wrong in the flattering direction. Quoted values were being double-quoted; comparison operators had no spelling at all; a key repeated with scalar values collapsed into a value list, which is a different thing to the game; and a marked value nested below the top level was being stripped by the validation walk. Comparing by bytes also over-reported, since `"x"` and `x`, and `0.50` and `0.5`, are the same to the game, and a plain object cannot interleave duplicate keys the way script can without that changing anything the game reads.
 
+## Reverse-Derivation Loop — Second Pass
+- Proof: `npm run verify:reproduce` is 98.09% (39,775 of 40,550); `npm run verify` is 14/14 exit 0 with the rate pinned at 98.0.
+- Remaining: 775 definitions across 4 causes — 488 print mismatches still to diagnose, 137 anonymous blocks, 111 blocks mixing bare values with assignments, 39 error nodes.
+- Blockers: none.
+- Notes: `raw()` closed the three exotic-syntax causes at once and, more importantly, means nothing in the format is unreachable — a library that cannot express one line forces a whole file out of the typed path. What goes in is parsed, so a malformed fragment fails at authoring time rather than in the game. The two structural causes left both need the same thing: a block that can hold bare values and keyed values in one order, which a plain object cannot.
+

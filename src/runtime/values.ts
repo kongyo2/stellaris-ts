@@ -16,6 +16,7 @@
 // interfaces need. `Symbol.for` would return a plain `symbol` and force a cast.
 const COMPARISON_KEY: unique symbol = Symbol("stellaris-ts.comparison");
 const REPEATED_KEY: unique symbol = Symbol("stellaris-ts.repeated");
+const RAW_KEY: unique symbol = Symbol("stellaris-ts.raw");
 
 export type ComparisonOperator = "=" | "==" | "!=" | ">" | ">=" | "<" | "<=";
 
@@ -28,6 +29,41 @@ export interface ComparedValue {
 export interface RepeatedValue {
   readonly [REPEATED_KEY]: true;
   readonly values: readonly unknown[];
+}
+
+/**
+ * Script written out directly, for the constructs an object cannot hold.
+ *
+ * Inline maths, a colour written `rgb { 255 0 0 }`, an optional block — the
+ * format has corners a `{ key: value }` shape will never reach, and a library
+ * that cannot express them forces whole files out of the typed path for the
+ * sake of one line. What goes in is parsed and re-printed, so a malformed
+ * fragment fails here rather than in the game.
+ */
+export interface RawValue {
+  readonly [RAW_KEY]: true;
+  readonly text: string;
+}
+
+export function isRaw(value: unknown): value is RawValue {
+  return typeof value === "object" && value !== null && RAW_KEY in value;
+}
+
+/** `raw("@[ base * 2 ]")`, `raw("rgb { 255 0 0 }")`. */
+export function raw(text: string): RawValue {
+  return { [RAW_KEY]: true, text };
+}
+
+/** `rgb(255, 0, 0)` → `rgb { 255 0 0 }`. */
+export function rgb(red: number, green: number, blue: number, alpha?: number): RawValue {
+  const parts: readonly number[] = alpha === undefined ? [red, green, blue] : [red, green, blue, alpha];
+  return raw(`rgb { ${parts.map((part) => String(part)).join(" ")} }`);
+}
+
+/** `hsv(0.5, 1, 1)` → `hsv { 0.5 1 1 }`. */
+export function hsv(hue: number, saturation: number, value: number, alpha?: number): RawValue {
+  const parts: readonly number[] = alpha === undefined ? [hue, saturation, value] : [hue, saturation, value, alpha];
+  return raw(`hsv { ${parts.map((part) => String(part)).join(" ")} }`);
 }
 
 export function isCompared(value: unknown): value is ComparedValue {

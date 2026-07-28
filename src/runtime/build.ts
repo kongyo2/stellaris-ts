@@ -1,7 +1,8 @@
-import { isCompared, isRepeated, type ComparedValue, type RepeatedValue } from "./values.js";
+import { isCompared, isRaw, isRepeated, type ComparedValue, type RawValue, type RepeatedValue } from "./values.js";
 import {
   AssignmentOperator,
   NodeKind,
+  parse,
   ScalarKind,
   print,
   type Assignment,
@@ -24,7 +25,7 @@ import {
 
 /** Any value a definition can hold. Arrays stand for a key repeated in script. */
 export type ScriptValue =
-  boolean | number | string | ScriptObject | readonly ScriptValue[] | ComparedValue | RepeatedValue;
+  boolean | number | string | ScriptObject | readonly ScriptValue[] | ComparedValue | RawValue | RepeatedValue;
 
 export interface ScriptObject {
   readonly [key: string]: ScriptValue | undefined;
@@ -120,6 +121,13 @@ function entriesOf(object: object): EntryNode[] {
       continue;
     }
 
+    // Raw script is parsed here so a malformed fragment fails at authoring time
+    // rather than silently producing something the game cannot read.
+    if (isRaw(raw)) {
+      entries.push(assignment(key, parseRawValue(key, raw.text)));
+      continue;
+    }
+
     // `num_owned_planets > 1` is a comparison, not an assignment.
     if (isCompared(raw)) {
       entries.push(assignment(key, scalar(raw.value), raw.operator));
@@ -169,7 +177,7 @@ function asScriptValue(key: string, value: unknown): ScriptValue {
   // cannot parse and says nothing about where it came from.
   // A marked value is resolved where its key is known, which can be any depth
   // down. Rebuilding the object around it here would strip the marker.
-  if (isCompared(value) || isRepeated(value)) {
+  if (isCompared(value) || isRepeated(value) || isRaw(value)) {
     return value;
   }
 
@@ -182,6 +190,18 @@ function asScriptValue(key: string, value: unknown): ScriptValue {
   }
 
   throw new TypeError(`PDX script cannot express ${typeof value} at ${key}.`);
+}
+
+/** Parses a raw fragment as the right-hand side of an assignment. */
+function parseRawValue(key: string, text: string): ValueNode {
+  const result = parse(`${key} = ${text}`);
+  const first: EntryNode | undefined = result.document.entries.find((entry) => entry.kind === NodeKind.Assignment);
+
+  if (result.diagnostics.length > 0 || first?.kind !== NodeKind.Assignment) {
+    throw new SyntaxError(`raw() at ${key} is not valid PDX script: ${JSON.stringify(text)}`);
+  }
+
+  return first.value;
 }
 
 export function toDocument(definitions: readonly (readonly [string, object])[]): Document {

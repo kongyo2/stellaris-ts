@@ -1,4 +1,26 @@
-import { NodeKind, type Block, type EntryNode, type ValueNode } from "../../src/syntax/index.js";
+import { NodeKind, print, type Block, type Document, type EntryNode, type ValueNode } from "../../src/syntax/index.js";
+
+/** Prints one value node on its own, so it can be handed back as raw script. */
+function printValue(value: ValueNode): string {
+  const document: Document = {
+    kind: NodeKind.Document,
+    entries: [
+      {
+        kind: NodeKind.Assignment,
+        key: { kind: NodeKind.Scalar, raw: "x", value: "x", scalarKind: "Identifier", span: value.span },
+        operator: "=",
+        operatorSpan: value.span,
+        beforeOperatorTrivia: [],
+        beforeValueTrivia: [],
+        value,
+        span: value.span,
+      },
+    ],
+    span: value.span,
+  };
+
+  return print(document).replace(/^x = /u, "").trimEnd();
+}
 import { repeated, type ComparisonOperator } from "../../src/runtime/values.js";
 import * as marked from "../../src/runtime/values.js";
 
@@ -18,14 +40,7 @@ import * as marked from "../../src/runtime/values.js";
 /** Marks a block that is really a value list, so the caller can unwrap it. */
 const LIST_SENTINEL = "";
 
-export type ConversionFailure =
-  | "anonymous-block"
-  | "prefixed-block"
-  | "inline-math"
-  | "optional-block"
-  | "error-node"
-  | "duplicate-key-mixed-shape"
-  | "duplicate-key-mixed-with-list";
+export type ConversionFailure = "anonymous-block" | "error-node" | "duplicate-key-mixed-with-list";
 
 export interface ConversionResult {
   readonly value?: Record<string, unknown>;
@@ -47,11 +62,10 @@ function convertValue(value: ValueNode): { value?: unknown; failure?: Conversion
         : { value: converted.value };
     }
     case NodeKind.InlineMath:
-      return { failure: "inline-math" };
     case NodeKind.OptionalBlock:
-      return { failure: "optional-block" };
     case NodeKind.PrefixedBlock:
-      return { failure: "prefixed-block" };
+      // These have no object shape, which is exactly what `raw` is for.
+      return { value: marked.raw(printValue(value)) };
     default:
       return { failure: "error-node" };
   }
@@ -93,18 +107,6 @@ export function convertBlock(block: Block): ConversionResult {
 
     if (entry.kind === NodeKind.Block) {
       return { failure: "anonymous-block" };
-    }
-
-    if (entry.kind === NodeKind.PrefixedBlock) {
-      return { failure: "prefixed-block" };
-    }
-
-    if (entry.kind === NodeKind.InlineMath) {
-      return { failure: "inline-math" };
-    }
-
-    if (entry.kind === NodeKind.OptionalBlock) {
-      return { failure: "optional-block" };
     }
 
     if (entry.kind !== NodeKind.Assignment) {
