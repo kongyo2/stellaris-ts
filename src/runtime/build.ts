@@ -113,8 +113,23 @@ function isScriptObject(value: ScriptValue): value is ScriptObject {
   return typeof value === "object" && !isScriptArray(value);
 }
 
-/** An array of scalars is a value list; an array of objects is a repeated key. */
+/**
+ * An array of scalars is a value list; an array of objects is a repeated key.
+ *
+ * Marked values are resolved here rather than at each call site. Handling them
+ * where they were first needed missed them three times running — inside a
+ * repetition, in a bare position, and on the right of a comparison — because
+ * each new position is a new place to forget.
+ */
 function valueNode(value: ScriptValue): ValueNode {
+  if (isRaw(value)) {
+    return parseRawValue("x", value.text);
+  }
+
+  if (isEntries(value)) {
+    return block(orderedEntries(value.entries));
+  }
+
   if (typeof value === "boolean" || typeof value === "number" || typeof value === "string") {
     return scalar(value);
   }
@@ -178,9 +193,7 @@ function orderedEntries(items: readonly Entry[]): EntryNode[] {
 
   for (const item of items) {
     if (isBare(item)) {
-      // A bare value can be raw script too — a colour block sitting inside a
-      // definition has no key of its own.
-      nodes.push(isRaw(item.bare) ? parseRawValue("x", item.bare.text) : valueNode(asScriptValue("<bare>", item.bare)));
+      nodes.push(valueNode(asScriptValue("<bare>", item.bare)));
       continue;
     }
 
@@ -195,18 +208,9 @@ function orderedEntries(items: readonly Entry[]): EntryNode[] {
 
 /** One `key op value` entry, whatever kind of value it is. */
 function entryFor(key: string, value: unknown): Assignment {
-  if (isEntries(value)) {
-    return assignment(key, block(orderedEntries(value.entries)));
-  }
-
-  // Raw script is parsed here so a malformed fragment fails at authoring time
-  // rather than silently producing something the game cannot read.
-  if (isRaw(value)) {
-    return assignment(key, parseRawValue(key, value.text));
-  }
-
   // `num_owned_planets > 1` is a comparison, not an assignment. The right side
-  // is usually a number, but `switch` compares a key against a whole block.
+  // is usually a number, but `switch` compares against a block and a situation
+  // compares against inline maths.
   if (isCompared(value)) {
     return assignment(key, valueNode(asScriptValue(key, value.value)), value.operator);
   }

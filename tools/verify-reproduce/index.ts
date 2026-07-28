@@ -410,11 +410,12 @@ await writeFile(REPORT_PATH, `${lines.join("\n")}\n`, "utf8");
 /**
  * How much of vanilla the authoring model can express.
  *
- * Pinned so the number can only go up. It rose from 34% to 99.94% as
- * comparisons, repeated keys, raw script and ordered entry lists each got a
- * spelling; what still blocks the rest is listed in the report.
+ * Pinned at 100: every definition the game ships can be written through
+ * `define()`. It started at 34%, and rose as comparisons, repeated keys, raw
+ * script and ordered entry lists each got a spelling. Anything that drops it is
+ * a regression, and the report names what failed.
  */
-const REPRODUCTION_FLOOR = 99.9;
+const REPRODUCTION_FLOOR = 100;
 
 console.log(
   [

@@ -152,3 +152,9 @@
 - Blockers: none.
 - Notes: the printer was quoting with `JSON.stringify`, which doubles a backslash. PDX does not use a backslash as an escape — `"- This: \[This.GetName]"` is a literal backslash, and doubling it changes the string the game reads. Only the quote itself needs escaping. This was invisible until the harness compared a scripted effect that logs scope names, which is the argument for pointing it at all 40,550 definitions rather than a sample.
 
+## Reverse-Derivation Loop — Complete
+- Proof: `npm run verify:reproduce` is 100.00% — all 40,550 vanilla definitions convert back into what `define()` takes, print, re-parse and match. `npm run verify` is 14/14 exit 0 with 79 tests. The floor is pinned at 100.
+- Remaining: nothing in this loop.
+- Blockers: none.
+- Notes: the last cause was a comparison against inline maths, which was the third time a marked value had been missed in a position nobody had written it in yet. Fixing it at each call site would have been a fourth patch waiting to happen, so they are resolved in `valueNode` instead and every position works by construction. The rate went 34.20 → 97.77 → 98.09 → 98.40 → 98.78 → 99.01 → 99.11 → 99.94 → 99.98 → 100.00 across seven passes, and every step came from a failing example rather than from reasoning about which constructs looked hard.
+

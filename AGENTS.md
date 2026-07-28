@@ -92,7 +92,10 @@ differently later. The importer's structural output is canonical; prose in `PLAN
 re-parses it and compares. It answers the question the conformance report cannot: **could a mod author have written
 this?** The rate is pinned and can only go up; `docs/authoring-gaps.md` lists what still blocks the remainder.
 
-Two rules learned the hard way, both from being wrong in the flattering direction:
+It reached 100%: every definition the game ships can be written through `define()`. The floor is pinned there, so
+anything that drops it is a regression.
+
+Three rules learned the hard way, all from being wrong in the flattering direction:
 
 - **Do not reason about which constructs look hard.** A value list and a script-variable reference look exotic and were
   always writable; quoted values were being double-quoted and nobody would have guessed it. Run the harness, read a
@@ -100,6 +103,10 @@ Two rules learned the hard way, both from being wrong in the flattering directio
 - **Compare by what the game loads, not by bytes.** `"x"` and `x` are the same string, `0.50` and `0.5` the same
   number, and a plain object cannot interleave duplicate keys — none of which changes what the game reads. Comparing
   raw text reported 66% failures that were not failures.
+
+- **Resolve a marked value in one place.** Handling `raw`, `repeated` and the comparison markers where each was first
+  needed missed them three times running — inside a repetition, in a bare position, and on the right of a comparison.
+  Every new position is a new place to forget. They are resolved in `valueNode` now, so any position works.
 
 `entries()` exists because a PDX block is an *ordered* sequence that may mix bare values with keyed ones, and a
 JavaScript object is neither ordered nor able to hold a bare value. Use a plain object unless order is visible — it is

@@ -15,14 +15,13 @@ These are the ones that actually failed the round trip.
 | | |
 | --- | --- |
 | definitions inspected | 40550 |
-| reproduced exactly | 40540 (99.98%) |
-| blocked | 10 |
-| distinct causes | 1 |
+| reproduced exactly | 40550 (100.00%) |
+| blocked | 0 |
+| distinct causes | 0 |
 | files read | 2507 |
 
 ## Causes
 
 | cause | definitions | files | example |
 | --- | --- | --- | --- |
-| `print-mismatch` | 10 | 6 | update_eotc_accords in `common/scripted_effects/shroud_shadows_scripted_effects.txt` |
 
