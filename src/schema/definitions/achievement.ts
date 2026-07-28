@@ -20,8 +20,5 @@ export const achievement: DefinitionType = defineType({
     field("id", primitive("integer"), occurs.one),
     field("possible", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
     field("happened", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field("id", primitive("integer"), occurs.one),
-    field("possible", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field("happened", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
   ],
 });

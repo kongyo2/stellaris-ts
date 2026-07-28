@@ -23,11 +23,5 @@ export const bitmapfont: DefinitionType = defineType({
     field("color", primitive("scalar"), occurs.one),
     field("cursor_offset", block([item(primitive("integer"), between(2, 2))]), occurs.optional),
     field("selection_offset", block([item(primitive("integer"), between(2, 2))]), occurs.optional),
-    field("name", primitive("scalar"), occurs.one),
-    field("path", primitive("scalar"), occurs.optional),
-    field("fontfiles", block([item(primitive("scalar"), occurs.oneOrMore)]), occurs.optional),
-    field("color", primitive("scalar"), occurs.one),
-    field("cursor_offset", block([item(primitive("integer"), between(2, 2))]), occurs.optional),
-    field("selection_offset", block([item(primitive("integer"), between(2, 2))]), occurs.optional),
   ],
 });

@@ -39,18 +39,5 @@ export const staticModifier: DefinitionType = defineType({
     field("hide_from_country_list", literal(true), occurs.optional, {
       documentation: "Hides it from the country government modifiers interface",
     }),
-    modifierEntries(),
-    whenVariant("planet", [
-      field("icon_frame", primitive("integer", { min: 0, max: 9 }), occurs.one),
-      field("icon", primitive("file"), occurs.one),
-    ]),
-    field("icon", primitive("file"), occurs.optional),
-    field("important", primitive("boolean"), occurs.optional),
-    field("custom_tooltip", primitive("localisation"), occurs.optional),
-    field("show_only_custom_tooltip", primitive("boolean"), occurs.optional),
-    field("apply_modifier_to_other_planets", typeRef("static_modifier"), occurs.optional),
-    field("hide_from_country_list", literal(true), occurs.optional, {
-      documentation: "Hides it from the country government modifiers interface",
-    }),
   ],
 });

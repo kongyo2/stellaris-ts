@@ -13,5 +13,5 @@ export const alertIcon: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [field(anyKey(), typeRef("sprite"), occurs.any), field(anyKey(), typeRef("sprite"), occurs.any)],
+  entries: [field(anyKey(), typeRef("sprite"), occurs.any)],
 });

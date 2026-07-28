@@ -19,10 +19,5 @@ export const sound: DefinitionType = defineType({
     field("volume", primitive("number"), occurs.optional),
     field("always_load", primitive("boolean"), occurs.optional),
     field("priority", primitive("integer"), occurs.optional),
-    field("name", primitive("scalar"), occurs.one),
-    field("file", primitive("scalar"), occurs.one),
-    field("volume", primitive("number"), occurs.optional),
-    field("always_load", primitive("boolean"), occurs.optional),
-    field("priority", primitive("integer"), occurs.optional),
   ],
 });

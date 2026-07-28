@@ -27,18 +27,5 @@ export const soundGroup: DefinitionType = defineType({
     ),
     field("soundfileoverrides", block([field(typeKey("sound"), primitive("scalar"), occurs.any)]), occurs.optional),
     field("sort_order", primitive("integer"), occurs.optional),
-    field("name", primitive("scalar"), occurs.one),
-    field(
-      "soundoverride",
-      block([field("name", typeRef("sound"), occurs.one), field("file", primitive("scalar"), occurs.one)]),
-      occurs.any,
-    ),
-    field(
-      "soundeffectoverrides",
-      block([field(typeKey("sound_effect"), typeRef("sound_effect"), occurs.any)]),
-      occurs.optional,
-    ),
-    field("soundfileoverrides", block([field(typeKey("sound"), primitive("scalar"), occurs.any)]), occurs.optional),
-    field("sort_order", primitive("integer"), occurs.optional),
   ],
 });

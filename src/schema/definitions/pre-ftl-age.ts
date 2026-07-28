@@ -13,8 +13,5 @@ export const preFtlAge: DefinitionType = defineType({
   variants: [],
   localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
   modifiers: [],
-  entries: [
-    field("next_age", typeRef("pre_ftl_age"), occurs.optional),
-    field("next_age", typeRef("pre_ftl_age"), occurs.optional),
-  ],
+  entries: [field("next_age", typeRef("pre_ftl_age"), occurs.optional)],
 });

@@ -27,12 +27,5 @@ export const agreementTerm: DefinitionType = defineType({
     field("hidden", primitive("boolean"), occurs.optional, {
       documentation: "Whether the term should show up on the agreement negotiation screen (default: no)",
     }),
-    field("term_type", enumRef(EnumId.AgreementTermType), occurs.one, {
-      documentation:
-        "This defines how the term will show up in the UI. If it shows up as discrete/separate buttons or if it's a scale.",
-    }),
-    field("hidden", primitive("boolean"), occurs.optional, {
-      documentation: "Whether the term should show up on the agreement negotiation screen (default: no)",
-    }),
   ],
 });

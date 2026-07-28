@@ -17,8 +17,5 @@ export const intelLevel: DefinitionType = defineType({
     field("frame", primitive("integer"), occurs.one),
     field("intel", block([item(primitive("integer", { min: 0, max: 100 }), occurs.any)]), occurs.one),
     field(typeKey("intel_category"), primitive("integer"), occurs.oneOrMore),
-    field("frame", primitive("integer"), occurs.one),
-    field("intel", block([item(primitive("integer", { min: 0, max: 100 }), occurs.any)]), occurs.one),
-    field(typeKey("intel_category"), primitive("integer"), occurs.oneOrMore),
   ],
 });

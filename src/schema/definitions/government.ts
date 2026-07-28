@@ -45,25 +45,5 @@ export const government: DefinitionType = defineType({
       documentation:
         "if set to yes, empires changing to or from this government will be renamed even if authority type does not change (Default = no)",
     }),
-    field("possible", block([triggerEntries()]), occurs.one, {
-      documentation:
-        "Determines if a government name can be chosen. AND trigger, scope: country; valid triggers: has_ethic, has_authority, has_valid_civic; everything else is undefined behavior!",
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("weight", block([modifierRuleEntries()]), occurs.one, {
-      documentation:
-        "scriptable value, scope: country; the (possible) government type with the biggest weight is assigned to the country",
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("ruler_title", primitive("localisation"), occurs.one),
-    field("ruler_title_female", primitive("localisation"), occurs.optional),
-    field("heir_title", primitive("localisation"), occurs.optional),
-    field("heir_title_female", primitive("localisation"), occurs.optional),
-    field("use_regnal_names", primitive("boolean"), occurs.optional, { documentation: "(Default = no)" }),
-    field("dynastic_last_names", primitive("boolean"), occurs.optional, { documentation: "(Default = no)" }),
-    field("should_force_rename", primitive("boolean"), occurs.optional, {
-      documentation:
-        "if set to yes, empires changing to or from this government will be renamed even if authority type does not change (Default = no)",
-    }),
   ],
 });

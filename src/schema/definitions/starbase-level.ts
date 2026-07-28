@@ -68,48 +68,5 @@ export const starbaseLevel: DefinitionType = defineType({
     field("downgrade_potential", block([triggerEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Starbase }),
     }),
-    field("ship_size", typeRef("ship_size"), occurs.one),
-    field(
-      "picture",
-      block([field("trigger", block([triggerEntries()]), occurs.one), field("picture", typeRef("sprite"), occurs.one)]),
-      occurs.optional,
-    ),
-    field("next_level", typeRef("starbase_level"), occurs.optional),
-    field("show_in_outliner", primitive("boolean"), occurs.optional, {
-      documentation: "Default yes, if yes starbase will be shown in outliner",
-    }),
-    field("display_empire_shield", primitive("boolean"), occurs.optional, {
-      documentation: "Default no, if yes empire shield will be shown even if there's no colony",
-    }),
-    field("display_map_icon", primitive("boolean"), occurs.optional, {
-      documentation: "Default yes, if yes starbase map icon will be shown even if there's no colony",
-    }),
-    field("level_weight", primitive("integer"), occurs.optional, {
-      documentation: "Default 0, used for claim cost and required module/building level",
-    }),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
-      documentation: "Determines which levels are more important to upgrade from",
-      scope: replaceScope({ root: ScopeId.Starbase, from: ScopeId.Country }),
-    }),
-    field("potential_home_base", primitive("boolean"), occurs.optional, {
-      documentation: "Default no, if yes starbase may be used as homebase for fleets",
-    }),
-    field("picture", typeRef("sprite"), occurs.optional),
-    field("can_always_dismantle", primitive("boolean"), occurs.optional),
-    field("collects_trade", primitive("boolean"), occurs.optional, {
-      documentation:
-        "Default yes, if no then starbase_trade_collection_range_add and starbase_trade_protection_range_add will have no effect on starbases of this level",
-    }),
-    field("special_construction", primitive("boolean"), occurs.optional, {
-      documentation:
-        "Default no, basically this tells the country that it is not an outpost despite being level 1 (having nothing to downgrade it to)",
-    }),
-    field("upgrade_possible", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Starbase }),
-    }),
-    field("portrait", typeRef("sprite"), occurs.optional),
-    field("downgrade_potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Starbase }),
-    }),
   ],
 });

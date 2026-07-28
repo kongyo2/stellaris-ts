@@ -39,7 +39,7 @@ const MINIMUMS: SchemaStructuralMinimums = {
  * than hidden (PLAN.md §8): the gate fails if the count rises, and each one is
  * a candidate to fix by hand in `src/schema/` once vanilla says what is right.
  */
-const KNOWN_DEBT = 21;
+const KNOWN_DEBT = 20;
 
 const diagnostics: readonly SchemaValidationDiagnostic[] = validateSchema(schema, { minimums: MINIMUMS });
 const overBudget: boolean = diagnostics.length > KNOWN_DEBT;

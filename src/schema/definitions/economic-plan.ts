@@ -50,30 +50,5 @@ export const economicPlan: DefinitionType = defineType({
     field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field("income", block([field(typeKey("resource"), primitive("integer"), occurs.oneOrMore)]), occurs.optional),
-    field("focus", block([field(typeKey("resource"), primitive("integer"), occurs.oneOrMore)]), occurs.optional),
-    field(
-      "subplan",
-      block([
-        field("potential", block([triggerEntries()]), occurs.optional, {
-          scope: replaceScope({ root: ScopeId.Country }),
-        }),
-        field("income", block([field(typeKey("resource"), primitive("integer"), occurs.oneOrMore)]), occurs.optional),
-        field("focus", block([field(typeKey("resource"), primitive("integer"), occurs.oneOrMore)]), occurs.optional),
-        field("pops", primitive("integer"), occurs.optional),
-        field("empire_size", primitive("number"), occurs.optional),
-        field("naval_cap", primitive("integer"), occurs.optional),
-        field("set_name", primitive("scalar"), occurs.optional),
-        field("scaling", primitive("boolean"), occurs.optional),
-        field("optional", primitive("boolean"), occurs.optional),
-      ]),
-      occurs.oneOrMore,
-    ),
-    field("pops", primitive("integer"), occurs.optional),
-    field("empire_size", primitive("number"), occurs.optional),
-    field("naval_cap", primitive("integer"), occurs.optional),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

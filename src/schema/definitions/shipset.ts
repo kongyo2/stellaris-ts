@@ -16,7 +16,5 @@ export const shipset: DefinitionType = defineType({
   entries: [
     field("name", primitive("localisation"), occurs.one),
     field("potential", block([triggerEntries()]), occurs.one),
-    field("name", primitive("localisation"), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.one),
   ],
 });

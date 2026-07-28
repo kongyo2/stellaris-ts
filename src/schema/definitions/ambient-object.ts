@@ -45,22 +45,5 @@ export const ambientObject: DefinitionType = defineType({
     field("show_name", primitive("boolean"), occurs.optional, {
       documentation: "Determines whether you can read the name of the object ingame.",
     }),
-    whenVariant("show_name", [
-      field("name", primitive("localisation"), occurs.one, { documentation: "A localisation key." }),
-    ]),
-    unlessVariant("show_name", [field("name", primitive("scalar"), occurs.one)]),
-    whenVariant("selectable", [
-      field("description", primitive("localisation"), occurs.one),
-      field("tooltip", primitive("localisation"), occurs.one),
-    ]),
-    unlessVariant("selectable", [
-      field("description", primitive("localisation"), occurs.optional),
-      field("tooltip", primitive("localisation"), occurs.optional),
-    ]),
-    field("entity", typeRef("model_entity"), occurs.one),
-    field("selectable", primitive("boolean"), occurs.optional),
-    field("show_name", primitive("boolean"), occurs.optional, {
-      documentation: "Determines whether you can read the name of the object ingame.",
-    }),
   ],
 });

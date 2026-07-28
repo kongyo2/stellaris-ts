@@ -41,30 +41,5 @@ export const speciesName: DefinitionType = defineType({
       occurs.oneOrMore,
       { documentation: "Unique key for your species name entry" },
     ),
-    field(
-      anyKey(),
-      block([
-        field("name", primitive("localisation"), occurs.one, {
-          documentation: "Name of a species, singular, e. g. Human",
-        }),
-        field("plural", primitive("localisation"), occurs.one, {
-          documentation: "Plural for the species name, e. g. Humans",
-        }),
-        field("home_planet", primitive("localisation"), occurs.optional, {
-          documentation:
-            "Name of the home planet, if this entry is used when generating random playable empire on game start, e. g. Earth",
-        }),
-        field("home_system", primitive("localisation"), occurs.optional, {
-          documentation:
-            "Name of the home system, if this entry is used when generating random playable empire on game start, e. g. Sol",
-        }),
-        field("name_list", typeRef("name_list"), occurs.one, {
-          documentation:
-            "ID of the name list picked if this entry is used when generating random player empire on game start, e. g. HUMAN1. It cannot be a non-randomizable name list (creates species with blank names). It is unclear whether selectable = { always = no } will also avoid this bug, let Dayshine and Caligula know if it does.",
-        }),
-      ]),
-      occurs.oneOrMore,
-      { documentation: "Unique key for your species name entry" },
-    ),
   ],
 });

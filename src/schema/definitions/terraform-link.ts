@@ -58,36 +58,5 @@ export const terraformLink: DefinitionType = defineType({
     field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Planet }),
     }),
-    field("from", typeRef("planet_class"), occurs.one, { documentation: "country scope, from = planet" }),
-    field("to", typeRef("planet_class"), occurs.one),
-    field(
-      "on_queued",
-      block([field("if", block([field("limit", block([triggerEntries()]), occurs.one), effectEntries()]), occurs.any)]),
-      occurs.optional,
-    ),
-    field(
-      "on_unqueued",
-      block([field("if", block([field("limit", block([triggerEntries()]), occurs.one), effectEntries()]), occurs.any)]),
-      occurs.optional,
-    ),
-    field(
-      "resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-      occurs.one,
-    ),
-    field("duration", primitive("integer"), occurs.one),
-    field("condition", block([triggerEntries()]), occurs.optional, {
-      documentation: "displayed in game, hence functions like after effect and requires localisations in the same way.",
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Planet }),
-    }),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Planet }),
-    }),
-    field("effect", block([effectEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Planet }),
-    }),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Planet }),
-    }),
   ],
 });

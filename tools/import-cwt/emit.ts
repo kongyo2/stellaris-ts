@@ -728,11 +728,9 @@ function emitDefinition(definition: ImportedDefinitionType, context: EmitContext
     modifiers.length === 0 ? "modifiers: []" : `modifiers: [\n${modifiers.map((value) => `${value},`).join("\n")}\n]`,
   );
 
-  const allEntries: ImportedEntryRule[] = [...definition.entries];
-  for (const schemaBlock of definition.schemaBlocks) {
-    allEntries.push(...schemaBlock.entries);
-  }
-  parts.push(`entries: ${entriesExpression(context, allEntries)}`);
+  // `entries` is already every schema block's entries flattened, so adding the
+  // blocks again wrote all 234 types twice over — 9,490 rules where 4,740 exist.
+  parts.push(`entries: ${entriesExpression(context, definition.entries)}`);
 
   const documentation: string = definition.annotations.documentation.join(" ").trim();
   if (documentation.length > 0) {

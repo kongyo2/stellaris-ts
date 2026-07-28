@@ -54,33 +54,5 @@ export const starbaseType: DefinitionType = defineType({
       ]),
       occurs.optional,
     ),
-    field("potential", block([triggerEntries()]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Starbase, from: ScopeId.Country }),
-    }),
-    field("weight_modifier", block([modifierRuleEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Starbase, from: ScopeId.Country }),
-    }),
-    field("ai_use_defense_platforms", primitive("boolean"), occurs.optional, {
-      documentation:
-        "Set it so that the AI will build defense platforms (note: it will always build them in the capital system). Default: no",
-    }),
-    field(
-      "ai_design",
-      block([
-        field("min", block([modifierRuleEntries()]), occurs.optional),
-        field("ratio", block([modifierRuleEntries()]), occurs.optional),
-        field(
-          "buildings",
-          block([field(typeKey("starbase_building"), block([modifierRuleEntries()]), occurs.any)]),
-          occurs.one,
-        ),
-        field(
-          "modules",
-          block([field(typeKey("starbase_module"), block([modifierRuleEntries()]), occurs.any)]),
-          occurs.one,
-        ),
-      ]),
-      occurs.optional,
-    ),
   ],
 });

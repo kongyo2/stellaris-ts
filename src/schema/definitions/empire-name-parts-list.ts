@@ -25,14 +25,5 @@ export const empireNamePartsList: DefinitionType = defineType({
       occurs.one,
       { documentation: "List of possible parts. Random weights to the right are optional" },
     ),
-    field("key", valueSet("empire_name_parts"), occurs.one, {
-      documentation: "Unique ID by which list can be referred to from name format via <key>.",
-    }),
-    field(
-      "parts",
-      block([field("localisation", primitive("integer"), occurs.any), item(primitive("localisation"), occurs.any)]),
-      occurs.one,
-      { documentation: "List of possible parts. Random weights to the right are optional" },
-    ),
   ],
 });

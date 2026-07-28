@@ -149,12 +149,5 @@ export const gameRule: DefinitionType = defineType({
   ],
   localisation: [],
   modifiers: [],
-  entries: [
-    triggerEntries(),
-    modifierRuleEntries(),
-    field("mult", enumRef(EnumId.ExeSetVariable), occurs.any),
-    triggerEntries(),
-    modifierRuleEntries(),
-    field("mult", enumRef(EnumId.ExeSetVariable), occurs.any),
-  ],
+  entries: [triggerEntries(), modifierRuleEntries(), field("mult", enumRef(EnumId.ExeSetVariable), occurs.any)],
 });

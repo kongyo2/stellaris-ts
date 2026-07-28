@@ -13,8 +13,5 @@ export const intelCategory: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    field("intel_level", block([item(primitive("scalar"), occurs.any)]), occurs.any),
-    field("intel_level", block([item(primitive("scalar"), occurs.any)]), occurs.any),
-  ],
+  entries: [field("intel_level", block([item(primitive("scalar"), occurs.any)]), occurs.any)],
 });

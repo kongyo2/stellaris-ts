@@ -66,39 +66,5 @@ export const subjectSpecialistPerk: DefinitionType = defineType({
     field("desc", block([field("description", primitive("localisation"), occurs.one)]), occurs.optional, {
       documentation: "Additional description text for this subject specialist perk",
     }),
-    field("main_perk", primitive("boolean"), occurs.optional),
-    whenVariant("non_main", [field("icon", typeRef("sprite"), occurs.one)]),
-    field(
-      "subject_modifier",
-      block([modifierEntries(), field("description", primitive("localisation"), occurs.optional)]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Country }) },
-    ),
-    field(
-      "overlord_modifier",
-      block([modifierEntries(), field("description", primitive("localisation"), occurs.optional)]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Country }) },
-    ),
-    field("activate_effect", block([effectEntries()]), occurs.optional, {
-      documentation: "Invoked when the perk is activated",
-      scope: replaceScope({ root: ScopeId.Agreement }),
-    }),
-    field("deactivate_effect", block([effectEntries()]), occurs.optional, {
-      documentation: "Invoked when the perk is deactivated",
-      scope: replaceScope({ root: ScopeId.Agreement }),
-    }),
-    field(
-      "overlord_relay_network_modifier",
-      block([field(typeKey("static_modifier"), primitive("number"), occurs.any)]),
-      occurs.optional,
-      {
-        documentation:
-          "Static modifiers that are applied to the overlord's planets if the capitals of both empires are connected via the hyperlane network",
-      },
-    ),
-    field("desc", block([field("description", primitive("localisation"), occurs.one)]), occurs.optional, {
-      documentation: "Additional description text for this subject specialist perk",
-    }),
   ],
 });

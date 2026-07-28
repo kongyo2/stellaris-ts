@@ -106,59 +106,5 @@ export const deposit: DefinitionType = defineType({
     ruleSetEntries("resources_template_optional"),
     field("custom_tooltip", primitive("localisation"), occurs.optional),
     field("custom_tooltip_short", primitive("localisation"), occurs.optional),
-    unlessVariant("null", [field("is_for_colonizable", primitive("boolean"), occurs.one)]),
-    whenVariant("null", [
-      field("is_null", literal(true), occurs.one, {
-        documentation: 'this makes the deposit transparent, used by vanilla to designate an "empty" deposit.',
-      }),
-    ]),
-    field("use_for_min_max_adjustments", primitive("boolean"), occurs.optional),
-    field("icon", primitive("icon", undefined, "gfx/interface/icons/deposits"), occurs.optional),
-    field("time", primitive("integer"), occurs.optional),
-    whenVariant("blocker", [
-      field("time", primitive("integer"), occurs.optional),
-      field("on_cleared", block([effectEntries()]), occurs.optional),
-      field("can_be_cleared", block([triggerEntries()]), occurs.optional),
-      field("blocker_swap_types", block([item(typeRef("deposit"), occurs.oneOrMore)]), occurs.optional),
-      field("use_weights_for_blocker_swap_types", primitive("boolean"), occurs.optional),
-      field("all_blocker_swap_types", literal(true), occurs.optional),
-      field("prerequisites", block([item(typeRef("technology"), occurs.any)]), occurs.optional),
-      field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
-        scope: replaceScope({ root: ScopeId.Country }),
-      }),
-    ]),
-    whenVariant("colonisable", [
-      field("country_modifier", block([modifierEntries()]), occurs.one, {
-        scope: replaceScope({ root: ScopeId.Country }),
-      }),
-      field("use_weights_for_terraforming_swap_types", primitive("boolean"), occurs.optional),
-      field("should_swap_deposit_on_terraforming", primitive("boolean"), occurs.optional),
-      field("terraforming_swap_types", block([item(typeRef("deposit"), occurs.oneOrMore)]), occurs.optional),
-      field("category", typeRef("deposit_category"), occurs.one),
-    ]),
-    unlessVariant("colonisable", [
-      field("category", literal("deposit_cat_rare"), occurs.optional),
-      field("category", literal("deposit_cat_blockers"), occurs.optional),
-    ]),
-    field("planet_modifier", block([modifierEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Planet }),
-    }),
-    field("potential", block([triggerEntries()]), occurs.optional),
-    field("can_be_cleared_potential", block([triggerEntries()]), occurs.optional),
-    field("habitat_modifier", block([modifierEntries()]), occurs.optional),
-    ruleSetEntries("triggered_planet_pop_group_modifier_species"),
-    field("drop_weight", block([field("factor", primitive("integer"), occurs.one)]), occurs.any),
-    unlessVariant("not_dropped", [field("drop_weight", block([modifierRuleEntries()]), occurs.one)]),
-    whenVariant("not_dropped", [
-      field("drop_weight", block([field("weight", literal(0), occurs.one)]), occurs.optional),
-    ]),
-    whenVariant("orbital", [
-      field("station", literal("shipclass_mining_station"), occurs.one),
-      field("station", literal("shipclass_research_station"), occurs.one),
-    ]),
-    ruleSetEntries("triggered_planet_modifier_planet"),
-    ruleSetEntries("resources_template_optional"),
-    field("custom_tooltip", primitive("localisation"), occurs.optional),
-    field("custom_tooltip_short", primitive("localisation"), occurs.optional),
   ],
 });

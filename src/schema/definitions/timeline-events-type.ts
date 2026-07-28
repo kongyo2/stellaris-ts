@@ -23,14 +23,5 @@ export const timelineEventsType: DefinitionType = defineType({
     ),
     field("text", block([item(primitive("localisation"), occurs.any)]), occurs.optional),
     field("texture", block([item(primitive("scalar"), occurs.any)]), occurs.optional),
-    field("fire_only_once", primitive("boolean"), occurs.optional),
-    field("gui", block([item(primitive("scalar"), occurs.any)]), occurs.one),
-    field(
-      "types",
-      block([item(literal("country"), occurs.optional), item(literal("planet"), occurs.optional)]),
-      occurs.optional,
-    ),
-    field("text", block([item(primitive("localisation"), occurs.any)]), occurs.optional),
-    field("texture", block([item(primitive("scalar"), occurs.any)]), occurs.optional),
   ],
 });

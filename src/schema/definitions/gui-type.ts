@@ -13,5 +13,5 @@ export const guiType: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [ruleSetEntries("gui"), ruleSetEntries("gui_button"), ruleSetEntries("gui"), ruleSetEntries("gui_button")],
+  entries: [ruleSetEntries("gui"), ruleSetEntries("gui_button")],
 });

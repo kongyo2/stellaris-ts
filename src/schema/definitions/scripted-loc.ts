@@ -38,19 +38,5 @@ export const scriptedLoc: DefinitionType = defineType({
     ),
     field("default", primitive("localisation"), occurs.optional),
     field("value", scriptValue("number"), occurs.optional, { documentation: "value = value:<some_script_value>" }),
-    field("name", primitive("scalar"), occurs.one),
-    field("random", primitive("boolean"), occurs.optional),
-    field(
-      "text",
-      block([
-        field("weight", block([modifierRuleEntries()]), occurs.optional),
-        field("weight", primitive("number"), occurs.optional),
-        field("trigger", block([triggerEntries()]), occurs.optional),
-        field("localization_key", primitive("localisation"), occurs.one),
-      ]),
-      occurs.any,
-    ),
-    field("default", primitive("localisation"), occurs.optional),
-    field("value", scriptValue("number"), occurs.optional, { documentation: "value = value:<some_script_value>" }),
   ],
 });

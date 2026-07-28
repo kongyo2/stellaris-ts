@@ -47,27 +47,5 @@ export const firstContactStage: DefinitionType = defineType({
       occurs.oneOrMore,
     ),
     field("on_roll_failed", block([effectEntries()]), occurs.one),
-    field("picture", typeRef("sprite"), occurs.optional),
-    field("icon", typeRef("sprite"), occurs.optional),
-    field("difficulty", primitive("integer", { min: null, max: null }), occurs.one),
-    field(
-      "difficulty",
-      block([
-        field("min", primitive("integer", { min: null, max: null }), occurs.one),
-        field("max", primitive("integer", { min: null, max: null }), occurs.one),
-      ]),
-      occurs.one,
-    ),
-    field(
-      "stage_event",
-      block([
-        field("icon", typeRef("sprite"), occurs.optional),
-        field("summary", primitive("localisation"), occurs.optional),
-        field("event_weight", block([modifierRuleEntries()]), occurs.one),
-        field("event", typeRef("event", "first_contact"), occurs.one),
-      ]),
-      occurs.oneOrMore,
-    ),
-    field("on_roll_failed", block([effectEntries()]), occurs.one),
   ],
 });

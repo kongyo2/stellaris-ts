@@ -23,14 +23,5 @@ export const font: DefinitionType = defineType({
       ]),
       occurs.one,
     ),
-    field("name", primitive("scalar"), occurs.one),
-    field(
-      "fontstyle",
-      block([
-        field("style", enumRef(EnumId.FontStyle), occurs.one),
-        field("file", primitive("file"), occurs.one, { documentation: "supports *.ttf and *.otf files!" }),
-      ]),
-      occurs.one,
-    ),
   ],
 });

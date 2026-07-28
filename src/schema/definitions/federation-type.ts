@@ -58,35 +58,5 @@ export const federationType: DefinitionType = defineType({
     field("ai_weight", block([ruleSetEntries("modifier_rule_with_loc")]), occurs.one, {
       scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
     }),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("base_intel", primitive("integer"), occurs.one),
-    field("valid_leader", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("ownership_limits", typeRef("ownership_limit"), occurs.optional),
-    field("potential", block([triggerEntries()]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
-    }),
-    field("allow", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
-    }),
-    field(
-      "levels",
-      block([
-        field(
-          "localisation",
-          block([
-            field("experience", primitive("integer"), occurs.optional),
-            field("perks", block([item(typeRef("federation_perk"), occurs.any)]), occurs.one),
-          ]),
-          occurs.oneOrMore,
-        ),
-      ]),
-      occurs.one,
-    ),
-    field("on_create", block([effectEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Federation }) }),
-    field("ai_weight", block([ruleSetEntries("modifier_rule_with_loc")]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
-    }),
   ],
 });

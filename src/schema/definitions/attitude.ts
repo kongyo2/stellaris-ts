@@ -27,18 +27,5 @@ export const attitude: DefinitionType = defineType({
       ]),
       occurs.one,
     ),
-    field("type", primitive("scalar"), occurs.one),
-    field(
-      "behaviour",
-      block([
-        field("attack", primitive("boolean"), occurs.optional),
-        field("weaken", primitive("boolean"), occurs.optional),
-        field("alliance", primitive("boolean"), occurs.optional),
-        field("vassalize", primitive("boolean"), occurs.optional),
-        field("trade", primitive("boolean"), occurs.optional),
-        field("coexist", primitive("boolean"), occurs.optional),
-      ]),
-      occurs.one,
-    ),
   ],
 });

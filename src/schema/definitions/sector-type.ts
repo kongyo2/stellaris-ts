@@ -33,14 +33,5 @@ export const sectorType: DefinitionType = defineType({
     ),
     field("resources", block([field("category", typeRef("economic_category"), occurs.one)]), occurs.optional),
     field("max_jumps", primitive("integer"), occurs.one),
-    field("system_scores", block([modifierRuleEntries()]), occurs.one),
-    field("local_capital_scores", block([modifierRuleEntries()]), occurs.one),
-    field(
-      "resource_conversion_table",
-      block([field("energy", primitive("integer"), occurs.one), field("minerals", primitive("integer"), occurs.one)]),
-      occurs.one,
-    ),
-    field("resources", block([field("category", typeRef("economic_category"), occurs.one)]), occurs.optional),
-    field("max_jumps", primitive("integer"), occurs.one),
   ],
 });

@@ -19,10 +19,5 @@ export const pingmap: DefinitionType = defineType({
     field("system_normal_zoom", primitive("integer"), occurs.one),
     field("galaxy_normal_zoom", primitive("integer"), occurs.one),
     field("duration", primitive("integer"), occurs.one),
-    field("system_entity", typeRef("model_entity"), occurs.one),
-    field("galaxy_entity", typeRef("model_entity"), occurs.one),
-    field("system_normal_zoom", primitive("integer"), occurs.one),
-    field("galaxy_normal_zoom", primitive("integer"), occurs.one),
-    field("duration", primitive("integer"), occurs.one),
   ],
 });

@@ -27,9 +27,5 @@ export const advisorVoice: DefinitionType = defineType({
     field("icon", primitive("file"), occurs.one),
     field("playable", block([triggerEntries()]), occurs.optional),
     field("weight", block([modifierRuleEntries()]), occurs.one),
-    field("name", primitive("scalar"), occurs.one),
-    field("icon", primitive("file"), occurs.one),
-    field("playable", block([triggerEntries()]), occurs.optional),
-    field("weight", block([modifierRuleEntries()]), occurs.one),
   ],
 });

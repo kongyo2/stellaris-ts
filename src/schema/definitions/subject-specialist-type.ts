@@ -63,37 +63,5 @@ export const subjectSpecialistType: DefinitionType = defineType({
           "The levels for this subject specialist type; the order is the order in which subjects will progress through the levels",
       },
     ),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("icon_large", typeRef("sprite"), occurs.one),
-    field("preferred_ethic", typeRef("ethos"), occurs.one),
-    field("base_conversion_time", primitive("integer"), occurs.one, {
-      documentation: "The number of days to convert to this subject specialist type",
-    }),
-    field("on_progress_complete", block([effectEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Agreement }),
-    }),
-    field(
-      "levels",
-      block([
-        item(
-          block([
-            field("experience_needed_for_next_level", primitive("integer"), occurs.optional, {
-              documentation:
-                "The experience required to advance from this level to the next one - should be omitted from the final level",
-            }),
-            field("perks", block([item(typeRef("subject_specialist_perk"), occurs.any)]), occurs.one, {
-              documentation: "The subject specialist perks(s) added by this level",
-            }),
-          ]),
-          occurs.oneOrMore,
-          { documentation: "A level for this subject specialist" },
-        ),
-      ]),
-      occurs.one,
-      {
-        documentation:
-          "The levels for this subject specialist type; the order is the order in which subjects will progress through the levels",
-      },
-    ),
   ],
 });

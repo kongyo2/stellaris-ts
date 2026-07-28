@@ -24,15 +24,5 @@ export const componentSlotTemplate: DefinitionType = defineType({
       block([field(enumKey(EnumId.WeaponType), primitive("scalar"), occurs.oneOrMore)]),
       occurs.optional,
     ),
-    field("size", enumRef(EnumId.WeaponSlotSize), occurs.one),
-    field("component", literal("weapon"), occurs.one),
-    field("component", literal("strike_craft"), occurs.one),
-    field("component", literal("any"), occurs.one),
-    field("is_fixed", literal(true), occurs.optional),
-    field(
-      "entities",
-      block([field(enumKey(EnumId.WeaponType), primitive("scalar"), occurs.oneOrMore)]),
-      occurs.optional,
-    ),
   ],
 });

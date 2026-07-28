@@ -80,55 +80,5 @@ export const ethos: DefinitionType = defineType({
       block([field(typeKey("job"), primitive("integer"), occurs.oneOrMore)]),
       occurs.optional,
     ),
-    field("cost", primitive("integer"), occurs.one),
-    field("category", typeRef("ethic_category"), occurs.one),
-    field("category_value", primitive("integer", { min: 0, max: 20 }), occurs.one),
-    field("xenophobe", primitive("boolean"), occurs.optional, {
-      documentation: "Used for hardcoded checks (mainly in tooltips)",
-    }),
-    field("xenophile", primitive("boolean"), occurs.optional, {
-      documentation: "Used for hardcoded checks (mainly in tooltips)",
-    }),
-    field("use_for_pops", primitive("boolean"), occurs.optional, { documentation: "Yes by default" }),
-    field("category_opposite", primitive("boolean"), occurs.optional),
-    field("regular_variant", typeRef("ethos"), occurs.optional),
-    field("fanatic_variant", typeRef("ethos"), occurs.optional),
-    field("playable", block([triggerEntries()]), occurs.optional, { documentation: "always = yes by default" }),
-    field(
-      "country_modifier",
-      block([
-        modifierEntries(),
-        field("custom_tooltip", primitive("localisation"), occurs.optional),
-        field("show_only_custom_tooltip", primitive("boolean"), occurs.optional),
-      ]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Country }) },
-    ),
-    field("tags", block([item(primitive("localisation"), occurs.any)]), occurs.optional),
-    field("random_weight", block([modifierRuleEntries()]), occurs.one),
-    field(
-      "pop_attraction_tag",
-      block([
-        field("desc", primitive("localisation"), occurs.one),
-        field("trigger", block([triggerEntries()]), occurs.one, {
-          documentation: "Scope = country",
-          scope: replaceScope({ root: ScopeId.Country }),
-        }),
-      ]),
-      between(0, 100),
-    ),
-    field("country_attraction", block([modifierRuleEntries()]), occurs.optional, {
-      documentation: "Root = country",
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("pop_attraction", block([modifierRuleEntries()]), occurs.optional, {
-      documentation: "Root = pop, from = planet",
-      scope: replaceScope({ root: ScopeId.PopGroup, from: ScopeId.Planet }),
-    }),
-    field(
-      "leader_background_job_weight",
-      block([field(typeKey("job"), primitive("integer"), occurs.oneOrMore)]),
-      occurs.optional,
-    ),
   ],
 });

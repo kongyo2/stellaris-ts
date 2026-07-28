@@ -47,22 +47,5 @@ export const observationStationMission: DefinitionType = defineType({
     field("completion_event", typeRef("event", "country"), occurs.optional),
     field("completion_sound", typeRef("sound_effect"), occurs.optional),
     field("ai_weight", block([modifierRuleEntries()]), occurs.one),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("small_icon", primitive("integer"), occurs.one),
-    field(
-      "resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-      occurs.optional,
-    ),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Planet }),
-    }),
-    field("valid", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Planet }),
-    }),
-    field("monthly_progress", primitive("number", { min: 0, max: 1 }), occurs.optional),
-    field("completion_event", typeRef("event", "country"), occurs.optional),
-    field("completion_sound", typeRef("sound_effect"), occurs.optional),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.one),
   ],
 });

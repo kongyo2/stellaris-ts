@@ -43,31 +43,5 @@ export const modelMesh: DefinitionType = defineType({
       occurs.any,
     ),
     field("cull_distance", primitive("scalar"), occurs.optional),
-    field("name", primitive("scalar"), occurs.one),
-    field("file", primitive("file"), occurs.one),
-    field("scale", primitive("number"), occurs.optional),
-    field(
-      "meshsettings",
-      block([
-        field("name", primitive("scalar"), occurs.optional),
-        field("index", primitive("integer"), occurs.optional),
-        field("shader", primitive("scalar"), occurs.optional),
-        field("texture_diffuse", primitive("scalar"), occurs.optional),
-        field("texture_normal", primitive("scalar"), occurs.optional),
-        field("texture_specular", primitive("scalar"), occurs.optional),
-        field("texture_wpo", primitive("scalar"), occurs.optional),
-      ]),
-      occurs.any,
-    ),
-    field(
-      "animation",
-      block([
-        field("id", enumRef(EnumId.ModelAnimationTypes), occurs.one),
-        field("id", primitive("scalar"), occurs.one),
-        field("type", typeRef("model_animation"), occurs.one),
-      ]),
-      occurs.any,
-    ),
-    field("cull_distance", primitive("scalar"), occurs.optional),
   ],
 });

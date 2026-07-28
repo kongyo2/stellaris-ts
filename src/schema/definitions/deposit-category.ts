@@ -13,10 +13,5 @@ export const depositCategory: DefinitionType = defineType({
   variants: [{ id: "blocker", when: fieldEquals("blocker", true) }],
   localisation: [],
   modifiers: [],
-  entries: [
-    field("blocker", literal(true), occurs.optional),
-    field("important", literal(true), occurs.optional),
-    field("blocker", literal(true), occurs.optional),
-    field("important", literal(true), occurs.optional),
-  ],
+  entries: [field("blocker", literal(true), occurs.optional), field("important", literal(true), occurs.optional)],
 });

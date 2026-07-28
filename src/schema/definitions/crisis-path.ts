@@ -17,8 +17,5 @@ export const crisisPath: DefinitionType = defineType({
     field("crisis_currency", typeRef("resource"), occurs.one),
     field("levels", block([item(typeRef("crisis_level"), occurs.any)]), occurs.one),
     field("objectives", block([item(typeRef("crisis_objective"), occurs.any)]), occurs.one),
-    field("crisis_currency", typeRef("resource"), occurs.one),
-    field("levels", block([item(typeRef("crisis_level"), occurs.any)]), occurs.one),
-    field("objectives", block([item(typeRef("crisis_objective"), occurs.any)]), occurs.one),
   ],
 });

@@ -108,10 +108,5 @@ export const scriptedEffect: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    item(literal("optimize_memory"), occurs.any),
-    effectEntries(),
-    item(literal("optimize_memory"), occurs.any),
-    effectEntries(),
-  ],
+  entries: [item(literal("optimize_memory"), occurs.any), effectEntries()],
 });

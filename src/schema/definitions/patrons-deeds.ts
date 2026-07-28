@@ -35,15 +35,5 @@ export const patronsDeeds: DefinitionType = defineType({
       occurs.optional,
     ),
     field("potential", block([triggerEntries()]), occurs.optional),
-    field("attunement", scriptValue("number"), occurs.optional),
-    field("has_desc", primitive("boolean"), occurs.optional),
-    field(
-      "counter",
-      block([
-        field(enumKey(EnumId.PatronsDeedsPo), block([field("max", primitive("integer"), occurs.one)]), occurs.one),
-      ]),
-      occurs.optional,
-    ),
-    field("potential", block([triggerEntries()]), occurs.optional),
   ],
 });

@@ -26,15 +26,5 @@ export const popFactionNameFormat: DefinitionType = defineType({
     ),
     field("format", primitive("name-format", undefined, undefined, "pop_faction_name_parts"), occurs.one),
     field("lookups", primitive("scalar"), occurs.optional),
-    field(
-      "random_weight",
-      block([
-        field("factor", primitive("number"), occurs.one),
-        field("modifier", block([field("add", primitive("number"), occurs.one), triggerEntries()]), occurs.any),
-      ]),
-      occurs.one,
-    ),
-    field("format", primitive("name-format", undefined, undefined, "pop_faction_name_parts"), occurs.one),
-    field("lookups", primitive("scalar"), occurs.optional),
   ],
 });

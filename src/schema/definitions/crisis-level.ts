@@ -29,9 +29,5 @@ export const crisisLevel: DefinitionType = defineType({
     field("required_crisis_currency", primitive("integer"), occurs.one),
     field("perks", block([item(typeRef("menace_perk"), occurs.any)]), occurs.one),
     field("on_unlock", block([effectEntries()]), occurs.one),
-    field("allow", block([triggerEntries()]), occurs.optional),
-    field("required_crisis_currency", primitive("integer"), occurs.one),
-    field("perks", block([item(typeRef("menace_perk"), occurs.any)]), occurs.one),
-    field("on_unlock", block([effectEntries()]), occurs.one),
   ],
 });

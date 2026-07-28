@@ -73,44 +73,5 @@ export const policy: DefinitionType = defineType({
       ]),
       between(1, 20),
     ),
-    field("potential", block([triggerEntries()]), occurs.optional),
-    field("allow", block([triggerEntries()]), occurs.optional),
-    field("on_activate", block([effectEntries()]), occurs.optional, {
-      documentation: "Fires when the policy group first becomes available",
-    }),
-    field(
-      "option",
-      block([
-        field("name", primitive("localisation"), occurs.one),
-        field("icon", typeRef("sprite"), occurs.optional),
-        field("pre_sapient_purge", typeRef("purge_type"), occurs.optional),
-        field(
-          "in_breach_of",
-          block([
-            item(
-              block([
-                field("trigger", block([triggerEntries()]), occurs.optional, {
-                  scope: replaceScope({ root: ScopeId.Country }),
-                }),
-                field("key", typeRef("resolution"), occurs.one),
-              ]),
-              occurs.any,
-            ),
-          ]),
-          occurs.any,
-        ),
-        field("policy_flags", block([item(primitive("scalar"), between(0, 10))]), occurs.optional),
-        field("on_enabled", block([effectEntries()]), occurs.optional),
-        field("on_disabled", block([effectEntries()]), occurs.optional),
-        field("potential", block([triggerEntries()]), occurs.optional),
-        field("valid", block([triggerEntries()]), occurs.optional),
-        field("modifier", block([modifierEntries()]), occurs.optional, {
-          scope: replaceScope({ root: ScopeId.Country }),
-        }),
-        field("prerequisites", block([item(typeRef("technology"), occurs.one)]), occurs.optional),
-        field("AI_weight", block([modifierRuleEntries()]), occurs.optional),
-      ]),
-      between(1, 20),
-    ),
   ],
 });

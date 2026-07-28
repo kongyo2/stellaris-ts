@@ -77,52 +77,5 @@ export const resolution: DefinitionType = defineType({
       block([field(enumKey(EnumId.WeightOrBase), primitive("number"), occurs.one), modifierRuleEntries()]),
       occurs.one,
     ),
-    field("icon", primitive("scalar"), occurs.one),
-    field(
-      "resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-      occurs.one,
-    ),
-    field("target", primitive("boolean"), occurs.one, {
-      documentation: "Does the resolution require a target country?",
-    }),
-    field("level", primitive("integer"), occurs.optional),
-    field("sanction", literal(true), occurs.optional),
-    field("fire_and_forget", literal(true), occurs.optional),
-    field("harmful", primitive("boolean"), occurs.optional),
-    field(
-      "modifier",
-      block([
-        field("description", primitive("localisation"), occurs.optional),
-        modifierEntries(),
-        field("custom_tooltip", primitive("localisation"), occurs.optional),
-        field("show_only_custom_tooltip", primitive("boolean"), occurs.optional),
-      ]),
-      occurs.any,
-      {
-        documentation: "Modifier to be applied to all community members if passed. Apparently. Not sure about that...",
-      },
-    ),
-    ruleSetEntries("triggered_modifier_country", {
-      documentation: "Modifier to be applied to all community members if passed and the potential trigger is true",
-    }),
-    field("effect", block([effectEntries()]), occurs.optional, {
-      documentation: "Effect to be applied if passed, scope is country",
-    }),
-    field("fail_effects", block([effectEntries()]), occurs.optional, {
-      documentation: "Effect to be applied if failed, scope is country",
-    }),
-    field("potential", block([triggerEntries()]), occurs.optional),
-    field("active", block([triggerEntries()]), occurs.optional, {
-      documentation: "Resolution only in effect while this trigger is met",
-    }),
-    field("allow", block([triggerEntries()]), occurs.optional),
-    field("breach", block([triggerEntries()]), occurs.optional),
-    field("valid_target", block([triggerEntries()]), occurs.optional),
-    field(
-      "ai_weight",
-      block([field(enumKey(EnumId.WeightOrBase), primitive("number"), occurs.one), modifierRuleEntries()]),
-      occurs.one,
-    ),
   ],
 });

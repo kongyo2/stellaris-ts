@@ -76,47 +76,5 @@ export const resource: DefinitionType = defineType({
       documentation: "default yes, only implemented for tech resources",
     }),
     field("intangible_weight", primitive("number"), occurs.optional),
-    field("tradable", primitive("boolean"), occurs.optional),
-    whenVariant("tradable", [
-      field("market_amount", primitive("integer"), occurs.one, {
-        documentation: "default -1, if non-positive, resource cannot be traded in the Market",
-      }),
-      field("market_price", primitive("integer"), occurs.one, {
-        documentation: "default -1, if non-positive, resource cannot be traded in the Market",
-      }),
-      field("max", primitive("integer"), occurs.one),
-    ]),
-    field("hide_gain", primitive("boolean"), occurs.optional),
-    field("max", primitive("integer"), occurs.optional),
-    field("deficit_modifier", typeRef("static_modifier"), occurs.optional),
-    field("deficit_situation", typeRef("situation_type"), occurs.optional),
-    field("deficit_trade_conversion_mult", primitive("number"), occurs.optional),
-    field("culling_conversion_value", primitive("integer"), occurs.optional),
-    field("prerequisites", block([item(typeRef("technology"), occurs.optional)]), occurs.optional),
-    field("visibility_prerequisite", block([triggerEntries()]), occurs.optional),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional),
-    field("tooltip_decimals", primitive("integer"), occurs.optional),
-    field("ai_wants", block([modifierRuleEntries()]), occurs.optional),
-    field("tradable_in_market", block([triggerEntries()]), occurs.optional),
-    whenVariant("max", [
-      field("fixed_max_amount", primitive("boolean"), occurs.optional, {
-        documentation:
-          "default no, if yes maximum storage capacity of the resource is fixed to the amount specified in max = INT",
-      }),
-      field("special_max_amount", primitive("boolean"), occurs.optional, {
-        documentation:
-          "default no, if yes maximum storage capacity of the resource is fixed to the amount specified in max = INT + country_resource_max_RESOURCE_NAME_add modifiers This explicitly ignores MOD_COUNTRY_RESOURCE_MAX_ADD modifiers.",
-      }),
-    ]),
-    field(
-      "dynamic_capacity",
-      block([field("base", primitive("number"), occurs.one), modifierRuleEntries()]),
-      occurs.optional,
-    ),
-    field("category", enumRef(EnumId.ResourceType), occurs.optional),
-    field("allow_deficit", primitive("boolean"), occurs.optional, {
-      documentation: "default yes, only implemented for tech resources",
-    }),
-    field("intangible_weight", primitive("number"), occurs.optional),
   ],
 });

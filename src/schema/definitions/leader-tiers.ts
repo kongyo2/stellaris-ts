@@ -16,7 +16,5 @@ export const leaderTiers: DefinitionType = defineType({
   entries: [
     field("tier", primitive("integer"), occurs.one),
     field("texture_postfix", primitive("scalar"), occurs.optional),
-    field("tier", primitive("integer"), occurs.one),
-    field("texture_postfix", primitive("scalar"), occurs.optional),
   ],
 });

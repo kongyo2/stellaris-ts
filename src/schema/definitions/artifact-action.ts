@@ -37,15 +37,5 @@ export const artifactAction: DefinitionType = defineType({
     field("effect", block([effectEntries()]), occurs.optional),
     field("allow", block([triggerEntries()]), occurs.optional),
     field("sound", typeRef("sound_effect"), occurs.optional),
-    field(
-      "resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-      occurs.optional,
-    ),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional),
-    field("potential", block([triggerEntries()]), occurs.one),
-    field("effect", block([effectEntries()]), occurs.optional),
-    field("allow", block([triggerEntries()]), occurs.optional),
-    field("sound", typeRef("sound_effect"), occurs.optional),
   ],
 });

@@ -53,31 +53,5 @@ export const astralRift: DefinitionType = defineType({
       ]),
       occurs.any,
     ),
-    field("name", primitive("localisation"), occurs.one, {
-      documentation: "the localization key used in triggers and effects for the type",
-    }),
-    field("randomized", primitive("boolean"), occurs.optional),
-    field("flags", block([item(valueSet("astral_rift_flag"), occurs.any)]), occurs.optional, { severity: "warning" }),
-    field("event", typeRef("event", "astral"), occurs.optional),
-    field(
-      "on_roll_failed",
-      block([field(enumKey(EnumId.AstralRiftOnRollFailed), primitive("boolean"), occurs.one)]),
-      occurs.optional,
-    ),
-    field(
-      "event_weight",
-      block([
-        field("weight", primitive("number"), occurs.one),
-        field(
-          "modifier",
-          block([
-            field("factor", primitive("integer"), occurs.optional),
-            triggerEntries({ scope: replaceScope({ root: ScopeId.Country }) }),
-          ]),
-          occurs.any,
-        ),
-      ]),
-      occurs.any,
-    ),
   ],
 });

@@ -41,19 +41,5 @@ export const traditionCategory: DefinitionType = defineType({
     field("traditions", block([item(typeRef("tradition"), occurs.oneOrMore)]), occurs.one),
     field("potential", block([triggerEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
     field("ai_weight", block([modifierRuleEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field(
-      "desc",
-      block([
-        field("trigger", block([triggerEntries()]), occurs.one),
-        field("text", primitive("localisation"), occurs.one),
-      ]),
-      occurs.any,
-    ),
-    field("tree_template", primitive("scalar"), occurs.one),
-    field("adoption_bonus", typeRef("tradition"), occurs.one),
-    field("finish_bonus", typeRef("tradition"), occurs.one),
-    field("traditions", block([item(typeRef("tradition"), occurs.oneOrMore)]), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
   ],
 });

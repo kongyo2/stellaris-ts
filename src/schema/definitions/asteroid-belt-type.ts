@@ -18,9 +18,5 @@ export const asteroidBeltType: DefinitionType = defineType({
     field("shader", primitive("scalar"), occurs.optional),
     field("width", primitive("number"), occurs.optional),
     field("density", primitive("number"), occurs.optional),
-    field("mesh", primitive("scalar"), occurs.oneOrMore),
-    field("shader", primitive("scalar"), occurs.optional),
-    field("width", primitive("number"), occurs.optional),
-    field("density", primitive("number"), occurs.optional),
   ],
 });

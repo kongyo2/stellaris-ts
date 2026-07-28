@@ -65,45 +65,5 @@ export const countryCustomization: DefinitionType = defineType({
     field("weight", block([modifierRuleEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field(
-      "colony_shelter",
-      block([
-        field("default", typeRef("building"), occurs.one),
-        field(typeKey("planet_class"), typeRef("building"), occurs.any),
-      ]),
-      occurs.one,
-    ),
-    field(
-      "graphical_culture_for_random_empire",
-      block([
-        field(
-          typeKey("graphical_culture"),
-          block([
-            field(
-              "modifier",
-              block([
-                field("add", primitive("integer"), occurs.one),
-                field("species_portrait", typeRef("portrait"), occurs.optional),
-                field("OR", block([field("species_portrait", typeRef("portrait"), occurs.any)]), occurs.optional),
-              ]),
-              occurs.any,
-            ),
-            field(
-              "modifier",
-              block([
-                field("add", primitive("integer"), occurs.one),
-                field("graphical_culture", typeRef("graphical_culture"), occurs.one),
-              ]),
-              occurs.any,
-            ),
-          ]),
-          occurs.any,
-        ),
-      ]),
-      occurs.optional,
-    ),
-    field("weight", block([modifierRuleEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

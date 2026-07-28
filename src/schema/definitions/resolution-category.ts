@@ -29,9 +29,5 @@ export const resolutionCategory: DefinitionType = defineType({
     field("icon", typeRef("sprite"), occurs.one),
     field("multiple_active_resolutions", literal(true), occurs.optional),
     field("resolution_types", block([item(typeRef("resolution"), occurs.oneOrMore)]), occurs.one),
-    field("group", primitive("localisation"), occurs.one),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("multiple_active_resolutions", literal(true), occurs.optional),
-    field("resolution_types", block([item(typeRef("resolution"), occurs.oneOrMore)]), occurs.one),
   ],
 });

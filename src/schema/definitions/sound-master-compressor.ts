@@ -20,11 +20,5 @@ export const soundMasterCompressor: DefinitionType = defineType({
     field("threshold", primitive("number"), occurs.one),
     field("attacktime", primitive("number"), occurs.one),
     field("releasetime", primitive("number"), occurs.one),
-    field("pregain", primitive("number"), occurs.one),
-    field("postgain", primitive("number"), occurs.one),
-    field("ratio", primitive("number"), occurs.one),
-    field("threshold", primitive("number"), occurs.one),
-    field("attacktime", primitive("number"), occurs.one),
-    field("releasetime", primitive("number"), occurs.one),
   ],
 });

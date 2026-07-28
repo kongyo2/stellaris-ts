@@ -31,12 +31,5 @@ export const roomTextures: DefinitionType = defineType({
     field("ruler", block([field(anyKey(), block([triggerEntries()]), occurs.any)]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Leader }),
     }),
-    field("default", primitive("scalar"), occurs.one),
-    field("game_setup", block([field(anyKey(), block([triggerEntries()]), occurs.any)]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("ruler", block([field(anyKey(), block([triggerEntries()]), occurs.any)]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Leader }),
-    }),
   ],
 });

@@ -62,37 +62,5 @@ export const casusBelli: DefinitionType = defineType({
     }),
     field("show_in_diplomacy", primitive("boolean"), occurs.optional),
     field("aggregated_message_key", primitive("localisation"), occurs.optional),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      documentation:
-        "trigger to make some CBs invalid for certain types of countries; this = attacker (CB owner); default: { always = yes }",
-    }),
-    field("is_valid", block([triggerEntries()]), occurs.optional, {
-      documentation:
-        "trigger, evaluated daily to check if CB should be created or destroyed automatically, does not affect CBs granted via script; this = attacker (CB owner), from = defender (target country); default: { always = yes }",
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
-    }),
-    field(
-      "proxy_war_resources",
-      block([
-        field("category", enumRef(EnumId.RelativePowerCategories), occurs.one),
-        field("cost", block([field(typeKey("resource"), primitive("integer"), occurs.one)]), occurs.one),
-      ]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }) },
-    ),
-    field("on_proxy_war_start", block([effectEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
-    }),
-    field("destroy_if", block([triggerEntries()]), occurs.optional, {
-      documentation:
-        "trigger, evaluated daily to destroy CBs that have been granted via script ahead of expiration date; this = attacker (CB owner), from = defender (target country); default: { always = no }",
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
-    }),
-    field("show_notification", primitive("boolean"), occurs.one, {
-      documentation:
-        "optional (default = yes), flag to control whether this CB will generate a notification (to avoid duplicate notification when a claim CB is generated). Caligula's note: Always used in Vanilla (even when yes), so marked as obligatory unless someone knows better",
-    }),
-    field("show_in_diplomacy", primitive("boolean"), occurs.optional),
-    field("aggregated_message_key", primitive("localisation"), occurs.optional),
   ],
 });

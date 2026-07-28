@@ -48,27 +48,5 @@ export const specimen: DefinitionType = defineType({
       ]),
       occurs.any,
     ),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("type", enumRef(EnumId.SpecimenType), occurs.one),
-    field("is_tradable", primitive("boolean"), occurs.optional),
-    field("is_sellable", primitive("boolean"), occurs.optional),
-    field("RARITY", enumRef(EnumId.Rarity), occurs.optional),
-    ruleSetEntries("triggered_country_modifier_country"),
-    field(
-      "resources",
-      block([
-        field("category", typeRef("economic_category"), occurs.one),
-        ruleSetEntries("economic_template_only_produces"),
-        field(
-          "upkeep",
-          block([
-            field("mult", scriptValue("number"), occurs.any),
-            field(typeKey("resource"), primitive("integer"), occurs.any),
-          ]),
-          occurs.optional,
-        ),
-      ]),
-      occurs.any,
-    ),
   ],
 });

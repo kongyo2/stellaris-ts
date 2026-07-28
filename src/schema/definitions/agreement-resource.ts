@@ -30,11 +30,5 @@ export const agreementResource: DefinitionType = defineType({
       occurs.one,
       { scope: replaceScope({ root: ScopeId.Agreement }) },
     ),
-    field(
-      "resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-      occurs.one,
-      { scope: replaceScope({ root: ScopeId.Agreement }) },
-    ),
   ],
 });

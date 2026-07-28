@@ -25,16 +25,5 @@ export const speciesArchetype: DefinitionType = defineType({
       block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
       occurs.optional,
     ),
-    field("species_trait_points", primitive("integer"), occurs.optional),
-    field("species_max_traits", primitive("integer"), occurs.optional),
-    field("inherit_traits_from", block([item(typeRef("species_archetype"), occurs.one)]), occurs.optional),
-    field("inherit_trait_points_from", typeRef("species_archetype"), occurs.optional),
-    field("robotic", primitive("boolean"), occurs.optional),
-    field("uses_modifiers", primitive("boolean"), occurs.optional),
-    field(
-      "resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-      occurs.optional,
-    ),
   ],
 });

@@ -80,58 +80,5 @@ export const projectile: DefinitionType = defineType({
       documentation:
         "Speed of projectile might be scaled up in order to guarantee reaching the target within <max_duration> seconds",
     }),
-    field("name", primitive("scalar"), occurs.one),
-    field("color", block([item(primitive("number"), between(4, 4))]), occurs.one),
-    field("hit_entity", typeRef("model_entity"), occurs.optional),
-    field("shield_hit_entity", typeRef("model_entity"), occurs.optional),
-    field("muzzle_flash_entity", typeRef("model_entity"), occurs.optional),
-    field("windup_entity", typeRef("model_entity"), occurs.optional),
-    field(
-      "windup_entity",
-      block([field(typeKey("component_slot_template"), typeRef("model_entity"), occurs.oneOrMore)]),
-      occurs.optional,
-    ),
-    field("stretch_to_fit", primitive("boolean"), occurs.optional),
-    field("texture", primitive("file"), occurs.optional),
-    field(
-      "hit",
-      block([
-        field("alpha_curve", block([item(primitive("number"), between(4, 14))]), occurs.one),
-        field("duration", primitive("number"), occurs.one),
-      ]),
-      occurs.optional,
-    ),
-    field(
-      "miss",
-      block([
-        field("alpha_curve", block([item(primitive("number"), between(4, 14))]), occurs.one),
-        field("duration", primitive("number"), occurs.one),
-      ]),
-      occurs.optional,
-    ),
-    field("set_state", block([field("section", literal("attack"), occurs.one)]), occurs.optional),
-    field(
-      "random_scale_multiplier",
-      block([field("min", primitive("number"), occurs.one), field("max", primitive("number"), occurs.one)]),
-      occurs.optional,
-    ),
-    field(
-      "shield_impact",
-      block([
-        field("size", enumRef(EnumId.ProjectileImpactSize), occurs.one),
-        field("loop_duration", primitive("number"), occurs.optional),
-        field("delay", primitive("number"), occurs.one),
-      ]),
-      occurs.optional,
-    ),
-    field("width", primitive("number"), occurs.optional),
-    field("texture_scroll_speed", primitive("number"), occurs.optional),
-    field("texture_tiling", primitive("number"), occurs.optional),
-    field("entity", typeRef("model_entity"), occurs.optional),
-    field("speed", primitive("number"), occurs.optional),
-    field("max_duration", primitive("number"), occurs.optional, {
-      documentation:
-        "Speed of projectile might be scaled up in order to guarantee reaching the target within <max_duration> seconds",
-    }),
   ],
 });

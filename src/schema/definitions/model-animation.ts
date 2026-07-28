@@ -13,10 +13,5 @@ export const modelAnimation: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    field("name", primitive("scalar"), occurs.one),
-    field("file", primitive("scalar"), occurs.one),
-    field("name", primitive("scalar"), occurs.one),
-    field("file", primitive("scalar"), occurs.one),
-  ],
+  entries: [field("name", primitive("scalar"), occurs.one), field("file", primitive("scalar"), occurs.one)],
 });

@@ -17,8 +17,5 @@ export const startScreenMessage: DefinitionType = defineType({
     field("location", primitive("integer"), occurs.one),
     field("localization", primitive("localisation"), occurs.one),
     field("trigger", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field("location", primitive("integer"), occurs.one),
-    field("localization", primitive("localisation"), occurs.one),
-    field("trigger", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
   ],
 });

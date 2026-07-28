@@ -49,28 +49,5 @@ export const patronsCallings: DefinitionType = defineType({
     ),
     field("on_start", block([effectEntries()]), occurs.optional),
     field("on_dismissed", block([effectEntries()]), occurs.optional),
-    field("potential", block([triggerEntries()]), occurs.optional),
-    field("first_tier", primitive("integer"), occurs.optional),
-    field(
-      "tier",
-      block([
-        field("attunement", scriptValue("number"), occurs.one),
-        field("trigger", block([triggerEntries()]), occurs.optional),
-        field(
-          "counter",
-          block([
-            field(
-              enumKey(EnumId.PatronsCallingsPo),
-              block([field("max", primitive("integer"), occurs.one)]),
-              occurs.one,
-            ),
-          ]),
-          occurs.optional,
-        ),
-      ]),
-      occurs.any,
-    ),
-    field("on_start", block([effectEntries()]), occurs.optional),
-    field("on_dismissed", block([effectEntries()]), occurs.optional),
   ],
 });

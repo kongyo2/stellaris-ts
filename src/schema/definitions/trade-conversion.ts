@@ -30,9 +30,5 @@ export const tradeConversion: DefinitionType = defineType({
     field("weight", block([modifierRuleEntries()]), occurs.one),
     field("conversion_rate", block([field(typeKey("resource"), primitive("number"), occurs.oneOrMore)]), occurs.one),
     field("economic_category", typeRef("economic_category"), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.one, { scope: replaceScope({ from: ScopeId.Country }) }),
-    field("weight", block([modifierRuleEntries()]), occurs.one),
-    field("conversion_rate", block([field(typeKey("resource"), primitive("number"), occurs.oneOrMore)]), occurs.one),
-    field("economic_category", typeRef("economic_category"), occurs.one),
   ],
 });

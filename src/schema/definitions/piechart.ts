@@ -25,13 +25,5 @@ export const piechart: DefinitionType = defineType({
       block([field("rgb", block([item(primitive("integer"), between(3, 3))]), occurs.any)]),
       occurs.optional,
     ),
-    field("name", primitive("scalar"), occurs.one),
-    field("size", primitive("integer"), occurs.one),
-    field("is_hover", primitive("boolean"), occurs.optional),
-    field(
-      "colors",
-      block([field("rgb", block([item(primitive("integer"), between(3, 3))]), occurs.any)]),
-      occurs.optional,
-    ),
   ],
 });

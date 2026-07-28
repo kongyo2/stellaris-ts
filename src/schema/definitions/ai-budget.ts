@@ -46,24 +46,5 @@ export const aiBudget: DefinitionType = defineType({
       ]),
       occurs.optional,
     ),
-    field("resource", typeRef("resource"), occurs.one),
-    field("type", literal("expenditure"), occurs.one),
-    field("type", literal("upkeep"), occurs.one),
-    field("category", typeRef("economic_category"), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.one),
-    field(
-      "weight",
-      block([field(enumKey(EnumId.WeightOrBase), primitive("number"), occurs.one), modifierRuleEntries()]),
-      occurs.optional,
-    ),
-    field("desired_max", block([modifierRuleEntries()]), occurs.optional),
-    field(
-      "desired_min",
-      block([
-        modifierRuleEntries(),
-        field("modifier", block([field("factor", enumRef(EnumId.ExeSetVariable), occurs.one)]), occurs.any),
-      ]),
-      occurs.optional,
-    ),
   ],
 });

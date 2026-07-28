@@ -36,25 +36,5 @@ export const empireNameFormat: DefinitionType = defineType({
     field("adjective", primitive("name-format", undefined, undefined, "empire_name_parts"), occurs.optional, {
       documentation: "Format string for generating random name (adjective form)",
     }),
-    field(
-      "random_weight",
-      block([
-        field("factor", primitive("number"), occurs.one),
-        field("modifier", block([field("add", primitive("number"), occurs.one), triggerEntries()]), occurs.any),
-      ]),
-      occurs.one,
-      { documentation: "Conditional weight for choosing this format", scope: replaceScope({ root: ScopeId.Country }) },
-    ),
-    field("format", primitive("name-format", undefined, undefined, "empire_name_parts"), occurs.one, {
-      documentation: "Format string for generating random name (proper noun form)",
-    }),
-    field("prefix_format", primitive("scalar"), occurs.optional, {
-      documentation:
-        "String used to determine prefix for empire's ship. (Default being ISS). Usually matches name format. Optional for countries that would not ever have ships, e. g. Primitives.",
-    }),
-    field("noun", primitive("name-format", undefined, undefined, "empire_name_parts"), occurs.optional),
-    field("adjective", primitive("name-format", undefined, undefined, "empire_name_parts"), occurs.optional, {
-      documentation: "Format string for generating random name (adjective form)",
-    }),
   ],
 });

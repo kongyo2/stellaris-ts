@@ -31,22 +31,5 @@ export const mutationsType: DefinitionType = defineType({
     field("upgrades_to", typeRef("mutations_type"), occurs.optional),
     field("component_slot_size_to_disable", enumRef(EnumId.WeaponSlotSize), occurs.optional),
     field("custom_tooltip", primitive("localisation"), occurs.optional),
-    field("type", enumRef(EnumId.TypeOfMutation), occurs.optional),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("ship_limit", primitive("integer"), occurs.optional),
-    field(
-      "ship_components",
-      block([
-        field("small", typeRef("component_template"), occurs.optional),
-        field("medium", typeRef("component_template"), occurs.optional),
-        field("large", typeRef("component_template"), occurs.optional),
-        field("extra_large", typeRef("component_template"), occurs.optional),
-      ]),
-      occurs.optional,
-    ),
-    field("is_unique", primitive("boolean"), occurs.optional),
-    field("upgrades_to", typeRef("mutations_type"), occurs.optional),
-    field("component_slot_size_to_disable", enumRef(EnumId.WeaponSlotSize), occurs.optional),
-    field("custom_tooltip", primitive("localisation"), occurs.optional),
   ],
 });

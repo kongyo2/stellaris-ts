@@ -36,27 +36,5 @@ export const tradableActions: DefinitionType = defineType({
       ]),
       occurs.optional,
     ),
-    field("fire_and_forget", primitive("boolean"), occurs.optional),
-    field("potential", block([triggerEntries()]), occurs.optional),
-    field("active", block([triggerEntries()]), occurs.optional),
-    field("on_traded_effect", block([effectEntries()]), occurs.optional),
-    field("on_deal_ended_sender_effect", block([effectEntries()]), occurs.optional),
-    field("on_deal_ended_recipient_effect", block([effectEntries()]), occurs.optional),
-    field(
-      "ai_weight",
-      block([
-        field("weight", primitive("number"), occurs.one),
-        field(
-          "modifier",
-          block([
-            field("factor", primitive("number"), occurs.optional),
-            field("weight", primitive("number"), occurs.optional),
-            triggerEntries(),
-          ]),
-          occurs.any,
-        ),
-      ]),
-      occurs.optional,
-    ),
   ],
 });

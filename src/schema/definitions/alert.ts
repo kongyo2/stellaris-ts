@@ -17,10 +17,5 @@ export const alert: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    ruleSetEntries("alert_category"),
-    field("sound", typeRef("sound_effect"), occurs.one),
-    ruleSetEntries("alert_category"),
-    field("sound", typeRef("sound_effect"), occurs.one),
-  ],
+  entries: [ruleSetEntries("alert_category"), field("sound", typeRef("sound_effect"), occurs.one)],
 });

@@ -10,5 +10,6 @@ export * from "./modifier-namespace.js";
 export * from "./modifiers.js";
 export * from "./model.js";
 export * from "./scope-constraints.js";
+export * from "./script-keys.js";
 export * from "./scope-model.js";
 export * from "./scopes.js";

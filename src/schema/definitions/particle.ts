@@ -19,8 +19,5 @@ export const particle: DefinitionType = defineType({
     field("name", primitive("scalar"), occurs.one),
     field("type", typeRef("particle_type"), occurs.one),
     field("scale", primitive("number"), occurs.optional),
-    field("name", primitive("scalar"), occurs.one),
-    field("type", typeRef("particle_type"), occurs.one),
-    field("scale", primitive("number"), occurs.optional),
   ],
 });

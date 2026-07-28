@@ -68,48 +68,5 @@ export const cardCategories: DefinitionType = defineType({
       ]),
       occurs.optional,
     ),
-    field("name", primitive("localisation"), occurs.one),
-    field("desc", primitive("localisation"), occurs.one),
-    field("selectable", primitive("boolean"), occurs.optional),
-    field("background", typeRef("sprite"), occurs.optional),
-    field("background_expanded", typeRef("sprite"), occurs.optional),
-    field("icon", typeRef("sprite"), occurs.optional),
-    field("small_icon", primitive("localisation"), occurs.optional),
-    field(
-      "resources",
-      block([
-        field("category", enumRef(EnumId.CardCategoriesFocus), occurs.one),
-        field(
-          "cost",
-          block([
-            field("trigger", block([triggerEntries()]), occurs.one),
-            field("unity", primitive("integer"), occurs.one),
-          ]),
-          occurs.one,
-        ),
-      ]),
-      occurs.optional,
-    ),
-    field(
-      "starting_weight",
-      block([
-        field("base", primitive("integer"), occurs.one),
-        field("modifier", block([field("add", primitive("integer"), occurs.one), triggerEntries()]), occurs.any),
-      ]),
-      occurs.optional,
-    ),
-    field(
-      "weights",
-      block([
-        item(
-          block([
-            field("category", enumRef(EnumId.CardCategoriesFocus), occurs.one),
-            field("value", block([field("base", primitive("integer"), occurs.one)]), occurs.one),
-          ]),
-          occurs.oneOrMore,
-        ),
-      ]),
-      occurs.optional,
-    ),
   ],
 });

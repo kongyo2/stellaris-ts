@@ -62,42 +62,5 @@ export const light: DefinitionType = defineType({
       ]),
       occurs.optional,
     ),
-    field("name", primitive("scalar"), occurs.one),
-    field(
-      "color",
-      block([
-        field("r", block([item(primitive("number"), occurs.one)]), occurs.one),
-        field("g", block([item(primitive("number"), occurs.one)]), occurs.one),
-        field("b", block([item(primitive("number"), occurs.one)]), occurs.one),
-      ]),
-      occurs.one,
-    ),
-    ruleSetEntries("intensity"),
-    field("radius", primitive("number"), occurs.one),
-    field("falloff", primitive("number"), occurs.one),
-    field("duration", primitive("number"), occurs.optional),
-    field(
-      "position",
-      block([
-        field("x", primitive("integer"), occurs.one),
-        field("y", primitive("integer"), occurs.one),
-        field("z", primitive("integer"), occurs.one),
-      ]),
-      occurs.one,
-    ),
-    field(
-      "animation",
-      block([
-        field("name", primitive("scalar"), occurs.one),
-        field("start", primitive("number"), occurs.one),
-        field("duration", primitive("number"), occurs.one),
-        field("repeat", primitive("boolean"), occurs.optional),
-        field("op", enumRef(EnumId.AnimationOp), occurs.one),
-        field("minValue", primitive("number"), occurs.optional),
-        field("maxValue", primitive("number"), occurs.optional),
-        field("curve", block([item(primitive("number"), between(4, 6))]), occurs.one),
-      ]),
-      occurs.optional,
-    ),
   ],
 });

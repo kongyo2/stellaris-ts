@@ -13,8 +13,5 @@ export const targettype: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    field("target_type", enumRef(EnumId.TargetTypeEnum), occurs.one),
-    field("target_type", enumRef(EnumId.TargetTypeEnum), occurs.one),
-  ],
+  entries: [field("target_type", enumRef(EnumId.TargetTypeEnum), occurs.one)],
 });

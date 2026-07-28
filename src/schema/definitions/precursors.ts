@@ -17,8 +17,5 @@ export const precursors: DefinitionType = defineType({
     field("size", primitive("integer"), occurs.one),
     field("picture", typeRef("sprite"), occurs.optional),
     field("possible", block([triggerEntries()]), occurs.optional),
-    field("size", primitive("integer"), occurs.one),
-    field("picture", typeRef("sprite"), occurs.optional),
-    field("possible", block([triggerEntries()]), occurs.optional),
   ],
 });

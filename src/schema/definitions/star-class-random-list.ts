@@ -16,7 +16,5 @@ export const starClassRandomList: DefinitionType = defineType({
   entries: [
     field("name", primitive("scalar"), occurs.one),
     field("stars", block([item(typeRef("star_class"), occurs.any)]), occurs.one),
-    field("name", primitive("scalar"), occurs.one),
-    field("stars", block([item(typeRef("star_class"), occurs.any)]), occurs.one),
   ],
 });

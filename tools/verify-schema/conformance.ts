@@ -4,6 +4,7 @@ import { join, relative } from "node:path";
 
 import { extractedEnumMembers, vanillaIdsByType, vanillaModifierNames } from "../../src/generated/vanilla/index.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
+import { isScopeKey, isSyntacticKey, scopeEntryNames, scriptBlockNames } from "../../src/schema/script-keys.js";
 import { NodeKind, parse, type Block, type Document } from "../../src/syntax/index.js";
 import type { DefinitionType, EntryRule, EnumDefinition, KeyRule, SchemaModel } from "../../src/schema/ir.js";
 
@@ -124,11 +125,14 @@ interface KeyAcceptor {
   readonly literals: ReadonlySet<string>;
   /** Names matched without regard to case; held lowercased. */
   readonly insensitive: ReadonlySet<string>;
+  /** Whether a chained or run-time scope — `root.owner`, `event_target:x` — is a key here. */
+  readonly scopeKeys: boolean;
   readonly prefixes: readonly { readonly prefix: string; readonly suffix: string }[];
 }
 
 interface AcceptorDraft {
   wildcard: boolean;
+  scopeKeys: boolean;
   readonly literals: Set<string>;
   readonly insensitive: Set<string>;
   readonly prefixes: { prefix: string; suffix: string }[];
@@ -199,20 +203,20 @@ function collectEntry(model: SchemaModel, entry: EntryRule, into: AcceptorDraft)
       }
 
       // A trigger or effect block accepts every command declared in that
-      // family. The set is known, so enumerate it rather than giving up: a
-      // wildcard here is what stopped most types reporting an unknown field.
-      const names: readonly string[] = model.commands
-        .filter((command) => command.family === entry.family)
-        .map((command) => command.id);
+      // family, every scripted trigger or effect by name, and a scope to enter.
+      // The set is known, so enumerate it rather than giving up: a wildcard here
+      // is what stopped most types reporting an unknown field.
+      const names: ReadonlySet<string> = scriptBlockNames(model, entry.family, vanillaIdsByType);
 
-      if (names.length === 0) {
+      if (names.size === 0) {
         into.wildcard = true;
         return;
       }
 
       for (const name of names) {
-        into.literals.add(name);
+        into.insensitive.add(name);
       }
+      into.scopeKeys = true;
       return;
     }
     case "rule-set-entries": {
@@ -247,6 +251,7 @@ function modifierNames(model: SchemaModel): ReadonlySet<string> {
 function acceptorFor(model: SchemaModel, type: DefinitionType): KeyAcceptor {
   const into: AcceptorDraft = {
     wildcard: false,
+    scopeKeys: false,
     literals: new Set<string>(),
     insensitive: new Set<string>(),
     prefixes: [],
@@ -263,14 +268,24 @@ function acceptorFor(model: SchemaModel, type: DefinitionType): KeyAcceptor {
 
   return {
     wildcard: into.wildcard,
+    scopeKeys: into.scopeKeys,
     literals: into.literals,
     insensitive: into.insensitive,
     prefixes: into.prefixes,
   };
 }
 
-function accepts(acceptor: KeyAcceptor, key: string): boolean {
-  if (acceptor.wildcard || acceptor.literals.has(key) || acceptor.insensitive.has(key.toLowerCase())) {
+function accepts(model: SchemaModel, acceptor: KeyAcceptor, key: string): boolean {
+  if (
+    acceptor.wildcard ||
+    isSyntacticKey(key) ||
+    acceptor.literals.has(key) ||
+    acceptor.insensitive.has(key.toLowerCase())
+  ) {
+    return true;
+  }
+
+  if (acceptor.scopeKeys && isScopeKey(model, key, scopeEntryNames(model))) {
     return true;
   }
 
@@ -314,19 +329,19 @@ function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Do
       continue;
     }
 
-    if (type.source.container?.kind === "named-container" && key === type.source.container.key) {
-      for (const nested of entry.value.entries) {
-        if (nested.kind === NodeKind.Assignment && nested.value.kind === NodeKind.Block) {
-          blocks.push(nested.value);
-        }
-      }
-      continue;
-    }
+    const container = type.source.container;
 
-    if (type.source.container?.kind === "any-container") {
-      for (const nested of entry.value.entries) {
-        if (nested.kind === NodeKind.Assignment && nested.value.kind === NodeKind.Block) {
-          blocks.push(nested.value);
+    if (container !== undefined) {
+      // A type that names a container has its definitions inside it and nowhere
+      // else. Falling through to the root when the key is a different one reads
+      // whatever else the file holds as definitions — 517 of the findings for
+      // `portrait_group` were the settings blocks sitting beside
+      // `portrait_groups` in the same file.
+      if (container.kind === "any-container" || key === container.key) {
+        for (const nested of entry.value.entries) {
+          if (nested.kind === NodeKind.Assignment && nested.value.kind === NodeKind.Block) {
+            blocks.push(nested.value);
+          }
         }
       }
       continue;
@@ -353,6 +368,7 @@ function topLevelKeys(block: Block): string[] {
 function literalRuleKeys(model: SchemaModel, type: DefinitionType): readonly string[] {
   const into: AcceptorDraft = {
     wildcard: false,
+    scopeKeys: false,
     literals: new Set<string>(),
     insensitive: new Set<string>(),
     prefixes: [],
@@ -402,7 +418,7 @@ export async function checkConformance(model: SchemaModel, gamePath: string): Pr
         for (const key of topLevelKeys(block)) {
           seen.add(key);
 
-          if (accepts(acceptor, key)) {
+          if (accepts(model, acceptor, key)) {
             continue;
           }
 

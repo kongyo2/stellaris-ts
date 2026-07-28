@@ -25,14 +25,5 @@ export const warNameFormat: DefinitionType = defineType({
       occurs.one,
     ),
     field("format", primitive("name-format", undefined, undefined, "war_name_parts"), occurs.one),
-    field(
-      "random_weight",
-      block([
-        field("factor", primitive("number"), occurs.one),
-        field("modifier", block([field("add", primitive("number"), occurs.one), triggerEntries()]), occurs.any),
-      ]),
-      occurs.one,
-    ),
-    field("format", primitive("name-format", undefined, undefined, "war_name_parts"), occurs.one),
   ],
 });

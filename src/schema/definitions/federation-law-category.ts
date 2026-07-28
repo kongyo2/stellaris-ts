@@ -32,11 +32,5 @@ export const federationLawCategory: DefinitionType = defineType({
     field("potential", block([triggerEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Federation }),
     }),
-    field("show_succession_date", literal(true), occurs.optional),
-    field("centralization", literal(true), occurs.optional),
-    field("laws", block([item(typeRef("federation_law"), occurs.oneOrMore)]), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Federation }),
-    }),
   ],
 });

@@ -30,8 +30,5 @@ export const subspeciesIntegrationType: DefinitionType = defineType({
     field("integration", primitive("boolean"), occurs.one),
     field("allow", block([triggerEntries()]), occurs.optional),
     field("ai_will_do", block([field("factor", primitive("integer"), occurs.one)]), occurs.one),
-    field("integration", primitive("boolean"), occurs.one),
-    field("allow", block([triggerEntries()]), occurs.optional),
-    field("ai_will_do", block([field("factor", primitive("integer"), occurs.one)]), occurs.one),
   ],
 });

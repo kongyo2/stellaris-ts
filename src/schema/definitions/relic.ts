@@ -52,28 +52,5 @@ export const relic: DefinitionType = defineType({
       documentation: "Possible check for activation",
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field("activation_duration", primitive("integer", { min: 0, max: null }), occurs.optional),
-    field("portrait", typeRef("sprite"), occurs.one),
-    field("sound", typeRef("sound_effect"), occurs.optional),
-    field("sound", typeRef("sound"), occurs.optional),
-    field("sound", literal("relic_activation_the_rulerchip"), occurs.optional),
-    field(
-      "resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-      occurs.optional,
-    ),
-    field("can_be_stolen", primitive("boolean"), occurs.optional, {
-      documentation: "Default = yes: Stops the relic from being stealable",
-    }),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional),
-    ruleSetEntries("triggered_country_modifier_country"),
-    field("score", primitive("integer", { min: 0, max: null }), occurs.optional),
-    field("active_effect", block([effectEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("possible", block([triggerEntries()]), occurs.one, {
-      documentation: "Possible check for activation",
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

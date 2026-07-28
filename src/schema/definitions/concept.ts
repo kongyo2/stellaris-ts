@@ -40,21 +40,5 @@ export const concept: DefinitionType = defineType({
     field("wiki", primitive("scalar"), occurs.optional),
     field("icon", primitive("file"), occurs.optional),
     field("tooltip_override", primitive("localisation"), occurs.optional),
-    field("icon", primitive("file"), occurs.optional),
-    field("alias", block([item(primitive("localisation"), occurs.oneOrMore)]), occurs.optional, {
-      documentation: "Aliases that display the same concept Used by the base game to add singular/plural variations",
-    }),
-    field(
-      "databank",
-      block([
-        field("category", typeRef("concept_categories"), occurs.one),
-        field("icon", typeRef("sprite"), occurs.one),
-        field("picture", typeRef("sprite"), occurs.one),
-      ]),
-      occurs.optional,
-    ),
-    field("wiki", primitive("scalar"), occurs.optional),
-    field("icon", primitive("file"), occurs.optional),
-    field("tooltip_override", primitive("localisation"), occurs.optional),
   ],
 });

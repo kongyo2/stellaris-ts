@@ -22,13 +22,5 @@ export const grandArchiveShipCategoryType: DefinitionType = defineType({
     field("preferred_planet_class", typeRef("planet_class"), occurs.optional),
     field("sexual_breeding", primitive("boolean"), occurs.optional),
     field("growth_tooltip", primitive("localisation"), occurs.optional),
-    field("rarity_icons", typeRef("sprite"), occurs.optional),
-    field("uses_name_list", primitive("boolean"), occurs.optional),
-    field("namelist", typeRef("name_list"), occurs.optional),
-    field("desc", primitive("localisation"), occurs.optional),
-    field("prefers_nebula", primitive("boolean"), occurs.optional),
-    field("preferred_planet_class", typeRef("planet_class"), occurs.optional),
-    field("sexual_breeding", primitive("boolean"), occurs.optional),
-    field("growth_tooltip", primitive("localisation"), occurs.optional),
   ],
 });

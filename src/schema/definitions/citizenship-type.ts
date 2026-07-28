@@ -82,53 +82,5 @@ export const citizenshipType: DefinitionType = defineType({
     }),
     ruleSetEntries("triggered_pop_modifier"),
     ruleSetEntries("triggered_pop_group_modifier"),
-    field(
-      "in_breach_of",
-      block([
-        item(
-          block([
-            field("trigger", block([triggerEntries()]), occurs.optional, {
-              scope: replaceScope({ root: ScopeId.Country }),
-            }),
-            field("key", typeRef("resolution"), occurs.one),
-          ]),
-          occurs.any,
-        ),
-      ]),
-      occurs.any,
-    ),
-    field("is_full_citizenship", literal(true), occurs.optional),
-    field("is_assimilation", literal(true), occurs.optional),
-    field("is_slavery", literal(true), occurs.optional),
-    field("is_robot_servant", literal(true), occurs.optional),
-    field("is_purge", literal(true), occurs.optional),
-    field("new_pop_weight", primitive("number"), occurs.optional),
-    field("modifier", block([modifierEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Army }) }),
-    field(
-      "pop_group_modifier",
-      block([modifierEntries(), field("custom_tooltip", primitive("localisation"), occurs.optional)]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.PopGroup }) },
-    ),
-    field("free_pop_modifier", block([modifierEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.PopGroup }),
-    }),
-    field("pop_tooltip", primitive("localisation"), occurs.optional, {
-      documentation: "tooltip that appears on each Pop with this species right",
-    }),
-    field("pop_status_frame", primitive("integer"), occurs.optional, {
-      documentation: 'from of the sprite "" that is overlaid on each Pop\'s icon',
-    }),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Species, from: ScopeId.Country }),
-    }),
-    field("allow", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Species, from: ScopeId.Country }),
-    }),
-    field("ai_will_do", block([field("factor", primitive("number"), occurs.one), modifierRuleEntries()]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Species, from: ScopeId.Country }),
-    }),
-    ruleSetEntries("triggered_pop_modifier"),
-    ruleSetEntries("triggered_pop_group_modifier"),
   ],
 });

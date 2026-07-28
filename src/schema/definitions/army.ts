@@ -94,58 +94,5 @@ export const army: DefinitionType = defineType({
     field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field(
-      "resources",
-      block([field("category", typeRef("economic_category"), occurs.optional), ruleSetEntries("economic_template")]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }) },
-    ),
-    field("army_modifier", block([modifierEntries()]), occurs.optional),
-    field("use_armynames_from", typeRef("army"), occurs.optional, {
-      documentation: "Specify another army type to use names from, instead of having to copy them for each name list.",
-    }),
-    field("defensive", primitive("boolean"), occurs.optional),
-    field("is_building_spawned", primitive("boolean"), occurs.optional),
-    field("is_pop_spawned", primitive("boolean"), occurs.optional),
-    field("damage", primitive("number"), occurs.optional),
-    field("health", primitive("number"), occurs.optional),
-    field("has_morale", primitive("boolean"), occurs.optional),
-    field("morale", primitive("number"), occurs.optional),
-    field("morale_damage", primitive("number"), occurs.optional),
-    field("collateral_damage", primitive("number"), occurs.optional),
-    field("war_exhaustion", primitive("number"), occurs.optional),
-    field("icon", typeRef("sprite"), occurs.optional),
-    field("has_species", primitive("boolean"), occurs.optional),
-    field("time", primitive("integer"), occurs.optional),
-    field("pop_limited", primitive("boolean"), occurs.optional),
-    field("disband_if_species_lacks_rights", primitive("boolean"), occurs.optional),
-    field("rebel", primitive("boolean"), occurs.optional),
-    field("occupation", primitive("boolean"), occurs.optional),
-    field("prerequisites", block([item(typeRef("technology"), occurs.one)]), occurs.optional),
-    field("show_tech_unlock_if", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("potential", block([triggerEntries()]), occurs.optional),
-    field("potential_country", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("allow", block([triggerEntries()]), occurs.optional),
-    field("on_queued", block([effectEntries()]), occurs.optional),
-    field("on_unqueued", block([effectEntries()]), occurs.optional),
-    whenVariant("pop_spawned", [
-      field(
-        "spawn_chance",
-        block([field("factor", primitive("number"), occurs.one), modifierRuleEntries()]),
-        occurs.optional,
-        {
-          documentation:
-            "spawn_chance: only works on defensive armies; pop scope check that lets you give weights for what sort of army should be spawned. Calculation is health * spawn_chance (default: 1), and it always picks the best one",
-          scope: replaceScope({ root: ScopeId.PopGroup }),
-        },
-      ),
-    ]),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

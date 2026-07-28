@@ -65,45 +65,5 @@ export const diplomacyEconomy: DefinitionType = defineType({
       ]),
       occurs.one,
     ),
-    field(
-      "once",
-      block([
-        field(
-          anyKey(),
-          block([
-            field("trigger", block([triggerEntries()]), occurs.one, {
-              scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
-            }),
-            field(
-              "resources",
-              block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-              occurs.one,
-            ),
-          ]),
-          occurs.any,
-        ),
-      ]),
-      occurs.one,
-    ),
-    field(
-      "per_relation",
-      block([
-        field(
-          anyKey(),
-          block([
-            field("trigger", block([triggerEntries()]), occurs.one, {
-              scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }),
-            }),
-            field(
-              "resources",
-              block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
-              occurs.one,
-            ),
-          ]),
-          occurs.any,
-        ),
-      ]),
-      occurs.one,
-    ),
   ],
 });

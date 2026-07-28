@@ -18,9 +18,5 @@ export const focusRewards: DefinitionType = defineType({
     field("cost", primitive("integer"), occurs.one),
     field("mode", enumRef(EnumId.FocusRewardsMode), occurs.one),
     field("on_success", block([effectEntries()]), occurs.optional),
-    field("category", enumRef(EnumId.CardCategoriesFocus), occurs.optional),
-    field("cost", primitive("integer"), occurs.one),
-    field("mode", enumRef(EnumId.FocusRewardsMode), occurs.one),
-    field("on_success", block([effectEntries()]), occurs.optional),
   ],
 });

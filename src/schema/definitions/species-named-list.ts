@@ -22,13 +22,5 @@ export const speciesNamedList: DefinitionType = defineType({
       ]),
       occurs.oneOrMore,
     ),
-    field(
-      anyKey(),
-      block([
-        field("name", primitive("localisation"), occurs.one),
-        field("plural", primitive("localisation"), occurs.one),
-      ]),
-      occurs.oneOrMore,
-    ),
   ],
 });

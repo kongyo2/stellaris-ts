@@ -18,7 +18,5 @@ export const planetClassRandomList: DefinitionType = defineType({
   entries: [
     field("name", primitive("scalar"), occurs.one),
     field("planets", block([item(typeRef("planet_class"), occurs.oneOrMore)]), occurs.one),
-    field("name", primitive("scalar"), occurs.one),
-    field("planets", block([item(typeRef("planet_class"), occurs.oneOrMore)]), occurs.one),
   ],
 });

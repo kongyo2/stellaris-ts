@@ -45,23 +45,5 @@ export const federationLaw: DefinitionType = defineType({
     field("ai_weight", block([ruleSetEntries("modifier_rule_with_loc")]), occurs.one, {
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field("unlocks_centralization", primitive("integer"), occurs.optional),
-    field("cohesion_growth", primitive("number"), occurs.optional),
-    field("required_centralization", block([field("base", primitive("integer"), occurs.one)]), occurs.optional),
-    field("display_level", primitive("integer"), occurs.optional),
-    field("allow", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Federation }) }),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Federation }),
-    }),
-    field(
-      "modifier",
-      block([field("description", primitive("localisation"), occurs.optional), modifierEntries()]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Federation }) },
-    ),
-    field("on_enact", block([effectEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Federation }) }),
-    field("ai_weight", block([ruleSetEntries("modifier_rule_with_loc")]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

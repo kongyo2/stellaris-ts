@@ -13,5 +13,5 @@ export const song: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [field("name", primitive("scalar"), occurs.one), field("name", primitive("scalar"), occurs.one)],
+  entries: [field("name", primitive("scalar"), occurs.one)],
 });

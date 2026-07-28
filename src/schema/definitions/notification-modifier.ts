@@ -13,5 +13,5 @@ export const notificationModifier: DefinitionType = defineType({
   variants: [],
   localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", true)],
   modifiers: [],
-  entries: [field("icon", primitive("file"), occurs.one), field("icon", primitive("file"), occurs.one)],
+  entries: [field("icon", primitive("file"), occurs.one)],
 });

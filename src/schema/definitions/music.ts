@@ -17,8 +17,5 @@ export const music: DefinitionType = defineType({
     field("name", typeRef("song"), occurs.one),
     field("file", primitive("scalar"), occurs.one),
     field("volume", primitive("number"), occurs.optional),
-    field("name", typeRef("song"), occurs.one),
-    field("file", primitive("scalar"), occurs.one),
-    field("volume", primitive("number"), occurs.optional),
   ],
 });

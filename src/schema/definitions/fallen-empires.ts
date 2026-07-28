@@ -38,16 +38,5 @@ export const fallenEmpires: DefinitionType = defineType({
     field("create_country_effect", block([effectEntries()]), occurs.one, {
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field("graphical_culture", typeRef("graphical_culture"), occurs.one),
-    field("initializer", typeRef("solar_system_initializer", "fallen_empire_initializer_sub"), occurs.optional),
-    field("initializer", literal("fallen_hive_last_thought"), occurs.optional),
-    field("allow_custom_empire_design", primitive("boolean"), occurs.optional),
-    field("possible", block([triggerEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field("weight_modifier", block([modifierRuleEntries()]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("create_country_effect", block([effectEntries()]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

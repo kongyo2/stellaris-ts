@@ -30,9 +30,5 @@ export const galacticFocus: DefinitionType = defineType({
     field("effect", block([effectEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
     field("potential", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: noScope() }) }),
     field("trigger", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: noScope() }) }),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("effect", block([effectEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field("potential", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: noScope() }) }),
-    field("trigger", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: noScope() }) }),
   ],
 });

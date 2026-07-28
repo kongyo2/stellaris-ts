@@ -21,12 +21,5 @@ export const colorDefine: DefinitionType = defineType({
     field("ship", primitive("colour", undefined, undefined, "rgb"), occurs.one),
     field("ship", primitive("colour", undefined, undefined, "hsv"), occurs.one),
     field("use_as_border_color", literal(false), occurs.optional),
-    field("flag", primitive("colour", undefined, undefined, "rgb"), occurs.one),
-    field("flag", primitive("colour", undefined, undefined, "hsv"), occurs.one),
-    field("map", primitive("colour", undefined, undefined, "rgb"), occurs.one),
-    field("map", primitive("colour", undefined, undefined, "hsv"), occurs.one),
-    field("ship", primitive("colour", undefined, undefined, "rgb"), occurs.one),
-    field("ship", primitive("colour", undefined, undefined, "hsv"), occurs.one),
-    field("use_as_border_color", literal(false), occurs.optional),
   ],
 });

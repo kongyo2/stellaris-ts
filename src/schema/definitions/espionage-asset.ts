@@ -43,23 +43,5 @@ export const espionageAsset: DefinitionType = defineType({
     field("categories", block([item(typeRef("espionage_category"), occurs.oneOrMore)]), occurs.one, {
       documentation: "primary category always goes first!",
     }),
-    field(
-      "appearance",
-      block([
-        field("name_generation_method", literal("random_person"), occurs.one),
-        field("name_generation_method", literal("nongenerated"), occurs.one),
-        field("portrait_generation_method", literal("random_person"), occurs.one),
-        field("portrait_generation_method", literal("nongenerated"), occurs.one),
-        field("default_portrait", typeRef("sprite"), occurs.optional),
-      ]),
-      occurs.one,
-    ),
-    field("passive", block([modifierEntries()]), occurs.one),
-    field("active", block([modifierEntries()]), occurs.one),
-    field("possible", block([triggerEntries()]), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.one),
-    field("categories", block([item(typeRef("espionage_category"), occurs.oneOrMore)]), occurs.one, {
-      documentation: "primary category always goes first!",
-    }),
   ],
 });

@@ -37,16 +37,5 @@ export const megaOverclock: DefinitionType = defineType({
       occurs.one,
       { scope: replaceScope({ root: ScopeId.Country }) },
     ),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.System, from: ScopeId.Country }),
-    }),
-    field("resources", block([ruleSetEntries("economic_template")]), occurs.optional),
-    field(
-      "modifier",
-      block([field("custom_tooltip", primitive("localisation"), occurs.any), modifierEntries()]),
-      occurs.one,
-      { scope: replaceScope({ root: ScopeId.Country }) },
-    ),
   ],
 });

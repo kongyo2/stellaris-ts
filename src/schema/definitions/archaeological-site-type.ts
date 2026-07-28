@@ -80,57 +80,5 @@ export const archaeologicalSiteType: DefinitionType = defineType({
     field("on_visible", block([effectEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Country, from: ScopeId.ArchaeologicalSite }),
     }),
-    field("picture", typeRef("sprite"), occurs.optional),
-    field("desc", primitive("localisation"), occurs.oneOrMore),
-    field(
-      "desc",
-      block([
-        field("trigger", block([triggerEntries()]), occurs.one, {
-          scope: replaceScope({ root: ScopeId.ArchaeologicalSite }),
-        }),
-        field("text", primitive("localisation"), occurs.one),
-      ]),
-      occurs.oneOrMore,
-    ),
-    field("max_instances", primitive("integer", { min: 1, max: null }), occurs.optional),
-    field("notification_duration", primitive("integer"), occurs.optional),
-    field("weight", block([modifierRuleEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Planet }) }),
-    field("weight", primitive("integer"), occurs.optional),
-    field("stages", primitive("integer", { min: 1, max: null }), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Fleet, from: ScopeId.ArchaeologicalSite }),
-    }),
-    field("allow", block([triggerEntries()]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Fleet, from: ScopeId.ArchaeologicalSite }),
-    }),
-    field("visible", block([triggerEntries()]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.ArchaeologicalSite }),
-    }),
-    field(
-      "stage",
-      block([
-        field("difficulty", primitive("integer", { min: null, max: null }), occurs.one),
-        field(
-          "difficulty",
-          block([
-            field("min", primitive("integer", { min: null, max: null }), occurs.one),
-            field("max", primitive("integer", { min: null, max: null }), occurs.one),
-          ]),
-          occurs.one,
-        ),
-        field("icon", typeRef("sprite"), occurs.one),
-        field("event", typeRef("event", "fleet"), occurs.one),
-      ]),
-      occurs.any,
-    ),
-    field("on_roll_failed", block([effectEntries()]), occurs.one, {
-      scope: replaceScope({ root: ScopeId.Fleet, from: ScopeId.ArchaeologicalSite }),
-    }),
-    field("on_create", block([effectEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.ArchaeologicalSite }),
-    }),
-    field("on_visible", block([effectEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.ArchaeologicalSite }),
-    }),
   ],
 });

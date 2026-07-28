@@ -18,6 +18,5 @@ export const textcolors: DefinitionType = defineType({
   modifiers: [],
   entries: [
     field(anyKey(), block([item(primitive("integer", { min: 0, max: 255 }), between(3, 3))]), between(14, null)),
-    field(anyKey(), block([item(primitive("integer", { min: 0, max: 255 }), between(3, 3))]), between(14, null)),
   ],
 });

@@ -13,8 +13,5 @@ export const prescriptedCountryFlags: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    field("flags", block([item(primitive("scalar"), occurs.any)]), occurs.one),
-    field("flags", block([item(primitive("scalar"), occurs.any)]), occurs.one),
-  ],
+  entries: [field("flags", block([item(primitive("scalar"), occurs.any)]), occurs.one)],
 });

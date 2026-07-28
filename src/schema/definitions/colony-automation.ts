@@ -50,28 +50,5 @@ export const colonyAutomation: DefinitionType = defineType({
       ]),
       occurs.one,
     ),
-    field("category", primitive("scalar"), occurs.one),
-    field("available", block([triggerEntries()]), occurs.one),
-    field("prio_districts", block([item(typeRef("district"), occurs.any)]), occurs.optional),
-    field(
-      "prio_zones",
-      block([item(typeRef("zones"), occurs.any), item(enumRef(EnumId.ZoneType), occurs.any)]),
-      occurs.optional,
-    ),
-    field(
-      "buildings",
-      block([
-        field(
-          anyKey(),
-          block([
-            field("building", typeRef("building"), occurs.one),
-            field("available", block([triggerEntries()]), occurs.optional),
-            field("planet_limit", primitive("integer"), occurs.optional),
-          ]),
-          occurs.oneOrMore,
-        ),
-      ]),
-      occurs.one,
-    ),
   ],
 });

@@ -24,10 +24,5 @@ export const scriptedTrigger: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    item(literal("optimize_memory"), occurs.any),
-    triggerEntries(),
-    item(literal("optimize_memory"), occurs.any),
-    triggerEntries(),
-  ],
+  entries: [item(literal("optimize_memory"), occurs.any), triggerEntries()],
 });

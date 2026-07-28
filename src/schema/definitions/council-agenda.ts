@@ -60,31 +60,5 @@ export const councilAgenda: DefinitionType = defineType({
       documentation: "Static modifier applied to the country upon finishing (launching) the agenda",
     }),
     field("ai_weight", block([modifierRuleEntries()]), occurs.optional),
-    field("agenda_cost", scriptValue("number"), occurs.one),
-    field("agenda_cooldown", scriptValue("number"), occurs.optional, {
-      documentation:
-        "Optional, Overrides COUNCIL_AGENDA_COOLDOWN define, how many days until the agenda can be selected again",
-    }),
-    field("potential", block([triggerEntries()]), occurs.one),
-    field("allow", block([triggerEntries()]), occurs.one),
-    field("initial_effect_custom_loc", primitive("localisation"), occurs.optional, {
-      documentation: "Custom localization for the initial effect, if you're using weird on_actions to have one",
-    }),
-    field("modifier", block([modifierEntries()]), occurs.optional, {
-      documentation:
-        "Modifiers applied while the agenda is active (being prepared); usually similar but smaller modifiers compared to the finish_modifier",
-    }),
-    field("init_effect", block([effectEntries()]), occurs.optional),
-    field("effect", block([effectEntries()]), occurs.optional, {
-      documentation: "Effects executed once the agenda is finished (launched); displayed in the agenda tooltip",
-    }),
-    field("agenda_finish_modifier_duration", scriptValue("number"), occurs.optional, {
-      documentation:
-        "Optional, Overrides COUNCIL_AGENDA_FINISH_MODIFIER_DURATION define how many days the agenda's finish_modifier lasts for",
-    }),
-    field("finish_modifier", typeRef("static_modifier"), occurs.optional, {
-      documentation: "Static modifier applied to the country upon finishing (launching) the agenda",
-    }),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional),
   ],
 });

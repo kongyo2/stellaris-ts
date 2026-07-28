@@ -33,14 +33,5 @@ export const buttonEffect: DefinitionType = defineType({
     field("effect", block([effectEntries()]), occurs.optional, {
       scope: replaceScope({ root: anyScope(), from: ScopeId.Country }),
     }),
-    field("potential", block([triggerEntries()]), occurs.one, {
-      scope: replaceScope({ root: anyScope(), from: ScopeId.Country }),
-    }),
-    field("allow", block([triggerEntries()]), occurs.one, {
-      scope: replaceScope({ root: anyScope(), from: ScopeId.Country }),
-    }),
-    field("effect", block([effectEntries()]), occurs.optional, {
-      scope: replaceScope({ root: anyScope(), from: ScopeId.Country }),
-    }),
   ],
 });

@@ -3,6 +3,7 @@ import type { Mod } from "../runtime/mod.js";
 import { isBare, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
+import { isScopeKey, isSyntacticKey, scopeEntryNames, scriptBlockNames } from "../schema/script-keys.js";
 import type { DefinitionType, EntryRule, KeyRule, SchemaModel, ValueRule } from "../schema/ir.js";
 
 /**
@@ -29,6 +30,8 @@ export interface ValidationOptions {
 
 interface AcceptorDraft {
   open: boolean;
+  /** Whether a chained or run-time scope — `root.owner`, `event_target:x` — is a key here. */
+  scopeKeys: boolean;
   readonly literals: Set<string>;
   /** Names the game matches without regard to case; compared lowercased. */
   readonly insensitive: Set<string>;
@@ -37,6 +40,7 @@ interface AcceptorDraft {
 
 interface Acceptor {
   readonly open: boolean;
+  readonly scopeKeys: boolean;
   readonly literals: ReadonlySet<string>;
   readonly insensitive: ReadonlySet<string>;
   readonly patterns: readonly { readonly prefix: string; readonly suffix: string }[];
@@ -95,17 +99,23 @@ function addNames(names: readonly string[], into: AcceptorDraft): void {
   }
 }
 
-function collectEntry(model: SchemaModel, entry: EntryRule, into: AcceptorDraft, modifiers: ReadonlySet<string>): void {
+function collectEntry(
+  model: SchemaModel,
+  entry: EntryRule,
+  into: AcceptorDraft,
+  modifiers: ReadonlySet<string>,
+  idsByType: Readonly<Record<string, readonly string[]>>,
+): void {
   switch (entry.kind) {
     case "field":
       collectKey(model, entry.key, into);
       return;
     case "variant-rules":
       for (const child of entry.entries) {
-        collectEntry(model, child, into, modifiers);
+        collectEntry(model, child, into, modifiers, idsByType);
       }
       return;
-    case "script-entries":
+    case "script-entries": {
       // A modifier block is keyed by modifier name, and those are a namespace of
       // their own: mostly generated from definitions rather than declared, and
       // matched without regard to case.
@@ -120,11 +130,21 @@ function collectEntry(model: SchemaModel, entry: EntryRule, into: AcceptorDraft,
         return;
       }
 
-      addNames(
-        model.commands.filter((command) => command.family === entry.family).map((command) => command.id),
-        into,
-      );
+      // A trigger or effect block takes more than the commands it declares:
+      // another scripted trigger or effect by name, and a scope to enter.
+      const names: ReadonlySet<string> = scriptBlockNames(model, entry.family, idsByType);
+
+      if (names.size === 0) {
+        into.open = true;
+        return;
+      }
+
+      for (const name of names) {
+        into.insensitive.add(name);
+      }
+      into.scopeKeys = true;
       return;
+    }
     case "rule-set-entries":
       addNames(
         model.ruleSets
@@ -246,16 +266,22 @@ function keysOf(value: unknown): readonly string[] {
   return [];
 }
 
-function acceptorFor(model: SchemaModel, type: DefinitionType, modifiers: ReadonlySet<string>): Acceptor {
+function acceptorFor(
+  model: SchemaModel,
+  type: DefinitionType,
+  modifiers: ReadonlySet<string>,
+  idsByType: Readonly<Record<string, readonly string[]>>,
+): Acceptor {
   const draft: AcceptorDraft = {
     open: false,
+    scopeKeys: false,
     literals: new Set<string>(),
     insensitive: new Set<string>(),
     patterns: [],
   };
 
   for (const entry of type.entries) {
-    collectEntry(model, entry, draft, modifiers);
+    collectEntry(model, entry, draft, modifiers, idsByType);
   }
 
   for (const macro of model.policy.macros) {
@@ -265,11 +291,13 @@ function acceptorFor(model: SchemaModel, type: DefinitionType, modifiers: Readon
   return draft;
 }
 
-function accepts(acceptor: Acceptor, key: string): boolean {
+function accepts(model: SchemaModel, acceptor: Acceptor, key: string): boolean {
   return (
     acceptor.open ||
+    isSyntacticKey(key) ||
     acceptor.literals.has(key) ||
     acceptor.insensitive.has(key.toLowerCase()) ||
+    (acceptor.scopeKeys && isScopeKey(model, key, scopeEntryNames(model))) ||
     acceptor.patterns.some(
       (pattern) =>
         key.length >= pattern.prefix.length + pattern.suffix.length &&
@@ -301,11 +329,8 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   for (const definition of mod.definitions) {
     (ownIds[definition.type] ??= []).push(definition.id);
   }
-  const modifiers: ReadonlySet<string> = expandModifierNames(
-    model.modifiers,
-    mergeIdsByType(vanillaIdsByType, ownIds),
-    vanillaModifierNames,
-  );
+  const idsByType: Readonly<Record<string, readonly string[]>> = mergeIdsByType(vanillaIdsByType, ownIds);
+  const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
   for (const definition of mod.definitions) {
     const type: DefinitionType | undefined = model.definitionTypes.find(
@@ -337,7 +362,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
     let acceptor: Acceptor | undefined = acceptors.get(type.id);
     if (acceptor === undefined) {
-      acceptor = acceptorFor(model, type, modifiers);
+      acceptor = acceptorFor(model, type, modifiers, idsByType);
       acceptors.set(type.id, acceptor);
     }
 
@@ -367,7 +392,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         }
       }
 
-      if (!accepts(acceptor, field)) {
+      if (!accepts(model, acceptor, field)) {
         diagnostics.push({
           severity: "error",
           code: "unknown-field",

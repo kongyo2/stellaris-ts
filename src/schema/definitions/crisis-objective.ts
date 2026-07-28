@@ -32,12 +32,5 @@ export const crisisObjective: DefinitionType = defineType({
       occurs.one,
     ),
     field("recurring", literal(true), occurs.optional),
-    field("potential", block([triggerEntries()]), occurs.optional),
-    field(
-      "reward",
-      block([modifierRuleEntries(), field("divide", enumRef(EnumId.ExeSetVariable), occurs.optional)]),
-      occurs.one,
-    ),
-    field("recurring", literal(true), occurs.optional),
   ],
 });

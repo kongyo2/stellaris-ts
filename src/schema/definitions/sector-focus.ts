@@ -51,31 +51,5 @@ export const sectorFocus: DefinitionType = defineType({
       ]),
       occurs.any,
     ),
-    field("hidden", literal(true), occurs.optional),
-    field("clear_blockers", primitive("boolean"), occurs.optional),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional),
-    field(
-      "district",
-      block([
-        field("key", typeRef("district"), occurs.one),
-        field("weight", block([modifierRuleEntries()]), occurs.one),
-      ]),
-      occurs.any,
-    ),
-    field(
-      "building",
-      block([
-        field("key", typeRef("building"), occurs.one),
-        field("priority", literal(true), occurs.optional, {
-          documentation:
-            "only works on buildings and upgrades; puts them at the front of the list (otherwise it will pick a district first, then a building, then an upgrade)",
-        }),
-        field("exempt_from_jobs_check", literal(true), occurs.optional, {
-          documentation: "gets built whether or not a pop would work the jobs",
-        }),
-        field("weight", block([modifierRuleEntries()]), occurs.one),
-      ]),
-      occurs.any,
-    ),
   ],
 });

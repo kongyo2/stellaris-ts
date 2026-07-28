@@ -39,30 +39,5 @@ export const scriptedModifier: DefinitionType = defineType({
       documentation:
         "sets the modifier category, which is sometimes used to determine whether it is applied to a certain object (so make sure this is set to what you want)",
     }),
-    field("icon", primitive("scalar"), occurs.optional, {
-      documentation: 'name of file in gfx\\interface\\icons\\modifiers (without the .dds). Default is "mod_" + key',
-    }),
-    field("percentage", primitive("boolean"), occurs.optional, { documentation: "show as a % or not (default: no)" }),
-    field("min_mult", primitive("number"), occurs.optional, {
-      documentation:
-        "sets the minimum this modifier can be when used as a multiplier in the source code (so probably not relevant since this modifier will not be applied in the source code - but you could theoretically overwrite a code-generated modifier here). Default 0",
-    }),
-    field("max_decimals", primitive("integer"), occurs.optional, { documentation: "default 2" }),
-    field("good", primitive("boolean"), occurs.optional, {
-      documentation: 'sets if it registers as "good" (i.e. a positive number is green, a negative red). Default no.',
-    }),
-    field("neutral", primitive("boolean"), occurs.optional, {
-      documentation: "sets if no value is either good or bad (all is yellow). Default no.",
-    }),
-    field("hidden", primitive("boolean"), occurs.optional, {
-      documentation: "probably hides it in tooltips? Needs testing. Default no.",
-    }),
-    field("no_diff", primitive("boolean"), occurs.optional, { documentation: "Default no" }),
-    field("cap_zero_to_one", primitive("boolean"), occurs.optional, { documentation: "Default no" }),
-    field("localize_with_value_key", primitive("boolean"), occurs.optional, { documentation: "Default no" }),
-    field("category", enumRef(EnumId.ScriptedModifierCategories), occurs.one, {
-      documentation:
-        "sets the modifier category, which is sometimes used to determine whether it is applied to a certain object (so make sure this is set to what you want)",
-    }),
   ],
 });

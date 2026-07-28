@@ -58,34 +58,5 @@ export const colonyType: DefinitionType = defineType({
     ),
     ruleSetEntries("triggered_planet_modifier_planet", { scope: replaceScope({ root: ScopeId.Planet }) }),
     field("weight_modifier", block([modifierRuleEntries()]), occurs.one),
-    field("icon", typeRef("sprite"), occurs.one),
-    field(
-      "ai_resource_conversion",
-      block([
-        field(typeKey("resource"), primitive("number"), occurs.any),
-        field("trigger", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Planet }) }),
-      ]),
-      occurs.optional,
-      { documentation: "Used by AI to estimate what will happen when we change the designation" },
-    ),
-    field(
-      "ai_resource_current_conversion",
-      block([
-        field(typeKey("resource"), primitive("number"), occurs.any),
-        field("trigger", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Planet }) }),
-      ]),
-      occurs.optional,
-      { documentation: "Used by AI to estimate the current effects of this designation" },
-    ),
-    field("potential", block([triggerEntries()]), occurs.one),
-    field("custom_tooltip", primitive("localisation"), occurs.optional),
-    field(
-      "planet_modifier",
-      block([field("custom_tooltip", primitive("localisation"), occurs.optional), modifierEntries()]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Planet }) },
-    ),
-    ruleSetEntries("triggered_planet_modifier_planet", { scope: replaceScope({ root: ScopeId.Planet }) }),
-    field("weight_modifier", block([modifierRuleEntries()]), occurs.one),
   ],
 });

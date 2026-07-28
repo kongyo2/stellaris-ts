@@ -18,9 +18,5 @@ export const technologyTier: DefinitionType = defineType({
     field("weight_modifier", block([modifierRuleEntries()]), occurs.any, {
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field("previously_unlocked", primitive("integer"), occurs.optional),
-    field("weight_modifier", block([modifierRuleEntries()]), occurs.any, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

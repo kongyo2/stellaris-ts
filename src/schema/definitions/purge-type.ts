@@ -85,56 +85,5 @@ export const purgeType: DefinitionType = defineType({
       { scope: replaceScope({ root: ScopeId.Species, from: ScopeId.Country }) },
     ),
     ruleSetEntries("triggered_pop_modifier"),
-    field(
-      "in_breach_of",
-      block([
-        item(
-          block([
-            field("trigger", block([triggerEntries()]), occurs.optional, {
-              scope: replaceScope({ root: ScopeId.Country }),
-            }),
-            field("key", typeRef("resolution"), occurs.one),
-          ]),
-          occurs.any,
-        ),
-      ]),
-      occurs.any,
-    ),
-    field("pop_escape_chance", primitive("number"), occurs.one),
-    field("pop_decline_rate", scriptValue("number"), occurs.one, {
-      documentation: "Divide by 100 for monthly reduction, overrides BASE_POP_DECLINE",
-    }),
-    field("modifier", block([modifierEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Army }) }),
-    field(
-      "pop_group_modifier",
-      block([modifierEntries(), field("custom_tooltip", primitive("localisation"), occurs.optional)]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.PopGroup }) },
-    ),
-    field("free_pop_modifier", block([modifierEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.PopGroup }),
-    }),
-    field("pop_tooltip", primitive("localisation"), occurs.optional, {
-      documentation: "tooltip that appears on each Pop with this species right",
-    }),
-    field("pop_status_frame", primitive("integer"), occurs.optional, {
-      documentation: 'from of the sprite "" that is overlaid on each Pop\'s icon',
-    }),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Species, from: ScopeId.Country }),
-    }),
-    field("allow", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Species, from: ScopeId.Country }),
-    }),
-    field("hidden", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Species, from: ScopeId.Country }),
-    }),
-    field(
-      "ai_will_do",
-      block([field("factor", primitive("number"), occurs.one), modifierRuleEntries()]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Species, from: ScopeId.Country }) },
-    ),
-    ruleSetEntries("triggered_pop_modifier"),
   ],
 });

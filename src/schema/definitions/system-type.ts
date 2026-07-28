@@ -28,9 +28,5 @@ export const systemType: DefinitionType = defineType({
     field("weight_modifier", block([modifierRuleEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.System }),
     }),
-    field("potential", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.System }) }),
-    field("weight_modifier", block([modifierRuleEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.System }),
-    }),
   ],
 });

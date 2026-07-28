@@ -42,22 +42,5 @@ export const shipOfSizeLimit: DefinitionType = defineType({
         'Trigger that defines if tooltip for naval capacity icon on the top bar should be shown Recommended to include "is_scope_valid = yes" as the first line',
       scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Federation }),
     }),
-    field("ship_types", block([item(typeRef("ship_size"), occurs.oneOrMore)]), occurs.one, {
-      documentation: "list of keys to ship_sizes database, these ship_sizes will share the calculated capacity",
-    }),
-    field("base", primitive("integer", { min: 0, max: null }), occurs.one, {
-      documentation: "Base (minimal) shared capacity of ships",
-    }),
-    field("max", primitive("integer", { min: 0, max: null }), occurs.optional, {
-      documentation: "Maximal shared capacity of ships",
-    }),
-    field("naval_cap_fraction", primitive("number", { min: 0, max: 1 }), occurs.optional, {
-      documentation: "Fraction of current naval capacity of the country",
-    }),
-    field("show", block([triggerEntries()]), occurs.one, {
-      documentation:
-        'Trigger that defines if tooltip for naval capacity icon on the top bar should be shown Recommended to include "is_scope_valid = yes" as the first line',
-      scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Federation }),
-    }),
   ],
 });

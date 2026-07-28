@@ -13,5 +13,5 @@ export const randomizableCombo: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [item(typeRef("color_define"), between(3, 3)), item(typeRef("color_define"), between(3, 3))],
+  entries: [item(typeRef("color_define"), between(3, 3))],
 });

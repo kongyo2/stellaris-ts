@@ -45,20 +45,5 @@ export const componentSet: DefinitionType = defineType({
       field("icon", typeRef("sprite"), occurs.one),
       field("icon_frame", primitive("integer"), occurs.one),
     ]),
-    field("required_component_set", primitive("boolean"), occurs.optional),
-    field("is_core_component_set", primitive("boolean"), occurs.optional),
-    field("affects_target_type", primitive("boolean"), occurs.optional),
-    field("is_space_fauna_component_set", primitive("boolean"), occurs.optional),
-    field("is_default_space_fauna_component_set", primitive("boolean"), occurs.optional),
-    whenVariant("required_component", [
-      field("key", primitive("scalar"), occurs.one),
-      field("icon", primitive("scalar"), occurs.optional),
-      field("icon_frame", primitive("scalar"), occurs.optional),
-    ]),
-    unlessVariant("required_component", [
-      field("key", primitive("localisation"), occurs.one),
-      field("icon", typeRef("sprite"), occurs.one),
-      field("icon_frame", primitive("integer"), occurs.one),
-    ]),
   ],
 });

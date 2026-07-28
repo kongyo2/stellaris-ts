@@ -38,17 +38,5 @@ export const menacePerk: DefinitionType = defineType({
     ),
     field("modifier", block([modifierEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
     field("on_unlock", block([effectEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field("portrait", typeRef("sprite"), occurs.one),
-    field(
-      "resources",
-      block([
-        field("category", typeRef("economic_category"), occurs.one),
-        ruleSetEntries("economic_template_only_produces"),
-      ]),
-      occurs.optional,
-      { scope: replaceScope({ root: ScopeId.Country }) },
-    ),
-    field("modifier", block([modifierEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
-    field("on_unlock", block([effectEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
   ],
 });

@@ -35,23 +35,5 @@ export const bitmapfontOverride: DefinitionType = defineType({
       ]),
       occurs.optional,
     ),
-    field("name", typeRef("bitmapfont"), occurs.one),
-    field("ttf_font", typeRef("font"), occurs.optional),
-    field("ttf_size", primitive("integer"), occurs.optional),
-    field("vertical_offset", primitive("integer"), occurs.optional),
-    field(
-      "fontfiles",
-      block([item(primitive("scalar"), occurs.oneOrMore, { severity: "information" })]),
-      occurs.optional,
-    ),
-    field("languages", block([item(enumRef(EnumId.FontLanguages), between(1, 3))]), occurs.one),
-    field(
-      "multiline",
-      block([
-        field("line_break", block([item(primitive("scalar"), occurs.any)]), occurs.optional),
-        field("forbidden_start", block([item(primitive("scalar"), occurs.any)]), occurs.optional),
-      ]),
-      occurs.optional,
-    ),
   ],
 });

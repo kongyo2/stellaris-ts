@@ -48,28 +48,5 @@ export const zoneSlots: DefinitionType = defineType({
     field("unlock", block([triggerEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Planet, from: ScopeId.Planet }),
     }),
-    field("start", typeRef("zones"), occurs.optional),
-    field("start", enumRef(EnumId.ZoneType), occurs.optional),
-    field(
-      "included_zone_sets",
-      block([item(enumRef(EnumId.ZoneSet), occurs.any), item(enumRef(EnumId.ZoneSetAdditional), occurs.any)]),
-      occurs.optional,
-    ),
-    field(
-      "include",
-      block([item(typeRef("zones"), occurs.any), item(enumRef(EnumId.ZoneType), occurs.any)]),
-      occurs.optional,
-    ),
-    field(
-      "exclude",
-      block([item(typeRef("zones"), occurs.any), item(enumRef(EnumId.ZoneType), occurs.any)]),
-      occurs.optional,
-    ),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Planet, from: ScopeId.Planet }),
-    }),
-    field("unlock", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Planet, from: ScopeId.Planet }),
-    }),
   ],
 });

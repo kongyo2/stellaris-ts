@@ -13,8 +13,5 @@ export const namedColor: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    field("color", primitive("colour", undefined, undefined, "rgb"), occurs.one),
-    field("color", primitive("colour", undefined, undefined, "rgb"), occurs.one),
-  ],
+  entries: [field("color", primitive("colour", undefined, undefined, "rgb"), occurs.one)],
 });

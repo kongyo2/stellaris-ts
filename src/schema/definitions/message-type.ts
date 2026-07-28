@@ -48,36 +48,5 @@ export const messageType: DefinitionType = defineType({
     field("default_notification", primitive("boolean"), occurs.optional),
     field("default_popup", primitive("boolean"), occurs.optional),
     field("can_disable", primitive("boolean"), occurs.optional),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("icon_frame", primitive("integer"), occurs.optional),
-    field("key", primitive("scalar"), occurs.one, { documentation: "Message key, used from code." }),
-    field("name", primitive("localisation"), occurs.optional, {
-      documentation: 'Localization key to use for title, if empty it will use "MESSAGE_<key>_TITLE" instead.',
-    }),
-    field("sound", typeRef("sound_effect"), occurs.optional),
-    field("sound_is_advisor", primitive("boolean"), occurs.optional, { documentation: "Deprecated and does nothing." }),
-    field("ping", typeRef("pingmap"), occurs.optional),
-    field("auto_opens", enumRef(EnumId.AutoOpenType), occurs.optional, {
-      documentation:
-        "Specifies if the message should be auto opened or not (default: player) Some messages as events ignore this since they have their own option.",
-    }),
-    field("default_toast", primitive("boolean"), occurs.optional, {
-      documentation: "Should the message displayed as a toast? (default: no)",
-    }),
-    field("hidden_in_message_settings", primitive("boolean"), occurs.optional),
-    field("message_setting_key", primitive("localisation"), occurs.optional, {
-      documentation: "Localization key to use in message settings, if empty it will use name instead.",
-    }),
-    field("category", enumRef(EnumId.MessageSettingCategory), occurs.optional, {
-      documentation: "Filter category in message settings (default: other)",
-    }),
-    field("default_disabled", primitive("boolean"), occurs.optional, {
-      documentation: "Is the message disabled in message settings by default? (default: no)",
-    }),
-    field("default_notification", primitive("boolean"), occurs.optional),
-    field("default_autopause", primitive("boolean"), occurs.optional),
-    field("default_notification", primitive("boolean"), occurs.optional),
-    field("default_popup", primitive("boolean"), occurs.optional),
-    field("can_disable", primitive("boolean"), occurs.optional),
   ],
 });

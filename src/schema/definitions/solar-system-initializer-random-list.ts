@@ -18,7 +18,5 @@ export const solarSystemInitializerRandomList: DefinitionType = defineType({
   entries: [
     field("name", primitive("scalar"), occurs.one),
     field(typeKey("solar_system_initializer"), primitive("integer"), occurs.oneOrMore),
-    field("name", primitive("scalar"), occurs.one),
-    field(typeKey("solar_system_initializer"), primitive("integer"), occurs.oneOrMore),
   ],
 });

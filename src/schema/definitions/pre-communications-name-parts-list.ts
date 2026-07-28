@@ -23,12 +23,5 @@ export const preCommunicationsNamePartsList: DefinitionType = defineType({
       block([field("localisation", primitive("integer"), occurs.any), item(primitive("localisation"), occurs.any)]),
       occurs.one,
     ),
-    field("key", valueSet("pre_communications_name_parts"), occurs.one),
-    field("cyclic", primitive("boolean"), occurs.optional),
-    field(
-      "parts",
-      block([field("localisation", primitive("integer"), occurs.any), item(primitive("localisation"), occurs.any)]),
-      occurs.one,
-    ),
   ],
 });

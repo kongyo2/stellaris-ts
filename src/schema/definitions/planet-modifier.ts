@@ -30,9 +30,5 @@ export const planetModifier: DefinitionType = defineType({
     field("potential", block([triggerEntries()]), occurs.optional),
     field("spawn_chance", block([modifierRuleEntries()]), occurs.one),
     unlessVariant("null", [field("modifier", typeRef("static_modifier"), occurs.one)]),
-    field("is_null", primitive("boolean"), occurs.optional),
-    field("potential", block([triggerEntries()]), occurs.optional),
-    field("spawn_chance", block([modifierRuleEntries()]), occurs.one),
-    unlessVariant("null", [field("modifier", typeRef("static_modifier"), occurs.one)]),
   ],
 });

@@ -15,6 +15,5 @@ export const ownershipLimit: DefinitionType = defineType({
   modifiers: [],
   entries: [
     field("ship_of_size_limits", block([item(typeRef("ship_of_size_limit"), occurs.oneOrMore)]), occurs.optional),
-    field("ship_of_size_limits", block([item(typeRef("ship_of_size_limit"), occurs.oneOrMore)]), occurs.optional),
   ],
 });

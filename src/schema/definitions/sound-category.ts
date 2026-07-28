@@ -29,20 +29,5 @@ export const soundCategory: DefinitionType = defineType({
       ]),
       occurs.optional,
     ),
-    field("name", primitive("scalar"), occurs.one),
-    field("soundeffects", block([item(typeRef("sound_effect"), occurs.any)]), occurs.one),
-    field(
-      "compressor",
-      block([
-        field("enabled", primitive("boolean"), occurs.one),
-        field("pregain", primitive("number"), occurs.one),
-        field("postgain", primitive("number"), occurs.one),
-        field("ratio", primitive("number"), occurs.one),
-        field("threshold", primitive("number"), occurs.one),
-        field("attacktime", primitive("number"), occurs.one),
-        field("releasetime", primitive("number"), occurs.one),
-      ]),
-      occurs.optional,
-    ),
   ],
 });

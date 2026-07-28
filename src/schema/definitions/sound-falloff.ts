@@ -19,10 +19,5 @@ export const soundFalloff: DefinitionType = defineType({
     field("height_scale", primitive("number"), occurs.optional),
     field("min_distance", primitive("number"), occurs.one),
     field("max_distance", primitive("number"), occurs.one),
-    field("name", primitive("scalar"), occurs.one),
-    field("type", enumRef(EnumId.FalloffType), occurs.optional),
-    field("height_scale", primitive("number"), occurs.optional),
-    field("min_distance", primitive("number"), occurs.one),
-    field("max_distance", primitive("number"), occurs.one),
   ],
 });

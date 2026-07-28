@@ -28,9 +28,5 @@ export const technologyCategory: DefinitionType = defineType({
     field("weight_modifier", block([modifierRuleEntries()]), occurs.any, {
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field("icon", primitive("file"), occurs.one),
-    field("weight_modifier", block([modifierRuleEntries()]), occurs.any, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

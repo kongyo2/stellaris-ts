@@ -35,15 +35,5 @@ export const eventChain: DefinitionType = defineType({
     field("abort_trigger", block([triggerEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Country }),
     }),
-    field("icon", primitive("file"), occurs.optional),
-    field("picture", typeRef("sprite"), occurs.optional),
-    field(
-      "counter",
-      block([field("localisation", block([field("max", primitive("integer"), occurs.optional)]), occurs.any)]),
-      occurs.any,
-    ),
-    field("abort_trigger", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
   ],
 });

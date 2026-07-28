@@ -22,11 +22,5 @@ export const popFactionNamePartsList: DefinitionType = defineType({
       block([field("localisation", primitive("integer"), occurs.any), item(primitive("localisation"), occurs.any)]),
       occurs.one,
     ),
-    field("key", valueSet("pop_faction_name_parts"), occurs.one),
-    field(
-      "parts",
-      block([field("localisation", primitive("integer"), occurs.any), item(primitive("localisation"), occurs.any)]),
-      occurs.one,
-    ),
   ],
 });

@@ -13,10 +13,5 @@ export const conceptCategories: DefinitionType = defineType({
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    field("name", primitive("localisation"), occurs.one),
-    field("icon", typeRef("sprite"), occurs.one),
-    field("name", primitive("localisation"), occurs.one),
-    field("icon", typeRef("sprite"), occurs.one),
-  ],
+  entries: [field("name", primitive("localisation"), occurs.one), field("icon", typeRef("sprite"), occurs.one)],
 });
