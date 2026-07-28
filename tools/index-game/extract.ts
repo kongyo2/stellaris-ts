@@ -172,30 +172,27 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
     const key: string | undefined = keyOf(entry);
     const block: Block | undefined = blockOf(entry);
 
-    if (key === undefined || block === undefined || !accepted(key)) {
+    if (key === undefined || block === undefined) {
       continue;
     }
 
-    const inContainer: boolean =
-      container !== undefined && (container.kind === "any-container" || container.key === key);
-
-    if (inContainer) {
+    if (container !== undefined) {
+      if (container.kind !== "any-container" && container.key !== key) {
+        continue;
+      }
       for (const nested of block.entries) {
         const nestedKey: string | undefined = keyOf(nested);
         const nestedBlock: Block | undefined = blockOf(nested);
-        if (nestedKey !== undefined && nestedBlock !== undefined) {
+        if (nestedKey !== undefined && nestedBlock !== undefined && accepted(nestedKey)) {
           claim(nestedKey, nestedBlock);
         }
       }
       continue;
     }
 
-    if (container !== undefined) {
-      // A container was named and this root key is not it.
-      continue;
+    if (accepted(key)) {
+      claim(key, block);
     }
-
-    claim(key, block);
   }
 
   // A quoted key keeps its quotes in the raw value; the identifier is the text
@@ -239,19 +236,22 @@ function definitionFieldKeys(type: DefinitionType, document: Document, into: Set
     const key: string | undefined = keyOf(entry);
     const block: Block | undefined = blockOf(entry);
 
-    if (key === undefined || block === undefined || !accepted(key)) {
+    if (key === undefined || block === undefined) {
       continue;
     }
 
     if (container === undefined) {
-      claim(block);
+      if (accepted(key)) {
+        claim(block);
+      }
       continue;
     }
 
     if (container.kind === "any-container" || container.key === key) {
       for (const nested of block.entries) {
+        const nestedKey: string | undefined = keyOf(nested);
         const nestedBlock: Block | undefined = blockOf(nested);
-        if (nestedBlock !== undefined) {
+        if (nestedKey !== undefined && nestedBlock !== undefined && accepted(nestedKey)) {
           claim(nestedBlock);
         }
       }

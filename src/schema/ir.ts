@@ -500,6 +500,10 @@ export interface DefinitionSourceBase {
   readonly directory: string;
   readonly includeSubdirectories: boolean;
   readonly files?: readonly string[];
+  /**
+   * Selects definition keys: file-root keys when there is no container, or
+   * direct child keys after the container has been selected.
+   */
   readonly rootKeyFilter?: RootKeyFilter;
   readonly container?: SourceContainer;
 }

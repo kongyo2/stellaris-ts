@@ -11,7 +11,7 @@ export const bitmapfont: DefinitionType = defineType({
   id: DefinitionTypeId.Bitmapfont,
   source: taggedBlocks("interface", "name", [], true, {
     rootKeyFilter: { mode: "include", values: ["bitmapfont"] },
-    container: { kind: "named-container", key: "bitmapfonts" },
+    container: { kind: "any-container" },
   }),
   variants: [],
   localisation: [],

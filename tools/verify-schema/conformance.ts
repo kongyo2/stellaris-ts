@@ -348,10 +348,6 @@ function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Do
     }
 
     const key: string = String(entry.key.value);
-    if (!accept(key) || macroKeys.has(key)) {
-      continue;
-    }
-
     const container = type.source.container;
 
     if (container !== undefined) {
@@ -363,14 +359,19 @@ function definitionBlocks(model: SchemaModel, type: DefinitionType, document: Do
       if (container.kind === "any-container" || key === container.key) {
         for (const nested of entry.value.entries) {
           if (nested.kind === NodeKind.Assignment && nested.value.kind === NodeKind.Block) {
-            blocks.push(nested.value);
+            const nestedKey: string = String(nested.key.value);
+            if (accept(nestedKey) && !macroKeys.has(nestedKey)) {
+              blocks.push(nested.value);
+            }
           }
         }
       }
       continue;
     }
 
-    blocks.push(entry.value);
+    if (accept(key) && !macroKeys.has(key)) {
+      blocks.push(entry.value);
+    }
   }
 
   return blocks;

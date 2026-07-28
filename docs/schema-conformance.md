@@ -17,13 +17,13 @@ so it is listed as `permissive` rather than counted as clean.
 
 | | |
 | --- | --- |
-| definition types checked | 229 |
-| strict enough to detect unknown fields | 220 |
+| definition types checked | 232 |
+| strict enough to detect unknown fields | 223 |
 | types with unknown fields | 1 |
 | distinct unknown fields | 6 |
-| types with unused rules | 81 |
-| distinct unused rules | 312 |
-| directories absent from this install | 5 |
+| types with unused rules | 74 |
+| distinct unused rules | 274 |
+| directories absent from this install | 2 |
 
 ### Permissive types
 
@@ -59,19 +59,15 @@ game-data indexer: a key drawn from an extracted enum only becomes checkable onc
 | `trait` | `ai_categories`, `assembling_modifier`, `assist_research_planet_modifier`, `background_planet_modifier`, `can_retreat`, `councilor_trait`, `declining_modifier`, `destiny_background_icon`, `destiny_trait`, `growing_modifier`, `is_councilor_trait_for_ruler`, `leader_trait_rarity`, `negative`, `potential_crossbreeding_chance`, `requires_governments`, `requires_traits`, `species_potential_remove`, `subclass_background_icon`, `subclass_trait`, `system_modifier`, `triggered_system_modifier`, `valid_for_all_ethics`, `valid_for_all_origins`, `veteran_class_locked_trait` |
 | `job` | `allow_only_same_rank_pops`, `auto_trait_prio`, `building_icon`, `clothes_texture_index`, `condition_string`, `demotion`, `desc`, `icon`, `ignores_favorite`, `is_pre_sapient`, `pop_modifier`, `promotion` |
 | `social_strata` | `assign_to_pop`, `clothes_texture_index`, `custom_demotion_icon`, `custom_demotion_loc`, `custom_promotion_icon`, `custom_promotion_loc`, `demotion_time`, `display_unemployment`, `keep_from_former_job`, `should_apply_unemployment_penalties`, `unemployment_penalties`, `unemployment_resources` |
-| `progressbartype` | `color`, `colortwo`, `effectFile`, `flipdirection`, `horizontal`, `name`, `size`, `textureFile`, `textureFile1`, `textureFile2` |
 | `prescripted_country` | `flags`, `name_list`, `portrait`, `species_adjective`, `species_bio`, `species_class`, `species_name`, `species_plural`, `trait` |
-| `bitmapfont_override` | `fontfiles`, `languages`, `multiline`, `name`, `ttf_font`, `ttf_size`, `vertical_offset` |
 | `district` | `ai_weight`, `base_cap_amount`, `inherits_capped_modifiers_from`, `is_capped_by_modifier`, `on_destroy`, `on_queued`, `on_unqueued` |
 | `map_setup_scenario` | `add_hyperlane`, `coordinate_transform`, `core_radius`, `nebula`, `random_hyperlanes`, `remove_hyperlane`, `system` |
 | `psionic_auras` | `daily_decrease`, `neutral_fleet_modifier`, `neutral_planet_modifier`, `owner_fleet_modifier`, `owner_planet_modifier`, `rival_fleet_modifier`, `rival_planet_modifier` |
 | `ship_size` | `custom_state_loc_prefix`, `hero_ship_fleet_background`, `is_hero_ship`, `possible_planet`, `possible_starbase`, `potential_planet`, `potential_starbase` |
 | `storm_type` | `storm_activation_period_in_months`, `storm_max_radius`, `storm_max_steps`, `storm_min_radius`, `storm_min_steps`, `storm_monthly_added_devastation`, `storm_speed` |
-| `bitmapfont` | `color`, `cursor_offset`, `fontfiles`, `name`, `path`, `selection_offset` |
 | `colonization_control` | `free_pop_modifier`, `in_breach_of`, `modifier`, `pop_group_modifier`, `pop_status_frame`, `pop_tooltip` |
 | `migration_control` | `free_pop_modifier`, `in_breach_of`, `modifier`, `pop_group_modifier`, `pop_status_frame`, `pop_tooltip` |
 | `military_service_type` | `free_pop_modifier`, `in_breach_of`, `modifier`, `pop_group_modifier`, `pop_status_frame`, `pop_tooltip` |
-| `model_mesh` | `animation`, `cull_distance`, `file`, `meshsettings`, `name`, `scale` |
 | `species_class` | `custom_portraits`, `modifier`, `non_pre_ftl_portraits`, `non_randomized_portraits`, `portraits`, `uplifted_portraits` |
 | `starbase_building` | `desc`, `name`, `replaceable`, `scripted_effect_cooldown`, `scripted_effect_cooldown_flag`, `scripted_effect_cooldown_flag_desc` |
 | `NGameplay` | `BRANCH_OFFICE_COST_INCREASE_MIN_RANGE`, `BRANCH_OFFICE_COST_INCREASE_SCALE`, `COLONY_DEPOSITS_USE_NULL`, `NON_COLONY_DEPOSITS_USE_NULL`, `ORBITAL_BOMBARDMENT_COLONY_DMG_SCALE` |
@@ -82,12 +78,10 @@ game-data indexer: a key drawn from an extracted enum only becomes checkable onc
 | `citizenship_type` | `free_pop_modifier`, `modifier`, `pop_status_frame`, `pop_tooltip` |
 | `economic_plan` | `empire_size`, `focus`, `naval_cap`, `pops` |
 | `living_standard` | `free_pop_modifier`, `modifier`, `pop_status_frame`, `pop_tooltip` |
-| `piechart` | `colors`, `is_hover`, `name`, `size` |
 | `planet_class` | `allowed_archetypes`, `colonization_tech`, `outliner_planet_type`, `tile_set` |
 | `purge_type` | `free_pop_modifier`, `in_breach_of`, `modifier`, `pop_status_frame` |
 | `scripted_modifier` | `cap_zero_to_one`, `hidden`, `min_mult`, `no_diff` |
 | `sector_focus` | `ai_weight`, `building`, `clear_blockers`, `district` |
-| `achievement` | `happened`, `id`, `possible` |
 | `agreement_term_value` | `subject_resources`, `unique_owner_modifier`, `unique_target_modifier` |
 | `colony_type` | `ai_resource_conversion`, `ai_resource_current_conversion`, `custom_tooltip` |
 | `diplomatic_action` | `on_decline`, `prerequisites`, `show_decline_to_alliance_members` |
@@ -105,12 +99,10 @@ game-data indexer: a key drawn from an extracted enum only becomes checkable onc
 | `name_list` | `language`, `ruler_names` |
 | `section_template` | `modifier`, `ship_modifier` |
 | `ship_behavior` | `combat_source_anchor`, `ignore_combat_movement` |
-| `star_class_random_list` | `name`, `stars` |
 | `terraform_link` | `on_queued`, `on_unqueued` |
 | `war_goal` | `hide_if_no_cb`, `show_claims_in_description` |
 | `NEconomy` | `PLANETARY_DEFICIT_ECONOMIC_CATEGORY` |
 | `Unchecked_NInterface` | `FRONTEND_ANIMATED_BG_ENTITY` |
-| `alert` | `sound` |
 | `army` | `is_building_spawned` |
 | `asset_selector` | `no_texture` |
 | `bypass` | `bypass_effect` |
@@ -129,6 +121,7 @@ game-data indexer: a key drawn from an extracted enum only becomes checkable onc
 | `planet_modifier` | `potential` |
 | `pop_faction` | `valid` |
 | `pop_faction_name_format` | `lookups` |
+| `progressbartype` | `textureFile` |
 | `slavery_type` | `free_pop_modifier` |
 | `solar_system_initializer` | `SIZE` |
 | `solar_system_initializer_random_list` | `name` |
@@ -142,8 +135,5 @@ game-data indexer: a key drawn from an extracted enum only becomes checkable onc
 A type whose directory does not exist here cannot be checked. Usually DLC-only content.
 
 - `common/artifact_action`
-- `common/astral_rift`
-- `common/colony_automation_exception`
-- `common/ship_set`
 - `common/trade_conversions`
 

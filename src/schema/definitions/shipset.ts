@@ -9,7 +9,7 @@ import type { DefinitionType } from "../ir.js";
 
 export const shipset: DefinitionType = defineType({
   id: DefinitionTypeId.Shipset,
-  source: keyedBlocks("common/ship_set"),
+  source: keyedBlocks("common/ship_sets"),
   variants: [],
   localisation: [],
   modifiers: [],

@@ -21,7 +21,7 @@ import type { DefinitionType } from "../ir.js";
 
 export const starClass: DefinitionType = defineType({
   id: DefinitionTypeId.StarClass,
-  source: keyedBlocks("common/star_classes", true, { rootKeyFilter: { mode: "exclude", values: ["random_list"] } }),
+  source: keyedBlocks("common/star_classes", false, { rootKeyFilter: { mode: "exclude", values: ["random_list"] } }),
   variants: [],
   localisation: [definitionLocalisation("Name", "", true), definitionLocalisation("Description", "_desc", false)],
   modifiers: [],

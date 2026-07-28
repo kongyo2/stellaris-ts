@@ -3,18 +3,15 @@
 
 import { DefinitionTypeId } from "../catalog.js";
 
-import { block, defineType, field, item, keyedBlocks, occurs, primitive, typeRef } from "../ir.js";
+import { block, defineType, field, item, keyedBlocks, occurs, typeRef } from "../ir.js";
 
 import type { DefinitionType } from "../ir.js";
 
 export const starClassRandomList: DefinitionType = defineType({
   id: DefinitionTypeId.StarClassRandomList,
-  source: keyedBlocks("common/star_classes", true, { rootKeyFilter: { mode: "include", values: ["random_list"] } }),
+  source: keyedBlocks("common/star_classes/randomizers"),
   variants: [],
   localisation: [],
   modifiers: [],
-  entries: [
-    field("name", primitive("scalar"), occurs.one),
-    field("stars", block([item(typeRef("star_class"), occurs.any)]), occurs.one),
-  ],
+  entries: [field("stars", block([item(typeRef("star_class"), occurs.any)]), occurs.one)],
 });

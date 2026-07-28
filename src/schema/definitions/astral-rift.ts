@@ -22,7 +22,7 @@ import type { DefinitionType } from "../ir.js";
 
 export const astralRift: DefinitionType = defineType({
   id: DefinitionTypeId.AstralRift,
-  source: keyedBlocks("common/astral_rift"),
+  source: keyedBlocks("common/astral_rifts"),
   variants: [],
   localisation: [],
   modifiers: [],

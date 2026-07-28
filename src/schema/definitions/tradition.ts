@@ -75,6 +75,7 @@ export const tradition: DefinitionType = defineType({
         field("inherit_effects", primitive("boolean"), occurs.optional),
         field("custom_tooltip", primitive("localisation"), occurs.any),
         field("custom_tooltip_with_modifiers", primitive("localisation"), occurs.any),
+        field("unlocks_agenda", typeRef("council_agenda"), occurs.optional),
         field(
           "modifier",
           block([

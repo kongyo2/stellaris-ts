@@ -11,7 +11,6 @@ export const alert: DefinitionType = defineType({
   id: DefinitionTypeId.Alert,
   source: keyedBlocks("common", true, {
     files: ["alerts.txt"],
-    rootKeyFilter: { mode: "include", values: ["alert"] },
     container: { kind: "named-container", key: "alerts" },
   }),
   variants: [],

@@ -238,13 +238,55 @@ console.log(
   ].join(" "),
 );
 
+/**
+ * Types intentionally left empty after checking the installed 4.4.6 game.
+ *
+ * This is a reasoned allowlist rather than a list of inconvenient results:
+ * any newly empty type is still an indexing defect and makes this command fail.
+ */
+const EXPECTED_EMPTY_TYPE_REASONS: Readonly<Record<string, string>> = {
+  // `common/defines` contains only 00_defines.txt and
+  // 00_defines_additional_content.txt; neither declares an NEngine root block.
+  NEngine: "no NEngine root block exists in either installed common/defines file",
+
+  // The singular directory is absent. The 28 definitions in the plural
+  // `common/artifact_actions` directory already belong to `artifact_actions`;
+  // redirecting this legacy type there would duplicate every identifier.
+  artifact_action: "obsolete singular duplicate of the indexed artifact_actions type",
+
+  // No root-level `random_list = { name = ... initializer = ... }` definition
+  // exists under this directory. The only text matches are nested control-flow
+  // random_list blocks inside ordinary initializer scripts.
+  solar_system_initializer_random_list:
+    "no root-level initializer random-list definition exists in the installed solar_system_initializers",
+
+  // Neither the installed game nor any of its 19 DLC archives contains this
+  // directory or a `conversion_rate` definition. `set_trade_conversions` in
+  // policies is effect syntax and does not define IDs of this type.
+  trade_conversion: "legacy trade-conversion definitions are absent from the installed game and DLC archives",
+};
+
 const emptyTypes: readonly string[] = index.types
   .filter((entry) => entry.ids.length === 0)
   .map((entry) => entry.type)
   .sort(compareOrdinal);
 
 if (emptyTypes.length > 0) {
-  console.error(
-    `INDEX ${String(emptyTypes.length)} types yielded no identifiers: ${emptyTypes.slice(0, 20).join(", ")}`,
-  );
+  console.error(`INDEX ${String(emptyTypes.length)} types yielded no identifiers: ${emptyTypes.join(", ")}`);
+}
+
+for (const type of emptyTypes) {
+  const reason: string | undefined = EXPECTED_EMPTY_TYPE_REASONS[type];
+  if (reason !== undefined) {
+    console.error(`INDEX expected-empty ${type}: ${reason}`);
+  }
+}
+
+const unexplainedEmptyTypes: readonly string[] = emptyTypes.filter(
+  (type) => EXPECTED_EMPTY_TYPE_REASONS[type] === undefined,
+);
+
+if (unexplainedEmptyTypes.length > 0) {
+  console.error(`INDEX unexplained empty types: ${unexplainedEmptyTypes.join(", ")}`);
+  process.exitCode = 1;
 }

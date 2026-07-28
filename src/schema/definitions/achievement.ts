@@ -11,7 +11,6 @@ export const achievement: DefinitionType = defineType({
   id: DefinitionTypeId.Achievement,
   source: keyedBlocks("common", true, {
     files: ["achievements.txt"],
-    rootKeyFilter: { mode: "include", values: ["achievement"] },
   }),
   variants: [],
   localisation: [],

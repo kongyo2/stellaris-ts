@@ -113,7 +113,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("time_to_complete", primitive("scalar"), occurs.any),
   ],
   decision: [
-    // 27 uses, e.g. common/decisions/02_special_decisions.txt
+    // 27 uses, e.g. common/decisions/05_ancient_relics_decisions.txt
     field("important", primitive("scalar"), occurs.any),
   ],
   district: [
@@ -165,9 +165,9 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("round", primitive("scalar"), occurs.any),
   ],
   map_setup_scenario: [
-    // 5 uses, e.g. map/setup_scenarios/huge.txt
+    // 5 uses, e.g. map/setup_scenarios/large.txt
     field("nomad_empire_default", primitive("integer"), occurs.any),
-    // 5 uses, e.g. map/setup_scenarios/huge.txt
+    // 5 uses, e.g. map/setup_scenarios/large.txt
     field("nomad_empire_max", primitive("integer"), occurs.any),
   ],
   megastructure: [
@@ -215,21 +215,21 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
   script_value: [
     // 3 uses, e.g. common/script_values/00_script_values.txt
     field("abs", primitive("scalar"), occurs.any),
-    // 7 uses, e.g. common/script_values/00_script_values.txt
+    // 7 uses, e.g. common/script_values/01_script_values_paragon.txt
     field("ceiling", primitive("scalar"), occurs.any),
-    // 42 uses, e.g. common/script_values/00_script_values.txt
+    // 42 uses, e.g. common/script_values/01_script_values_paragon.txt
     field("floor", primitive("scalar"), occurs.any),
-    // 78 uses, e.g. common/script_values/00_script_values.txt
+    // 78 uses, e.g. common/script_values/01_script_values_paragon.txt
     field("max", primitive("scalar"), occurs.any),
-    // 84 uses, e.g. common/script_values/00_script_values.txt
+    // 84 uses, e.g. common/script_values/01_script_values_paragon.txt
     field("min", primitive("scalar"), occurs.any),
     // 2 uses, e.g. common/script_values/00_script_values.txt
     field("modulo", primitive("integer"), occurs.any),
     // 11 uses, e.g. common/script_values/00_script_values.txt
     field("multiply", primitive("scalar"), occurs.any),
-    // 9 uses, e.g. common/script_values/00_script_values.txt
+    // 9 uses, e.g. common/script_values/01_script_values_paragon.txt
     field("pow", primitive("scalar"), occurs.any),
-    // 26 uses, e.g. common/script_values/00_script_values.txt
+    // 26 uses, e.g. common/script_values/01_script_values_paragon.txt
     field("round", primitive("scalar"), occurs.any),
     // 8 uses, e.g. common/script_values/00_script_values.txt
     field("round_to", primitive("number"), occurs.any),
@@ -253,13 +253,13 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("random_owned_colony", anyValue(), occurs.any),
     // 1 uses, e.g. common/scripted_effects/extreme_frontiers_scripted_effects.txt
     field("remove_carrier_flag", primitive("scalar"), occurs.any),
-    // 14 uses, e.g. common/scripted_effects/02_machine_age_effects.txt
+    // 14 uses, e.g. common/scripted_effects/00_scripted_effects.txt
     field("set_carrier_flag", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/scripted_effects/01_start_of_game_effects.txt
     field("set_faction_properties", anyValue(), occurs.any),
     // 1 uses, e.g. common/scripted_effects/01_start_of_game_effects.txt
     field("set_resource_converter", primitive("scalar"), occurs.any),
-    // 10 uses, e.g. common/scripted_effects/00_scripted_effects.txt
+    // 10 uses, e.g. common/scripted_effects/01_start_of_game_effects.txt
     field("set_timed_carrier_flag", anyValue(), occurs.any),
   ],
   scripted_trigger: [
@@ -339,7 +339,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("potential", anyValue(), occurs.any),
     // 1 uses, e.g. common/situations/14_nomads_situations.txt
     field("show_in_outliner", primitive("scalar"), occurs.any),
-    // 83 uses, e.g. common/situations/01_narrative_situations.txt
+    // 83 uses, e.g. common/situations/01_overlord_situations.txt
     field("situation_log_category", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/situations/14_nomads_situations.txt
     field("total_progress", anyValue(), occurs.any),
@@ -361,35 +361,31 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("soundEffects", anyValue(), occurs.any),
   ],
   sprite: [
-    // 195 uses, e.g. interface/agreement_negotiation_view.gfx
+    // 102 uses, e.g. interface/crisis.gfx
     field("color", anyValue(), occurs.any),
     // 91 uses, e.g. interface/crisis.gfx
     field("colorTwo", anyValue(), occurs.any),
-    // 1 uses, e.g. interface/government_view.gfx
-    field("colors", anyValue(), occurs.any),
-    // 104 uses, e.g. interface/agreement_negotiation_view.gfx
+    // 11 uses, e.g. interface/fleet_view.gfx
     field("colortwo", anyValue(), occurs.any),
-    // 28 uses, e.g. interface/agreement_negotiation_view.gfx
+    // 5 uses, e.g. interface/crisis.gfx
     field("flipdirection", primitive("scalar"), occurs.any),
-    // 17 uses, e.g. interface/agreement_negotiation_view.gfx
+    // 16 uses, e.g. interface/crisis.gfx
     field("horizontal", primitive("scalar"), occurs.any),
-    // 2 uses, e.g. interface/government_view.gfx
-    field("is_hover", primitive("scalar"), occurs.any),
-    // 195 uses, e.g. interface/agreement_negotiation_view.gfx
+    // 102 uses, e.g. interface/crisis.gfx
     field("textureFile1", primitive("scalar"), occurs.any),
-    // 195 uses, e.g. interface/agreement_negotiation_view.gfx
+    // 102 uses, e.g. interface/crisis.gfx
     field("textureFile2", primitive("scalar"), occurs.any),
   ],
   starbase_building: [
-    // 112 uses, e.g. common/starbase_buildings/00_arkship_component_buildings.txt
+    // 112 uses, e.g. common/starbase_buildings/00_arkship_colony_buildings.txt
     field("category", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/starbase_buildings/00_starbase_buildings.txt
     field("empire_limit", primitive("integer"), occurs.any),
     // 10 uses, e.g. common/starbase_buildings/00_arkship_component_buildings.txt
     field("show_component_tooltips", primitive("scalar"), occurs.any),
-    // 85 uses, e.g. common/starbase_buildings/00_arkship_component_buildings.txt
+    // 85 uses, e.g. common/starbase_buildings/00_arkship_colony_buildings.txt
     field("show_tech_unlock_if", anyValue(), occurs.any),
-    // 46 uses, e.g. common/starbase_buildings/00_arkship_component_buildings.txt
+    // 46 uses, e.g. common/starbase_buildings/00_arkship_colony_buildings.txt
     field("starbase_limit", anyValue(), occurs.any),
   ],
   starbase_level: [

@@ -3,13 +3,13 @@
 
 import { DefinitionTypeId } from "../catalog.js";
 
-import { anyKey, block, defineType, field, occurs, primitive, taggedBlocks, typeRef } from "../ir.js";
+import { anyKey, block, defineType, field, keyedBlocks, occurs, primitive, typeRef } from "../ir.js";
 
 import type { DefinitionType } from "../ir.js";
 
 export const speciesName: DefinitionType = defineType({
   id: DefinitionTypeId.SpeciesName,
-  source: taggedBlocks("common/species_names", "name", [], true, {
+  source: keyedBlocks("common/species_names", true, {
     rootKeyFilter: { mode: "exclude", values: ["named_lists"] },
   }),
   variants: [],
