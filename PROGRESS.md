@@ -128,3 +128,9 @@
 - Blockers: none.
 - Notes: added `--explain`, which names the first place two definitions diverge, because reading a diff of printed text kept pointing at quoting differences the comparison already ignores. It found two real bugs immediately: a comparison nested inside a repetition lost its operator and printed as a block, and `switch` compares a key against a whole block while `ComparedValue` only carried a scalar. A definition whose entire body is a bare value list has no object form at all; those are now counted as their own cause rather than absorbed into print mismatches, since the honest answer is that they go through `mod.file()`.
 
+## Reverse-Derivation Loop — Fourth Pass
+- Proof: `npm run verify:reproduce` is 98.40% with the causes correctly separated; print mismatches fell from 488 to 28 once the value-list bodies stopped being counted among them.
+- Remaining: 650 across 5 causes — 335 list bodies, 137 anonymous blocks, 111 blocks mixing bare values with assignments, 39 error nodes, 28 genuine mismatches.
+- Blockers: none.
+- Notes: three of the five causes are the same missing feature seen from different angles. A PDX block holds an *ordered* sequence that may mix bare values with keyed ones; a JavaScript object holds unordered keys and nothing else. `define()` needs a way to pass an ordered entry list, and that one addition covers list bodies, anonymous blocks and mixed blocks together — 583 of the remaining 650. The other 67 are 39 parse-error nodes in vanilla and 28 mismatches still to name.
+

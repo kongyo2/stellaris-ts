@@ -301,9 +301,20 @@ await mapWithLimit([...new Set(listings.flat())], READ_CONCURRENCY, async (file)
       continue;
     }
 
+    // A definition whose whole body is a bare value list has no object form, so
+    // `define()` cannot take it; those go through `mod.file()`. Counted as its
+    // own cause rather than absorbed into the mismatches.
+    const body: Record<string, unknown> = converted.value;
+    const bodyKeys: readonly string[] = Object.keys(body);
+
+    if (bodyKeys.length === 1 && bodyKeys[0] === "") {
+      record("list-body", relative, id);
+      continue;
+    }
+
     let printed: string;
     try {
-      printed = renderDefinitions([[id, converted.value]]);
+      printed = renderDefinitions([[id, body]]);
     } catch {
       record("print-mismatch", relative, id);
       continue;

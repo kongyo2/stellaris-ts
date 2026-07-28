@@ -17,15 +17,16 @@ These are the ones that actually failed the round trip.
 | definitions inspected | 40550 |
 | reproduced exactly | 39900 (98.40%) |
 | blocked | 650 |
-| distinct causes | 4 |
+| distinct causes | 5 |
 | files read | 2507 |
 
 ## Causes
 
 | cause | definitions | files | example |
 | --- | --- | --- | --- |
-| `print-mismatch` | 363 | 85 | decision_expel_population in `common/decisions/01_political_decisions.txt` |
-| `anonymous-block` | 137 | 30 | preset_vassal in `common/agreement_presets/00_agreement_presets.txt` |
+| `list-body` | 335 | 70 | prerequisites in `common/inline_scripts/grand_archive/mutations/camouflage/camouflage_mutation.txt` |
+| `anonymous-block` | 137 | 30 | preset_subsidiary_mean_01 in `common/agreement_presets/01_agreement_presets_ai_subsidiary.txt` |
 | `duplicate-key-mixed-with-list` | 111 | 27 | cost in `common/inline_scripts/buildings/nomadic_cost_switcher_with_additional_trigger.txt` |
 | `error-node` | 39 | 15 | country in `common/colors/00_colors.txt` |
+| `print-mismatch` | 28 | 15 | decision_expel_population in `common/decisions/01_political_decisions.txt` |
 
