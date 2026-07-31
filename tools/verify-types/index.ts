@@ -38,15 +38,18 @@ const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(["", ".txt", ".gui", ".gf
  * How many definitions of a type are written out.
  *
  * Every definition of a small type, and a spread of a large one: the errors
- * this finds are per key rather than per definition, and the sixtieth building
- * says what the first ten did.
+ * this finds are per key rather than per definition, and the four-hundredth
+ * building says what the first ten did.
  *
- * Sixty rather than more because the answer has to be the same twice. At four
- * hundred the compiler returned 3,800, 3,806 and 3,809 for one unchanged tree —
- * a corpus that large is past where it answers stably, and a gate that cannot
- * be reproduced is worse than none. Three runs at sixty gave 1,532 each time.
+ * The answer has to be the same twice, and for a while it was not: 3,800, then
+ * 3,806, then 3,809 for one unchanged tree. That was read as the compiler
+ * giving up on a corpus this size, and it was not — the output was overflowing
+ * `spawnSync`'s default buffer and being truncated at a different point each
+ * run, which dropped diagnostics silently. With the buffer raised, three runs
+ * give 7,728 every time, and the truncated figure had been hiding nearly half
+ * of what the compiler said.
  */
-const PER_TYPE_LIMIT = 60;
+const PER_TYPE_LIMIT = 400;
 
 /**
  * What each type still rejects, measured on 4.4.6, and a ceiling rather than a
@@ -102,6 +105,17 @@ function collectFiles(directory: string, recurse: boolean): string[] {
   }
 
   return found;
+}
+
+/**
+ * The same order everywhere, whatever the filesystem hands back.
+ *
+ * A type with more definitions than the sample takes the first of them, so an
+ * unsorted enumeration would make the budget depend on how a directory happens
+ * to be laid out — stable on one machine and not on another.
+ */
+function sortedFiles(files: readonly string[]): readonly string[] {
+  return [...files].sort((left, right) => (left < right ? -1 : left > right ? 1 : 0));
 }
 
 function blockOf(entry: EntryNode): Block | undefined {
@@ -173,11 +187,10 @@ try {
       continue;
     }
 
-    const files: readonly string[] = collectFiles(
-      join(gamePath, ...type.source.directory.split("/")),
-      type.source.includeSubdirectories,
-    ).filter(
-      (file) => type.source.files === undefined || type.source.files.includes(file.split(/[\\/]/u).at(-1) ?? ""),
+    const files: readonly string[] = sortedFiles(
+      collectFiles(join(gamePath, ...type.source.directory.split("/")), type.source.includeSubdirectories).filter(
+        (file) => type.source.files === undefined || type.source.files.includes(file.split(/[\\/]/u).at(-1) ?? ""),
+      ),
     );
 
     const literals: string[] = [];
@@ -257,11 +270,31 @@ try {
   const result: SpawnSyncReturns<string> = spawnSync(
     process.execPath,
     [join(REPOSITORY_ROOT, "node_modules", "typescript", "bin", "tsc"), "-p", ".", "--pretty", "false"],
-    { cwd: directory, encoding: "utf8" },
+    // The default is a megabyte, and the compiler says far more than that about
+    // 31,000 definitions. Overflowing it truncates the output, which drops
+    // diagnostics and makes the count depend on where the buffer happened to
+    // end — the wobble that was blamed on the compiler.
+    { cwd: directory, encoding: "utf8", maxBuffer: 512 * 1024 * 1024 },
   );
+
+  // The compiler has to have finished. Output with no diagnostics in it says
+  // nothing at all when the process never started, was killed, or fell over —
+  // and this gate exists because a check that cannot fail looks like one that
+  // passed.
+  if (result.error !== undefined || result.signal !== null || result.status === null) {
+    const why: string = result.error?.message ?? `signal ${result.signal ?? "none"}, status ${String(result.status)}`;
+    throw new Error(`The compiler did not finish: ${why}.`);
+  }
 
   const output: string = `${result.stdout}${result.stderr}`;
   const errors: readonly string[] = output.split(/\r?\n/u).filter((line) => /error TS\d+/u.test(line));
+
+  if (result.status !== 0 && errors.length === 0) {
+    throw new Error(
+      `The compiler exited ${String(result.status)} without reporting a diagnostic:\n${output.slice(0, 2000)}`,
+    );
+  }
+
   const byType = new Map<string, number>();
 
   for (const line of errors) {

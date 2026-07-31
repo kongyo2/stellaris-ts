@@ -437,7 +437,9 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   // says it by naming the file it overrides; a raw file or an asset says it in
   // the record, and until now saying it there did nothing at all.
   const intendedOverrides = new Set<string>(
-    mod.definitions.map((definition) => definition.overrides).filter((path): path is string => path !== undefined),
+    mod.definitions
+      .map((definition) => (definition.overrides === undefined ? undefined : modFilePath(definition.overrides)))
+      .filter((path): path is string => path !== undefined),
   );
 
   /** Adds a file the mod supplied, once its path is known to stay inside. */
@@ -491,18 +493,23 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   // Two entries for one path is not a merge: writing is concurrent, so which of
   // them survives is decided by whichever finishes last. A raw file put where a
   // definition already lands is the way it happens.
+  //
+  // Folded, because most people build on a filesystem that folds: `gfx/Icon.dds`
+  // and `gfx/icon.dds` are two entries here and one file on Windows and macOS,
+  // and the bytes that survive are whichever write finished last. Reporting it
+  // everywhere is the only answer that means the same thing on every machine.
   const byPath = new Set<string>();
 
   for (const file of files) {
-    if (byPath.has(file.path)) {
+    if (byPath.has(file.path.toLowerCase())) {
       diagnostics.push({
         severity: "error",
         code: "duplicate-file",
-        message: `Two files were emitted at ${file.path}. Only one of them would survive being written, and which one is not decided anywhere.`,
+        message: `Two files were emitted at ${file.path}, counting names that differ only in case. Only one of them would survive being written, and which one is not decided anywhere.`,
         path: file.path,
       });
     }
-    byPath.add(file.path);
+    byPath.add(file.path.toLowerCase());
   }
 
   // A mod file that shadows a vanilla one disables everything else that file

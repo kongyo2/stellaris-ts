@@ -113,6 +113,39 @@ describe("the name a mod's files are called after", () => {
     expect(escapes.every((diagnostic) => diagnostic.severity === "error")).toBe(true);
   });
 
+  /**
+   * Most people build on a filesystem that folds case, where `gfx/Icon.dds` and
+   * `gfx/icon.dds` are one file and the bytes that survive are whichever write
+   * finished last.
+   */
+  it("reads two names that differ only in case as the one file they are", () => {
+    const cased = defineMod({ name: "Case", version: "1", supportedVersion: "v4.4.*" })
+      .asset("gfx/interface/icons/buildings/Sts_Icon.dds", new Uint8Array([1]))
+      .asset("gfx/interface/icons/buildings/sts_icon.dds", new Uint8Array([2]));
+
+    expect(emit(cased).diagnostics.map((diagnostic) => diagnostic.code)).toContain("duplicate-file");
+  });
+
+  /**
+   * A definition's path is canonicalised on the way into the plan, so the
+   * override it declares has to be canonicalised the same way — otherwise the
+   * intent is recorded under a spelling the collision check never looks up, and
+   * a declared replacement is reported as a mistake.
+   */
+  it("recognises an intended override written in another spelling", () => {
+    const aliased = defineMod({ name: "Ov", version: "1", supportedVersion: "v4.4.*" }).add({
+      type: "building",
+      directory: "common/buildings",
+      id: "sts_lab",
+      body: { category: "research" },
+      overrides: "common/buildings/./00_capital_buildings.txt",
+    });
+
+    const collision = emit(aliased).diagnostics.find((diagnostic) => diagnostic.code === "vanilla-filename-collision");
+
+    expect(collision?.severity).toBe("warning");
+  });
+
   it("reads two spellings of one path as the one file they are", () => {
     const same = defineMod({ name: "Same", version: "1", supportedVersion: "v4.4.*" })
       .file({ path: "common/x.txt", contents: "FIRST" })
