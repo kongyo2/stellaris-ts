@@ -12,14 +12,53 @@
  * silence a real warning, so nothing goes here without the game or a working
  * mod showing the merge.
  */
+/**
+ * Extracted enums whose members the engine fixes, so a mod cannot add one.
+ *
+ * An extracted enum is read off the game's files, and a mod's own definitions
+ * join it — which is right wherever a mod can bring a member into existence.
+ * Where it cannot, the join has only one effect: the field the enum is read
+ * from is also the field it is checked at, so a misspelling declares itself and
+ * then legitimises every use of it.
+ *
+ * Evidence, not reasoning: the twenty most recently updated workshop mods write
+ * 134 `class` values in `common/ship_sizes` and not one of them is outside the
+ * fifteen the game ships. `planet_class.district_set` is the same shape and
+ * gets the opposite answer — Gigastructural Engineering alone adds
+ * `giga_alderson` and `giga_birch_world` — so this is per enum, never a rule.
+ */
+export const engineFixedEnums: Readonly<Record<string, string>> = {
+  shipsize_classes: "a ship class is a behaviour in the executable; 20 mods add none",
+};
+
 export const mergedDefinitionTypes: Readonly<Record<string, string>> = {
   // The game's own `common/on_actions/99_README_ON_ACTIONS.txt`: an on_action
-  // "will go through every single event in its events = {}". Vanilla writes
-  // `on_game_start` twice in one file, and ten of the twenty most recently
-  // updated workshop mods add to `on_game_start` from their own files —
-  // Gigastructural Engineering from five of them at once, which under
-  // last-one-wins would leave four of its own files dead.
+  // "will go through every single event in its events = {}". Vanilla defines
+  // each on_action once, so the evidence for the merge is the README plus the
+  // mods: ten of the twenty most recently updated workshop mods add to
+  // `on_game_start` from their own files, Gigastructural Engineering from five
+  // at once, which under last-one-wins would leave four of its own files dead.
   on_action: "every definition of the same on_action fires; the events lists join",
+
+  // 170 `part = { }` blocks in the one vanilla
+  // `common/start_screen_messages` file. Under last-one-wins the start screen
+  // would have one line.
+  start_screen_message: "the parts of the start screen are 170 blocks of one name",
+
+  // 258 `terraform_link = { }` blocks across the three vanilla
+  // `common/terraform` files — 19, 72 and 167.
+  terraform_link: "every terraform link in the game is a block of this one name",
+
+  // 226 `randomizable_combo = { }` blocks in `flags/colors.txt`.
+  randomizable_combo: "the flag colour combinations are 226 blocks of one name",
+
+  // `guiTypes = { }` is the root of 167 of the 169 vanilla `.gui` files, and a
+  // mod adding an interface element writes another one.
+  gui_type: "every .gui file wraps its elements in a block of this one name",
+
+  // `HUM` is defined in both `species_00.txt` and `species_01.txt`, with
+  // different names in each; the game draws from all of them.
+  species_name: "a species class's name lists are spread across files and join",
 
   // `common/job_tags` and `common/trait_tags` are lists of words. Gigastructural
   // Engineering adds one by shipping `giga_job_tags.txt` beside vanilla's

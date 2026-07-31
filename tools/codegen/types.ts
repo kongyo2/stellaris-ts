@@ -122,9 +122,11 @@ function valueType(context: RenderContext, value: ValueRule, depth: number, scop
           return "boolean";
         case "integer":
         case "number":
-          return "number";
+          context.usedScript.add("PdxNumber");
+          return "PdxNumber";
         case "percentage":
-          return "number | `${number}%`";
+          context.usedScript.add("PdxNumber");
+          return "PdxNumber | `${number}%`";
         default:
           return "string";
       }
@@ -321,6 +323,16 @@ function collectProperties(
   forceOptional: boolean,
   scope?: string,
 ): void {
+  // The schema says a macro may be written in every block — `inline_script = {
+  // script = shroud/jobs/colonist_add AMOUNT = 200 }` is inside a vanilla
+  // building — so no block enumerates all the keys it accepts. Reading only the
+  // rules and calling the result closed rejected that in 19 types and 1,279
+  // places, and the conformance gate could not see it: it subtracts macro keys
+  // before it counts.
+  if (context.model.policy.macros.some((macro) => macro.appliesTo === "all-blocks")) {
+    into.open = true;
+  }
+
   for (const entry of entries) {
     if (entry.kind === "variant-rules") {
       // A variant's fields only apply to some definitions of the type, so they
@@ -468,10 +480,12 @@ function renderProperties(drafts: readonly PropertyDraft[], indent: string): str
   return drafts
     .map((draft) => {
       const union: string = mergeTypes(draft.types);
-      const listed: string = draft.repeatable ? `${wrapUnion(union)} | readonly ${wrapUnion(union)}[]` : union;
-      // Any field may need a comparison, a repetition, an ordered list or raw
-      // script, so every field accepts them.
-      return `${indent}readonly ${propertyName(draft.key)}${draft.optional ? "?" : ""}: ${listed} | Authored;`;
+      // A key the game reads more than once is written with `repeated()`, which
+      // `Authored` already admits. Offering an array for it as well said an
+      // array meant repetition, and it does not: `in_breach_of = { { key = a }
+      // { key = b } }` is one key holding blocks with no key of their own, and
+      // that is what an array is. One spelling per shape, or neither is safe.
+      return `${indent}readonly ${propertyName(draft.key)}${draft.optional ? "?" : ""}: ${union} | Authored;`;
     })
     .join("\n");
 }
@@ -593,6 +607,7 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
     "ModifierBlock",
     "ModifierRuleBlock",
     "PdxBlock",
+    "PdxNumber",
     "PdxValue",
     "TriggerBlock",
   ].filter((name) => new RegExp(String.raw`\b${name}\b`, "u").test(rendered));

@@ -70,6 +70,13 @@ function scalar(value: string | number | boolean): Scalar {
   }
 
   if (typeof value === "number") {
+    // PDX has no spelling for these. Written out they become the identifiers
+    // `NaN` and `Infinity`, which the game reads as a word where a number
+    // belongs — and this library's own parser reads back as one too.
+    if (!Number.isFinite(value)) {
+      throw new TypeError(`PDX script has no number ${String(value)}.`);
+    }
+
     return { kind: NodeKind.Scalar, raw: String(value), value, scalarKind: ScalarKind.Number, span: SPAN };
   }
 
@@ -110,21 +117,7 @@ function isScriptArray(value: ScriptValue): value is readonly ScriptValue[] {
 }
 
 /**
- * Whether a value is written as a block of its own.
- *
- * A marked value is not: `raw()` may be a scalar, a comparison belongs to a
- * key, and a repetition is several entries rather than one value. Only these
- * stand as one block, which is what decides whether an array of them is a
- * repeated key or a value list.
- */
-function isBlockShaped(value: ScriptValue): value is ScriptObject | EntriesValue {
-  return (
-    typeof value === "object" && !isScriptArray(value) && !isCompared(value) && !isRaw(value) && !isRepeated(value)
-  );
-}
-
-/**
- * An array of scalars is a value list; an array of blocks is a repeated key.
+ * An array is a value list, whatever its elements are.
  *
  * Marked values are resolved here rather than at each call site. Handling them
  * where they were first needed missed them three times running — inside a
@@ -183,12 +176,19 @@ function entriesOf(object: object): EntryNode[] {
 /**
  * Writes one field, which is not always one entry.
  *
- * Two spellings write the key more than once, and both have to be understood
- * everywhere a field is written. A plain object body and an ordered entry list
- * used to reach the printer by different routes and only one of them knew
- * about repetition, so a tagged type — whose id moves inside the block, which
- * converts the body to an ordered list on the way — printed `option = { values
- * = { ... } }` for what an untagged type printed correctly.
+ * `repeated()` is the only thing that writes a key more than once, and it has
+ * to be understood everywhere a field is written. A plain object body and an
+ * ordered entry list used to reach the printer by different routes and only one
+ * of them knew about repetition, so a tagged type — whose id moves inside the
+ * block, which converts the body to an ordered list on the way — printed
+ * `option = { values = { ... } }` for what an untagged type printed correctly.
+ *
+ * An array is never a repetition. Both shapes are in the game and they are not
+ * interchangeable: an event writes `option = { }` twice, while a policy writes
+ * `in_breach_of = { { key = a } { key = b } }` once — one key holding blocks
+ * with no key of their own, which is what an array is. Reading an array as
+ * repetition wrote the second of those as the first, in 189 places vanilla
+ * writes it, and no rule the printer can see distinguishes them.
  */
 function pushEntry(nodes: EntryNode[], key: string, value: unknown): void {
   // A key written once per value, which is not the same as one key holding a
@@ -199,19 +199,6 @@ function pushEntry(nodes: EntryNode[], key: string, value: unknown): void {
       if (item !== undefined && item !== null) {
         pushEntry(nodes, key, item);
       }
-    }
-    return;
-  }
-
-  const script: ScriptValue = asScriptValue(key, value);
-
-  // A repeated key is written once per element, which is how PDX expresses
-  // several `desc = { }` blocks under one definition. An empty array is left
-  // alone: it says the key is written once holding nothing, and dropping the
-  // key entirely is a different statement.
-  if (isScriptArray(script) && script.length > 0 && script.every(isBlockShaped)) {
-    for (const item of script) {
-      pushEntry(nodes, key, item);
     }
     return;
   }
@@ -279,13 +266,20 @@ function asScriptValue(key: string, value: unknown): ScriptValue {
   throw new TypeError(`PDX script cannot express ${typeof value} at ${key}.`);
 }
 
-/** Parses a raw fragment as the right-hand side of an assignment. */
+/**
+ * Parses a raw fragment as the right-hand side of an assignment.
+ *
+ * Exactly one entry, or none of it is written. `raw("{ a = 1 } b = 2")` parses
+ * without complaint and only the first entry was kept, so the rest vanished
+ * from a mod whose author had reached for `raw()` precisely because nothing
+ * else could say it.
+ */
 function parseRawValue(key: string, text: string): ValueNode {
   const result = parse(`${key} = ${text}`);
-  const first: EntryNode | undefined = result.document.entries.find((entry) => entry.kind === NodeKind.Assignment);
+  const first: EntryNode | undefined = result.document.entries[0];
 
-  if (result.diagnostics.length > 0 || first?.kind !== NodeKind.Assignment) {
-    throw new SyntaxError(`raw() at ${key} is not valid PDX script: ${JSON.stringify(text)}`);
+  if (result.diagnostics.length > 0 || result.document.entries.length !== 1 || first?.kind !== NodeKind.Assignment) {
+    throw new SyntaxError(`raw() at ${key} is not one PDX value: ${JSON.stringify(text)}`);
   }
 
   return first.value;

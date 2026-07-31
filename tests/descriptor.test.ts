@@ -46,6 +46,40 @@ describe("the name a mod's files are called after", () => {
     expect(paths({ name: "共鳴の遺産" })).toEqual(paths({ name: "共鳴の遺産" }));
   });
 
+  /**
+   * One ASCII character anywhere in the name used to defeat the marker: `[JP] 共鳴の遺産`
+   * and `[JP] 星々の記憶` both reduced to `jp`, which is the collision the marker
+   * exists to stop. Punctuation is not a word, so an ordinary name keeps its
+   * ordinary folder.
+   */
+  it("keeps two names apart when only their non-ASCII words differ", () => {
+    expect(paths({ name: "[JP] 共鳴の遺産" })).not.toEqual(paths({ name: "[JP] 星々の記憶" }));
+  });
+
+  it("leaves a name whose words are all ASCII alone", () => {
+    expect(paths({ name: "Example Mod" })).toContain("example_mod.mod");
+    expect(paths({ name: "Example Mod!" })).toContain("example_mod.mod");
+  });
+
+  it("refuses a path that leaves the mod folder", () => {
+    const escaping = defineMod({ name: "Esc", version: "1", supportedVersion: "v4.4.*" })
+      .file({ path: "../../escaped.txt", contents: "x" })
+      .asset("../escaped.dds", new Uint8Array([1]));
+
+    const escapes = emit(escaping).diagnostics.filter((diagnostic) => diagnostic.code === "escaping-path");
+
+    expect(escapes).toHaveLength(2);
+    expect(escapes.every((diagnostic) => diagnostic.severity === "error")).toBe(true);
+  });
+
+  it("reads two spellings of one path as the one file they are", () => {
+    const same = defineMod({ name: "Same", version: "1", supportedVersion: "v4.4.*" })
+      .file({ path: "common/x.txt", contents: "FIRST" })
+      .file({ path: "./common/x.txt", contents: "SECOND" });
+
+    expect(emit(same).diagnostics.map((diagnostic) => diagnostic.code)).toContain("duplicate-file");
+  });
+
   it("uses the id when one is given, for the folder and every file", () => {
     expect(paths({ name: "共鳴の遺産", id: "resonant_legacy" })).toContain(
       "common/buildings/zz_resonant_legacy_building.txt",

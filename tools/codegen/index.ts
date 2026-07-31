@@ -30,6 +30,16 @@ export type Authored = ComparedValue | EntriesValue | RawValue | RepeatedValue;
 /** Any value PDX script can hold. */
 export type PdxValue = boolean | number | string | PdxBlock | readonly PdxValue[] | Authored;
 
+/**
+ * A number, or a scripted variable standing where one goes.
+ *
+ * \`@base_moon_distance\` is declared once at the top of a file and written
+ * wherever the number belongs — \`change_orbit = @base_moon_distance\` in a
+ * system initializer, \`min = @asteroid_min_size\` in a size. The value is only
+ * known when the game reads the file, so nothing here can narrow it further.
+ */
+export type PdxNumber = number | \`@\${string}\`;
+
 /** Any block. Keys repeat in PDX, so a repeated key may carry an array. */
 export interface PdxBlock {
   readonly [key: string]: PdxValue | undefined;

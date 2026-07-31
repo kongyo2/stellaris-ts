@@ -8,7 +8,7 @@ import type { DefinitionRecord, Mod, RawFileRecord } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { captureFromDocument } from "../schema/extraction.js";
 import { localisationKey } from "../schema/ir.js";
-import { mergedDefinitionTypes } from "../schema/merged-types.js";
+import { engineFixedEnums, mergedDefinitionTypes } from "../schema/merged-types.js";
 import { parse, type Document } from "../syntax/index.js";
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
@@ -183,22 +183,12 @@ function extractionEntries(value: unknown): readonly ExtractionEntry[] {
 /**
  * The occurrences one field stands for.
  *
- * An array under a key means two different things, and the printer decides
- * which: an array of blocks is the key written once per element, anything else
- * is one value list. Extraction has to read it the same way the emitter writes
- * it, or `option: [{ policy_flags: [...] }]` — a policy with one option — looks
- * like an option named nothing.
+ * Only `repeated()` writes a key more than once, so only it stands for several
+ * occurrences. An array is one value list, and extraction has to read it the
+ * same way the emitter writes it or the two disagree about what a mod said.
  */
 function occurrencesOf(value: unknown): readonly unknown[] {
-  if (isRepeated(value)) {
-    return value.values;
-  }
-
-  if (Array.isArray(value) && value.length > 0 && (value as readonly unknown[]).every((item) => isBlockLike(item))) {
-    return value as readonly unknown[];
-  }
-
-  return [value];
+  return isRepeated(value) ? value.values : [value];
 }
 
 /**
@@ -284,7 +274,7 @@ function withOwnEnumMembers(
   }
 
   for (const definition of model.enums) {
-    if (definition.kind !== "extracted-enum") {
+    if (definition.kind !== "extracted-enum" || engineFixedEnums[definition.id] !== undefined) {
       continue;
     }
 
@@ -384,15 +374,22 @@ function checkValue(
     const candidates: readonly unknown[] = Array.isArray(value) ? value : [value];
 
     for (const candidate of candidates) {
-      if (typeof candidate !== "string" || isIndirect(candidate)) {
+      // A number is a reference too where the identifiers are numbers: a
+      // technology tier is `0` … `5` and every technology writes `tier = 3`.
+      // Reading only strings meant `tier = 99` pointed at nothing and was told
+      // nothing, which is the whole thing this check exists to say.
+      const named: string | undefined =
+        typeof candidate === "string" ? candidate : typeof candidate === "number" ? String(candidate) : undefined;
+
+      if (named === undefined || isIndirect(named)) {
         continue;
       }
 
-      if (!known.includes(candidate) && !walker.declared.has(`${type}:${candidate}`)) {
+      if (!known.includes(named) && !walker.declared.has(`${type}:${named}`)) {
         walker.diagnostics.push({
           severity: "warning",
           code: "unresolved-reference",
-          message: `${key} points at ${type} ${candidate}, which is neither in vanilla nor defined by this mod.`,
+          message: `${key} points at ${type} ${named}, which is neither in vanilla nor defined by this mod.`,
           definition,
           path,
         });

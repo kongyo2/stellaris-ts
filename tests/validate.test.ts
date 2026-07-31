@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { define } from "../src/builders/index.js";
-import { defineMod } from "../src/index.js";
+import { defineMod, repeated } from "../src/index.js";
 import { validate } from "../src/validate/index.js";
 
 const codes = (mod: Parameters<typeof validate>[0]): readonly string[] =>
@@ -19,12 +19,10 @@ describe("validate", () => {
 
   it("rejects a field the game would silently ignore", () => {
     const mod = defineMod({ name: "Bad", version: "1", supportedVersion: "v4.4.*" }).add(
-      // The generated type rejects this too, and the `@ts-expect-error` is what
-      // says so — if `building` ever goes back to accepting arbitrary keys, this
-      // line stops erroring and the test fails. The validator is the layer that
-      // still catches it for a body assembled at runtime, from data or from
-      // JavaScript, where no type was ever consulted.
-      // @ts-expect-error not_a_real_field is not a building field
+      // `building` accepts arbitrary keys at the type level, and has to: the
+      // schema says `inline_script` may be written in any block, so no block
+      // enumerates every key it takes. The validator is the layer that knows
+      // this particular one is not real.
       define("building", "bad_lab", { not_a_real_field: 1 }),
     );
 
@@ -111,13 +109,17 @@ describe("validate", () => {
   });
 
   /**
-   * A policy flag is declared inside an option, and an option is a key written
-   * once per element. Reading the array as one block instead of as repetition
-   * lost the flag, and the mod was told its own flag was not one.
+   * A policy flag is declared inside an option, and a policy writes `option`
+   * more than once. Extraction only reached the first spelling of that it met,
+   * and the mod was told its own flag was not one.
    */
   const flagMod = (flag: string) =>
     defineMod({ name: "Flags", version: "1", supportedVersion: "v4.4.*" })
-      .add(define("policy", "sts_policy", { option: [{ name: "sts_option", policy_flags: ["sts_resonant"] }] }))
+      .add(
+        define("policy", "sts_policy", {
+          option: repeated({ name: "sts_option", policy_flags: ["sts_resonant"] }),
+        }),
+      )
       .add(define("building", "sts_lab", { category: "research", potential: { has_policy_flag: flag } }));
 
   it("reads a flag the mod's own policy declares in a list", () => {
@@ -159,5 +161,39 @@ describe("validate", () => {
 
   it("still reports a component tag nothing declares", () => {
     expect(codes(componentMod(false))).toContain("unknown-value");
+  });
+
+  /**
+   * A ship class is behaviour in the executable, so a mod cannot add one — and
+   * `ship_size.class` is both where the enum is read from and where it is
+   * checked, so joining the mod's own values would let a misspelling declare
+   * itself and then legitimise every use of it.
+   */
+  it("still reports a ship class the game does not have", () => {
+    const mod = defineMod({ name: "Ship", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("ship_size", "sts_ship", { class: "shipclass_militaryy", entity: "corvette_entity" }),
+    );
+
+    expect(codes(mod)).toContain("unknown-value");
+  });
+
+  /**
+   * A technology tier is `0` … `5`, so a reference to one is a number. Reading
+   * only strings meant `tier = 99` pointed at nothing and was told nothing.
+   */
+  it("reports a numeric reference to something that does not exist", () => {
+    const mod = defineMod({ name: "Tier", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("technology", "sts_tech", { area: "physics", tier: 99, category: ["computing"], cost: 100 }),
+    );
+
+    expect(codes(mod)).toContain("unresolved-reference");
+  });
+
+  it("says nothing about a tier the game has", () => {
+    const mod = defineMod({ name: "Tier", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("technology", "sts_tech", { area: "physics", tier: 3, category: ["computing"], cost: 100 }),
+    );
+
+    expect(codes(mod)).not.toContain("unresolved-reference");
   });
 });

@@ -22,8 +22,33 @@ describe("a key written more than once", () => {
     );
   });
 
-  it("writes one entry per element of an array of blocks", () => {
-    expect(render({ option: [{ name: "a" }, { name: "b" }] })).toBe(
+  /**
+   * Both shapes are in the game and they are not interchangeable. An event
+   * writes `option = { }` twice; a policy writes `in_breach_of = { { key = a }
+   * { key = b } }` once — one key holding blocks with no key of their own, of
+   * which vanilla has 189 across nine key names. An array is the second, and
+   * only `repeated()` is the first.
+   */
+  it("writes an array of blocks as one key holding blocks with no key", () => {
+    const parts: readonly string[] = [
+      "x = {",
+      "\tin_breach_of = {",
+      "\t\t{",
+      "\t\t\tkey = a",
+      "\t\t}",
+      "\t\t{",
+      "\t\t\tkey = b",
+      "\t\t}",
+      "\t}",
+      "}",
+      "",
+    ];
+
+    expect(render({ in_breach_of: [{ key: "a" }, { key: "b" }] })).toBe(parts.join("\n"));
+  });
+
+  it("does not read an array as a repetition", () => {
+    expect(render({ option: [{ name: "a" }, { name: "b" }] })).not.toBe(
       render({ option: repeated({ name: "a" }, { name: "b" }) }),
     );
   });
@@ -53,9 +78,9 @@ describe("a key written more than once", () => {
     ).toBe("x = {\n\ta = 1\n\toption = {\n\t\tname = x\n\t}\n}\n");
   });
 
-  it("expands an array of blocks inside an ordered entry list", () => {
-    expect(render(entries([["option", [{ name: "a" }, { name: "b" }]]]))).toBe(
-      render(entries([["option", repeated({ name: "a" }, { name: "b" })]])),
+  it("reads an array the same way in an ordered entry list as in an object", () => {
+    expect(render(entries([["in_breach_of", [{ key: "a" }, { key: "b" }]]]))).toBe(
+      render({ in_breach_of: [{ key: "a" }, { key: "b" }] }),
     );
   });
 

@@ -189,7 +189,28 @@ describe("the format's awkward corners", () => {
     const broken = defineMod({ name: "Broken", version: "1", supportedVersion: "v4.4.*" }).add(
       define("building", "broken", { base_buildtime: raw("} = =") }),
     );
-    expect(() => emit(broken)).toThrow(/not valid PDX script/u);
+    expect(() => emit(broken)).toThrow(/not one PDX value/u);
+  });
+
+  /**
+   * `raw()` is the escape hatch for what the object form cannot say, so losing
+   * half of what was written is the failure it can least afford. A fragment
+   * holding two entries parses without complaint, and only the first was kept.
+   */
+  it("refuses a raw fragment that is more than one value", () => {
+    const trailing = defineMod({ name: "Trail", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "trail", { base_buildtime: raw("{ a = 1 } b = 2") }),
+    );
+
+    expect(() => emit(trailing)).toThrow(/not one PDX value/u);
+  });
+
+  it("refuses a number PDX cannot write", () => {
+    const infinite = defineMod({ name: "Inf", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "inf", { base_buildtime: 1 / 0 }),
+    );
+
+    expect(() => emit(infinite)).toThrow(/has no number Infinity/u);
   });
 
   /**
@@ -250,7 +271,22 @@ describe("the format's awkward corners", () => {
 
     expect(diagnostics.length).toBeGreaterThan(0);
     expect(diagnostics.every((diagnostic) => diagnostic.severity === "warning")).toBe(true);
-    expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).toContain("vanilla-override");
+  });
+
+  /**
+   * The flag says "the collision you are about to report is intended", so it
+   * downgrades that report and says nothing of its own. Saying something of its
+   * own claimed a vanilla file had been replaced at paths vanilla does not
+   * ship, and said it twice at paths it does.
+   */
+  it("says nothing about an intended replacement of a file vanilla does not ship", () => {
+    const mod = defineMod({ name: "Own", version: "1", supportedVersion: "v4.4.*" }).file({
+      path: "common/buildings/zz_own_extra.txt",
+      contents: "x = { }\n",
+      overrides: true,
+    });
+
+    expect(emit(mod).diagnostics).toEqual([]);
   });
 
   it("keeps written order when bare values sit among keyed ones", () => {

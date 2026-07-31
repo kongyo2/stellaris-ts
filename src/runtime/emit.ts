@@ -97,6 +97,25 @@ function marker(value: string): string {
   return hash.toString(36);
 }
 
+/**
+ * Whether reducing this name to a slug loses a word of it.
+ *
+ * `共鳴の遺産` reduces to nothing, and `[JP] 共鳴の遺産` reduces to `jp` — which
+ * `[JP] 星々の記憶` also reduces to, so the marker has to depend on more than
+ * whether anything survived. Punctuation does not count: `Example Mod!` and
+ * `Example Mod` are the same words, and giving them different folders would put
+ * a marker on nearly every mod for nothing.
+ */
+function losesWords(name: string): boolean {
+  for (const character of name) {
+    if (/[\p{L}\p{N}]/u.test(character) && !/[A-Za-z0-9]/u.test(character)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 /** The name a mod's own files are called after. */
 function modSlug(options: ModOptions): string {
   if (options.id !== undefined) {
@@ -104,7 +123,42 @@ function modSlug(options: ModOptions): string {
   }
 
   const derived: string = slug(options.name);
-  return derived.length === 0 ? `mod_${marker(options.name)}` : derived;
+
+  if (derived.length === 0) {
+    return `mod_${marker(options.name)}`;
+  }
+
+  return losesWords(options.name) ? `${derived}_${marker(options.name)}` : derived;
+}
+
+/**
+ * A path inside the mod folder, in the spelling the writer will use.
+ *
+ * `writePlan` joins each path onto the mod folder, and `join` resolves `..` on
+ * the way — so a raw file or an asset naming one writes outside the folder
+ * entirely, over whatever is there. Two spellings of one path are the other
+ * half of it: `common/x.txt` and `./common/x.txt` are two entries here and one
+ * file on disk, written concurrently, and the winner is whichever finished
+ * last. Returns undefined for a path that leaves the folder.
+ */
+function modFilePath(path: string): string | undefined {
+  const parts: readonly string[] = path.replaceAll("\\", "/").split("/");
+  const kept: string[] = [];
+
+  for (const [index, part] of parts.entries()) {
+    if (part === "" && index > 0) {
+      continue;
+    }
+    if (part === ".") {
+      continue;
+    }
+    if (part === ".." || (index === 0 && (part === "" || /^[A-Za-z]:$/u.test(part)))) {
+      return undefined;
+    }
+    kept.push(part);
+  }
+
+  return kept.length === 0 ? undefined : kept.join("/");
 }
 
 /**
@@ -328,12 +382,34 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
     mod.definitions.map((definition) => definition.overrides).filter((path): path is string => path !== undefined),
   );
 
-  for (const record of mod.files) {
-    files.push({ kind: "text", path: record.path, contents: record.contents, byteOrderMark: false });
+  /** Adds a file the mod supplied, once its path is known to stay inside. */
+  const addSupplied = (path: string, overrides: boolean, add: (inside: string) => EmittedFile): void => {
+    const inside: string | undefined = modFilePath(path);
 
-    if (record.overrides === true) {
-      intendedOverrides.add(record.path);
+    if (inside === undefined) {
+      diagnostics.push({
+        severity: "error",
+        code: "escaping-path",
+        message: `${path} leaves the mod folder. Everything a mod ships is written under it, and a path that climbs out of it writes over whatever is there instead.`,
+        path,
+      });
+      return;
     }
+
+    files.push(add(inside));
+
+    if (overrides) {
+      intendedOverrides.add(inside);
+    }
+  };
+
+  for (const record of mod.files) {
+    addSupplied(record.path, record.overrides === true, (path) => ({
+      kind: "text",
+      path,
+      contents: record.contents,
+      byteOrderMark: false,
+    }));
   }
 
   // An icon, a portrait, a sound. The game reads them from the same folder tree
@@ -341,22 +417,7 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   // definitions and leaves the assets to a second pipeline is a build whose
   // output does not run.
   for (const asset of mod.assets) {
-    files.push({ kind: "binary", path: asset.path, bytes: asset.bytes });
-
-    if (asset.overrides === true) {
-      intendedOverrides.add(asset.path);
-    }
-  }
-
-  for (const path of intendedOverrides) {
-    if (!mod.definitions.some((definition) => definition.overrides === path)) {
-      diagnostics.push({
-        severity: "warning",
-        code: "vanilla-override",
-        message: `Replaces the vanilla file wholesale. Everything else it defined stops loading.`,
-        path,
-      });
-    }
+    addSupplied(asset.path, asset.overrides === true, (path) => ({ kind: "binary", path, bytes: asset.bytes }));
   }
 
   // Before the checks below, not after them: the descriptor is a file like any
