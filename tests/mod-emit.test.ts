@@ -116,6 +116,29 @@ describe("mod emit", () => {
     expect(found?.severity).toBe("error");
   });
 
+  /**
+   * The descriptor is a file like any other. It was appended after the check
+   * that catches two files at one path, so a mod writing its own descriptor got
+   * two of them and nothing said so — and the launcher reads whichever survived
+   * being written.
+   */
+  it("counts the descriptor it generates when a mod writes one too", () => {
+    const clashing = defineMod({ name: "Desc", version: "1", supportedVersion: "v4.4.*" }).file({
+      path: "descriptor.mod",
+      contents: 'name="Hand written"\n',
+    });
+
+    const found = emit(clashing).diagnostics.find((diagnostic) => diagnostic.code === "duplicate-file");
+
+    expect(found?.severity).toBe("error");
+    expect(found?.path).toBe("descriptor.mod");
+  });
+
+  it("leaves an ordinary mod's descriptor alone", () => {
+    expect(emit(mod, { vanillaFiles: {} }).files.filter((file) => file.path === "descriptor.mod")).toHaveLength(1);
+    expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).not.toContain("duplicate-file");
+  });
+
   it("is deterministic", () => {
     const again: EmitPlan = emit(mod, { vanillaFiles: {} });
     expect(bytesOf(again)).toEqual(bytesOf(emit(mod, { vanillaFiles: {} })));

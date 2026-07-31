@@ -359,6 +359,16 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
     }
   }
 
+  // Before the checks below, not after them: the descriptor is a file like any
+  // other, and a mod that writes its own at that path was producing two of them
+  // with nothing said. The launcher reads whichever survived being written.
+  files.push({
+    kind: "text",
+    path: "descriptor.mod",
+    contents: renderDescriptor(mod.options, undefined),
+    byteOrderMark: false,
+  });
+
   // Two entries for one path is not a merge: writing is concurrent, so which of
   // them survives is decided by whichever finishes last. A raw file put where a
   // definition already lands is the way it happens.
@@ -428,13 +438,6 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
       path: "descriptor.mod",
     });
   }
-
-  files.push({
-    kind: "text",
-    path: "descriptor.mod",
-    contents: renderDescriptor(mod.options, undefined),
-    byteOrderMark: false,
-  });
 
   return {
     files: files.sort((left, right) => compareOrdinal(left.path, right.path)),
