@@ -98,6 +98,40 @@ function marker(value: string): string {
 }
 
 /**
+ * Names Windows will not create a file or folder for, whatever the extension.
+ *
+ * `con`, `nul` and the numbered ports are devices there, and `writePlan` fails
+ * on them rather than writing the mod. They pass every test of what a name may
+ * contain, so they have to be named.
+ */
+const RESERVED_NAMES: ReadonlySet<string> = new Set([
+  "aux",
+  "com0",
+  "com1",
+  "com2",
+  "com3",
+  "com4",
+  "com5",
+  "com6",
+  "com7",
+  "com8",
+  "com9",
+  "con",
+  "lpt0",
+  "lpt1",
+  "lpt2",
+  "lpt3",
+  "lpt4",
+  "lpt5",
+  "lpt6",
+  "lpt7",
+  "lpt8",
+  "lpt9",
+  "nul",
+  "prn",
+]);
+
+/**
  * Whether reducing this name to a slug loses a word of it.
  *
  * `共鳴の遺産` reduces to nothing, and `[JP] 共鳴の遺産` reduces to `jp` — which
@@ -105,10 +139,15 @@ function marker(value: string): string {
  * whether anything survived. Punctuation does not count: `Example Mod!` and
  * `Example Mod` are the same words, and giving them different folders would put
  * a marker on nearly every mod for nothing.
+ *
+ * Composed first, and marks count as letters. `Café` can be written with one
+ * character or with `e` and a combining accent, and in the second spelling the
+ * accent is neither a letter nor a number — so the test read it as punctuation
+ * and handed the name the same folder as `Cafe`.
  */
 function losesWords(name: string): boolean {
   for (const character of name) {
-    if (/[\p{L}\p{N}]/u.test(character) && !/[A-Za-z0-9]/u.test(character)) {
+    if (/[\p{L}\p{N}\p{M}]/u.test(character) && !/[A-Za-z0-9]/u.test(character)) {
       return true;
     }
   }
@@ -116,19 +155,28 @@ function losesWords(name: string): boolean {
   return false;
 }
 
-/** The name a mod's own files are called after. */
+/**
+ * The name a mod's own files are called after.
+ *
+ * Composed once, and everything below reads the composed form: `Café` written
+ * with a combining accent and `Café` written with one character are the same
+ * name, and two spellings of one name should not be two folders.
+ */
 function modSlug(options: ModOptions): string {
   if (options.id !== undefined) {
     return options.id;
   }
 
-  const derived: string = slug(options.name);
+  const name: string = options.name.normalize("NFC");
+  const derived: string = slug(name);
 
   if (derived.length === 0) {
-    return `mod_${marker(options.name)}`;
+    return `mod_${marker(name)}`;
   }
 
-  return losesWords(options.name) ? `${derived}_${marker(options.name)}` : derived;
+  // A reserved name gets the marker for the same reason a lossy one does: what
+  // is derived cannot be written, and the author did not choose it.
+  return losesWords(name) || RESERVED_NAMES.has(derived) ? `${derived}_${marker(name)}` : derived;
 }
 
 /**
@@ -294,10 +342,20 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
       message: `id names the mod's folder and every file it writes, so it takes a-z, 0-9 and _ only, not ${mod.options.id}.`,
       path: "descriptor.mod",
     });
+  } else if (mod.options.id !== undefined && RESERVED_NAMES.has(mod.options.id)) {
+    diagnostics.push({
+      severity: "error",
+      code: "reserved-mod-id",
+      message: `${mod.options.id} is a device name on Windows, so no folder or file can be called it. Writing the mod would fail there and nowhere else.`,
+      path: "descriptor.mod",
+    });
   }
 
   for (const definition of mod.definitions) {
-    const path: string = targetFile(mod.options, definition);
+    // Through the same canonicalisation as a supplied path: `defineIn` takes a
+    // file name from the caller, and `./same.txt` is the same file as
+    // `same.txt` on disk but a different string here.
+    const path: string = modFilePath(targetFile(mod.options, definition)) ?? targetFile(mod.options, definition);
     const bucket: DefinitionEntry[] = grouped.get(path) ?? [];
 
     if (definition.bareValue === true) {

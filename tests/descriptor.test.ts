@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { define } from "../src/builders/index.js";
+import { define, defineIn } from "../src/builders/index.js";
 import { emit } from "../src/runtime/emit.js";
 import { defineMod } from "../src/index.js";
 
@@ -59,6 +59,47 @@ describe("the name a mod's files are called after", () => {
   it("leaves a name whose words are all ASCII alone", () => {
     expect(paths({ name: "Example Mod" })).toContain("example_mod.mod");
     expect(paths({ name: "Example Mod!" })).toContain("example_mod.mod");
+  });
+
+  /**
+   * `Café` can be written with one character or with `e` and a combining
+   * accent. The accent is a mark rather than a letter, so the second spelling
+   * read as punctuation and took the same folder as `Cafe`.
+   */
+  it("keeps a decomposed name apart from the one it decomposes to", () => {
+    const decomposed = `Cafe${String.fromCodePoint(0x0301)}`;
+
+    expect(decomposed).not.toBe("Café");
+    expect(paths({ name: decomposed })).not.toEqual(paths({ name: "Cafe" }));
+    expect(paths({ name: decomposed })).toEqual(paths({ name: "Café" }));
+  });
+
+  /**
+   * `con`, `nul` and the numbered ports are devices on Windows, so no folder or
+   * file can be called one — and every test of what a name may contain passes
+   * them.
+   */
+  it("refuses a chosen id Windows cannot make a folder for", () => {
+    const mod = defineMod({ name: "X", id: "con", version: "1", supportedVersion: "v4.4.*" });
+
+    expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).toContain("reserved-mod-id");
+  });
+
+  it("does not derive one either", () => {
+    expect(paths({ name: "Con" })).not.toContain("con.mod");
+  });
+
+  /**
+   * `defineIn` takes a file name from the caller, so a definition's path needs
+   * the same canonicalisation a supplied one gets: `./same.txt` and `same.txt`
+   * are two strings and one file.
+   */
+  it("reads a definition path and a raw path as the one file they are", () => {
+    const aliased = defineMod({ name: "Alias", version: "1", supportedVersion: "v4.4.*" })
+      .add(defineIn("building", "./same.txt", "sts_lab", { category: "research" }))
+      .file({ path: "common/buildings/same.txt", contents: "x = { }" });
+
+    expect(emit(aliased).diagnostics.map((diagnostic) => diagnostic.code)).toContain("duplicate-file");
   });
 
   it("refuses a path that leaves the mod folder", () => {

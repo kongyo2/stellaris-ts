@@ -2,6 +2,7 @@ export * from "./catalog.js";
 export * from "./commands.js";
 export * from "./corrections.js";
 export * from "./definitions/index.js";
+export * from "./dump-commands.js";
 export * from "./dynamic-sets.js";
 export * from "./enums.js";
 export * from "./ir.js";

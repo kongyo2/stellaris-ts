@@ -30,9 +30,35 @@ describe("scope constraints", () => {
   });
 
   it("constrains the large majority of scripted commands", () => {
-    expect(scripted.length).toBe(2385);
-    // 1,920 of them today. It may rise; it must not fall.
+    // 2,385 from the corpus and vanilla's own script, plus the eight the game's
+    // `-debug` documentation declares and neither of those had: with them, every
+    // command in the 4.3.7 trigger and effect dumps is in the schema.
+    expect(scripted.length).toBe(2393);
+    // 1,927 of them today. It may rise; it must not fall.
     expect(constrained.length).toBeGreaterThanOrEqual(1900);
+  });
+
+  /**
+   * The dumps are the game describing itself, so a command they document and
+   * the schema does not is a command a mod may write and the checker will call
+   * unknown. Locked by name, because the eight were found by measuring and the
+   * measurement needs `refs/`, which the build must never require.
+   */
+  it("keeps the commands only the game's own documentation declares", () => {
+    const ids = new Set(schema.commands.map((command) => `${command.family}:${command.id}`));
+
+    for (const id of [
+      "trigger:council_agenda_progress",
+      "trigger:has_ruler_trait",
+      "trigger:built_on_planet",
+      "trigger:is_spynetwork_max_level",
+      "trigger:cosmic_storm_system_influence",
+      "trigger:is_market_leader",
+      "effect:delete_fleet_naval_cap",
+      "effect:finish_current_operation_stage",
+    ]) {
+      expect(ids.has(id)).toBe(true);
+    }
   });
 
   it("keeps a country-only trigger out of the planet scope", () => {

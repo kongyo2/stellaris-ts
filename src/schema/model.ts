@@ -13,6 +13,7 @@ import type { SchemaModel } from "./ir.js";
 import { withModifierCorrections } from "./modifier-corrections.js";
 import { links, scopes } from "./scopes.js";
 import { vanillaLinks, vanillaScopes } from "./vanilla-scopes.js";
+import { dumpCommands } from "./dump-commands.js";
 import { vanillaCommands } from "./vanilla-commands.js";
 import { withEntryScopes } from "./vanilla-entry-scopes.js";
 import { vanillaDefinitionTypes } from "./vanilla-types.js";
@@ -35,7 +36,9 @@ export const schema: SchemaModel = defineSchema({
   scopes: [...scopes, ...vanillaScopes],
   scopeGroups,
   links: [...links, ...vanillaLinks],
-  commands: [...withScopeConstraints(commands), ...vanillaCommands],
+  // The dump-documented ones go through the constraint pass, because the same
+  // dump is where their scopes come from.
+  commands: [...withScopeConstraints([...commands, ...dumpCommands]), ...vanillaCommands],
   ruleSets,
   namedValues,
   valueSets,
