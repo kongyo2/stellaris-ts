@@ -3,13 +3,17 @@
 
 import { DefinitionTypeId } from "../catalog.js";
 
-import { defineType, fileDefinitions } from "../ir.js";
+import { bareValues, defineType } from "../ir.js";
 
 import type { DefinitionType } from "../ir.js";
 
+// cwt declares this `type_per_file`, which makes the identifier `00_tags` — the
+// file name — and every tag vanilla writes unknown. The game's own
+// `common/job_tags/00_tags.txt` is a list of bare words, and `pop_jobs` writes
+// `tags = { crime enforcer }` against them.
 export const jobTags: DefinitionType = defineType({
   id: DefinitionTypeId.JobTags,
-  source: fileDefinitions("common/job_tags"),
+  source: bareValues("common/job_tags"),
   variants: [],
   localisation: [],
   modifiers: [],

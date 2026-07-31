@@ -3,13 +3,16 @@
 
 import { DefinitionTypeId } from "../catalog.js";
 
-import { defineType, fileDefinitions } from "../ir.js";
+import { bareValues, defineType } from "../ir.js";
 
 import type { DefinitionType } from "../ir.js";
 
+// Same shape as `job_tags`, and cwt gets it wrong the same way: the game's
+// `common/trait_tags/00_tags.txt` is a list of bare words, and traits write
+// `tags = { organic positive special }` against them.
 export const traitTags: DefinitionType = defineType({
   id: DefinitionTypeId.TraitTags,
-  source: fileDefinitions("common/trait_tags"),
+  source: bareValues("common/trait_tags"),
   variants: [],
   localisation: [],
   modifiers: [],

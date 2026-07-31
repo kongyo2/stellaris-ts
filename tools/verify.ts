@@ -16,6 +16,7 @@ const steps: readonly VerifyStep[] = [
   { script: "verify:schema" },
   { script: "verify:norefs" },
   { script: "verify:conformance" },
+  { script: "verify:types" },
   { script: "verify:reproduce" },
   { script: "verify:roundtrip" },
   { script: "verify:pack" },

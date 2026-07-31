@@ -1,7 +1,9 @@
+import { vanillaIdsByType } from "../../src/generated/vanilla/ids.js";
 import type {
   DefinitionType,
   EntryRule,
   EnumDefinition,
+  RuleSetDefinition,
   Occurrence,
   SchemaModel,
   ScopeChange,
@@ -19,6 +21,19 @@ import type {
  */
 
 const MAX_DEPTH = 6;
+
+/**
+ * Types whose identifiers are numbers rather than names.
+ *
+ * Read off the indexed game rather than listed: `common/technology/tier` names
+ * its definitions `0 = { }` … `5 = { }` and is the only one today, but the test
+ * is what the game contains, not what was true when this was written.
+ */
+const numericIdTypes: ReadonlySet<string> = new Set(
+  Object.entries(vanillaIdsByType)
+    .filter(([, ids]) => ids.length > 0 && ids.every((id) => /^-?\d+(?:\.\d+)?$/u.test(id)))
+    .map(([type]) => type),
+);
 
 export interface EmittedModule {
   readonly path: string;
@@ -60,6 +75,18 @@ interface RenderContext {
   readonly usedScript: Set<string>;
   readonly usedScopes: Set<string>;
   readonly scopeNames: ReadonlySet<string>;
+  /**
+   * One interface per rule-set member, by family, name and scope.
+   *
+   * A rule-set family describes a shape that holds itself: every `gui`
+   * container element contains the `gui` family again. Written inline that is
+   * six levels of seventeen members and 8 MB for one definition; written as a
+   * name it is one interface that refers to itself, which is what the shape
+   * actually is. The name is registered before its body is rendered, so the
+   * self-reference resolves rather than recurring.
+   */
+  readonly ruleSetTypes: Map<string, string>;
+  readonly ruleSetDeclarations: Map<string, string>;
   counters: { literalUnions: number };
 }
 
@@ -95,9 +122,11 @@ function valueType(context: RenderContext, value: ValueRule, depth: number, scop
           return "boolean";
         case "integer":
         case "number":
-          return "number";
+          context.usedScript.add("PdxNumber");
+          return "PdxNumber";
         case "percentage":
-          return "number | `${number}%`";
+          context.usedScript.add("PdxNumber");
+          return "PdxNumber | `${number}%`";
         default:
           return "string";
       }
@@ -187,14 +216,123 @@ function repeatable(occurrence: Occurrence): boolean {
   return occurrence.max === null || occurrence.max > 1;
 }
 
-function collectProperties(
+/** Folds one key's rule into the draft for that key, merging with any siblings. */
+function addProperty(
   context: RenderContext,
-  entries: readonly EntryRule[],
+  key: string,
+  value: ValueRule,
+  occurrence: Occurrence,
   depth: number,
   into: Map<string, PropertyDraft>,
   forceOptional: boolean,
   scope?: string,
 ): void {
+  const draft: PropertyDraft = into.get(key) ?? { key, types: [], optional: true, repeatable: false };
+  const rendered: string = valueType(context, value, depth, scope);
+
+  if (!draft.types.includes(rendered)) {
+    draft.types.push(rendered);
+  }
+
+  // Duplicate keys are legal in PDX, so the same key can arrive several times
+  // with different rules. Required only if some rule requires it and no rule
+  // makes it optional.
+  if (occurrence.min > 0 && !forceOptional && draft.types.length === 1) {
+    draft.optional = false;
+  } else if (occurrence.min === 0 || forceOptional) {
+    draft.optional = true;
+  }
+
+  draft.repeatable = draft.repeatable || repeatable(occurrence);
+  into.set(key, draft);
+}
+
+/** What one block's entries came to: the keys it names, and whether it names them all. */
+interface Collected {
+  readonly drafts: Map<string, PropertyDraft>;
+  /**
+   * Whether keys reach this block that no property names.
+   *
+   * A trigger or effect family, a pattern key, a rule set left unexpanded: each
+   * means the block accepts more than the properties say, and the interface
+   * needs an index signature to stay honest about it.
+   */
+  open: boolean;
+}
+
+/**
+ * The interface name for one rule-set member, emitting it the first time.
+ *
+ * The name is put in the table before the body is rendered: a family that holds
+ * itself reaches this function again while it is still inside it, and finding
+ * the name there is what turns the recursion into a reference.
+ */
+function ruleSetType(
+  context: RenderContext,
+  family: string,
+  member: RuleSetDefinition,
+  scope: string | undefined,
+  alternative: number,
+): string {
+  // The alternative is part of the identity. A family may name the same key
+  // twice with two different shapes — `resources_template_optional.resources` is
+  // `{ category ... }` or `{ produces = { ... } }`, and vanilla writes both —
+  // and a cache keyed on the name alone hands the first shape out for the
+  // second, which rejects six deposits the game ships.
+  const key = `${family}::${member.name ?? ""}::${scope ?? ""}::${String(alternative)}`;
+  const known: string | undefined = context.ruleSetTypes.get(key);
+
+  if (known !== undefined) {
+    return known;
+  }
+
+  // Only a block becomes an interface. A member whose value is a scalar has
+  // nothing to name, and naming it would read as a shape it does not have.
+  if (member.value.kind !== "block") {
+    return valueType(context, member.value, 0, scope);
+  }
+
+  const suffix: string = alternative <= 1 ? "" : String(alternative);
+  const name = `RuleSet${pascal(family)}${pascal(member.name ?? "")}${scope === undefined ? "" : pascal(scope)}${suffix}`;
+  context.ruleSetTypes.set(key, name);
+  context.ruleSetDeclarations.set(name, "");
+
+  const collected: Collected = { drafts: new Map<string, PropertyDraft>(), open: false };
+  collectProperties(context, member.value.entries, 0, collected, false, scope);
+
+  const properties: readonly PropertyDraft[] = [...collected.drafts.values()].sort((left, right) =>
+    compareOrdinal(left.key, right.key),
+  );
+  const index: string = collected.open ? "\n  readonly [key: string]: PdxValue | undefined;" : "";
+  const body: string =
+    properties.length === 0 && index.length === 0 ? "\n  readonly [key: string]: PdxValue | undefined;" : "";
+
+  context.ruleSetDeclarations.set(
+    name,
+    `/** \`${member.name ?? ""}\` as ${family} writes it. */\nexport interface ${name} {\n${renderProperties(properties, "  ")}${index}${body}\n}`,
+  );
+
+  return name;
+}
+
+function collectProperties(
+  context: RenderContext,
+  entries: readonly EntryRule[],
+  depth: number,
+  into: Collected,
+  forceOptional: boolean,
+  scope?: string,
+): void {
+  // The schema says a macro may be written in every block — `inline_script = {
+  // script = shroud/jobs/colonist_add AMOUNT = 200 }` is inside a vanilla
+  // building — so no block enumerates all the keys it accepts. Reading only the
+  // rules and calling the result closed rejected that in 19 types and 1,279
+  // places, and the conformance gate could not see it: it subtracts macro keys
+  // before it counts.
+  if (context.model.policy.macros.some((macro) => macro.appliesTo === "all-blocks")) {
+    into.open = true;
+  }
+
   for (const entry of entries) {
     if (entry.kind === "variant-rules") {
       // A variant's fields only apply to some definitions of the type, so they
@@ -203,33 +341,71 @@ function collectProperties(
       continue;
     }
 
-    if (entry.kind !== "field" || typeof entry.key !== "string") {
+    if (entry.kind === "script-entries") {
+      into.open = true;
       continue;
     }
 
-    const draft: PropertyDraft = into.get(entry.key) ?? {
-      key: entry.key,
-      types: [],
-      optional: true,
-      repeatable: false,
-    };
-    const rendered: string = valueType(context, entry.value, depth, nextScope(scope, entry.scope));
+    // A rule-set family is a named set of keys the block may also carry, and
+    // reading them is what gives `planet = { ... }` on a system initializer a
+    // type: without it the key had no rule at all, and the type rejected the
+    // one thing a system initializer exists to say.
+    if (entry.kind === "rule-set-entries") {
+      const members = context.model.ruleSets.filter((member) => member.family === entry.family);
+      const inner: string | undefined = nextScope(scope, entry.scope);
+      // Which alternative of a key this is. The same name may be declared more
+      // than once with different shapes, and each is a form the game accepts.
+      const alternatives = new Map<string, number>();
 
-    if (!draft.types.includes(rendered)) {
-      draft.types.push(rendered);
+      for (const member of members) {
+        // A member with no name is a key computed from a construct, which
+        // nothing can enumerate; the block stays open for it.
+        if (typeof member.name !== "string" || member.name.length === 0) {
+          into.open = true;
+          continue;
+        }
+
+        const alternative: number = (alternatives.get(member.name) ?? 0) + 1;
+        alternatives.set(member.name, alternative);
+
+        const memberScope: string | undefined = nextScope(inner, member.scope);
+        const draft: PropertyDraft = into.drafts.get(member.name) ?? {
+          key: member.name,
+          types: [],
+          optional: true,
+          repeatable: false,
+        };
+        const rendered: string = ruleSetType(context, entry.family, member, memberScope, alternative);
+
+        if (!draft.types.includes(rendered)) {
+          draft.types.push(rendered);
+        }
+
+        draft.repeatable = draft.repeatable || !member.single;
+        into.drafts.set(member.name, draft);
+      }
+      continue;
     }
 
-    // Duplicate keys are legal in PDX, so the same key can arrive several times
-    // with different rules. Required only if some rule requires it and no rule
-    // makes it optional.
-    if (entry.occurrence.min > 0 && !forceOptional && draft.types.length === 1) {
-      draft.optional = false;
-    } else if (entry.occurrence.min === 0 || forceOptional) {
-      draft.optional = true;
+    if (entry.kind !== "field") {
+      continue;
     }
 
-    draft.repeatable = draft.repeatable || repeatable(entry.occurrence);
-    into.set(entry.key, draft);
+    if (typeof entry.key !== "string") {
+      into.open = true;
+      continue;
+    }
+
+    addProperty(
+      context,
+      entry.key,
+      entry.value,
+      entry.occurrence,
+      depth,
+      into.drafts,
+      forceOptional,
+      nextScope(scope, entry.scope),
+    );
   }
 }
 
@@ -239,14 +415,44 @@ function collectProperties(
  * carry no information, so drop them.
  */
 function splitUnion(type: string): readonly string[] {
-  if (!type.includes("|") || type.includes("{") || type.includes("(")) {
+  if (!type.includes("|")) {
     return [type];
   }
 
-  return type
-    .split("|")
-    .map((part) => part.trim())
-    .filter((part) => part.length > 0);
+  // Only the bars between constituents. An object literal and a template
+  // literal both hold braces of their own, and the earlier test — give up on
+  // anything containing a brace — left `number | number | \`${number}%\`` in the
+  // output, because a percentage rule and a plain number rule are two renderings
+  // of a key and only one of them looks like a union.
+  const parts: string[] = [];
+  let depth = 0;
+  let inTemplate = false;
+  let start = 0;
+
+  for (let index = 0; index < type.length; index += 1) {
+    const character: string = type.charAt(index);
+
+    if (character === "`") {
+      inTemplate = !inTemplate;
+      continue;
+    }
+
+    if (inTemplate) {
+      continue;
+    }
+
+    if (character === "{" || character === "(" || character === "[") {
+      depth += 1;
+    } else if (character === "}" || character === ")" || character === "]") {
+      depth -= 1;
+    } else if (character === "|" && depth === 0) {
+      parts.push(type.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+
+  parts.push(type.slice(start).trim());
+  return parts.filter((part) => part.length > 0);
 }
 
 function mergeTypes(types: readonly string[]): string {
@@ -274,25 +480,22 @@ function renderProperties(drafts: readonly PropertyDraft[], indent: string): str
   return drafts
     .map((draft) => {
       const union: string = mergeTypes(draft.types);
-      const listed: string = draft.repeatable ? `${wrapUnion(union)} | readonly ${wrapUnion(union)}[]` : union;
-      // Any field may need a comparison, a repetition, an ordered list or raw
-      // script, so every field accepts them.
-      return `${indent}readonly ${propertyName(draft.key)}${draft.optional ? "?" : ""}: ${listed} | Authored;`;
+      // A key the game reads more than once is written with `repeated()`, which
+      // `Authored` already admits. Offering an array for it as well said an
+      // array meant repetition, and it does not: `in_breach_of = { { key = a }
+      // { key = b } }` is one key holding blocks with no key of their own, and
+      // that is what an array is. One spelling per shape, or neither is safe.
+      return `${indent}readonly ${propertyName(draft.key)}${draft.optional ? "?" : ""}: ${union} | Authored;`;
     })
     .join("\n");
 }
 
 function blockType(context: RenderContext, entries: readonly EntryRule[], depth: number, scope?: string): string {
-  const drafts = new Map<string, PropertyDraft>();
-  collectProperties(context, entries, depth, drafts, false, scope);
+  const collected: Collected = { drafts: new Map<string, PropertyDraft>(), open: false };
+  collectProperties(context, entries, depth, collected, false, scope);
 
-  const hasOpenEntry: boolean = entries.some(
-    (entry) =>
-      entry.kind === "script-entries" ||
-      entry.kind === "rule-set-entries" ||
-      (entry.kind === "field" && typeof entry.key !== "string"),
-  );
-  const ordered: readonly PropertyDraft[] = [...drafts.values()].sort((left, right) =>
+  const hasOpenEntry: boolean = collected.open;
+  const ordered: readonly PropertyDraft[] = [...collected.drafts.values()].sort((left, right) =>
     compareOrdinal(left.key, right.key),
   );
 
@@ -355,6 +558,8 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
     usedScript: new Set<string>(),
     usedScopes: new Set<string>(),
     scopeNames: new Set(model.scopes.map((scope) => scope.id)),
+    ruleSetTypes: new Map<string, string>(),
+    ruleSetDeclarations: new Map<string, string>(),
     counters: { literalUnions: 0 },
   };
   const declarations: string[] = [];
@@ -365,24 +570,19 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
   );
 
   for (const type of ordered) {
-    const drafts = new Map<string, PropertyDraft>();
+    const collected: Collected = { drafts: new Map<string, PropertyDraft>(), open: false };
     // A definition body runs in the scope its type names, and every trigger or
     // effect block inside inherits it until a rule says otherwise.
     const entryScope: string | undefined = typeof type.entryScope === "string" ? type.entryScope : undefined;
-    collectProperties(context, type.entries, 0, drafts, false, entryScope);
-    propertyCount += drafts.size;
+    collectProperties(context, type.entries, 0, collected, false, entryScope);
+    propertyCount += collected.drafts.size;
 
-    const hasOpenEntry: boolean = type.entries.some(
-      (entry) =>
-        entry.kind === "script-entries" ||
-        entry.kind === "rule-set-entries" ||
-        (entry.kind === "field" && typeof entry.key !== "string"),
-    );
+    const hasOpenEntry: boolean = collected.open;
     // A tagged type carries its identity in a field inside the block, and
     // `define(type, id, body)` writes it there. Leaving it in the body type as
     // well invites two different answers to which definition this is.
     const nameField: string | undefined = type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
-    const properties: readonly PropertyDraft[] = [...drafts.values()]
+    const properties: readonly PropertyDraft[] = [...collected.drafts.values()]
       .filter((draft) => draft.key !== nameField)
       .sort((left, right) => compareOrdinal(left.key, right.key));
     const documentation: string =
@@ -397,13 +597,17 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
   const refNames: readonly string[] = [...context.usedRefs].sort(compareOrdinal);
   // `noUnusedLocals` makes a speculative import a build failure, so import only
   // the shapes this emission actually referenced.
-  const rendered: string = declarations.join("\n\n");
+  const ruleSetDeclarations: readonly string[] = [...context.ruleSetDeclarations]
+    .sort(([left], [right]) => compareOrdinal(left, right))
+    .map(([, source]) => source);
+  const rendered: string = [...ruleSetDeclarations, ...declarations].join("\n\n");
   const scriptNames: readonly string[] = [
     "Authored",
     "EffectBlock",
     "ModifierBlock",
     "ModifierRuleBlock",
     "PdxBlock",
+    "PdxNumber",
     "PdxValue",
     "TriggerBlock",
   ].filter((name) => new RegExp(String.raw`\b${name}\b`, "u").test(rendered));
@@ -413,11 +617,17 @@ export function generateDefinitionTypes(model: SchemaModel): TypeCodegenResult {
   const scopeImport: string =
     scopeNames.length === 0 ? "" : `import type { ${scopeNames.join(", ")} } from "./scopes.js";`;
   const refDeclarations: string = refNames
-    .map(
-      (id) =>
-        `/** Any \`${id}\` identifier: the ones vanilla ships, or one this mod defines. */\n` +
-        `export type ${pascal(id)}Ref = VanillaId<${JSON.stringify(id)}> | (string & {});`,
-    )
+    .map((id) => {
+      // A type whose identifiers are numbers is referred to with a number:
+      // technology tiers are `0` … `5` and every technology writes `tier = 3`.
+      // Without this the only spelling that compiles is `raw("3")`.
+      const numeric: boolean = numericIdTypes.has(id);
+      const note: string = numeric ? " Its identifiers are numbers, and script writes them as numbers." : "";
+      return (
+        `/** Any \`${id}\` identifier: the ones vanilla ships, or one this mod defines.${note} */\n` +
+        `export type ${pascal(id)}Ref = VanillaId<${JSON.stringify(id)}> | (string & {})${numeric ? " | number" : ""};`
+      );
+    })
     .join("\n\n");
 
   const modules: EmittedModule[] = [

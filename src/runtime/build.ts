@@ -70,6 +70,13 @@ function scalar(value: string | number | boolean): Scalar {
   }
 
   if (typeof value === "number") {
+    // PDX has no spelling for these. Written out they become the identifiers
+    // `NaN` and `Infinity`, which the game reads as a word where a number
+    // belongs — and this library's own parser reads back as one too.
+    if (!Number.isFinite(value)) {
+      throw new TypeError(`PDX script has no number ${String(value)}.`);
+    }
+
     return { kind: NodeKind.Scalar, raw: String(value), value, scalarKind: ScalarKind.Number, span: SPAN };
   }
 
@@ -109,19 +116,15 @@ function isScriptArray(value: ScriptValue): value is readonly ScriptValue[] {
   return Array.isArray(value);
 }
 
-function isScriptObject(value: ScriptValue): value is ScriptObject {
-  return typeof value === "object" && !isScriptArray(value);
-}
-
 /**
- * An array of scalars is a value list; an array of objects is a repeated key.
+ * An array is a value list, whatever its elements are.
  *
  * Marked values are resolved here rather than at each call site. Handling them
  * where they were first needed missed them three times running — inside a
  * repetition, in a bare position, and on the right of a comparison — because
  * each new position is a new place to forget.
  */
-function valueNode(value: ScriptValue): ValueNode {
+function valueNode(value: ScriptValue, at: string): ValueNode {
   if (isRaw(value)) {
     return parseRawValue("x", value.text);
   }
@@ -134,8 +137,16 @@ function valueNode(value: ScriptValue): ValueNode {
     return scalar(value);
   }
 
+  // A repetition is a key written more than once, so it says nothing where no
+  // key is written: as a bare entry, as an element of a value list, or on the
+  // right of a comparison. Printing its innards is what it used to do, and the
+  // result parses as `{ values = { ... } }`, which the game reads as nothing.
+  if (isRepeated(value)) {
+    throw new TypeError(`repeated() at ${at} needs a key to write more than once; here there is none.`);
+  }
+
   if (isScriptArray(value)) {
-    return block(value.map((item) => valueNode(item)));
+    return block(value.map((item, index) => valueNode(item, `${at}[${String(index)}]`)));
   }
 
   return block(entriesOf(value));
@@ -153,38 +164,46 @@ function valueNode(value: ScriptValue): ValueNode {
 function entriesOf(object: object): EntryNode[] {
   const entries: EntryNode[] = [];
 
-  for (const [key, raw] of Object.entries(object)) {
-    if (raw === undefined || raw === null) {
-      continue;
-    }
-
-    // A key written once per value, which is not the same as one key holding a
-    // value list. Each occurrence goes through the same path as a lone value,
-    // so a comparison inside a repetition keeps its operator.
-    if (isRepeated(raw)) {
-      for (const item of raw.values) {
-        if (item !== undefined && item !== null) {
-          entries.push(entryFor(key, item));
-        }
-      }
-      continue;
-    }
-
-    entries.push(entryFor(key, raw));
-
-    const value: ScriptValue = asScriptValue(key, raw);
-
-    // A repeated key is written once per element, which is how PDX expresses
-    // several `desc = { }` blocks under one definition.
-    if (Array.isArray(value) && (value as readonly ScriptValue[]).every(isScriptObject)) {
-      for (const item of value as readonly ScriptObject[]) {
-        entries.push(assignment(key, block(entriesOf(item))));
-      }
-      continue;
+  for (const [key, value] of Object.entries(object)) {
+    if (value !== undefined && value !== null) {
+      pushEntry(entries, key, value);
     }
   }
 
   return entries;
+}
+
+/**
+ * Writes one field, which is not always one entry.
+ *
+ * `repeated()` is the only thing that writes a key more than once, and it has
+ * to be understood everywhere a field is written. A plain object body and an
+ * ordered entry list used to reach the printer by different routes and only one
+ * of them knew about repetition, so a tagged type — whose id moves inside the
+ * block, which converts the body to an ordered list on the way — printed
+ * `option = { values = { ... } }` for what an untagged type printed correctly.
+ *
+ * An array is never a repetition. Both shapes are in the game and they are not
+ * interchangeable: an event writes `option = { }` twice, while a policy writes
+ * `in_breach_of = { { key = a } { key = b } }` once — one key holding blocks
+ * with no key of their own, which is what an array is. Reading an array as
+ * repetition wrote the second of those as the first, in 189 places vanilla
+ * writes it, and no rule the printer can see distinguishes them.
+ */
+function pushEntry(nodes: EntryNode[], key: string, value: unknown): void {
+  // A key written once per value, which is not the same as one key holding a
+  // value list. Each occurrence goes through the same path as a lone value,
+  // so a comparison inside a repetition keeps its operator.
+  if (isRepeated(value)) {
+    for (const item of value.values) {
+      if (item !== undefined && item !== null) {
+        pushEntry(nodes, key, item);
+      }
+    }
+    return;
+  }
+
+  nodes.push(entryFor(key, value));
 }
 
 /** Renders an ordered entry list, where a plain object cannot keep the order. */
@@ -193,13 +212,13 @@ function orderedEntries(items: readonly Entry[]): EntryNode[] {
 
   for (const item of items) {
     if (isBare(item)) {
-      nodes.push(valueNode(asScriptValue("<bare>", item.bare)));
+      nodes.push(valueNode(asScriptValue("<bare>", item.bare), "<bare>"));
       continue;
     }
 
     const [key, value] = item;
     if (value !== undefined && value !== null) {
-      nodes.push(entryFor(key, value));
+      pushEntry(nodes, key, value);
     }
   }
 
@@ -212,10 +231,10 @@ function entryFor(key: string, value: unknown): Assignment {
   // is usually a number, but `switch` compares against a block and a situation
   // compares against inline maths.
   if (isCompared(value)) {
-    return assignment(key, valueNode(asScriptValue(key, value.value)), value.operator);
+    return assignment(key, valueNode(asScriptValue(key, value.value), key), value.operator);
   }
 
-  return assignment(key, valueNode(asScriptValue(key, value)));
+  return assignment(key, valueNode(asScriptValue(key, value), key));
 }
 
 function asScriptValue(key: string, value: unknown): ScriptValue {
@@ -247,28 +266,36 @@ function asScriptValue(key: string, value: unknown): ScriptValue {
   throw new TypeError(`PDX script cannot express ${typeof value} at ${key}.`);
 }
 
-/** Parses a raw fragment as the right-hand side of an assignment. */
+/**
+ * Parses a raw fragment as the right-hand side of an assignment.
+ *
+ * Exactly one entry, or none of it is written. `raw("{ a = 1 } b = 2")` parses
+ * without complaint and only the first entry was kept, so the rest vanished
+ * from a mod whose author had reached for `raw()` precisely because nothing
+ * else could say it.
+ */
 function parseRawValue(key: string, text: string): ValueNode {
   const result = parse(`${key} = ${text}`);
-  const first: EntryNode | undefined = result.document.entries.find((entry) => entry.kind === NodeKind.Assignment);
+  const first: EntryNode | undefined = result.document.entries[0];
 
-  if (result.diagnostics.length > 0 || first?.kind !== NodeKind.Assignment) {
-    throw new SyntaxError(`raw() at ${key} is not valid PDX script: ${JSON.stringify(text)}`);
+  if (result.diagnostics.length > 0 || result.document.entries.length !== 1 || first?.kind !== NodeKind.Assignment) {
+    throw new SyntaxError(`raw() at ${key} is not one PDX value: ${JSON.stringify(text)}`);
   }
 
   return first.value;
 }
 
-export function toDocument(definitions: readonly (readonly [string, object])[]): Document {
-  return {
-    kind: NodeKind.Document,
-    entries: definitions.map(([id, body]) =>
-      assignment(id, block(isEntries(body) ? orderedEntries(body.entries) : entriesOf(body))),
-    ),
-    span: SPAN,
-  };
+/**
+ * A file's worth of definitions.
+ *
+ * An entry rather than a pair, because not every definition is `key = { ... }`:
+ * a job tag is written as the word alone, with no block after it, and
+ * {@link bare} is what says so.
+ */
+export function toDocument(definitions: readonly Entry[]): Document {
+  return { kind: NodeKind.Document, entries: orderedEntries(definitions), span: SPAN };
 }
 
-export function renderDefinitions(definitions: readonly (readonly [string, object])[]): string {
+export function renderDefinitions(definitions: readonly Entry[]): string {
   return print(toDocument(definitions));
 }

@@ -572,7 +572,20 @@ export interface FileDefinitionSource extends DefinitionSourceBase {
   readonly stripExtension: boolean;
 }
 
-export type DefinitionSource = FileDefinitionSource | KeyedBlockSource | TaggedBlockSource;
+/**
+ * Definitions that are nothing but their own name.
+ *
+ * `common/job_tags/00_tags.txt` is a list of words, one per line, and each word
+ * is a job tag; the same goes for `common/trait_tags`. There is no block, so
+ * there is nothing to read a key or a name field off — the value *is* the
+ * definition. cwt calls both of these `type_per_file`, which claims the file
+ * name is the identifier and leaves every real tag unknown.
+ */
+export interface BareValueSource extends DefinitionSourceBase {
+  readonly kind: "bare-values";
+}
+
+export type DefinitionSource = BareValueSource | FileDefinitionSource | KeyedBlockSource | TaggedBlockSource;
 
 export interface DefinitionIdLocalisation {
   readonly kind: "definition-id";
@@ -1114,6 +1127,14 @@ export function fileDefinitions(
     stripExtension: true,
     ...options,
   };
+}
+
+export function bareValues(
+  directory: string,
+  includeSubdirectories = true,
+  options: DefinitionSourceOptions = {},
+): BareValueSource {
+  return { kind: "bare-values", directory, includeSubdirectories, ...options };
 }
 
 export function definitionLocalisation(

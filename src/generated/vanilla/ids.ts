@@ -30924,10 +30924,76 @@ export const vanillaJobIds: readonly string[] = [
 ];
 
 export type VanillaJobTagsId =
-  | "00_tags";
+  | "alloys"
+  | "amenities"
+  | "assimilation"
+  | "astral_threads"
+  | "consumer_goods"
+  | "crime"
+  | "cruise_passenger"
+  | "cruise_passenger_unemployment"
+  | "energy"
+  | "energy_thrall"
+  | "enforcer"
+  | "ethic_attraction"
+  | "exotic_gases"
+  | "experiment_engineer"
+  | "food"
+  | "habitability"
+  | "happiness"
+  | "industry"
+  | "loyalty"
+  | "minerals"
+  | "minor_artifacts"
+  | "pop_assembly"
+  | "pop_growth"
+  | "psionic_aura"
+  | "rare_crystals"
+  | "research"
+  | "soldier"
+  | "sr_living_metal"
+  | "strategic_resource"
+  | "telepath"
+  | "test_subject"
+  | "trade"
+  | "unity"
+  | "volatile_motes";
 
 export const vanillaJobTagsIds: readonly string[] = [
-  "00_tags",
+  "alloys",
+  "amenities",
+  "assimilation",
+  "astral_threads",
+  "consumer_goods",
+  "crime",
+  "cruise_passenger",
+  "cruise_passenger_unemployment",
+  "energy",
+  "energy_thrall",
+  "enforcer",
+  "ethic_attraction",
+  "exotic_gases",
+  "experiment_engineer",
+  "food",
+  "habitability",
+  "happiness",
+  "industry",
+  "loyalty",
+  "minerals",
+  "minor_artifacts",
+  "pop_assembly",
+  "pop_growth",
+  "psionic_aura",
+  "rare_crystals",
+  "research",
+  "soldier",
+  "sr_living_metal",
+  "strategic_resource",
+  "telepath",
+  "test_subject",
+  "trade",
+  "unity",
+  "volatile_motes",
 ];
 
 export type VanillaLeaderClassId =
@@ -105887,10 +105953,124 @@ export const vanillaTraitIds: readonly string[] = [
 ];
 
 export type VanillaTraitTagsId =
-  | "00_tags";
+  | "alloys"
+  | "amenities"
+  | "aquatic"
+  | "army"
+  | "arthropoid"
+  | "automod"
+  | "avian"
+  | "background"
+  | "blocks_leaders"
+  | "consumer_goods"
+  | "cybernetic"
+  | "drawbacks"
+  | "edict_fund"
+  | "empire_size"
+  | "energy"
+  | "ethic_attraction"
+  | "extradimensional"
+  | "food"
+  | "fungoid"
+  | "genetic_ascension"
+  | "habitability"
+  | "happiness"
+  | "housing"
+  | "humanoid"
+  | "individual"
+  | "infernal"
+  | "interesting"
+  | "leader"
+  | "leviathan"
+  | "lithoid"
+  | "livestock"
+  | "machine"
+  | "mammalian"
+  | "migration"
+  | "mineral"
+  | "modularity"
+  | "molluscoid"
+  | "necroid"
+  | "negative"
+  | "organic"
+  | "plantoid"
+  | "pop_growth"
+  | "pop_output"
+  | "positive"
+  | "presapient"
+  | "production"
+  | "psionic"
+  | "rare_resource"
+  | "reptilian"
+  | "research"
+  | "special"
+  | "species"
+  | "stability"
+  | "synthetic"
+  | "toxoid"
+  | "trade"
+  | "unity"
+  | "upkeep";
 
 export const vanillaTraitTagsIds: readonly string[] = [
-  "00_tags",
+  "alloys",
+  "amenities",
+  "aquatic",
+  "army",
+  "arthropoid",
+  "automod",
+  "avian",
+  "background",
+  "blocks_leaders",
+  "consumer_goods",
+  "cybernetic",
+  "drawbacks",
+  "edict_fund",
+  "empire_size",
+  "energy",
+  "ethic_attraction",
+  "extradimensional",
+  "food",
+  "fungoid",
+  "genetic_ascension",
+  "habitability",
+  "happiness",
+  "housing",
+  "humanoid",
+  "individual",
+  "infernal",
+  "interesting",
+  "leader",
+  "leviathan",
+  "lithoid",
+  "livestock",
+  "machine",
+  "mammalian",
+  "migration",
+  "mineral",
+  "modularity",
+  "molluscoid",
+  "necroid",
+  "negative",
+  "organic",
+  "plantoid",
+  "pop_growth",
+  "pop_output",
+  "positive",
+  "presapient",
+  "production",
+  "psionic",
+  "rare_resource",
+  "reptilian",
+  "research",
+  "special",
+  "species",
+  "stability",
+  "synthetic",
+  "toxoid",
+  "trade",
+  "unity",
+  "upkeep",
 ];
 
 export type VanillaTraitcolorsId =

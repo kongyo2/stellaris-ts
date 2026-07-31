@@ -3,8 +3,9 @@ import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 import { NodeKind, parse, type Block, type Document, type EntryNode } from "../../src/syntax/index.js";
+import { captureFromDocument } from "../../src/schema/extraction.js";
 import { gameDeclaredFieldTypes } from "../../src/schema/open-fields.js";
-import type { DefinitionType, EnumDefinition, ExtractionStep, SchemaModel } from "../../src/schema/ir.js";
+import type { DefinitionType, EnumDefinition, SchemaModel } from "../../src/schema/ir.js";
 
 /**
  * Indexes the installed game.
@@ -20,6 +21,17 @@ import type { DefinitionType, EnumDefinition, ExtractionStep, SchemaModel } from
  */
 
 const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(["", ".txt", ".gui", ".gfx", ".asset", ".sound"]);
+
+/**
+ * Directories the game reads files from that are not script.
+ *
+ * A mod's `.dds` at a vanilla path replaces the vanilla one — that is how a
+ * retexture works — and the filename collision check cannot say so without
+ * these names. They are not reachable from the definition types, whose
+ * directories are where script lives, so the collision check was structurally
+ * unable to fire for the formats an asset is actually in.
+ */
+const ASSET_DIRECTORIES: readonly string[] = ["flags", "fonts", "gfx", "interface", "music", "sound"];
 const READ_CONCURRENCY = 32;
 
 export interface TypeIndex {
@@ -182,7 +194,13 @@ async function mapWithLimit<Item, Result>(
   return results;
 }
 
-async function collectFiles(directory: string, recurse: boolean): Promise<string[]> {
+async function collectFiles(
+  directory: string,
+  recurse: boolean,
+  // `null` rather than `undefined`: passing `undefined` to a parameter with a
+  // default is the default, so the asset pass silently filtered to script.
+  extensions: ReadonlySet<string> | null = SCRIPT_EXTENSIONS,
+): Promise<string[]> {
   let entries: readonly Dirent[];
 
   try {
@@ -196,12 +214,20 @@ async function collectFiles(directory: string, recurse: boolean): Promise<string
       const path: string = join(directory, entry.name);
 
       if (entry.isDirectory()) {
-        return recurse ? collectFiles(path, recurse) : [];
+        return recurse ? collectFiles(path, recurse, extensions) : [];
+      }
+
+      if (!entry.isFile()) {
+        return [];
+      }
+
+      if (extensions === null) {
+        return [path];
       }
 
       const dot: number = entry.name.lastIndexOf(".");
       const extension: string = dot < 0 ? "" : entry.name.slice(dot).toLowerCase();
-      return entry.isFile() && SCRIPT_EXTENSIONS.has(extension) ? [path] : [];
+      return extensions.has(extension) ? [path] : [];
     }),
   );
 
@@ -287,6 +313,15 @@ function definitionTags(type: DefinitionType, document: Document, into: Set<stri
 function definitionIds(type: DefinitionType, document: Document, fileName: string): string[] {
   if (type.source.kind === "file-definitions") {
     return [type.source.stripExtension ? fileName.replace(/\.[^.]+$/u, "") : fileName];
+  }
+
+  // A tag file has no blocks: every root-level value is one definition, and
+  // reading only assignments finds nothing at all.
+  if (type.source.kind === "bare-values") {
+    return document.entries
+      .filter((entry) => entry.kind === NodeKind.Scalar)
+      .map((entry) => String(entry.value).replace(/^"|"$/gu, ""))
+      .filter((id) => id.length > 0);
   }
 
   const filter = type.source.rootKeyFilter;
@@ -406,52 +441,6 @@ function definitionFieldKeys(type: DefinitionType, document: Document, into: Set
   }
 }
 
-/** Follows an extraction route from a block, collecting whatever the route captures. */
-function captureAlong(entries: readonly EntryNode[], route: readonly ExtractionStep[], into: Set<string>): void {
-  const step: ExtractionStep | undefined = route[0];
-
-  if (step === undefined) {
-    return;
-  }
-
-  const rest: readonly ExtractionStep[] = route.slice(1);
-
-  if (step.kind === "capture") {
-    for (const entry of entries) {
-      if (step.source === "key") {
-        const key: string | undefined = keyOf(entry);
-        if (key !== undefined) {
-          into.add(key);
-        }
-      } else if (entry.kind === NodeKind.Scalar) {
-        into.add(String(entry.value));
-      } else if (entry.kind === NodeKind.Assignment && entry.value.kind === NodeKind.Scalar) {
-        into.add(String(entry.value.value));
-      }
-    }
-    return;
-  }
-
-  for (const entry of entries) {
-    const block: Block | undefined = blockOf(entry);
-
-    if (step.kind === "field") {
-      if (keyOf(entry) === step.key) {
-        if (block !== undefined) {
-          captureAlong(block.entries, rest, into);
-        } else if (rest[0]?.kind === "capture" && entry.kind === NodeKind.Assignment) {
-          captureAlong([entry], rest, into);
-        }
-      }
-      continue;
-    }
-
-    if (block !== undefined) {
-      captureAlong(block.entries, rest, into);
-    }
-  }
-}
-
 export async function indexGame(model: SchemaModel, gamePath: string, version: string): Promise<GameIndex> {
   let filesRead = 0;
 
@@ -533,20 +522,7 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
       await Promise.all(
         definition.sources.map(async (source) =>
           forEachDocument(source.directory, source.includeSubdirectories, (_fileName, document) => {
-            if (source.startFromRoot) {
-              captureAlong(document.entries, source.route, members);
-              return;
-            }
-
-            // The route is relative to each definition, so descend one level
-            // before following it. Applying it at the file root instead finds
-            // nothing, which is why 26 of the 27 extracted enums came back empty.
-            for (const entry of document.entries) {
-              const block: Block | undefined = blockOf(entry);
-              if (block !== undefined) {
-                captureAlong(block.entries, source.route, members);
-              }
-            }
+            captureFromDocument(document.entries, source.route, source.startFromRoot, members);
           }),
         ),
       );
@@ -601,7 +577,13 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     collectFiles(join(gamePath, ...directory.path.split("/")), directory.recurse),
   );
 
-  for (const files of listings) {
+  // Every file, not only the script ones: an icon a mod ships at a vanilla path
+  // replaces the vanilla icon, and nothing else would say so.
+  const assetListings: readonly (readonly string[])[] = await mapWithLimit(ASSET_DIRECTORIES, 4, async (directory) =>
+    collectFiles(join(gamePath, ...directory.split("/")), true, null),
+  );
+
+  for (const files of [...listings, ...assetListings]) {
     for (const file of files) {
       const relative: string = file.slice(gamePath.length + 1).replaceAll("\\", "/");
       const separator: number = relative.lastIndexOf("/");

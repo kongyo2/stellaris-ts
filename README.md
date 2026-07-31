@@ -58,11 +58,18 @@ define("event", "utopia.1", { is_triggered_only: true }, { as: "country_event" }
 
 The file gets its `namespace = utopia` line, and the id goes inside the block.
 
-Types the library has no shape for can still go in, verbatim:
+Types the library has no shape for can still go in, verbatim, and so can the
+icons and sounds the definitions point at:
 
 ```ts
 mod.file({ path: "common/inline_scripts/my_script.txt", contents: "..." });
+mod.asset("gfx/interface/icons/buildings/sts_example_lab.dds", bytes);
 ```
+
+A mod of any size is split across files. Node reads the entry directly, so it
+resolves the specifier as written — import the sibling as `./content.ts`, with
+`"allowImportingTsExtensions": true` in `tsconfig.json`. `./content.js` fails on
+a filename you never wrote.
 
 ## Checking it
 
@@ -70,6 +77,9 @@ mod.file({ path: "common/inline_scripts/my_script.txt", contents: "..." });
 npx stellaris-ts check ./mod.ts     # report, write nothing
 npx stellaris-ts build ./mod.ts     # report, then write the mod folder
 ```
+
+`--language japanese` checks the strings a definition needs in that language as
+well; it may be repeated, and English is what it asks about otherwise.
 
 One diagnostic per line, `where: severity: code: message`, no colour. The same
 check is available as a function:
@@ -92,7 +102,9 @@ What it reports:
 - a required field the definition has not got;
 - a parameter a scripted trigger or effect does not take;
 - a string a definition needs and the mod has not localised;
-- an id the base game already uses, which this would replace;
+- an id the base game already uses, which this would replace — except in the
+  directories the game merges instead, where adding to `on_game_start` is the
+  point rather than a mistake;
 - a file name the base game already ships, which this would replace wholesale;
 - a `replace_path` naming a directory the game does not load from;
 - a `supported_version` the launcher cannot read, or that does not cover the

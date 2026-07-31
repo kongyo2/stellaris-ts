@@ -382,6 +382,12 @@ function definitionBlocks(
     return blocks;
   }
 
+  // A bare-value definition is a word and nothing else, so it has no block and
+  // no fields for the gate to have an opinion about.
+  if (type.source.kind === "bare-values") {
+    return blocks;
+  }
+
   for (const entry of document.entries) {
     if (entry.kind !== NodeKind.Assignment || entry.value.kind !== NodeKind.Block) {
       continue;

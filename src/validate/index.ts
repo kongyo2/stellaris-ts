@@ -4,9 +4,12 @@ import {
   vanillaModifierNames,
   vanillaScriptedParameters,
 } from "../generated/vanilla/index.js";
-import type { Mod } from "../runtime/mod.js";
+import type { DefinitionRecord, Mod, RawFileRecord } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
+import { captureFromDocument } from "../schema/extraction.js";
 import { localisationKey } from "../schema/ir.js";
+import { engineFixedEnums, mergedDefinitionTypes } from "../schema/merged-types.js";
+import { parse, type Document } from "../syntax/index.js";
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import {
@@ -18,7 +21,14 @@ import {
   type ResolvedValue,
   type ScopeState,
 } from "../schema/resolve.js";
-import type { DefinitionType, EnumDefinition, SchemaModel, ScriptCommandDefinition, ValueRule } from "../schema/ir.js";
+import type {
+  DefinitionType,
+  EnumDefinition,
+  ExtractionStep,
+  SchemaModel,
+  ScriptCommandDefinition,
+  ValueRule,
+} from "../schema/ir.js";
 
 /**
  * Checks a mod against the schema before it reaches the game.
@@ -127,17 +137,188 @@ interface Walker {
   readonly modifiers: ReadonlySet<string>;
   readonly idsByType: Readonly<Record<string, readonly string[]>>;
   readonly declared: ReadonlySet<string>;
+  /** Extracted enum members, vanilla’s joined with the ones this mod defines. */
+  readonly enumMembers: Readonly<Record<string, readonly string[]>>;
   readonly diagnostics: ValidationDiagnostic[];
 }
 
-function enumMembers(model: SchemaModel, id: string): readonly string[] {
-  const definition: EnumDefinition | undefined = model.enums.find((candidate) => candidate.id === id);
+function enumMembers(walker: Walker, id: string): readonly string[] {
+  const definition: EnumDefinition | undefined = walker.model.enums.find((candidate) => candidate.id === id);
 
   if (definition === undefined) {
     return [];
   }
 
-  return definition.kind === "static-enum" ? definition.values : (extractedEnumMembers[id] ?? []);
+  return definition.kind === "static-enum" ? definition.values : (walker.enumMembers[id] ?? []);
+}
+
+/** One entry of a body, as a route sees it. A value with no key has none. */
+type ExtractionEntry = readonly [key: string | undefined, value: unknown];
+
+/**
+ * A body's entries, keyed ones and the ones with no key alike.
+ *
+ * `building_sets = { sts_set }` is a block of values with no keys, and reading
+ * only the keyed entries drops every member such a list holds — which is most
+ * of what these enums are made of.
+ */
+function extractionEntries(value: unknown): readonly ExtractionEntry[] {
+  if (isEntries(value)) {
+    return value.entries.map((entry): ExtractionEntry =>
+      isBare(entry) ? [undefined, entry.bare] : [entry[0], entry[1]],
+    );
+  }
+
+  if (Array.isArray(value)) {
+    return (value as readonly unknown[]).map((item): ExtractionEntry => [undefined, item]);
+  }
+
+  if (typeof value !== "object" || value === null || isRaw(value) || isRepeated(value) || isCompared(value)) {
+    return [];
+  }
+
+  return Object.entries(value);
+}
+
+/**
+ * The occurrences one field stands for.
+ *
+ * Only `repeated()` writes a key more than once, so only it stands for several
+ * occurrences. An array is one value list, and extraction has to read it the
+ * same way the emitter writes it or the two disagree about what a mod said.
+ */
+function occurrencesOf(value: unknown): readonly unknown[] {
+  return isRepeated(value) ? value.values : [value];
+}
+
+/**
+ * Where an extracted enum's members come from in a body this mod wrote.
+ *
+ * The same route the indexer follows over the game's files, followed over a
+ * definition body instead. Without it a mod that defines an event chain and
+ * then counts it is told its own counter is not one — the members were read off
+ * vanilla once and never joined with what the mod brings into existence, which
+ * is exactly what the modifier namespace already does.
+ */
+function captureFromBody(
+  entries: readonly ExtractionEntry[],
+  route: readonly ExtractionStep[],
+  into: Set<string>,
+): void {
+  const step: ExtractionStep | undefined = route[0];
+
+  if (step === undefined) {
+    return;
+  }
+
+  const rest: readonly ExtractionStep[] = route.slice(1);
+
+  if (step.kind === "capture") {
+    for (const [key, value] of entries) {
+      if (step.source === "key") {
+        if (key !== undefined) {
+          into.add(key);
+        }
+        continue;
+      }
+      if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+        into.add(String(value));
+      }
+    }
+    return;
+  }
+
+  for (const [key, value] of entries) {
+    if (step.kind === "field" && key !== step.key) {
+      continue;
+    }
+
+    for (const occurrence of occurrencesOf(value)) {
+      if (isBlockLike(occurrence)) {
+        captureFromBody(extractionEntries(occurrence), rest, into);
+        continue;
+      }
+
+      // `counter = my_counter` with a capture next: the value is the member, and
+      // there is no block to descend into.
+      if (rest[0]?.kind === "capture") {
+        captureFromBody([[key, occurrence]], rest, into);
+      }
+    }
+  }
+}
+
+/**
+ * Extracted enum members, joined with the ones the mod's own definitions add.
+ *
+ * A route names the directory it reads, so a definition contributes only where
+ * the game would have read it from.
+ */
+function withOwnEnumMembers(
+  model: SchemaModel,
+  definitions: readonly DefinitionRecord[],
+  files: readonly RawFileRecord[],
+): Readonly<Record<string, readonly string[]>> {
+  const merged: Record<string, readonly string[]> = { ...extractedEnumMembers };
+  // A raw file is script the mod wrote for a type this library has no shape
+  // for, and `common/component_tags` is exactly that: a list of words with no
+  // definition type behind it. Parsed once, because a route per file per enum
+  // would parse the same file twenty-seven times.
+  const parsed = new Map<string, Document>();
+
+  for (const record of files) {
+    const result = parse(record.contents);
+    if (result.diagnostics.length === 0) {
+      parsed.set(record.path, result.document);
+    }
+  }
+
+  for (const definition of model.enums) {
+    if (definition.kind !== "extracted-enum" || engineFixedEnums[definition.id] !== undefined) {
+      continue;
+    }
+
+    const found = new Set<string>();
+
+    for (const source of definition.sources) {
+      const covers = (directory: string): boolean =>
+        source.includeSubdirectories
+          ? directory === source.directory || directory.startsWith(`${source.directory}/`)
+          : directory === source.directory;
+
+      for (const record of definitions) {
+        if (!covers(record.directory)) {
+          continue;
+        }
+
+        // A route that starts at the file root sees the definition's own key;
+        // one that does not starts inside the body, which is where the indexer
+        // descends to before following it.
+        captureFromBody(
+          source.startFromRoot ? [[record.id, record.body]] : extractionEntries(record.body),
+          source.route,
+          found,
+        );
+      }
+
+      for (const [path, document] of parsed) {
+        // The emitter takes either separator and writes one; reading only `/`
+        // here put a file written `common\component_tags\x.txt` in no
+        // directory at all, so what it declared was never seen.
+        const normalised: string = path.replaceAll("\\", "/");
+        const separator: number = normalised.lastIndexOf("/");
+        if (covers(separator < 0 ? "" : normalised.slice(0, separator))) {
+          captureFromDocument(document.entries, source.route, source.startFromRoot, found);
+        }
+      }
+    }
+
+    if (found.size > 0) {
+      merged[definition.id] = [...new Set([...(merged[definition.id] ?? []), ...found])];
+    }
+  }
+
+  return merged;
 }
 
 /** The entries a body value holds, as key/value pairs plus bare items. */
@@ -197,15 +378,22 @@ function checkValue(
     const candidates: readonly unknown[] = Array.isArray(value) ? value : [value];
 
     for (const candidate of candidates) {
-      if (typeof candidate !== "string" || isIndirect(candidate)) {
+      // A number is a reference too where the identifiers are numbers: a
+      // technology tier is `0` … `5` and every technology writes `tier = 3`.
+      // Reading only strings meant `tier = 99` pointed at nothing and was told
+      // nothing, which is the whole thing this check exists to say.
+      const named: string | undefined =
+        typeof candidate === "string" ? candidate : typeof candidate === "number" ? String(candidate) : undefined;
+
+      if (named === undefined || isIndirect(named)) {
         continue;
       }
 
-      if (!known.includes(candidate) && !walker.declared.has(`${type}:${candidate}`)) {
+      if (!known.includes(named) && !walker.declared.has(`${type}:${named}`)) {
         walker.diagnostics.push({
           severity: "warning",
           code: "unresolved-reference",
-          message: `${key} points at ${type} ${candidate}, which is neither in vanilla nor defined by this mod.`,
+          message: `${key} points at ${type} ${named}, which is neither in vanilla nor defined by this mod.`,
           definition,
           path,
         });
@@ -219,7 +407,7 @@ function checkValue(
   const enumIds: readonly string[] = enumsOf(values);
 
   if (enumIds.length > 0 && typeof value === "string" && !isIndirect(value)) {
-    const allowed: readonly string[] = enumIds.flatMap((id) => enumMembers(walker.model, id));
+    const allowed: readonly string[] = enumIds.flatMap((id) => enumMembers(walker, id));
 
     if (allowed.length > 0 && !allowed.some((member) => member.toLowerCase() === value.toLowerCase())) {
       walker.diagnostics.push({
@@ -457,19 +645,27 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     (ownIds[definition.type] ??= []).push(definition.id);
   }
   const idsByType: Readonly<Record<string, readonly string[]>> = mergeIdsByType(vanillaIdsByType, ownIds);
+  // An extracted enum is read off the game once; a mod that defines an event
+  // chain brings its counters into existence the same way it brings modifiers.
+  const ownEnumMembers: Readonly<Record<string, readonly string[]>> = withOwnEnumMembers(
+    model,
+    mod.definitions,
+    mod.files,
+  );
   const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
   const walker: Walker = {
     resolver: new SchemaResolver(model, {
       idsByType,
       modifierNames: modifiers,
-      enumMembers: extractedEnumMembers,
+      enumMembers: ownEnumMembers,
       scriptedParameters: vanillaScriptedParameters,
     }),
     model,
     modifiers,
     idsByType,
     declared,
+    enumMembers: ownEnumMembers,
     diagnostics,
   };
 
@@ -490,9 +686,10 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     }
 
     // Two definitions of the same id: the later one wins and the earlier one
-    // silently does nothing.
+    // silently does nothing. Unless the game merges them — a mod may well add to
+    // `on_game_start` from two places, and every one of them runs.
     const identity: string = `${definition.type}:${definition.id}`;
-    if (seen.has(identity)) {
+    if (seen.has(identity) && mergedDefinitionTypes[definition.type] === undefined) {
       diagnostics.push({
         severity: "error",
         code: "duplicate-definition",
@@ -505,8 +702,13 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
     // Defining an id the base game already uses replaces its definition
     // wholesale. Sometimes that is the point; it is never something to discover
-    // afterwards.
-    if ((vanillaIdsByType[definition.type] ?? []).includes(definition.id)) {
+    // afterwards. Except where the game merges instead — adding to
+    // `on_game_start` is how a mod hooks the start of a game, and every mod
+    // that does it correctly was being warned about it.
+    if (
+      mergedDefinitionTypes[definition.type] === undefined &&
+      (vanillaIdsByType[definition.type] ?? []).includes(definition.id)
+    ) {
       diagnostics.push({
         severity: "warning",
         code: "replaces-vanilla-definition",

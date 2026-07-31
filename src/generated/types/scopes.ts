@@ -359,6 +359,7 @@ export interface AgreementEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -842,6 +843,7 @@ export interface AllianceEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -1316,6 +1318,7 @@ export interface AmbientObjectEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -1816,6 +1819,7 @@ export interface ArchaeologicalSiteEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -2317,6 +2321,7 @@ export interface ArmyEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -2827,6 +2832,7 @@ export interface AstralRiftEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -3305,6 +3311,7 @@ export interface BackgroundPlanetEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -3775,6 +3782,7 @@ export interface BypassEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -4248,6 +4256,7 @@ export interface CarrierEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -4707,6 +4716,7 @@ export interface ColonyEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -5175,6 +5185,7 @@ export interface CosmicStormEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -5650,6 +5661,7 @@ export interface CosmicStormInfluenceFieldEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -5992,6 +6004,7 @@ export interface CountryTriggers {
   readonly conditional_tooltip?: PdxValue;
   readonly controlled_colonizable?: PdxValue;
   readonly controlled_systems?: PdxValue;
+  readonly council_agenda_progress?: PdxValue;
   readonly council_agenda_progress_percent?: PdxValue;
   readonly council_legitimacy?: PdxValue;
   readonly count_active_first_contact?: PdxValue;
@@ -6296,6 +6309,7 @@ export interface CountryTriggers {
   readonly is_last_received_relic?: PdxValue;
   readonly is_leader_in_storm?: PdxValue;
   readonly is_loyal_to?: PdxValue;
+  readonly is_market_leader?: PdxValue;
   readonly is_multiplayer?: PdxValue;
   readonly is_neighbor_of?: PdxValue;
   readonly is_neutral_to?: PdxValue;
@@ -6648,6 +6662,7 @@ export interface CountryEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -7416,6 +7431,7 @@ export interface DebrisEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -7895,6 +7911,7 @@ export interface DepositEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -8376,6 +8393,7 @@ export interface DesignEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -8847,6 +8865,7 @@ export interface DlcRecommendationEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -9315,6 +9334,7 @@ export interface EspionageAssetEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -9819,6 +9839,7 @@ export interface EspionageOperationEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -9871,6 +9892,7 @@ export interface EspionageOperationEffects {
   readonly every_system_planet_colony?: PdxValue;
   readonly every_system_ship_colony?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
+  readonly finish_current_operation_stage?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
   readonly fire_on_action?: PdxValue;
   readonly floor_variable?: PdxValue;
@@ -10304,6 +10326,7 @@ export interface ExhibitEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -10763,6 +10786,7 @@ export interface ExplorerEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -11253,6 +11277,7 @@ export interface FederationEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -11768,6 +11793,7 @@ export interface FirstContactEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -12330,6 +12356,7 @@ export interface FleetEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -12750,6 +12777,7 @@ export interface LeaderTriggers {
   readonly has_military_service_type?: PdxValue;
   readonly has_population_control?: PdxValue;
   readonly has_purge_type?: PdxValue;
+  readonly has_ruler_trait?: PdxValue;
   readonly has_slavery_type?: PdxValue;
   readonly has_total_skill?: PdxValue;
   readonly has_trait?: PdxValue;
@@ -12935,6 +12963,7 @@ export interface LeaderEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -13445,6 +13474,7 @@ export interface LockCountryEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -13707,6 +13737,7 @@ export interface MegastructureTriggers {
   readonly any_system_megastructure?: PdxValue;
   readonly any_system_planet_colony?: PdxValue;
   readonly any_system_ship_colony?: PdxValue;
+  readonly built_on_planet?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly can_be_upgraded?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -13928,6 +13959,7 @@ export interface MegastructureEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -14624,6 +14656,7 @@ export interface PlanetEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -15268,6 +15301,7 @@ export interface PopEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -15800,6 +15834,7 @@ export interface PopFactionEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -16368,6 +16403,7 @@ export interface PopGroupEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -16880,6 +16916,7 @@ export interface PopJobEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -17372,6 +17409,7 @@ export interface SectorEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -17947,6 +17985,7 @@ export interface ShipEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -18471,6 +18510,7 @@ export interface ShipGrowthStageEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -18959,6 +18999,7 @@ export interface SituationEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -19488,6 +19529,7 @@ export interface SpeciesEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -19886,6 +19928,7 @@ export interface SpyNetworkTriggers {
   readonly is_scope_type?: PdxValue;
   readonly is_scope_valid?: PdxValue;
   readonly is_spynetwork_level?: PdxValue;
+  readonly is_spynetwork_max_level?: PdxValue;
   readonly is_system_locked?: PdxValue;
   readonly is_unemployed?: PdxValue;
   readonly is_variable_set?: PdxValue;
@@ -20012,6 +20055,7 @@ export interface SpyNetworkEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -20493,6 +20537,7 @@ export interface StarEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -20985,6 +21030,7 @@ export interface StarbaseEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -21304,6 +21350,7 @@ export interface SystemTriggers {
   readonly compare_distance?: PdxValue;
   readonly conditional_tooltip?: PdxValue;
   readonly cosmic_storm_influence_value?: PdxValue;
+  readonly cosmic_storm_system_influence?: PdxValue;
   readonly count_ambient_object?: PdxValue;
   readonly count_archaeological_site?: PdxValue;
   readonly count_armies?: PdxValue;
@@ -21577,6 +21624,7 @@ export interface SystemEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -22112,6 +22160,7 @@ export interface TraitEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;
@@ -22594,6 +22643,7 @@ export interface WarEffects {
   readonly decrease_council_size?: PdxValue;
   readonly delete_dimensional_fleet?: PdxValue;
   readonly delete_fleet?: PdxValue;
+  readonly delete_fleet_naval_cap?: PdxValue;
   readonly delete_megastructure?: PdxValue;
   readonly delete_ship?: PdxValue;
   readonly delete_ship_naval_cap?: PdxValue;

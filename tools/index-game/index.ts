@@ -267,6 +267,7 @@ await writeFile(
     'export * from "./enum-members.js";',
     'export * from "./field-names.js";',
     'export * from "./game-version.js";',
+    'export * from "./localisation-commands.js";',
     'export * from "./files.js";',
     'export type * from "./id-map.js";',
     'export * from "./ids.js";',
@@ -353,5 +354,39 @@ const unexplainedEmptyTypes: readonly string[] = emptyTypes.filter(
 
 if (unexplainedEmptyTypes.length > 0) {
   console.error(`INDEX unexplained empty types: ${unexplainedEmptyTypes.join(", ")}`);
+  process.exitCode = 1;
+}
+
+/**
+ * The same for extracted enums, which had no such check at all.
+ *
+ * An enum with no members is not a permissive enum, it is a check that reaches
+ * nothing: every value written against it is accepted, and the summary line says
+ * `enumsWithMembers=25` where nobody reads it. `component_tags` and
+ * `star_class_random_list` sat empty behind a green gate — one because the
+ * route was imported without cwt's `start_from_root`, the other because cwt
+ * reads a `name` field the game does not write.
+ *
+ * A reasoned allowlist, like the types above. An empty enum with no entry here
+ * fails this command.
+ */
+const EXPECTED_EMPTY_ENUM_REASONS: Readonly<Record<string, string>> = {};
+
+const emptyEnums: readonly string[] = index.enums
+  .filter((entry) => entry.members.length === 0)
+  .map((entry) => entry.id)
+  .sort(compareOrdinal);
+
+for (const id of emptyEnums) {
+  const reason: string | undefined = EXPECTED_EMPTY_ENUM_REASONS[id];
+  console.error(reason === undefined ? `INDEX empty enum: ${id}` : `INDEX expected-empty ${id}: ${reason}`);
+}
+
+const unexplainedEmptyEnums: readonly string[] = emptyEnums.filter(
+  (id) => EXPECTED_EMPTY_ENUM_REASONS[id] === undefined,
+);
+
+if (unexplainedEmptyEnums.length > 0) {
+  console.error(`INDEX unexplained empty enums: ${unexplainedEmptyEnums.join(", ")}`);
   process.exitCode = 1;
 }

@@ -1,8 +1,10 @@
+import { existsSync } from "node:fs";
 import { homedir, platform } from "node:os";
 import { pathToFileURL } from "node:url";
 import { join, resolve } from "node:path";
 
 import { emit, type EmitDiagnostic, type EmitPlan } from "../runtime/emit.js";
+import { LOCALISATION_LANGUAGES } from "../runtime/localisation.js";
 import { Mod } from "../runtime/mod.js";
 import { writePlan } from "../runtime/write.js";
 import { validate, type ValidationDiagnostic } from "../validate/index.js";
@@ -50,8 +52,31 @@ function report(diagnostics: readonly Diagnostic[]): number {
   return diagnostics.filter((diagnostic) => diagnostic.severity === "error").length;
 }
 
+/**
+ * Node resolves the specifier that was written, and nothing rewrites it.
+ *
+ * The entry is imported as it stands, so a mod split across files runs under
+ * Node's own type stripping. `import "./kit.js"` finds no `kit.js` there and
+ * fails with a module-not-found that names a file the author never wrote; the
+ * spelling that works is `./kit.ts`, with `allowImportingTsExtensions` on.
+ */
+function explainMissingModule(error: unknown, entry: string): Error {
+  const message: string = error instanceof Error ? error.message : String(error);
+  const specifier: string | undefined = /Cannot find module '([^']+\.js)'/u.exec(message)?.[1];
+
+  if (specifier === undefined || !existsSync(specifier.replace(/\.js$/u, ".ts"))) {
+    return error instanceof Error ? error : new Error(message);
+  }
+
+  return new Error(
+    `${message}\n\n${entry} imports ${specifier}, and only the .ts file exists. Node reads the entry directly, so it resolves the specifier as written — import it as .ts and set "allowImportingTsExtensions": true in tsconfig.json.`,
+  );
+}
+
 async function loadMod(entry: string): Promise<Mod> {
-  const loaded: unknown = await import(pathToFileURL(resolve(entry)).href);
+  const loaded: unknown = await import(pathToFileURL(resolve(entry)).href).catch((error: unknown) => {
+    throw explainMissingModule(error, entry);
+  });
 
   if (typeof loaded !== "object" || loaded === null || !("default" in loaded)) {
     throw new Error(`${entry} has no default export. Export the mod you built with defineMod.`);
@@ -83,12 +108,92 @@ function usage(): string {
   return [
     "Usage: stellaris-ts <command> <entry>",
     "",
-    "  check <entry>          Validate without writing anything.",
-    "  build <entry> [--out]  Validate, then write into the mod folder.",
+    "  check <entry> [--language]          Validate without writing anything.",
+    "  build <entry> [--out] [--language]  Validate, then write into the mod folder.",
     "",
     "The entry is a module whose default export is a Mod.",
     "--out defaults to the Stellaris mod folder; STELLARIS_MODS_DIR overrides it.",
+    "--language may be repeated, and takes `japanese` or `l_japanese`. Defaults to English.",
   ].join("\n");
+}
+
+interface Options {
+  readonly languages: readonly string[];
+  readonly out: string | undefined;
+}
+
+/**
+ * The options, read once.
+ *
+ * Once, because reading them twice is what lets one option swallow another:
+ * `--out --language japanese` gave the language to the check and `--language`
+ * to the mod folder, and reported having written the mod successfully into a
+ * directory of that name. An option's value is never another option, and a
+ * missing one is said so rather than guessed at.
+ *
+ * A language is taken with or without its `l_` prefix, because the folder is
+ * `japanese` and the file says `l_japanese`, and having to know which one this
+ * asks for is a needless thing to get wrong.
+ */
+function parseOptions(rest: readonly string[]): { readonly options: Options } | { readonly error: string } {
+  const languages: string[] = [];
+  let out: string | undefined;
+  let index = 0;
+
+  while (index < rest.length) {
+    const argument: string = rest[index] ?? "";
+    const inline: RegExpExecArray | null = /^(--[A-Za-z][A-Za-z-]*)=(.*)$/u.exec(argument);
+    const name: string = inline?.[1] ?? argument;
+    const attached: string | undefined = inline?.[2];
+    let value: string | undefined = attached;
+
+    if (!name.startsWith("--")) {
+      return { error: `Unexpected argument: ${argument}. Options are written --name value or --name=value.` };
+    }
+
+    index += 1;
+
+    if (value === undefined) {
+      const next: string | undefined = rest[index];
+      if (next !== undefined && !next.startsWith("--")) {
+        value = next;
+        index += 1;
+      }
+    }
+
+    if (name === "--language" || name === "--languages") {
+      const parts: readonly string[] = (value ?? "").split(",").map((part) => part.trim());
+      const named: readonly string[] = parts.filter((part) => part.length > 0);
+
+      if (named.length === 0) {
+        return { error: `${name} needs a language after it, such as \`--language japanese\`.` };
+      }
+
+      languages.push(...named);
+      continue;
+    }
+
+    if (name === "--out") {
+      if (value === undefined || value.length === 0) {
+        return { error: "--out needs a directory after it." };
+      }
+      out = value;
+      continue;
+    }
+
+    return { error: `Unknown option: ${name}.` };
+  }
+
+  const normalised: readonly string[] = languages.map((name) => (name.startsWith("l_") ? name : `l_${name}`));
+  const unknown: readonly string[] = normalised.filter((name) => !LOCALISATION_LANGUAGES.includes(name));
+
+  if (unknown.length > 0) {
+    return {
+      error: `Not a language the game reads: ${unknown.join(", ")}. It reads ${LOCALISATION_LANGUAGES.join(", ")}.`,
+    };
+  }
+
+  return { options: { languages: normalised, out } };
 }
 
 export async function run(argv: readonly string[]): Promise<number> {
@@ -105,9 +210,22 @@ export async function run(argv: readonly string[]): Promise<number> {
     return 2;
   }
 
+  const parsed = parseOptions(rest);
+
+  if ("error" in parsed) {
+    console.error(parsed.error);
+    console.error(usage());
+    return 2;
+  }
+
+  const options: Options = parsed.options;
+
   const mod: Mod = await loadMod(entry);
   const plan: EmitPlan = emit(mod);
-  const diagnostics: readonly Diagnostic[] = [...validate(mod).map(fromValidation), ...plan.diagnostics.map(fromEmit)];
+  const diagnostics: readonly Diagnostic[] = [
+    ...validate(mod, options.languages.length === 0 ? {} : { languages: options.languages }).map(fromValidation),
+    ...plan.diagnostics.map(fromEmit),
+  ];
   const errors: number = report(diagnostics);
 
   console.log(
@@ -128,9 +246,7 @@ export async function run(argv: readonly string[]): Promise<number> {
     return 0;
   }
 
-  const outIndex: number = rest.indexOf("--out");
-  const explicit: string | undefined = outIndex < 0 ? undefined : rest[outIndex + 1];
-  const modsDirectory: string = explicit ?? process.env["STELLARIS_MODS_DIR"] ?? defaultModsDirectory();
+  const modsDirectory: string = options.out ?? process.env["STELLARIS_MODS_DIR"] ?? defaultModsDirectory();
   const result = await writePlan(mod, plan, modsDirectory);
 
   console.log(`WROTE files=${String(result.written.length)} directory=${result.modDirectory}`);
