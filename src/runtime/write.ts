@@ -30,7 +30,13 @@ export async function writePlan(mod: Mod, plan: EmitPlan, modsDirectory: string)
     plan.files.map(async (file) => {
       const absolute: string = join(modDirectory, ...file.path.split("/"));
       await mkdir(dirname(absolute), { recursive: true });
-      await writeFile(absolute, file.byteOrderMark ? file.contents : file.contents.replace(/^\uFEFF/u, ""), "utf8");
+
+      if (file.kind === "binary") {
+        await writeFile(absolute, file.bytes);
+      } else {
+        await writeFile(absolute, file.byteOrderMark ? file.contents : file.contents.replace(/^\uFEFF/u, ""), "utf8");
+      }
+
       written.push(file.path);
     }),
   );

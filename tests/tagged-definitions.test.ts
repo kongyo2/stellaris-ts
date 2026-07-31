@@ -11,8 +11,10 @@ import { defineMod, emit } from "../src/index.js";
  * event simply never fires, which is the worst kind of mistake this library can
  * let through.
  */
-const fileNamed = (mod: Parameters<typeof emit>[0], suffix: string): string =>
-  emit(mod).files.find((file) => file.path.endsWith(suffix))?.contents ?? "";
+const fileNamed = (mod: Parameters<typeof emit>[0], suffix: string): string => {
+  const file = emit(mod).files.find((candidate) => candidate.path.endsWith(suffix));
+  return file?.kind === "text" ? file.contents : "";
+};
 
 describe("a type written under a tag", () => {
   it("writes the tag as the key and the identity as a field", () => {
@@ -49,6 +51,23 @@ describe("a type written under a tag", () => {
     expect(fileNamed(mod, "common/component_sets/zz_sole_component_set.txt")).toContain(
       "component_set = {\n\tkey = sts_set",
     );
+  });
+
+  /**
+   * A job tag is the word and nothing else — `common/job_tags/00_tags.txt` is a
+   * list of names, and a mod adds one by shipping another file of the same
+   * shape. `my_tag = { }` there parses and defines no tag.
+   */
+  it("writes a tag as the word alone, with no block", () => {
+    const mod = defineMod({ name: "Tags", version: "1", supportedVersion: "v4.4.*" })
+      .add(define("job_tags", "sts_resonance", {}))
+      .add(define("job_tags", "sts_echo", {}));
+
+    expect(fileNamed(mod, "common/job_tags/zz_tags_job_tags.txt")).toBe("sts_echo\nsts_resonance\n");
+  });
+
+  it("refuses a body on a type that is written as the word alone", () => {
+    expect(() => define("job_tags", "sts_resonance", { category: "x" })).toThrow(/identifier alone/u);
   });
 
   it("leaves a type written under its own identifier alone", () => {

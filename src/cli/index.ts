@@ -1,8 +1,10 @@
+import { existsSync } from "node:fs";
 import { homedir, platform } from "node:os";
 import { pathToFileURL } from "node:url";
 import { join, resolve } from "node:path";
 
 import { emit, type EmitDiagnostic, type EmitPlan } from "../runtime/emit.js";
+import { LOCALISATION_LANGUAGES } from "../runtime/localisation.js";
 import { Mod } from "../runtime/mod.js";
 import { writePlan } from "../runtime/write.js";
 import { validate, type ValidationDiagnostic } from "../validate/index.js";
@@ -50,8 +52,31 @@ function report(diagnostics: readonly Diagnostic[]): number {
   return diagnostics.filter((diagnostic) => diagnostic.severity === "error").length;
 }
 
+/**
+ * Node resolves the specifier that was written, and nothing rewrites it.
+ *
+ * The entry is imported as it stands, so a mod split across files runs under
+ * Node's own type stripping. `import "./kit.js"` finds no `kit.js` there and
+ * fails with a module-not-found that names a file the author never wrote; the
+ * spelling that works is `./kit.ts`, with `allowImportingTsExtensions` on.
+ */
+function explainMissingModule(error: unknown, entry: string): Error {
+  const message: string = error instanceof Error ? error.message : String(error);
+  const specifier: string | undefined = /Cannot find module '([^']+\.js)'/u.exec(message)?.[1];
+
+  if (specifier === undefined || !existsSync(specifier.replace(/\.js$/u, ".ts"))) {
+    return error instanceof Error ? error : new Error(message);
+  }
+
+  return new Error(
+    `${message}\n\n${entry} imports ${specifier}, and only the .ts file exists. Node reads the entry directly, so it resolves the specifier as written — import it as .ts and set "allowImportingTsExtensions": true in tsconfig.json.`,
+  );
+}
+
 async function loadMod(entry: string): Promise<Mod> {
-  const loaded: unknown = await import(pathToFileURL(resolve(entry)).href);
+  const loaded: unknown = await import(pathToFileURL(resolve(entry)).href).catch((error: unknown) => {
+    throw explainMissingModule(error, entry);
+  });
 
   if (typeof loaded !== "object" || loaded === null || !("default" in loaded)) {
     throw new Error(`${entry} has no default export. Export the mod you built with defineMod.`);
@@ -83,12 +108,53 @@ function usage(): string {
   return [
     "Usage: stellaris-ts <command> <entry>",
     "",
-    "  check <entry>          Validate without writing anything.",
-    "  build <entry> [--out]  Validate, then write into the mod folder.",
+    "  check <entry> [--language]          Validate without writing anything.",
+    "  build <entry> [--out] [--language]  Validate, then write into the mod folder.",
     "",
     "The entry is a module whose default export is a Mod.",
     "--out defaults to the Stellaris mod folder; STELLARIS_MODS_DIR overrides it.",
+    "--language may be repeated, and takes `japanese` or `l_japanese`. Defaults to English.",
   ].join("\n");
+}
+
+/**
+ * The languages a definition's required strings are checked in.
+ *
+ * A mod written in Japanese is missing nothing in English and everything in
+ * Japanese, and the check that only ever asked about English had nothing to say
+ * about it. Both spellings are taken because the folder is `japanese` and the
+ * file says `l_japanese`, and having to know which one this asks for is a
+ * needless thing to get wrong.
+ */
+function languagesFrom(rest: readonly string[]): {
+  readonly languages: readonly string[];
+  readonly unknown: readonly string[];
+} {
+  const named: string[] = [];
+
+  for (const [index, argument] of rest.entries()) {
+    if (argument === "--language" || argument === "--languages") {
+      const value: string | undefined = rest[index + 1];
+      if (value !== undefined && !value.startsWith("--")) {
+        named.push(...value.split(",").map((part) => part.trim()));
+      }
+      continue;
+    }
+
+    const inline: string | undefined = /^--languages?=(.+)$/u.exec(argument)?.[1];
+    if (inline !== undefined) {
+      named.push(...inline.split(",").map((part) => part.trim()));
+    }
+  }
+
+  const normalised: readonly string[] = named
+    .filter((name) => name.length > 0)
+    .map((name) => (name.startsWith("l_") ? name : `l_${name}`));
+
+  return {
+    languages: normalised.filter((name) => LOCALISATION_LANGUAGES.includes(name)),
+    unknown: normalised.filter((name) => !LOCALISATION_LANGUAGES.includes(name)),
+  };
 }
 
 export async function run(argv: readonly string[]): Promise<number> {
@@ -105,9 +171,21 @@ export async function run(argv: readonly string[]): Promise<number> {
     return 2;
   }
 
+  const requested = languagesFrom(rest);
+
+  if (requested.unknown.length > 0) {
+    console.error(
+      `Not a language the game reads: ${requested.unknown.join(", ")}. It reads ${LOCALISATION_LANGUAGES.join(", ")}.`,
+    );
+    return 2;
+  }
+
   const mod: Mod = await loadMod(entry);
   const plan: EmitPlan = emit(mod);
-  const diagnostics: readonly Diagnostic[] = [...validate(mod).map(fromValidation), ...plan.diagnostics.map(fromEmit)];
+  const diagnostics: readonly Diagnostic[] = [
+    ...validate(mod, requested.languages.length === 0 ? {} : { languages: requested.languages }).map(fromValidation),
+    ...plan.diagnostics.map(fromEmit),
+  ];
   const errors: number = report(diagnostics);
 
   console.log(

@@ -384,6 +384,77 @@ void [output, kind, packageName];
   writeFileSync(join(consumerDirectory, "index.mjs"), runtimeProbe, "utf8");
   writeFileSync(join(consumerDirectory, "index.ts"), typeProbe, "utf8");
   writeFileSync(join(consumerDirectory, "tsconfig.json"), tsconfig, "utf8");
+
+  // A mod, written the way one is written, for the command line to be run on.
+  writeFileSync(
+    join(consumerDirectory, "mod.ts"),
+    `import { defineMod } from "${PACKAGE_NAME}";
+import { define } from "${PACKAGE_NAME}/builders";
+
+export default defineMod({ name: "Pack Probe", version: "1", supportedVersion: "v4.4.*" })
+  .add(define("building", "sts_pack_lab", { category: "research" }))
+  .localise("l_english", "sts_pack_lab", "Lab")
+  .localise("l_english", "sts_pack_lab_desc", "A lab");
+`,
+    "utf8",
+  );
+
+  // The same mod split in two, importing the sibling as `.js`. Node resolves the
+  // specifier as written, so this is the failure every multi-file mod meets.
+  writeFileSync(
+    join(consumerDirectory, "split.ts"),
+    `import { body } from "./part.js";
+
+export default body;
+`,
+    "utf8",
+  );
+  writeFileSync(join(consumerDirectory, "part.ts"), "export const body = 1;\n", "utf8");
+}
+
+/**
+ * The command line, run against the package as it would be installed.
+ *
+ * Two things only a real Node process shows. `--language` has to reach the
+ * check, because a mod written in Japanese is missing nothing in English and
+ * everything in Japanese. And a mod split across files imports its sibling as
+ * `.js`, which Node resolves as written and cannot find — the runtime's own
+ * message names a file the author never typed, so the CLI has to say why. A
+ * test runner rewrites that specifier and the failure never happens there.
+ */
+function assertCommandLine(consumerDirectory: string): void {
+  const cliPath: string = join(consumerDirectory, "node_modules", ...PACKAGE_NAME.split("/"), "dist", "cli", "main.js");
+
+  if (!existsSync(cliPath)) {
+    throw new Error(`The installed package has no command line at ${cliPath}.`);
+  }
+
+  const runCli = (argv: readonly string[]): string => {
+    const result: SpawnSyncReturns<string> = spawnSync(process.execPath, [cliPath, ...argv], {
+      cwd: consumerDirectory,
+      encoding: "utf8",
+      env: process.env,
+    });
+    return `${result.stdout ?? ""}${result.stderr ?? ""}`;
+  };
+
+  const english: string = runCli(["check", "mod.ts"]);
+
+  if (english.includes("missing-localisation")) {
+    throw new Error(`The English strings are all present, but the check reported them missing:\n${english}`);
+  }
+
+  const japanese: string = runCli(["check", "mod.ts", "--language", "japanese"]);
+
+  if (!japanese.includes("missing-localisation") || !japanese.includes("l_japanese")) {
+    throw new Error(`--language japanese did not reach the check:\n${japanese}`);
+  }
+
+  const split: string = runCli(["check", "split.ts"]);
+
+  if (!split.includes("allowImportingTsExtensions")) {
+    throw new Error(`The CLI did not explain a .js import of a .ts sibling:\n${split}`);
+  }
 }
 
 function verifyPackage(): string {
@@ -462,6 +533,8 @@ function verifyPackage(): string {
       cwd: consumerDirectory,
       environment: process.env,
     });
+
+    assertCommandLine(consumerDirectory);
 
     const typescriptCliPath: string = join(REPOSITORY_ROOT, "node_modules", "typescript", "bin", "tsc");
     runCommand({

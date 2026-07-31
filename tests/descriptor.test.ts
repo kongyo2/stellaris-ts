@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { define } from "../src/builders/index.js";
 import { emit } from "../src/runtime/emit.js";
 import { defineMod } from "../src/index.js";
 
@@ -14,8 +15,50 @@ import { defineMod } from "../src/index.js";
 const codes = (mod: Parameters<typeof emit>[0]): readonly string[] =>
   emit(mod).diagnostics.map((diagnostic) => diagnostic.code);
 
-const descriptor = (mod: Parameters<typeof emit>[0]): string =>
-  emit(mod).files.find((file) => file.path === "descriptor.mod")?.contents ?? "";
+const descriptor = (mod: Parameters<typeof emit>[0]): string => {
+  const file = emit(mod).files.find((candidate) => candidate.path === "descriptor.mod");
+  return file?.kind === "text" ? file.contents : "";
+};
+
+/**
+ * A mod's own files are named after it, and a name with no ASCII in it reduces
+ * to nothing at all. Two Japanese mods both writing
+ * `common/buildings/zz_mod_building.txt` would replace each other's buildings
+ * outright, with nothing said anywhere.
+ */
+describe("the name a mod's files are called after", () => {
+  const paths = (options: { name: string; id?: string }): readonly string[] => {
+    const mod = defineMod({ version: "1", supportedVersion: "v4.4.*", ...options }).add(
+      define("building", "sts_lab", { category: "research" }),
+    );
+    return [emit(mod).modFileName, ...emit(mod).files.map((file) => file.path)];
+  };
+
+  it("keeps two names that share no ASCII apart", () => {
+    const first: readonly string[] = paths({ name: "共鳴の遺産" });
+    const second: readonly string[] = paths({ name: "星々の記憶" });
+
+    expect(first).not.toEqual(second);
+    expect(first.some((path) => path === "common/buildings/zz_mod_building.txt")).toBe(false);
+  });
+
+  it("gives the same name every time, on every machine", () => {
+    expect(paths({ name: "共鳴の遺産" })).toEqual(paths({ name: "共鳴の遺産" }));
+  });
+
+  it("uses the id when one is given, for the folder and every file", () => {
+    expect(paths({ name: "共鳴の遺産", id: "resonant_legacy" })).toContain(
+      "common/buildings/zz_resonant_legacy_building.txt",
+    );
+    expect(paths({ name: "共鳴の遺産", id: "resonant_legacy" })).toContain("resonant_legacy.mod");
+  });
+
+  it("refuses an id that is not a file name", () => {
+    const mod = defineMod({ name: "X", id: "共鳴", version: "1", supportedVersion: "v4.4.*" });
+
+    expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).toContain("malformed-mod-id");
+  });
+});
 
 describe("the descriptor", () => {
   it("writes the dependencies the launcher orders by", () => {
@@ -87,6 +130,10 @@ describe("localisation overrides", () => {
       .localiseReplace("l_english", "b", "B");
 
     for (const file of emit(mod).files.filter((candidate) => candidate.path.startsWith("localisation/"))) {
+      expect(file.kind).toBe("text");
+      if (file.kind !== "text") {
+        continue;
+      }
       expect(file.byteOrderMark).toBe(true);
       expect(file.contents.startsWith("﻿")).toBe(true);
     }

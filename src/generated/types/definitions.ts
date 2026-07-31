@@ -21,6 +21,12 @@ export type AgreementTermRef = VanillaId<"agreement_term"> | (string & {});
 /** Any `agreement_term_value` identifier: the ones vanilla ships, or one this mod defines. */
 export type AgreementTermValueRef = VanillaId<"agreement_term_value"> | (string & {});
 
+/** Any `alert_icon` identifier: the ones vanilla ships, or one this mod defines. */
+export type AlertIconRef = VanillaId<"alert_icon"> | (string & {});
+
+/** Any `anomaly_category` identifier: the ones vanilla ships, or one this mod defines. */
+export type AnomalyCategoryRef = VanillaId<"anomaly_category"> | (string & {});
+
 /** Any `army` identifier: the ones vanilla ships, or one this mod defines. */
 export type ArmyRef = VanillaId<"army"> | (string & {});
 
@@ -44,6 +50,9 @@ export type BitmapfontRef = VanillaId<"bitmapfont"> | (string & {});
 
 /** Any `building` identifier: the ones vanilla ships, or one this mod defines. */
 export type BuildingRef = VanillaId<"building"> | (string & {});
+
+/** Any `button_effect` identifier: the ones vanilla ships, or one this mod defines. */
+export type ButtonEffectRef = VanillaId<"button_effect"> | (string & {});
 
 /** Any `bypass` identifier: the ones vanilla ships, or one this mod defines. */
 export type BypassRef = VanillaId<"bypass"> | (string & {});
@@ -80,6 +89,9 @@ export type CountryTypeRef = VanillaId<"country_type"> | (string & {});
 
 /** Any `decision` identifier: the ones vanilla ships, or one this mod defines. */
 export type DecisionRef = VanillaId<"decision"> | (string & {});
+
+/** Any `deposit` identifier: the ones vanilla ships, or one this mod defines. */
+export type DepositRef = VanillaId<"deposit"> | (string & {});
 
 /** Any `deposit_category` identifier: the ones vanilla ships, or one this mod defines. */
 export type DepositCategoryRef = VanillaId<"deposit_category"> | (string & {});
@@ -119,6 +131,9 @@ export type GrandArchiveShipCategoryTypeRef = VanillaId<"grand_archive_ship_cate
 
 /** Any `graphical_culture` identifier: the ones vanilla ships, or one this mod defines. */
 export type GraphicalCultureRef = VanillaId<"graphical_culture"> | (string & {});
+
+/** Any `gui_type` identifier: the ones vanilla ships, or one this mod defines. */
+export type GuiTypeRef = VanillaId<"gui_type"> | (string & {});
 
 /** Any `job` identifier: the ones vanilla ships, or one this mod defines. */
 export type JobRef = VanillaId<"job"> | (string & {});
@@ -170,6 +185,12 @@ export type PingmapRef = VanillaId<"pingmap"> | (string & {});
 
 /** Any `planet_class` identifier: the ones vanilla ships, or one this mod defines. */
 export type PlanetClassRef = VanillaId<"planet_class"> | (string & {});
+
+/** Any `planet_class_random_list` identifier: the ones vanilla ships, or one this mod defines. */
+export type PlanetClassRandomListRef = VanillaId<"planet_class_random_list"> | (string & {});
+
+/** Any `planet_modifier` identifier: the ones vanilla ships, or one this mod defines. */
+export type PlanetModifierRef = VanillaId<"planet_modifier"> | (string & {});
 
 /** Any `policy` identifier: the ones vanilla ships, or one this mod defines. */
 export type PolicyRef = VanillaId<"policy"> | (string & {});
@@ -267,8 +288,8 @@ export type SubjectSpecialistTypeRef = VanillaId<"subject_specialist_type"> | (s
 /** Any `technology` identifier: the ones vanilla ships, or one this mod defines. */
 export type TechnologyRef = VanillaId<"technology"> | (string & {});
 
-/** Any `technology_tier` identifier: the ones vanilla ships, or one this mod defines. */
-export type TechnologyTierRef = VanillaId<"technology_tier"> | (string & {});
+/** Any `technology_tier` identifier: the ones vanilla ships, or one this mod defines. Its identifiers are numbers, and script writes them as numbers. */
+export type TechnologyTierRef = VanillaId<"technology_tier"> | (string & {}) | number;
 
 /** Any `tradition` identifier: the ones vanilla ships, or one this mod defines. */
 export type TraditionRef = VanillaId<"tradition"> | (string & {});
@@ -281,6 +302,3111 @@ export type WarGoalRef = VanillaId<"war_goal"> | (string & {});
 
 /** Any `zones` identifier: the ones vanilla ships, or one this mod defines. */
 export type ZonesRef = VanillaId<"zones"> | (string & {});
+
+/** `ai_resource_production` as ai_resource_production writes it. */
+export interface RuleSetAiResourceProductionAiResourceProductionPlanet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `cost` as economic_template writes it. */
+export interface RuleSetEconomicTemplateCost {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `cost` as economic_template writes it. */
+export interface RuleSetEconomicTemplateCostCountry {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `cost` as economic_template writes it. */
+export interface RuleSetEconomicTemplateCostFleet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["fleet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `cost` as economic_template writes it. */
+export interface RuleSetEconomicTemplateCostPlanet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `cost` as economic_template writes it. */
+export interface RuleSetEconomicTemplateCostPopGroup {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["pop_group"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `cost` as economic_template writes it. */
+export interface RuleSetEconomicTemplateCostStarbase {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `logistics` as economic_template writes it. */
+export interface RuleSetEconomicTemplateLogistics {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `logistics` as economic_template writes it. */
+export interface RuleSetEconomicTemplateLogisticsCountry {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `logistics` as economic_template writes it. */
+export interface RuleSetEconomicTemplateLogisticsFleet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["fleet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `logistics` as economic_template writes it. */
+export interface RuleSetEconomicTemplateLogisticsPlanet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `logistics` as economic_template writes it. */
+export interface RuleSetEconomicTemplateLogisticsPopGroup {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["pop_group"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `logistics` as economic_template writes it. */
+export interface RuleSetEconomicTemplateLogisticsStarbase {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `cost` as economic_template_no_produce writes it. */
+export interface RuleSetEconomicTemplateNoProduceCost {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `cost` as economic_template_no_produce writes it. */
+export interface RuleSetEconomicTemplateNoProduceCostSpyNetwork {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["spy_network"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `upkeep` as economic_template_no_produce writes it. */
+export interface RuleSetEconomicTemplateNoProduceUpkeep {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `upkeep` as economic_template_no_produce writes it. */
+export interface RuleSetEconomicTemplateNoProduceUpkeepSpyNetwork {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["spy_network"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `produces` as economic_template_only_produces writes it. */
+export interface RuleSetEconomicTemplateOnlyProducesProduces {
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `produces` as economic_template_only_produces writes it. */
+export interface RuleSetEconomicTemplateOnlyProducesProducesCountry {
+  readonly trigger?: TriggersByScope["country"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `produces` as economic_template writes it. */
+export interface RuleSetEconomicTemplateProduces {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `produces` as economic_template writes it. */
+export interface RuleSetEconomicTemplateProducesCountry {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `produces` as economic_template writes it. */
+export interface RuleSetEconomicTemplateProducesFleet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["fleet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `produces` as economic_template writes it. */
+export interface RuleSetEconomicTemplateProducesPlanet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `produces` as economic_template writes it. */
+export interface RuleSetEconomicTemplateProducesPopGroup {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["pop_group"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `produces` as economic_template writes it. */
+export interface RuleSetEconomicTemplateProducesStarbase {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `upkeep` as economic_template writes it. */
+export interface RuleSetEconomicTemplateUpkeep {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `upkeep` as economic_template writes it. */
+export interface RuleSetEconomicTemplateUpkeepCountry {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["country"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `upkeep` as economic_template writes it. */
+export interface RuleSetEconomicTemplateUpkeepFleet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["fleet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `upkeep` as economic_template writes it. */
+export interface RuleSetEconomicTemplateUpkeepPlanet {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `upkeep` as economic_template writes it. */
+export interface RuleSetEconomicTemplateUpkeepPopGroup {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["pop_group"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `upkeep` as economic_template writes it. */
+export interface RuleSetEconomicTemplateUpkeepStarbase {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["starbase"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `emission` as emission writes it. */
+export interface RuleSetEmissionEmission {
+
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `AND` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerAnd {
+  readonly AND?: RuleSetGovernmentTriggerAnd | readonly RuleSetGovernmentTriggerAnd[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOr | readonly RuleSetGovernmentTriggerOr[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthority | readonly RuleSetGovernmentTriggerAuthority[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivics | readonly RuleSetGovernmentTriggerCivics[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryType | readonly RuleSetGovernmentTriggerCountryType[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthics | readonly RuleSetGovernmentTriggerEthics[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCulture | readonly RuleSetGovernmentTriggerGraphicalCulture[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimit | readonly RuleSetGovernmentTriggerLimit[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOrigin | readonly RuleSetGovernmentTriggerOrigin[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClass | readonly RuleSetGovernmentTriggerPreferredPlanetClass[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetype | readonly RuleSetGovernmentTriggerSpeciesArchetype[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClass | readonly RuleSetGovernmentTriggerSpeciesClass[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraits | readonly RuleSetGovernmentTriggerTraits[] | Authored;
+}
+
+/** `AND` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerAndCountry {
+  readonly AND?: RuleSetGovernmentTriggerAndCountry | readonly RuleSetGovernmentTriggerAndCountry[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOrCountry | readonly RuleSetGovernmentTriggerOrCountry[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthorityCountry | readonly RuleSetGovernmentTriggerAuthorityCountry[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivicsCountry | readonly RuleSetGovernmentTriggerCivicsCountry[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryTypeCountry | readonly RuleSetGovernmentTriggerCountryTypeCountry[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthicsCountry | readonly RuleSetGovernmentTriggerEthicsCountry[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCultureCountry | readonly RuleSetGovernmentTriggerGraphicalCultureCountry[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimitCountry | readonly RuleSetGovernmentTriggerLimitCountry[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOriginCountry | readonly RuleSetGovernmentTriggerOriginCountry[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClassCountry | readonly RuleSetGovernmentTriggerPreferredPlanetClassCountry[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetypeCountry | readonly RuleSetGovernmentTriggerSpeciesArchetypeCountry[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClassCountry | readonly RuleSetGovernmentTriggerSpeciesClassCountry[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraitsCountry | readonly RuleSetGovernmentTriggerTraitsCountry[] | Authored;
+}
+
+/** `authority` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerAuthority {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: AuthorityRef | readonly AuthorityRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: AuthorityRef | readonly AuthorityRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value?: AuthorityRef | readonly AuthorityRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value?: AuthorityRef | readonly AuthorityRef[] | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: AuthorityRef | readonly AuthorityRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: AuthorityRef | readonly AuthorityRef[] | Authored;
+})[] | Authored;
+  readonly value?: AuthorityRef | Authored;
+}
+
+/** `authority` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerAuthorityCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: AuthorityRef | readonly AuthorityRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: AuthorityRef | readonly AuthorityRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value?: AuthorityRef | readonly AuthorityRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value?: AuthorityRef | readonly AuthorityRef[] | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: AuthorityRef | readonly AuthorityRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: AuthorityRef | readonly AuthorityRef[] | Authored;
+})[] | Authored;
+  readonly value?: AuthorityRef | Authored;
+}
+
+/** `civics` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerCivics {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}
+
+/** `civics` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerCivicsCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}
+
+/** `country_type` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerCountryType {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | readonly CountryTypeRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | readonly CountryTypeRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | readonly CountryTypeRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | readonly CountryTypeRef[] | Authored;
+})[] | Authored;
+  readonly value?: CountryTypeRef | Authored;
+}
+
+/** `country_type` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerCountryTypeCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | readonly CountryTypeRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | readonly CountryTypeRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | readonly CountryTypeRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CountryTypeRef | readonly CountryTypeRef[] | Authored;
+})[] | Authored;
+  readonly value?: CountryTypeRef | Authored;
+}
+
+/** `ethics` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerEthics {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | readonly EthosRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | readonly EthosRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | readonly EthosRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | readonly EthosRef[] | Authored;
+})[] | Authored;
+  readonly value?: EthosRef | readonly EthosRef[] | Authored;
+}
+
+/** `ethics` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerEthicsCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | readonly EthosRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | readonly EthosRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | readonly EthosRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: EthosRef | readonly EthosRef[] | Authored;
+})[] | Authored;
+  readonly value?: EthosRef | readonly EthosRef[] | Authored;
+}
+
+/** `graphical_culture` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerGraphicalCulture {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: (CivicOrOriginRef | GraphicalCultureRef) | readonly (CivicOrOriginRef | GraphicalCultureRef)[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: (CivicOrOriginRef | GraphicalCultureRef) | readonly (CivicOrOriginRef | GraphicalCultureRef)[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | Authored;
+}
+
+/** `graphical_culture` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerGraphicalCultureCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: (CivicOrOriginRef | GraphicalCultureRef) | readonly (CivicOrOriginRef | GraphicalCultureRef)[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: (CivicOrOriginRef | GraphicalCultureRef) | readonly (CivicOrOriginRef | GraphicalCultureRef)[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | Authored;
+}
+
+/** `limit` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerLimit {
+  readonly OR?: {
+  readonly has_machine_age_dlc?: boolean | Authored;
+  readonly has_shroud_dlc?: boolean | Authored;
+  readonly has_synthetic_dawn?: boolean | Authored;
+} | Authored;
+  readonly has_machine_age_dlc?: boolean | Authored;
+  readonly has_shroud_dlc?: boolean | Authored;
+  readonly has_synthetic_dawn?: boolean | Authored;
+}
+
+/** `limit` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerLimitCountry {
+  readonly OR?: {
+  readonly has_machine_age_dlc?: boolean | Authored;
+  readonly has_shroud_dlc?: boolean | Authored;
+  readonly has_synthetic_dawn?: boolean | Authored;
+} | Authored;
+  readonly has_machine_age_dlc?: boolean | Authored;
+  readonly has_shroud_dlc?: boolean | Authored;
+  readonly has_synthetic_dawn?: boolean | Authored;
+}
+
+/** `OR` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerOr {
+  readonly AND?: RuleSetGovernmentTriggerAnd | readonly RuleSetGovernmentTriggerAnd[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOr | readonly RuleSetGovernmentTriggerOr[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthority | readonly RuleSetGovernmentTriggerAuthority[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivics | readonly RuleSetGovernmentTriggerCivics[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryType | readonly RuleSetGovernmentTriggerCountryType[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthics | readonly RuleSetGovernmentTriggerEthics[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCulture | readonly RuleSetGovernmentTriggerGraphicalCulture[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimit | readonly RuleSetGovernmentTriggerLimit[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOrigin | readonly RuleSetGovernmentTriggerOrigin[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClass | readonly RuleSetGovernmentTriggerPreferredPlanetClass[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetype | readonly RuleSetGovernmentTriggerSpeciesArchetype[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClass | readonly RuleSetGovernmentTriggerSpeciesClass[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraits | readonly RuleSetGovernmentTriggerTraits[] | Authored;
+}
+
+/** `OR` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerOrCountry {
+  readonly AND?: RuleSetGovernmentTriggerAndCountry | readonly RuleSetGovernmentTriggerAndCountry[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOrCountry | readonly RuleSetGovernmentTriggerOrCountry[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthorityCountry | readonly RuleSetGovernmentTriggerAuthorityCountry[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivicsCountry | readonly RuleSetGovernmentTriggerCivicsCountry[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryTypeCountry | readonly RuleSetGovernmentTriggerCountryTypeCountry[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthicsCountry | readonly RuleSetGovernmentTriggerEthicsCountry[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCultureCountry | readonly RuleSetGovernmentTriggerGraphicalCultureCountry[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimitCountry | readonly RuleSetGovernmentTriggerLimitCountry[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOriginCountry | readonly RuleSetGovernmentTriggerOriginCountry[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClassCountry | readonly RuleSetGovernmentTriggerPreferredPlanetClassCountry[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetypeCountry | readonly RuleSetGovernmentTriggerSpeciesArchetypeCountry[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClassCountry | readonly RuleSetGovernmentTriggerSpeciesClassCountry[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraitsCountry | readonly RuleSetGovernmentTriggerTraitsCountry[] | Authored;
+}
+
+/** `origin` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerOrigin {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | Authored;
+}
+
+/** `origin` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerOriginCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | Authored;
+}
+
+/** `preferred_planet_class` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerPreferredPlanetClass {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | readonly PlanetClassRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | readonly PlanetClassRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | readonly PlanetClassRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | readonly PlanetClassRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}
+
+/** `preferred_planet_class` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerPreferredPlanetClassCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | readonly PlanetClassRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | readonly PlanetClassRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | readonly PlanetClassRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: PlanetClassRef | readonly PlanetClassRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}
+
+/** `species_archetype` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerSpeciesArchetype {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | readonly SpeciesArchetypeRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | readonly SpeciesArchetypeRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | readonly SpeciesArchetypeRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | readonly SpeciesArchetypeRef[] | Authored;
+})[] | Authored;
+  readonly value?: SpeciesArchetypeRef | Authored;
+}
+
+/** `species_archetype` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerSpeciesArchetypeCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | readonly SpeciesArchetypeRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | readonly SpeciesArchetypeRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | readonly SpeciesArchetypeRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesArchetypeRef | readonly SpeciesArchetypeRef[] | Authored;
+})[] | Authored;
+  readonly value?: SpeciesArchetypeRef | Authored;
+}
+
+/** `species_class` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerSpeciesClass {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | readonly SpeciesClassRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | readonly SpeciesClassRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | readonly SpeciesClassRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | readonly SpeciesClassRef[] | Authored;
+})[] | Authored;
+  readonly value?: SpeciesClassRef | Authored;
+}
+
+/** `species_class` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerSpeciesClassCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | readonly SpeciesClassRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | readonly SpeciesClassRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | readonly SpeciesClassRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: SpeciesClassRef | readonly SpeciesClassRef[] | Authored;
+})[] | Authored;
+  readonly value?: SpeciesClassRef | Authored;
+}
+
+/** `traits` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerTraits {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | readonly TraitRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | readonly TraitRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | readonly TraitRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | readonly TraitRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}
+
+/** `traits` as government_trigger writes it. */
+export interface RuleSetGovernmentTriggerTraitsCountry {
+  readonly NOR?: ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | readonly TraitRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | readonly TraitRef[] | Authored;
+})[] | Authored;
+  readonly NOT?: ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | Authored;
+})[] | Authored;
+  readonly OR?: ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | readonly TraitRef[] | Authored;
+}) | readonly ({
+  readonly text?: string | Authored;
+  readonly value: TraitRef | readonly TraitRef[] | Authored;
+})[] | Authored;
+  readonly value?: CivicOrOriginRef | readonly CivicOrOriginRef[] | Authored;
+}
+
+/** `background` as gui_background writes it. */
+export interface RuleSetGuiBackgroundBackground {
+  readonly alpha?: number | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly centerPosition?: boolean | Authored;
+  readonly clicksound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly frame?: number | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly no_clicksound?: boolean | readonly boolean[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly oversound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly up_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `browserType` as gui writes it. */
+export interface RuleSetGuiBrowsertype {
+  readonly name: string | Authored;
+  readonly position: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly size: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly spriteType?: SpriteRef | Authored;
+}
+
+/** `buttonType` as gui_button writes it. */
+export interface RuleSetGuiButtonButtontype {
+  readonly actionShortcut?: ("accept" | "cancel" | "delete" | "focus_camera" | "start" | "reset" | "track_on_map" | "toggle_cloud_save") | readonly ("accept" | "cancel" | "delete" | "focus_camera" | "start" | "reset" | "track_on_map" | "toggle_cloud_save")[] | Authored;
+  readonly alpha?: number | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly buttonFont?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly buttonText?: string | readonly string[] | Authored;
+  readonly centerPosition?: true | readonly true[] | Authored;
+  readonly clicksound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly dynamic_extra_height?: number | readonly number[] | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly frame?: number | readonly number[] | Authored;
+  readonly hitbox_margin?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly if_resolution?: ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}) | readonly ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+})[] | Authored;
+  readonly if_scaled_resolution?: ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: "select_click" | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}) | readonly ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: "select_click" | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+})[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly multiline?: boolean | readonly boolean[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly no_clicksound?: boolean | readonly boolean[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly oversound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly shortcut?: string | readonly string[] | Authored;
+  readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly text_offset?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly up_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly web_link?: string | readonly string[] | Authored;
+}
+
+/** `effectButtonType` as gui_button writes it. */
+export interface RuleSetGuiButtonEffectbuttontype {
+  readonly actionShortcut?: ("accept" | "cancel" | "delete" | "focus_camera" | "start" | "reset" | "track_on_map" | "toggle_cloud_save") | readonly ("accept" | "cancel" | "delete" | "focus_camera" | "start" | "reset" | "track_on_map" | "toggle_cloud_save")[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly buttonFont?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly buttonText?: string | readonly string[] | Authored;
+  readonly clicksound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly effect: ButtonEffectRef | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly frame?: number | readonly number[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly multiline?: boolean | readonly boolean[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly no_clicksound?: boolean | readonly boolean[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly oversound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly rotation?: number | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly shortcut?: string | readonly string[] | Authored;
+  readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly up_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly web_link?: string | readonly string[] | Authored;
+}
+
+/** `guiButtonType` as gui_button writes it. */
+export interface RuleSetGuiButtonGuibuttontype {
+  readonly actionShortcut?: ("accept" | "cancel" | "delete" | "focus_camera" | "start" | "reset" | "track_on_map" | "toggle_cloud_save") | readonly ("accept" | "cancel" | "delete" | "focus_camera" | "start" | "reset" | "track_on_map" | "toggle_cloud_save")[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly buttonFont?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly buttonText?: string | readonly string[] | Authored;
+  readonly clicksound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly frame?: number | readonly number[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly multiline?: boolean | readonly boolean[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly no_clicksound?: boolean | readonly boolean[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly oversound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly parent?: GuiTypeRef | string | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly shortcut?: string | readonly string[] | Authored;
+  readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly up_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly web_link?: string | readonly string[] | Authored;
+}
+
+/** `checkboxType` as gui writes it. */
+export interface RuleSetGuiCheckboxtype {
+  readonly actionShortcut?: "accept" | "cancel" | "delete" | "focus_camera" | "start" | "reset" | "track_on_map" | "toggle_cloud_save" | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly clicksound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly no_clicksound?: boolean | readonly boolean[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly oversound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly shortCut?: string | Authored;
+  readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly up_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `containerWindowType` as gui writes it. */
+export interface RuleSetGuiContainerwindowtype {
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly buttonType?: RuleSetGuiButtonButtontype | readonly RuleSetGuiButtonButtontype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly click_to_front?: boolean | Authored;
+  readonly clicksound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly clipping?: boolean | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly dontRender?: string | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly dynamic_extra_height?: number | Authored;
+  readonly dynamic_extra_height_max?: number | Authored;
+  readonly dynamic_extra_y?: number | readonly number[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly effectButtonType?: RuleSetGuiButtonEffectbuttontype | readonly RuleSetGuiButtonEffectbuttontype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly fade_time?: number | Authored;
+  readonly fade_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly guiButtonType?: RuleSetGuiButtonGuibuttontype | readonly RuleSetGuiButtonGuibuttontype[] | Authored;
+  readonly hide_animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly horizontalBorder?: string | Authored;
+  readonly horizontalScrollbar?: string | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly if_resolution?: ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}) | readonly ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+})[] | Authored;
+  readonly if_scaled_resolution?: ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: "select_click" | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}) | readonly ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: "select_click" | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+})[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly margin?: {
+  readonly bottom?: number | Authored;
+  readonly left?: number | Authored;
+  readonly right?: number | Authored;
+  readonly top?: number | Authored;
+} | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly movable?: boolean | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly no_clicksound?: boolean | readonly boolean[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly origo?: "BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | Authored;
+  readonly oversound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly respect_parent_boundaries?: boolean | readonly boolean[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scroll_wheel_factor?: number | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly smooth_scrolling?: boolean | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly up_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly upsound?: "click" | Authored;
+  readonly verticalScrollbar?: string | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}
+
+/** `dropDownBoxType` as gui writes it. */
+export interface RuleSetGuiDropdownboxtype {
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly buttonType?: RuleSetGuiButtonButtontype | readonly RuleSetGuiButtonButtontype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly clipping?: boolean | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly effectButtonType?: RuleSetGuiButtonEffectbuttontype | readonly RuleSetGuiButtonEffectbuttontype[] | Authored;
+  readonly expandButton?: {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly clicksound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly no_clicksound?: boolean | readonly boolean[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly oversound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly up_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+} | Authored;
+  readonly expandedWindow?: {
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly buttonType?: RuleSetGuiButtonButtontype | readonly RuleSetGuiButtonButtontype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly dynamic_extra_height?: number | Authored;
+  readonly dynamic_extra_height_max?: number | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly effectButtonType?: RuleSetGuiButtonEffectbuttontype | readonly RuleSetGuiButtonEffectbuttontype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly guiButtonType?: RuleSetGuiButtonGuibuttontype | readonly RuleSetGuiButtonGuibuttontype[] | Authored;
+  readonly hide_animation_type?: "decelerated" | "accelerated" | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly margin?: {
+  readonly bottom?: number | Authored;
+  readonly left?: number | Authored;
+  readonly right?: number | Authored;
+  readonly top?: number | Authored;
+} | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_animation_type?: "decelerated" | "accelerated" | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly verticalScrollbar?: string | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+} | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly guiButtonType?: RuleSetGuiButtonGuibuttontype | readonly RuleSetGuiButtonGuibuttontype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}
+
+/** `editBoxType` as gui writes it. */
+export interface RuleSetGuiEditboxtype {
+  readonly allow_multi_line?: boolean | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly cursor?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextBoxType?: boolean | Authored;
+  readonly limited_height?: boolean | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_characters?: number | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly overlay?: RuleSetOverlayOverlay | readonly RuleSetOverlayOverlay[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly textureFile?: string | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly use_special_chars?: boolean | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly wrap_text?: boolean | Authored;
+}
+
+/** `extendedScrollbarType` as gui writes it. */
+export interface RuleSetGuiExtendedscrollbartype {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly decreaseButton?: {
+  readonly name: string | Authored;
+  readonly position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+} | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly increaseButton?: {
+  readonly name: string | Authored;
+  readonly position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+} | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly slider?: {
+  readonly name: string | Authored;
+  readonly position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+} | Authored;
+  readonly startValue: number | Authored;
+  readonly track?: {
+  readonly name: string | Authored;
+  readonly position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+} | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `gridBoxType` as gui writes it. */
+export interface RuleSetGuiGridboxtype {
+  readonly add_horizontal?: boolean | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly is_dynamic?: boolean | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_slots_horizontal?: number | Authored;
+  readonly max_slots_vertical?: number | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly padding?: {
+  readonly bottom?: number | Authored;
+  readonly left?: number | Authored;
+  readonly right?: number | Authored;
+  readonly top?: number | Authored;
+} | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly resizeparent?: boolean | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: string | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly slotSize?: {
+  readonly height?: number | string | Authored;
+  readonly width?: number | string | Authored;
+} | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly wraparound?: boolean | Authored;
+}
+
+/** `iconType` as gui writes it. */
+export interface RuleSetGuiIcontype {
+  readonly alpha?: number | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly alwaystransparent?: boolean | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly centerPosition?: boolean | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly frame?: number | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly if_resolution?: ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}) | readonly ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+})[] | Authored;
+  readonly if_scaled_resolution?: ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: "select_click" | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}) | readonly ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: "select_click" | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+})[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly mirror?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly rotation?: number | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `instantTextboxType` as gui writes it. */
+export interface RuleSetGuiInstanttextboxtype {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly appendtext?: string | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly concepts_show_missing_dlc?: boolean | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly dynamic_extra_height?: number | Authored;
+  readonly fixedSize?: boolean | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly multiline?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: string | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly textureFile?: string | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly truncate?: boolean | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `listBoxType` as gui writes it. */
+export interface RuleSetGuiListboxtype {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly alwaystransparent?: boolean | Authored;
+  readonly autohide_scrollbar?: boolean | Authored;
+  readonly background?: (string | RuleSetGuiBackgroundBackground) | readonly (string | RuleSetGuiBackgroundBackground)[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly priority?: number | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbartype?: string | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spacing?: number | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `pdx_tooltip_anchor_offset` as gui_localisation writes it. */
+export interface RuleSetGuiLocalisationPdxTooltipAnchorOffset {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+}
+
+/** `OverlappingElementsBoxType` as gui writes it. */
+export interface RuleSetGuiOverlappingelementsboxtype {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly direction?: "BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | Authored;
+  readonly first_on_top?: boolean | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly spacing?: number | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `positionType` as gui writes it. */
+export interface RuleSetGuiPositiontype {
+  readonly dynamic_extra_height?: number | Authored;
+  readonly if_scaled_resolution?: {
+  readonly min_height: number | Authored;
+  readonly position: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+} | Authored;
+  readonly name: string | Authored;
+  readonly position: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+}
+
+/** `scrollbarType` as gui writes it. */
+export interface RuleSetGuiScrollbartype {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly buttonType?: RuleSetGuiButtonButtontype | readonly RuleSetGuiButtonButtontype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly effectButtonType?: RuleSetGuiButtonEffectbuttontype | readonly RuleSetGuiButtonEffectbuttontype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly guiButtonType?: RuleSetGuiButtonGuibuttontype | readonly RuleSetGuiButtonGuibuttontype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: {
+  readonly alwaystransparent?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly position: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
+  readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
+} | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly leftbutton: string | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxValue: number | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly minValue: number | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly overlay?: RuleSetOverlayOverlay | readonly RuleSetOverlayOverlay[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly priority?: number | Authored;
+  readonly rightbutton: string | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly slider: string | Authored;
+  readonly snappoint?: string | Authored;
+  readonly snappoint_center?: string | Authored;
+  readonly startValue: number | Authored;
+  readonly stepSize: number | Authored;
+  readonly track: string | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `smoothListboxType` as gui writes it. */
+export interface RuleSetGuiSmoothlistboxtype {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly alwaystransparent?: boolean | Authored;
+  readonly autohide_scrollbar?: boolean | Authored;
+  readonly background?: (string | RuleSetGuiBackgroundBackground) | readonly (string | RuleSetGuiBackgroundBackground)[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly dynamic_extra_height?: number | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly if_resolution?: ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}) | readonly ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+})[] | Authored;
+  readonly if_scaled_resolution?: ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: "select_click" | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}) | readonly ({
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly animation_time?: number | Authored;
+  readonly animation_type?: "smoothstep" | "accelerated" | "decelerated" | "linear" | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly hide_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly max_height?: number | Authored;
+  readonly max_width?: number | Authored;
+  readonly min_height?: number | Authored;
+  readonly min_width?: number | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly show_position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly show_sound?: "select_click" | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+})[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly offset?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly priority?: number | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: string | Authored;
+  readonly single_choice?: boolean | Authored;
+  readonly size?: ({
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | RuleSetGuiStandardElementSize) | readonly ({
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | RuleSetGuiStandardElementSize)[] | Authored;
+  readonly spacing?: number | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly wraparound?: boolean | Authored;
+}
+
+/** `spinnerType` as gui writes it. */
+export interface RuleSetGuiSpinnertype {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly buttonType?: RuleSetGuiButtonButtontype | readonly RuleSetGuiButtonButtontype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly effectButtonType?: RuleSetGuiButtonEffectbuttontype | readonly RuleSetGuiButtonEffectbuttontype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly guiButtonType?: RuleSetGuiButtonGuibuttontype | readonly RuleSetGuiButtonGuibuttontype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly leftbutton: string | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxValue?: number | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly overlay?: RuleSetOverlayOverlay | readonly RuleSetOverlayOverlay[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly priority?: number | Authored;
+  readonly rightbutton: string | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly startValue?: number | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `borderSize` as gui_standard_element writes it. */
+export interface RuleSetGuiStandardElementBordersize {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+}
+
+/** `position` as gui_standard_element writes it. */
+export interface RuleSetGuiStandardElementPosition {
+  readonly x: number | `${number}%` | Authored;
+  readonly y: number | `${number}%` | Authored;
+}
+
+/** `size` as gui_standard_element writes it. */
+export interface RuleSetGuiStandardElementSize {
+  readonly x: number | string | Authored;
+  readonly y: number | string | Authored;
+}
+
+/** `textboxType` as gui writes it. */
+export interface RuleSetGuiTextboxtype {
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly delayedTooltipText?: string | readonly string[] | Authored;
+  readonly font?: BitmapfontRef | readonly BitmapfontRef[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly name: string | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip?: string | readonly string[] | Authored;
+  readonly pdx_tooltip_anchor_offset?: RuleSetGuiLocalisationPdxTooltipAnchorOffset | readonly RuleSetGuiLocalisationPdxTooltipAnchorOffset[] | Authored;
+  readonly pdx_tooltip_anchor_orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly text_color_code?: string | readonly string[] | Authored;
+  readonly textureFile?: string | Authored;
+  readonly tooltip?: string | readonly string[] | Authored;
+  readonly tooltipText?: string | readonly string[] | Authored;
+  readonly tooltip_mode_enabled?: boolean | readonly boolean[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+}
+
+/** `windowType` as gui writes it. */
+export interface RuleSetGuiWindowtype {
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: (string | RuleSetGuiBackgroundBackground) | readonly (string | RuleSetGuiBackgroundBackground)[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly buttonType?: RuleSetGuiButtonButtontype | readonly RuleSetGuiButtonButtontype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dontRender?: string | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly effectButtonType?: RuleSetGuiButtonEffectbuttontype | readonly RuleSetGuiButtonEffectbuttontype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly fullScreen?: boolean | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly guiButtonType?: RuleSetGuiButtonGuibuttontype | readonly RuleSetGuiButtonGuibuttontype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly horizontalBorder?: string | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly moveable?: boolean | Authored;
+  readonly name: string | Authored;
+  readonly navDown?: string | readonly string[] | Authored;
+  readonly navLeft?: string | readonly string[] | Authored;
+  readonly navRight?: string | readonly string[] | Authored;
+  readonly navUp?: string | readonly string[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly verticalBorder?: string | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
+}
+
+/** `complex_trigger_modifier` as modifier_rule_with_loc writes it. */
+export interface RuleSetModifierRuleWithLocComplexTriggerModifier {
+  readonly desc: string | Authored;
+  readonly job?: JobRef | Authored;
+  readonly mode: "set" | "weight" | "add" | "subtract" | "factor" | "mult" | "multiply" | "divide" | "modulo" | "round_to" | "max" | "min" | "pow" | Authored;
+  readonly mult?: number | "trigger:xxxxxxxxx" | "capital_scope.trigger:pop_amount" | "local_pop_amount" | "local_spent_biomass" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "trigger:fleet_power" | "trigger:pop_amount" | "trigger:psionic_pop_amount" | "trigger:sapient_pop_amount" | "trigger:pop_group_size" | Authored;
+  readonly multiplier?: number | Authored;
+  readonly parameters?: {
+  readonly limit?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+} | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly trigger: string | Authored;
+  readonly trigger_scope?: string | Authored;
+}
+
+/** `modifier` as modifier_rule_with_loc writes it. */
+export interface RuleSetModifierRuleWithLocModifier {
+  readonly desc: string | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `moon` as moon_initializer writes it. */
+export interface RuleSetMoonInitializerMoonPlanet {
+  readonly anomaly?: AnomalyCategoryRef | "none" | Authored;
+  readonly change_orbit?: number | Authored;
+  readonly class?: "random" | PlanetClassRef | PlanetClassRandomListRef | "star" | "random_colonizable" | "random_non_ideal" | "random_non_colonizable" | "ideal_planet_class" | "random_asteroid" | "none" | "ideal_design_class" | Authored;
+  readonly count?: number | {
+  readonly max?: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly deposit_blockers?: "none" | Authored;
+  readonly entity?: string | Authored;
+  readonly flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly has_independent_orbital_line?: boolean | Authored;
+  readonly has_ring?: boolean | Authored;
+  readonly home_planet?: boolean | Authored;
+  readonly init_effect?: EffectsByScope["planet"] | readonly EffectsByScope["planet"][] | Authored;
+  readonly modifier?: PlanetModifierRef | readonly PlanetModifierRef[] | Authored;
+  readonly modifiers?: "none" | Authored;
+  readonly moon?: RuleSetMoonInitializerMoonPlanet | readonly RuleSetMoonInitializerMoonPlanet[] | Authored;
+  readonly name?: string | Authored;
+  readonly orbit_angle?: ("random" | number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly ("random" | number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly orbit_distance?: (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly orbital_line?: ({
+  readonly orbit_distance_from_parent: number | Authored;
+}) | readonly ({
+  readonly orbit_distance_from_parent: number | Authored;
+})[] | Authored;
+  readonly resource?: ResourceRef | readonly ResourceRef[] | Authored;
+  readonly size?: (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly starting_planet?: boolean | Authored;
+  readonly tile_blocker?: DepositRef | readonly DepositRef[] | Authored;
+  readonly tile_blockers?: "none" | Authored;
+}
+
+/** `overlay` as overlay writes it. */
+export interface RuleSetOverlayOverlay {
+  readonly name: string | Authored;
+  readonly overSprite?: SpriteRef | Authored;
+  readonly position?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly size?: {
+  readonly x: number | Authored;
+  readonly y: number | Authored;
+} | Authored;
+  readonly spriteType?: SpriteRef | Authored;
+}
+
+/** `picture_event_data` as picture_event_data writes it. */
+export interface RuleSetPictureEventDataPictureEventData {
+  readonly city_level?: string | Authored;
+  readonly graphical_culture?: GraphicalCultureRef | string | Authored;
+  readonly planet_background?: string | PlanetClassRef | Authored;
+  readonly portrait?: PortraitRef | string | Authored;
+  readonly room?: string | Authored;
+  readonly tooltip?: boolean | Authored;
+  readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
+}
+
+/** `planet` as planet_initializer writes it. */
+export interface RuleSetPlanetInitializerPlanet {
+  readonly anomaly?: AnomalyCategoryRef | "none" | Authored;
+  readonly change_orbit?: number | readonly number[] | Authored;
+  readonly class?: "random" | PlanetClassRef | PlanetClassRandomListRef | "star" | "random_colonizable" | "random_non_ideal" | "random_non_colonizable" | "ideal_planet_class" | "random_asteroid" | "none" | "ideal_design_class" | Authored;
+  readonly count?: number | {
+  readonly max?: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly deposit_blockers?: "none" | Authored;
+  readonly entity?: string | Authored;
+  readonly flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly has_independent_orbital_line?: boolean | Authored;
+  readonly has_ring?: boolean | Authored;
+  readonly home_planet?: boolean | Authored;
+  readonly init_effect?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
+  readonly modifier?: PlanetModifierRef | readonly PlanetModifierRef[] | Authored;
+  readonly modifiers?: "none" | Authored;
+  readonly moon?: RuleSetMoonInitializerMoonPlanet | readonly RuleSetMoonInitializerMoonPlanet[] | Authored;
+  readonly name?: string | Authored;
+  readonly namelist?: NameListRef | "exiled_colony_names" | Authored;
+  readonly orbit_angle?: ("random" | number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly ("random" | number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly orbit_distance?: (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly orbital_line?: ({
+  readonly orbit_distance_from_parent: number | Authored;
+}) | readonly ({
+  readonly orbit_distance_from_parent: number | Authored;
+})[] | Authored;
+  readonly planet?: RuleSetPlanetInitializerPlanetPlanet | readonly RuleSetPlanetInitializerPlanetPlanet[] | Authored;
+  readonly resource?: ResourceRef | readonly ResourceRef[] | Authored;
+  readonly satellite_naming_policy?: "upper_case_roman_numerals" | "lower_case_latin_letters" | Authored;
+  readonly size?: (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly starting_planet?: boolean | Authored;
+  readonly tile_blocker?: DepositRef | readonly DepositRef[] | Authored;
+}
+
+/** `planet` as planet_initializer writes it. */
+export interface RuleSetPlanetInitializerPlanetPlanet {
+  readonly anomaly?: AnomalyCategoryRef | "none" | Authored;
+  readonly change_orbit?: number | readonly number[] | Authored;
+  readonly class?: "random" | PlanetClassRef | PlanetClassRandomListRef | "star" | "random_colonizable" | "random_non_ideal" | "random_non_colonizable" | "ideal_planet_class" | "random_asteroid" | "none" | "ideal_design_class" | Authored;
+  readonly count?: number | {
+  readonly max?: number | Authored;
+  readonly min: number | Authored;
+} | Authored;
+  readonly deposit_blockers?: "none" | Authored;
+  readonly entity?: string | Authored;
+  readonly flags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly has_independent_orbital_line?: boolean | Authored;
+  readonly has_ring?: boolean | Authored;
+  readonly home_planet?: boolean | Authored;
+  readonly init_effect?: EffectsByScope["planet"] | readonly EffectsByScope["planet"][] | Authored;
+  readonly modifier?: PlanetModifierRef | readonly PlanetModifierRef[] | Authored;
+  readonly modifiers?: "none" | Authored;
+  readonly moon?: RuleSetMoonInitializerMoonPlanet | readonly RuleSetMoonInitializerMoonPlanet[] | Authored;
+  readonly name?: string | Authored;
+  readonly namelist?: NameListRef | "exiled_colony_names" | Authored;
+  readonly orbit_angle?: ("random" | number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly ("random" | number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly orbit_distance?: (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly orbital_line?: ({
+  readonly orbit_distance_from_parent: number | Authored;
+}) | readonly ({
+  readonly orbit_distance_from_parent: number | Authored;
+})[] | Authored;
+  readonly planet?: RuleSetPlanetInitializerPlanetPlanet | readonly RuleSetPlanetInitializerPlanetPlanet[] | Authored;
+  readonly resource?: ResourceRef | readonly ResourceRef[] | Authored;
+  readonly satellite_naming_policy?: "upper_case_roman_numerals" | "lower_case_latin_letters" | Authored;
+  readonly size?: (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+}) | readonly (number | {
+  readonly max: number | Authored;
+  readonly min: number | Authored;
+})[] | Authored;
+  readonly starting_planet?: boolean | Authored;
+  readonly tile_blocker?: DepositRef | readonly DepositRef[] | Authored;
+}
+
+/** `resources` as resources_template_optional writes it. */
+export interface RuleSetResourcesTemplateOptionalResourcesPlanet {
+  readonly category: EconomicCategoryRef | Authored;
+  readonly cost?: RuleSetEconomicTemplateCostPlanet | readonly RuleSetEconomicTemplateCostPlanet[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPlanet | readonly RuleSetEconomicTemplateLogisticsPlanet[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPlanet | readonly RuleSetEconomicTemplateProducesPlanet[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPlanet | readonly RuleSetEconomicTemplateUpkeepPlanet[] | Authored;
+}
+
+/** `color` as subsystem_color writes it. */
+export interface RuleSetSubsystemColorColor {
+  readonly alpha?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly b?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly g?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly r?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly x?: string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly y?: string | PdxBlock | readonly PdxValue[] | Authored;
+  readonly z?: string | PdxBlock | readonly PdxValue[] | Authored;
+}
+
+/** `triggered_country_modifier` as triggered_country_modifier_country writes it. */
+export interface RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_country_modifier` as triggered_country_modifier_planet writes it. */
+export interface RuleSetTriggeredCountryModifierPlanetTriggeredCountryModifierPlanet {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_country_modifier` as triggered_country_modifier_planet writes it. */
+export interface RuleSetTriggeredCountryModifierPlanetTriggeredCountryModifierPopGroup {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_country_modifier` as triggered_country_modifier_pop writes it. */
+export interface RuleSetTriggeredCountryModifierPopTriggeredCountryModifierPopGroup {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_country_modifier` as triggered_country_modifier_starbase writes it. */
+export interface RuleSetTriggeredCountryModifierStarbaseTriggeredCountryModifierStarbase {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_desc` as triggered_desc writes it. */
+export interface RuleSetTriggeredDescTriggeredDescPlanet {
+  readonly text?: string | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
+}
+
+/** `triggered_district_planet_modifier` as triggered_district_modifier_planet writes it. */
+export interface RuleSetTriggeredDistrictModifierPlanetTriggeredDistrictPlanetModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly key?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_fleet_modifier` as triggered_fleet_modifier_fleet writes it. */
+export interface RuleSetTriggeredFleetModifierFleetTriggeredFleetModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly key?: string | Authored;
+  readonly modifier?: {
+  readonly custom_tooltip?: string | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+} | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_self_modifier` as triggered_leader_modifier_leader writes it. */
+export interface RuleSetTriggeredLeaderModifierLeaderTriggeredSelfModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_leader_modifier` as triggered_leader_modifier_pop writes it. */
+export interface RuleSetTriggeredLeaderModifierPopTriggeredLeaderModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_modifier` as triggered_modifier_country writes it. */
+export interface RuleSetTriggeredModifierCountryTriggeredModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_modifier` as triggered_modifier_situation writes it. */
+export interface RuleSetTriggeredModifierSituationTriggeredModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_growth_habitability_modifier` as triggered_planet_growth_habitability_modifier writes it. */
+export interface RuleSetTriggeredPlanetGrowthHabitabilityModifierTriggeredPlanetGrowthHabitabilityModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_modifier` as triggered_planet_modifier_planet writes it. */
+export interface RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly key?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_pop_group_modifier_for_all` as triggered_planet_modifier_pop_group writes it. */
+export interface RuleSetTriggeredPlanetModifierPopGroupTriggeredPlanetPopGroupModifierForAllPlanet {
+  readonly custom_tooltip?: string | Authored;
+  readonly key?: TraitRef | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_pop_group_modifier_for_all` as triggered_planet_modifier_pop_group writes it. */
+export interface RuleSetTriggeredPlanetModifierPopGroupTriggeredPlanetPopGroupModifierForAllPopGroup {
+  readonly custom_tooltip?: string | Authored;
+  readonly key?: TraitRef | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_modifier` as triggered_planet_modifier_pop writes it. */
+export interface RuleSetTriggeredPlanetModifierPopTriggeredPlanetModifierPopGroup {
+  readonly custom_tooltip?: string | Authored;
+  readonly key?: TraitRef | string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_modifier` as triggered_planet_modifier_starbase writes it. */
+export interface RuleSetTriggeredPlanetModifierStarbaseTriggeredPlanetModifierStarbase {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_pop_group_modifier_for_species` as triggered_planet_pop_group_modifier_species writes it. */
+export interface RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpecies {
+  readonly custom_tooltip?: string | Authored;
+  readonly divide_over_pop_groups?: boolean | Authored;
+  readonly key?: TraitRef | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_pop_group_modifier_for_species` as triggered_planet_pop_group_modifier_species writes it. */
+export interface RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpeciesPlanet {
+  readonly custom_tooltip?: string | Authored;
+  readonly divide_over_pop_groups?: boolean | Authored;
+  readonly key?: TraitRef | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_planet_pop_group_modifier_for_species` as triggered_planet_pop_group_modifier_species writes it. */
+export interface RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpeciesPopGroup {
+  readonly custom_tooltip?: string | Authored;
+  readonly divide_over_pop_groups?: boolean | Authored;
+  readonly key?: TraitRef | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_pop_group_modifier` as triggered_pop_group_modifier writes it. */
+export interface RuleSetTriggeredPopGroupModifierTriggeredPopGroupModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly key?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_pop_modifier` as triggered_pop_modifier writes it. */
+export interface RuleSetTriggeredPopModifierTriggeredPopModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly key?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_ship_modifier` as triggered_ship_modifier writes it. */
+export interface RuleSetTriggeredShipModifierTriggeredShipModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_station_modifier` as triggered_station_modifier_starbase writes it. */
+export interface RuleSetTriggeredStationModifierStarbaseTriggeredStationModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_system_modifier` as triggered_system_modifier_starbase writes it. */
+export interface RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_system_modifier` as triggered_system_modifier_starbase writes it. */
+export interface RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifierStarbase {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
+
+/** `triggered_target_modifier` as triggered_target_modifier_situation writes it. */
+export interface RuleSetTriggeredTargetModifierSituationTriggeredTargetModifier {
+  readonly custom_tooltip?: string | Authored;
+  readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count" | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly show_only_custom_tooltip?: boolean | Authored;
+  readonly [key: string]: PdxValue | undefined;
+}
 
 export interface CheckedNinterfaceDefinition {
 
@@ -2449,9 +5575,42 @@ export interface NspeciesDefinition {
 }
 
 export interface ParagonUiNameTypeDefinition {
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
+  readonly background?: RuleSetGuiBackgroundBackground | readonly RuleSetGuiBackgroundBackground[] | Authored;
+  readonly borderSize?: RuleSetGuiStandardElementBordersize | readonly RuleSetGuiStandardElementBordersize[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly buttonType?: RuleSetGuiButtonButtontype | readonly RuleSetGuiButtonButtontype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
   readonly clipping?: boolean | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly defaultSelection?: boolean | readonly boolean[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly effectButtonType?: RuleSetGuiButtonEffectbuttontype | readonly RuleSetGuiButtonEffectbuttontype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
   readonly fade_time?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly format?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical" | "center" | "centre" | "left" | "right")[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly guiButtonType?: RuleSetGuiButtonGuibuttontype | readonly RuleSetGuiButtonGuibuttontype[] | Authored;
+  readonly horizontal?: (number | boolean) | readonly (number | boolean)[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly id?: string | readonly string[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly maxHeight?: number | readonly number[] | Authored;
+  readonly maxWidth?: number | readonly number[] | Authored;
+  readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
+  readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scale?: number | readonly number[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
 }
 
 export interface UncheckedNinterfaceDefinition {
@@ -2745,7 +5904,10 @@ export interface AgreementPresetDefinition {
 export interface AgreementResourceDefinition {
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
 }
 
@@ -2766,7 +5928,10 @@ export interface AgreementTermValueDefinition {
   readonly loyalty_change?: number | Authored;
   readonly overlord_resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly owner_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
@@ -2776,7 +5941,10 @@ export interface AgreementTermValueDefinition {
   readonly resources?: PdxBlock | readonly PdxValue[] | Authored;
   readonly subject_resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly subsidy_monthly_multiplier?: number | Authored;
   readonly subsidy_multiplier?: number | Authored;
@@ -2880,10 +6048,10 @@ export interface AiPersonalityDefinition {
 
 export interface AlertDefinition {
   readonly alert_setting_key?: string | Authored;
+  readonly category?: (AlertIconRef | "DISABLED") | readonly (AlertIconRef | "DISABLED")[] | Authored;
   readonly icon?: SpriteRef | Authored;
   readonly priority?: "HIGH" | "MEDIUM" | "LOW" | Authored;
   readonly sound: SoundEffectRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface AlertIconDefinition {
@@ -3005,7 +6173,10 @@ export interface ArmyDefinition {
   readonly rebel?: boolean | Authored;
   readonly resources?: {
   readonly category?: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
   readonly spawn_chance?: {
@@ -3024,7 +6195,10 @@ export interface ArtifactActionDefinition {
   readonly potential: TriggersByScope["country"] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostCountry | readonly RuleSetEconomicTemplateCostCountry[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | readonly RuleSetEconomicTemplateLogisticsCountry[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesCountry | readonly RuleSetEconomicTemplateProducesCountry[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | readonly RuleSetEconomicTemplateUpkeepCountry[] | Authored;
 } | Authored;
   readonly sound?: SoundEffectRef | Authored;
 }
@@ -3093,7 +6267,7 @@ export interface AscensionPerkDefinition {
   readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
 })[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_modifier?: RuleSetTriggeredModifierCountryTriggeredModifier | readonly RuleSetTriggeredModifierCountryTriggeredModifier[] | Authored;
 }
 
 export interface AssetSelectorDefinition {
@@ -3231,7 +6405,12 @@ export interface AsteroidBeltTypeDefinition {
 }
 
 export interface AstralActionDefinition {
-  readonly activation_cost?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly activation_cost?: {
+  readonly cost?: RuleSetEconomicTemplateCostCountry | readonly RuleSetEconomicTemplateCostCountry[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | readonly RuleSetEconomicTemplateLogisticsCountry[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesCountry | readonly RuleSetEconomicTemplateProducesCountry[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | readonly RuleSetEconomicTemplateUpkeepCountry[] | Authored;
+} | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly allow?: TriggersByScope["country"] | Authored;
   readonly allow_unlock?: TriggersByScope["country"] | Authored;
@@ -3276,7 +6455,7 @@ export interface AstralActionsDefinition {
   readonly potential?: TriggersByScope["country"] | Authored;
   readonly sound?: SoundRef | SoundEffectRef | Authored;
   readonly unlock_threshold?: number | Authored;
-  readonly upgrade?: "action_flash_forge_hyper_relay" | "action_quantum_catapult_insight_2" | Authored;
+  readonly upgrade?: "action_flash_forge_hyper_relay" | "action_quantum_catapult_insight_2" | "action_exodus_jump_insight_2" | Authored;
   readonly usages?: number | Authored;
   readonly uses_custom_cooldown?: boolean | Authored;
 }
@@ -3366,14 +6545,48 @@ export interface AuthorityDefinition {
   readonly max_election_candidates?: number | Authored;
   readonly playable?: TriggersByScope["country"] | Authored;
   readonly possible?: {
-  readonly always?: boolean | Authored;
-  readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly AND?: RuleSetGovernmentTriggerAndCountry | readonly RuleSetGovernmentTriggerAndCountry[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOrCountry | readonly RuleSetGovernmentTriggerOrCountry[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthorityCountry | readonly RuleSetGovernmentTriggerAuthorityCountry[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivicsCountry | readonly RuleSetGovernmentTriggerCivicsCountry[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryTypeCountry | readonly RuleSetGovernmentTriggerCountryTypeCountry[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthicsCountry | readonly RuleSetGovernmentTriggerEthicsCountry[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCultureCountry | readonly RuleSetGovernmentTriggerGraphicalCultureCountry[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimitCountry | readonly RuleSetGovernmentTriggerLimitCountry[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOriginCountry | readonly RuleSetGovernmentTriggerOriginCountry[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClassCountry | readonly RuleSetGovernmentTriggerPreferredPlanetClassCountry[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetypeCountry | readonly RuleSetGovernmentTriggerSpeciesArchetypeCountry[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClassCountry | readonly RuleSetGovernmentTriggerSpeciesClassCountry[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraitsCountry | readonly RuleSetGovernmentTriggerTraitsCountry[] | Authored;
 } | Authored;
   readonly potential?: {
-  readonly always?: boolean | Authored;
-  readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly AND?: RuleSetGovernmentTriggerAndCountry | readonly RuleSetGovernmentTriggerAndCountry[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOrCountry | readonly RuleSetGovernmentTriggerOrCountry[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthorityCountry | readonly RuleSetGovernmentTriggerAuthorityCountry[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivicsCountry | readonly RuleSetGovernmentTriggerCivicsCountry[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryTypeCountry | readonly RuleSetGovernmentTriggerCountryTypeCountry[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthicsCountry | readonly RuleSetGovernmentTriggerEthicsCountry[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCultureCountry | readonly RuleSetGovernmentTriggerGraphicalCultureCountry[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimitCountry | readonly RuleSetGovernmentTriggerLimitCountry[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOriginCountry | readonly RuleSetGovernmentTriggerOriginCountry[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClassCountry | readonly RuleSetGovernmentTriggerPreferredPlanetClassCountry[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetypeCountry | readonly RuleSetGovernmentTriggerSpeciesArchetypeCountry[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClassCountry | readonly RuleSetGovernmentTriggerSpeciesClassCountry[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraitsCountry | readonly RuleSetGovernmentTriggerTraitsCountry[] | Authored;
 } | Authored;
   readonly random_weight?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly re_election_allowed?: boolean | Authored;
@@ -3434,6 +6647,7 @@ export interface BuildingDefinition {
   readonly add_to_first_building_slot?: true | Authored;
   readonly additional_ai_weight?: number | Authored;
   readonly ai_estimate_without_unemployment?: boolean | Authored;
+  readonly ai_resource_production?: RuleSetAiResourceProductionAiResourceProductionPlanet | readonly RuleSetAiResourceProductionAiResourceProductionPlanet[] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight_coefficient?: number | Authored;
   readonly allow?: TriggersByScope["planet"] | Authored;
@@ -3500,7 +6714,10 @@ export interface BuildingDefinition {
 } | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostPlanet | readonly RuleSetEconomicTemplateCostPlanet[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPlanet | readonly RuleSetEconomicTemplateLogisticsPlanet[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPlanet | readonly RuleSetEconomicTemplateProducesPlanet[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPlanet | readonly RuleSetEconomicTemplateUpkeepPlanet[] | Authored;
 } | Authored;
   readonly ruined_icon?: string | BuildingRef | Authored;
   readonly ruined_trigger?: TriggersByScope["planet"] | Authored;
@@ -3508,8 +6725,12 @@ export interface BuildingDefinition {
   readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
   readonly skip_automation_upgrading?: boolean | Authored;
   readonly system_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierPlanetTriggeredCountryModifierPlanet | readonly RuleSetTriggeredCountryModifierPlanetTriggeredCountryModifierPlanet[] | Authored;
+  readonly triggered_desc?: RuleSetTriggeredDescTriggeredDescPlanet | readonly RuleSetTriggeredDescTriggeredDescPlanet[] | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | readonly RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier[] | Authored;
+  readonly triggered_planet_pop_group_modifier_for_all?: RuleSetTriggeredPlanetModifierPopGroupTriggeredPlanetPopGroupModifierForAllPlanet | readonly RuleSetTriggeredPlanetModifierPopGroupTriggeredPlanetPopGroupModifierForAllPlanet[] | Authored;
+  readonly triggered_planet_pop_group_modifier_for_species?: RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpeciesPlanet | readonly RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpeciesPlanet[] | Authored;
   readonly upgrades?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ButtonEffectDefinition {
@@ -3615,7 +6836,8 @@ export interface CitizenshipTypeDefinition {
   readonly pop_status_frame?: number | Authored;
   readonly pop_tooltip?: string | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_pop_group_modifier?: RuleSetTriggeredPopGroupModifierTriggeredPopGroupModifier | readonly RuleSetTriggeredPopGroupModifierTriggeredPopGroupModifier[] | Authored;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
 }
 
 export interface CivicOrOriginDefinition {
@@ -3660,18 +6882,69 @@ export interface CivicOrOriginDefinition {
   readonly playable?: TriggersByScope["country"] | Authored;
   readonly portrait?: PortraitRef | Authored;
   readonly possible?: ({
-  readonly always?: boolean | Authored;
-  readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly AND?: RuleSetGovernmentTriggerAndCountry | readonly RuleSetGovernmentTriggerAndCountry[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOrCountry | readonly RuleSetGovernmentTriggerOrCountry[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthorityCountry | readonly RuleSetGovernmentTriggerAuthorityCountry[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivicsCountry | readonly RuleSetGovernmentTriggerCivicsCountry[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryTypeCountry | readonly RuleSetGovernmentTriggerCountryTypeCountry[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthicsCountry | readonly RuleSetGovernmentTriggerEthicsCountry[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCultureCountry | readonly RuleSetGovernmentTriggerGraphicalCultureCountry[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimitCountry | readonly RuleSetGovernmentTriggerLimitCountry[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOriginCountry | readonly RuleSetGovernmentTriggerOriginCountry[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClassCountry | readonly RuleSetGovernmentTriggerPreferredPlanetClassCountry[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetypeCountry | readonly RuleSetGovernmentTriggerSpeciesArchetypeCountry[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClassCountry | readonly RuleSetGovernmentTriggerSpeciesClassCountry[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraitsCountry | readonly RuleSetGovernmentTriggerTraitsCountry[] | Authored;
 }) | readonly ({
-  readonly always?: boolean | Authored;
-  readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly AND?: RuleSetGovernmentTriggerAndCountry | readonly RuleSetGovernmentTriggerAndCountry[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOrCountry | readonly RuleSetGovernmentTriggerOrCountry[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthorityCountry | readonly RuleSetGovernmentTriggerAuthorityCountry[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivicsCountry | readonly RuleSetGovernmentTriggerCivicsCountry[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryTypeCountry | readonly RuleSetGovernmentTriggerCountryTypeCountry[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthicsCountry | readonly RuleSetGovernmentTriggerEthicsCountry[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCultureCountry | readonly RuleSetGovernmentTriggerGraphicalCultureCountry[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimitCountry | readonly RuleSetGovernmentTriggerLimitCountry[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOriginCountry | readonly RuleSetGovernmentTriggerOriginCountry[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClassCountry | readonly RuleSetGovernmentTriggerPreferredPlanetClassCountry[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetypeCountry | readonly RuleSetGovernmentTriggerSpeciesArchetypeCountry[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClassCountry | readonly RuleSetGovernmentTriggerSpeciesClassCountry[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraitsCountry | readonly RuleSetGovernmentTriggerTraitsCountry[] | Authored;
 })[] | Authored;
   readonly potential?: {
-  readonly always?: boolean | Authored;
-  readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly AND?: RuleSetGovernmentTriggerAndCountry | readonly RuleSetGovernmentTriggerAndCountry[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOrCountry | readonly RuleSetGovernmentTriggerOrCountry[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthorityCountry | readonly RuleSetGovernmentTriggerAuthorityCountry[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivicsCountry | readonly RuleSetGovernmentTriggerCivicsCountry[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryTypeCountry | readonly RuleSetGovernmentTriggerCountryTypeCountry[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthicsCountry | readonly RuleSetGovernmentTriggerEthicsCountry[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCultureCountry | readonly RuleSetGovernmentTriggerGraphicalCultureCountry[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimitCountry | readonly RuleSetGovernmentTriggerLimitCountry[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOriginCountry | readonly RuleSetGovernmentTriggerOriginCountry[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClassCountry | readonly RuleSetGovernmentTriggerPreferredPlanetClassCountry[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetypeCountry | readonly RuleSetGovernmentTriggerSpeciesArchetypeCountry[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClassCountry | readonly RuleSetGovernmentTriggerSpeciesClassCountry[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraitsCountry | readonly RuleSetGovernmentTriggerTraitsCountry[] | Authored;
 } | Authored;
   readonly preferred_planet_class_neighbor?: false | Authored;
   readonly random_weight?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
@@ -3753,7 +7026,7 @@ export interface ColonizationControlDefinition {
   readonly pop_status_frame?: number | Authored;
   readonly pop_tooltip?: string | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
 }
 
 export interface ColonyAutomationDefinition {
@@ -3792,8 +7065,8 @@ export interface ColonyTypeDefinition {
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly potential: TriggersByScope["planet"] | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | readonly RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier[] | Authored;
   readonly weight_modifier: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ColorDefineDefinition {
@@ -3967,7 +7240,14 @@ export interface ComponentTemplateDefinition {
   readonly regeneration_per_day?: number | string | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
+} | {
+  readonly category: EconomicCategoryRef | Authored;
+  readonly cost?: RuleSetEconomicTemplateNoProduceCost | readonly RuleSetEconomicTemplateNoProduceCost[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateNoProduceUpkeep | readonly RuleSetEconomicTemplateNoProduceUpkeep[] | Authored;
 } | Authored;
   readonly rotation_speed?: number | Authored;
   readonly scripted_action?: {
@@ -4029,6 +7309,7 @@ export interface ComponentTemplateDefinition {
   readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly triggered_ship_modifier?: RuleSetTriggeredShipModifierTriggeredShipModifier | readonly RuleSetTriggeredShipModifierTriggeredShipModifier[] | Authored;
   readonly type?: "instant" | "point_defence" | "missile" | "planet_killer" | "engulf" | Authored;
   readonly upgrade_path?: "artillery" | "buffer" | "carrier" | "debuffer" | "default" | "empty" | "growth" | "harbinger_chitin" | "harbinger_incubator" | "mauler_biter" | "mauler_pursuit" | "picket" | "line" | "stinger_fire_rate" | "stinger_range" | "swarm" | "torpedo" | "weaver_booster" | "weaver_growth_aura" | Authored;
   readonly upgrades_to?: ComponentTemplateRef | Authored;
@@ -4040,7 +7321,6 @@ export interface ComponentTemplateDefinition {
   readonly max: number | Authored;
   readonly min: number | Authored;
 } | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ComponentTemplateStarbaseDefinition {
@@ -4139,7 +7419,7 @@ export interface CouncilorDefinition {
   readonly optional?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
   readonly required?: boolean | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier | readonly RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier[] | Authored;
 }
 
 export interface CountryCustomizationDefinition {
@@ -4185,7 +7465,10 @@ export interface CountryTypeDefinition {
   readonly blocks_pirate?: boolean | Authored;
   readonly branch_office_resources?: {
   readonly category: "planet_branch_offices" | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostCountry | readonly RuleSetEconomicTemplateCostCountry[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | readonly RuleSetEconomicTemplateLogisticsCountry[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesCountry | readonly RuleSetEconomicTemplateProducesCountry[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | readonly RuleSetEconomicTemplateUpkeepCountry[] | Authored;
 } | Authored;
   readonly can_have_their_comms_shared?: boolean | Authored;
   readonly can_own_empty_planets?: boolean | Authored;
@@ -4289,7 +7572,10 @@ export interface CountryTypeDefinition {
 } | Authored;
   readonly resources?: {
   readonly category: "country_base" | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostCountry | readonly RuleSetEconomicTemplateCostCountry[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | readonly RuleSetEconomicTemplateLogisticsCountry[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesCountry | readonly RuleSetEconomicTemplateProducesCountry[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | readonly RuleSetEconomicTemplateUpkeepCountry[] | Authored;
 } | Authored;
   readonly scaled_difficulty_bonuses?: number | Authored;
   readonly share_communications?: boolean | Authored;
@@ -4346,7 +7632,10 @@ export interface DecisionDefinition {
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category?: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostPlanet | readonly RuleSetEconomicTemplateCostPlanet[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPlanet | readonly RuleSetEconomicTemplateLogisticsPlanet[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPlanet | readonly RuleSetEconomicTemplateProducesPlanet[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPlanet | readonly RuleSetEconomicTemplateUpkeepPlanet[] | Authored;
 } | Authored;
   readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
   readonly sound?: SoundRef | SoundEffectRef | Authored;
@@ -4379,14 +7668,16 @@ export interface DepositDefinition {
   readonly planet_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly potential?: TriggersByScope["planet"] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resources?: RuleSetResourcesTemplateOptionalResourcesPlanet | readonly RuleSetResourcesTemplateOptionalResourcesPlanet[] | Authored;
   readonly should_swap_deposit_on_terraforming?: boolean | Authored;
   readonly station?: "shipclass_mining_station" | "shipclass_research_station" | Authored;
   readonly terraforming_swap_types?: PdxBlock | readonly PdxValue[] | Authored;
   readonly time?: number | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | readonly RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier[] | Authored;
+  readonly triggered_planet_pop_group_modifier_for_species?: RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpeciesPlanet | readonly RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpeciesPlanet[] | Authored;
   readonly use_for_min_max_adjustments?: boolean | Authored;
   readonly use_weights_for_blocker_swap_types?: boolean | Authored;
   readonly use_weights_for_terraforming_swap_types?: boolean | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface DepositCategoryDefinition {
@@ -4447,6 +7738,7 @@ export interface DiplomaticActionDefinition {
 export interface DistrictDefinition {
   readonly additional_ai_weight?: number | Authored;
   readonly ai_estimate_without_unemployment?: boolean | Authored;
+  readonly ai_resource_production?: RuleSetAiResourceProductionAiResourceProductionPlanet | readonly RuleSetAiResourceProductionAiResourceProductionPlanet[] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight_coefficient?: number | Authored;
   readonly allow?: TriggersByScope["planet"] | Authored;
@@ -4467,7 +7759,7 @@ export interface DistrictDefinition {
   readonly exempt_from_ai_planet_specialization?: boolean | Authored;
   readonly expansion_planner?: boolean | Authored;
   readonly expansion_planner_type?: DistrictRef | Authored;
-  readonly gridbox?: "district_arcology_mixed_industry" | "district_arcology_research" | "district_resort" | "district_industrial" | "district_generator" | Authored;
+  readonly gridbox?: "district_arcology_mixed_industry" | "district_arcology_research" | "district_resort" | "district_industrial" | "district_generator" | "district_arcology_fortress" | "district_city" | "district_farming" | "district_srw_commercial" | Authored;
   readonly icon?: string | Authored;
   readonly inherits_capped_modifiers_from?: DistrictRef | Authored;
   readonly is_capped_by_modifier?: boolean | Authored;
@@ -4484,11 +7776,15 @@ export interface DistrictDefinition {
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostPlanet | readonly RuleSetEconomicTemplateCostPlanet[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPlanet | readonly RuleSetEconomicTemplateLogisticsPlanet[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPlanet | readonly RuleSetEconomicTemplateProducesPlanet[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPlanet | readonly RuleSetEconomicTemplateUpkeepPlanet[] | Authored;
 } | Authored;
   readonly shared_capacity_modifier?: string | readonly string[] | Authored;
   readonly show_on_uncolonized?: TriggersByScope["planet"] | Authored;
   readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly triggered_desc?: RuleSetTriggeredDescTriggeredDescPlanet | readonly RuleSetTriggeredDescTriggeredDescPlanet[] | Authored;
   readonly triggered_flavor_desc?: ({
   readonly text?: string | Authored;
   readonly trigger?: TriggersByScope["planet"] | Authored;
@@ -4503,19 +7799,19 @@ export interface DistrictDefinition {
   readonly text?: string | Authored;
   readonly trigger?: TriggersByScope["planet"] | Authored;
 })[] | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | readonly RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier[] | Authored;
   readonly zone_slots?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface EconomicCategoryDefinition {
   readonly add_unscaled_value_to_tooltip?: boolean | Authored;
   readonly ai_use_parent_for_resources_upkeep?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly category?: "all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade" | Authored;
+  readonly category?: "all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade" | "colony" | Authored;
   readonly generate_add_modifiers?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly generate_mult_modifiers?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly hidden?: true | boolean | Authored;
   readonly icon?: string | Authored;
-  readonly modifier_category?: ("all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade") | readonly ("all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade")[] | Authored;
+  readonly modifier_category?: ("all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade" | "colony") | readonly ("all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade" | "colony")[] | Authored;
   readonly parent?: EconomicCategoryRef | Authored;
   readonly scaled_value_key?: string | Authored;
   readonly triggered_cost_modifier?: ({
@@ -4614,11 +7910,14 @@ export interface EdictDefinition {
   readonly relay_network_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostCountry | readonly RuleSetEconomicTemplateCostCountry[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | readonly RuleSetEconomicTemplateLogisticsCountry[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesCountry | readonly RuleSetEconomicTemplateProducesCountry[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | readonly RuleSetEconomicTemplateUpkeepCountry[] | Authored;
 } | Authored;
   readonly show_tech_unlock_if?: TriggersByScope["country"] | Authored;
+  readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier | readonly RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier[] | Authored;
   readonly unity_cost_mult?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface EmpireNameFormatDefinition {
@@ -4675,7 +7974,8 @@ export interface EspionageOperationDefinition {
   readonly potential: TriggersByScope["spy_network"] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateNoProduceCostSpyNetwork | readonly RuleSetEconomicTemplateNoProduceCostSpyNetwork[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateNoProduceUpkeepSpyNetwork | readonly RuleSetEconomicTemplateNoProduceUpkeepSpyNetwork[] | Authored;
 } | Authored;
   readonly spy_power_cost: number | Authored;
   readonly stage: ({
@@ -5016,7 +8316,39 @@ export interface EventDefinition {
   readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
 } | string)[] | Authored;
   readonly picture_clear?: true | Authored;
-  readonly pre_triggers?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly picture_event_data?: RuleSetPictureEventDataPictureEventData | readonly RuleSetPictureEventDataPictureEventData[] | Authored;
+  readonly pre_triggers?: {
+  readonly is_ai?: boolean | readonly boolean[] | Authored;
+} | {
+  readonly has_ground_combat?: boolean | readonly boolean[] | Authored;
+  readonly has_owner?: boolean | readonly boolean[] | Authored;
+  readonly is_ai?: boolean | readonly boolean[] | Authored;
+  readonly is_capital?: boolean | readonly boolean[] | Authored;
+  readonly is_homeworld?: boolean | readonly boolean[] | Authored;
+  readonly is_occupied_flag?: boolean | readonly boolean[] | Authored;
+  readonly original_owner?: boolean | readonly boolean[] | Authored;
+} | {
+  readonly has_owner?: boolean | readonly boolean[] | Authored;
+} | {
+  readonly has_owner?: boolean | readonly boolean[] | Authored;
+  readonly has_planet?: boolean | readonly boolean[] | Authored;
+  readonly is_being_assimilated?: boolean | readonly boolean[] | Authored;
+  readonly is_being_purged?: boolean | readonly boolean[] | Authored;
+  readonly is_enslaved?: boolean | readonly boolean[] | Authored;
+  readonly is_robot_pop?: boolean | readonly boolean[] | Authored;
+  readonly is_robotic?: boolean | readonly boolean[] | Authored;
+  readonly is_sapient?: boolean | readonly boolean[] | Authored;
+} | {
+  readonly has_owner?: boolean | readonly boolean[] | Authored;
+  readonly is_idle?: boolean | readonly boolean[] | Authored;
+} | {
+  readonly has_owner?: boolean | readonly boolean[] | Authored;
+  readonly is_occupied_flag?: boolean | readonly boolean[] | Authored;
+} | {
+  readonly has_owner?: boolean | readonly boolean[] | Authored;
+  readonly is_capital?: boolean | readonly boolean[] | Authored;
+  readonly is_occupied_flag?: boolean | readonly boolean[] | Authored;
+} | Authored;
   readonly show_sound?: (SoundEffectRef | {
   readonly sound: SoundEffectRef | Authored;
   readonly sound_is_advisor?: boolean | Authored;
@@ -5081,7 +8413,12 @@ export interface FallenEmpiresDefinition {
 }
 
 export interface FederationLawDefinition {
-  readonly ai_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight: {
+  readonly base?: number | readonly number[] | Authored;
+  readonly complex_trigger_modifier?: RuleSetModifierRuleWithLocComplexTriggerModifier | readonly RuleSetModifierRuleWithLocComplexTriggerModifier[] | Authored;
+  readonly factor?: number | readonly number[] | Authored;
+  readonly modifier?: RuleSetModifierRuleWithLocModifier | readonly RuleSetModifierRuleWithLocModifier[] | Authored;
+} | Authored;
   readonly allow: PdxBlock | readonly PdxValue[] | Authored;
   readonly cohesion_growth?: number | Authored;
   readonly display_level?: number | Authored;
@@ -5153,7 +8490,12 @@ export interface FederationPerkDefinition {
 }
 
 export interface FederationTypeDefinition {
-  readonly ai_weight: PdxBlock | readonly PdxValue[] | Authored;
+  readonly ai_weight: {
+  readonly base?: number | readonly number[] | Authored;
+  readonly complex_trigger_modifier?: RuleSetModifierRuleWithLocComplexTriggerModifier | readonly RuleSetModifierRuleWithLocComplexTriggerModifier[] | Authored;
+  readonly factor?: number | readonly number[] | Authored;
+  readonly modifier?: RuleSetModifierRuleWithLocModifier | readonly RuleSetModifierRuleWithLocModifier[] | Authored;
+} | Authored;
   readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
   readonly base_intel: number | Authored;
   readonly icon: SpriteRef | Authored;
@@ -5324,8 +8666,26 @@ export interface GraphicalCultureDefinition {
 }
 
 export interface GuiTypeDefinition {
-
-  readonly [key: string]: PdxValue | undefined;
+  readonly OverlappingElementsBoxType?: RuleSetGuiOverlappingelementsboxtype | readonly RuleSetGuiOverlappingelementsboxtype[] | Authored;
+  readonly browserType?: RuleSetGuiBrowsertype | readonly RuleSetGuiBrowsertype[] | Authored;
+  readonly buttonType?: RuleSetGuiButtonButtontype | readonly RuleSetGuiButtonButtontype[] | Authored;
+  readonly checkboxType?: RuleSetGuiCheckboxtype | readonly RuleSetGuiCheckboxtype[] | Authored;
+  readonly containerWindowType?: RuleSetGuiContainerwindowtype | readonly RuleSetGuiContainerwindowtype[] | Authored;
+  readonly dropDownBoxType?: RuleSetGuiDropdownboxtype | readonly RuleSetGuiDropdownboxtype[] | Authored;
+  readonly editBoxType?: RuleSetGuiEditboxtype | readonly RuleSetGuiEditboxtype[] | Authored;
+  readonly effectButtonType?: RuleSetGuiButtonEffectbuttontype | readonly RuleSetGuiButtonEffectbuttontype[] | Authored;
+  readonly extendedScrollbarType?: RuleSetGuiExtendedscrollbartype | readonly RuleSetGuiExtendedscrollbartype[] | Authored;
+  readonly gridBoxType?: RuleSetGuiGridboxtype | readonly RuleSetGuiGridboxtype[] | Authored;
+  readonly guiButtonType?: RuleSetGuiButtonGuibuttontype | readonly RuleSetGuiButtonGuibuttontype[] | Authored;
+  readonly iconType?: RuleSetGuiIcontype | readonly RuleSetGuiIcontype[] | Authored;
+  readonly instantTextboxType?: RuleSetGuiInstanttextboxtype | readonly RuleSetGuiInstanttextboxtype[] | Authored;
+  readonly listBoxType?: RuleSetGuiListboxtype | readonly RuleSetGuiListboxtype[] | Authored;
+  readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
+  readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
+  readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
+  readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
+  readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
+  readonly windowType?: RuleSetGuiWindowtype | readonly RuleSetGuiWindowtype[] | Authored;
 }
 
 export interface IntelCategoryDefinition {
@@ -5374,12 +8734,24 @@ export interface JobDefinition {
   readonly is_pre_sapient?: boolean | Authored;
   readonly overlord_resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostPopGroup | readonly RuleSetEconomicTemplateCostPopGroup[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPopGroup | readonly RuleSetEconomicTemplateLogisticsPopGroup[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPopGroup | readonly RuleSetEconomicTemplateProducesPopGroup[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPopGroup | readonly RuleSetEconomicTemplateUpkeepPopGroup[] | Authored;
 } | Authored;
   readonly planet_modifier?: (PdxBlock | readonly PdxValue[]) | readonly (PdxBlock | readonly PdxValue[])[] | Authored;
   readonly pop_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: TriggersByScope["pop_group"] | Authored;
-  readonly possible_pre_triggers?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly possible_pre_triggers?: {
+  readonly has_owner?: boolean | readonly boolean[] | Authored;
+  readonly has_planet?: boolean | readonly boolean[] | Authored;
+  readonly is_being_assimilated?: boolean | readonly boolean[] | Authored;
+  readonly is_being_purged?: boolean | readonly boolean[] | Authored;
+  readonly is_enslaved?: boolean | readonly boolean[] | Authored;
+  readonly is_robot_pop?: boolean | readonly boolean[] | Authored;
+  readonly is_robotic?: boolean | readonly boolean[] | Authored;
+  readonly is_sapient?: boolean | readonly boolean[] | Authored;
+} | Authored;
   readonly possible_precalc?: "can_fill_ruler_job" | "can_fill_specialist_job" | "can_fill_worker_job" | "can_fill_drone_job" | "can_fill_precursor_job" | Authored;
   readonly promotion?: {
   readonly effect: EffectsByScope["pop_group"] | Authored;
@@ -5462,12 +8834,16 @@ export interface JobDefinition {
 } | Authored;
   readonly system_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly tags?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly triggered_country_modifier?: (RuleSetTriggeredCountryModifierPlanetTriggeredCountryModifierPopGroup | RuleSetTriggeredCountryModifierPopTriggeredCountryModifierPopGroup) | readonly (RuleSetTriggeredCountryModifierPlanetTriggeredCountryModifierPopGroup | RuleSetTriggeredCountryModifierPopTriggeredCountryModifierPopGroup)[] | Authored;
+  readonly triggered_planet_modifier?: (RuleSetTriggeredPlanetModifierPopTriggeredPlanetModifierPopGroup | RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier) | readonly (RuleSetTriggeredPlanetModifierPopTriggeredPlanetModifierPopGroup | RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier)[] | Authored;
+  readonly triggered_planet_pop_group_modifier_for_all?: RuleSetTriggeredPlanetModifierPopGroupTriggeredPlanetPopGroupModifierForAllPopGroup | readonly RuleSetTriggeredPlanetModifierPopGroupTriggeredPlanetPopGroupModifierForAllPopGroup[] | Authored;
+  readonly triggered_planet_pop_group_modifier_for_species?: RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpeciesPopGroup | readonly RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpeciesPopGroup[] | Authored;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
   readonly triggered_tags?: {
   readonly tags: PdxBlock | readonly PdxValue[] | Authored;
   readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 } | Authored;
   readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface JobTagsDefinition {
@@ -5510,7 +8886,10 @@ export interface LeaderClassDefinition {
   readonly replaces_old_class?: ("governor" | "admiral" | "general") | readonly ("governor" | "admiral" | "general")[] | Authored;
   readonly resources?: {
   readonly category?: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
 }
 
@@ -5537,13 +8916,13 @@ export interface LightDefinition {
 } | Authored;
   readonly duration?: number | Authored;
   readonly falloff: number | Authored;
+  readonly intensity?: (string | number) | readonly (string | number)[] | Authored;
   readonly position: {
   readonly x: number | Authored;
   readonly y: number | Authored;
   readonly z: number | Authored;
 } | Authored;
   readonly radius: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface LivingStandardDefinition {
@@ -5571,7 +8950,7 @@ export interface LivingStandardDefinition {
   readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
 }
 
 export interface MapGalaxyShapeDefinition {
@@ -5752,7 +9131,12 @@ export interface MegaOverclockDefinition {
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly resources?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly resources?: {
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
+} | Authored;
 }
 
 export interface MegastructureDefinition {
@@ -5781,7 +9165,10 @@ export interface MegastructureDefinition {
   readonly cycle_title?: string | Authored;
   readonly dismantle_cost?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly dismantle_possible?: PdxBlock | readonly PdxValue[] | Authored;
   readonly dismantle_potential?: PdxBlock | readonly PdxValue[] | Authored;
@@ -5821,7 +9208,10 @@ export interface MegastructureDefinition {
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly rotate_to_center?: boolean | Authored;
   readonly scale_offset?: boolean | Authored;
@@ -5841,11 +9231,11 @@ export interface MegastructureDefinition {
   readonly tooltip_system_score?: PdxValue | readonly PdxValue[] | Authored;
   readonly tooltip_system_score_high_threshold?: number | readonly number[] | Authored;
   readonly tooltip_system_score_low_threshold?: number | readonly number[] | Authored;
+  readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier | readonly RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier[] | Authored;
   readonly upgrade_desc?: string | Authored;
   readonly upgrade_from?: PdxBlock | readonly PdxValue[] | Authored;
   readonly use_planet_resource?: boolean | Authored;
   readonly victory_score?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface MenacePerkDefinition {
@@ -5855,7 +9245,7 @@ export interface MenacePerkDefinition {
   readonly portrait: SpriteRef | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly produces?: RuleSetEconomicTemplateOnlyProducesProduces | readonly RuleSetEconomicTemplateOnlyProducesProduces[] | Authored;
 } | Authored;
 }
 
@@ -5895,7 +9285,7 @@ export interface MigrationControlDefinition {
   readonly pop_status_frame?: number | Authored;
   readonly pop_tooltip?: string | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
 }
 
 export interface MilitaryServiceTypeDefinition {
@@ -5914,7 +9304,7 @@ export interface MilitaryServiceTypeDefinition {
   readonly pop_status_frame?: number | Authored;
   readonly pop_tooltip?: string | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
 }
 
 export interface MissionCategoryDefinition {
@@ -6402,7 +9792,10 @@ export interface ObservationStationMissionDefinition {
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostFleet | readonly RuleSetEconomicTemplateCostFleet[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsFleet | readonly RuleSetEconomicTemplateLogisticsFleet[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesFleet | readonly RuleSetEconomicTemplateProducesFleet[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepFleet | readonly RuleSetEconomicTemplateUpkeepFleet[] | Authored;
 } | Authored;
   readonly small_icon: number | Authored;
   readonly valid?: PdxBlock | readonly PdxValue[] | Authored;
@@ -6494,7 +9887,9 @@ export interface ParticleTypeDefinition {
   readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
   readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: number | Authored;
+  readonly emission?: RuleSetEmissionEmission | readonly RuleSetEmissionEmission[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -6538,13 +9933,14 @@ export interface ParticleTypeDefinition {
   readonly velocity?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
   readonly billboard?: boolean | Authored;
   readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
   readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: number | Authored;
+  readonly emission?: RuleSetEmissionEmission | readonly RuleSetEmissionEmission[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -6588,9 +9984,10 @@ export interface ParticleTypeDefinition {
   readonly velocity?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
+  readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission?: (number | string | RuleSetEmissionEmission) | readonly (number | string | RuleSetEmissionEmission)[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -6636,7 +10033,6 @@ export interface ParticleTypeDefinition {
   readonly velocity?: string | PdxBlock | readonly PdxValue[] | Authored;
   readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
   readonly billboard?: boolean | Authored;
   readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
@@ -6647,7 +10043,9 @@ export interface ParticleTypeDefinition {
   readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
   readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: number | Authored;
+  readonly emission?: RuleSetEmissionEmission | readonly RuleSetEmissionEmission[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -6691,13 +10089,14 @@ export interface ParticleTypeDefinition {
   readonly velocity?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
   readonly billboard?: boolean | Authored;
   readonly box_emitter_x?: number | string | PdxBlock | readonly PdxValue[] | Authored;
   readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
+  readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: number | Authored;
+  readonly emission?: RuleSetEmissionEmission | readonly RuleSetEmissionEmission[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -6741,9 +10140,10 @@ export interface ParticleTypeDefinition {
   readonly velocity?: number | PdxBlock | readonly PdxValue[] | Authored;
   readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
+  readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: PdxBlock | readonly PdxValue[] | number | Authored;
+  readonly emission?: (number | string | RuleSetEmissionEmission) | readonly (number | string | RuleSetEmissionEmission)[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -6789,7 +10189,6 @@ export interface ParticleTypeDefinition {
   readonly velocity?: string | PdxBlock | readonly PdxValue[] | Authored;
   readonly velocity_pitch?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly velocity_yaw?: PdxBlock | readonly PdxValue[] | number | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
 }
 
@@ -6853,7 +10252,7 @@ export interface PatronsDefinition {
   readonly icon?: string | Authored;
   readonly name?: string | Authored;
   readonly show_only_custom_tooltip?: boolean | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_modifier?: RuleSetTriggeredModifierCountryTriggeredModifier | readonly RuleSetTriggeredModifierCountryTriggeredModifier[] | Authored;
 } | Authored;
   readonly covenant_confirmation_time?: number | string | Authored;
   readonly covenant_event?: EventRef | Authored;
@@ -6880,7 +10279,7 @@ export interface PatronsDefinition {
   readonly custom_tooltip?: string | Authored;
   readonly potential?: TriggersByScope["country"] | Authored;
 })[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_modifier?: RuleSetTriggeredModifierCountryTriggeredModifier | readonly RuleSetTriggeredModifierCountryTriggeredModifier[] | Authored;
 }) | readonly ({
   readonly desc?: ({
   readonly text?: string | Authored;
@@ -6902,7 +10301,7 @@ export interface PatronsDefinition {
   readonly custom_tooltip?: string | Authored;
   readonly potential?: TriggersByScope["country"] | Authored;
 })[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_modifier?: RuleSetTriggeredModifierCountryTriggeredModifier | readonly RuleSetTriggeredModifierCountryTriggeredModifier[] | Authored;
 })[] | Authored;
   readonly position?: {
   readonly x: number | Authored;
@@ -7122,7 +10521,16 @@ export interface PopFactionDefinition {
   readonly actions?: PdxBlock | readonly PdxValue[] | Authored;
   readonly attraction?: PdxBlock | readonly PdxValue[] | Authored;
   readonly can_join_faction: PdxBlock | readonly PdxValue[] | Authored;
-  readonly can_join_pre_triggers?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_join_pre_triggers?: {
+  readonly has_owner?: boolean | readonly boolean[] | Authored;
+  readonly has_planet?: boolean | readonly boolean[] | Authored;
+  readonly is_being_assimilated?: boolean | readonly boolean[] | Authored;
+  readonly is_being_purged?: boolean | readonly boolean[] | Authored;
+  readonly is_enslaved?: boolean | readonly boolean[] | Authored;
+  readonly is_robot_pop?: boolean | readonly boolean[] | Authored;
+  readonly is_robotic?: boolean | readonly boolean[] | Authored;
+  readonly is_sapient?: boolean | readonly boolean[] | Authored;
+} | Authored;
   readonly can_rename?: boolean | Authored;
   readonly demand?: ({
   readonly council_demand?: boolean | Authored;
@@ -7146,7 +10554,10 @@ export interface PopFactionDefinition {
   readonly election_header?: SpriteRef | Authored;
   readonly extortion_resource?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly guiding_ethic?: EthosRef | Authored;
   readonly is_potential?: PdxBlock | readonly PdxValue[] | Authored;
@@ -7157,7 +10568,10 @@ export interface PopFactionDefinition {
   readonly persistent_faction?: boolean | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly support_multiplier?: number | Authored;
   readonly unique: boolean | Authored;
@@ -7205,7 +10619,7 @@ export interface PopulationControlDefinition {
   readonly pop_status_frame?: number | Authored;
   readonly pop_tooltip?: string | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
 }
 
 export interface PortraitDefinition {
@@ -7857,7 +11271,7 @@ export interface PurgeTypeDefinition {
   readonly pop_status_frame?: number | Authored;
   readonly pop_tooltip?: string | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
 }
 
 export interface RandomizableComboDefinition {
@@ -7873,11 +11287,14 @@ export interface RelicDefinition {
   readonly possible: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostCountry | readonly RuleSetEconomicTemplateCostCountry[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | readonly RuleSetEconomicTemplateLogisticsCountry[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesCountry | readonly RuleSetEconomicTemplateProducesCountry[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | readonly RuleSetEconomicTemplateUpkeepCountry[] | Authored;
 } | Authored;
   readonly score?: number | Authored;
   readonly sound?: SoundEffectRef | SoundRef | "relic_activation_the_rulerchip" | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier | readonly RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier[] | Authored;
 }
 
 export interface ResolutionDefinition {
@@ -7905,12 +11322,15 @@ export interface ResolutionDefinition {
   readonly potential?: TriggersByScope["country"] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostCountry | readonly RuleSetEconomicTemplateCostCountry[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | readonly RuleSetEconomicTemplateLogisticsCountry[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesCountry | readonly RuleSetEconomicTemplateProducesCountry[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | readonly RuleSetEconomicTemplateUpkeepCountry[] | Authored;
 } | Authored;
   readonly sanction?: true | Authored;
   readonly target: boolean | Authored;
+  readonly triggered_modifier?: RuleSetTriggeredModifierCountryTriggeredModifier | readonly RuleSetTriggeredModifierCountryTriggeredModifier[] | Authored;
   readonly valid_target?: TriggersByScope["country"] | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface ResolutionCategoryDefinition {
@@ -7988,7 +11408,7 @@ export interface ScriptedLocDefinition {
 
 export interface ScriptedModifierDefinition {
   readonly cap_zero_to_one?: boolean | Authored;
-  readonly category?: "all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade" | Authored;
+  readonly category?: "all" | "army" | "component" | "country" | "deposit" | "economic_unit" | "espionage" | "federation" | "fleet" | "habitability" | "leader" | "megastructure" | "none" | "planet" | "pop" | "pop_faction" | "pop_group" | "pop_job" | "ship" | "species" | "starbase" | "station" | "system" | "trade" | "colony" | Authored;
   readonly good?: boolean | Authored;
   readonly hidden?: boolean | Authored;
   readonly icon?: string | Authored;
@@ -8048,7 +11468,10 @@ export interface SectionTemplateDefinition {
 } | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostCountry | readonly RuleSetEconomicTemplateCostCountry[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | readonly RuleSetEconomicTemplateLogisticsCountry[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesCountry | readonly RuleSetEconomicTemplateProducesCountry[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | readonly RuleSetEconomicTemplateUpkeepCountry[] | Authored;
 } | Authored;
   readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ship_size?: ShipSizeRef | readonly ShipSizeRef[] | Authored;
@@ -8219,7 +11642,10 @@ export interface ShipSizeDefinition {
   readonly required_component_set?: ComponentSetRef | readonly ComponentSetRef[] | Authored;
   readonly resources?: {
   readonly category?: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly role_background?: SpriteRef | Authored;
   readonly rotation_speed?: number | Authored;
@@ -8227,7 +11653,7 @@ export interface ShipSizeDefinition {
   readonly scripted_action?: PdxValue | readonly PdxValue[] | Authored;
   readonly section_slots?: PdxBlock | readonly PdxValue[] | Authored;
   readonly selectable?: {
-  readonly host_has_dlc?: "Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | Authored;
+  readonly host_has_dlc?: "Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads" | Authored;
 } | PdxBlock | readonly PdxValue[] | Authored;
   readonly ship_category?: GrandArchiveShipCategoryTypeRef | Authored;
   readonly ship_class_icon_frame?: number | Authored;
@@ -8283,10 +11709,14 @@ export interface SituationTypeDefinition {
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category?: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly target_modifier?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_modifier?: RuleSetTriggeredModifierSituationTriggeredModifier | readonly RuleSetTriggeredModifierSituationTriggeredModifier[] | Authored;
+  readonly triggered_target_modifier?: RuleSetTriggeredTargetModifierSituationTriggeredTargetModifier | readonly RuleSetTriggeredTargetModifierSituationTriggeredTargetModifier[] | Authored;
 }) | readonly ({
   readonly active_tooltip?: string | Authored;
   readonly ai_weight?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -8301,10 +11731,14 @@ export interface SituationTypeDefinition {
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category?: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly target_modifier?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_modifier?: RuleSetTriggeredModifierSituationTriggeredModifier | readonly RuleSetTriggeredModifierSituationTriggeredModifier[] | Authored;
+  readonly triggered_target_modifier?: RuleSetTriggeredTargetModifierSituationTriggeredTargetModifier | readonly RuleSetTriggeredTargetModifierSituationTriggeredTargetModifier[] | Authored;
 })[] | Authored;
   readonly category?: "positive" | "negative" | "neutral" | Authored;
   readonly complete_category?: "positive" | "negative" | "neutral" | Authored;
@@ -8324,7 +11758,10 @@ export interface SituationTypeDefinition {
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly monthly_progress: {
   readonly add?: number | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly base?: number | readonly number[] | Authored;
+  readonly complex_trigger_modifier?: RuleSetModifierRuleWithLocComplexTriggerModifier | readonly RuleSetModifierRuleWithLocComplexTriggerModifier[] | Authored;
+  readonly factor?: number | readonly number[] | Authored;
+  readonly modifier?: RuleSetModifierRuleWithLocModifier | readonly RuleSetModifierRuleWithLocModifier[] | Authored;
 } | Authored;
   readonly on_abort?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_fail?: PdxBlock | readonly PdxValue[] | Authored;
@@ -8367,7 +11804,8 @@ export interface SituationTypeDefinition {
   readonly text: string | Authored;
   readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 })[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_modifier?: RuleSetTriggeredModifierSituationTriggeredModifier | readonly RuleSetTriggeredModifierSituationTriggeredModifier[] | Authored;
+  readonly triggered_target_modifier?: RuleSetTriggeredTargetModifierSituationTriggeredTargetModifier | readonly RuleSetTriggeredTargetModifierSituationTriggeredTargetModifier[] | Authored;
 }
 
 export interface SlaveryTypeDefinition {
@@ -8387,7 +11825,7 @@ export interface SlaveryTypeDefinition {
   readonly pop_status_frame?: number | Authored;
   readonly pop_tooltip?: string | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
 }
 
 export interface SocialStrataDefinition {
@@ -8395,10 +11833,16 @@ export interface SocialStrataDefinition {
   readonly assign_to_pop?: TriggersByScope["pop_group"] | Authored;
   readonly automation_resources?: ({
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostPopGroup | readonly RuleSetEconomicTemplateCostPopGroup[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPopGroup | readonly RuleSetEconomicTemplateLogisticsPopGroup[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPopGroup | readonly RuleSetEconomicTemplateProducesPopGroup[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPopGroup | readonly RuleSetEconomicTemplateUpkeepPopGroup[] | Authored;
 }) | readonly ({
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostPopGroup | readonly RuleSetEconomicTemplateCostPopGroup[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPopGroup | readonly RuleSetEconomicTemplateLogisticsPopGroup[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPopGroup | readonly RuleSetEconomicTemplateProducesPopGroup[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPopGroup | readonly RuleSetEconomicTemplateUpkeepPopGroup[] | Authored;
 })[] | Authored;
   readonly can_change_category?: TriggersByScope["pop_group"] | boolean | Authored;
   readonly change_job_threshold?: number | Authored;
@@ -8425,23 +11869,30 @@ export interface SocialStrataDefinition {
 })[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostPopGroup | readonly RuleSetEconomicTemplateCostPopGroup[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPopGroup | readonly RuleSetEconomicTemplateLogisticsPopGroup[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPopGroup | readonly RuleSetEconomicTemplateProducesPopGroup[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPopGroup | readonly RuleSetEconomicTemplateUpkeepPopGroup[] | Authored;
 } | Authored;
   readonly should_apply_unemployment_penalties?: TriggersByScope["pop_group"] | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPopTriggeredPlanetModifierPopGroup | readonly RuleSetTriggeredPlanetModifierPopTriggeredPlanetModifierPopGroup[] | Authored;
   readonly triggered_pop_group_modifier?: ({
   readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+} | RuleSetTriggeredPopGroupModifierTriggeredPopGroupModifier) | readonly ({
   readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[] | Authored;
+} | RuleSetTriggeredPopGroupModifierTriggeredPopGroupModifier)[] | Authored;
+  readonly triggered_pop_modifier?: RuleSetTriggeredPopModifierTriggeredPopModifier | readonly RuleSetTriggeredPopModifierTriggeredPopModifier[] | Authored;
   readonly unemployment_penalties?: PdxBlock | readonly PdxValue[] | Authored;
   readonly unemployment_resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostPopGroup | readonly RuleSetEconomicTemplateCostPopGroup[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsPopGroup | readonly RuleSetEconomicTemplateLogisticsPopGroup[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesPopGroup | readonly RuleSetEconomicTemplateProducesPopGroup[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepPopGroup | readonly RuleSetEconomicTemplateUpkeepPopGroup[] | Authored;
 } | Authored;
   readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SolarSystemInitializerDefinition {
@@ -8517,12 +11968,13 @@ export interface SolarSystemInitializerDefinition {
   readonly orbit_distance_from_parent: number | Authored;
 })[] | Authored;
   readonly outer_radius_offset?: number | Authored;
+  readonly planet?: RuleSetPlanetInitializerPlanet | readonly RuleSetPlanetInitializerPlanet[] | Authored;
   readonly prevent_anomalies?: boolean | Authored;
   readonly primitive_system?: boolean | Authored;
   readonly scaled_spawn_chance?: number | Authored;
   readonly scaled_spawn_settings?: string | Authored;
   readonly spawn_chance?: number | Authored;
-  readonly usage?: ("empire_init" | "misc_system_init" | "custom_empire" | "fallen_empire_init" | "origin") | readonly ("empire_init" | "misc_system_init" | "custom_empire" | "fallen_empire_init" | "origin")[] | Authored;
+  readonly usage?: ("empire_init" | "misc_system_init" | "custom_empire" | "fallen_empire_init" | "origin" | "nomad_init") | readonly ("empire_init" | "misc_system_init" | "custom_empire" | "fallen_empire_init" | "origin" | "nomad_init")[] | Authored;
   readonly usage_odds?: number | PdxBlock | readonly PdxValue[] | Authored;
 }
 
@@ -8637,7 +12089,7 @@ export interface SpecialProjectDefinition {
   readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
 })[] | Authored;
   readonly event_chain?: EventChainRef | Authored;
-  readonly event_scope?: "ship_event" | "planet_event" | "country_event" | Authored;
+  readonly event_scope?: "ship_event" | "planet_event" | "country_event" | "carrier_event" | Authored;
   readonly fail_trigger?: TriggersByScope["country"] | Authored;
   readonly icon?: string | Authored;
   readonly location?: boolean | Authored;
@@ -8697,7 +12149,10 @@ export interface SpeciesArchetypeDefinition {
   readonly inherit_traits_from?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly robotic?: boolean | Authored;
   readonly species_max_traits?: number | Authored;
@@ -8732,16 +12187,132 @@ export interface SpeciesClassDefinition {
   readonly portrait_modding?: boolean | Authored;
   readonly portraits?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible?: {
-  readonly always?: boolean | Authored;
-  readonly authority?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly AND?: RuleSetGovernmentTriggerAnd | readonly RuleSetGovernmentTriggerAnd[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOr | readonly RuleSetGovernmentTriggerOr[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: (RuleSetGovernmentTriggerAuthority | {
+  readonly AND?: RuleSetGovernmentTriggerAnd | readonly RuleSetGovernmentTriggerAnd[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOr | readonly RuleSetGovernmentTriggerOr[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthority | readonly RuleSetGovernmentTriggerAuthority[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivics | readonly RuleSetGovernmentTriggerCivics[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryType | readonly RuleSetGovernmentTriggerCountryType[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthics | readonly RuleSetGovernmentTriggerEthics[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCulture | readonly RuleSetGovernmentTriggerGraphicalCulture[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimit | readonly RuleSetGovernmentTriggerLimit[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOrigin | readonly RuleSetGovernmentTriggerOrigin[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClass | readonly RuleSetGovernmentTriggerPreferredPlanetClass[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetype | readonly RuleSetGovernmentTriggerSpeciesArchetype[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClass | readonly RuleSetGovernmentTriggerSpeciesClass[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraits | readonly RuleSetGovernmentTriggerTraits[] | Authored;
+}) | readonly (RuleSetGovernmentTriggerAuthority | {
+  readonly AND?: RuleSetGovernmentTriggerAnd | readonly RuleSetGovernmentTriggerAnd[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOr | readonly RuleSetGovernmentTriggerOr[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthority | readonly RuleSetGovernmentTriggerAuthority[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivics | readonly RuleSetGovernmentTriggerCivics[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryType | readonly RuleSetGovernmentTriggerCountryType[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthics | readonly RuleSetGovernmentTriggerEthics[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCulture | readonly RuleSetGovernmentTriggerGraphicalCulture[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimit | readonly RuleSetGovernmentTriggerLimit[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOrigin | readonly RuleSetGovernmentTriggerOrigin[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClass | readonly RuleSetGovernmentTriggerPreferredPlanetClass[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetype | readonly RuleSetGovernmentTriggerSpeciesArchetype[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClass | readonly RuleSetGovernmentTriggerSpeciesClass[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraits | readonly RuleSetGovernmentTriggerTraits[] | Authored;
+})[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivics | readonly RuleSetGovernmentTriggerCivics[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryType | readonly RuleSetGovernmentTriggerCountryType[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthics | readonly RuleSetGovernmentTriggerEthics[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCulture | readonly RuleSetGovernmentTriggerGraphicalCulture[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimit | readonly RuleSetGovernmentTriggerLimit[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOrigin | readonly RuleSetGovernmentTriggerOrigin[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClass | readonly RuleSetGovernmentTriggerPreferredPlanetClass[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetype | readonly RuleSetGovernmentTriggerSpeciesArchetype[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClass | readonly RuleSetGovernmentTriggerSpeciesClass[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraits | readonly RuleSetGovernmentTriggerTraits[] | Authored;
 } | Authored;
   readonly possible_secondary?: {
-  readonly always?: boolean | Authored;
-  readonly authority?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly text?: string | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly AND?: RuleSetGovernmentTriggerAnd | readonly RuleSetGovernmentTriggerAnd[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOr | readonly RuleSetGovernmentTriggerOr[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: ({
+  readonly AND?: RuleSetGovernmentTriggerAnd | readonly RuleSetGovernmentTriggerAnd[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOr | readonly RuleSetGovernmentTriggerOr[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthority | readonly RuleSetGovernmentTriggerAuthority[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivics | readonly RuleSetGovernmentTriggerCivics[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryType | readonly RuleSetGovernmentTriggerCountryType[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthics | readonly RuleSetGovernmentTriggerEthics[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCulture | readonly RuleSetGovernmentTriggerGraphicalCulture[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimit | readonly RuleSetGovernmentTriggerLimit[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOrigin | readonly RuleSetGovernmentTriggerOrigin[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClass | readonly RuleSetGovernmentTriggerPreferredPlanetClass[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetype | readonly RuleSetGovernmentTriggerSpeciesArchetype[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClass | readonly RuleSetGovernmentTriggerSpeciesClass[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraits | readonly RuleSetGovernmentTriggerTraits[] | Authored;
+} | RuleSetGovernmentTriggerAuthority) | readonly ({
+  readonly AND?: RuleSetGovernmentTriggerAnd | readonly RuleSetGovernmentTriggerAnd[] | Authored;
+  readonly OR?: RuleSetGovernmentTriggerOr | readonly RuleSetGovernmentTriggerOr[] | Authored;
+  readonly always?: boolean | readonly boolean[] | Authored;
+  readonly authority?: RuleSetGovernmentTriggerAuthority | readonly RuleSetGovernmentTriggerAuthority[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivics | readonly RuleSetGovernmentTriggerCivics[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryType | readonly RuleSetGovernmentTriggerCountryType[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthics | readonly RuleSetGovernmentTriggerEthics[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCulture | readonly RuleSetGovernmentTriggerGraphicalCulture[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimit | readonly RuleSetGovernmentTriggerLimit[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOrigin | readonly RuleSetGovernmentTriggerOrigin[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClass | readonly RuleSetGovernmentTriggerPreferredPlanetClass[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetype | readonly RuleSetGovernmentTriggerSpeciesArchetype[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClass | readonly RuleSetGovernmentTriggerSpeciesClass[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraits | readonly RuleSetGovernmentTriggerTraits[] | Authored;
+} | RuleSetGovernmentTriggerAuthority)[] | Authored;
+  readonly civics?: RuleSetGovernmentTriggerCivics | readonly RuleSetGovernmentTriggerCivics[] | Authored;
+  readonly country_type?: RuleSetGovernmentTriggerCountryType | readonly RuleSetGovernmentTriggerCountryType[] | Authored;
+  readonly ethics?: RuleSetGovernmentTriggerEthics | readonly RuleSetGovernmentTriggerEthics[] | Authored;
+  readonly graphical_culture?: RuleSetGovernmentTriggerGraphicalCulture | readonly RuleSetGovernmentTriggerGraphicalCulture[] | Authored;
+  readonly has_machine_age_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_shroud_dlc?: boolean | readonly boolean[] | Authored;
+  readonly has_synthetic_dawn?: boolean | readonly boolean[] | Authored;
+  readonly host_has_dlc?: ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads") | readonly ("Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads")[] | Authored;
+  readonly is_nomadic?: boolean | readonly boolean[] | Authored;
+  readonly limit?: RuleSetGovernmentTriggerLimit | readonly RuleSetGovernmentTriggerLimit[] | Authored;
+  readonly origin?: RuleSetGovernmentTriggerOrigin | readonly RuleSetGovernmentTriggerOrigin[] | Authored;
+  readonly preferred_planet_class?: RuleSetGovernmentTriggerPreferredPlanetClass | readonly RuleSetGovernmentTriggerPreferredPlanetClass[] | Authored;
+  readonly species_archetype?: RuleSetGovernmentTriggerSpeciesArchetype | readonly RuleSetGovernmentTriggerSpeciesArchetype[] | Authored;
+  readonly species_class?: RuleSetGovernmentTriggerSpeciesClass | readonly RuleSetGovernmentTriggerSpeciesClass[] | Authored;
+  readonly text?: string | readonly string[] | Authored;
+  readonly traits?: RuleSetGovernmentTriggerTraits | readonly RuleSetGovernmentTriggerTraits[] | Authored;
 } | Authored;
   readonly preferred_ethics_weight?: {
   readonly base: number | Authored;
@@ -8754,7 +12325,10 @@ export interface SpeciesClassDefinition {
   readonly removed_planet_types?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: PdxBlock | readonly PdxValue[] | {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly trait?: TraitRef | Authored;
   readonly uplifted_into?: SpeciesClassRef | Authored;
@@ -8779,21 +12353,21 @@ export interface SpecimenDefinition {
   readonly is_tradable?: boolean | Authored;
   readonly resources?: ({
   readonly category: EconomicCategoryRef | Authored;
+  readonly produces?: RuleSetEconomicTemplateOnlyProducesProducesCountry | readonly RuleSetEconomicTemplateOnlyProducesProducesCountry[] | Authored;
   readonly upkeep?: {
   readonly mult?: (number | string) | readonly (number | string)[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }) | readonly ({
   readonly category: EconomicCategoryRef | Authored;
+  readonly produces?: RuleSetEconomicTemplateOnlyProducesProducesCountry | readonly RuleSetEconomicTemplateOnlyProducesProducesCountry[] | Authored;
   readonly upkeep?: {
   readonly mult?: (number | string) | readonly (number | string)[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
+  readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier | readonly RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier[] | Authored;
   readonly type: "aesthetic_wonder" | "historical_item" | "xeno_geology" | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface SpriteDefinition {
@@ -8986,7 +12560,10 @@ export interface StarbaseBuildingDefinition {
   readonly replaceable?: TriggersByScope["starbase"] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostStarbase | readonly RuleSetEconomicTemplateCostStarbase[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsStarbase | readonly RuleSetEconomicTemplateLogisticsStarbase[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesStarbase | readonly RuleSetEconomicTemplateProducesStarbase[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepStarbase | readonly RuleSetEconomicTemplateUpkeepStarbase[] | Authored;
 } | Authored;
   readonly scripted_effect_cooldown?: string | readonly string[] | Authored;
   readonly scripted_effect_cooldown_flag?: string | readonly string[] | Authored;
@@ -9009,7 +12586,10 @@ export interface StarbaseBuildingDefinition {
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierStarbaseTriggeredCountryModifierStarbase | readonly RuleSetTriggeredCountryModifierStarbaseTriggeredCountryModifierStarbase[] | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierStarbaseTriggeredPlanetModifierStarbase | readonly RuleSetTriggeredPlanetModifierStarbaseTriggeredPlanetModifierStarbase[] | Authored;
+  readonly triggered_station_modifier?: RuleSetTriggeredStationModifierStarbaseTriggeredStationModifier | readonly RuleSetTriggeredStationModifierStarbaseTriggeredStationModifier[] | Authored;
+  readonly triggered_system_modifier?: RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifierStarbase | readonly RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifierStarbase[] | Authored;
 }
 
 export interface StarbaseLevelDefinition {
@@ -9073,7 +12653,10 @@ export interface StarbaseModuleDefinition {
   readonly replaceable?: TriggersByScope["starbase"] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCostStarbase | readonly RuleSetEconomicTemplateCostStarbase[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogisticsStarbase | readonly RuleSetEconomicTemplateLogisticsStarbase[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProducesStarbase | readonly RuleSetEconomicTemplateProducesStarbase[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeepStarbase | readonly RuleSetEconomicTemplateUpkeepStarbase[] | Authored;
 } | Authored;
   readonly scripted_effect_cooldown?: string | readonly string[] | Authored;
   readonly scripted_effect_cooldown_flag?: string | readonly string[] | Authored;
@@ -9095,11 +12678,14 @@ export interface StarbaseModuleDefinition {
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierStarbaseTriggeredCountryModifierStarbase | readonly RuleSetTriggeredCountryModifierStarbaseTriggeredCountryModifierStarbase[] | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierStarbaseTriggeredPlanetModifierStarbase | readonly RuleSetTriggeredPlanetModifierStarbaseTriggeredPlanetModifierStarbase[] | Authored;
+  readonly triggered_station_modifier?: RuleSetTriggeredStationModifierStarbaseTriggeredStationModifier | readonly RuleSetTriggeredStationModifierStarbaseTriggeredStationModifier[] | Authored;
+  readonly triggered_system_modifier?: RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifierStarbase | readonly RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifierStarbase[] | Authored;
   readonly triggered_waystation_network_country_modifier?: PdxValue | readonly PdxValue[] | Authored;
   readonly triggered_waystation_network_system_modifier?: PdxValue | readonly PdxValue[] | Authored;
   readonly waystation_network_country_modifier?: PdxValue | readonly PdxValue[] | Authored;
   readonly waystation_network_system_modifier?: PdxValue | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface StarbaseTypeDefinition {
@@ -9171,7 +12757,10 @@ export interface StormTypeDefinition {
   readonly storm_min_steps?: PdxBlock | readonly PdxValue[] | Authored;
   readonly storm_monthly_added_devastation?: PdxBlock | readonly PdxValue[] | Authored;
   readonly storm_speed?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly triggered_fleet_modifier?: RuleSetTriggeredFleetModifierFleetTriggeredFleetModifier | readonly RuleSetTriggeredFleetModifierFleetTriggeredFleetModifier[] | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | readonly RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier[] | Authored;
+  readonly triggered_ship_modifier?: RuleSetTriggeredShipModifierTriggeredShipModifier | readonly RuleSetTriggeredShipModifierTriggeredShipModifier[] | Authored;
+  readonly triggered_system_modifier?: RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifier | readonly RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifier[] | Authored;
 }
 
 export interface SubjectSpecialistPerkDefinition {
@@ -9362,7 +12951,10 @@ export interface TerraformLinkDefinition {
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly to: PlanetClassRef | Authored;
 }
@@ -9474,8 +13066,8 @@ export interface TraditionDefinition {
   readonly unlocks_agenda?: CouncilAgendaRef | Authored;
   readonly weight?: PdxBlock | readonly PdxValue[] | Authored;
 })[] | Authored;
+  readonly triggered_modifier?: RuleSetTriggeredModifierCountryTriggeredModifier | readonly RuleSetTriggeredModifierCountryTriggeredModifier[] | Authored;
   readonly unlocks_agenda?: CouncilAgendaRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface TraditionCategoryDefinition {
@@ -9570,7 +13162,7 @@ export interface TraitDefinition {
   readonly growing_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly hidden?: boolean | Authored;
   readonly hide_age?: boolean | Authored;
-  readonly host_has_dlc?: "Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | Authored;
+  readonly host_has_dlc?: "Ancient Relics Story Pack" | "Anniversary Portraits" | "Apocalypse" | "Aquatics Species Pack" | "Arachnoid Portrait Pack" | "Astral Planes" | "BioGenesis" | "Cosmic Storms" | "Creatures of the Void Portrait Pack" | "Distant Stars Story Pack" | "Federations" | "First Contact Story Pack" | "Galactic Paragons" | "Grand Archive" | "Humanoids Species Pack" | "Infernals Species Pack" | "Leviathans Story Pack" | "Lithoids Species Pack" | "Mammalian Species Pack" | "Megacorp" | "Necroids Species Pack" | "Nemesis" | "Overlord" | "Plantoids Species Pack" | "Rick The Cube Species Portrait" | "Shadows of the Shroud" | "Stargazer Species Portrait" | "Synthetic Dawn Story Pack" | "The Machine Age" | "Toxoids Species Pack" | "Utopia" | "Vipra the Vapor Species Portrait" | "Nomads" | Authored;
   readonly icon?: string | {
   readonly icon?: SpriteRef | Authored;
   readonly layer: ({
@@ -9614,7 +13206,10 @@ export interface TraitDefinition {
   readonly requires_traits?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
+  readonly cost?: RuleSetEconomicTemplateCost | readonly RuleSetEconomicTemplateCost[] | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | readonly RuleSetEconomicTemplateLogistics[] | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | readonly RuleSetEconomicTemplateProduces[] | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | readonly RuleSetEconomicTemplateUpkeep[] | Authored;
 } | Authored;
   readonly sapient?: boolean | Authored;
   readonly sector_modifier?: PdxBlock | readonly PdxValue[] | Authored;
@@ -9715,6 +13310,7 @@ export interface TraitDefinition {
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
+  readonly triggered_leader_modifier?: RuleSetTriggeredLeaderModifierPopTriggeredLeaderModifier | readonly RuleSetTriggeredLeaderModifierPopTriggeredLeaderModifier[] | Authored;
   readonly triggered_modifier?: ({
   readonly custom_tooltip?: string | readonly string[] | Authored;
   readonly mult?: number | string | Authored;
@@ -9728,6 +13324,7 @@ export interface TraitDefinition {
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
+  readonly triggered_planet_growth_habitability_modifier?: RuleSetTriggeredPlanetGrowthHabitabilityModifierTriggeredPlanetGrowthHabitabilityModifier | readonly RuleSetTriggeredPlanetGrowthHabitabilityModifierTriggeredPlanetGrowthHabitabilityModifier[] | Authored;
   readonly triggered_planet_modifier?: ({
   readonly custom_tooltip?: string | readonly string[] | Authored;
   readonly mult?: number | string | Authored;
@@ -9741,6 +13338,8 @@ export interface TraitDefinition {
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
+  readonly triggered_planet_pop_group_modifier_for_species?: RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpecies | readonly RuleSetTriggeredPlanetPopGroupModifierSpeciesTriggeredPlanetPopGroupModifierForSpecies[] | Authored;
+  readonly triggered_pop_group_modifier?: RuleSetTriggeredPopGroupModifierTriggeredPopGroupModifier | readonly RuleSetTriggeredPopGroupModifierTriggeredPopGroupModifier[] | Authored;
   readonly triggered_sector_modifier?: ({
   readonly custom_tooltip?: string | readonly string[] | Authored;
   readonly mult?: number | string | Authored;
@@ -9754,6 +13353,7 @@ export interface TraitDefinition {
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 })[] | Authored;
+  readonly triggered_self_modifier?: RuleSetTriggeredLeaderModifierLeaderTriggeredSelfModifier | readonly RuleSetTriggeredLeaderModifierLeaderTriggeredSelfModifier[] | Authored;
   readonly triggered_species_modifier?: ({
   readonly mult?: number | string | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
@@ -9891,13 +13491,13 @@ export interface ZonesDefinition {
   readonly triggered_district_planet_modifier?: ({
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-}) | readonly ({
+} | RuleSetTriggeredDistrictModifierPlanetTriggeredDistrictPlanetModifier) | readonly ({
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
-})[] | Authored;
+} | RuleSetTriggeredDistrictModifierPlanetTriggeredDistrictPlanetModifier)[] | Authored;
+  readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | readonly RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier[] | Authored;
   readonly unlock?: PdxBlock | readonly PdxValue[] | Authored;
   readonly zone_sets?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
 }
 
 export interface DefinitionShapes {

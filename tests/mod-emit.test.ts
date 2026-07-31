@@ -9,8 +9,15 @@ function fileNamed(plan: EmitPlan, path: string): string {
   if (file === undefined) {
     throw new Error(`No emitted file at ${path}. Got: ${plan.files.map((f) => f.path).join(", ")}`);
   }
+  if (file.kind !== "text") {
+    throw new Error(`${path} was emitted as bytes, not script.`);
+  }
   return file.contents;
 }
+
+/** Everything a plan writes, in a form two runs can be compared by. */
+const bytesOf = (plan: EmitPlan): readonly string[] =>
+  plan.files.map((file) => (file.kind === "text" ? file.contents : new TextDecoder().decode(file.bytes)));
 
 describe("mod emit", () => {
   const mod = defineMod({
@@ -95,11 +102,23 @@ describe("mod emit", () => {
     );
   });
 
+  /**
+   * Writing is concurrent, so two entries at one path is not a merge — it is a
+   * race, and the file that survives is whichever finished last.
+   */
+  it("refuses two files at the same path", () => {
+    const clashing = defineMod({ name: "Twice", version: "1", supportedVersion: "v4.4.*" })
+      .add(define("building", "sts_lab", { category: "research" }))
+      .file({ path: "common/buildings/zz_twice_building.txt", contents: "sts_other = { }\n" });
+
+    const found = emit(clashing).diagnostics.find((diagnostic) => diagnostic.code === "duplicate-file");
+
+    expect(found?.severity).toBe("error");
+  });
+
   it("is deterministic", () => {
     const again: EmitPlan = emit(mod, { vanillaFiles: {} });
-    expect(again.files.map((file) => file.contents)).toEqual(
-      emit(mod, { vanillaFiles: {} }).files.map((file) => file.contents),
-    );
+    expect(bytesOf(again)).toEqual(bytesOf(emit(mod, { vanillaFiles: {} })));
   });
 });
 
@@ -132,21 +151,68 @@ describe("the format's awkward corners", () => {
   });
 
   it("takes raw script for what has no object shape, and rejects it when malformed", () => {
-    const mod = defineMod({ name: "Raw", version: "1", supportedVersion: "v4.4.*" }).add(
-      define("building", "raw_one", { base_buildtime: raw("@[ base * 2 ]"), colour: rgb(255, 0, 0) }),
-    );
-    const script: string = fileNamed(emit(mod), "common/buildings/zz_raw_building.txt");
+    const mod = defineMod({ name: "Raw", version: "1", supportedVersion: "v4.4.*" })
+      .add(define("building", "raw_one", { base_buildtime: raw("@[ base * 2 ]") }))
+      .add(define("authority", "raw_two", { color: rgb(255, 0, 0), ruler_council_position: "councilor_head" }));
 
-    expect(script).toContain("@[ base * 2 ]");
+    expect(fileNamed(emit(mod), "common/buildings/zz_raw_building.txt")).toContain("@[ base * 2 ]");
     // Raw script is parsed and re-printed in the canonical style, so a colour
     // comes back as a block rather than the one-liner it went in as. The game
     // reads both the same.
-    expect(script).toMatch(/colour = rgb \{\s+255\s+0\s+0\s+\}/u);
+    expect(fileNamed(emit(mod), "common/governments/authorities/zz_raw_authority.txt")).toMatch(
+      /color = rgb \{\s+255\s+0\s+0\s+\}/u,
+    );
 
     const broken = defineMod({ name: "Broken", version: "1", supportedVersion: "v4.4.*" }).add(
-      define("building", "broken", { x: raw("} = =") }),
+      define("building", "broken", { base_buildtime: raw("} = =") }),
     );
     expect(() => emit(broken)).toThrow(/not valid PDX script/u);
+  });
+
+  /**
+   * A mod with no icons is not a mod anyone ships: every definition that draws
+   * one shows the missing-texture square without it. A `.dds` is not text in any
+   * encoding, so it travels as bytes all the way to the file.
+   */
+  it("carries an asset through as the bytes that went in", () => {
+    const bytes = new Uint8Array([0x44, 0x44, 0x53, 0x20, 0x00, 0xff, 0x80]);
+    const mod = defineMod({ name: "Icons", version: "1", supportedVersion: "v4.4.*" }).asset(
+      "gfx/interface/icons/buildings/sts_lab.dds",
+      bytes,
+    );
+
+    const file = emit(mod).files.find((candidate) => candidate.path.endsWith("sts_lab.dds"));
+
+    expect(file?.kind).toBe("binary");
+    expect(file?.kind === "binary" ? [...file.bytes] : []).toEqual([...bytes]);
+  });
+
+  it("reports an asset that would replace a vanilla file", () => {
+    const mod = defineMod({ name: "Clash", version: "1", supportedVersion: "v4.4.*" }).asset(
+      "common/alerts.txt",
+      new Uint8Array([1]),
+    );
+    const found = emit(mod).diagnostics.find((diagnostic) => diagnostic.code === "vanilla-filename-collision");
+
+    expect(found?.severity).toBe("error");
+  });
+
+  /**
+   * Replacing a vanilla file on purpose is a real thing to do, and both the raw
+   * file record and the asset record have said so since they existed. Emit read
+   * neither, so declaring it left the error in place with nothing to be done
+   * about it.
+   */
+  it("takes an intended replacement at its word, for a raw file and for an asset", () => {
+    const mod = defineMod({ name: "Meant", version: "1", supportedVersion: "v4.4.*" })
+      .file({ path: "common/alerts.txt", contents: "x = { }\n", overrides: true })
+      .asset("gfx/lights/star_lights.asset", new Uint8Array([1]), { overrides: true });
+
+    const diagnostics = emit(mod).diagnostics.filter((diagnostic) => diagnostic.code === "vanilla-filename-collision");
+
+    expect(diagnostics.length).toBeGreaterThan(0);
+    expect(diagnostics.every((diagnostic) => diagnostic.severity === "warning")).toBe(true);
+    expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).toContain("vanilla-override");
   });
 
   it("keeps written order when bare values sit among keyed ones", () => {

@@ -109,19 +109,29 @@ function isScriptArray(value: ScriptValue): value is readonly ScriptValue[] {
   return Array.isArray(value);
 }
 
-function isScriptObject(value: ScriptValue): value is ScriptObject {
-  return typeof value === "object" && !isScriptArray(value);
+/**
+ * Whether a value is written as a block of its own.
+ *
+ * A marked value is not: `raw()` may be a scalar, a comparison belongs to a
+ * key, and a repetition is several entries rather than one value. Only these
+ * stand as one block, which is what decides whether an array of them is a
+ * repeated key or a value list.
+ */
+function isBlockShaped(value: ScriptValue): value is ScriptObject | EntriesValue {
+  return (
+    typeof value === "object" && !isScriptArray(value) && !isCompared(value) && !isRaw(value) && !isRepeated(value)
+  );
 }
 
 /**
- * An array of scalars is a value list; an array of objects is a repeated key.
+ * An array of scalars is a value list; an array of blocks is a repeated key.
  *
  * Marked values are resolved here rather than at each call site. Handling them
  * where they were first needed missed them three times running — inside a
  * repetition, in a bare position, and on the right of a comparison — because
  * each new position is a new place to forget.
  */
-function valueNode(value: ScriptValue): ValueNode {
+function valueNode(value: ScriptValue, at: string): ValueNode {
   if (isRaw(value)) {
     return parseRawValue("x", value.text);
   }
@@ -134,8 +144,16 @@ function valueNode(value: ScriptValue): ValueNode {
     return scalar(value);
   }
 
+  // A repetition is a key written more than once, so it says nothing where no
+  // key is written: as a bare entry, as an element of a value list, or on the
+  // right of a comparison. Printing its innards is what it used to do, and the
+  // result parses as `{ values = { ... } }`, which the game reads as nothing.
+  if (isRepeated(value)) {
+    throw new TypeError(`repeated() at ${at} needs a key to write more than once; here there is none.`);
+  }
+
   if (isScriptArray(value)) {
-    return block(value.map((item) => valueNode(item)));
+    return block(value.map((item, index) => valueNode(item, `${at}[${String(index)}]`)));
   }
 
   return block(entriesOf(value));
@@ -153,38 +171,52 @@ function valueNode(value: ScriptValue): ValueNode {
 function entriesOf(object: object): EntryNode[] {
   const entries: EntryNode[] = [];
 
-  for (const [key, raw] of Object.entries(object)) {
-    if (raw === undefined || raw === null) {
-      continue;
-    }
-
-    // A key written once per value, which is not the same as one key holding a
-    // value list. Each occurrence goes through the same path as a lone value,
-    // so a comparison inside a repetition keeps its operator.
-    if (isRepeated(raw)) {
-      for (const item of raw.values) {
-        if (item !== undefined && item !== null) {
-          entries.push(entryFor(key, item));
-        }
-      }
-      continue;
-    }
-
-    entries.push(entryFor(key, raw));
-
-    const value: ScriptValue = asScriptValue(key, raw);
-
-    // A repeated key is written once per element, which is how PDX expresses
-    // several `desc = { }` blocks under one definition.
-    if (Array.isArray(value) && (value as readonly ScriptValue[]).every(isScriptObject)) {
-      for (const item of value as readonly ScriptObject[]) {
-        entries.push(assignment(key, block(entriesOf(item))));
-      }
-      continue;
+  for (const [key, value] of Object.entries(object)) {
+    if (value !== undefined && value !== null) {
+      pushEntry(entries, key, value);
     }
   }
 
   return entries;
+}
+
+/**
+ * Writes one field, which is not always one entry.
+ *
+ * Two spellings write the key more than once, and both have to be understood
+ * everywhere a field is written. A plain object body and an ordered entry list
+ * used to reach the printer by different routes and only one of them knew
+ * about repetition, so a tagged type — whose id moves inside the block, which
+ * converts the body to an ordered list on the way — printed `option = { values
+ * = { ... } }` for what an untagged type printed correctly.
+ */
+function pushEntry(nodes: EntryNode[], key: string, value: unknown): void {
+  // A key written once per value, which is not the same as one key holding a
+  // value list. Each occurrence goes through the same path as a lone value,
+  // so a comparison inside a repetition keeps its operator.
+  if (isRepeated(value)) {
+    for (const item of value.values) {
+      if (item !== undefined && item !== null) {
+        pushEntry(nodes, key, item);
+      }
+    }
+    return;
+  }
+
+  const script: ScriptValue = asScriptValue(key, value);
+
+  // A repeated key is written once per element, which is how PDX expresses
+  // several `desc = { }` blocks under one definition. An empty array is left
+  // alone: it says the key is written once holding nothing, and dropping the
+  // key entirely is a different statement.
+  if (isScriptArray(script) && script.length > 0 && script.every(isBlockShaped)) {
+    for (const item of script) {
+      pushEntry(nodes, key, item);
+    }
+    return;
+  }
+
+  nodes.push(entryFor(key, value));
 }
 
 /** Renders an ordered entry list, where a plain object cannot keep the order. */
@@ -193,13 +225,13 @@ function orderedEntries(items: readonly Entry[]): EntryNode[] {
 
   for (const item of items) {
     if (isBare(item)) {
-      nodes.push(valueNode(asScriptValue("<bare>", item.bare)));
+      nodes.push(valueNode(asScriptValue("<bare>", item.bare), "<bare>"));
       continue;
     }
 
     const [key, value] = item;
     if (value !== undefined && value !== null) {
-      nodes.push(entryFor(key, value));
+      pushEntry(nodes, key, value);
     }
   }
 
@@ -212,10 +244,10 @@ function entryFor(key: string, value: unknown): Assignment {
   // is usually a number, but `switch` compares against a block and a situation
   // compares against inline maths.
   if (isCompared(value)) {
-    return assignment(key, valueNode(asScriptValue(key, value.value)), value.operator);
+    return assignment(key, valueNode(asScriptValue(key, value.value), key), value.operator);
   }
 
-  return assignment(key, valueNode(asScriptValue(key, value)));
+  return assignment(key, valueNode(asScriptValue(key, value), key));
 }
 
 function asScriptValue(key: string, value: unknown): ScriptValue {
@@ -259,16 +291,17 @@ function parseRawValue(key: string, text: string): ValueNode {
   return first.value;
 }
 
-export function toDocument(definitions: readonly (readonly [string, object])[]): Document {
-  return {
-    kind: NodeKind.Document,
-    entries: definitions.map(([id, body]) =>
-      assignment(id, block(isEntries(body) ? orderedEntries(body.entries) : entriesOf(body))),
-    ),
-    span: SPAN,
-  };
+/**
+ * A file's worth of definitions.
+ *
+ * An entry rather than a pair, because not every definition is `key = { ... }`:
+ * a job tag is written as the word alone, with no block after it, and
+ * {@link bare} is what says so.
+ */
+export function toDocument(definitions: readonly Entry[]): Document {
+  return { kind: NodeKind.Document, entries: orderedEntries(definitions), span: SPAN };
 }
 
-export function renderDefinitions(definitions: readonly (readonly [string, object])[]): string {
+export function renderDefinitions(definitions: readonly Entry[]): string {
   return print(toDocument(definitions));
 }

@@ -1,7 +1,7 @@
 import { vanillaFiles as indexedVanillaFiles } from "../generated/vanilla/files.js";
 import { vanillaModsCompatibilityVersion } from "../generated/vanilla/game-version.js";
 import { renderDefinitions } from "./build.js";
-import { entries as orderedEntries, isBare, isEntries, type Entry } from "./values.js";
+import { bare, entries as orderedEntries, isBare, isEntries, type Entry } from "./values.js";
 import {
   localisationFileName,
   renderLocalisation,
@@ -17,12 +17,29 @@ import type { DefinitionRecord, Mod, ModOptions } from "./mod.js";
  * inspected, diffed and tested without a filesystem, and the CLI writes it.
  */
 
-export interface EmittedFile {
+export interface EmittedTextFile {
+  readonly kind: "text";
   readonly path: string;
   readonly contents: string;
   /** UTF-8 with a BOM. Only localisation needs it, and it needs it absolutely. */
   readonly byteOrderMark: boolean;
 }
+
+/**
+ * A file that is not script.
+ *
+ * Every icon a mod adds is a `.dds`, and a definition whose icon is missing
+ * draws the missing-texture square on every button it appears on. Bytes rather
+ * than a string because a `.dds` is not text in any encoding, and putting one
+ * through one corrupts it silently.
+ */
+export interface EmittedBinaryFile {
+  readonly kind: "binary";
+  readonly path: string;
+  readonly bytes: Uint8Array;
+}
+
+export type EmittedFile = EmittedBinaryFile | EmittedTextFile;
 
 export interface EmitDiagnostic {
   readonly severity: "error" | "warning";
@@ -55,12 +72,39 @@ function compareOrdinal(left: string, right: string): number {
 }
 
 function slug(value: string): string {
-  return (
-    value
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/gu, "_")
-      .replace(/^_+|_+$/gu, "") || "mod"
-  );
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/gu, "_")
+    .replace(/^_+|_+$/gu, "");
+}
+
+/**
+ * A marker for a name that has no ASCII in it at all.
+ *
+ * Two mods called 共鳴の遺産 and 星々の記憶 both reduce to nothing, and the folder
+ * they share is the least of it: both would write
+ * `common/buildings/zz_mod_building.txt`, and whichever loads last would be the
+ * only one whose buildings exist. Derived from the name so it is the same on
+ * every machine and every build.
+ */
+function marker(value: string): string {
+  let hash = 0x811c9dc5;
+
+  for (const character of value) {
+    hash = Math.imul(hash ^ (character.codePointAt(0) ?? 0), 0x01000193) >>> 0;
+  }
+
+  return hash.toString(36);
+}
+
+/** The name a mod's own files are called after. */
+function modSlug(options: ModOptions): string {
+  if (options.id !== undefined) {
+    return options.id;
+  }
+
+  const derived: string = slug(options.name);
+  return derived.length === 0 ? `mod_${marker(options.name)}` : derived;
 }
 
 /**
@@ -79,7 +123,7 @@ function targetFile(mod: ModOptions, definition: DefinitionRecord): string {
     return `${definition.directory}/${definition.file}`;
   }
 
-  return `${definition.directory}/zz_${slug(mod.name)}_${definition.type}.txt`;
+  return `${definition.directory}/zz_${modSlug(mod)}_${definition.type}.txt`;
 }
 
 function renderDescriptor(options: ModOptions, includePath: string | undefined): string {
@@ -151,9 +195,15 @@ function withNameField(nameField: string, id: string, body: object): object {
   return named ? orderedEntries(existing) : orderedEntries([[nameField, id], ...existing]);
 }
 
+/** One definition on its way to a file, kept with the id it sorts by. */
+interface DefinitionEntry {
+  readonly id: string;
+  readonly entry: Entry;
+}
+
 export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   const diagnostics: EmitDiagnostic[] = [];
-  const grouped = new Map<string, { id: string; key: string; body: object }[]>();
+  const grouped = new Map<string, DefinitionEntry[]>();
   const headers = new Map<string, Set<string>>();
 
   if (!/^v?\d+(?:\.(?:\d+|\*)){0,2}$/u.test(mod.options.supportedVersion)) {
@@ -181,14 +231,31 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
     });
   }
 
+  // The id becomes a folder name and a file name on every platform the game
+  // runs on, so it has to be spellable on all of them.
+  if (mod.options.id !== undefined && !/^[a-z0-9_]+$/u.test(mod.options.id)) {
+    diagnostics.push({
+      severity: "error",
+      code: "malformed-mod-id",
+      message: `id names the mod's folder and every file it writes, so it takes a-z, 0-9 and _ only, not ${mod.options.id}.`,
+      path: "descriptor.mod",
+    });
+  }
+
   for (const definition of mod.definitions) {
     const path: string = targetFile(mod.options, definition);
-    const bucket: { id: string; key: string; body: object }[] = grouped.get(path) ?? [];
-    const body: object =
-      definition.nameField === undefined
-        ? definition.body
-        : withNameField(definition.nameField, definition.id, definition.body);
-    bucket.push({ id: definition.id, key: definition.blockKey ?? definition.id, body });
+    const bucket: DefinitionEntry[] = grouped.get(path) ?? [];
+
+    if (definition.bareValue === true) {
+      bucket.push({ id: definition.id, entry: bare(definition.id) });
+    } else {
+      const body: object =
+        definition.nameField === undefined
+          ? definition.body
+          : withNameField(definition.nameField, definition.id, definition.body);
+      bucket.push({ id: definition.id, entry: [definition.blockKey ?? definition.id, body] });
+    }
+
     grouped.set(path, bucket);
 
     if (definition.headers !== undefined && definition.headers.length > 0) {
@@ -214,12 +281,13 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   for (const [path, definitions] of [...grouped].sort((left, right) => compareOrdinal(left[0], right[0]))) {
     // Sorted by id so the same mod always emits the same bytes. Not by block
     // key: a tagged type writes many definitions under the same one.
-    const sorted: readonly (readonly [string, object])[] = [...definitions]
+    const sorted: readonly Entry[] = [...definitions]
       .sort((left, right) => compareOrdinal(left.id, right.id))
-      .map((entry) => [entry.key, entry.body] as const);
+      .map((definition) => definition.entry);
     const preamble: readonly string[] = [...(headers.get(path) ?? [])].sort(compareOrdinal);
     const body: string = renderDefinitions(sorted);
     files.push({
+      kind: "text",
       path,
       contents: preamble.length === 0 ? body : `${preamble.join("\n")}\n\n${body}`,
       byteOrderMark: false,
@@ -245,15 +313,67 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
       }
 
       files.push({
-        path: `localisation/${language.replace(/^l_/u, "")}/${folder}${localisationFileName(mod.options.name, language)}`,
+        kind: "text",
+        path: `localisation/${language.replace(/^l_/u, "")}/${folder}${localisationFileName(modSlug(mod.options), language)}`,
         contents: renderLocalisation(language, entries),
         byteOrderMark: true,
       });
     }
   }
 
+  // Which paths were said to replace a vanilla file on purpose. A definition
+  // says it by naming the file it overrides; a raw file or an asset says it in
+  // the record, and until now saying it there did nothing at all.
+  const intendedOverrides = new Set<string>(
+    mod.definitions.map((definition) => definition.overrides).filter((path): path is string => path !== undefined),
+  );
+
   for (const record of mod.files) {
-    files.push({ path: record.path, contents: record.contents, byteOrderMark: false });
+    files.push({ kind: "text", path: record.path, contents: record.contents, byteOrderMark: false });
+
+    if (record.overrides === true) {
+      intendedOverrides.add(record.path);
+    }
+  }
+
+  // An icon, a portrait, a sound. The game reads them from the same folder tree
+  // as the script, so they belong in the same plan: a build that writes the
+  // definitions and leaves the assets to a second pipeline is a build whose
+  // output does not run.
+  for (const asset of mod.assets) {
+    files.push({ kind: "binary", path: asset.path, bytes: asset.bytes });
+
+    if (asset.overrides === true) {
+      intendedOverrides.add(asset.path);
+    }
+  }
+
+  for (const path of intendedOverrides) {
+    if (!mod.definitions.some((definition) => definition.overrides === path)) {
+      diagnostics.push({
+        severity: "warning",
+        code: "vanilla-override",
+        message: `Replaces the vanilla file wholesale. Everything else it defined stops loading.`,
+        path,
+      });
+    }
+  }
+
+  // Two entries for one path is not a merge: writing is concurrent, so which of
+  // them survives is decided by whichever finishes last. A raw file put where a
+  // definition already lands is the way it happens.
+  const byPath = new Set<string>();
+
+  for (const file of files) {
+    if (byPath.has(file.path)) {
+      diagnostics.push({
+        severity: "error",
+        code: "duplicate-file",
+        message: `Two files were emitted at ${file.path}. Only one of them would survive being written, and which one is not decided anywhere.`,
+        path: file.path,
+      });
+    }
+    byPath.add(file.path);
   }
 
   // A mod file that shadows a vanilla one disables everything else that file
@@ -277,7 +397,7 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
 
       if (known?.includes(name) === true) {
         diagnostics.push({
-          severity: mod.definitions.some((definition) => definition.overrides === file.path) ? "warning" : "error",
+          severity: intendedOverrides.has(file.path) ? "warning" : "error",
           code: "vanilla-filename-collision",
           message: `Vanilla ships ${directory}/${name}. Shipping the same name replaces it entirely; rename it, or set overrides to say the replacement is intended.`,
           path: file.path,
@@ -310,6 +430,7 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   }
 
   files.push({
+    kind: "text",
     path: "descriptor.mod",
     contents: renderDescriptor(mod.options, undefined),
     byteOrderMark: false,
@@ -319,7 +440,7 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
     files: files.sort((left, right) => compareOrdinal(left.path, right.path)),
     diagnostics,
     descriptorPath: "descriptor.mod",
-    modFileName: `${slug(mod.options.name)}.mod`,
+    modFileName: `${modSlug(mod.options)}.mod`,
   };
 }
 

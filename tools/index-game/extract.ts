@@ -289,6 +289,15 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
     return [type.source.stripExtension ? fileName.replace(/\.[^.]+$/u, "") : fileName];
   }
 
+  // A tag file has no blocks: every root-level value is one definition, and
+  // reading only assignments finds nothing at all.
+  if (type.source.kind === "bare-values") {
+    return document.entries
+      .filter((entry) => entry.kind === NodeKind.Scalar)
+      .map((entry) => String(entry.value).replace(/^"|"$/gu, ""))
+      .filter((id) => id.length > 0);
+  }
+
   const filter = type.source.rootKeyFilter;
   const accepted = (key: string): boolean =>
     filter === undefined

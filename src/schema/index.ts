@@ -5,6 +5,7 @@ export * from "./definitions/index.js";
 export * from "./dynamic-sets.js";
 export * from "./enums.js";
 export * from "./ir.js";
+export * from "./merged-types.js";
 export * from "./modifier-corrections.js";
 export * from "./modifier-namespace.js";
 export * from "./modifiers.js";

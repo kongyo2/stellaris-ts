@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { vanillaIdsByType } from "../src/generated/vanilla/ids.js";
 import { DefinitionTypeId, schema, type EntryRule } from "../src/schema/index.js";
 
 /**
@@ -24,4 +25,19 @@ describe("hand-maintained schema corrections", () => {
   it("keeps event.notification_event_icon_frame, which vanilla 4.4.6 uses and cwt never declared", () => {
     expect(fieldKeys(DefinitionTypeId.Event)).toContain("notification_event_icon_frame");
   });
+
+  /**
+   * cwt calls both tag directories `type_per_file`, which makes the identifier
+   * the file name — `00_tags` — and every tag the game actually defines
+   * unknown. The files are lists of bare words, and a job writes
+   * `tags = { crime enforcer }` against them, so a mod that spelled its tags
+   * correctly got one warning per tag and nothing to do about it.
+   */
+  for (const typeId of [DefinitionTypeId.JobTags, DefinitionTypeId.TraitTags]) {
+    it(`reads ${typeId} as the words in the file, not the file name`, () => {
+      expect(schema.definitionTypes.find((definition) => definition.id === typeId)?.source.kind).toBe("bare-values");
+      expect(vanillaIdsByType[typeId]).toContain("research");
+      expect(vanillaIdsByType[typeId]).not.toContain("00_tags");
+    });
+  }
 });

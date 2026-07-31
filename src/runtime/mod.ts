@@ -12,6 +12,18 @@ import type { LocalisationEntry } from "./localisation.js";
 
 export interface ModOptions {
   readonly name: string;
+  /**
+   * The name the mod's own files are called after: its folder, its `.mod` file
+   * and the prefix on every script file it writes.
+   *
+   * Defaults to the display name reduced to `a-z0-9_`, which is what most mods
+   * would pick anyway. A name written in Japanese, Russian or Chinese reduces to
+   * nothing, and two of those would otherwise both write
+   * `common/buildings/zz_mod_building.txt` and silently replace each other, so
+   * the default carries a marker taken from the name when that happens. Set this
+   * to choose the name yourself.
+   */
+  readonly id?: string;
   readonly version: string;
   /** Which game versions this mod declares support for, e.g. `v4.4.*`. */
   readonly supportedVersion: string;
@@ -56,6 +68,13 @@ export interface DefinitionRecord {
   /** The field inside the block that carries the id, for a tagged type. */
   readonly nameField?: string;
   /**
+   * Written as the identifier alone, with no block after it.
+   *
+   * `common/job_tags` and `common/trait_tags` are lists of words: the word is
+   * the definition. Writing `my_tag = { }` there parses and defines nothing.
+   */
+  readonly bareValue?: boolean;
+  /**
    * Which of the type's variants this is.
    *
    * A country event and a planet event are one type with one set of fields and
@@ -67,10 +86,33 @@ export interface DefinitionRecord {
   readonly headers?: readonly string[];
 }
 
-export interface RawFileRecord {
+/**
+ * Says the vanilla file of the same name is meant to be replaced.
+ *
+ * Shipping a file vanilla already ships disables everything else that file
+ * defined, which is reported as an error precisely because it is usually an
+ * accident. Sometimes it is the whole point — replacing an interface file, or a
+ * `.dds` the base game draws — and this is how to say so.
+ */
+export interface OverrideOption {
+  readonly overrides?: boolean;
+}
+
+export interface RawFileRecord extends OverrideOption {
   readonly path: string;
   readonly contents: string;
-  readonly overrides?: string;
+}
+
+/**
+ * A file the mod ships that is not text.
+ *
+ * Icons are `.dds`, portraits are `.dds`, sounds are `.wav`. A definition whose
+ * icon is absent draws the missing-texture square wherever it appears, so a
+ * build that can only write script writes a mod that visibly does not work.
+ */
+export interface AssetRecord extends OverrideOption {
+  readonly path: string;
+  readonly bytes: Uint8Array;
 }
 
 export class Mod {
@@ -79,6 +121,7 @@ export class Mod {
   readonly #localisation = new Map<string, Map<string, LocalisationEntry>>();
   readonly #replacements = new Map<string, Map<string, LocalisationEntry>>();
   readonly #files: RawFileRecord[] = [];
+  readonly #assets: AssetRecord[] = [];
 
   constructor(options: ModOptions) {
     this.options = options;
@@ -118,12 +161,28 @@ export class Mod {
     return this;
   }
 
+  /**
+   * Adds a file the mod ships as bytes: an icon, a portrait, a sound.
+   *
+   * The path is relative to the mod folder and is written exactly as given —
+   * `gfx/interface/icons/buildings/my_lab.dds` — because where an asset has to
+   * sit is decided by the interface files that name it, not by this library.
+   */
+  asset(path: string, bytes: Uint8Array, options: OverrideOption = {}): this {
+    this.#assets.push({ path, bytes, ...options });
+    return this;
+  }
+
   get definitions(): readonly DefinitionRecord[] {
     return this.#definitions;
   }
 
   get files(): readonly RawFileRecord[] {
     return this.#files;
+  }
+
+  get assets(): readonly AssetRecord[] {
+    return this.#assets;
   }
 
   get localisation(): ReadonlyMap<string, readonly LocalisationEntry[]> {

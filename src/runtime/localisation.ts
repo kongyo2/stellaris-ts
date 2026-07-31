@@ -51,10 +51,7 @@ export function renderLocalisation(language: string, entries: readonly Localisat
   return `${BYTE_ORDER_MARK}${lines.join("\n")}\n`;
 }
 
-export function localisationFileName(modName: string, language: string): string {
-  const stem: string = modName
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/gu, "_")
-    .replace(/^_+|_+$/gu, "");
-  return `${stem.length === 0 ? "mod" : stem}_${language}.yml`;
+/** `<mod>_l_english.yml`, where `<mod>` is the name the mod's files are called after. */
+export function localisationFileName(modSlug: string, language: string): string {
+  return `${modSlug}_${language}.yml`;
 }

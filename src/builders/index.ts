@@ -110,12 +110,20 @@ export function define<Type extends keyof DefinitionShapes>(
   const placement = taggedPlacement(schemaType, options);
   const headers: readonly string[] = headersFor(schemaType, id);
   const variant: string | undefined = variantFor(schemaType, placement.key);
+  const bareValue: boolean = schemaType.source.kind === "bare-values";
+
+  // A job tag is the word and nothing else. A body would have to be written as
+  // a block, and a block turns the word into a key the game does not read.
+  if (bareValue && Object.keys(body).length > 0) {
+    throw new Error(`${type} is written as the identifier alone, so a body would not be read. Pass {}.`);
+  }
 
   return {
     type,
     directory: schemaType.source.directory,
     id,
     body,
+    ...(bareValue ? { bareValue } : {}),
     ...(placement.key === undefined ? {} : { blockKey: placement.key }),
     ...(placement.nameField === undefined ? {} : { nameField: placement.nameField }),
     ...(variant === undefined ? {} : { variant }),
