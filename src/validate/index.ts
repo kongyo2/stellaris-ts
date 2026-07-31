@@ -302,8 +302,12 @@ function withOwnEnumMembers(
       }
 
       for (const [path, document] of parsed) {
-        const separator: number = path.lastIndexOf("/");
-        if (covers(separator < 0 ? "" : path.slice(0, separator))) {
+        // The emitter takes either separator and writes one; reading only `/`
+        // here put a file written `common\component_tags\x.txt` in no
+        // directory at all, so what it declared was never seen.
+        const normalised: string = path.replaceAll("\\", "/");
+        const separator: number = normalised.lastIndexOf("/");
+        if (covers(separator < 0 ? "" : normalised.slice(0, separator))) {
           captureFromDocument(document.entries, source.route, source.startFromRoot, found);
         }
       }

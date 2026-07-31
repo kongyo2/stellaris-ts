@@ -46,8 +46,8 @@ const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(["", ".txt", ".gui", ".gf
  * giving up on a corpus this size, and it was not — the output was overflowing
  * `spawnSync`'s default buffer and being truncated at a different point each
  * run, which dropped diagnostics silently. With the buffer raised, three runs
- * give 7,728 every time, and the truncated figure had been hiding nearly half
- * of what the compiler said.
+ * give the same number every time, and the truncated figure had been hiding
+ * nearly half of what the compiler said.
  */
 const PER_TYPE_LIMIT = 400;
 
@@ -129,6 +129,17 @@ function bodiesOf(type: DefinitionType, document: Document): readonly Record<str
   // there, so the generated body type does not have it.
   const nameField: string | undefined = type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
   const container = type.source.container;
+  // A type that names its root keys claims those and no others. `sound_falloff`
+  // shares `sound/` with `sound`, `category` and `soundeffect`, and reading
+  // every block there as a falloff filled the budget with errors about blocks
+  // that were never of this type.
+  const filter = type.source.rootKeyFilter;
+  const accepted = (key: string): boolean =>
+    filter === undefined
+      ? true
+      : filter.mode === "include"
+        ? filter.values.includes(key)
+        : !filter.values.includes(key);
 
   const claim = (block: Block): void => {
     const converted: ConversionResult = convertBlock(block);
@@ -151,22 +162,31 @@ function bodiesOf(type: DefinitionType, document: Document): readonly Record<str
 
   for (const entry of document.entries) {
     const block: Block | undefined = blockOf(entry);
+    const key: string | undefined =
+      entry.kind === NodeKind.Assignment ? String(entry.key.value).replace(/^"|"$/gu, "") : undefined;
 
-    if (block === undefined) {
+    if (block === undefined || key === undefined) {
       continue;
     }
 
     if (container !== undefined) {
+      if (container.kind !== "any-container" && container.key !== key) {
+        continue;
+      }
       for (const nested of block.entries) {
         const nestedBlock: Block | undefined = blockOf(nested);
-        if (nestedBlock !== undefined) {
+        const nestedKey: string | undefined =
+          nested.kind === NodeKind.Assignment ? String(nested.key.value).replace(/^"|"$/gu, "") : undefined;
+        if (nestedBlock !== undefined && nestedKey !== undefined && accepted(nestedKey)) {
           claim(nestedBlock);
         }
       }
       continue;
     }
 
-    claim(block);
+    if (accepted(key)) {
+      claim(block);
+    }
   }
 
   return bodies;

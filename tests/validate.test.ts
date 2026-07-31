@@ -164,6 +164,30 @@ describe("validate", () => {
   });
 
   /**
+   * The emitter takes either separator and writes one, so a path written with
+   * backslashes names the same file. Reading only `/` put such a file in no
+   * directory at all and what it declared was never seen.
+   */
+  it("reads a raw file whose path was written with the other separator", () => {
+    const mod = defineMod({ name: "Back", version: "1", supportedVersion: "v4.4.*" })
+      .file({ path: String.raw`common\component_tags\zz_back_tags.txt`, contents: "weapon_type_kyome\n" })
+      .add(
+        define(
+          "component_template",
+          "sts_weapon",
+          {
+            size: "medium",
+            type: "instant",
+            ai_weight: { weight: 1, modifier: { factor: 2, is_preferred_weapons: "weapon_type_kyome" } },
+          },
+          { as: "weapon_component_template" },
+        ),
+      );
+
+    expect(validate(mod).filter((diagnostic) => diagnostic.code === "unknown-value")).toEqual([]);
+  });
+
+  /**
    * A ship class is behaviour in the executable, so a mod cannot add one — and
    * `ship_size.class` is both where the enum is read from and where it is
    * checked, so joining the mod's own values would let a misspelling declare

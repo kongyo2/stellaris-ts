@@ -531,7 +531,10 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
       const name: string = file.path.slice(separator + 1);
       const known: readonly string[] | undefined = listing[directory];
 
-      if (known?.includes(name) === true) {
+      // Folded, for the same reason the duplicate check is: `gfx/icon.dds` and
+      // the `gfx/Icon.dds` vanilla ships are one file wherever the filesystem
+      // folds case, and the mod's would quietly stand in for it.
+      if (known?.some((candidate) => candidate.toLowerCase() === name.toLowerCase()) === true) {
         diagnostics.push({
           severity: intendedOverrides.has(file.path) ? "warning" : "error",
           code: "vanilla-filename-collision",

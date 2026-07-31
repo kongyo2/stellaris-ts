@@ -146,6 +146,20 @@ describe("the name a mod's files are called after", () => {
     expect(collision?.severity).toBe("warning");
   });
 
+  /**
+   * The listing holds `AVATAR_CHAMBER_1.dds` as vanilla spells it; a mod
+   * shipping `avatar_chamber_1.dds` replaces that file wherever the filesystem
+   * folds case, and an exact-string lookup would say nothing.
+   */
+  it("reports an asset that differs from a vanilla name only in case", () => {
+    const mod = defineMod({ name: "Fold", version: "1", supportedVersion: "v4.4.*" }).asset(
+      "gfx/interface/icons/buildings/AVATAR_CHAMBER_1.dds",
+      new Uint8Array([1]),
+    );
+
+    expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).toContain("vanilla-filename-collision");
+  });
+
   it("reads two spellings of one path as the one file they are", () => {
     const same = defineMod({ name: "Same", version: "1", supportedVersion: "v4.4.*" })
       .file({ path: "common/x.txt", contents: "FIRST" })
