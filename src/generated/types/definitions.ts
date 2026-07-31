@@ -548,7 +548,7 @@ export interface RuleSetEconomicTemplateUpkeepStarbase {
 }
 
 /** `emission` as emission writes it. */
-export interface RuleSetEmissionEmission {
+export interface RuleSetEmissionEmission3 {
 
   readonly [key: string]: PdxValue | undefined;
 }
@@ -1221,7 +1221,7 @@ export interface RuleSetGuiBackgroundBackground {
   readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
@@ -1298,7 +1298,7 @@ export interface RuleSetGuiButtonButtontype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -1334,7 +1334,7 @@ export interface RuleSetGuiButtonButtontype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -1383,7 +1383,7 @@ export interface RuleSetGuiButtonButtontype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: "select_click" | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -1431,7 +1431,7 @@ export interface RuleSetGuiButtonButtontype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: "select_click" | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -1458,7 +1458,7 @@ export interface RuleSetGuiButtonButtontype {
   readonly scale?: number | readonly number[] | Authored;
   readonly shortcut?: string | readonly string[] | Authored;
   readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
@@ -1511,7 +1511,7 @@ export interface RuleSetGuiButtonEffectbuttontype {
   readonly scale?: number | readonly number[] | Authored;
   readonly shortcut?: string | readonly string[] | Authored;
   readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
@@ -1559,7 +1559,7 @@ export interface RuleSetGuiButtonGuibuttontype {
   readonly scale?: number | readonly number[] | Authored;
   readonly shortcut?: string | readonly string[] | Authored;
   readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
@@ -1602,7 +1602,7 @@ export interface RuleSetGuiCheckboxtype {
   readonly scale?: number | readonly number[] | Authored;
   readonly shortCut?: string | Authored;
   readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
@@ -1684,7 +1684,7 @@ export interface RuleSetGuiContainerwindowtype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -1720,7 +1720,7 @@ export interface RuleSetGuiContainerwindowtype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -1769,7 +1769,7 @@ export interface RuleSetGuiContainerwindowtype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: "select_click" | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -1817,7 +1817,7 @@ export interface RuleSetGuiContainerwindowtype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: "select_click" | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -1861,7 +1861,7 @@ export interface RuleSetGuiContainerwindowtype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly smooth_scrolling?: boolean | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
@@ -1917,7 +1917,7 @@ export interface RuleSetGuiDropdownboxtype {
   readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly show_sound?: SoundEffectRef | readonly SoundEffectRef[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
@@ -1980,7 +1980,7 @@ export interface RuleSetGuiDropdownboxtype {
   readonly x: number | Authored;
   readonly y: number | Authored;
 } | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2005,7 +2005,7 @@ export interface RuleSetGuiDropdownboxtype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2046,7 +2046,7 @@ export interface RuleSetGuiEditboxtype {
   readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
   readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
   readonly textureFile?: string | Authored;
@@ -2091,7 +2091,7 @@ export interface RuleSetGuiExtendedscrollbartype {
   readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
   readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly slider?: {
   readonly name: string | Authored;
   readonly position?: {
@@ -2145,7 +2145,7 @@ export interface RuleSetGuiGridboxtype {
   readonly resizeparent?: boolean | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: string | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly slotSize?: {
   readonly height?: number | string | Authored;
   readonly width?: number | string | Authored;
@@ -2198,7 +2198,7 @@ export interface RuleSetGuiIcontype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2234,7 +2234,7 @@ export interface RuleSetGuiIcontype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2283,7 +2283,7 @@ export interface RuleSetGuiIcontype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: "select_click" | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2331,7 +2331,7 @@ export interface RuleSetGuiIcontype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: "select_click" | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2351,7 +2351,7 @@ export interface RuleSetGuiIcontype {
   readonly quadTextureSprite?: (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword") | readonly (SpriteRef | ProgressbartypeRef | "GFX_checkbox" | "GFX_peekpassword")[] | Authored;
   readonly rotation?: number | Authored;
   readonly scale?: number | readonly number[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spriteType?: (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default") | readonly (SpriteRef | ProgressbartypeRef | "GFX_species_piechart_default")[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
@@ -2387,7 +2387,7 @@ export interface RuleSetGuiInstanttextboxtype {
   readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: string | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
   readonly textureFile?: string | Authored;
@@ -2421,7 +2421,7 @@ export interface RuleSetGuiListboxtype {
   readonly priority?: number | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbartype?: string | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spacing?: number | Authored;
   readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
 }
@@ -2452,7 +2452,7 @@ export interface RuleSetGuiOverlappingelementsboxtype {
   readonly orientation?: ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical") | readonly ("BOTTOM" | "CENTER" | "CENTERED_LEFT" | "CENTERED_UP" | "CENTERED_UP_BY_LINE" | "CENTERUP" | "CENTER_CENTER" | "CENTER_LEFT" | "CENTER_RIGHT" | "CENTER_UP" | "CENTRE" | "LEFT_UP" | "RIGHT_DOWN" | "TOP" | "UPPER_CENTER" | "CENTER_DOWN" | "LEFT" | "LOWER_LEFT" | "LOWER_RIGHT" | "RIGHT" | "TOP_LEFT" | "UPPER_LEFT" | "UPPER_RIGHT" | "vertical")[] | Authored;
   readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spacing?: number | Authored;
   readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
 }
@@ -2511,7 +2511,7 @@ export interface RuleSetGuiScrollbartype {
   readonly priority?: number | Authored;
   readonly rightbutton: string | Authored;
   readonly scale?: number | readonly number[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly slider: string | Authored;
   readonly snappoint?: string | Authored;
   readonly snappoint_center?: string | Authored;
@@ -2565,7 +2565,7 @@ export interface RuleSetGuiSmoothlistboxtype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2601,7 +2601,7 @@ export interface RuleSetGuiSmoothlistboxtype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2650,7 +2650,7 @@ export interface RuleSetGuiSmoothlistboxtype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: "select_click" | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2698,7 +2698,7 @@ export interface RuleSetGuiSmoothlistboxtype {
   readonly y: number | Authored;
 } | Authored;
   readonly show_sound?: "select_click" | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -2729,10 +2729,10 @@ export interface RuleSetGuiSmoothlistboxtype {
   readonly size?: ({
   readonly x: number | Authored;
   readonly y: number | Authored;
-} | RuleSetGuiStandardElementSize) | readonly ({
+} | RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly ({
   readonly x: number | Authored;
   readonly y: number | Authored;
-} | RuleSetGuiStandardElementSize)[] | Authored;
+} | RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly spacing?: number | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
@@ -2769,7 +2769,7 @@ export interface RuleSetGuiSpinnertype {
   readonly priority?: number | Authored;
   readonly rightbutton: string | Authored;
   readonly scale?: number | readonly number[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly startValue?: number | Authored;
   readonly vertical_alignment?: ("centre" | "center" | "top" | "bottom") | readonly ("centre" | "center" | "top" | "bottom")[] | Authored;
 }
@@ -2792,6 +2792,12 @@ export interface RuleSetGuiStandardElementSize {
   readonly y: number | string | Authored;
 }
 
+/** `size` as gui_standard_element writes it. */
+export interface RuleSetGuiStandardElementSize2 {
+  readonly height?: number | string | Authored;
+  readonly width?: number | string | Authored;
+}
+
 /** `textboxType` as gui writes it. */
 export interface RuleSetGuiTextboxtype {
   readonly alwaysTransparent?: boolean | readonly boolean[] | Authored;
@@ -2812,7 +2818,7 @@ export interface RuleSetGuiTextboxtype {
   readonly pdx_tooltip_delayed?: string | readonly string[] | Authored;
   readonly position?: RuleSetGuiStandardElementPosition | readonly RuleSetGuiStandardElementPosition[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly text?: string | readonly string[] | Authored;
   readonly text_color_code?: string | readonly string[] | Authored;
   readonly textureFile?: string | Authored;
@@ -2861,7 +2867,7 @@ export interface RuleSetGuiWindowtype {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -3085,6 +3091,16 @@ export interface RuleSetResourcesTemplateOptionalResourcesPlanet {
   readonly logistics?: RuleSetEconomicTemplateLogisticsPlanet | readonly RuleSetEconomicTemplateLogisticsPlanet[] | Authored;
   readonly produces?: RuleSetEconomicTemplateProducesPlanet | readonly RuleSetEconomicTemplateProducesPlanet[] | Authored;
   readonly upkeep?: RuleSetEconomicTemplateUpkeepPlanet | readonly RuleSetEconomicTemplateUpkeepPlanet[] | Authored;
+}
+
+/** `resources` as resources_template_optional writes it. */
+export interface RuleSetResourcesTemplateOptionalResourcesPlanet2 {
+  readonly produces: {
+  readonly mult?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly multiplier?: (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count") | readonly (number | string | "aesthetic_wonder_specimen_count" | "aianom_energy_dep1" | "aianom_energy_dep2" | "aianom_energy_dep3" | "aianom_energy_dep4" | "aianom_engineering_dep1" | "aianom_engineering_dep2" | "aianom_engineering_dep3" | "aianom_engineering_dep4" | "aianom_mineral_dep1" | "aianom_mineral_dep2" | "aianom_mineral_dep3" | "aianom_mineral_dep4" | "aianom_physics_dep1" | "aianom_physics_dep2" | "aianom_physics_dep3" | "aianom_physics_dep4" | "aianom_society_dep1" | "aianom_society_dep2" | "aianom_society_dep3" | "aianom_society_dep4" | "astral_rift_baol_species" | "empire_size" | "event_target:culled_node.trigger:has_base_skill" | "event_target:destroyed_colony.trigger:pop_amount" | "event_target:looted_planet.trigger:pop_amount" | "event_target:patron_revenge_spawn@this" | "event_target:rebel_empire.trigger:fleet_power" | "event_target:ruler_pop_faction.trigger:pop_amount" | "from.starbase.fleet.trigger:fleet_power" | "from.trigger:empire_size" | "from.trigger:num_vivarium_slots" | "genesis_new_species_selected_planet" | "historical_item_specimen_count" | "leader.trigger:has_total_skill" | "local_kill_pop_amount" | "local_num_attackers" | "local_pop_amount" | "local_size_option" | "local_spent_biomass" | "number_fleets_spawned" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "owner.trigger:fleet_power" | "owner.trigger:num_ascension_perks" | "root.local_country_biomass" | "root.local_devastation" | "root.local_pop_amount" | "root.trigger:fleet_power" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "species.modifier:planet_jobs_worker_only_produces_mult" | "subjects_minus_one" | "trigger:capital_tier" | "trigger:council_agenda_progress_percent" | "trigger:empire_size" | "trigger:empire_sprawl_over_cap" | "trigger:has_base_skill" | "trigger:has_experience" | "trigger:has_total_civic_points" | "trigger:has_total_skill" | "trigger:has_unlocked_council_positions" | "trigger:has_unused_civic_points" | "trigger:is_difficulty" | "trigger:leader_age" | "trigger:leader_lifespan" | "trigger:max_naval_capacity" | "trigger:num_ascension_perks" | "trigger:num_candidate_supported" | "trigger:num_galaxy_systems" | "trigger:num_moons" | "trigger:num_non_aggression_pacts" | "trigger:num_owned_leaders" | "trigger:num_planetary_ascension_tiers" | "trigger:planet_garrison_strength" | "trigger:planet_size" | "trigger:planet_stability" | "trigger:pop_amount" | "trigger:subjects" | "trigger:support" | "trigger:years_passed" | "trophy_hunter_gained_energy" | "trophy_hunter_gained_exotic_gases" | "trophy_hunter_gained_food" | "trophy_hunter_gained_minerals" | "trophy_hunter_gained_rare_crystals" | "trophy_hunter_gained_unity" | "xeno_geology_specimen_count")[] | Authored;
+  readonly trigger?: TriggersByScope["planet"] | Authored;
+  readonly [key: string]: PdxValue | undefined;
+} | Authored;
 }
 
 /** `color` as subsystem_color writes it. */
@@ -5605,7 +5621,7 @@ export interface ParagonUiNameTypeDefinition {
   readonly positionType?: RuleSetGuiPositiontype | readonly RuleSetGuiPositiontype[] | Authored;
   readonly scale?: number | readonly number[] | Authored;
   readonly scrollbarType?: RuleSetGuiScrollbartype | readonly RuleSetGuiScrollbartype[] | Authored;
-  readonly size?: RuleSetGuiStandardElementSize | readonly RuleSetGuiStandardElementSize[] | Authored;
+  readonly size?: (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2) | readonly (RuleSetGuiStandardElementSize | RuleSetGuiStandardElementSize2)[] | Authored;
   readonly smoothListboxType?: RuleSetGuiSmoothlistboxtype | readonly RuleSetGuiSmoothlistboxtype[] | Authored;
   readonly spinnerType?: RuleSetGuiSpinnertype | readonly RuleSetGuiSpinnertype[] | Authored;
   readonly textboxType?: RuleSetGuiTextboxtype | readonly RuleSetGuiTextboxtype[] | Authored;
@@ -7668,7 +7684,7 @@ export interface DepositDefinition {
   readonly planet_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly potential?: TriggersByScope["planet"] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly resources?: RuleSetResourcesTemplateOptionalResourcesPlanet | readonly RuleSetResourcesTemplateOptionalResourcesPlanet[] | Authored;
+  readonly resources?: (RuleSetResourcesTemplateOptionalResourcesPlanet | RuleSetResourcesTemplateOptionalResourcesPlanet2) | readonly (RuleSetResourcesTemplateOptionalResourcesPlanet | RuleSetResourcesTemplateOptionalResourcesPlanet2)[] | Authored;
   readonly should_swap_deposit_on_terraforming?: boolean | Authored;
   readonly station?: "shipclass_mining_station" | "shipclass_research_station" | Authored;
   readonly terraforming_swap_types?: PdxBlock | readonly PdxValue[] | Authored;
@@ -9889,7 +9905,7 @@ export interface ParticleTypeDefinition {
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: number | Authored;
-  readonly emission?: RuleSetEmissionEmission | readonly RuleSetEmissionEmission[] | Authored;
+  readonly emission?: (number | string | RuleSetEmissionEmission3) | readonly (number | string | RuleSetEmissionEmission3)[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -9940,7 +9956,7 @@ export interface ParticleTypeDefinition {
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: number | Authored;
-  readonly emission?: RuleSetEmissionEmission | readonly RuleSetEmissionEmission[] | Authored;
+  readonly emission?: (number | string | RuleSetEmissionEmission3) | readonly (number | string | RuleSetEmissionEmission3)[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -9987,7 +10003,7 @@ export interface ParticleTypeDefinition {
 })[] | Authored;
   readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: PdxBlock | readonly PdxValue[] | number | Authored;
-  readonly emission?: (number | string | RuleSetEmissionEmission) | readonly (number | string | RuleSetEmissionEmission)[] | Authored;
+  readonly emission?: (number | string | RuleSetEmissionEmission3) | readonly (number | string | RuleSetEmissionEmission3)[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -10045,7 +10061,7 @@ export interface ParticleTypeDefinition {
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: number | Authored;
-  readonly emission?: RuleSetEmissionEmission | readonly RuleSetEmissionEmission[] | Authored;
+  readonly emission?: (number | string | RuleSetEmissionEmission3) | readonly (number | string | RuleSetEmissionEmission3)[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -10096,7 +10112,7 @@ export interface ParticleTypeDefinition {
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | Authored;
   readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: number | Authored;
-  readonly emission?: RuleSetEmissionEmission | readonly RuleSetEmissionEmission[] | Authored;
+  readonly emission?: (number | string | RuleSetEmissionEmission3) | readonly (number | string | RuleSetEmissionEmission3)[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;
@@ -10143,7 +10159,7 @@ export interface ParticleTypeDefinition {
 })[] | Authored;
   readonly color?: RuleSetSubsystemColorColor | readonly RuleSetSubsystemColorColor[] | Authored;
   readonly duration?: PdxBlock | readonly PdxValue[] | number | Authored;
-  readonly emission?: (number | string | RuleSetEmissionEmission) | readonly (number | string | RuleSetEmissionEmission)[] | Authored;
+  readonly emission?: (number | string | RuleSetEmissionEmission3) | readonly (number | string | RuleSetEmissionEmission3)[] | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emission_pulse_silence?: PdxBlock | readonly PdxValue[] | number | Authored;
   readonly emitter_pitch?: number | PdxBlock | readonly PdxValue[] | Authored;

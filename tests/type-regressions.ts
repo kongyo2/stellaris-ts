@@ -34,6 +34,14 @@ define("technology", "sts_tech", { area: "physics", tier: 3, category: ["computi
 // `modifier_category = colony` is written by every job category in the game.
 define("economic_category", "sts_category", { modifier_category: "colony" });
 
+// A family may name the same key twice with two different shapes, and both are
+// forms the game accepts: vanilla writes 326 `resources` blocks with a category
+// and six with nothing but `produces`.
+define("deposit", "sts_deposit_a", {
+  resources: { category: "planet_deposits", produces: { minerals: 4 } },
+});
+define("deposit", "sts_deposit_b", { resources: { produces: { society_research: 8 } } });
+
 // A building's triggered modifier blocks come from rule-set families too.
 define("building", "sts_lab", {
   category: "research",

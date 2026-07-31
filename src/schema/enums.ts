@@ -191,7 +191,11 @@ export const enums: readonly EnumDefinition[] = [
       false,
     ),
   ]),
-  extractedEnum("component_tags", [enumExtraction("common/component_tags", [captureScalar()], true, false)]),
+  // The file is a list of bare words, so there is no block to descend into: the
+  // route has to start at the file root, which is what cwt says
+  // (`start_from_root = yes`) and what the import dropped. Without it this enum
+  // had no members at all, and a component tag was checked against nothing.
+  extractedEnum("component_tags", [enumExtraction("common/component_tags", [captureScalar()], true, true)]),
   staticEnum("component_target_focus", ["single", "spread"]),
   staticEnum("component_target_type", ["target_allies", "target_controlled", "target_enemies", "target_own"]),
   staticEnum("component_upgrade_path", [
@@ -1479,8 +1483,12 @@ export const enums: readonly EnumDefinition[] = [
   staticEnum("sprite_type", ["character", "character_large", "character_without_room", "empty_room", "room", "planet"]),
   staticEnum("spynetwork_flag_enum", ["operation_diplomatic_incident_timer", "recently_stole_technology"]),
   staticEnum("standard_format", ["center", "centre", "left", "right"]),
+  // cwt reads a `name` field, which no random list in the game has: they are
+  // `rl_binary_stars = { stars = { ... } }` under `star_classes/randomizers`,
+  // and the identifier is the key. The rule matched nothing, so a system
+  // initializer's `class` was checked against an empty set.
   extractedEnum("star_class_random_list", [
-    enumExtraction("common/star_classes", [extractionField("name"), captureScalar()], true, false),
+    enumExtraction("common/star_classes/randomizers", [captureKey()], true, true),
   ]),
   staticEnum("target_type_enum", ["enemy", "ally", "controlled", "owned"]),
   staticEnum("tech_ai_type", ["all", "military"]),

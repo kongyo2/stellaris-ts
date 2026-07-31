@@ -1,5 +1,5 @@
 import { mkdir, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 import { BYTE_ORDER_MARK } from "./localisation.js";
 import type { EmitPlan } from "./emit.js";
@@ -23,7 +23,11 @@ export async function writePlan(mod: Mod, plan: EmitPlan, modsDirectory: string)
   }
 
   const folder: string = plan.modFileName.replace(/\.mod$/u, "");
-  const modDirectory: string = join(modsDirectory, folder);
+  // Absolute, because the `.mod` file carries this path and the launcher reads
+  // it from its own working directory rather than from here. A relative one
+  // written out verbatim points at nothing the launcher can find, and it says
+  // nothing about it: the mod is simply not in the list.
+  const modDirectory: string = resolve(modsDirectory, folder);
   const written: string[] = [];
 
   await Promise.all(
@@ -41,7 +45,7 @@ export async function writePlan(mod: Mod, plan: EmitPlan, modsDirectory: string)
     }),
   );
 
-  const modFilePath: string = join(modsDirectory, plan.modFileName);
+  const modFilePath: string = resolve(modsDirectory, plan.modFileName);
   await writeFile(modFilePath, renderModFile(mod.options, modDirectory), "utf8");
 
   return { modDirectory, modFilePath, written: written.sort() };

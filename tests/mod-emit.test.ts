@@ -187,9 +187,24 @@ describe("the format's awkward corners", () => {
     expect(file?.kind === "binary" ? [...file.bytes] : []).toEqual([...bytes]);
   });
 
-  it("reports an asset that would replace a vanilla file", () => {
+  /**
+   * The listing has to hold the formats an asset is actually in. It was built
+   * from the directories the definition types name, which is where script
+   * lives, so a `.dds` at a vanilla path could never match it and the check
+   * passed every texture a mod could possibly replace.
+   */
+  it("says nothing about an asset under a name of the mod's own", () => {
+    const mod = defineMod({ name: "Fine", version: "1", supportedVersion: "v4.4.*" }).asset(
+      "gfx/interface/icons/buildings/sts_kyome_lab.dds",
+      new Uint8Array([1]),
+    );
+
+    expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).not.toContain("vanilla-filename-collision");
+  });
+
+  it("reports an asset that would replace a vanilla texture", () => {
     const mod = defineMod({ name: "Clash", version: "1", supportedVersion: "v4.4.*" }).asset(
-      "common/alerts.txt",
+      "gfx/interface/icons/buildings/avatar_chamber_1.dds",
       new Uint8Array([1]),
     );
     const found = emit(mod).diagnostics.find((diagnostic) => diagnostic.code === "vanilla-filename-collision");
@@ -206,7 +221,7 @@ describe("the format's awkward corners", () => {
   it("takes an intended replacement at its word, for a raw file and for an asset", () => {
     const mod = defineMod({ name: "Meant", version: "1", supportedVersion: "v4.4.*" })
       .file({ path: "common/alerts.txt", contents: "x = { }\n", overrides: true })
-      .asset("gfx/lights/star_lights.asset", new Uint8Array([1]), { overrides: true });
+      .asset("gfx/interface/icons/buildings/avatar_chamber_1.dds", new Uint8Array([1]), { overrides: true });
 
     const diagnostics = emit(mod).diagnostics.filter((diagnostic) => diagnostic.code === "vanilla-filename-collision");
 

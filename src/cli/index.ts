@@ -117,44 +117,83 @@ function usage(): string {
   ].join("\n");
 }
 
-/**
- * The languages a definition's required strings are checked in.
- *
- * A mod written in Japanese is missing nothing in English and everything in
- * Japanese, and the check that only ever asked about English had nothing to say
- * about it. Both spellings are taken because the folder is `japanese` and the
- * file says `l_japanese`, and having to know which one this asks for is a
- * needless thing to get wrong.
- */
-function languagesFrom(rest: readonly string[]): {
+interface Options {
   readonly languages: readonly string[];
-  readonly unknown: readonly string[];
-} {
-  const named: string[] = [];
+  readonly out: string | undefined;
+}
 
-  for (const [index, argument] of rest.entries()) {
-    if (argument === "--language" || argument === "--languages") {
-      const value: string | undefined = rest[index + 1];
-      if (value !== undefined && !value.startsWith("--")) {
-        named.push(...value.split(",").map((part) => part.trim()));
+/**
+ * The options, read once.
+ *
+ * Once, because reading them twice is what lets one option swallow another:
+ * `--out --language japanese` gave the language to the check and `--language`
+ * to the mod folder, and reported having written the mod successfully into a
+ * directory of that name. An option's value is never another option, and a
+ * missing one is said so rather than guessed at.
+ *
+ * A language is taken with or without its `l_` prefix, because the folder is
+ * `japanese` and the file says `l_japanese`, and having to know which one this
+ * asks for is a needless thing to get wrong.
+ */
+function parseOptions(rest: readonly string[]): { readonly options: Options } | { readonly error: string } {
+  const languages: string[] = [];
+  let out: string | undefined;
+  let index = 0;
+
+  while (index < rest.length) {
+    const argument: string = rest[index] ?? "";
+    const inline: RegExpExecArray | null = /^(--[A-Za-z][A-Za-z-]*)=(.*)$/u.exec(argument);
+    const name: string = inline?.[1] ?? argument;
+    const attached: string | undefined = inline?.[2];
+    let value: string | undefined = attached;
+
+    if (!name.startsWith("--")) {
+      return { error: `Unexpected argument: ${argument}. Options are written --name value or --name=value.` };
+    }
+
+    index += 1;
+
+    if (value === undefined) {
+      const next: string | undefined = rest[index];
+      if (next !== undefined && !next.startsWith("--")) {
+        value = next;
+        index += 1;
       }
+    }
+
+    if (name === "--language" || name === "--languages") {
+      const parts: readonly string[] = (value ?? "").split(",").map((part) => part.trim());
+      const named: readonly string[] = parts.filter((part) => part.length > 0);
+
+      if (named.length === 0) {
+        return { error: `${name} needs a language after it, such as \`--language japanese\`.` };
+      }
+
+      languages.push(...named);
       continue;
     }
 
-    const inline: string | undefined = /^--languages?=(.+)$/u.exec(argument)?.[1];
-    if (inline !== undefined) {
-      named.push(...inline.split(",").map((part) => part.trim()));
+    if (name === "--out") {
+      if (value === undefined || value.length === 0) {
+        return { error: "--out needs a directory after it." };
+      }
+      out = value;
+      continue;
     }
+
+    return { error: `Unknown option: ${name}.` };
   }
 
-  const normalised: readonly string[] = named
-    .filter((name) => name.length > 0)
-    .map((name) => (name.startsWith("l_") ? name : `l_${name}`));
+  const normalised: readonly string[] = languages.map((name) => (name.startsWith("l_") ? name : `l_${name}`));
+  const unknown: readonly string[] = normalised.filter((name) => !LOCALISATION_LANGUAGES.includes(name));
 
-  return {
-    languages: normalised.filter((name) => LOCALISATION_LANGUAGES.includes(name)),
-    unknown: normalised.filter((name) => !LOCALISATION_LANGUAGES.includes(name)),
-  };
+  if (unknown.length > 0) {
+    return {
+      error: `Not a language the game reads: ${unknown.join(", ")}. It reads ${LOCALISATION_LANGUAGES.join(", ")}.`,
+    };
+  }
+
+  return { options: { languages: normalised, out } };
 }
 
 export async function run(argv: readonly string[]): Promise<number> {
@@ -171,19 +210,20 @@ export async function run(argv: readonly string[]): Promise<number> {
     return 2;
   }
 
-  const requested = languagesFrom(rest);
+  const parsed = parseOptions(rest);
 
-  if (requested.unknown.length > 0) {
-    console.error(
-      `Not a language the game reads: ${requested.unknown.join(", ")}. It reads ${LOCALISATION_LANGUAGES.join(", ")}.`,
-    );
+  if ("error" in parsed) {
+    console.error(parsed.error);
+    console.error(usage());
     return 2;
   }
+
+  const options: Options = parsed.options;
 
   const mod: Mod = await loadMod(entry);
   const plan: EmitPlan = emit(mod);
   const diagnostics: readonly Diagnostic[] = [
-    ...validate(mod, requested.languages.length === 0 ? {} : { languages: requested.languages }).map(fromValidation),
+    ...validate(mod, options.languages.length === 0 ? {} : { languages: options.languages }).map(fromValidation),
     ...plan.diagnostics.map(fromEmit),
   ];
   const errors: number = report(diagnostics);
@@ -206,9 +246,7 @@ export async function run(argv: readonly string[]): Promise<number> {
     return 0;
   }
 
-  const outIndex: number = rest.indexOf("--out");
-  const explicit: string | undefined = outIndex < 0 ? undefined : rest[outIndex + 1];
-  const modsDirectory: string = explicit ?? process.env["STELLARIS_MODS_DIR"] ?? defaultModsDirectory();
+  const modsDirectory: string = options.out ?? process.env["STELLARIS_MODS_DIR"] ?? defaultModsDirectory();
   const result = await writePlan(mod, plan, modsDirectory);
 
   console.log(`WROTE files=${String(result.written.length)} directory=${result.modDirectory}`);

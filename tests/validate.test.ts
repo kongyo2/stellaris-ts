@@ -109,4 +109,55 @@ describe("validate", () => {
   it("still reports a counter no chain declares", () => {
     expect(codes(chainMod("sts_typo_here"))).toContain("unknown-value");
   });
+
+  /**
+   * A policy flag is declared inside an option, and an option is a key written
+   * once per element. Reading the array as one block instead of as repetition
+   * lost the flag, and the mod was told its own flag was not one.
+   */
+  const flagMod = (flag: string) =>
+    defineMod({ name: "Flags", version: "1", supportedVersion: "v4.4.*" })
+      .add(define("policy", "sts_policy", { option: [{ name: "sts_option", policy_flags: ["sts_resonant"] }] }))
+      .add(define("building", "sts_lab", { category: "research", potential: { has_policy_flag: flag } }));
+
+  it("reads a flag the mod's own policy declares in a list", () => {
+    expect(validate(flagMod("sts_resonant")).filter((d) => d.code === "unknown-value")).toEqual([]);
+  });
+
+  it("still reports a flag no policy declares", () => {
+    expect(codes(flagMod("sts_typo_here"))).toContain("unknown-value");
+  });
+
+  /**
+   * `common/component_tags` has no definition type, so a mod adds one the way
+   * Gigastructural Engineering does: a file of bare words. Reading the game's
+   * copy of that file without reading the mod's would turn an empty check into
+   * one that accepts vanilla and nothing else.
+   */
+  const componentMod = (declared: boolean) => {
+    const mod = defineMod({ name: "Comp", version: "1", supportedVersion: "v4.4.*" }).add(
+      define(
+        "component_template",
+        "sts_weapon",
+        {
+          size: "medium",
+          type: "instant",
+          ai_weight: { weight: 1, modifier: { factor: 2, is_preferred_weapons: "weapon_type_kyome" } },
+        },
+        { as: "weapon_component_template" },
+      ),
+    );
+
+    return declared
+      ? mod.file({ path: "common/component_tags/zz_comp_tags.txt", contents: "weapon_type_kyome\n" })
+      : mod;
+  };
+
+  it("reads a component tag the mod ships as a raw file", () => {
+    expect(validate(componentMod(true)).filter((d) => d.code === "unknown-value")).toEqual([]);
+  });
+
+  it("still reports a component tag nothing declares", () => {
+    expect(codes(componentMod(false))).toContain("unknown-value");
+  });
 });

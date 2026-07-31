@@ -4,10 +4,12 @@ import {
   vanillaModifierNames,
   vanillaScriptedParameters,
 } from "../generated/vanilla/index.js";
-import type { DefinitionRecord, Mod } from "../runtime/mod.js";
+import type { DefinitionRecord, Mod, RawFileRecord } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
+import { captureFromDocument } from "../schema/extraction.js";
 import { localisationKey } from "../schema/ir.js";
 import { mergedDefinitionTypes } from "../schema/merged-types.js";
+import { parse, type Document } from "../syntax/index.js";
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import {
@@ -150,6 +152,55 @@ function enumMembers(walker: Walker, id: string): readonly string[] {
   return definition.kind === "static-enum" ? definition.values : (walker.enumMembers[id] ?? []);
 }
 
+/** One entry of a body, as a route sees it. A value with no key has none. */
+type ExtractionEntry = readonly [key: string | undefined, value: unknown];
+
+/**
+ * A body's entries, keyed ones and the ones with no key alike.
+ *
+ * `building_sets = { sts_set }` is a block of values with no keys, and reading
+ * only the keyed entries drops every member such a list holds — which is most
+ * of what these enums are made of.
+ */
+function extractionEntries(value: unknown): readonly ExtractionEntry[] {
+  if (isEntries(value)) {
+    return value.entries.map((entry): ExtractionEntry =>
+      isBare(entry) ? [undefined, entry.bare] : [entry[0], entry[1]],
+    );
+  }
+
+  if (Array.isArray(value)) {
+    return (value as readonly unknown[]).map((item): ExtractionEntry => [undefined, item]);
+  }
+
+  if (typeof value !== "object" || value === null || isRaw(value) || isRepeated(value) || isCompared(value)) {
+    return [];
+  }
+
+  return Object.entries(value);
+}
+
+/**
+ * The occurrences one field stands for.
+ *
+ * An array under a key means two different things, and the printer decides
+ * which: an array of blocks is the key written once per element, anything else
+ * is one value list. Extraction has to read it the same way the emitter writes
+ * it, or `option: [{ policy_flags: [...] }]` — a policy with one option — looks
+ * like an option named nothing.
+ */
+function occurrencesOf(value: unknown): readonly unknown[] {
+  if (isRepeated(value)) {
+    return value.values;
+  }
+
+  if (Array.isArray(value) && value.length > 0 && (value as readonly unknown[]).every((item) => isBlockLike(item))) {
+    return value as readonly unknown[];
+  }
+
+  return [value];
+}
+
 /**
  * Where an extracted enum's members come from in a body this mod wrote.
  *
@@ -160,7 +211,7 @@ function enumMembers(walker: Walker, id: string): readonly string[] {
  * is exactly what the modifier namespace already does.
  */
 function captureFromBody(
-  entries: readonly (readonly [string, unknown])[],
+  entries: readonly ExtractionEntry[],
   route: readonly ExtractionStep[],
   into: Set<string>,
 ): void {
@@ -175,7 +226,9 @@ function captureFromBody(
   if (step.kind === "capture") {
     for (const [key, value] of entries) {
       if (step.source === "key") {
-        into.add(key);
+        if (key !== undefined) {
+          into.add(key);
+        }
         continue;
       }
       if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
@@ -190,15 +243,17 @@ function captureFromBody(
       continue;
     }
 
-    if (isBlockLike(value)) {
-      captureFromBody(entriesOf(value).keyed, rest, into);
-      continue;
-    }
+    for (const occurrence of occurrencesOf(value)) {
+      if (isBlockLike(occurrence)) {
+        captureFromBody(extractionEntries(occurrence), rest, into);
+        continue;
+      }
 
-    // `counter = my_counter` with a capture next: the value is the member, and
-    // there is no block to descend into.
-    if (rest[0]?.kind === "capture") {
-      captureFromBody([[key, value]], rest, into);
+      // `counter = my_counter` with a capture next: the value is the member, and
+      // there is no block to descend into.
+      if (rest[0]?.kind === "capture") {
+        captureFromBody([[key, occurrence]], rest, into);
+      }
     }
   }
 }
@@ -212,8 +267,21 @@ function captureFromBody(
 function withOwnEnumMembers(
   model: SchemaModel,
   definitions: readonly DefinitionRecord[],
+  files: readonly RawFileRecord[],
 ): Readonly<Record<string, readonly string[]>> {
   const merged: Record<string, readonly string[]> = { ...extractedEnumMembers };
+  // A raw file is script the mod wrote for a type this library has no shape
+  // for, and `common/component_tags` is exactly that: a list of words with no
+  // definition type behind it. Parsed once, because a route per file per enum
+  // would parse the same file twenty-seven times.
+  const parsed = new Map<string, Document>();
+
+  for (const record of files) {
+    const result = parse(record.contents);
+    if (result.diagnostics.length === 0) {
+      parsed.set(record.path, result.document);
+    }
+  }
 
   for (const definition of model.enums) {
     if (definition.kind !== "extracted-enum") {
@@ -223,12 +291,13 @@ function withOwnEnumMembers(
     const found = new Set<string>();
 
     for (const source of definition.sources) {
-      for (const record of definitions) {
-        const inside: boolean = source.includeSubdirectories
-          ? record.directory === source.directory || record.directory.startsWith(`${source.directory}/`)
-          : record.directory === source.directory;
+      const covers = (directory: string): boolean =>
+        source.includeSubdirectories
+          ? directory === source.directory || directory.startsWith(`${source.directory}/`)
+          : directory === source.directory;
 
-        if (!inside) {
+      for (const record of definitions) {
+        if (!covers(record.directory)) {
           continue;
         }
 
@@ -236,10 +305,17 @@ function withOwnEnumMembers(
         // one that does not starts inside the body, which is where the indexer
         // descends to before following it.
         captureFromBody(
-          source.startFromRoot ? [[record.id, record.body]] : entriesOf(record.body).keyed,
+          source.startFromRoot ? [[record.id, record.body]] : extractionEntries(record.body),
           source.route,
           found,
         );
+      }
+
+      for (const [path, document] of parsed) {
+        const separator: number = path.lastIndexOf("/");
+        if (covers(separator < 0 ? "" : path.slice(0, separator))) {
+          captureFromDocument(document.entries, source.route, source.startFromRoot, found);
+        }
       }
     }
 
@@ -570,7 +646,11 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const idsByType: Readonly<Record<string, readonly string[]>> = mergeIdsByType(vanillaIdsByType, ownIds);
   // An extracted enum is read off the game once; a mod that defines an event
   // chain brings its counters into existence the same way it brings modifiers.
-  const ownEnumMembers: Readonly<Record<string, readonly string[]>> = withOwnEnumMembers(model, mod.definitions);
+  const ownEnumMembers: Readonly<Record<string, readonly string[]>> = withOwnEnumMembers(
+    model,
+    mod.definitions,
+    mod.files,
+  );
   const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
   const walker: Walker = {

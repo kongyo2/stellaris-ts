@@ -84,4 +84,30 @@ describe("the command line", () => {
   it("leaves an import that is missing in every spelling alone", async () => {
     await expect(run(["check", join(directory, "absent.ts")])).rejects.toThrow(/Cannot find module/u);
   });
+
+  /**
+   * Reading the options twice is what lets one swallow another: `--out
+   * --language japanese` once gave the language to the check and `--language`
+   * to the mod folder, then reported having written the mod.
+   */
+  it("refuses an option whose value is another option", async () => {
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+    try {
+      expect(await run(["build", join(directory, "mod.ts"), "--out", "--language", "japanese"])).toBe(2);
+      expect(lines(error.mock.calls)).toContain("--out needs a directory after it.");
+
+      error.mockClear();
+      expect(await run(["check", join(directory, "mod.ts"), "--language"])).toBe(2);
+      expect(lines(error.mock.calls)).toContain("--language needs a language after it");
+
+      error.mockClear();
+      expect(await run(["check", join(directory, "mod.ts"), "--langauge", "japanese"])).toBe(2);
+      expect(lines(error.mock.calls)).toContain("Unknown option: --langauge.");
+    } finally {
+      error.mockRestore();
+      log.mockRestore();
+    }
+  });
 });

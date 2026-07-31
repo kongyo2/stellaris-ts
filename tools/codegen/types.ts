@@ -270,8 +270,14 @@ function ruleSetType(
   family: string,
   member: RuleSetDefinition,
   scope: string | undefined,
+  alternative: number,
 ): string {
-  const key = `${family}::${member.name ?? ""}::${scope ?? ""}`;
+  // The alternative is part of the identity. A family may name the same key
+  // twice with two different shapes — `resources_template_optional.resources` is
+  // `{ category ... }` or `{ produces = { ... } }`, and vanilla writes both —
+  // and a cache keyed on the name alone hands the first shape out for the
+  // second, which rejects six deposits the game ships.
+  const key = `${family}::${member.name ?? ""}::${scope ?? ""}::${String(alternative)}`;
   const known: string | undefined = context.ruleSetTypes.get(key);
 
   if (known !== undefined) {
@@ -284,7 +290,8 @@ function ruleSetType(
     return valueType(context, member.value, 0, scope);
   }
 
-  const name = `RuleSet${pascal(family)}${pascal(member.name ?? "")}${scope === undefined ? "" : pascal(scope)}`;
+  const suffix: string = alternative <= 1 ? "" : String(alternative);
+  const name = `RuleSet${pascal(family)}${pascal(member.name ?? "")}${scope === undefined ? "" : pascal(scope)}${suffix}`;
   context.ruleSetTypes.set(key, name);
   context.ruleSetDeclarations.set(name, "");
 
@@ -334,6 +341,9 @@ function collectProperties(
     if (entry.kind === "rule-set-entries") {
       const members = context.model.ruleSets.filter((member) => member.family === entry.family);
       const inner: string | undefined = nextScope(scope, entry.scope);
+      // Which alternative of a key this is. The same name may be declared more
+      // than once with different shapes, and each is a form the game accepts.
+      const alternatives = new Map<string, number>();
 
       for (const member of members) {
         // A member with no name is a key computed from a construct, which
@@ -343,6 +353,9 @@ function collectProperties(
           continue;
         }
 
+        const alternative: number = (alternatives.get(member.name) ?? 0) + 1;
+        alternatives.set(member.name, alternative);
+
         const memberScope: string | undefined = nextScope(inner, member.scope);
         const draft: PropertyDraft = into.drafts.get(member.name) ?? {
           key: member.name,
@@ -350,7 +363,7 @@ function collectProperties(
           optional: true,
           repeatable: false,
         };
-        const rendered: string = ruleSetType(context, entry.family, member, memberScope);
+        const rendered: string = ruleSetType(context, entry.family, member, memberScope, alternative);
 
         if (!draft.types.includes(rendered)) {
           draft.types.push(rendered);
