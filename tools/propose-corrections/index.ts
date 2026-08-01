@@ -125,7 +125,7 @@ async function documentAt(path: string): Promise<Document | undefined> {
     const source: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(path));
     const result = parse(source);
 
-    if (result.diagnostics.length > 0) {
+    if (result.errors.length > 0) {
       return undefined;
     }
 

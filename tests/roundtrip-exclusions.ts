@@ -16,4 +16,12 @@ export const roundtripExclusions: readonly RoundtripExclusion[] = [
     path: "common/scripted_loc/scripted_loc_ruloc.txt",
     reason: "The vanilla defined_text block opened at line 312 is missing its closing brace at end of file.",
   },
+  {
+    path: "gfx/models/effects/nomads.gfx",
+    reason: "Vanilla writes 15 opening braces and 14 closing ones; the last object is never closed.",
+  },
+  {
+    path: "gfx/models/ui/nomads_frontend.gfx",
+    reason: "Vanilla writes 9 opening braces and 8 closing ones; the last object is never closed.",
+  },
 ];

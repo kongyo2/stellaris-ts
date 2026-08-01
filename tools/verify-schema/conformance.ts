@@ -656,7 +656,7 @@ export async function checkConformance(
       const source: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file));
       const result = parse(source);
 
-      if (result.diagnostics.length > 0) {
+      if (result.errors.length > 0) {
         return;
       }
 

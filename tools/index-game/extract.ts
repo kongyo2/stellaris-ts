@@ -469,7 +469,7 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
       const result = parse(source);
       filesRead += 1;
 
-      if (result.diagnostics.length > 0) {
+      if (result.errors.length > 0) {
         return;
       }
 

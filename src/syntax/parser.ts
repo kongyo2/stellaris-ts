@@ -12,11 +12,11 @@ import type {
   Trivia,
   ValueNode,
 } from "./ast.js";
-import { tokenize } from "./lexer.js";
-import type { LexResult } from "./lexer.js";
+import { quotedStringValue, tokenize } from "./lexer.js";
+import type { DiagnosticSeverity, LexOptions, LexResult } from "./lexer.js";
 import type { Position, Span } from "./position.js";
-import { isTriviaToken, TokenKind } from "./token.js";
-import type { Token, TokenKind as TokenKindType } from "./token.js";
+import { isReaderOperator, isTriviaToken, TokenKind } from "./token.js";
+import type { Token } from "./token.js";
 
 export const ParserDiagnosticCode = {
   LexerError: "lexer-error",
@@ -26,12 +26,14 @@ export const ParserDiagnosticCode = {
   ExpectedCloseBrace: "expected-close-brace",
   ExpectedCloseBracket: "expected-close-bracket",
   ExpectedOptionalHeader: "expected-optional-header",
+  InvalidVariableName: "invalid-variable-name",
   InternalError: "internal-error",
 } as const;
 
 export type ParserDiagnosticCode = (typeof ParserDiagnosticCode)[keyof typeof ParserDiagnosticCode];
 
 export interface ParserDiagnostic {
+  readonly severity: DiagnosticSeverity;
   readonly code: ParserDiagnosticCode;
   readonly message: string;
   readonly span: Span;
@@ -40,6 +42,14 @@ export interface ParserDiagnostic {
 export interface ParseResult {
   readonly document: Document;
   readonly diagnostics: readonly ParserDiagnostic[];
+  /**
+   * The subset that says the script is wrong.
+   *
+   * Callers deciding whether to use the document want this rather than
+   * `diagnostics`, which also carries what the game merely warns about and
+   * then reads anyway.
+   */
+  readonly errors: readonly ParserDiagnostic[];
   readonly hadBom: boolean;
 }
 
@@ -53,18 +63,23 @@ function span(start: Position, end: Position): Span {
 }
 
 function isScalarToken(token: Token): boolean {
-  return token.kind === TokenKind.Atom || token.kind === TokenKind.QuotedString;
+  return token.kind === TokenKind.Atom || token.kind === TokenKind.QuotedString || isPunctuationToken(token);
 }
 
-function isAssignmentOperatorKind(kind: TokenKindType): boolean {
+/**
+ * A character the lexer tokenises but the reader has no rule for.
+ *
+ * `(`, `)`, `,` and a lone `!` each get their own token id and then fall
+ * through the reader's key/operator/value dispatch, which means a script may
+ * write them where a word would go and the game reads them as that word. They
+ * are scalars here for the same reason.
+ */
+function isPunctuationToken(token: Token): boolean {
   return (
-    kind === TokenKind.Equals ||
-    kind === TokenKind.EqualEqual ||
-    kind === TokenKind.NotEqual ||
-    kind === TokenKind.GreaterThan ||
-    kind === TokenKind.GreaterThanOrEqual ||
-    kind === TokenKind.LessThan ||
-    kind === TokenKind.LessThanOrEqual
+    token.kind === TokenKind.OpenParen ||
+    token.kind === TokenKind.CloseParen ||
+    token.kind === TokenKind.Comma ||
+    token.kind === TokenKind.Bang
   );
 }
 
@@ -89,15 +104,85 @@ function assignmentOperator(token: Token): AssignmentOperator {
   }
 }
 
+/**
+ * Whether this token opens `@[ … ]`.
+ *
+ * Both spellings start an atom: `@[` when a space follows the bracket, and the
+ * whole expression when it does not. `@\[` is the same construct written
+ * inside an inline script, where a bare `@` would be substituted too early.
+ */
+function isInlineMathOpening(token: Token): boolean {
+  return token.kind === TokenKind.Atom && (token.text.startsWith("@[") || token.text.startsWith("@\\["));
+}
+
+function isOptionalBlockOpening(token: Token): boolean {
+  return token.kind === TokenKind.Atom && token.text.startsWith("[[");
+}
+
+/**
+ * The names `@name = value` will accept.
+ *
+ * The game checks each character as it registers the variable: a letter first,
+ * then letters, digits and `_`. A name that fails gets a diagnostic and the
+ * declaration is dropped, so every later `@name` silently stays the literal
+ * text `@name` — there is no second complaint. All 3,480 declarations in
+ * vanilla and all 3,608 across the twenty workshop mods pass it.
+ */
+const VARIABLE_NAME = /^[A-Za-z][A-Za-z0-9_]*$/u;
+
+/**
+ * Whether a declaration's name can be judged yet.
+ *
+ * Inside `common/inline_scripts` a name is often half parameter —
+ * `@bio_ship_armor_$SIZE$_$TIER$` — and only becomes a real name once the
+ * script is expanded. Nothing here knows what it will expand to.
+ */
+function isCheckableVariableName(name: string): boolean {
+  return !name.includes("$");
+}
+
+/**
+ * The parameter an optional block tests, without its brackets or negation.
+ *
+ * `[[POP_GROUP]` and `[[ !POP_GROUP ]` both name `POP_GROUP`; the second one
+ * arrives as three tokens because `!` ends a bare token.
+ */
+export function optionalBlockParameter(header: readonly Token[]): string {
+  const text: string = header
+    .filter((token) => token.kind !== TokenKind.Comment)
+    .map((token) => token.text)
+    .join("");
+  const withoutBrackets: string = text.replace(/^\[\[/u, "").replace(/\]\s*$/u, "");
+  return withoutBrackets.replace(/^\s*!/u, "").trim();
+}
+
+/** Whether an optional block applies when its parameter is *not* set. */
+export function isOptionalBlockNegated(header: readonly Token[]): boolean {
+  const text: string = header
+    .filter((token) => token.kind !== TokenKind.Comment)
+    .map((token) => token.text)
+    .join("");
+  return /^\[\[\s*!/u.test(text);
+}
+
 function scalarValue(token: Token): Pick<Scalar, "raw" | "scalarKind" | "value"> {
   const raw: string = token.text;
 
   if (token.kind === TokenKind.QuotedString) {
-    const value: string = raw.endsWith('"') && raw.length >= 2 ? raw.slice(1, -1) : raw.slice(1);
     return {
       raw,
+      // The two escapes are resolved: `"a\"b"` is the three characters `a"b`,
+      // and comparing the raw text against an identifier would not match.
       scalarKind: ScalarKind.QuotedString,
-      value,
+      value: quotedStringValue(raw),
+    };
+  }
+
+  if (isPunctuationToken(token)) {
+    return {
+      raw,
+      scalarKind: ScalarKind.Punctuation,
+      value: raw,
     };
   }
 
@@ -188,10 +273,6 @@ class Parser {
     return this.tokens[this.index] ?? this.eofToken;
   }
 
-  private peek(distance = 1): Token {
-    return this.tokens[this.index + distance] ?? this.eofToken;
-  }
-
   private advance(): Token {
     const token: Token = this.current();
 
@@ -239,23 +320,19 @@ class Parser {
       return this.parseTrivia();
     }
 
-    if (token.kind === TokenKind.OpenBracket && this.peek().kind === TokenKind.OpenBracket) {
+    if (isOptionalBlockOpening(token)) {
       return this.parseOptionalBlock();
     }
 
     if (isScalarToken(token)) {
-      const following: SignificantToken = this.nextSignificant();
-
-      if (isAssignmentOperatorKind(following.token.kind)) {
-        return this.parseAssignment();
+      if (isInlineMathOpening(token)) {
+        return this.parseInlineMath();
       }
 
-      if (
-        this.isInlineMathPrefix(token) &&
-        following.token.kind === TokenKind.OpenBracket &&
-        following.index === this.index + 1
-      ) {
-        return this.parseInlineMath();
+      const following: SignificantToken = this.nextSignificant();
+
+      if (isReaderOperator(following.token.kind)) {
+        return this.parseAssignment();
       }
 
       if (allowUnkeyed && following.token.kind === TokenKind.OpenBrace && this.isOnCurrentLine(following.index)) {
@@ -267,6 +344,7 @@ class Parser {
       }
 
       this.diagnostics.push({
+        severity: "error",
         code: ParserDiagnosticCode.UnexpectedRootValue,
         message: `Unexpected unkeyed value ${JSON.stringify(token.text)} at the document root.`,
         span: token.span,
@@ -313,6 +391,7 @@ class Parser {
 
   private parseAssignment(): Assignment {
     const key: Scalar = this.parseScalar();
+    this.checkVariableDeclaration(key);
     const beforeOperatorTrivia: Token[] = this.collectTrivia();
     const operatorToken: Token = this.advance();
     const beforeValueTrivia: Token[] = this.collectTrivia();
@@ -333,7 +412,7 @@ class Parser {
   private parseValue(): ValueNode {
     const token: Token = this.current();
 
-    if (token.kind === TokenKind.OpenBracket && this.peek().kind === TokenKind.OpenBracket) {
+    if (isOptionalBlockOpening(token)) {
       return this.parseOptionalBlock();
     }
 
@@ -342,15 +421,11 @@ class Parser {
     }
 
     if (isScalarToken(token)) {
-      const following: SignificantToken = this.nextSignificant();
-
-      if (
-        this.isInlineMathPrefix(token) &&
-        following.token.kind === TokenKind.OpenBracket &&
-        following.index === this.index + 1
-      ) {
+      if (isInlineMathOpening(token)) {
         return this.parseInlineMath();
       }
+
+      const following: SignificantToken = this.nextSignificant();
 
       if (following.token.kind === TokenKind.OpenBrace && this.isOnCurrentLine(following.index)) {
         return this.parsePrefixedBlock();
@@ -359,12 +434,9 @@ class Parser {
       return this.parseScalar();
     }
 
-    if (
-      token.kind === TokenKind.EndOfFile ||
-      token.kind === TokenKind.CloseBrace ||
-      token.kind === TokenKind.CloseBracket
-    ) {
+    if (token.kind === TokenKind.EndOfFile || token.kind === TokenKind.CloseBrace) {
       this.diagnostics.push({
+        severity: "error",
         code: ParserDiagnosticCode.ExpectedValue,
         message: "Expected a value after the assignment operator.",
         span: token.span,
@@ -398,6 +470,7 @@ class Parser {
     }
 
     this.diagnostics.push({
+      severity: "error",
       code: ParserDiagnosticCode.ExpectedCloseBrace,
       message: "Expected '}' before the end of the file.",
       span: this.current().span,
@@ -424,25 +497,38 @@ class Parser {
     };
   }
 
+  /**
+   * `[[PARAM] … ]`.
+   *
+   * The header runs to the first token whose text carries the `]` that closes
+   * it, which is the opening token itself when the parameter was written tight
+   * against the brackets — `[[POP_GROUP]` is one atom — and three tokens when a
+   * `!` split it, because `!` is a delimiter and `[` is not. The body then runs
+   * to a `]` standing alone.
+   */
   private parseOptionalBlock(): OptionalBlock {
-    const firstOpeningBracket: Token = this.advance();
-    this.advance();
-    const header: Token[] = [];
+    const opening: Token = this.advance();
+    const header: Token[] = [opening];
+    let headerClosed: boolean = opening.text.includes("]");
 
-    while (this.current().kind !== TokenKind.CloseBracket && this.current().kind !== TokenKind.EndOfFile) {
-      header.push(this.advance());
+    while (!headerClosed && this.current().kind !== TokenKind.EndOfFile) {
+      const token: Token = this.advance();
+      header.push(token);
+      headerClosed = token.kind !== TokenKind.Comment && token.text.includes("]");
     }
 
-    if (header.length === 0 || header.every((headerToken) => isTriviaToken(headerToken))) {
+    if (optionalBlockParameter(header).length === 0) {
       this.diagnostics.push({
+        severity: "error",
         code: ParserDiagnosticCode.ExpectedOptionalHeader,
         message: "Expected an optional-block parameter name.",
-        span: this.current().span,
+        span: opening.span,
       });
     }
 
-    if (this.current().kind === TokenKind.EndOfFile) {
+    if (!headerClosed) {
       this.diagnostics.push({
+        severity: "error",
         code: ParserDiagnosticCode.ExpectedCloseBracket,
         message: "Expected ']' after the optional-block header.",
         span: this.current().span,
@@ -452,29 +538,29 @@ class Parser {
         header,
         entries: [],
         closed: false,
-        span: span(firstOpeningBracket.span.start, this.current().span.end),
+        span: span(opening.span.start, this.current().span.end),
       };
     }
 
-    this.advance();
     const entries: EntryNode[] = [];
 
-    while (this.current().kind !== TokenKind.CloseBracket && this.current().kind !== TokenKind.EndOfFile) {
+    while (!this.isOptionalBlockClosing() && this.current().kind !== TokenKind.EndOfFile) {
       entries.push(this.parseEntry(true));
     }
 
-    if (this.current().kind === TokenKind.CloseBracket) {
+    if (this.isOptionalBlockClosing()) {
       const closingBracket: Token = this.advance();
       return {
         kind: NodeKind.OptionalBlock,
         header,
         entries,
         closed: true,
-        span: span(firstOpeningBracket.span.start, closingBracket.span.end),
+        span: span(opening.span.start, closingBracket.span.end),
       };
     }
 
     this.diagnostics.push({
+      severity: "error",
       code: ParserDiagnosticCode.ExpectedCloseBracket,
       message: "Expected ']' before the end of the optional block.",
       span: this.current().span,
@@ -484,59 +570,79 @@ class Parser {
       header,
       entries,
       closed: false,
-      span: span(firstOpeningBracket.span.start, this.current().span.end),
+      span: span(opening.span.start, this.current().span.end),
     };
   }
 
-  private parseInlineMath(): InlineMath {
-    const tokens: Token[] = [];
-    const prefix: Token = this.advance();
-    tokens.push(prefix);
-
-    while (isTriviaToken(this.current())) {
-      tokens.push(this.advance());
+  /**
+   * Reports `@name = value` whose name the game would refuse to register.
+   *
+   * Worth reporting because the failure is silent afterwards: the game says so
+   * once, at the declaration, and then every use of that variable reads as the
+   * literal text `@name` — a value no rule matches and no later message
+   * mentions.
+   */
+  private checkVariableDeclaration(key: Scalar): void {
+    if (key.scalarKind !== ScalarKind.ScriptVariable || key.raw.startsWith("@[") || key.raw.startsWith("@\\[")) {
+      return;
     }
 
-    const openingBracket: Token = this.advance();
-    tokens.push(openingBracket);
-    let bracketDepth = 1;
-    let closed = false;
+    const name: string = key.raw.slice(1);
 
-    while (this.current().kind !== TokenKind.EndOfFile) {
+    if (!isCheckableVariableName(name) || VARIABLE_NAME.test(name)) {
+      return;
+    }
+
+    this.diagnostics.push({
+      severity: "error",
+      code: ParserDiagnosticCode.InvalidVariableName,
+      message:
+        `${JSON.stringify(key.raw)} is not a name the game will register: ` +
+        "a variable starts with a letter and continues with letters, digits or '_'.",
+      span: key.span,
+    });
+  }
+
+  private isOptionalBlockClosing(): boolean {
+    const token: Token = this.current();
+    return token.kind === TokenKind.Atom && token.text === "]";
+  }
+
+  /**
+   * `@[ base * 2 ]`, `@[-effect_mult]`, `@\[( 72 * $PROGRESS$ )]`.
+   *
+   * The expression ends at the first token carrying a `]`, matching the game,
+   * which searches its own token text for one rather than counting brackets.
+   * A tight spelling is a single atom that both opens and closes here.
+   */
+  private parseInlineMath(): InlineMath {
+    const opening: Token = this.advance();
+    const tokens: Token[] = [opening];
+    let closed: boolean = opening.text.includes("]", opening.text.startsWith("@\\[") ? 3 : 2);
+
+    while (!closed && this.current().kind !== TokenKind.EndOfFile) {
       const token: Token = this.advance();
       tokens.push(token);
-
-      if (token.kind === TokenKind.OpenBracket) {
-        bracketDepth += 1;
-      } else if (token.kind === TokenKind.CloseBracket) {
-        bracketDepth -= 1;
-        if (bracketDepth === 0) {
-          closed = true;
-          break;
-        }
-      }
+      closed = token.kind !== TokenKind.Comment && token.text.includes("]");
     }
 
     if (!closed) {
       this.diagnostics.push({
+        severity: "error",
         code: ParserDiagnosticCode.ExpectedCloseBracket,
         message: "Expected ']' before the end of the inline-math expression.",
         span: this.current().span,
       });
     }
 
-    const last: Token = tokens.at(-1) ?? prefix;
+    const last: Token = tokens.at(-1) ?? opening;
     return {
       kind: NodeKind.InlineMath,
       tokens,
-      escaped: prefix.text === "@\\",
+      escaped: opening.text.startsWith("@\\["),
       closed,
-      span: span(prefix.span.start, last.span.end),
+      span: span(opening.span.start, last.span.end),
     };
-  }
-
-  private isInlineMathPrefix(token: Token): boolean {
-    return token.kind === TokenKind.Atom && (token.text === "@" || token.text === "@\\");
   }
 
   private isOnCurrentLine(followingIndex: number): boolean {
@@ -554,6 +660,7 @@ class Parser {
     const tokens: Token[] = token.kind === TokenKind.EndOfFile ? [] : [this.advance()];
 
     this.diagnostics.push({
+      severity: "error",
       code: ParserDiagnosticCode.UnexpectedToken,
       message: `${message} Found ${token.kind} ${JSON.stringify(token.text)}.`,
       span: token.span,
@@ -569,6 +676,7 @@ class Parser {
 
 function lexerDiagnostics(result: LexResult): ParserDiagnostic[] {
   return result.diagnostics.map((diagnostic): ParserDiagnostic => ({
+    severity: diagnostic.severity,
     code: ParserDiagnosticCode.LexerError,
     message: `${diagnostic.code}: ${diagnostic.message}`,
     span: diagnostic.span,
@@ -590,8 +698,8 @@ function emptyDocument(result: LexResult): Document {
   };
 }
 
-export function parse(source: string): ParseResult {
-  const lexResult: LexResult = tokenize(source);
+export function parse(source: string, options: LexOptions = {}): ParseResult {
+  const lexResult: LexResult = tokenize(source, options);
   const diagnostics: ParserDiagnostic[] = lexerDiagnostics(lexResult);
 
   try {
@@ -601,6 +709,7 @@ export function parse(source: string): ParseResult {
     return {
       document,
       diagnostics,
+      errors: diagnostics.filter((diagnostic) => diagnostic.severity === "error"),
       hadBom: lexResult.hadBom,
     };
   } catch (error: unknown) {
@@ -608,6 +717,7 @@ export function parse(source: string): ParseResult {
     const diagnosticSpan: Span =
       eofToken?.span ?? span({ offset: 0, line: 1, column: 1 }, { offset: 0, line: 1, column: 1 });
     diagnostics.push({
+      severity: "error",
       code: ParserDiagnosticCode.InternalError,
       message: `The parser could not continue: ${error instanceof Error ? error.message : String(error)}`,
       span: diagnosticSpan,
@@ -615,6 +725,7 @@ export function parse(source: string): ParseResult {
     return {
       document: emptyDocument(lexResult),
       diagnostics,
+      errors: diagnostics.filter((diagnostic) => diagnostic.severity === "error"),
       hadBom: lexResult.hadBom,
     };
   }

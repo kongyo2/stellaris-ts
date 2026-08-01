@@ -304,15 +304,51 @@ describe("the format's awkward corners", () => {
 });
 
 describe("quoting", () => {
-  it("does not double a backslash, which PDX does not use as an escape", () => {
+  it("doubles a backslash, because the game removes one before another", () => {
     const mod = defineMod({ name: "Esc", version: "1", supportedVersion: "v4.4.*" }).add(
       define("building", "esc", { potential: { log: String.raw`- This: \[This.GetName]` } }),
     );
     const script: string = fileNamed(emit(mod), "common/buildings/zz_esc_building.txt");
 
-    expect(script).toContain(String.raw`log = "- This: \[This.GetName]"`);
-    // Two backslashes would be a different string to the game.
-    expect(script).not.toContain("\\\\[");
+    // `\\[` and `\[` reach the game as the same two characters, since it drops
+    // a backslash before another backslash and keeps both before a `[`.
+    expect(script).toContain(String.raw`log = "- This: \\[This.GetName]"`);
+  });
+
+  it("does not let a trailing backslash swallow the closing quote", () => {
+    const mod = defineMod({ name: "Trail", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "trail", { potential: { log: "ends with\\" } }),
+    );
+    const script: string = fileNamed(emit(mod), "common/buildings/zz_trail_building.txt");
+
+    // Written raw this is `"ends with\"`, whose closing quote reads as an
+    // escaped one — the string never terminates and takes the file with it.
+    expect(script).toContain('log = "ends with\\\\"');
+    expect(parse(script).diagnostics).toEqual([]);
+  });
+
+  it("quotes every character that ends a bare token", () => {
+    const mod = defineMod({ name: "Delims", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "delims", {
+        potential: {
+          semicolon: "a;b",
+          bang: "a!b",
+          paren: "a(b)c",
+          comma: "a,b",
+          hash: "a#b",
+        },
+      }),
+    );
+    const script: string = fileNamed(emit(mod), "common/buildings/zz_delims_building.txt");
+
+    // A `;` written bare is a line comment: everything after it is lost, and
+    // nothing reports that it was.
+    expect(script).toContain('semicolon = "a;b"');
+    expect(script).toContain('bang = "a!b"');
+    expect(script).toContain('paren = "a(b)c"');
+    expect(script).toContain('comma = "a,b"');
+    expect(script).toContain('hash = "a#b"');
+    expect(parse(script).diagnostics).toEqual([]);
   });
 
   it("still escapes a quote, which would end the string", () => {

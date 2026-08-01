@@ -1,4 +1,12 @@
-import { NodeKind, print, type Block, type Document, type EntryNode, type ValueNode } from "../../src/syntax/index.js";
+import {
+  NodeKind,
+  print,
+  type AssignmentOperator,
+  type Block,
+  type Document,
+  type EntryNode,
+  type ValueNode,
+} from "../../src/syntax/index.js";
 
 /** Prints one value node on its own, so it can be handed back as raw script. */
 function printValue(value: ValueNode): string {
@@ -21,7 +29,7 @@ function printValue(value: ValueNode): string {
 
   return print(document).replace(/^x = /u, "").trimEnd();
 }
-import { bare, repeated, type ComparisonOperator, type Entry } from "../../src/runtime/values.js";
+import { bare, repeated, type Entry } from "../../src/runtime/values.js";
 import * as marked from "../../src/runtime/values.js";
 
 /**
@@ -180,8 +188,12 @@ function convertOrdered(entries: readonly EntryNode[]): ConversionResult {
  * `gt` and friends take a narrower value than the parser hands back, so the
  * operators that only accept numbers or strings fall through when given a
  * boolean rather than being forced.
+ *
+ * Takes the parser's operator rather than the writer's: they differ by `==`,
+ * which the lexer only produces for `.cwt` and so cannot reach here from
+ * vanilla script. It maps to `=` because that is what the game would read.
  */
-function compare(operator: ComparisonOperator, value: unknown): unknown {
+function compare(operator: AssignmentOperator, value: unknown): unknown {
   if (operator === "==") {
     return marked.eq(value);
   }

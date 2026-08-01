@@ -278,7 +278,7 @@ await mapWithLimit([...new Set(listings.flat())], READ_CONCURRENCY, async (file)
   const parsed = parse(source);
   filesRead += 1;
 
-  if (parsed.diagnostics.length > 0) {
+  if (parsed.errors.length > 0) {
     return;
   }
 
@@ -323,7 +323,7 @@ await mapWithLimit([...new Set(listings.flat())], READ_CONCURRENCY, async (file)
     }
 
     const reparsed = parse(printed);
-    if (reparsed.diagnostics.length > 0) {
+    if (reparsed.errors.length > 0) {
       record("reparse-failed", relative, id);
       continue;
     }

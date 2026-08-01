@@ -220,4 +220,26 @@ describe("validate", () => {
 
     expect(codes(mod)).not.toContain("unresolved-reference");
   });
+
+  /**
+   * The game logs `Missing "script" entry in inline script block` and carries
+   * on with nothing injected, so the definition loads with a hole in it. All
+   * 5,028 block-form calls in vanilla and all 2,685 across the workshop mods
+   * name a script, so nothing legitimate trips this.
+   */
+  it("rejects an inline_script block that names no script", () => {
+    const mod = defineMod({ name: "Inline", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("building", "inline_lab", { potential: { inline_script: { AMOUNT: 25 } } }),
+    );
+
+    expect(codes(mod)).toContain("inline-script-missing-script");
+  });
+
+  it("accepts both spellings of inline_script that do name one", () => {
+    const mod = defineMod({ name: "Inline", version: "1", supportedVersion: "v4.4.*" })
+      .add(define("building", "block_form", { potential: { inline_script: { script: "economy/cost", AMOUNT: 25 } } }))
+      .add(define("building", "direct_form", { potential: { inline_script: "economy/cost" } }));
+
+    expect(codes(mod)).not.toContain("inline-script-missing-script");
+  });
 });

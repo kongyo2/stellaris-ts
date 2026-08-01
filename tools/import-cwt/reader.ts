@@ -9,10 +9,21 @@ import {
   type Block,
   type Document,
   type EntryNode,
+  type LexOptions,
   type Span,
   type Token,
   type ValueNode,
 } from "../../src/syntax/index.js";
+
+/**
+ * `.cwt` is a dialect, not script.
+ *
+ * cwtools' schema language writes `alias[trigger:x] == <y>` — 227 times in
+ * `triggers.cwt` alone — and the game has no `==` at all. Reading the corpus
+ * needs the operator; writing script must never produce one, which is why it
+ * is an option rather than a feature of the lexer.
+ */
+const CWT_DIALECT: LexOptions = { equalsEquals: true };
 import {
   CwtDirectiveName,
   type CwtAnnotatedEntry,
@@ -289,7 +300,7 @@ function annotatedEntries(
 
   const metadata = new Map<EntryNode, MutableEntryMetadata>();
   const diagnostics: CwtReaderDiagnostic[] = [];
-  const tokens: readonly Token[] = tokenize(prepared.parseSource).tokens;
+  const tokens: readonly Token[] = tokenize(prepared.parseSource, CWT_DIALECT).tokens;
 
   for (const token of tokens) {
     if (token.kind !== TokenKind.Comment || !token.text.startsWith("##")) {
@@ -413,7 +424,7 @@ function countAnnotations(entries: readonly CwtAnnotatedEntry[]): {
 
 export function readCwtSource(path: string, source: string): CwtReadResult {
   const prepared: CwtPreparedSource = prepareCwtSource(path, source);
-  const parseResult = parse(prepared.parseSource);
+  const parseResult = parse(prepared.parseSource, CWT_DIALECT);
   const annotated = annotatedEntries(prepared, parseResult.document);
   const diagnostics: CwtReaderDiagnostic[] = [
     ...diagnosticsFromPreparedSource(prepared),

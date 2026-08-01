@@ -106,6 +106,9 @@ What it reports:
   directories the game merges instead, where adding to `on_game_start` is the
   point rather than a mistake;
 - a file name the base game already ships, which this would replace wholesale;
+- an `inline_script` block that names no `script` to inject;
+- a `@name` the game would refuse to register, after which every use of it is
+  read as the literal text;
 - a `replace_path` naming a directory the game does not load from;
 - a `supported_version` the launcher cannot read, or that does not cover the
   installed game.
@@ -113,6 +116,14 @@ What it reports:
 Everything reported is measured against the installed game rather than inferred:
 1,854,633 keys of base-game script pass this checker with three exceptions, and
 those three are lines vanilla itself writes and the game drops.
+
+The parser underneath is measured the same way. Its token boundaries are the
+game's own, read out of the executable rather than inferred from what script
+happens to look like — the twelve characters that end a bare token, `;` as a
+line comment beside `#`, `greater_than` as another spelling of `>`, and the
+absence of any `==` operator. A value holding one of those characters is quoted
+on the way out, because an unquoted `;` would take the rest of its line with it
+and nothing would say so.
 
 ## The mod around the definitions
 
@@ -160,14 +171,16 @@ The schema is maintained here. It was ported once from
 and nothing reads `.cwt` at build or run time.
 
 ```bash
-npm run verify            # 15 gates
+npm run verify            # 16 gates
 ```
 
-Five of them read an installed copy of Stellaris, found through
+Six of them read an installed copy of Stellaris, found through
 `STELLARIS_GAME_PATH` or the usual Steam locations. They check the schema in both
 directions against the game, that every definition the game ships could have been
-written through `define`, and that the parser and printer round-trip all 2,214
-files.
+written through `define`, that the generated types accept the game's own
+definitions, and that the parser and printer round-trip all 4,329 files of it —
+`gfx` and `interface` included, because those are where `,` and `;` are actually
+written.
 
 The committed data under `src/generated/` is regenerated in this order, because
 each proposer must see the corpus without its own output:
