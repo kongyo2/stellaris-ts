@@ -235,14 +235,16 @@ export const componentTemplate: DefinitionType = defineType({
       field(
         "scripted_action",
         block([
-          field("scope", literal("self"), occurs.one),
-          field("scope", literal("planet"), occurs.one),
+          // vanilla 4.4.6: 6 of 1,500 write `scripted_action` without any of
+          // `scope`, `name` or `tooltip`.
+          field("scope", literal("self"), occurs.optional),
+          field("scope", literal("planet"), occurs.optional),
           field("finish_anim_state", enumRef(EnumId.BioFinishAnimState), occurs.optional),
           field("possible", block([triggerEntries()]), occurs.optional),
           field("button_clickable", block([triggerEntries()]), occurs.optional),
           field("button_visible", block([triggerEntries()]), occurs.optional),
-          field("name", primitive("scalar"), occurs.one),
-          field("tooltip", primitive("localisation"), occurs.one),
+          field("name", primitive("scalar"), occurs.optional),
+          field("tooltip", primitive("localisation"), occurs.optional),
           field("icon", typeRef("sprite"), occurs.optional),
           field("icon_selected", typeRef("sprite"), occurs.optional),
           field("activity_key", primitive("localisation"), occurs.optional),

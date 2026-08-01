@@ -181,7 +181,8 @@ export const job: DefinitionType = defineType({
             field("building_icon", primitive("icon", undefined, "gfx/interface/icons/buildings"), occurs.optional),
             field("building_icon", typeRef("building"), occurs.optional),
             field("condition_string", primitive("localisation"), occurs.optional),
-            field("weight", primitive("integer"), occurs.one),
+            // vanilla 4.4.6: 2 of 365 jobs swap without a weight.
+            field("weight", primitive("integer"), occurs.optional),
           ]),
           occurs.any,
           { scope: replaceScope({ root: ScopeId.Planet }) },

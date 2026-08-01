@@ -84,7 +84,8 @@ export const modelEntity: DefinitionType = defineType({
         field(
           "locator",
           block([
-            field("name", primitive("scalar"), occurs.one),
+            // vanilla 4.4.6: one locator of 8,429 entities carries no name.
+            field("name", primitive("scalar"), occurs.optional),
             field("position", block([item(primitive("number"), between(3, 3))]), occurs.optional),
             field("rotation", block([item(primitive("number"), between(3, 3))]), occurs.optional),
             field("scale", primitive("number"), occurs.one),
@@ -205,7 +206,8 @@ export const modelEntity: DefinitionType = defineType({
     field(
       "locator",
       block([
-        field("name", primitive("scalar"), occurs.one),
+        // vanilla 4.4.6: one locator of 8,429 entities carries no name.
+        field("name", primitive("scalar"), occurs.optional),
         field("position", block([item(primitive("number"), between(3, 3))]), occurs.optional),
         field("parent_joint", primitive("scalar"), occurs.optional),
         field("rotation", block([item(primitive("number"), between(3, 3))]), occurs.optional),

@@ -42,7 +42,9 @@ export const aiBudget: DefinitionType = defineType({
       "desired_min",
       block([
         modifierRuleEntries(),
-        field("modifier", block([field("factor", enumRef(EnumId.ExeSetVariable), occurs.one)]), occurs.any),
+        // vanilla 4.4.6: 54 of 199 write a `modifier` with no `factor` — it is
+        // `add`, `mult` or a bare trigger list instead.
+        field("modifier", block([field("factor", enumRef(EnumId.ExeSetVariable), occurs.optional)]), occurs.any),
       ]),
       occurs.optional,
     ),

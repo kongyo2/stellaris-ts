@@ -127,6 +127,19 @@ function valueType(context: RenderContext, value: ValueRule, depth: number, scop
         case "percentage":
           context.usedScript.add("PdxNumber");
           return "PdxNumber | `${number}%`";
+        // A colour is a list of channels, not a string. Vanilla writes
+        // `color = { 255 0 255 255 }` in every one of its named colours; the
+        // `rgb { … }` and `hsv { … }` spellings are prefixed blocks, which
+        // reach here through `rgb()` and `hsv()` as authored values.
+        case "colour":
+          context.usedScript.add("PdxNumber");
+          return "readonly PdxNumber[]";
+        // cwt's `scalar` is any single value, and the checker enforces nothing
+        // about it — narrowing it to a string here rejected numbers the game
+        // and this library's own validator both accept.
+        case "scalar":
+          context.usedScript.add("PdxNumber");
+          return "string | PdxNumber | boolean";
         default:
           return "string";
       }
@@ -145,7 +158,21 @@ function valueType(context: RenderContext, value: ValueRule, depth: number, scop
       // A static enum is a closed set, so the union is not widened. Quotes are
       // stripped defensively: a quoted scalar in the corpus keeps them in its
       // raw value, and a literal type of `"\"x\""` matches nothing real.
-      return members.map((member) => JSON.stringify(member.replace(/^"|"$/gu, ""))).join(" | ");
+      const bare: readonly string[] = members.map((member) => member.replace(/^"|"$/gu, ""));
+      // The engine matches an enum member without regard to case and the game
+      // relies on it: a `.gui` writes `orientation = center` beside
+      // `orientation = CENTER`, and a component writes `size = LARGE` where the
+      // schema lists `large`. This library's checker has always compared them
+      // case-insensitively; the types now agree. Spelled out rather than
+      // `Lowercase<T>` so the result stays a plain union that merges with its
+      // siblings.
+      const cased: readonly string[] = [
+        ...new Set(bare.flatMap((member) => [member, member.toLowerCase(), member.toUpperCase()])),
+      ];
+      // `true` and `false` are members the game reads as booleans, and this
+      // library's own printer writes a boolean for them.
+      const booleans: string = bare.some((member) => member === "true" || member === "false") ? " | boolean" : "";
+      return `${cased.map((member) => JSON.stringify(member)).join(" | ")}${booleans}`;
     }
     case "chained-enum":
       return "string";
@@ -441,9 +468,13 @@ function splitUnion(type: string): readonly string[] {
       continue;
     }
 
-    if (character === "{" || character === "(" || character === "[") {
+    // `<` and `>` count too, because a generic argument holds bars of its own:
+    // splitting `AnyCase<"a" | "b">` on them closed the generic after the first
+    // constituent and left the rest of the union outside it, which is not
+    // valid TypeScript at all.
+    if (character === "{" || character === "(" || character === "[" || character === "<") {
       depth += 1;
-    } else if (character === "}" || character === ")" || character === "]") {
+    } else if (character === "}" || character === ")" || character === "]" || character === ">") {
       depth -= 1;
     } else if (character === "|" && depth === 0) {
       parts.push(type.slice(start, index).trim());

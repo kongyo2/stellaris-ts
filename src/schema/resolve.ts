@@ -92,6 +92,17 @@ export interface BlockRules {
   readonly families: ReadonlySet<ScriptFamily>;
   readonly ruleSetFamilies: ReadonlySet<string>;
   readonly items: readonly ValueRule[];
+  /**
+   * Keys every declaration of this block demands, at this depth.
+   *
+   * Only the ones that are unconditionally part of the block: a field inside a
+   * variant or one arm of a choice is not counted, because whether it applies
+   * depends on what else the body says. `requiredKeys()` answers the same
+   * question for a definition's top level and this answers it everywhere else,
+   * which is where a rule demanding a key the game does not need had been
+   * invisible.
+   */
+  readonly required: readonly string[];
 }
 
 export interface KeyResolution {
@@ -204,6 +215,7 @@ interface Draft {
   readonly families: Set<ScriptFamily>;
   readonly ruleSetFamilies: Set<string>;
   readonly items: ValueRule[];
+  readonly requiredMinimums: Map<string, number>;
 }
 
 const ANY: ValueRule = { kind: "any-value" };
@@ -211,6 +223,7 @@ const FORBIDDEN: ValueRule = { kind: "opaque", reason: "forbidden" };
 
 function draft(): Draft {
   return {
+    requiredMinimums: new Map<string, number>(),
     scopeChanges: new Map<string, ScopeChange>(),
     wildcard: false,
     scopeKeys: false,
@@ -381,8 +394,13 @@ export class SchemaResolver {
     }
 
     const into: Draft = draft();
+    // A key with several value rules is satisfied by one of them, so none of
+    // their fields is required of the block. `size` is `{ x y }` under one rule
+    // and `{ width height }` under another; requiring both sets would report
+    // every `size` in the game as incomplete.
+    const alternatives: boolean = values.length > 1;
     for (const value of values) {
-      this.#collectValue(value, into);
+      this.#collectValue(value, into, alternatives);
     }
     const built: BlockRules = this.#finish(into);
 
@@ -686,15 +704,31 @@ export class SchemaResolver {
       families: into.families,
       ruleSetFamilies: into.ruleSetFamilies,
       items: into.items,
+      required: [...into.requiredMinimums]
+        .filter(([, minimum]) => minimum >= 1)
+        .map(([key]) => key)
+        .sort((left, right) => (left < right ? -1 : left > right ? 1 : 0)),
     };
   }
 
-  #collectEntry(entry: EntryRule, into: Draft): void {
+  #collectEntry(entry: EntryRule, into: Draft, conditional = false): void {
     switch (entry.kind) {
       case "field":
         if (entry.scope !== undefined && typeof entry.key === "string") {
           into.scopeChanges.set(entry.key, entry.scope);
           into.scopeChanges.set(entry.key.toLowerCase(), entry.scope);
+        }
+
+        // A key counts as required only when every declaration of it demands
+        // one, matching `requiredKeys`. Conditional declarations are skipped
+        // entirely rather than counted as optional, so a variant that needs a
+        // key does not make it required for bodies that chose another variant.
+        if (!conditional && typeof entry.key === "string") {
+          const seen: number | undefined = into.requiredMinimums.get(entry.key);
+          into.requiredMinimums.set(
+            entry.key,
+            seen === undefined ? entry.occurrence.min : Math.min(seen, entry.occurrence.min),
+          );
         }
         // A rule that forbids the key describes no value. The key stays
         // accepted, because another variant of the same type may allow it, but
@@ -710,7 +744,7 @@ export class SchemaResolver {
         // Which variant applies depends on the body, so every variant's rules
         // are accepted. Narrowing would reject script the game loads.
         for (const child of entry.entries) {
-          this.#collectEntry(child, into);
+          this.#collectEntry(child, into, true);
         }
         return;
       case "script-entries":
@@ -790,7 +824,7 @@ export class SchemaResolver {
     }
   }
 
-  #collectValue(value: ResolvedValue, into: Draft): void {
+  #collectValue(value: ResolvedValue, into: Draft, conditional = false): void {
     if (describesBlock(value)) {
       into.sawBlockRule = true;
     }
@@ -798,12 +832,14 @@ export class SchemaResolver {
     switch (value.kind) {
       case "block":
         for (const entry of value.entries) {
-          this.#collectEntry(entry, into);
+          this.#collectEntry(entry, into, conditional);
         }
         return;
       case "choice":
+        // One arm's requirements are not the block's: `x | { a = 1 }` does not
+        // make `a` required of everything written under the key.
         for (const choice of value.choices) {
-          this.#collectValue(choice, into);
+          this.#collectValue(choice, into, true);
         }
         return;
       case "list":
@@ -817,8 +853,16 @@ export class SchemaResolver {
           into.ruleSetFamilies.add(value.family);
           return;
         }
-        for (const rule of this.#namedRuleSets(value.family, value.name)) {
-          this.#collectValue(rule.value, into);
+        {
+          // Several rule sets can share a name — `size` is `{ x y }` in one and
+          // `{ width height }` in another — and a body satisfies one of them,
+          // not all. Their fields are still all accepted, but none of them is
+          // required, or every `size = { width … }` in the game would be
+          // reported as missing an `x`.
+          const named: readonly RuleSetDefinition[] = this.#namedRuleSets(value.family, value.name);
+          for (const rule of named) {
+            this.#collectValue(rule.value, into, conditional || named.length > 1);
+          }
         }
         return;
       case "scripted-call": {

@@ -538,6 +538,33 @@ export async function checkConformance(
       scope: ScopeState,
       atEntryScope: boolean,
     ): void => {
+      // A rule can demand a key at any depth, and until now only the top level
+      // of a definition was asked. `modifier = { factor = … }` declared `factor`
+      // required in 261 places the game does not need it, and the gate reported
+      // phantomRequirements 0 throughout — it was reading depth 1 of a tree it
+      // otherwise walks to the bottom.
+      if (trail.length > 0 && rules.required.length > 0) {
+        const written = new Set<string>();
+        for (const entry of block.entries) {
+          if (entry.kind === NodeKind.Assignment) {
+            written.add(String(entry.key.value).toLowerCase());
+          }
+        }
+
+        for (const key of rules.required) {
+          if (written.has(key.toLowerCase())) {
+            continue;
+          }
+          const label = `${trail}.${key}`;
+          const absence = missingRequired.get(label) ?? { count: 0, examples: [] };
+          absence.count += 1;
+          if (absence.examples.length < 3 && !absence.examples.includes(file)) {
+            absence.examples.push(file);
+          }
+          missingRequired.set(label, absence);
+        }
+      }
+
       for (const entry of block.entries) {
         if (entry.kind !== NodeKind.Assignment) {
           continue;

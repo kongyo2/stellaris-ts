@@ -186,7 +186,8 @@ export const trait: DefinitionType = defineType({
       field("opposites", block([item(typeRef("trait", "species_trait"), occurs.any)]), occurs.optional),
       field("forbidden_ethics", block([item(typeRef("ethos"), occurs.any)]), occurs.optional),
       field("potential_crossbreeding_chance", primitive("number"), occurs.optional),
-      field("slave_cost", block([field("energy", primitive("integer"), occurs.one)]), occurs.optional),
+      // vanilla 4.4.6: 244 of 1,128 traits write `slave_cost` without `energy`.
+      field("slave_cost", block([field("energy", primitive("integer"), occurs.optional)]), occurs.optional),
       field("infertile", primitive("boolean"), occurs.optional),
       field(
         "random_weight",
