@@ -223,7 +223,7 @@ try {
       const source: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(readFileSync(file));
       const result = parse(source);
 
-      if (result.diagnostics.length > 0) {
+      if (result.errors.length > 0) {
         continue;
       }
 

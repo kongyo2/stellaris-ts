@@ -2054,7 +2054,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: block([
       field("target", scopeGroup("target_country"), occurs.one),
-      field("exceptions", block([item(typeRef("tradition"), occurs.any)]), occurs.one),
+      // vanilla 4.4.6: written without `exceptions` in events and scripted effects.
+      field("exceptions", block([item(typeRef("tradition"), occurs.any)]), occurs.optional),
     ]),
     documentation:
       "Copies the traditions of the target country into the scoped country. Traditions are added to the existing traditions, and the potential/possible triggers are respected.the traditions listed in the exceptions list are not copied.",
@@ -3605,7 +3606,10 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "effect",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([field("limit", block([triggerEntries()]), occurs.one, { severity: "warning" }), effectEntries()]),
+    value: block([
+      field("limit", block([triggerEntries()]), occurs.optional, { severity: "warning" }),
+      effectEntries(),
+    ]),
     documentation:
       "Executes enclosed effects if limit criteria of both it and preceding 'if' or 'else_if' is not met, and its own limit is met",
   }),
@@ -5232,7 +5236,10 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "effect",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([field("limit", block([triggerEntries()]), occurs.one, { severity: "warning" }), effectEntries()]),
+    value: block([
+      field("limit", block([triggerEntries()]), occurs.optional, { severity: "warning" }),
+      effectEntries(),
+    ]),
     documentation: "Executes enclosed effects if limit criteria are met",
   }),
   scriptCommand({
@@ -17241,7 +17248,10 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "trigger",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([field("limit", block([triggerEntries()]), occurs.one, { severity: "warning" }), triggerEntries()]),
+    value: block([
+      field("limit", block([triggerEntries()]), occurs.optional, { severity: "warning" }),
+      triggerEntries(),
+    ]),
     documentation:
       "Evaluates the enclosed triggers if the display_triggers of the preceding `if` or `else_if` is not met and its own display_trigger of the limit is met",
   }),
@@ -19016,7 +19026,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
     input: unspecifiedScope(),
     operator: "=",
     value: block([
-      field("resource", typeRef("resource"), occurs.one),
+      // vanilla 4.4.6: written without `resource` in a scripted effect.
+      field("resource", typeRef("resource"), occurs.optional),
       field("value", scriptValue("number"), occurs.one),
       // vanilla 4.4.6: common/scripted_effects/astral_planes_effects.txt
       field("type", primitive("scalar"), occurs.optional),
@@ -19990,7 +20001,10 @@ export const commands: readonly ScriptCommandDefinition[] = [
     family: "trigger",
     input: unspecifiedScope(),
     operator: "=",
-    value: block([field("limit", block([triggerEntries()]), occurs.one, { severity: "warning" }), triggerEntries()]),
+    value: block([
+      field("limit", block([triggerEntries()]), occurs.optional, { severity: "warning" }),
+      triggerEntries(),
+    ]),
     documentation: "Evaluates the triggers if the display_triggers of the limit are met",
   }),
   scriptCommand({
@@ -25398,10 +25412,11 @@ export const ruleSets: readonly RuleSetDefinition[] = [
     operator: "=",
     value: block([
       field("name", primitive("scalar"), occurs.one),
+      // vanilla 4.4.6: one positionType of 177 gui files carries no position.
       field(
         "position",
         block([field("x", primitive("integer"), occurs.one), field("y", primitive("integer"), occurs.one)]),
-        occurs.one,
+        occurs.optional,
       ),
       field("dynamic_extra_height", primitive("number"), occurs.optional),
       field(

@@ -38,7 +38,8 @@ export type PdxValue = boolean | number | string | PdxBlock | readonly PdxValue[
  * system initializer, \`min = @asteroid_min_size\` in a size. The value is only
  * known when the game reads the file, so nothing here can narrow it further.
  */
-export type PdxNumber = number | \`@\${string}\`;
+export type PdxNumber = number | \`@\${string}\` | \`\${number}\`;
+
 
 /** Any block. Keys repeat in PDX, so a repeated key may carry an array. */
 export interface PdxBlock {

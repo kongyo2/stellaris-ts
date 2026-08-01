@@ -56,12 +56,21 @@ const SPAN: Span = { start: ORIGIN, end: ORIGIN };
 /**
  * A bare identifier needs no quotes; anything else does.
  *
- * Quoting is not cosmetic here: an unquoted value containing a space or a brace
- * would change the parse, so the test is what the lexer would accept as one
- * identifier token rather than what merely looks tidy.
+ * Quoting is not cosmetic here: an unquoted value containing a delimiter would
+ * change the parse, so the test is the game's own — the twelve characters that
+ * end a bare token, plus the whitespace its lexer skips.
+ *
+ * Four of those twelve were missing and each lost data without a diagnostic.
+ * `;` is a line comment exactly as `#` is, so a value holding one took the rest
+ * of the line with it; `!` alone is a token of its own; and `(`, `)` and `,`
+ * each split the value where they stood. `[` and `]` are *not* delimiters —
+ * `@[a+2]` is a single token to the game — but quoting them is harmless and
+ * keeps a value that looks like inline maths from being read as any.
  */
+const BARE_TOKEN_DELIMITERS = /[\s!"#(),;<=>{}[\]]/u;
+
 function needsQuotes(value: string): boolean {
-  return value.length === 0 || /[\s{}="<>#[\]]/u.test(value);
+  return value.length === 0 || BARE_TOKEN_DELIMITERS.test(value);
 }
 
 function scalar(value: string | number | boolean): Scalar {
@@ -81,10 +90,14 @@ function scalar(value: string | number | boolean): Scalar {
   }
 
   if (needsQuotes(value)) {
-    // Not `JSON.stringify`: PDX does not use a backslash as an escape, so
-    // `"- This: \[This.GetName]"` is a literal backslash and doubling it
-    // changes the string the game reads. Only the quote needs escaping.
-    const raw: string = `"${value.replaceAll('"', '\\"')}"`;
+    // The game removes a backslash before a quote and before another
+    // backslash, and keeps both characters everywhere else. So a backslash has
+    // to be doubled even though `\[` and `\\[` reach the game as the same two
+    // characters: a value *ending* in one turns the closing quote into `\"` and
+    // the string never terminates, taking the rest of the file with it. Not
+    // `JSON.stringify`, which would also rewrite tabs and newlines into escapes
+    // the game does not know.
+    const raw: string = `"${value.replace(/[\\"]/gu, "\\$&")}"`;
     return { kind: NodeKind.Scalar, raw, value, scalarKind: ScalarKind.QuotedString, span: SPAN };
   }
 
@@ -278,7 +291,7 @@ function parseRawValue(key: string, text: string): ValueNode {
   const result = parse(`${key} = ${text}`);
   const first: EntryNode | undefined = result.document.entries[0];
 
-  if (result.diagnostics.length > 0 || result.document.entries.length !== 1 || first?.kind !== NodeKind.Assignment) {
+  if (result.errors.length > 0 || result.document.entries.length !== 1 || first?.kind !== NodeKind.Assignment) {
     throw new SyntaxError(`raw() at ${key} is not one PDX value: ${JSON.stringify(text)}`);
   }
 

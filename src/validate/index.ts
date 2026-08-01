@@ -139,6 +139,8 @@ interface Walker {
   readonly declared: ReadonlySet<string>;
   /** Extracted enum members, vanilla’s joined with the ones this mod defines. */
   readonly enumMembers: Readonly<Record<string, readonly string[]>>;
+  /** Keys the game injects script through, lower-cased. Just `inline_script`. */
+  readonly macroKeys: ReadonlySet<string>;
   readonly diagnostics: ValidationDiagnostic[];
 }
 
@@ -268,7 +270,7 @@ function withOwnEnumMembers(
 
   for (const record of files) {
     const result = parse(record.contents);
-    if (result.diagnostics.length === 0) {
+    if (result.errors.length === 0) {
       parsed.set(record.path, result.document);
     }
   }
@@ -549,6 +551,40 @@ function checkScope(
   });
 }
 
+/**
+ * `inline_script = { … }` has to name the file it pulls in.
+ *
+ * The block form takes the path under a `script` entry and every other key is a
+ * `$PARAM$` substitution. Written without one the game reports `Missing
+ * "script" entry in inline script block` to the log and injects nothing — the
+ * surrounding definition then loads with a hole in it, which is far harder to
+ * notice than a parse failure would have been.
+ *
+ * The direct form, `inline_script = "economy/cost"`, takes no parameters and is
+ * not checked here.
+ */
+function checkInlineScript(walker: Walker, definition: string, path: string, key: string, value: unknown): void {
+  if (!isBlockLike(value) || Array.isArray(value)) {
+    return;
+  }
+
+  const { keyed } = entriesOf(value);
+
+  if (keyed.some(([name]) => name.toLowerCase() === "script")) {
+    return;
+  }
+
+  walker.diagnostics.push({
+    severity: "error",
+    code: "inline-script-missing-script",
+    message:
+      `${key} written as a block needs a script entry naming the file to inject. ` +
+      "Without one the game logs a missing-script error and injects nothing.",
+    definition,
+    path,
+  });
+}
+
 function walkBlock(
   walker: Walker,
   definition: string,
@@ -591,6 +627,10 @@ function walkBlock(
       const value: unknown = isCompared(occurrence) ? occurrence.value : occurrence;
       checkValue(walker, definition, path, key, value, resolution);
       checkScope(walker, definition, path, key, resolution, scope);
+
+      if (walker.macroKeys.has(key.toLowerCase())) {
+        checkInlineScript(walker, definition, path, key, value);
+      }
 
       if (!isBlockLike(value) || resolution.values.length === 0) {
         continue;
@@ -666,6 +706,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     idsByType,
     declared,
     enumMembers: ownEnumMembers,
+    macroKeys: new Set(model.policy.macros.map((macro) => macro.key.toLowerCase())),
     diagnostics,
   };
 

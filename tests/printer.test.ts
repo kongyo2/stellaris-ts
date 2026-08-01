@@ -116,13 +116,26 @@ describe("print", () => {
   });
 
   it("prints optional blocks with direct and escaped inline math", () => {
-    const source = String.raw`[[PARAM]direct=@[ base + 1 ] escaped=@\[(72 * $PROGRESS$)]]`;
+    // `[[PARAM]` has to stand alone: `[` and `]` are ordinary bare-token
+    // characters, so `[[PARAM]direct` would be a single token to the game too.
+    const source = String.raw`[[PARAM]
+direct=@[ base + 1 ]
+escaped=@\[(72 * $PROGRESS$)]
+]`;
     const parsed = parse(source);
 
     expect(parsed.diagnostics).toEqual([]);
     expect(print(parsed.document)).toBe(
       ["[[PARAM]", "\tdirect = @[ base + 1 ]", "\tescaped = @\\[(72 * $PROGRESS$)]", "]", ""].join("\n"),
     );
+  });
+
+  it("prints a negated optional block, whose header is three tokens", () => {
+    const source = "[[!PARAM]\nvalue = yes\n]";
+    const parsed = parse(source);
+
+    expect(parsed.diagnostics).toEqual([]);
+    expect(print(parsed.document)).toBe(["[[!PARAM]", "\tvalue = yes", "]", ""].join("\n"));
   });
 
   it("preserves comments while canonicalizing surrounding whitespace", () => {

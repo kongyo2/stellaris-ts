@@ -43,7 +43,8 @@ export const zones: DefinitionType = defineType({
       "resources",
       block([
         field("category", literal("planet_zones"), occurs.one),
-        field("cost", block([field(typeKey("resource"), primitive("integer"), occurs.one)]), occurs.one),
+        // vanilla 4.4.6: 27 of 145 zones write `resources` with no `cost`.
+        field("cost", block([field(typeKey("resource"), primitive("integer"), occurs.one)]), occurs.optional),
       ]),
       occurs.any,
     ),

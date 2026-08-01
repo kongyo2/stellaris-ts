@@ -48,7 +48,8 @@ export const socialStrata: DefinitionType = defineType({
     field("weight", block([modifierRuleEntries()]), occurs.optional),
     field(
       "automation_resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
+      // vanilla 4.4.6: one of 24 strata writes `resources` with no `category`.
+      block([field("category", typeRef("economic_category"), occurs.optional), ruleSetEntries("economic_template")]),
       occurs.any,
     ),
     field("pop_group_modifier", block([modifierEntries()]), occurs.any, {
@@ -77,12 +78,14 @@ export const socialStrata: DefinitionType = defineType({
     ),
     field(
       "unemployment_resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
+      // vanilla 4.4.6: one of 24 strata writes this block with no `category`.
+      block([field("category", typeRef("economic_category"), occurs.optional), ruleSetEntries("economic_template")]),
       occurs.optional,
     ),
     field(
       "resources",
-      block([field("category", typeRef("economic_category"), occurs.one), ruleSetEntries("economic_template")]),
+      // vanilla 4.4.6: one of 24 strata writes this block with no `category`.
+      block([field("category", typeRef("economic_category"), occurs.optional), ruleSetEntries("economic_template")]),
       occurs.optional,
     ),
     field("keep_from_former_job", primitive("boolean"), occurs.optional),

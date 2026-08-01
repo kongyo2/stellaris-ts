@@ -21,7 +21,6 @@ import {
 /** The comparison helpers, by the operator they stand for. */
 const COMPARISONS: Readonly<Record<ComparisonOperator, string>> = {
   "=": "eq",
-  "==": "eq",
   "!=": "ne",
   ">": "gt",
   ">=": "gte",

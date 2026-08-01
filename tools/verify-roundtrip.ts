@@ -17,10 +17,46 @@ import {
 } from "../src/syntax/index.js";
 import { roundtripExclusions } from "../tests/roundtrip-exclusions.js";
 
-const CORPUS_ROOTS: readonly string[] = ["common", "events", "prescripted_countries", "map"];
+interface CorpusRoot {
+  readonly directory: string;
+  /**
+   * Read only these extensions, where the directory is mostly not script.
+   *
+   * `common` and its neighbours hold nothing but script, so listing what to
+   * skip keeps a new kind of file in the corpus by default. `gfx` and
+   * `interface` are the other way round — meshes, textures, cursors and fonts
+   * outnumber the script — so those name what to read.
+   */
+  readonly extensions?: ReadonlySet<string>;
+}
+
+/**
+ * `gfx` and `interface` are here because they are where the format's punctuation
+ * actually gets used: `.asset` writes `intensity = 4, fade` and `.gui` ends a
+ * statement with `;`. Reading only `common` left both characters unexercised,
+ * so a lexer that got them wrong round-tripped 2,214 files without a mark.
+ */
+const CORPUS_ROOTS: readonly CorpusRoot[] = [
+  { directory: "common" },
+  { directory: "events" },
+  { directory: "prescripted_countries" },
+  { directory: "map" },
+  { directory: "gfx", extensions: new Set([".gfx", ".asset", ".gui", ".sfx", ".settings"]) },
+  { directory: "interface", extensions: new Set([".gfx", ".asset", ".gui", ".sfx", ".settings"]) },
+  { directory: "dlc", extensions: new Set([".gfx", ".asset", ".gui", ".dlc", ".sfx", ".settings"]) },
+];
+const CORPUS_ROOT_NAMES: readonly string[] = CORPUS_ROOTS.map((root) => root.directory);
 const NON_SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set([".csv", ".json", ".ods"]);
 
-interface UnknownTokenLocation {
+/**
+ * The twelve characters that end a bare token in the game's own lexer.
+ *
+ * Both of its dispatch tables send exactly these away from the default case,
+ * so an atom is by definition a run of characters holding none of them.
+ */
+const BARE_TOKEN_DELIMITERS = /[!"#(),;<=>{}]/u;
+
+interface DelimiterLeak {
   readonly path: string;
   readonly offset: number;
   readonly line: number;
@@ -50,7 +86,7 @@ interface ExclusionIssue {
   readonly message: string;
 }
 
-type RoundtripFailureCategory = "mismatch" | "output" | "parse-diagnostic" | "print-diagnostic";
+type RoundtripFailureCategory = "delimiter-leak" | "mismatch" | "output" | "parse-diagnostic" | "print-diagnostic";
 
 interface RoundtripFailure {
   readonly path: string;
@@ -71,6 +107,40 @@ interface RoundtripFileResult {
   readonly printDiagnosticCount: number;
   readonly mismatchCount: number;
   readonly outputIssueCount: number;
+  readonly delimiterLeakCount: number;
+}
+
+/**
+ * Every atom the lexer produced, checked against the game's own rule.
+ *
+ * Round-tripping cannot see this. Read `;` as an ordinary character rather than
+ * a comment and the text still comes back byte for byte — the atom is printed
+ * where it was found — while the game has thrown the rest of that line away.
+ * The tokens have to be examined directly, because a wrong split re-prints just
+ * as cleanly as a right one.
+ */
+function delimiterLeakFailures(displayPath: string, source: string): RoundtripFailure[] {
+  const failures: RoundtripFailure[] = [];
+
+  for (const token of tokenize(source).tokens) {
+    if (token.kind !== TokenKind.Atom) {
+      continue;
+    }
+
+    const leaked: string | undefined = BARE_TOKEN_DELIMITERS.exec(token.text)?.[0];
+
+    if (leaked !== undefined) {
+      failures.push({
+        path: displayPath,
+        category: "delimiter-leak",
+        message:
+          `source ${String(token.span.start.line)}:${String(token.span.start.column)} ` +
+          `atom ${JSON.stringify(token.text)} holds delimiter ${JSON.stringify(leaked)}.`,
+      });
+    }
+  }
+
+  return failures;
 }
 
 function compareOrdinal(left: string, right: string): number {
@@ -89,7 +159,7 @@ function toPortablePath(path: string): string {
   return path.replaceAll("\\", "/");
 }
 
-async function collectCorpusFiles(directory: string): Promise<string[]> {
+async function collectCorpusFiles(directory: string, allowed?: ReadonlySet<string>): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   entries.sort((left, right) => compareOrdinal(left.name, right.name));
 
@@ -98,24 +168,27 @@ async function collectCorpusFiles(directory: string): Promise<string[]> {
       const entryPath: string = join(directory, entry.name);
 
       if (entry.isDirectory()) {
-        return collectCorpusFiles(entryPath);
+        return collectCorpusFiles(entryPath, allowed);
       }
 
-      if (entry.isFile() && !NON_SCRIPT_EXTENSIONS.has(extname(entry.name).toLowerCase())) {
-        return [entryPath];
+      if (!entry.isFile()) {
+        return [];
       }
 
-      return [];
+      const extension: string = extname(entry.name).toLowerCase();
+      const wanted: boolean = allowed === undefined ? !NON_SCRIPT_EXTENSIONS.has(extension) : allowed.has(extension);
+
+      return wanted ? [entryPath] : [];
     }),
   );
 
   return fileGroups.flat();
 }
 
-function formatUnknown(location: UnknownTokenLocation): string {
+function formatLeak(location: DelimiterLeak): string {
   return (
-    `UNKNOWN ${location.path}:${String(location.line)}:${String(location.column)}` +
-    ` offset=${String(location.offset)} text=${JSON.stringify(location.text)}`
+    `DELIMITER-IN-ATOM ${location.path}:${String(location.line)}:${String(location.column)}` +
+    ` offset=${String(location.offset)} ${location.text}`
   );
 }
 
@@ -347,7 +420,7 @@ function isPathUnderCorpusRoot(path: string): boolean {
   return (
     segments.length >= 2 &&
     root !== undefined &&
-    CORPUS_ROOTS.includes(root) &&
+    CORPUS_ROOT_NAMES.includes(root) &&
     segments.every((segment) => segment.length > 0 && segment !== "." && segment !== "..")
   );
 }
@@ -399,7 +472,7 @@ function validateExclusions(gamePath: string, files: readonly string[]): Exclusi
     if (!isPathUnderCorpusRoot(exclusionPath)) {
       exclusionIssues.push({
         path: exclusionPath,
-        message: `path must be under one of: ${CORPUS_ROOTS.join(", ")}.`,
+        message: `path must be under one of: ${CORPUS_ROOT_NAMES.join(", ")}.`,
       });
     }
 
@@ -474,13 +547,13 @@ async function verifyParseOnly(gamePath: string, files: readonly string[]): Prom
     const source: string = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
     const result = parse(source);
 
-    if (result.diagnostics.length === 0) {
+    if (result.errors.length === 0) {
       successCount += 1;
     } else {
       failedCount += 1;
     }
 
-    for (const diagnostic of result.diagnostics) {
+    for (const diagnostic of result.errors) {
       parseDiagnostics.push({
         path: displayPath,
         line: diagnostic.span.start.line,
@@ -576,10 +649,13 @@ async function verifyRoundtripFile(gamePath: string, filePath: string): Promise<
   let outputIssueCount = 0;
   const bytes: Buffer = await readFile(filePath);
   const source: string = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
+  const leaks: readonly RoundtripFailure[] = delimiterLeakFailures(displayPath, source);
+  const delimiterLeakCount: number = leaks.length;
+  failures.push(...leaks);
   const parsedSource = parse(source);
 
-  parseDiagnosticCount = parsedSource.diagnostics.length;
-  for (const diagnostic of parsedSource.diagnostics) {
+  parseDiagnosticCount = parsedSource.errors.length;
+  for (const diagnostic of parsedSource.errors) {
     failures.push({
       path: displayPath,
       category: "parse-diagnostic",
@@ -589,13 +665,14 @@ async function verifyRoundtripFile(gamePath: string, filePath: string): Promise<
     });
   }
 
-  if (parsedSource.diagnostics.length > 0) {
+  if (parsedSource.errors.length > 0) {
     return {
       failures,
       parseDiagnosticCount,
       printDiagnosticCount,
       mismatchCount,
       outputIssueCount,
+      delimiterLeakCount,
     };
   }
 
@@ -615,6 +692,7 @@ async function verifyRoundtripFile(gamePath: string, filePath: string): Promise<
       printDiagnosticCount,
       mismatchCount,
       outputIssueCount,
+      delimiterLeakCount,
     };
   }
 
@@ -623,8 +701,8 @@ async function verifyRoundtripFile(gamePath: string, filePath: string): Promise<
   outputIssueCount = invalidOutput.length;
 
   const parsedOutput = parse(output);
-  printDiagnosticCount = parsedOutput.diagnostics.length;
-  for (const diagnostic of parsedOutput.diagnostics) {
+  printDiagnosticCount = parsedOutput.errors.length;
+  for (const diagnostic of parsedOutput.errors) {
     failures.push({
       path: displayPath,
       category: "print-diagnostic",
@@ -634,7 +712,7 @@ async function verifyRoundtripFile(gamePath: string, filePath: string): Promise<
     });
   }
 
-  if (parsedOutput.diagnostics.length === 0) {
+  if (parsedOutput.errors.length === 0) {
     const mismatch: string | undefined = compareDocuments(parsedSource.document, parsedOutput.document);
     if (mismatch !== undefined) {
       mismatchCount = 1;
@@ -652,6 +730,7 @@ async function verifyRoundtripFile(gamePath: string, filePath: string): Promise<
     printDiagnosticCount,
     mismatchCount,
     outputIssueCount,
+    delimiterLeakCount,
   };
 }
 
@@ -691,6 +770,7 @@ async function verifyRoundtrip(gamePath: string, files: readonly string[]): Prom
   let printDiagnosticCount = 0;
   let mismatchCount = 0;
   let outputIssueCount = 0;
+  let delimiterLeakCount = 0;
   let nextFileIndex = 0;
 
   const processNextFile = async (): Promise<void> => {
@@ -707,6 +787,7 @@ async function verifyRoundtrip(gamePath: string, files: readonly string[]): Prom
     printDiagnosticCount += result.printDiagnosticCount;
     mismatchCount += result.mismatchCount;
     outputIssueCount += result.outputIssueCount;
+    delimiterLeakCount += result.delimiterLeakCount;
 
     if (result.failures.length === 0) {
       successCount += 1;
@@ -745,6 +826,7 @@ async function verifyRoundtrip(gamePath: string, files: readonly string[]): Prom
       `printDiagnostics=${String(printDiagnosticCount)}`,
       `mismatches=${String(mismatchCount)}`,
       `outputIssues=${String(outputIssueCount)}`,
+      `delimiterLeaks=${String(delimiterLeakCount)}`,
       `exclusionIssues=${String(exclusionValidation.issues.length)}`,
     ].join(" "),
   );
@@ -770,7 +852,9 @@ async function main(): Promise<void> {
   const mode: string = cliArguments[0] ?? "roundtrip";
   const gamePath: string = resolve(requireGamePath());
   const corpusFileGroups: string[][] = await Promise.all(
-    CORPUS_ROOTS.map(async (root): Promise<string[]> => collectCorpusFiles(join(gamePath, root))),
+    CORPUS_ROOTS.map(async (root): Promise<string[]> =>
+      collectCorpusFiles(join(gamePath, root.directory), root.extensions),
+    ),
   );
   const files: string[] = corpusFileGroups.flat();
 
@@ -793,7 +877,7 @@ async function main(): Promise<void> {
   let crlfFileCount = 0;
   let lfFileCount = 0;
   let diagnosticCount = 0;
-  const unknownTokens: UnknownTokenLocation[] = [];
+  const delimiterLeaks: DelimiterLeak[] = [];
   const verificationIssues: VerificationIssue[] = [];
 
   const processFile = async (filePath: string): Promise<void> => {
@@ -803,7 +887,7 @@ async function main(): Promise<void> {
     const result = tokenize(source);
 
     tokenCount += result.tokens.length;
-    diagnosticCount += result.diagnostics.length;
+    diagnosticCount += result.diagnostics.filter((candidate) => candidate.severity === "error").length;
 
     if (result.hadBom) {
       bomFileCount += 1;
@@ -815,7 +899,7 @@ async function main(): Promise<void> {
       lfFileCount += 1;
     }
 
-    for (const diagnostic of result.diagnostics) {
+    for (const diagnostic of result.diagnostics.filter((candidate) => candidate.severity === "error")) {
       verificationIssues.push({
         path: displayPath,
         offset: diagnostic.span.start.offset,
@@ -859,16 +943,28 @@ async function main(): Promise<void> {
 
       expectedOffset = token.span.end.offset;
 
-      if (token.kind !== TokenKind.Unknown) {
+      // The game ends a bare token on exactly twelve characters, so one of them
+      // surviving inside an atom means this lexer split the file somewhere the
+      // game would not have — and every construct downstream would be reading a
+      // token the game never produces. There is no diagnostic for it and no
+      // mismatch either, because re-printing the wrong tokens still reproduces
+      // the source; only asking the invariant directly finds it.
+      if (token.kind !== TokenKind.Atom) {
         continue;
       }
 
-      unknownTokens.push({
+      const leaked: string | undefined = BARE_TOKEN_DELIMITERS.exec(token.text)?.[0];
+
+      if (leaked === undefined) {
+        continue;
+      }
+
+      delimiterLeaks.push({
         path: displayPath,
         offset: token.span.start.offset,
         line: token.span.start.line,
         column: token.span.start.column,
-        text: token.text,
+        text: `${JSON.stringify(token.text)} holds delimiter ${JSON.stringify(leaked)}`,
       });
     }
 
@@ -908,7 +1004,7 @@ async function main(): Promise<void> {
 
   await Promise.all(Array.from({ length: 8 }, processNextFile));
 
-  unknownTokens.sort(
+  delimiterLeaks.sort(
     (left, right) =>
       compareOrdinal(left.path, right.path) || left.offset - right.offset || compareOrdinal(left.text, right.text),
   );
@@ -920,8 +1016,8 @@ async function main(): Promise<void> {
       compareOrdinal(left.message, right.message),
   );
 
-  for (const unknown of unknownTokens) {
-    console.error(formatUnknown(unknown));
+  for (const leak of delimiterLeaks) {
+    console.error(formatLeak(leak));
   }
 
   for (const issue of verificationIssues) {
@@ -936,13 +1032,13 @@ async function main(): Promise<void> {
       `bomFiles=${String(bomFileCount)}`,
       `crlfFiles=${String(crlfFileCount)}`,
       `lfFiles=${String(lfFileCount)}`,
-      `unknownTokens=${String(unknownTokens.length)}`,
+      `delimiterLeaks=${String(delimiterLeaks.length)}`,
       `diagnostics=${String(diagnosticCount)}`,
       `verificationIssues=${String(verificationIssues.length)}`,
     ].join(" "),
   );
 
-  if (unknownTokens.length > 0 || verificationIssues.length > 0) {
+  if (delimiterLeaks.length > 0 || verificationIssues.length > 0) {
     process.exitCode = 1;
   }
 }

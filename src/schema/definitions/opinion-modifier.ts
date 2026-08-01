@@ -38,7 +38,8 @@ export const opinionModifier: DefinitionType = defineType({
       "opinion",
       block([
         modifierRuleEntries({ documentation: "root = country with the opinion, from = country it has the opinion of" }),
-        field("modifier", block([field("factor", enumRef(EnumId.ExeSetVariable), occurs.one)]), occurs.any),
+        // vanilla 4.4.6: written with `add` or `mult` and no `factor`.
+        field("modifier", block([field("factor", enumRef(EnumId.ExeSetVariable), occurs.optional)]), occurs.any),
       ]),
       occurs.one,
       { scope: replaceScope({ root: ScopeId.Country, from: ScopeId.Country }) },

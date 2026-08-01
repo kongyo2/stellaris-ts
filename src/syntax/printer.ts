@@ -80,7 +80,9 @@ function renderInlineMath(inlineMath: InlineMath): string {
 }
 
 function renderOptionalBlock(optionalBlock: OptionalBlock, depth: number): string {
-  const opening: string = `[[${renderTokens(optionalBlock.header)}]`;
+  // The header already holds its own brackets: `[[POP_GROUP]` is one atom, and
+  // `[[!POP_GROUP]` is three tokens that concatenate back to the same text.
+  const opening: string = renderTokens(optionalBlock.header);
   const entries: string = renderEntries(optionalBlock.entries, depth + 1);
 
   if (entries.length === 0) {

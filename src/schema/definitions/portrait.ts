@@ -39,7 +39,8 @@ export const portrait: DefinitionType = defineType({
           "tied_texture",
           block([
             field("texture", primitive("file"), occurs.one),
-            field("evolution_variants", block([item(primitive("integer"), occurs.one)]), occurs.one),
+            // vanilla 4.4.6: 4 of 496 portraits tie a texture with no variants.
+            field("evolution_variants", block([item(primitive("integer"), occurs.one)]), occurs.optional),
           ]),
           occurs.any,
         ),

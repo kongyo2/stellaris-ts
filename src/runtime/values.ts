@@ -19,7 +19,16 @@ const REPEATED_KEY: unique symbol = Symbol("stellaris-ts.repeated");
 const RAW_KEY: unique symbol = Symbol("stellaris-ts.raw");
 const ENTRIES_KEY: unique symbol = Symbol("stellaris-ts.entries");
 
-export type ComparisonOperator = "=" | "==" | "!=" | ">" | ">=" | "<" | "<=";
+/**
+ * The six the game's reader accepts, and `==` is not one of them.
+ *
+ * Its dispatch tests token ids 1, 467, 468, 971, 972 and 1063, and the lexer
+ * folds a trailing `=` after `>`, `<` and `!` only — so `==` is two `=` tokens,
+ * the second of which stands where the value belongs, and `key == value` reads
+ * as `key = =` followed by a stray `value`. Writing one produced script the
+ * game misparsed without saying so.
+ */
+export type ComparisonOperator = "=" | "!=" | ">" | ">=" | "<" | "<=";
 
 export interface ComparedValue {
   readonly [COMPARISON_KEY]: true;
@@ -147,9 +156,15 @@ export function ne(value: unknown): ComparedValue {
   return compared("!=", value);
 }
 
-/** `key == value`, which PDX distinguishes from `=` in trigger position. */
+/**
+ * `key = value`.
+ *
+ * Only useful next to the other five, or to say plainly that a trigger is a
+ * comparison. There is no `==` counterpart: the game has no such operator, and
+ * this used to offer one.
+ */
 export function eq(value: unknown): ComparedValue {
-  return compared("==", value);
+  return compared("=", value);
 }
 
 /**

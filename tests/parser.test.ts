@@ -13,7 +13,13 @@ import {
   type Trivia,
   type ValueNode,
 } from "../src/syntax/ast.js";
-import { parse, TokenKind } from "../src/syntax/index.js";
+import {
+  isOptionalBlockNegated,
+  optionalBlockParameter,
+  parse,
+  ParserDiagnosticCode,
+  TokenKind,
+} from "../src/syntax/index.js";
 
 function assignments(entries: readonly EntryNode[]): Assignment[] {
   return entries.filter((entry): entry is Assignment => entry.kind === NodeKind.Assignment);
@@ -97,7 +103,7 @@ describe("parse", () => {
   });
 
   it("parses every comparison assignment operator", () => {
-    const source = "a > 1\nb < 2\nc >= 3\nd <= 4\ne != 5\nf == 6\n";
+    const source = "a > 1\nb < 2\nc >= 3\nd <= 4\ne != 5\nf = 6\n";
     const result = parse(source);
 
     expect(result.diagnostics).toEqual([]);
@@ -107,8 +113,47 @@ describe("parse", () => {
       AssignmentOperator.GreaterThanOrEqual,
       AssignmentOperator.LessThanOrEqual,
       AssignmentOperator.NotEqual,
-      AssignmentOperator.EqualEqual,
+      AssignmentOperator.Equals,
     ]);
+  });
+
+  it("reads an operator word as the operator its symbol spells", () => {
+    const result = parse("a greater_than 1\nb NOT_EQ 2\n");
+    const parsed = assignments(result.document.entries);
+
+    expect(result.diagnostics).toEqual([]);
+    expect(parsed.map((assignment) => assignment.operator)).toEqual([
+      AssignmentOperator.GreaterThan,
+      AssignmentOperator.NotEqual,
+    ]);
+    // The word is the operator, so it is not also the key or the value.
+    expect(parsed.map((assignment) => assignment.key.raw)).toEqual(["a", "b"]);
+  });
+
+  it("reports a variable name the game would refuse to register", () => {
+    const result = parse("@1bad = 5\n@good_2 = 6\n@also-bad = 7\n");
+
+    expect(result.diagnostics.map((diagnostic) => diagnostic.code)).toEqual([
+      ParserDiagnosticCode.InvalidVariableName,
+      ParserDiagnosticCode.InvalidVariableName,
+    ]);
+  });
+
+  it("says nothing about a name that is still half a parameter", () => {
+    // `common/inline_scripts` declares these, and the name only exists once the
+    // script is expanded.
+    expect(parse("@bio_ship_armor_$SIZE$_$TIER$ = 5\n").diagnostics).toEqual([]);
+  });
+
+  it("reads '==' the way the game does, as '=' and then a stray value", () => {
+    const result = parse("f == 6\n");
+    const parsed = assignments(result.document.entries);
+
+    // The lexer folds a trailing `=` after `>`, `<` and `!` only, so the second
+    // `=` here stands where the value belongs and `6` is left unkeyed. This is
+    // a bug in the script, and the diagnostic is the point.
+    expect(parsed.map((assignment) => assignment.operator)).toEqual([AssignmentOperator.Equals]);
+    expect(result.diagnostics.map((diagnostic) => diagnostic.code)).toEqual([ParserDiagnosticCode.UnexpectedToken]);
   });
 
   it("classifies every scalar form in an unkeyed block", () => {
@@ -161,12 +206,16 @@ describe("parse", () => {
 
     expect(result.diagnostics).toEqual([]);
     expect(outer.closed).toBe(true);
-    expect(outer.header.map((token) => token.text).join("")).toBe("OUTER");
+    expect(outer.header.map((token) => token.text).join("")).toBe("[[OUTER]");
+    expect(optionalBlockParameter(outer.header)).toBe("OUTER");
+    expect(isOptionalBlockNegated(outer.header)).toBe(false);
     expect(assignments(outer.entries).map((assignment) => assignment.key.raw)).toEqual(["before"]);
 
     const inner = optionalBlockAt(outer.entries, 0);
     expect(inner.closed).toBe(true);
-    expect(inner.header.map((token) => token.text).join("")).toBe("!INNER");
+    expect(inner.header.map((token) => token.text).join("")).toBe("[[!INNER]");
+    expect(optionalBlockParameter(inner.header)).toBe("INNER");
+    expect(isOptionalBlockNegated(inner.header)).toBe(true);
     expect(assignments(inner.entries).map((assignment) => assignment.key.raw)).toEqual(["nested"]);
   });
 
