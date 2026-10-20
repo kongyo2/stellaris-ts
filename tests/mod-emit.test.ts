@@ -146,6 +146,23 @@ describe("mod emit", () => {
 });
 
 describe("the format's awkward corners", () => {
+  /**
+   * The command line and the mod can be two installs of this package. A marker
+   * one copy made has to mean the same to the other, or `gt(1)` is written as a
+   * block holding its own fields.
+   */
+  it("reads a marker made by another copy of the package", () => {
+    const foreign = { [Symbol.for("@kongyo2/stellaris-ts.comparison")]: true, operator: ">", value: 1 };
+    const mod = defineMod({ name: "Copy", version: "1", supportedVersion: "v4.4.*" }).add({
+      type: "building",
+      directory: "common/buildings",
+      id: "copy",
+      body: { potential: { num_owned_planets: foreign } },
+    });
+
+    expect(fileNamed(emit(mod), "common/buildings/zz_copy_building.txt")).toContain("num_owned_planets > 1");
+  });
+
   it("writes a comparison rather than an assignment", () => {
     const mod = defineMod({ name: "Cmp", version: "1", supportedVersion: "v4.5.*" }).add(
       define("building", "cmp", { potential: { num_owned_planets: gt(1) } }),
@@ -211,6 +228,31 @@ describe("the format's awkward corners", () => {
     );
 
     expect(() => emit(infinite)).toThrow(/has no number Infinity/u);
+  });
+
+  /**
+   * `String()` writes `1e-7` below a millionth and `1e+21` from there up, and no
+   * number anywhere in vanilla is written that way. The digits stay the ones it
+   * chose, so nothing is rounded on the way.
+   */
+  it("writes very small and very large numbers in plain digits", () => {
+    const mod = defineMod({ name: "Tiny", version: "1", supportedVersion: "v4.4.*" }).add(
+      define("static_modifier", "sts_tiny", {
+        pop_growth_speed: 0.0000001,
+        planet_stability_add: 1e21,
+        planet_amenities_add: -2.5e-8,
+        planet_crime_add: 1.23e25,
+        planet_housing_add: 0.125,
+      }),
+    );
+    const script: string = fileNamed(emit(mod), "common/static_modifiers/zz_tiny_static_modifier.txt");
+
+    expect(script).toContain("pop_growth_speed = 0.0000001");
+    expect(script).toContain("planet_stability_add = 1000000000000000000000");
+    expect(script).toContain("planet_amenities_add = -0.000000025");
+    expect(script).toContain("planet_crime_add = 12300000000000000000000000");
+    expect(script).toContain("planet_housing_add = 0.125");
+    expect(script).not.toMatch(/\de[+-]?\d/u);
   });
 
   /**
@@ -357,5 +399,43 @@ describe("quoting", () => {
     );
 
     expect(fileNamed(emit(mod), "common/buildings/zz_q_building.txt")).toContain('log = "say \\"hi\\""');
+  });
+
+  /**
+   * The descriptor is read by the same reader as script. Written unescaped,
+   * `The "Grand" Archive` was `name="The "` and two stray words after it, so the
+   * mod was listed under a name nobody gave it.
+   */
+  it("escapes the descriptor's values the way the game unescapes them", () => {
+    const mod = defineMod({
+      name: 'The "Grand" Archive \\ II',
+      version: "1",
+      supportedVersion: "v4.4.*",
+      tags: ['Odd "Tag"'],
+      dependencies: ['Some "Framework"'],
+    });
+    const descriptor: string = fileNamed(emit(mod), "descriptor.mod");
+    const result = parse(descriptor);
+    const values = new Map<string, unknown>();
+
+    for (const entry of result.document.entries) {
+      if (entry.kind === "Assignment" && entry.value.kind === "Scalar") {
+        values.set(String(entry.key.value), entry.value.value);
+      }
+    }
+
+    expect(result.diagnostics).toEqual([]);
+    expect(values.get("name")).toBe('The "Grand" Archive \\ II');
+    expect(descriptor).toContain('\t"Odd \\"Tag\\""');
+    expect(descriptor).toContain('\t"Some \\"Framework\\""');
+  });
+});
+
+describe("localisation languages", () => {
+  it("names the prefixed spelling when the folder name was used", () => {
+    const mod = defineMod({ name: "Lang", version: "1", supportedVersion: "v4.4.*" }).localise("english", "k", "v");
+    const found = emit(mod).diagnostics.find((diagnostic) => diagnostic.code === "unknown-language");
+
+    expect(found?.message).toContain("l_english");
   });
 });

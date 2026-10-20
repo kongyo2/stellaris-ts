@@ -73,6 +73,38 @@ function needsQuotes(value: string): boolean {
   return value.length === 0 || BARE_TOKEN_DELIMITERS.test(value);
 }
 
+/**
+ * A number in the spelling vanilla uses: digits, at most one point, a sign.
+ *
+ * `String()` switches to exponent notation below 1e-6 and from 1e21 up, so
+ * `0.0000001` came out as `1e-7` — a spelling no line of vanilla script uses,
+ * where every one of its numbers is plain digits. The digits are the ones
+ * `String()` chose, with the point moved, so the value is exactly the one that
+ * was passed and nothing is rounded.
+ */
+function formatNumber(value: number): string {
+  const text: string = String(value);
+  const exponential: RegExpExecArray | null = /^(-?)(\d+)(?:\.(\d+))?e([+-]\d+)$/u.exec(text);
+
+  if (exponential === null) {
+    return text;
+  }
+
+  const [, sign = "", whole = "", fraction = "", exponent = "0"] = exponential;
+  const digits: string = `${whole}${fraction}`;
+  const point: number = whole.length + Number(exponent);
+
+  if (point <= 0) {
+    return `${sign}0.${"0".repeat(-point)}${digits}`;
+  }
+
+  if (point >= digits.length) {
+    return `${sign}${digits}${"0".repeat(point - digits.length)}`;
+  }
+
+  return `${sign}${digits.slice(0, point)}.${digits.slice(point)}`;
+}
+
 function scalar(value: string | number | boolean): Scalar {
   if (typeof value === "boolean") {
     return { kind: NodeKind.Scalar, raw: value ? "yes" : "no", value, scalarKind: ScalarKind.Boolean, span: SPAN };
@@ -86,7 +118,7 @@ function scalar(value: string | number | boolean): Scalar {
       throw new TypeError(`PDX script has no number ${String(value)}.`);
     }
 
-    return { kind: NodeKind.Scalar, raw: String(value), value, scalarKind: ScalarKind.Number, span: SPAN };
+    return { kind: NodeKind.Scalar, raw: formatNumber(value), value, scalarKind: ScalarKind.Number, span: SPAN };
   }
 
   if (needsQuotes(value)) {

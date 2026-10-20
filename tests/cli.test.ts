@@ -1,10 +1,10 @@
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
-import { run } from "../src/cli/index.js";
+import { defaultModsDirectory, run } from "../src/cli/index.js";
 
 /**
  * The command line, driven the way a mod author drives it.
@@ -83,6 +83,88 @@ describe("the command line", () => {
 
   it("leaves an import that is missing in every spelling alone", async () => {
     await expect(run(["check", join(directory, "absent.ts")])).rejects.toThrow(/Cannot find module/u);
+  });
+
+  /**
+   * `check` with nothing after it printed the usage and exited 0, so a script
+   * that lost its argument reported a clean mod.
+   */
+  it("fails when there is no entry to check", async () => {
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    try {
+      expect(await run(["check"])).toBe(2);
+      expect(await run(["build", "--out", directory])).toBe(2);
+      expect(lines(error.mock.calls)).toContain("check needs the module whose default export is the mod");
+    } finally {
+      error.mockRestore();
+    }
+  });
+
+  it("takes the entry before or after its options, and only one of it", async () => {
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+    try {
+      expect(await run(["check", "--language", "japanese", join(directory, "mod.ts")])).toBe(0);
+      expect(lines(warn.mock.calls)).toContain("l_japanese");
+      expect(await run(["check", join(directory, "mod.ts"), join(directory, "split.ts")])).toBe(2);
+      expect(lines(error.mock.calls)).toContain("check takes one entry");
+    } finally {
+      error.mockRestore();
+      warn.mockRestore();
+      log.mockRestore();
+    }
+  });
+
+  it("says which version it is and which game it checks against", async () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+    try {
+      expect(await run(["--version"])).toBe(0);
+      expect(lines(log.mock.calls)).toMatch(/^stellaris-ts \d+\.\d+\.\d+\S* \(Stellaris v\d+\.\d+\.\d+\)$/u);
+    } finally {
+      log.mockRestore();
+    }
+  });
+});
+
+/**
+ * Where a build lands when no folder is named.
+ *
+ * OneDrive moves the documents folder under itself and names it in the system's
+ * language, so `Documents\Paradox Interactive` is not where the game is on a
+ * great many Windows machines.
+ */
+describe("the default mod folder", () => {
+  let home = "";
+
+  beforeAll(async () => {
+    home = await mkdtemp(join(tmpdir(), "stellaris-ts-home-"));
+  });
+
+  afterAll(async () => {
+    await rm(home, { recursive: true, force: true });
+  });
+
+  it("finds the game's folder where OneDrive moved it", async () => {
+    const moved: string = join(home, "OneDrive", "ドキュメント", "Paradox Interactive", "Stellaris");
+    await mkdir(moved, { recursive: true });
+
+    expect(defaultModsDirectory(home, "win32")).toBe(join(moved, "mod"));
+  });
+
+  it("keeps Documents where the game's folder is there, and on other systems", async () => {
+    const documents: string = join(home, "Documents", "Paradox Interactive", "Stellaris");
+
+    expect(defaultModsDirectory(home, "darwin")).toBe(join(documents, "mod"));
+    expect(defaultModsDirectory(home, "linux")).toBe(
+      join(home, ".local", "share", "Paradox Interactive", "Stellaris", "mod"),
+    );
+
+    await mkdir(documents, { recursive: true });
+    expect(defaultModsDirectory(home, "win32")).toBe(join(documents, "mod"));
   });
 
   /**
