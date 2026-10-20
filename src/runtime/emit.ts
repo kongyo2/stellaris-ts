@@ -228,34 +228,46 @@ function targetFile(mod: ModOptions, definition: DefinitionRecord): string {
   return `${definition.directory}/zz_${modSlug(mod)}_${definition.type}.txt`;
 }
 
+/**
+ * A descriptor value, quoted the way the game's reader unquotes one.
+ *
+ * Only `\"` and `\\` are escapes to it. A mod called `The "Grand" Archive` was
+ * written `name="The "Grand" Archive"`, which reads as `name="The "` followed
+ * by two stray words: the mod is listed under a name nobody gave it, and a
+ * dependency naming it matches nothing.
+ */
+function quoted(value: string): string {
+  return `"${value.replace(/[\\"]/gu, "\\$&")}"`;
+}
+
 function renderDescriptor(options: ModOptions, includePath: string | undefined): string {
-  const lines: string[] = [`version="${options.version}"`];
+  const lines: string[] = [`version=${quoted(options.version)}`];
 
   if (options.tags !== undefined && options.tags.length > 0) {
-    lines.push("tags={", ...options.tags.map((tag) => `\t"${tag}"`), "}");
+    lines.push("tags={", ...options.tags.map((tag) => `\t${quoted(tag)}`), "}");
   }
 
   if (options.dependencies !== undefined && options.dependencies.length > 0) {
-    lines.push("dependencies={", ...options.dependencies.map((name) => `\t"${name}"`), "}");
+    lines.push("dependencies={", ...options.dependencies.map((name) => `\t${quoted(name)}`), "}");
   }
 
-  lines.push(`name="${options.name}"`, `supported_version="${options.supportedVersion}"`);
+  lines.push(`name=${quoted(options.name)}`, `supported_version=${quoted(options.supportedVersion)}`);
 
   // One line per path, which is how the launcher reads them.
   for (const path of options.replacePaths ?? []) {
-    lines.push(`replace_path="${path.replaceAll("\\", "/")}"`);
+    lines.push(`replace_path=${quoted(path.replaceAll("\\", "/"))}`);
   }
 
   if (options.picture !== undefined) {
-    lines.push(`picture="${options.picture}"`);
+    lines.push(`picture=${quoted(options.picture)}`);
   }
 
   if (options.remoteFileId !== undefined) {
-    lines.push(`remote_file_id="${options.remoteFileId}"`);
+    lines.push(`remote_file_id=${quoted(options.remoteFileId)}`);
   }
 
   if (includePath !== undefined) {
-    lines.push(`path="${includePath}"`);
+    lines.push(`path=${quoted(includePath)}`);
   }
 
   return `${lines.join("\n")}\n`;
@@ -415,10 +427,14 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   for (const [set, folder] of localisationSets) {
     for (const [language, entries] of set) {
       if (!LOCALISATION_LANGUAGES.includes(language)) {
+        // `english` is the folder; the language is `l_english`. The command
+        // line takes either, so the slip is an easy one to make here.
+        const prefixed: string = `l_${language}`;
+        const hint: string = LOCALISATION_LANGUAGES.includes(prefixed) ? ` It is written ${prefixed}.` : "";
         diagnostics.push({
           severity: "error",
           code: "unknown-language",
-          message: `${language} is not a language the game ships; the file will not be read.`,
+          message: `${language} is not a language the game ships; the file will not be read.${hint}`,
           path: `localisation/${language}`,
         });
         continue;

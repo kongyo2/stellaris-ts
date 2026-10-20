@@ -458,11 +458,12 @@ function assertCommandLine(consumerDirectory: string): void {
 }
 
 function verifyPackage(): string {
-  const nodeMajorText: string | undefined = process.versions.node.split(".")[0];
-  const nodeMajor: number = Number(nodeMajorText);
+  const [nodeMajor = Number.NaN, nodeMinor = Number.NaN] = process.versions.node.split(".").map(Number);
 
-  if (!Number.isInteger(nodeMajor) || nodeMajor < 22) {
-    throw new Error(`Package verification requires Node 22 or later, received ${process.versions.node}.`);
+  // The command line imports a `.ts` entry as it stands, which needs a Node
+  // that strips types by itself: 22.18 on the 22 line, and 23.6 after it.
+  if (!(nodeMajor === 22 ? nodeMinor >= 18 : nodeMajor === 23 ? nodeMinor >= 6 : nodeMajor > 23)) {
+    throw new Error(`Package verification requires Node 22.18 or later, received ${process.versions.node}.`);
   }
 
   const npmCliPath: string = resolveNpmCliPath();
