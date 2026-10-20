@@ -16,15 +16,13 @@ export const vanillaEntryScopes: Readonly<Record<string, string>> = {
   advisor_voice: "country",
   // 65 commands written straight into the body accept it
   agreement_term_value: "agreement",
-  // 474 commands written straight into the body accept it
+  // 479 commands written straight into the body accept it
   ai_budget: "country",
   // 258 commands written straight into the body accept it
   ai_personality: "country",
-  // 10 commands written straight into the body accept it
-  army: "planet",
   // 200 commands written straight into the body accept it
   artifact_actions: "country",
-  // 179 commands written straight into the body accept it
+  // 168 commands written straight into the body accept it
   ascension_perk: "country",
   // 78 commands written straight into the body accept it
   astral_actions: "country",
@@ -38,55 +36,51 @@ export const vanillaEntryScopes: Readonly<Record<string, string>> = {
   card_categories: "country",
   // 127 commands written straight into the body accept it
   casus_belli: "country",
-  // 84 commands written straight into the body accept it
+  // 86 commands written straight into the body accept it
   civic_or_origin: "country",
-  // 455 commands written straight into the body accept it
-  colony_type: "planet",
-  // 271 commands written straight into the body accept it
+  // 274 commands written straight into the body accept it
   cosmic_storm_mission: "country",
   // 448 commands written straight into the body accept it
   council_agenda: "country",
-  // 47 commands written straight into the body accept it
+  // 55 commands written straight into the body accept it
   country_type: "country",
   // 104 commands written straight into the body accept it
   crisis_level: "country",
-  // 853 commands written straight into the body accept it
-  decision: "planet",
   // 510 commands written straight into the body accept it
   edict: "country",
   // 33 commands written straight into the body accept it
   espionage_operation: "spy_network",
   // 658 commands written straight into the body accept it
   focus_card_key: "country",
-  // 42 commands written straight into the body accept it
+  // 43 commands written straight into the body accept it
   focus_rewards: "country",
   // 22 commands written straight into the body accept it
   observation_station_mission: "fleet",
   // 963 commands written straight into the body accept it
   planet_modifier: "planet",
-  // 908 commands written straight into the body accept it
+  // 1115 commands written straight into the body accept it
   policy: "country",
   // 21 commands written straight into the body accept it
   pop_faction_name_format: "pop_faction",
   // 12 commands written straight into the body accept it
   pre_communications_name_format: "country",
-  // 64 commands written straight into the body accept it
+  // 65 commands written straight into the body accept it
   relic: "country",
-  // 2702 commands written straight into the body accept it
+  // 2691 commands written straight into the body accept it
   resolution: "country",
-  // 169 commands written straight into the body accept it
-  section_template: "country",
   // 8 commands written straight into the body accept it
   specimen: "country",
   // 69 commands written straight into the body accept it
   starbase_building: "starbase",
   // 40 commands written straight into the body accept it
   starbase_module: "starbase",
-  // 14 commands written straight into the body accept it
+  // 16 commands written straight into the body accept it
+  storm_type: "ship",
+  // 16 commands written straight into the body accept it
   swapped_civic: "country",
   // 33 commands written straight into the body accept it
   tradable_actions: "country",
-  // 50 commands written straight into the body accept it
+  // 53 commands written straight into the body accept it
   war_name_format: "war",
 };
 

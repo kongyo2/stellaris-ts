@@ -110,7 +110,7 @@ describe("a key written more than once", () => {
  */
 describe("a key written more than once under a tag", () => {
   it("writes an event's options as separate blocks", () => {
-    const mod = defineMod({ name: "Rep", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Rep", version: "1", supportedVersion: "v4.5.*" }).add(
       define(
         "event",
         "sts_demo.1",

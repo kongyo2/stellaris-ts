@@ -18,7 +18,7 @@ const fileNamed = (mod: Parameters<typeof emit>[0], suffix: string): string => {
 
 describe("a type written under a tag", () => {
   it("writes the tag as the key and the identity as a field", () => {
-    const mod = defineMod({ name: "Tagged", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Tagged", version: "1", supportedVersion: "v4.5.*" }).add(
       define("event", "sts_demo.1", { is_triggered_only: true }, { as: "country_event" }),
     );
 
@@ -26,7 +26,7 @@ describe("a type written under a tag", () => {
   });
 
   it("declares the namespace the file's ids belong to", () => {
-    const mod = defineMod({ name: "Ns", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Ns", version: "1", supportedVersion: "v4.5.*" })
       .add(define("event", "sts_demo.1", { is_triggered_only: true }, { as: "country_event" }))
       .add(define("event", "sts_demo.2", { is_triggered_only: true }, { as: "planet_event" }));
 
@@ -44,7 +44,7 @@ describe("a type written under a tag", () => {
   });
 
   it("uses the only tag a type has without being asked", () => {
-    const mod = defineMod({ name: "Sole", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Sole", version: "1", supportedVersion: "v4.5.*" }).add(
       define("component_set", "sts_set", {}),
     );
 
@@ -59,7 +59,7 @@ describe("a type written under a tag", () => {
    * shape. `my_tag = { }` there parses and defines no tag.
    */
   it("writes a tag as the word alone, with no block", () => {
-    const mod = defineMod({ name: "Tags", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Tags", version: "1", supportedVersion: "v4.5.*" })
       .add(define("job_tags", "sts_resonance", {}))
       .add(define("job_tags", "sts_echo", {}));
 
@@ -71,7 +71,7 @@ describe("a type written under a tag", () => {
   });
 
   it("leaves a type written under its own identifier alone", () => {
-    const mod = defineMod({ name: "Plain", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Plain", version: "1", supportedVersion: "v4.5.*" }).add(
       define("building", "sts_lab", { category: "research" }),
     );
 

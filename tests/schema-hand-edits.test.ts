@@ -39,9 +39,9 @@ describe("hand-maintained schema corrections", () => {
    * scope links are joined in — a saved event target can be called anything.
    */
   it("carries what the localisation dump documents", () => {
-    expect(Object.keys(localisationCommandsByScope)).toHaveLength(43);
+    expect(Object.keys(localisationCommandsByScope)).toHaveLength(44);
     expect(localisationPromotions).toHaveLength(44);
-    expect(localisationProperties).toHaveLength(146);
+    expect(localisationProperties).toHaveLength(147);
     expect(localisationCommandsByScope["Country"]?.properties).toContain("GetName");
     expect(localisationCommandsByScope["Country"]?.promotions).toContain("Ruler");
   });

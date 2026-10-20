@@ -28,7 +28,7 @@ const descriptor = (mod: Parameters<typeof emit>[0]): string => {
  */
 describe("the name a mod's files are called after", () => {
   const paths = (options: { name: string; id?: string }): readonly string[] => {
-    const mod = defineMod({ version: "1", supportedVersion: "v4.4.*", ...options }).add(
+    const mod = defineMod({ version: "1", supportedVersion: "v4.5.*", ...options }).add(
       define("building", "sts_lab", { category: "research" }),
     );
     return [emit(mod).modFileName, ...emit(mod).files.map((file) => file.path)];
@@ -80,7 +80,7 @@ describe("the name a mod's files are called after", () => {
    * them.
    */
   it("refuses a chosen id Windows cannot make a folder for", () => {
-    const mod = defineMod({ name: "X", id: "con", version: "1", supportedVersion: "v4.4.*" });
+    const mod = defineMod({ name: "X", id: "con", version: "1", supportedVersion: "v4.5.*" });
 
     expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).toContain("reserved-mod-id");
   });
@@ -95,7 +95,7 @@ describe("the name a mod's files are called after", () => {
    * are two strings and one file.
    */
   it("reads a definition path and a raw path as the one file they are", () => {
-    const aliased = defineMod({ name: "Alias", version: "1", supportedVersion: "v4.4.*" })
+    const aliased = defineMod({ name: "Alias", version: "1", supportedVersion: "v4.5.*" })
       .add(defineIn("building", "./same.txt", "sts_lab", { category: "research" }))
       .file({ path: "common/buildings/same.txt", contents: "x = { }" });
 
@@ -103,7 +103,7 @@ describe("the name a mod's files are called after", () => {
   });
 
   it("refuses a path that leaves the mod folder", () => {
-    const escaping = defineMod({ name: "Esc", version: "1", supportedVersion: "v4.4.*" })
+    const escaping = defineMod({ name: "Esc", version: "1", supportedVersion: "v4.5.*" })
       .file({ path: "../../escaped.txt", contents: "x" })
       .asset("../escaped.dds", new Uint8Array([1]));
 
@@ -119,7 +119,7 @@ describe("the name a mod's files are called after", () => {
    * finished last.
    */
   it("reads two names that differ only in case as the one file they are", () => {
-    const cased = defineMod({ name: "Case", version: "1", supportedVersion: "v4.4.*" })
+    const cased = defineMod({ name: "Case", version: "1", supportedVersion: "v4.5.*" })
       .asset("gfx/interface/icons/buildings/Sts_Icon.dds", new Uint8Array([1]))
       .asset("gfx/interface/icons/buildings/sts_icon.dds", new Uint8Array([2]));
 
@@ -133,7 +133,7 @@ describe("the name a mod's files are called after", () => {
    * a declared replacement is reported as a mistake.
    */
   it("recognises an intended override written in another spelling", () => {
-    const aliased = defineMod({ name: "Ov", version: "1", supportedVersion: "v4.4.*" }).add({
+    const aliased = defineMod({ name: "Ov", version: "1", supportedVersion: "v4.5.*" }).add({
       type: "building",
       directory: "common/buildings",
       id: "sts_lab",
@@ -152,7 +152,7 @@ describe("the name a mod's files are called after", () => {
    * folds case, and an exact-string lookup would say nothing.
    */
   it("reports an asset that differs from a vanilla name only in case", () => {
-    const mod = defineMod({ name: "Fold", version: "1", supportedVersion: "v4.4.*" }).asset(
+    const mod = defineMod({ name: "Fold", version: "1", supportedVersion: "v4.5.*" }).asset(
       "gfx/interface/icons/buildings/AVATAR_CHAMBER_1.dds",
       new Uint8Array([1]),
     );
@@ -161,7 +161,7 @@ describe("the name a mod's files are called after", () => {
   });
 
   it("reads two spellings of one path as the one file they are", () => {
-    const same = defineMod({ name: "Same", version: "1", supportedVersion: "v4.4.*" })
+    const same = defineMod({ name: "Same", version: "1", supportedVersion: "v4.5.*" })
       .file({ path: "common/x.txt", contents: "FIRST" })
       .file({ path: "./common/x.txt", contents: "SECOND" });
 
@@ -176,7 +176,7 @@ describe("the name a mod's files are called after", () => {
   });
 
   it("refuses an id that is not a file name", () => {
-    const mod = defineMod({ name: "X", id: "共鳴", version: "1", supportedVersion: "v4.4.*" });
+    const mod = defineMod({ name: "X", id: "共鳴", version: "1", supportedVersion: "v4.5.*" });
 
     expect(emit(mod).diagnostics.map((diagnostic) => diagnostic.code)).toContain("malformed-mod-id");
   });
@@ -187,7 +187,7 @@ describe("the descriptor", () => {
     const mod = defineMod({
       name: "Dependent",
       version: "1",
-      supportedVersion: "v4.4.*",
+      supportedVersion: "v4.5.*",
       dependencies: ["Some Framework", "Another Mod"],
     });
 
@@ -198,7 +198,7 @@ describe("the descriptor", () => {
     const mod = defineMod({
       name: "Replacer",
       version: "1",
-      supportedVersion: "v4.4.*",
+      supportedVersion: "v4.5.*",
       replacePaths: ["common/buildings"],
     });
 
@@ -210,7 +210,7 @@ describe("the descriptor", () => {
     const mod = defineMod({
       name: "Typo",
       version: "1",
-      supportedVersion: "v4.4.*",
+      supportedVersion: "v4.5.*",
       replacePaths: ["common/buildingz"],
     });
 
@@ -228,7 +228,7 @@ describe("the descriptor", () => {
   });
 
   it("accepts the version this build asks for", () => {
-    const mod = defineMod({ name: "Current", version: "1", supportedVersion: "v4.4.*" });
+    const mod = defineMod({ name: "Current", version: "1", supportedVersion: "v4.5.*" });
     expect(codes(mod)).not.toContain("unsupported-game-version");
     expect(codes(mod)).not.toContain("malformed-supported-version");
   });
@@ -236,7 +236,7 @@ describe("the descriptor", () => {
 
 describe("localisation overrides", () => {
   it("puts a replacement where the game reads it last", () => {
-    const mod = defineMod({ name: "Override", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Override", version: "1", supportedVersion: "v4.5.*" })
       .localise("l_english", "sts_own_key", "Mine")
       .localiseReplace("l_english", "building_capital", "Palace");
 
@@ -247,7 +247,7 @@ describe("localisation overrides", () => {
   });
 
   it("keeps the byte order mark on both", () => {
-    const mod = defineMod({ name: "Bom", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Bom", version: "1", supportedVersion: "v4.5.*" })
       .localise("l_english", "a", "A")
       .localiseReplace("l_english", "b", "B");
 

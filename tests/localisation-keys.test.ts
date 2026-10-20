@@ -43,7 +43,7 @@ describe("localisation keys", () => {
   });
 
   it("reports the key the game would look up", () => {
-    const mod = defineMod({ name: "Loc", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Loc", version: "1", supportedVersion: "v4.5.*" }).add(
       define("job", "sts_curator", { category: "specialist" }),
     );
 

@@ -24,7 +24,7 @@ import { define } from "@kongyo2/stellaris-ts/builders";
 const mod = defineMod({
   name: "Example",
   version: "1.0.0",
-  supportedVersion: "v4.4.*",
+  supportedVersion: "v4.5.*",
   tags: ["Gameplay"],
 })
   .add(
@@ -131,7 +131,7 @@ and nothing would say so.
 defineMod({
   name: "Example",
   version: "1.0.0",
-  supportedVersion: "v4.4.*",
+  supportedVersion: "v4.5.*",
   dependencies: ["Some Framework"],
   replacePaths: ["common/buildings"],
 });

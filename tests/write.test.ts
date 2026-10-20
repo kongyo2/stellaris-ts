@@ -17,7 +17,7 @@ import { defineMod, emit, writePlan } from "../src/index.js";
  */
 let directory = "";
 
-const mod = defineMod({ name: "Written", version: "1", supportedVersion: "v4.4.*" })
+const mod = defineMod({ name: "Written", version: "1", supportedVersion: "v4.5.*" })
   .add(define("building", "sts_lab", { category: "research" }))
   .asset("gfx/interface/icons/buildings/sts_lab.dds", new Uint8Array([0x44, 0x44, 0x53, 0x20, 0x00, 0xff]));
 
@@ -47,7 +47,7 @@ describe("writing a plan", () => {
   });
 
   it("refuses to write a plan with errors", async () => {
-    const broken = defineMod({ name: "", version: "1", supportedVersion: "v4.4.*" });
+    const broken = defineMod({ name: "", version: "1", supportedVersion: "v4.5.*" });
 
     await expect(writePlan(broken, emit(broken), directory)).rejects.toThrow(/Refusing to write/u);
   });

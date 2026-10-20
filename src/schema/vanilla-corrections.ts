@@ -31,7 +31,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("alternate_assembly", primitive("scalar"), occurs.any),
   ],
   colony_type: [
-    // 84 uses, e.g. common/colony_types/00_colony_types.txt
+    // 85 uses, e.g. common/colony_types/00_colony_types.txt
     field("ai_building_set_affinity", anyValue(), occurs.any),
   ],
   component_template: [
@@ -71,41 +71,41 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("ai_behaviour", primitive("scalar"), occurs.any),
     // 3 uses, e.g. common/missions/missions/02_contracts.txt
     field("ai_weight", anyValue(), occurs.any),
-    // 23 uses, e.g. common/missions/missions/02_contracts.txt
+    // 23 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("category", primitive("scalar"), occurs.any),
     // 22 uses, e.g. common/missions/missions/02_contracts.txt
     field("cost", primitive("integer"), occurs.any),
     // 15 uses, e.g. common/missions/missions/02_contracts.txt
     field("issued_abort_trigger", anyValue(), occurs.any),
-    // 29 uses, e.g. common/missions/missions/02_contracts.txt
+    // 29 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("lore_completed", primitive("scalar"), occurs.any),
     // 25 uses, e.g. common/missions/missions/02_contracts.txt
     field("lore_failed", primitive("scalar"), occurs.any),
     // 25 uses, e.g. common/missions/missions/02_contracts.txt
     field("lore_issued", primitive("scalar"), occurs.any),
-    // 23 uses, e.g. common/missions/missions/02_contracts.txt
+    // 23 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("on_accept", anyValue(), occurs.any),
-    // 52 uses, e.g. common/missions/missions/02_contracts.txt
+    // 52 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("on_cancel", anyValue(), occurs.any),
-    // 18 uses, e.g. common/missions/missions/02_contracts.txt
+    // 18 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("on_issue", anyValue(), occurs.any),
-    // 16 uses, e.g. common/missions/missions/02_contracts.txt
+    // 16 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("possible_issuer", anyValue(), occurs.any),
-    // 27 uses, e.g. common/missions/missions/02_contracts.txt
+    // 27 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("possible_operator", anyValue(), occurs.any),
-    // 23 uses, e.g. common/missions/missions/02_contracts.txt
+    // 23 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("potential_issuer", anyValue(), occurs.any),
-    // 18 uses, e.g. common/missions/missions/02_contracts.txt
+    // 18 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("potential_operator", anyValue(), occurs.any),
-    // 18 uses, e.g. common/missions/missions/02_contracts.txt
+    // 18 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("small_picture", primitive("scalar"), occurs.any),
-    // 23 uses, e.g. common/missions/missions/02_contracts.txt
+    // 23 uses, e.g. common/missions/missions/03_enclave_contracts.txt
     field("time_to_accept", primitive("scalar"), occurs.any),
     // 2 uses, e.g. common/missions/missions/02_contracts.txt
     field("time_to_complete", primitive("scalar"), occurs.any),
   ],
   decision: [
-    // 27 uses, e.g. common/decisions/02_special_decisions.txt
+    // 29 uses, e.g. common/decisions/02_special_decisions.txt
     field("important", primitive("scalar"), occurs.any),
   ],
   district: [
@@ -117,7 +117,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("triggered_country_modifier", anyValue(), occurs.any),
   ],
   event_chain: [
-    // 265 uses, e.g. common/event_chains/00_event_chains.txt
+    // 266 uses, e.g. common/event_chains/00_event_chains.txt
     field("situation_log_category", primitive("scalar"), occurs.any),
   ],
   fallen_empire_initializer: [
@@ -149,19 +149,27 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("nomad_empire_max", primitive("integer"), occurs.any),
   ],
   megastructure: [
-    // 1 uses, e.g. common/megastructures/30_nomad_waystation.txt
-    field("build_menu_potential", anyValue(), occurs.any),
     // 2 uses, e.g. common/megastructures/14_hyper_relay.txt
     field("context_menu_potential", anyValue(), occurs.any),
+    // 3 uses, e.g. common/megastructures/18_dyson_swarm.txt
+    field("custom_tooltip", anyValue(), occurs.any),
+    // 5 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
+    field("custom_tooltip_with_modifiers", primitive("scalar"), occurs.any),
+    // 6 uses, e.g. common/megastructures/05_gateways.txt
+    field("nomad_reactivatable", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/megastructures/30_nomad_waystation.txt
     field("order_icon", primitive("scalar"), occurs.any),
+    // 3 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
+    field("overclock_cooldown", primitive("scalar"), occurs.any),
+    // 3 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
+    field("overclock_loc_key", primitive("scalar"), occurs.any),
     // 4 uses, e.g. common/megastructures/31_dyson_gun.txt
     field("scripted_action", anyValue(), occurs.any),
-    // 3 uses, e.g. common/megastructures/18_dyson_swarm.txt
+    // 3 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
     field("tooltip_best_systems_header", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/megastructures/18_dyson_swarm.txt
     field("tooltip_show_star_resources", primitive("scalar"), occurs.any),
-    // 3 uses, e.g. common/megastructures/18_dyson_swarm.txt
+    // 3 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
     field("tooltip_system_filter", anyValue(), occurs.any),
     // 2 uses, e.g. common/megastructures/17_orbital_arc_furnace.txt
     field("tooltip_system_score", anyValue(), occurs.any),
@@ -175,15 +183,32 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("federation_modifier", anyValue(), occurs.any),
   ],
   planet_class: [
+    // 1 uses, e.g. common/planet_classes/00_planet_classes.txt
+    field("can_be_capital", primitive("scalar"), occurs.any),
     // 9 uses, e.g. common/planet_classes/06_planet_classes_nomads.txt
     field("conditional_icon", anyValue(), occurs.any),
+    // 1 uses, e.g. common/planet_classes/00_planet_classes.txt
+    field("inherit_country_district_modifiers", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/planet_classes/06_planet_classes_nomads.txt
     field("single_build_queue", primitive("scalar"), occurs.any),
+  ],
+  policy: [
+    // 60 uses, e.g. common/policies/00_policies.txt
+    field("category", anyValue(), occurs.any),
+  ],
+  pop_faction: [
+    // 15 uses, e.g. common/pop_faction_types/00_imperialist.txt
+    field("pop_attraction_tag", anyValue(), occurs.any),
+    // 1 uses, e.g. common/pop_faction_types/00_manifesti.txt
+    field("pop_ethics_filter", anyValue(), occurs.any),
+    // 6 uses, e.g. common/pop_faction_types/00_interlink.txt
+    field("use_guiding_ethic_as_growth_factor", primitive("scalar"), occurs.any),
   ],
   portrait_group: [
     // 2 uses, e.g. gfx/portraits/portraits/02_portraits_reptilian.txt
     field("add", anyValue(), occurs.any),
   ],
+  // Carried over from v4.4.6: the 4.5.2 copy read had no prescripted_countries or interface folder.
   prescripted_country: [
     // 1 uses, e.g. prescripted_countries/00_top_countries.txt
     field("is_nomadic", primitive("scalar"), occurs.any),
@@ -195,7 +220,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("allow_disengage", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/ship_behaviors/02_special_ship_behaviours.txt
     field("allow_emergency_ftl", primitive("scalar"), occurs.any),
-    // 2 uses, e.g. common/ship_behaviors/02_special_ship_behaviours.txt
+    // 3 uses, e.g. common/ship_behaviors/02_special_ship_behaviours.txt
     field("combat_movement", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/ship_behaviors/02_special_ship_behaviours.txt
     field("flee_when_overpowered", primitive("scalar"), occurs.any),
@@ -239,6 +264,8 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("ship_stockpile_capacity", primitive("integer"), occurs.any),
     // 12 uses, e.g. common/ship_sizes/00_waystations.txt
     field("stay_disabled", primitive("scalar"), occurs.any),
+    // 29 uses, e.g. common/ship_sizes/00_biogenesis.txt
+    field("use_ai_design_role_from", primitive("scalar"), occurs.any),
   ],
   situation_type: [
     // 1 uses, e.g. common/situations/14_nomads_situations.txt
@@ -249,7 +276,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("override_progress_current_desc", primitive("scalar"), occurs.any),
     // 2 uses, e.g. common/situations/14_nomads_situations.txt
     field("permanent", primitive("scalar"), occurs.any),
-    // 2 uses, e.g. common/situations/02_deficit_situations.txt
+    // 8 uses, e.g. common/situations/02_deficit_situations.txt
     field("potential", anyValue(), occurs.any),
     // 1 uses, e.g. common/situations/14_nomads_situations.txt
     field("show_in_outliner", primitive("scalar"), occurs.any),
@@ -259,7 +286,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("total_progress", anyValue(), occurs.any),
   ],
   social_strata: [
-    // 2 uses, e.g. common/pop_categories/02_other_categories.txt
+    // 2 uses, e.g. common/pop_categories/01_gestalt_drones.txt
     field("is_civilian_job", primitive("scalar"), occurs.any),
     // 3 uses, e.g. common/pop_categories/02_other_categories.txt
     field("is_unemployment_job", primitive("scalar"), occurs.any),
@@ -270,6 +297,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     // 1 uses, e.g. music/maintheme2.txt
     field("chance", anyValue(), occurs.any),
   ],
+  // Carried over from v4.4.6: the 4.5.2 copy read had no prescripted_countries or interface folder.
   sprite: [
     // 102 uses, e.g. interface/crisis.gfx
     field("color", anyValue(), occurs.any),
@@ -313,13 +341,13 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
   starbase_module: [
     // 33 uses, e.g. common/starbase_modules/00_arkship_utility_modules.txt
     field("cannot_fit_on_slots", anyValue(), occurs.any),
-    // 95 uses, e.g. common/starbase_modules/00_arkship_spinal_modules.txt
+    // 125 uses, e.g. common/starbase_modules/00_arkship_spinal_modules.txt
     field("category", primitive("scalar"), occurs.any),
     // 2 uses, e.g. common/starbase_modules/00_waystation_modules.txt
     field("collected_colony_resources", anyValue(), occurs.any),
     // 7 uses, e.g. common/starbase_modules/00_waystation_modules.txt
     field("collected_system_resources", anyValue(), occurs.any),
-    // 34 uses, e.g. common/starbase_modules/00_arkship_spinal_modules.txt
+    // 73 uses, e.g. common/starbase_modules/00_arkship_spinal_modules.txt
     field("custom_tooltip_with_modifiers", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/starbase_modules/00_waystation_modules.txt
     field("destroy_trigger", anyValue(), occurs.any),
@@ -335,12 +363,14 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("scripted_effect_cooldown_flag", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/starbase_modules/00_arkship_utility_modules.txt
     field("scripted_effect_cooldown_flag_desc", anyValue(), occurs.any),
-    // 26 uses, e.g. common/starbase_modules/00_arkship_spinal_modules.txt
+    // 65 uses, e.g. common/starbase_modules/00_arkship_spinal_modules.txt
     field("show_component_tooltips", primitive("scalar"), occurs.any),
-    // 73 uses, e.g. common/starbase_modules/00_arkship_spinal_modules.txt
+    // 106 uses, e.g. common/starbase_modules/00_arkship_spinal_modules.txt
     field("show_tech_unlock_if", anyValue(), occurs.any),
     // 30 uses, e.g. common/starbase_modules/00_arkship_utility_modules.txt
     field("starbase_limit", anyValue(), occurs.any),
+    // 60 uses, e.g. common/starbase_modules/01_orbital_ring_weapon_modules.txt
+    field("triggered_component_set", anyValue(), occurs.any),
     // 2 uses, e.g. common/starbase_modules/00_waystation_modules.txt
     field("triggered_waystation_network_country_modifier", anyValue(), occurs.any),
     // 6 uses, e.g. common/starbase_modules/00_waystation_modules.txt
@@ -359,7 +389,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("color", anyValue(), occurs.any),
   ],
   war_goal: [
-    // 57 uses, e.g. common/war_goals/03_nemesis_war_goals.txt
+    // 57 uses, e.g. common/war_goals/01_fallen_empire_war_goals.txt
     field("hide", primitive("scalar"), occurs.any),
   ],
   zones: [
@@ -390,13 +420,13 @@ export const vanillaOptionalFields: Readonly<Record<string, readonly string[]>> 
     "stages",
   ],
   component_template: [
-    // 112 of 1500 omit it, e.g. common/component_templates/00_biogenesis_weapons.txt
+    // 112 of 1506 omit it, e.g. common/component_templates/00_biogenesis_weapons.txt
     "icon",
-    // 112 of 1500 omit it, e.g. common/component_templates/00_biogenesis_weapons.txt
+    // 112 of 1506 omit it, e.g. common/component_templates/00_biogenesis_weapons.txt
     "key",
   ],
   cosmic_storm_mission: [
-    // 70 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
+    // 70 of 102 omit it, e.g. common/missions/missions/01_missions_nomads.txt
     "abort_trigger",
     // 51 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
     "desc",
@@ -430,7 +460,7 @@ export const vanillaOptionalFields: Readonly<Record<string, readonly string[]>> 
     "icon",
   ],
   scripted_modifier: [
-    // 1 of 132 omit it, e.g. common/scripted_modifiers/00_scripted_modifiers.txt
+    // 1 of 138 omit it, e.g. common/scripted_modifiers/00_scripted_modifiers.txt
     "category",
   ],
   solar_system_initializer: [
@@ -442,6 +472,10 @@ export const vanillaOptionalFields: Readonly<Record<string, readonly string[]>> 
     "event_scope",
     // 103 of 720 omit it, e.g. common/special_projects/03_projects_cosmic_storms.txt
     "key",
+  ],
+  specimen: [
+    // 64 of 258 omit it, e.g. common/specimens/specimens.txt
+    "resources.category",
   ],
   subject_specialist_type: [
     // 1 of 4 omit it, e.g. common/specialist_subject_types/00_specialist_subject_types.txt

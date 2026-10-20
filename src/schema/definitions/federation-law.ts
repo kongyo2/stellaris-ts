@@ -11,6 +11,7 @@ import {
   field,
   keyedBlocks,
   modifierEntries,
+  modifierRuleEntries,
   occurs,
   primitive,
   replaceScope,
@@ -29,7 +30,14 @@ export const federationLaw: DefinitionType = defineType({
   entries: [
     field("unlocks_centralization", primitive("integer"), occurs.optional),
     field("cohesion_growth", primitive("number"), occurs.optional),
-    field("required_centralization", block([field("base", primitive("integer"), occurs.one)]), occurs.optional),
+    // vanilla 4.5.2: common/federation_laws/16_commercial_pact.txt lowers the
+    // base with `modifier = { add = -1 has_federation_type = default_federation }`.
+    field(
+      "required_centralization",
+      block([field("base", primitive("integer"), occurs.one), modifierRuleEntries()]),
+      occurs.optional,
+      { scope: replaceScope({ root: ScopeId.Federation }) },
+    ),
     field("display_level", primitive("integer"), occurs.optional),
     field("allow", block([triggerEntries()]), occurs.one, { scope: replaceScope({ root: ScopeId.Federation }) }),
     field("potential", block([triggerEntries()]), occurs.optional, {

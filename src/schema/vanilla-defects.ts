@@ -1,11 +1,14 @@
 /**
  * Keys vanilla writes that are not keys of anything.
  *
- * Lines the game reads and drops. There are three, and finding them took
- * checking every candidate: the six `static_modifier` ids that used to be listed
- * here turned out to be a construct rather than a mistake — a static modifier's
- * id inside a modifier block merges its contents in, and vanilla does it 66
- * times across the galactic community, cosmic storms and relay networks.
+ * Lines the game reads and drops. There is one, and finding it took checking
+ * every candidate: the six `static_modifier` ids that used to be listed here
+ * turned out to be a construct rather than a mistake — a static modifier's id
+ * inside a modifier block merges its contents in, and vanilla does it 66 times
+ * across the galactic community, cosmic storms and relay networks. The two
+ * `senate_*_council_member_speed_mult` modifiers in
+ * common/resolutions/05_resolutions_nomads.txt were listed as well, until the
+ * modifier dump moved past 4.3.7: the game has carried both since 4.4.
  *
  * They are listed here rather than turned into rules because a rule would teach
  * the checker that the key is fine, and a modder copying the pattern would get
@@ -16,11 +19,6 @@ export const vanillaFieldDefects: Readonly<Record<string, readonly string[]>> = 
   // army is `perfected_clone_army`, and the prefix is doubled. The sequential
   // name it carries is never used.
   "name_list.army_names": ["perfected_perfected_clone_army"],
-  // common/resolutions/05_resolutions_nomads.txt drops the `galcom_` prefix.
-  // The modifiers the game carries are `galcom_senate_recess_...` and
-  // `galcom_senate_vote_...`, which is what its own localisation names; these
-  // two spellings exist nowhere else and grant nothing.
-  "resolution.modifier": ["senate_recess_council_member_speed_mult", "senate_vote_council_member_speed_mult"],
 };
 
 /**

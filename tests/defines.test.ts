@@ -47,7 +47,7 @@ describe("defines come from the game", () => {
       expect(names.size).toBeGreaterThan(0);
     }
 
-    expect(fieldNames("NGameplay").size).toBe(919);
-    expect(fieldNames("NAI").size).toBe(590);
+    expect(fieldNames("NGameplay").size).toBe(921);
+    expect(fieldNames("NAI").size).toBe(603);
   });
 });

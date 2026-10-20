@@ -17,9 +17,13 @@ describe("entry scopes", () => {
   it("knows the scope of most definition types", () => {
     const known = schema.definitionTypes.filter((type) => typeof type.entryScope === "string");
 
-    // 16 stated by cwt plus 38 inferred. It may rise; it must not fall.
-    expect(known.length).toBeGreaterThanOrEqual(54);
-    expect(Object.keys(vanillaEntryScopes).length).toBeGreaterThanOrEqual(38);
+    // 16 stated by cwt plus 35 inferred. It may rise; it must not fall. It
+    // fell once, from 38, and rightly: the 4.5.1 dump documents most planet
+    // commands for ships as well, because a colony can be an ark, so the bodies
+    // of `army`, `colony_type` and `decision` read a planet or a ship and no
+    // longer one scope.
+    expect(known.length).toBeGreaterThanOrEqual(51);
+    expect(Object.keys(vanillaEntryScopes).length).toBeGreaterThanOrEqual(35);
   });
 
   it("reads a building on the planet it stands on", () => {

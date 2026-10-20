@@ -5,10 +5,10 @@ import type { LinkDefinition, ScopeDefinition } from "./ir.js";
  * Scopes and links the game has and the ported corpus does not.
  *
  * These live outside `scopes.ts` because `npm run import:cwt -- --emit` rewrites
- * that file wholesale, and outside the `-debug` dumps because the newest dump is
- * 4.3.7 and these arrived in 4.4. The evidence is the installed game: vanilla
- * writes `colony = { ... }` and `carrier = { ... }` as scope changes and runs the
- * script that does.
+ * that file wholesale. They arrived in 4.4, after the 4.3.7 dump they were first
+ * missing from, and the evidence was the installed game: vanilla writes
+ * `colony = { ... }` and `carrier = { ... }` as scope changes and runs the script
+ * that does. The 4.5.1 scope dump documents both links.
  *
  * The input and output scopes are left unconstrained rather than guessed. A
  * scope the checker does not know rejects correct script; a scope constraint

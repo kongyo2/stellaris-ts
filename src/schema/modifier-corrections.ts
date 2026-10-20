@@ -18,7 +18,8 @@ import type { ModifierNamespace, ModifierTemplate } from "./ir.js";
 export const additionalModifierTemplates: readonly ModifierTemplate[] = [
   // `common/colony_types` and `common/buildings` in 4.4 write
   // `artisan_jobs_bonus_workforce_mult`, `foundry_jobs_...`, `trader_jobs_...`
-  // and a dozen more: one per job, none of them in the 4.3.7 dump.
+  // and a dozen more: one per job, none of them in the 4.3.7 dump or the 4.5.1
+  // one.
   { type: "job", prefix: "", suffix: "_jobs_bonus_workforce_mult" },
 ];
 

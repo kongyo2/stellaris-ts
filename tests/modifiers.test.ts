@@ -16,7 +16,7 @@ const codes = (mod: Parameters<typeof validate>[0]): readonly string[] =>
  */
 describe("the modifier namespace", () => {
   it("accepts a modifier generated from a vanilla job", () => {
-    const mod = defineMod({ name: "Lab", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Lab", version: "1", supportedVersion: "v4.5.*" })
       .add(define("building", "b", { planet_modifier: { job_researcher_add: 2 } }))
       .localise("l_english", "b", "x");
 
@@ -24,7 +24,7 @@ describe("the modifier namespace", () => {
   });
 
   it("rejects one no rule produces", () => {
-    const mod = defineMod({ name: "Typo", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Typo", version: "1", supportedVersion: "v4.5.*" })
       .add(define("building", "b", { planet_modifier: { job_reseacher_add: 2 } }))
       .localise("l_english", "b", "x");
 
@@ -35,7 +35,7 @@ describe("the modifier namespace", () => {
   });
 
   it("generates modifiers from the mod's own definitions", () => {
-    const mod = defineMod({ name: "Job", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Job", version: "1", supportedVersion: "v4.5.*" })
       .add(define("job", "my_job", { category: "specialist" }))
       .add(define("building", "b", { planet_modifier: { job_my_job_add: 1 } }))
       .localise("l_english", "b", "x")
@@ -47,7 +47,7 @@ describe("the modifier namespace", () => {
   });
 
   it("does not distinguish case, as the game does not", () => {
-    const mod = defineMod({ name: "Case", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Case", version: "1", supportedVersion: "v4.5.*" })
       .add(define("static_modifier", "m", { COUNTRY_NAVAL_COVERAGE_MULT: 1 }))
       .localise("l_english", "m", "x");
 

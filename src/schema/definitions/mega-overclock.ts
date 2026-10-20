@@ -6,10 +6,13 @@ import { DefinitionTypeId, ScopeId } from "../catalog.js";
 import {
   block,
   defineType,
+  effectEntries,
   field,
   keyedBlocks,
   modifierEntries,
+  modifierRuleEntries,
   occurs,
+  oneOf,
   primitive,
   replaceScope,
   ruleSetEntries,
@@ -17,8 +20,15 @@ import {
   typeRef,
 } from "../ir.js";
 
-import type { DefinitionType } from "../ir.js";
+import type { BlockValue, DefinitionType } from "../ir.js";
 
+/** A modifier section, which vanilla's arc furnace modes give a tooltip of their own. */
+function modifierSection(): BlockValue {
+  return block([field("custom_tooltip", primitive("localisation"), occurs.any), modifierEntries()]);
+}
+
+// 4.5 reworked overclocks: common/megastructure_overclock_types/99_README_OVERCLOCKS.txt
+// documents every field below, and the scopes are the ones it names.
 export const megaOverclock: DefinitionType = defineType({
   id: DefinitionTypeId.MegaOverclock,
   source: keyedBlocks("common/megastructure_overclock_types"),
@@ -27,15 +37,47 @@ export const megaOverclock: DefinitionType = defineType({
   modifiers: [],
   entries: [
     field("icon", typeRef("sprite"), occurs.one),
-    field("potential", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.System, from: ScopeId.Country }),
+    field("overclock_group", primitive("scalar"), occurs.optional, {
+      documentation: "Defaults to the mode's own key; an upgrade keeps the mode that shares its group",
     }),
-    field("resources", block([ruleSetEntries("economic_template")]), occurs.optional),
+    field("potential", block([triggerEntries()]), occurs.optional, {
+      scope: replaceScope({ root: ScopeId.Megastructure }),
+    }),
+    field("possible", block([triggerEntries()]), occurs.optional, {
+      scope: replaceScope({ root: ScopeId.Megastructure }),
+    }),
     field(
-      "modifier",
-      block([field("custom_tooltip", primitive("localisation"), occurs.any), modifierEntries()]),
-      occurs.one,
-      { scope: replaceScope({ root: ScopeId.Country }) },
+      "resources",
+      block([field("category", typeRef("economic_category"), occurs.optional), ruleSetEntries("economic_template")]),
+      occurs.optional,
+    ),
+    field("country_modifier", modifierSection(), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
+    field("modifier", modifierSection(), occurs.optional, {
+      documentation: "Deprecated alias for country_modifier",
+      scope: replaceScope({ root: ScopeId.Country }),
+    }),
+    field("system_modifier", modifierSection(), occurs.optional, {
+      documentation: "Applies to the owner's planets and fleets in the system, like a starbase system modifier",
+    }),
+    field("megastructure_modifier", modifierSection(), occurs.optional, {
+      documentation: "Applies to the megastructure itself, so it reaches its own upkeep",
+    }),
+    field("custom_tooltip", primitive("localisation"), occurs.optional),
+    field("custom_tooltip_with_modifiers", primitive("localisation"), occurs.optional),
+    field("on_overclock_start", block([effectEntries()]), occurs.optional, {
+      scope: replaceScope({ root: ScopeId.Megastructure }),
+    }),
+    field("on_overclock_end", block([effectEntries()]), occurs.optional, {
+      scope: replaceScope({ root: ScopeId.Megastructure }),
+    }),
+    field(
+      "ai_weight",
+      oneOf(primitive("integer"), block([field("base", primitive("integer"), occurs.optional), modifierRuleEntries()])),
+      occurs.optional,
+      {
+        documentation: "Also picks the starting mode, from the flat weight alone; 100 when left out",
+        scope: replaceScope({ root: ScopeId.Megastructure }),
+      },
     ),
   ],
 });

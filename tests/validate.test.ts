@@ -9,7 +9,7 @@ const codes = (mod: Parameters<typeof validate>[0]): readonly string[] =>
 
 describe("validate", () => {
   it("accepts a definition whose fields and strings are all present", () => {
-    const mod = defineMod({ name: "Ok", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Ok", version: "1", supportedVersion: "v4.5.*" })
       .add(define("building", "ok_lab", { category: "research" }))
       .localise("l_english", "ok_lab", "Lab")
       .localise("l_english", "ok_lab_desc", "A lab");
@@ -18,7 +18,7 @@ describe("validate", () => {
   });
 
   it("rejects a field the game would silently ignore", () => {
-    const mod = defineMod({ name: "Bad", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Bad", version: "1", supportedVersion: "v4.5.*" }).add(
       // `building` accepts arbitrary keys at the type level, and has to: the
       // schema says `inline_script` may be written in any block, so no block
       // enumerates every key it takes. The validator is the layer that knows
@@ -31,7 +31,7 @@ describe("validate", () => {
   });
 
   it("warns about a missing required string, which ships as the raw key", () => {
-    const mod = defineMod({ name: "Loc", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Loc", version: "1", supportedVersion: "v4.5.*" }).add(
       define("building", "loc_lab", { category: "research" }),
     );
 
@@ -39,7 +39,7 @@ describe("validate", () => {
   });
 
   it("rejects the same id defined twice, where only the last one loads", () => {
-    const mod = defineMod({ name: "Dupe", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Dupe", version: "1", supportedVersion: "v4.5.*" })
       .add(define("building", "same", { category: "research" }))
       .add(define("building", "same", { category: "unity" }));
 
@@ -54,7 +54,7 @@ describe("validate", () => {
    * that did it correctly was told it had replaced the base game.
    */
   it("says nothing about adding to an on_action the base game defines", () => {
-    const mod = defineMod({ name: "Hook", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Hook", version: "1", supportedVersion: "v4.5.*" })
       .add(define("on_action", "on_game_start", { events: ["sts_demo.1"] }))
       .add(define("on_action", "on_game_start", { events: ["sts_demo.2"] }));
 
@@ -63,7 +63,7 @@ describe("validate", () => {
   });
 
   it("still says so for a type the game replaces rather than merges", () => {
-    const mod = defineMod({ name: "Shadow", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Shadow", version: "1", supportedVersion: "v4.5.*" }).add(
       define("building", "building_capital", { category: "unity" }),
     );
 
@@ -71,7 +71,7 @@ describe("validate", () => {
   });
 
   it("does not flag a reference the mod itself defines", () => {
-    const mod = defineMod({ name: "Self", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Self", version: "1", supportedVersion: "v4.5.*" })
       .add(define("building", "sts_other", { category: "research" }))
       .add(define("building", "sts_lab", { category: "research", upgrades: ["sts_other"] }));
 
@@ -86,7 +86,7 @@ describe("validate", () => {
    * reported as counting something that is not a counter.
    */
   const chainMod = (counter: string) =>
-    defineMod({ name: "Chain", version: "1", supportedVersion: "v4.4.*" })
+    defineMod({ name: "Chain", version: "1", supportedVersion: "v4.5.*" })
       .add(define("event_chain", "sts_chain", { counter: { sts_notes_heard: { max: 3 } } }))
       .add(
         define(
@@ -114,7 +114,7 @@ describe("validate", () => {
    * and the mod was told its own flag was not one.
    */
   const flagMod = (flag: string) =>
-    defineMod({ name: "Flags", version: "1", supportedVersion: "v4.4.*" })
+    defineMod({ name: "Flags", version: "1", supportedVersion: "v4.5.*" })
       .add(
         define("policy", "sts_policy", {
           option: repeated({ name: "sts_option", policy_flags: ["sts_resonant"] }),
@@ -137,7 +137,7 @@ describe("validate", () => {
    * one that accepts vanilla and nothing else.
    */
   const componentMod = (declared: boolean) => {
-    const mod = defineMod({ name: "Comp", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Comp", version: "1", supportedVersion: "v4.5.*" }).add(
       define(
         "component_template",
         "sts_weapon",
@@ -169,7 +169,7 @@ describe("validate", () => {
    * directory at all and what it declared was never seen.
    */
   it("reads a raw file whose path was written with the other separator", () => {
-    const mod = defineMod({ name: "Back", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Back", version: "1", supportedVersion: "v4.5.*" })
       .file({ path: String.raw`common\component_tags\zz_back_tags.txt`, contents: "weapon_type_kyome\n" })
       .add(
         define(
@@ -194,7 +194,7 @@ describe("validate", () => {
    * itself and then legitimise every use of it.
    */
   it("still reports a ship class the game does not have", () => {
-    const mod = defineMod({ name: "Ship", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Ship", version: "1", supportedVersion: "v4.5.*" }).add(
       define("ship_size", "sts_ship", { class: "shipclass_militaryy", entity: "corvette_entity" }),
     );
 
@@ -206,7 +206,7 @@ describe("validate", () => {
    * only strings meant `tier = 99` pointed at nothing and was told nothing.
    */
   it("reports a numeric reference to something that does not exist", () => {
-    const mod = defineMod({ name: "Tier", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Tier", version: "1", supportedVersion: "v4.5.*" }).add(
       define("technology", "sts_tech", { area: "physics", tier: 99, category: ["computing"], cost: 100 }),
     );
 
@@ -214,7 +214,7 @@ describe("validate", () => {
   });
 
   it("says nothing about a tier the game has", () => {
-    const mod = defineMod({ name: "Tier", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Tier", version: "1", supportedVersion: "v4.5.*" }).add(
       define("technology", "sts_tech", { area: "physics", tier: 3, category: ["computing"], cost: 100 }),
     );
 
@@ -228,7 +228,7 @@ describe("validate", () => {
    * name a script, so nothing legitimate trips this.
    */
   it("rejects an inline_script block that names no script", () => {
-    const mod = defineMod({ name: "Inline", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Inline", version: "1", supportedVersion: "v4.5.*" }).add(
       define("building", "inline_lab", { potential: { inline_script: { AMOUNT: 25 } } }),
     );
 
@@ -236,7 +236,7 @@ describe("validate", () => {
   });
 
   it("accepts both spellings of inline_script that do name one", () => {
-    const mod = defineMod({ name: "Inline", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Inline", version: "1", supportedVersion: "v4.5.*" })
       .add(define("building", "block_form", { potential: { inline_script: { script: "economy/cost", AMOUNT: 25 } } }))
       .add(define("building", "direct_form", { potential: { inline_script: "economy/cost" } }));
 

@@ -26,7 +26,7 @@ beforeAll(async () => {
     `import { defineMod } from "${join(process.cwd(), "src", "index.ts").replaceAll("\\", "/")}";
      import { define } from "${join(process.cwd(), "src", "builders", "index.ts").replaceAll("\\", "/")}";
 
-     export default defineMod({ name: "Cli Demo", version: "1", supportedVersion: "v4.4.*" })
+     export default defineMod({ name: "Cli Demo", version: "1", supportedVersion: "v4.5.*" })
        .add(define("building", "sts_cli_lab", { category: "research" }))
        .localise("l_english", "sts_cli_lab", "Lab")
        .localise("l_english", "sts_cli_lab_desc", "A lab");`,

@@ -2,7 +2,14 @@ import type { Dirent } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { NodeKind, parse, type Block, type Document, type EntryNode } from "../../src/syntax/index.js";
+import {
+  NodeKind,
+  optionalBlockParameter,
+  parse,
+  type Block,
+  type Document,
+  type EntryNode,
+} from "../../src/syntax/index.js";
 import { captureFromDocument } from "../../src/schema/extraction.js";
 import { gameDeclaredFieldTypes } from "../../src/schema/open-fields.js";
 import type { DefinitionType, EnumDefinition, SchemaModel } from "../../src/schema/ir.js";
@@ -142,10 +149,10 @@ function collectParameters(entries: readonly EntryNode[], into: Set<string>): vo
         // `[[POP_GROUP] ... ]` includes its body only when that parameter was
         // passed. The header names the parameter and the body uses it; both are
         // part of what the callee takes, and missing the header is what left 93
-        // calls looking like they passed an unknown name.
-        for (const token of entry.header) {
-          collectParametersFrom(`$${token.text.replace(/^!/u, "")}$`, into);
-        }
+        // calls looking like they passed an unknown name. The header is read the
+        // way the parser reads it: `[[POP_GROUP]` arrives as one token, brackets
+        // and all, so reading token by token found no name in it.
+        collectParametersFrom(`$${optionalBlockParameter(entry.header)}$`, into);
         collectParameters(entry.entries, into);
         continue;
       case NodeKind.PrefixedBlock:

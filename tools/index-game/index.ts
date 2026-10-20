@@ -305,7 +305,8 @@ console.log(
 );
 
 /**
- * Types intentionally left empty after checking the installed 4.4.6 game.
+ * Types intentionally left empty after checking the installed 4.4.6 game, and
+ * still empty in 4.5.2.
  *
  * This is a reasoned allowlist rather than a list of inconvenient results:
  * any newly empty type is still an indexing defect and makes this command fail.
@@ -370,7 +371,12 @@ if (unexplainedEmptyTypes.length > 0) {
  * A reasoned allowlist, like the types above. An empty enum with no entry here
  * fails this command.
  */
-const EXPECTED_EMPTY_ENUM_REASONS: Readonly<Record<string, string>> = {};
+const EXPECTED_EMPTY_ENUM_REASONS: Readonly<Record<string, string>> = {
+  // 4.5 took `parameters` out of every pop faction type. The one command that
+  // read this enum, `check_pop_faction_parameter`, left the dumps with it and is
+  // retired in `src/schema/dump-commands.ts`.
+  pop_faction_parameters: "no 4.5 pop faction type declares parameters",
+};
 
 const emptyEnums: readonly string[] = index.enums
   .filter((entry) => entry.members.length === 0)

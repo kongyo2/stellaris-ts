@@ -391,7 +391,7 @@ void [output, kind, packageName];
     `import { defineMod } from "${PACKAGE_NAME}";
 import { define } from "${PACKAGE_NAME}/builders";
 
-export default defineMod({ name: "Pack Probe", version: "1", supportedVersion: "v4.4.*" })
+export default defineMod({ name: "Pack Probe", version: "1", supportedVersion: "v4.5.*" })
   .add(define("building", "sts_pack_lab", { category: "research" }))
   .localise("l_english", "sts_pack_lab", "Lab")
   .localise("l_english", "sts_pack_lab_desc", "A lab");

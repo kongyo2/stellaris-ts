@@ -2611,6 +2611,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
           field("key", literal("TRAIT_KEY"), occurs.optional),
           field("key", literal("border"), occurs.optional),
           field("trigger", block([triggerEntries()]), occurs.optional),
+          // vanilla 4.5.2: events/nomads_events_1.txt lists the resources to show.
+          field("type", literal("resources"), occurs.optional),
+          field("resources", block([item(typeRef("resource"), occurs.any)]), occurs.optional),
         ]),
         occurs.any,
       ),
@@ -2868,6 +2871,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
         documentation: "This presumably works (report if not)",
       }),
       field("released_from_country", scopeGroup("target_country"), occurs.optional),
+      // vanilla 4.5.2: events/unrest_events.txt. As in `create_country`,
+      // `nomadic = <scope>` copies the flag from that country.
+      field("nomadic", oneOf(primitive("boolean"), scopeRef()), occurs.optional),
       field("effect", block([effectEntries()]), occurs.one, {
         documentation: "this is required to spawn rebels for the rebellion to work in the first place",
         scope: enterScope(ScopeId.Country),
@@ -13915,6 +13921,8 @@ export const commands: readonly ScriptCommandDefinition[] = [
           field("min_distance", primitive("integer"), occurs.optional),
           field("max_distance", primitive("integer"), occurs.optional),
           field("species", literal("from"), occurs.optional),
+          // 4.5: `trigger = pop_ethic_percentage` takes the ethic as a parameter.
+          field("ethic", typeRef("ethos"), occurs.optional),
           field("amount", scriptValue("number"), occurs.optional),
           field("trade_type", primitive("scalar"), occurs.optional),
           field("patron", typeRef("patrons"), occurs.optional),
@@ -26751,6 +26759,8 @@ export const ruleSets: readonly RuleSetDefinition[] = [
       field("multiplier", scriptValue("number"), occurs.any),
       field("multiplier", enumRef(EnumId.ExeSetVariable), occurs.any),
       field("custom_tooltip", primitive("localisation"), occurs.optional),
+      // vanilla 4.5.2: common/traits/04_species_traits.txt
+      field("key", primitive("localisation"), occurs.optional),
     ]),
     scope: replaceScope({ root: ScopeId.Planet, from: ScopeId.Species, fromFrom: ScopeId.Country }),
   }),

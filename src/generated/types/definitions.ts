@@ -2878,6 +2878,7 @@ export interface RuleSetTriggeredModifierSituationTriggeredModifier {
 /** `triggered_planet_growth_habitability_modifier` as triggered_planet_growth_habitability_modifier writes it. */
 export interface RuleSetTriggeredPlanetGrowthHabitabilityModifierTriggeredPlanetGrowthHabitabilityModifier {
   readonly custom_tooltip?: string | Authored;
+  readonly key?: string | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "AESTHETIC_WONDER_SPECIMEN_COUNT" | "aianom_energy_dep1" | "AIANOM_ENERGY_DEP1" | "aianom_energy_dep2" | "AIANOM_ENERGY_DEP2" | "aianom_energy_dep3" | "AIANOM_ENERGY_DEP3" | "aianom_energy_dep4" | "AIANOM_ENERGY_DEP4" | "aianom_engineering_dep1" | "AIANOM_ENGINEERING_DEP1" | "aianom_engineering_dep2" | "AIANOM_ENGINEERING_DEP2" | "aianom_engineering_dep3" | "AIANOM_ENGINEERING_DEP3" | "aianom_engineering_dep4" | "AIANOM_ENGINEERING_DEP4" | "aianom_mineral_dep1" | "AIANOM_MINERAL_DEP1" | "aianom_mineral_dep2" | "AIANOM_MINERAL_DEP2" | "aianom_mineral_dep3" | "AIANOM_MINERAL_DEP3" | "aianom_mineral_dep4" | "AIANOM_MINERAL_DEP4" | "aianom_physics_dep1" | "AIANOM_PHYSICS_DEP1" | "aianom_physics_dep2" | "AIANOM_PHYSICS_DEP2" | "aianom_physics_dep3" | "AIANOM_PHYSICS_DEP3" | "aianom_physics_dep4" | "AIANOM_PHYSICS_DEP4" | "aianom_society_dep1" | "AIANOM_SOCIETY_DEP1" | "aianom_society_dep2" | "AIANOM_SOCIETY_DEP2" | "aianom_society_dep3" | "AIANOM_SOCIETY_DEP3" | "aianom_society_dep4" | "AIANOM_SOCIETY_DEP4" | "astral_rift_baol_species" | "ASTRAL_RIFT_BAOL_SPECIES" | "empire_size" | "EMPIRE_SIZE" | "event_target:culled_node.trigger:has_base_skill" | "EVENT_TARGET:CULLED_NODE.TRIGGER:HAS_BASE_SKILL" | "event_target:destroyed_colony.trigger:pop_amount" | "EVENT_TARGET:DESTROYED_COLONY.TRIGGER:POP_AMOUNT" | "event_target:looted_planet.trigger:pop_amount" | "EVENT_TARGET:LOOTED_PLANET.TRIGGER:POP_AMOUNT" | "event_target:patron_revenge_spawn@this" | "EVENT_TARGET:PATRON_REVENGE_SPAWN@THIS" | "event_target:rebel_empire.trigger:fleet_power" | "EVENT_TARGET:REBEL_EMPIRE.TRIGGER:FLEET_POWER" | "event_target:ruler_pop_faction.trigger:pop_amount" | "EVENT_TARGET:RULER_POP_FACTION.TRIGGER:POP_AMOUNT" | "from.starbase.fleet.trigger:fleet_power" | "FROM.STARBASE.FLEET.TRIGGER:FLEET_POWER" | "from.trigger:empire_size" | "FROM.TRIGGER:EMPIRE_SIZE" | "from.trigger:num_vivarium_slots" | "FROM.TRIGGER:NUM_VIVARIUM_SLOTS" | "genesis_new_species_selected_planet" | "GENESIS_NEW_SPECIES_SELECTED_PLANET" | "historical_item_specimen_count" | "HISTORICAL_ITEM_SPECIMEN_COUNT" | "leader.trigger:has_total_skill" | "LEADER.TRIGGER:HAS_TOTAL_SKILL" | "local_kill_pop_amount" | "LOCAL_KILL_POP_AMOUNT" | "local_num_attackers" | "LOCAL_NUM_ATTACKERS" | "local_pop_amount" | "LOCAL_POP_AMOUNT" | "local_size_option" | "LOCAL_SIZE_OPTION" | "local_spent_biomass" | "LOCAL_SPENT_BIOMASS" | "number_fleets_spawned" | "NUMBER_FLEETS_SPAWNED" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "OWNER.TRIGGER:DISCIPLE_OF_THE_CRADLE_COUNCILORS_COUNT" | "owner.trigger:fleet_power" | "OWNER.TRIGGER:FLEET_POWER" | "owner.trigger:num_ascension_perks" | "OWNER.TRIGGER:NUM_ASCENSION_PERKS" | "root.local_country_biomass" | "ROOT.LOCAL_COUNTRY_BIOMASS" | "root.local_devastation" | "ROOT.LOCAL_DEVASTATION" | "root.local_pop_amount" | "ROOT.LOCAL_POP_AMOUNT" | "root.trigger:fleet_power" | "ROOT.TRIGGER:FLEET_POWER" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "SPECIES.MODIFIER:PLANET_JOBS_SPECIALIST_ONLY_PRODUCES_MULT" | "species.modifier:planet_jobs_worker_only_produces_mult" | "SPECIES.MODIFIER:PLANET_JOBS_WORKER_ONLY_PRODUCES_MULT" | "subjects_minus_one" | "SUBJECTS_MINUS_ONE" | "trigger:capital_tier" | "TRIGGER:CAPITAL_TIER" | "trigger:council_agenda_progress_percent" | "TRIGGER:COUNCIL_AGENDA_PROGRESS_PERCENT" | "trigger:empire_size" | "TRIGGER:EMPIRE_SIZE" | "trigger:empire_sprawl_over_cap" | "TRIGGER:EMPIRE_SPRAWL_OVER_CAP" | "trigger:has_base_skill" | "TRIGGER:HAS_BASE_SKILL" | "trigger:has_experience" | "TRIGGER:HAS_EXPERIENCE" | "trigger:has_total_civic_points" | "TRIGGER:HAS_TOTAL_CIVIC_POINTS" | "trigger:has_total_skill" | "TRIGGER:HAS_TOTAL_SKILL" | "trigger:has_unlocked_council_positions" | "TRIGGER:HAS_UNLOCKED_COUNCIL_POSITIONS" | "trigger:has_unused_civic_points" | "TRIGGER:HAS_UNUSED_CIVIC_POINTS" | "trigger:is_difficulty" | "TRIGGER:IS_DIFFICULTY" | "trigger:leader_age" | "TRIGGER:LEADER_AGE" | "trigger:leader_lifespan" | "TRIGGER:LEADER_LIFESPAN" | "trigger:max_naval_capacity" | "TRIGGER:MAX_NAVAL_CAPACITY" | "trigger:num_ascension_perks" | "TRIGGER:NUM_ASCENSION_PERKS" | "trigger:num_candidate_supported" | "TRIGGER:NUM_CANDIDATE_SUPPORTED" | "trigger:num_galaxy_systems" | "TRIGGER:NUM_GALAXY_SYSTEMS" | "trigger:num_moons" | "TRIGGER:NUM_MOONS" | "trigger:num_non_aggression_pacts" | "TRIGGER:NUM_NON_AGGRESSION_PACTS" | "trigger:num_owned_leaders" | "TRIGGER:NUM_OWNED_LEADERS" | "trigger:num_planetary_ascension_tiers" | "TRIGGER:NUM_PLANETARY_ASCENSION_TIERS" | "trigger:planet_garrison_strength" | "TRIGGER:PLANET_GARRISON_STRENGTH" | "trigger:planet_size" | "TRIGGER:PLANET_SIZE" | "trigger:planet_stability" | "TRIGGER:PLANET_STABILITY" | "trigger:pop_amount" | "TRIGGER:POP_AMOUNT" | "trigger:subjects" | "TRIGGER:SUBJECTS" | "trigger:support" | "TRIGGER:SUPPORT" | "trigger:years_passed" | "TRIGGER:YEARS_PASSED" | "trophy_hunter_gained_energy" | "TROPHY_HUNTER_GAINED_ENERGY" | "trophy_hunter_gained_exotic_gases" | "TROPHY_HUNTER_GAINED_EXOTIC_GASES" | "trophy_hunter_gained_food" | "TROPHY_HUNTER_GAINED_FOOD" | "trophy_hunter_gained_minerals" | "TROPHY_HUNTER_GAINED_MINERALS" | "trophy_hunter_gained_rare_crystals" | "TROPHY_HUNTER_GAINED_RARE_CRYSTALS" | "trophy_hunter_gained_unity" | "TROPHY_HUNTER_GAINED_UNITY" | "xeno_geology_specimen_count" | "XENO_GEOLOGY_SPECIMEN_COUNT" | Authored;
   readonly multiplier?: number | string | "aesthetic_wonder_specimen_count" | "AESTHETIC_WONDER_SPECIMEN_COUNT" | "aianom_energy_dep1" | "AIANOM_ENERGY_DEP1" | "aianom_energy_dep2" | "AIANOM_ENERGY_DEP2" | "aianom_energy_dep3" | "AIANOM_ENERGY_DEP3" | "aianom_energy_dep4" | "AIANOM_ENERGY_DEP4" | "aianom_engineering_dep1" | "AIANOM_ENGINEERING_DEP1" | "aianom_engineering_dep2" | "AIANOM_ENGINEERING_DEP2" | "aianom_engineering_dep3" | "AIANOM_ENGINEERING_DEP3" | "aianom_engineering_dep4" | "AIANOM_ENGINEERING_DEP4" | "aianom_mineral_dep1" | "AIANOM_MINERAL_DEP1" | "aianom_mineral_dep2" | "AIANOM_MINERAL_DEP2" | "aianom_mineral_dep3" | "AIANOM_MINERAL_DEP3" | "aianom_mineral_dep4" | "AIANOM_MINERAL_DEP4" | "aianom_physics_dep1" | "AIANOM_PHYSICS_DEP1" | "aianom_physics_dep2" | "AIANOM_PHYSICS_DEP2" | "aianom_physics_dep3" | "AIANOM_PHYSICS_DEP3" | "aianom_physics_dep4" | "AIANOM_PHYSICS_DEP4" | "aianom_society_dep1" | "AIANOM_SOCIETY_DEP1" | "aianom_society_dep2" | "AIANOM_SOCIETY_DEP2" | "aianom_society_dep3" | "AIANOM_SOCIETY_DEP3" | "aianom_society_dep4" | "AIANOM_SOCIETY_DEP4" | "astral_rift_baol_species" | "ASTRAL_RIFT_BAOL_SPECIES" | "empire_size" | "EMPIRE_SIZE" | "event_target:culled_node.trigger:has_base_skill" | "EVENT_TARGET:CULLED_NODE.TRIGGER:HAS_BASE_SKILL" | "event_target:destroyed_colony.trigger:pop_amount" | "EVENT_TARGET:DESTROYED_COLONY.TRIGGER:POP_AMOUNT" | "event_target:looted_planet.trigger:pop_amount" | "EVENT_TARGET:LOOTED_PLANET.TRIGGER:POP_AMOUNT" | "event_target:patron_revenge_spawn@this" | "EVENT_TARGET:PATRON_REVENGE_SPAWN@THIS" | "event_target:rebel_empire.trigger:fleet_power" | "EVENT_TARGET:REBEL_EMPIRE.TRIGGER:FLEET_POWER" | "event_target:ruler_pop_faction.trigger:pop_amount" | "EVENT_TARGET:RULER_POP_FACTION.TRIGGER:POP_AMOUNT" | "from.starbase.fleet.trigger:fleet_power" | "FROM.STARBASE.FLEET.TRIGGER:FLEET_POWER" | "from.trigger:empire_size" | "FROM.TRIGGER:EMPIRE_SIZE" | "from.trigger:num_vivarium_slots" | "FROM.TRIGGER:NUM_VIVARIUM_SLOTS" | "genesis_new_species_selected_planet" | "GENESIS_NEW_SPECIES_SELECTED_PLANET" | "historical_item_specimen_count" | "HISTORICAL_ITEM_SPECIMEN_COUNT" | "leader.trigger:has_total_skill" | "LEADER.TRIGGER:HAS_TOTAL_SKILL" | "local_kill_pop_amount" | "LOCAL_KILL_POP_AMOUNT" | "local_num_attackers" | "LOCAL_NUM_ATTACKERS" | "local_pop_amount" | "LOCAL_POP_AMOUNT" | "local_size_option" | "LOCAL_SIZE_OPTION" | "local_spent_biomass" | "LOCAL_SPENT_BIOMASS" | "number_fleets_spawned" | "NUMBER_FLEETS_SPAWNED" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "OWNER.TRIGGER:DISCIPLE_OF_THE_CRADLE_COUNCILORS_COUNT" | "owner.trigger:fleet_power" | "OWNER.TRIGGER:FLEET_POWER" | "owner.trigger:num_ascension_perks" | "OWNER.TRIGGER:NUM_ASCENSION_PERKS" | "root.local_country_biomass" | "ROOT.LOCAL_COUNTRY_BIOMASS" | "root.local_devastation" | "ROOT.LOCAL_DEVASTATION" | "root.local_pop_amount" | "ROOT.LOCAL_POP_AMOUNT" | "root.trigger:fleet_power" | "ROOT.TRIGGER:FLEET_POWER" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "SPECIES.MODIFIER:PLANET_JOBS_SPECIALIST_ONLY_PRODUCES_MULT" | "species.modifier:planet_jobs_worker_only_produces_mult" | "SPECIES.MODIFIER:PLANET_JOBS_WORKER_ONLY_PRODUCES_MULT" | "subjects_minus_one" | "SUBJECTS_MINUS_ONE" | "trigger:capital_tier" | "TRIGGER:CAPITAL_TIER" | "trigger:council_agenda_progress_percent" | "TRIGGER:COUNCIL_AGENDA_PROGRESS_PERCENT" | "trigger:empire_size" | "TRIGGER:EMPIRE_SIZE" | "trigger:empire_sprawl_over_cap" | "TRIGGER:EMPIRE_SPRAWL_OVER_CAP" | "trigger:has_base_skill" | "TRIGGER:HAS_BASE_SKILL" | "trigger:has_experience" | "TRIGGER:HAS_EXPERIENCE" | "trigger:has_total_civic_points" | "TRIGGER:HAS_TOTAL_CIVIC_POINTS" | "trigger:has_total_skill" | "TRIGGER:HAS_TOTAL_SKILL" | "trigger:has_unlocked_council_positions" | "TRIGGER:HAS_UNLOCKED_COUNCIL_POSITIONS" | "trigger:has_unused_civic_points" | "TRIGGER:HAS_UNUSED_CIVIC_POINTS" | "trigger:is_difficulty" | "TRIGGER:IS_DIFFICULTY" | "trigger:leader_age" | "TRIGGER:LEADER_AGE" | "trigger:leader_lifespan" | "TRIGGER:LEADER_LIFESPAN" | "trigger:max_naval_capacity" | "TRIGGER:MAX_NAVAL_CAPACITY" | "trigger:num_ascension_perks" | "TRIGGER:NUM_ASCENSION_PERKS" | "trigger:num_candidate_supported" | "TRIGGER:NUM_CANDIDATE_SUPPORTED" | "trigger:num_galaxy_systems" | "TRIGGER:NUM_GALAXY_SYSTEMS" | "trigger:num_moons" | "TRIGGER:NUM_MOONS" | "trigger:num_non_aggression_pacts" | "TRIGGER:NUM_NON_AGGRESSION_PACTS" | "trigger:num_owned_leaders" | "TRIGGER:NUM_OWNED_LEADERS" | "trigger:num_planetary_ascension_tiers" | "TRIGGER:NUM_PLANETARY_ASCENSION_TIERS" | "trigger:planet_garrison_strength" | "TRIGGER:PLANET_GARRISON_STRENGTH" | "trigger:planet_size" | "TRIGGER:PLANET_SIZE" | "trigger:planet_stability" | "TRIGGER:PLANET_STABILITY" | "trigger:pop_amount" | "TRIGGER:POP_AMOUNT" | "trigger:subjects" | "TRIGGER:SUBJECTS" | "trigger:support" | "TRIGGER:SUPPORT" | "trigger:years_passed" | "TRIGGER:YEARS_PASSED" | "trophy_hunter_gained_energy" | "TROPHY_HUNTER_GAINED_ENERGY" | "trophy_hunter_gained_exotic_gases" | "TROPHY_HUNTER_GAINED_EXOTIC_GASES" | "trophy_hunter_gained_food" | "TROPHY_HUNTER_GAINED_FOOD" | "trophy_hunter_gained_minerals" | "TROPHY_HUNTER_GAINED_MINERALS" | "trophy_hunter_gained_rare_crystals" | "TROPHY_HUNTER_GAINED_RARE_CRYSTALS" | "trophy_hunter_gained_unity" | "TROPHY_HUNTER_GAINED_UNITY" | "xeno_geology_specimen_count" | "XENO_GEOLOGY_SPECIMEN_COUNT" | Authored;
@@ -3029,7 +3030,7 @@ export interface RuleSetTriggeredStationModifierStarbaseTriggeredStationModifier
 }
 
 /** `triggered_system_modifier` as triggered_system_modifier_starbase writes it. */
-export interface RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifier {
+export interface RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifierShip {
   readonly custom_tooltip?: string | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly mult?: number | string | "aesthetic_wonder_specimen_count" | "AESTHETIC_WONDER_SPECIMEN_COUNT" | "aianom_energy_dep1" | "AIANOM_ENERGY_DEP1" | "aianom_energy_dep2" | "AIANOM_ENERGY_DEP2" | "aianom_energy_dep3" | "AIANOM_ENERGY_DEP3" | "aianom_energy_dep4" | "AIANOM_ENERGY_DEP4" | "aianom_engineering_dep1" | "AIANOM_ENGINEERING_DEP1" | "aianom_engineering_dep2" | "AIANOM_ENGINEERING_DEP2" | "aianom_engineering_dep3" | "AIANOM_ENGINEERING_DEP3" | "aianom_engineering_dep4" | "AIANOM_ENGINEERING_DEP4" | "aianom_mineral_dep1" | "AIANOM_MINERAL_DEP1" | "aianom_mineral_dep2" | "AIANOM_MINERAL_DEP2" | "aianom_mineral_dep3" | "AIANOM_MINERAL_DEP3" | "aianom_mineral_dep4" | "AIANOM_MINERAL_DEP4" | "aianom_physics_dep1" | "AIANOM_PHYSICS_DEP1" | "aianom_physics_dep2" | "AIANOM_PHYSICS_DEP2" | "aianom_physics_dep3" | "AIANOM_PHYSICS_DEP3" | "aianom_physics_dep4" | "AIANOM_PHYSICS_DEP4" | "aianom_society_dep1" | "AIANOM_SOCIETY_DEP1" | "aianom_society_dep2" | "AIANOM_SOCIETY_DEP2" | "aianom_society_dep3" | "AIANOM_SOCIETY_DEP3" | "aianom_society_dep4" | "AIANOM_SOCIETY_DEP4" | "astral_rift_baol_species" | "ASTRAL_RIFT_BAOL_SPECIES" | "empire_size" | "EMPIRE_SIZE" | "event_target:culled_node.trigger:has_base_skill" | "EVENT_TARGET:CULLED_NODE.TRIGGER:HAS_BASE_SKILL" | "event_target:destroyed_colony.trigger:pop_amount" | "EVENT_TARGET:DESTROYED_COLONY.TRIGGER:POP_AMOUNT" | "event_target:looted_planet.trigger:pop_amount" | "EVENT_TARGET:LOOTED_PLANET.TRIGGER:POP_AMOUNT" | "event_target:patron_revenge_spawn@this" | "EVENT_TARGET:PATRON_REVENGE_SPAWN@THIS" | "event_target:rebel_empire.trigger:fleet_power" | "EVENT_TARGET:REBEL_EMPIRE.TRIGGER:FLEET_POWER" | "event_target:ruler_pop_faction.trigger:pop_amount" | "EVENT_TARGET:RULER_POP_FACTION.TRIGGER:POP_AMOUNT" | "from.starbase.fleet.trigger:fleet_power" | "FROM.STARBASE.FLEET.TRIGGER:FLEET_POWER" | "from.trigger:empire_size" | "FROM.TRIGGER:EMPIRE_SIZE" | "from.trigger:num_vivarium_slots" | "FROM.TRIGGER:NUM_VIVARIUM_SLOTS" | "genesis_new_species_selected_planet" | "GENESIS_NEW_SPECIES_SELECTED_PLANET" | "historical_item_specimen_count" | "HISTORICAL_ITEM_SPECIMEN_COUNT" | "leader.trigger:has_total_skill" | "LEADER.TRIGGER:HAS_TOTAL_SKILL" | "local_kill_pop_amount" | "LOCAL_KILL_POP_AMOUNT" | "local_num_attackers" | "LOCAL_NUM_ATTACKERS" | "local_pop_amount" | "LOCAL_POP_AMOUNT" | "local_size_option" | "LOCAL_SIZE_OPTION" | "local_spent_biomass" | "LOCAL_SPENT_BIOMASS" | "number_fleets_spawned" | "NUMBER_FLEETS_SPAWNED" | "owner.trigger:disciple_of_the_cradle_councilors_count" | "OWNER.TRIGGER:DISCIPLE_OF_THE_CRADLE_COUNCILORS_COUNT" | "owner.trigger:fleet_power" | "OWNER.TRIGGER:FLEET_POWER" | "owner.trigger:num_ascension_perks" | "OWNER.TRIGGER:NUM_ASCENSION_PERKS" | "root.local_country_biomass" | "ROOT.LOCAL_COUNTRY_BIOMASS" | "root.local_devastation" | "ROOT.LOCAL_DEVASTATION" | "root.local_pop_amount" | "ROOT.LOCAL_POP_AMOUNT" | "root.trigger:fleet_power" | "ROOT.TRIGGER:FLEET_POWER" | "species.modifier:planet_jobs_specialist_only_produces_mult" | "SPECIES.MODIFIER:PLANET_JOBS_SPECIALIST_ONLY_PRODUCES_MULT" | "species.modifier:planet_jobs_worker_only_produces_mult" | "SPECIES.MODIFIER:PLANET_JOBS_WORKER_ONLY_PRODUCES_MULT" | "subjects_minus_one" | "SUBJECTS_MINUS_ONE" | "trigger:capital_tier" | "TRIGGER:CAPITAL_TIER" | "trigger:council_agenda_progress_percent" | "TRIGGER:COUNCIL_AGENDA_PROGRESS_PERCENT" | "trigger:empire_size" | "TRIGGER:EMPIRE_SIZE" | "trigger:empire_sprawl_over_cap" | "TRIGGER:EMPIRE_SPRAWL_OVER_CAP" | "trigger:has_base_skill" | "TRIGGER:HAS_BASE_SKILL" | "trigger:has_experience" | "TRIGGER:HAS_EXPERIENCE" | "trigger:has_total_civic_points" | "TRIGGER:HAS_TOTAL_CIVIC_POINTS" | "trigger:has_total_skill" | "TRIGGER:HAS_TOTAL_SKILL" | "trigger:has_unlocked_council_positions" | "TRIGGER:HAS_UNLOCKED_COUNCIL_POSITIONS" | "trigger:has_unused_civic_points" | "TRIGGER:HAS_UNUSED_CIVIC_POINTS" | "trigger:is_difficulty" | "TRIGGER:IS_DIFFICULTY" | "trigger:leader_age" | "TRIGGER:LEADER_AGE" | "trigger:leader_lifespan" | "TRIGGER:LEADER_LIFESPAN" | "trigger:max_naval_capacity" | "TRIGGER:MAX_NAVAL_CAPACITY" | "trigger:num_ascension_perks" | "TRIGGER:NUM_ASCENSION_PERKS" | "trigger:num_candidate_supported" | "TRIGGER:NUM_CANDIDATE_SUPPORTED" | "trigger:num_galaxy_systems" | "TRIGGER:NUM_GALAXY_SYSTEMS" | "trigger:num_moons" | "TRIGGER:NUM_MOONS" | "trigger:num_non_aggression_pacts" | "TRIGGER:NUM_NON_AGGRESSION_PACTS" | "trigger:num_owned_leaders" | "TRIGGER:NUM_OWNED_LEADERS" | "trigger:num_planetary_ascension_tiers" | "TRIGGER:NUM_PLANETARY_ASCENSION_TIERS" | "trigger:planet_garrison_strength" | "TRIGGER:PLANET_GARRISON_STRENGTH" | "trigger:planet_size" | "TRIGGER:PLANET_SIZE" | "trigger:planet_stability" | "TRIGGER:PLANET_STABILITY" | "trigger:pop_amount" | "TRIGGER:POP_AMOUNT" | "trigger:subjects" | "TRIGGER:SUBJECTS" | "trigger:support" | "TRIGGER:SUPPORT" | "trigger:years_passed" | "TRIGGER:YEARS_PASSED" | "trophy_hunter_gained_energy" | "TROPHY_HUNTER_GAINED_ENERGY" | "trophy_hunter_gained_exotic_gases" | "TROPHY_HUNTER_GAINED_EXOTIC_GASES" | "trophy_hunter_gained_food" | "TROPHY_HUNTER_GAINED_FOOD" | "trophy_hunter_gained_minerals" | "TROPHY_HUNTER_GAINED_MINERALS" | "trophy_hunter_gained_rare_crystals" | "TROPHY_HUNTER_GAINED_RARE_CRYSTALS" | "trophy_hunter_gained_unity" | "TROPHY_HUNTER_GAINED_UNITY" | "xeno_geology_specimen_count" | "XENO_GEOLOGY_SPECIMEN_COUNT" | Authored;
@@ -3101,6 +3102,7 @@ export interface NaiDefinition {
   readonly AI_COMMUNICATIONS_RANDOM_VALUE?: PdxNumber | Authored;
   readonly AI_CRIME_REDUCTION_SCORE_MULT?: PdxNumber | Authored;
   readonly AI_CRIME_REDUCTION_THRESHOLD?: PdxNumber | Authored;
+  readonly AI_DEATH_SPIRAL_MONTHS_OF_COVER?: PdxValue | Authored;
   readonly AI_DEFICIT_SCORE_MULT?: PdxNumber | Authored;
   readonly AI_DESIGNATION_COOLDOWN?: PdxNumber | Authored;
   readonly AI_DESIGNATION_RESOURCES_IN_ECONOMIC_PLAN_BONUS?: PdxNumber | Authored;
@@ -3120,6 +3122,7 @@ export interface NaiDefinition {
   readonly AI_GALCOM_PATROL_ORBIT_TIME_DAYS?: PdxNumber | Authored;
   readonly AI_HOSTILE_FLEET_DISTANCE?: PdxValue | Authored;
   readonly AI_HOUSING_SCORE_MULT?: PdxNumber | Authored;
+  readonly AI_INCOME_TARGET_BUFFER_FACTOR?: PdxValue | Authored;
   readonly AI_IN_BREACH_THRESHOLD?: PdxNumber | Authored;
   readonly AI_IS_AMENITIES_JOB_FACTOR?: PdxNumber | Authored;
   readonly AI_JUMP_DRIVE_BRAVERY?: PdxNumber | Authored;
@@ -3128,6 +3131,7 @@ export interface NaiDefinition {
   readonly AI_MAIN_CONSTRUCTION_CURRENCY?: ResourceRef | Authored;
   readonly AI_MAIN_CONSTRUCTION_CURRENCY_EMPIRE_SIZE_MULT?: PdxNumber | Authored;
   readonly AI_MAIN_CONSTRUCTION_CURRENCY_MINIMUM_TARGET?: PdxNumber | Authored;
+  readonly AI_MARKET_BUY_MONTHS_OF_COVER?: PdxValue | Authored;
   readonly AI_MAX_DISTANCE?: PdxNumber | Authored;
   readonly AI_MINIMUM_AMENITY_PER_JOB_LIMIT?: PdxNumber | Authored;
   readonly AI_MIN_BRANCH_OFFICE_WORTH_TO_ESTABLISH?: PdxNumber | Authored;
@@ -3139,10 +3143,12 @@ export interface NaiDefinition {
   readonly AI_MIN_NAVAL_CAP_USAGE_TO_BUILD_DEFENSE_PLATFORMS?: PdxNumber | Authored;
   readonly AI_MULTIPLICATIVE_SUPERFLUOUS_INCOME_THRESHOLD?: PdxValue | Authored;
   readonly AI_NAVAL_CAP_SCORE_MULT?: PdxNumber | Authored;
+  readonly AI_NOMAD_RARE_RESOURCE_UPKEEP_BUFFER_MONTHS?: PdxValue | Authored;
   readonly AI_NO_RETREAT_LIMIT?: 3 | Authored;
-  readonly AI_PLANET_LOWER_THRESHOLD_AMENITY_CONSTRUCTION?: PdxNumber | Authored;
-  readonly AI_PLANET_STABILITY_THRESHOLD_AMENITY_CONSTRUCTION?: PdxNumber | Authored;
-  readonly AI_PLANET_UPPER_THRESHOLD_AMENITY_CONSTRUCTION?: PdxNumber | Authored;
+  readonly AI_OVER_NAVAL_CAP_PENALTY_MULT?: PdxValue | Authored;
+  readonly AI_OVER_STARBASE_CAP_PENALTY_MULT?: PdxValue | Authored;
+  readonly AI_PLANET_AMENITY_TARGET?: PdxValue | Authored;
+  readonly AI_PLANET_HOUSING_TARGET_BUFFER_FACTOR?: PdxValue | Authored;
   readonly AI_POPS_SCORE_MULT?: PdxNumber | Authored;
   readonly AI_POP_GROWTH_JOB_TRESHOLD?: PdxNumber | Authored;
   readonly AI_POP_MODIFICATION_DISCOUNT?: PdxNumber | Authored;
@@ -3162,6 +3168,7 @@ export interface NaiDefinition {
   readonly AI_TRADE_INTERVAL?: PdxNumber | Authored;
   readonly AI_UNBUILT_DISTRICT_BOOST_MULTIPLIER?: PdxValue | Authored;
   readonly AI_UNBUILT_DISTRICT_BOOST_POP_THRESHOLD?: PdxValue | Authored;
+  readonly AI_UNZONED_DISTRICT_WEIGHT_MULT?: PdxValue | Authored;
   readonly AI_UPGRADE_SCORE_MULT?: PdxNumber | Authored;
   readonly AI_UPPER_AMENITIES_LIMIT?: PdxNumber | Authored;
   readonly AI_VULNERABLE_PLANET_DISTANCE?: PdxNumber | Authored;
@@ -3324,14 +3331,21 @@ export interface NaiDefinition {
   readonly HORDE_NAVY_SIZE_LIMIT?: PdxNumber | Authored;
   readonly HOSTILE_FLEETS_TARGET_SCORE?: PdxNumber | Authored;
   readonly INSTANT_AI_DIPLOMACY?: PdxNumber | Authored;
+  readonly JOIN_WAR_DEFENSIVE_PENALTY_MULT?: PdxValue | Authored;
   readonly JOIN_WAR_DESIRE_AGAINST_CRISIS?: PdxValue | Authored;
-  readonly JOIN_WAR_DESIRE_AGAINST_RIVALS?: PdxValue | Authored;
   readonly JOIN_WAR_DESIRE_BASE?: PdxValue | Authored;
+  readonly JOIN_WAR_DESIRE_OPINION_MULT?: PdxValue | Authored;
   readonly JOIN_WAR_DESIRE_PER_CLAIM?: PdxValue | Authored;
+  readonly JOIN_WAR_DESIRE_PER_PARTICIPANT?: PdxValue | Authored;
+  readonly JOIN_WAR_DESIRE_TO_OFFER?: PdxValue | Authored;
   readonly JOIN_WAR_DISTANCE_MALUS?: PdxValue | Authored;
   readonly JOIN_WAR_MAX_INCOME_PERCENTAGE_TO_ASK?: PdxValue | Authored;
   readonly JOIN_WAR_MAX_STOCKPILE_PERCENTAGE_TO_ASK?: PdxValue | Authored;
   readonly JOIN_WAR_MIN_TRADE_VALUE?: PdxValue | Authored;
+  readonly JOIN_WAR_PENALTY_ALREADY_AT_WAR?: PdxValue | Authored;
+  readonly JOIN_WAR_PENALTY_DISLIKES_ASKER?: PdxValue | Authored;
+  readonly JOIN_WAR_PENALTY_NO_INTEREST?: PdxValue | Authored;
+  readonly JOIN_WAR_PRICE_MULT_PER_VIOLATION?: PdxValue | Authored;
   readonly LEAVE_WAR_DESIRE_BASE?: PdxValue | Authored;
   readonly LEAVE_WAR_DESIRE_FULL_WAR_EXHAUSTION?: PdxValue | Authored;
   readonly LEAVE_WAR_DESIRE_PER_ENEMY_CLAIM?: PdxValue | Authored;
@@ -3827,6 +3841,7 @@ export interface NcombatDefinition {
   readonly SHIP_DISENGAGE_BASE_CHANCE?: PdxNumber | Authored;
   readonly SHIP_DISENGAGE_FRIENDLY_TERRITORY_MULT?: PdxNumber | Authored;
   readonly SHIP_DISENGAGE_HEALTH_THRESHOLD?: PdxNumber | Authored;
+  readonly SHIP_DISENGAGE_INACTIVITY_DAYS?: PdxValue | Authored;
   readonly SHIP_DISENGAGE_MAX_CHANCE?: PdxNumber | Authored;
   readonly SHIP_RECENT_TARGET_PENALIZER?: PdxNumber | Authored;
   readonly SHIP_SMOOTH_ROTATION_THRESHOLD?: PdxNumber | Authored;
@@ -3960,6 +3975,7 @@ export interface NgameplayDefinition {
   readonly AGREEMENT_INTANGIBLE_TITHE_LINEAR_FACTOR?: PdxNumber | Authored;
   readonly AGREEMENT_INTEGRATION_TERM?: AgreementTermRef | Authored;
   readonly AGREEMENT_LOYALTY_DELTA_MULT?: PdxNumber | Authored;
+  readonly AGREEMENT_PRESET_DEFAULT?: PdxValue | Authored;
   readonly AGREEMENT_PRESET_RELEASE_AS_SECTOR?: AgreementPresetRef | Authored;
   readonly AGREEMENT_PRESET_VASSAL?: AgreementPresetRef | Authored;
   readonly AGREEMENT_PROPOSE_INFLUENCE_COST?: PdxNumber | Authored;
@@ -3993,6 +4009,7 @@ export interface NgameplayDefinition {
   readonly AURA_EFFECT_FALLEN_EMPIRE_OR_CRISIS_REDUCTION?: PdxNumber | Authored;
   readonly AURA_INTENSIFICATION_TECH?: TechnologyRef | Authored;
   readonly AUTOMATED_WORKFORCE_MAX_PERC?: PdxNumber | Authored;
+  readonly AUTOMATE_FLEET_SEARCH_COOLDOWN_DAYS?: PdxValue | Authored;
   readonly AUTO_DECLINE_DIPLOMACY_DAYS?: PdxNumber | Authored;
   readonly AUTO_MOD_BASE?: PdxNumber | Authored;
   readonly AWARENESS_HIGH_LIMIT?: PdxNumber | Authored;
@@ -4054,6 +4071,7 @@ export interface NgameplayDefinition {
   readonly CONSTRUCTION_SHIP_WORK_SPEED_MULT?: PdxNumber | Authored;
   readonly CONTAINMENT_PROTOCOLS_UNLOCKED?: string | PdxNumber | boolean | Authored;
   readonly CONTAINMENT_PROTOCOLS_WILD_CRITTERS_RARITY_TABLE?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly CONTRACT_ISSUER_CANCEL_MIN_YEARS?: PdxValue | Authored;
   readonly COSMIC_STORM_ALLOWED_NAME_LISTS?: PdxBlock | readonly PdxValue[] | Authored;
   readonly COSMIC_STORM_DEVASTATION_DEFAULT?: PdxNumber | Authored;
   readonly COSMIC_STORM_DEVASTATION_MAX?: PdxNumber | Authored;
@@ -4480,6 +4498,7 @@ export interface NgameplayDefinition {
   readonly MEGASTRUCTURE_PLACEMENT_RADIUS?: PdxNumber | Authored;
   readonly MEGASTRUCTURE_SYSTEM_CENTER_RADIUS?: PdxNumber | Authored;
   readonly MEGASTRUCTURE_TOOLTIP_BEST_SYSTEMS_COUNT?: PdxValue | Authored;
+  readonly MEGASTRUCTURE_TOOLTIP_BEST_SYSTEMS_PER_RESOURCE_COUNT?: PdxValue | Authored;
   readonly MENACE_PERK_MINIMUM_ACTIVATION_TIME?: PdxNumber | Authored;
   readonly MIA_FLEET_MODIFIER_MULT_LOWER_TRESHOLD?: PdxNumber | Authored;
   readonly MIA_TIME_MAX?: PdxNumber | Authored;
@@ -4592,27 +4611,24 @@ export interface NgameplayDefinition {
   readonly PLANET_STATION_ORBIT_DISTANCE?: PdxNumber | Authored;
   readonly POLICY_YEARS?: PdxNumber | Authored;
   readonly POP_CHANGE_FACTION_CHANCE?: PdxNumber | Authored;
-  readonly POP_CHANGE_FACTION_MIN_POP_AMOUNT?: PdxNumber | Authored;
   readonly POP_CRIME?: PdxNumber | Authored;
-  readonly POP_CURRENT_FACTION_WEIGHT?: PdxNumber | Authored;
   readonly POP_ETHOS_DIVERGENCE_INTERVAL?: PdxNumber | Authored;
-  readonly POP_ETHOS_DIVERGENCE_MIN_POP_AMOUNT?: PdxNumber | Authored;
   readonly POP_ETHOS_DIVERGENCE_RATE_MULT?: PdxNumber | Authored;
   readonly POP_ETHOS_DIVERGENCE_SIZE_CHANGE_MAX?: PdxNumber | Authored;
   readonly POP_ETHOS_DIVERGENCE_SIZE_CHANGE_MIN?: PdxNumber | Authored;
   readonly POP_ETHOS_DIVERGENCE_SIZE_SHIFT_SPEED_DIVIDER?: PdxNumber | Authored;
-  readonly POP_ETHOS_LOWER_ETHIC_THRESHOLD?: PdxNumber | Authored;
-  readonly POP_ETHOS_UPPER_ETHIC_THRESHOLD?: PdxNumber | Authored;
+  readonly POP_ETHOS_MIN_ATTRACTION?: PdxValue | Authored;
   readonly POP_FACTION_APPROVAL_BASE?: PdxNumber | Authored;
   readonly POP_FACTION_APPROVAL_HIGH?: PdxNumber | Authored;
   readonly POP_FACTION_APPROVAL_LOW?: PdxNumber | Authored;
   readonly POP_FACTION_APPROVAL_VERY_HIGH?: PdxNumber | Authored;
   readonly POP_FACTION_APPROVAL_VERY_LOW?: PdxNumber | Authored;
   readonly POP_FACTION_CREATION_COOLDOWN?: PdxNumber | Authored;
+  readonly POP_FACTION_DESTRUCTION_DELAY?: PdxValue | Authored;
+  readonly POP_FACTION_ETHIC_ATTRACTION_FACTOR?: PdxValue | Authored;
   readonly POP_FACTION_MIN_POTENTIAL_MEMBERS?: PdxNumber | Authored;
   readonly POP_FACTION_MIN_POTENTIAL_MEMBERS_FRACTION?: PdxNumber | Authored;
   readonly POP_FACTION_RESOURCE_TABLE_MULT?: PdxNumber | Authored;
-  readonly POP_MIN_ETHIC_RELATIVE_ATTRACTION?: PdxNumber | Authored;
   readonly PRE_COMMUNICATIONS_EMPIRE_FLAG?: string | PdxNumber | boolean | Authored;
   readonly PRE_SAPIENTS_POLICY?: string | PdxNumber | boolean | Authored;
   readonly PSIONIC_AURA_TECH?: TechnologyRef | Authored;
@@ -4725,6 +4741,7 @@ export interface NgameplayDefinition {
   readonly STARBASE_SELF_REPAIR_TIMER_DAYS?: PdxNumber | Authored;
   readonly START_YEAR?: PdxNumber | Authored;
   readonly START_YEAR_SLIDER_INTERVAL?: PdxNumber | Authored;
+  readonly STATION_BUILD_DISTANCE_MAX?: PdxValue | Authored;
   readonly STATION_SELF_REPAIR_TIMER_DAYS?: PdxNumber | Authored;
   readonly STOCKPILE_BEING_COLLECTED_LOCALLY_BY_ARKSHIP?: PdxValue | Authored;
   readonly STOCKPILE_BEING_COLLECTED_LOCALLY_BY_LOGISTIC_SHIP?: PdxValue | Authored;
@@ -4919,6 +4936,8 @@ export interface NgraphicsDefinition {
   readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY?: string | PdxNumber | boolean | Authored;
   readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY_LOCATOR?: string | PdxNumber | boolean | Authored;
   readonly ENTROPY_CONDUIT_SHIP_TERRAFORM_ENTITY_MAX_SCALE_FACTOR?: PdxNumber | Authored;
+  readonly FACTION_CANNOT_JOIN_COLOR?: PdxValue | Authored;
+  readonly FACTION_ICON_SCALE?: PdxValue | Authored;
   readonly FAUNA_DEBRIS_ENTITY?: ModelEntityRef | Authored;
   readonly FEDERATION_UNKOWN_FEDERATION_ICON?: SpriteRef | Authored;
   readonly FLEET_EFFECT_ENTITIES?: PdxBlock | readonly PdxValue[] | Authored;
@@ -5152,6 +5171,7 @@ export interface NshipDefinition {
   readonly CLOAKING_ANIMATION_SPEED?: PdxNumber | Authored;
   readonly DEFAULT_ARMOR_RATIO?: PdxNumber | Authored;
   readonly DEFAULT_SHIELD_RATIO?: PdxNumber | Authored;
+  readonly DESIGNER_STARBASE_WEAPON_PREF_MUL?: PdxValue | Authored;
   readonly DESIGNER_UTILITY_ROLE_MUL?: PdxNumber | Authored;
   readonly DESIGNER_WEAPON_PREF_MUL?: PdxNumber | Authored;
   readonly DESIGNER_WEAPON_ROLE_MUL?: PdxNumber | Authored;
@@ -5811,7 +5831,7 @@ export interface ArchaeologicalSiteTypeDefinition {
 
 export interface ArmyDefinition {
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: TriggersByScope["planet"] | Authored;
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
   readonly army_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly collateral_damage?: PdxNumber | Authored;
   readonly damage?: PdxNumber | Authored;
@@ -5826,10 +5846,10 @@ export interface ArmyDefinition {
   readonly morale?: PdxNumber | Authored;
   readonly morale_damage?: PdxNumber | Authored;
   readonly occupation?: boolean | Authored;
-  readonly on_queued?: EffectsByScope["planet"] | Authored;
-  readonly on_unqueued?: EffectsByScope["planet"] | Authored;
+  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
   readonly pop_limited?: boolean | Authored;
-  readonly potential?: TriggersByScope["planet"] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly potential_country?: PdxBlock | readonly PdxValue[] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly rebel?: boolean | Authored;
@@ -6683,7 +6703,7 @@ export interface ColonyTypeDefinition {
   readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly potential: TriggersByScope["planet"] | Authored;
+  readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | Authored;
   readonly weight_modifier: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -7271,28 +7291,29 @@ export interface CrisisPathDefinition {
 }
 
 export interface DecisionDefinition {
-  readonly abort_effect?: EffectsByScope["planet"] | Authored;
-  readonly abort_trigger?: TriggersByScope["planet"] | Authored;
+  readonly abort_effect?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly allow?: TriggersByScope["planet"] | Authored;
-  readonly custom_tooltip?: TriggersByScope["planet"] & {
+  readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: {
   readonly success_text?: string | Authored;
+  readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly effect: EffectsByScope["planet"] | Authored;
+  readonly effect: PdxBlock | readonly PdxValue[] | Authored;
   readonly enactment_time?: PdxNumber | Authored;
   readonly icon?: string | DecisionRef | Authored;
   readonly important?: string | PdxNumber | boolean | Authored;
-  readonly on_queued?: EffectsByScope["planet"] | Authored;
-  readonly on_unqueued?: EffectsByScope["planet"] | Authored;
+  readonly on_queued?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
   readonly owned_planets_only?: boolean | Authored;
-  readonly potential?: TriggersByScope["planet"] | Authored;
+  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category?: EconomicCategoryRef | Authored;
-  readonly cost?: RuleSetEconomicTemplateCostPlanet | Authored;
-  readonly logistics?: RuleSetEconomicTemplateLogisticsPlanet | Authored;
-  readonly produces?: RuleSetEconomicTemplateProducesPlanet | Authored;
-  readonly upkeep?: RuleSetEconomicTemplateUpkeepPlanet | Authored;
+  readonly cost?: RuleSetEconomicTemplateCost | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly show_tech_unlock_if?: PdxBlock | readonly PdxValue[] | Authored;
@@ -8437,6 +8458,7 @@ export interface LivingStandardDefinition {
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_pop_group_modifier?: {
   readonly custom_tooltip?: string | Authored;
+  readonly key?: string | Authored;
   readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
@@ -8616,17 +8638,40 @@ export interface MapSetupScenarioDefinition {
 }
 
 export interface MegaOverclockDefinition {
-  readonly icon: SpriteRef | Authored;
-  readonly modifier: {
+  readonly ai_weight?: PdxNumber | {
+  readonly base?: PdxNumber | Authored;
+  readonly [key: string]: PdxValue | undefined;
+} | Authored;
+  readonly country_modifier?: {
   readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly custom_tooltip_with_modifiers?: string | Authored;
+  readonly icon: SpriteRef | Authored;
+  readonly megastructure_modifier?: {
+  readonly custom_tooltip?: string | Authored;
+  readonly [key: string]: PdxValue | undefined;
+} | Authored;
+  readonly modifier?: {
+  readonly custom_tooltip?: string | Authored;
+  readonly [key: string]: PdxValue | undefined;
+} | Authored;
+  readonly on_overclock_end?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_overclock_start?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly overclock_group?: string | PdxNumber | boolean | Authored;
+  readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly resources?: {
+  readonly category?: EconomicCategoryRef | Authored;
   readonly cost?: RuleSetEconomicTemplateCost | Authored;
   readonly logistics?: RuleSetEconomicTemplateLogistics | Authored;
   readonly produces?: RuleSetEconomicTemplateProduces | Authored;
   readonly upkeep?: RuleSetEconomicTemplateUpkeep | Authored;
+  readonly [key: string]: PdxValue | undefined;
+} | Authored;
+  readonly system_modifier?: {
+  readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -8635,7 +8680,7 @@ export interface MegaOverclockDefinition {
 export interface MegastructureDefinition {
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly build_megastructure_no_cost_localization_key?: string | Authored;
-  readonly build_menu_potential?: PdxValue | Authored;
+  readonly build_menu_potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly build_outside_gravity_well?: boolean | Authored;
   readonly build_system_tooltip?: string | Authored;
   readonly build_time?: PdxNumber | Authored;
@@ -8651,7 +8696,9 @@ export interface MegastructureDefinition {
   readonly custom_tooltip?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly custom_tooltip?: PdxValue | Authored;
   readonly custom_tooltip_requirements?: string | Authored;
+  readonly custom_tooltip_with_modifiers?: string | PdxNumber | boolean | Authored;
   readonly cycle_desc?: string | Authored;
   readonly cycle_icon?: SpriteRef | Authored;
   readonly cycle_length_in_days?: number | string | Authored;
@@ -8679,6 +8726,7 @@ export interface MegastructureDefinition {
   readonly is_ruined_orbital_ring?: boolean | Authored;
   readonly is_shroud_seal?: boolean | Authored;
   readonly must_select_ship_design?: boolean | Authored;
+  readonly nomad_reactivatable?: string | PdxNumber | boolean | Authored;
   readonly on_build_cancel?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_build_complete?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_build_queued?: PdxBlock | readonly PdxValue[] | Authored;
@@ -8688,6 +8736,8 @@ export interface MegastructureDefinition {
   readonly on_dismantle_complete?: PdxBlock | readonly PdxValue[] | Authored;
   readonly order_icon?: string | PdxNumber | boolean | Authored;
   readonly outliner_trigger?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly overclock_cooldown?: string | PdxNumber | boolean | Authored;
+  readonly overclock_loc_key?: string | PdxNumber | boolean | Authored;
   readonly overclock_types?: PdxBlock | readonly PdxValue[] | Authored;
   readonly overlord_can_upgrade?: boolean | Authored;
   readonly place_entity_on_planet_plane?: boolean | Authored;
@@ -9439,6 +9489,7 @@ export interface PlanetClassDefinition {
   readonly atmosphere_intensity?: PdxNumber | Authored;
   readonly atmosphere_width?: PdxNumber | Authored;
   readonly auto_trait_prio?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly can_be_capital?: string | PdxNumber | boolean | Authored;
   readonly can_be_invaded?: boolean | Authored;
   readonly can_be_moon?: boolean | Authored;
   readonly can_have_no_pop_colony?: boolean | Authored;
@@ -9466,6 +9517,7 @@ export interface PlanetClassDefinition {
   readonly icon_large: SpriteRef | Authored;
   readonly ideal?: boolean | true | Authored;
   readonly inherit_country_building_modifiers?: boolean | Authored;
+  readonly inherit_country_district_modifiers?: string | PdxNumber | boolean | Authored;
   readonly initial?: true | Authored;
   readonly is_artificial_planet?: boolean | Authored;
   readonly max_distance_from_sun?: PdxNumber | Authored;
@@ -9574,6 +9626,7 @@ export interface PlanetModifierDefinition {
 
 export interface PolicyDefinition {
   readonly allow?: TriggersByScope["country"] | Authored;
+  readonly category?: PdxValue | Authored;
   readonly on_activate?: EffectsByScope["country"] | Authored;
   readonly option: {
   readonly AI_weight?: PdxBlock | readonly PdxValue[] | Authored;
@@ -9638,6 +9691,8 @@ export interface PopFactionDefinition {
   readonly on_destroy?: PdxBlock | readonly PdxValue[] | Authored;
   readonly parameters?: PdxBlock | readonly PdxValue[] | Authored;
   readonly persistent_faction?: boolean | Authored;
+  readonly pop_attraction_tag?: PdxValue | Authored;
+  readonly pop_ethics_filter?: PdxValue | Authored;
   readonly resources: {
   readonly category: EconomicCategoryRef | Authored;
   readonly cost?: RuleSetEconomicTemplateCost | Authored;
@@ -9648,6 +9703,7 @@ export interface PopFactionDefinition {
 } | Authored;
   readonly support_multiplier?: PdxNumber | Authored;
   readonly unique: boolean | Authored;
+  readonly use_guiding_ethic_as_growth_factor?: string | PdxNumber | boolean | Authored;
   readonly use_guiding_ethic_as_pop_filter?: boolean | Authored;
   readonly valid?: {
   readonly "parameter:sector"?: {
@@ -10381,10 +10437,10 @@ export interface SectionTemplateDefinition {
 } | readonly PdxValue[] | Authored;
   readonly resources?: {
   readonly category: EconomicCategoryRef | Authored;
-  readonly cost?: RuleSetEconomicTemplateCostCountry | Authored;
-  readonly logistics?: RuleSetEconomicTemplateLogisticsCountry | Authored;
-  readonly produces?: RuleSetEconomicTemplateProducesCountry | Authored;
-  readonly upkeep?: RuleSetEconomicTemplateUpkeepCountry | Authored;
+  readonly cost?: RuleSetEconomicTemplateCost | Authored;
+  readonly logistics?: RuleSetEconomicTemplateLogistics | Authored;
+  readonly produces?: RuleSetEconomicTemplateProduces | Authored;
+  readonly upkeep?: RuleSetEconomicTemplateUpkeep | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly ship_modifier?: PdxBlock | readonly PdxValue[] | Authored;
@@ -10445,7 +10501,7 @@ export interface ShipBehaviorDefinition {
   readonly ignore_combat_movement?: boolean | Authored;
   readonly passive_move_pattern?: "none" | "NONE" | "stationary" | "STATIONARY" | "charge" | "CHARGE" | "orbit" | "ORBIT" | "follow" | "FOLLOW" | "stay_at_range" | "STAY_AT_RANGE" | "flee" | "FLEE" | "maintain_distance" | "MAINTAIN_DISTANCE" | Authored;
   readonly preferred_attack_range?: PdxNumber | "min" | "MIN" | "max" | "MAX" | "median" | "MEDIAN" | Authored;
-  readonly range_components?: "weapon" | "WEAPON" | "strike_craft" | "STRIKE_CRAFT" | Authored;
+  readonly range_components?: "weapon" | "WEAPON" | "strike_craft" | "STRIKE_CRAFT" | "weapon_and_strike_craft" | "WEAPON_AND_STRIKE_CRAFT" | Authored;
   readonly return_to_formation_distance?: PdxNumber | "min" | "MIN" | "max" | "MAX" | "median" | "MEDIAN" | Authored;
   readonly source_target_anchor_factor?: PdxNumber | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -10605,6 +10661,7 @@ export interface ShipSizeDefinition {
   readonly takes_name_from_ship_design?: boolean | Authored;
   readonly triggered_ship_roles?: PdxBlock | readonly PdxValue[] | Authored;
   readonly upgrades_to?: ShipSizeRef | Authored;
+  readonly use_ai_design_role_from?: string | PdxNumber | boolean | Authored;
   readonly use_shipnames_from?: ShipSizeRef | Authored;
   readonly uses_name_prefix?: boolean | Authored;
   readonly valid_target_aggressive_stance?: boolean | Authored;
@@ -11191,7 +11248,7 @@ export interface SpecimenDefinition {
   readonly is_sellable?: boolean | Authored;
   readonly is_tradable?: boolean | Authored;
   readonly resources?: {
-  readonly category: EconomicCategoryRef | Authored;
+  readonly category?: EconomicCategoryRef | Authored;
   readonly produces?: RuleSetEconomicTemplateOnlyProducesProducesCountry | Authored;
   readonly upkeep?: {
   readonly mult?: number | string | Authored;
@@ -11506,6 +11563,7 @@ export interface StarbaseModuleDefinition {
   readonly show_only_custom_tooltip?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly triggered_component_set?: PdxValue | Authored;
   readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierStarbaseTriggeredCountryModifierStarbase | Authored;
   readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierStarbaseTriggeredPlanetModifierStarbase | Authored;
   readonly triggered_station_modifier?: RuleSetTriggeredStationModifierStarbaseTriggeredStationModifier | Authored;
@@ -11588,7 +11646,7 @@ export interface StormTypeDefinition {
   readonly triggered_fleet_modifier?: RuleSetTriggeredFleetModifierFleetTriggeredFleetModifier | Authored;
   readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | Authored;
   readonly triggered_ship_modifier?: RuleSetTriggeredShipModifierTriggeredShipModifier | Authored;
-  readonly triggered_system_modifier?: RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifier | Authored;
+  readonly triggered_system_modifier?: RuleSetTriggeredSystemModifierStarbaseTriggeredSystemModifierShip | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
