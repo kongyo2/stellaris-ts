@@ -114,8 +114,8 @@ What it reports:
   installed game.
 
 Everything reported is measured against the installed game rather than inferred:
-1,854,633 keys of base-game script pass this checker with three exceptions, and
-those three are lines vanilla itself writes and the game drops.
+the base game's own script passes this checker with one exception, and that one
+is a line vanilla itself writes and the game drops.
 
 The parser underneath is measured the same way. Its token boundaries are the
 game's own, read out of the executable rather than inferred from what script
@@ -178,7 +178,7 @@ Six of them read an installed copy of Stellaris, found through
 `STELLARIS_GAME_PATH` or the usual Steam locations. They check the schema in both
 directions against the game, that every definition the game ships could have been
 written through `define`, that the generated types accept the game's own
-definitions, and that the parser and printer round-trip all 4,329 files of it —
+definitions, and that the parser and printer round-trip every file of it —
 `gfx` and `interface` included, because those are where `,` and `;` are actually
 written.
 
@@ -188,6 +188,8 @@ each proposer must see the corpus without its own output:
 ```bash
 npm run index:game
 npm run import:modifiers
+npm run import:scopes
+npm run import:localisations
 npm run propose:commands
 npm run propose:scopes
 npm run propose:corrections
