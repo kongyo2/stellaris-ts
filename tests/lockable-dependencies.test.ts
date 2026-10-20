@@ -4,53 +4,77 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 /**
- * Why three WASM packages are declared that nothing here imports.
+ * Whether the lock file installs on a platform other than the one that wrote it.
  *
- * `vitest` pulls `rolldown`, which has an optional `wasm32-wasi` binding, which
- * peer-depends on `@emnapi/core` and `@emnapi/runtime`. npm resolves optional
- * bindings per platform: on Windows it takes the native one and never reaches
- * those peers, so a lock file written there has no entry for them — and on
- * Linux, where the wasm branch *is* reachable, `npm ci` refuses to install
- * against a lock that is missing what it needs. CI could not install at all.
+ * npm resolves optional bindings per platform. `rolldown` used to carry a
+ * `wasm32-wasi` binding whose runtime peer-depends on `@emnapi/core` and
+ * `@emnapi/runtime`; npm never reaches that binding on Windows, so a lock
+ * written there had no entry for the peers, and on Linux, where it does reach
+ * it, `npm ci` refused the lock. CI could not install at all, and three
+ * packages nothing imports were pinned to put the peers back.
  *
- * Declaring them makes the lock record them everywhere, and the overrides keep
- * every reference on one version rather than the two the resolvers pick between.
- * Neither is imported; both are load-bearing, which is exactly the kind of thing
- * that gets tidied away.
+ * rolldown 1.2 ships no wasm binding, so the pins went with it. What they
+ * protected is checked here instead, over every package in the lock: a peer a
+ * package needs has to be in the lock wherever npm would look for it.
  */
-interface Manifest {
-  readonly devDependencies?: Readonly<Record<string, string>>;
-  readonly overrides?: Readonly<Record<string, string>>;
+interface LockedPackage {
+  readonly peerDependencies?: Readonly<Record<string, string>>;
+  readonly peerDependenciesMeta?: Readonly<Record<string, { readonly optional?: boolean }>>;
 }
 
-function readManifest(): Manifest {
-  const parsed: unknown = JSON.parse(readFileSync(fileURLToPath(new URL("../package.json", import.meta.url)), "utf8"));
+interface LockFile {
+  readonly packages?: Readonly<Record<string, LockedPackage>>;
+}
+
+function readLock(): LockFile {
+  const parsed: unknown = JSON.parse(
+    readFileSync(fileURLToPath(new URL("../package-lock.json", import.meta.url)), "utf8"),
+  );
 
   if (typeof parsed !== "object" || parsed === null) {
-    throw new TypeError("package.json is not an object.");
+    throw new TypeError("package-lock.json is not an object.");
   }
 
   return parsed;
 }
 
-const MANIFEST: Manifest = readManifest();
+/** Whether `name` resolves from the package at `path`: its own node_modules, then each one above it. */
+function resolvesFrom(packages: Readonly<Record<string, LockedPackage>>, path: string, name: string): boolean {
+  let base: string = path;
 
-const PINNED: Readonly<Record<string, string>> = {
-  "@emnapi/core": "1.11.1",
-  "@emnapi/runtime": "1.11.1",
-  "@emnapi/wasi-threads": "1.2.2",
-};
-
-describe("the packages the lock file needs on every platform", () => {
-  it("declares them, so a Windows-written lock installs on Linux", () => {
-    for (const [name, version] of Object.entries(PINNED)) {
-      expect(MANIFEST.devDependencies?.[name]).toBe(version);
+  for (;;) {
+    if (`${base === "" ? "" : `${base}/`}node_modules/${name}` in packages) {
+      return true;
     }
-  });
 
-  it("pins every reference to them to one version", () => {
-    for (const [name, version] of Object.entries(PINNED)) {
-      expect(MANIFEST.overrides?.[name]).toBe(version);
+    if (base === "") {
+      return false;
     }
+
+    const parent: number = base.lastIndexOf("/node_modules/");
+    base = parent === -1 ? "" : base.slice(0, parent);
+  }
+}
+
+describe("the lock file", () => {
+  it("records every peer a locked package requires", () => {
+    const packages: Readonly<Record<string, LockedPackage>> = readLock().packages ?? {};
+    const missing: string[] = [];
+
+    expect(Object.keys(packages).length).toBeGreaterThan(1);
+
+    for (const [path, locked] of Object.entries(packages)) {
+      for (const name of Object.keys(locked.peerDependencies ?? {})) {
+        if (
+          path !== "" &&
+          locked.peerDependenciesMeta?.[name]?.optional !== true &&
+          !resolvesFrom(packages, path, name)
+        ) {
+          missing.push(`${path} needs ${name}`);
+        }
+      }
+    }
+
+    expect(missing).toEqual([]);
   });
 });
