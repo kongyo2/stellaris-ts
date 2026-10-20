@@ -175,7 +175,7 @@ function expectedPackageFiles(): string[] {
 
   for (const sourcePath of collectSourcePaths(SOURCE_ROOT)) {
     const stem: string = sourcePath.slice(0, -".ts".length);
-    files.push(`dist/${stem}.d.ts`, `dist/${stem}.d.ts.map`, `dist/${stem}.js`, `dist/${stem}.js.map`);
+    files.push(`dist/${stem}.d.ts`, `dist/${stem}.js`);
   }
 
   return files.sort();
@@ -467,6 +467,10 @@ function verifyPackage(): string {
   }
 
   const npmCliPath: string = resolveNpmCliPath();
+
+  // From an empty dist: a build writes over what is there and never removes
+  // anything, so a file whose source is gone would be packed beside the rest.
+  rmSync(join(REPOSITORY_ROOT, "dist"), { recursive: true, force: true });
 
   // Cache-free: a stale .tsbuildinfo after a hand-deleted dist makes the build
   // a no-op and the pack a lie about what would ship.
