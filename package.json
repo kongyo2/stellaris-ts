@@ -84,6 +84,7 @@
     "verify:pack": "tsx tools/verify-pack.ts",
     "verify:publish": "npm run build && attw --pack . && publint --strict",
     "verify:roundtrip": "tsx tools/verify-roundtrip.ts",
+    "verify:lexer": "tsx tools/verify-lexer/index.ts",
     "refs:sync": "tsx tools/refs-sync.ts",
     "verify:schema": "tsx tools/verify-schema/index.ts",
     "import:cwt:check": "tsx tools/import-cwt/index.ts --check",

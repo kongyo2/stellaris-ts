@@ -181,16 +181,19 @@ The schema is maintained here. It was ported once from
 and nothing reads `.cwt` at build or run time.
 
 ```bash
-npm run verify            # 16 gates
+npm run verify            # 17 gates
 ```
 
-Six of them read an installed copy of Stellaris, found through
+Seven of them read an installed copy of Stellaris, found through
 `STELLARIS_GAME_PATH` or the usual Steam locations. They check the schema in both
 directions against the game, that every definition the game ships could have been
 written through `define`, that the generated types accept the game's own
 definitions, and that the parser and printer round-trip every file of it —
 `gfx` and `interface` included, because those are where `,` and `;` are actually
-written.
+written. The seventh reads the game's executable and holds the lexer to the
+character tables and keyword ids it finds there, so an update that changes how
+the game splits script shows up as a failure rather than as every other gate
+agreeing with the lexer it shares.
 
 The committed data under `src/generated/` is regenerated in this order, because
 each proposer must see the corpus without its own output. The importers read the

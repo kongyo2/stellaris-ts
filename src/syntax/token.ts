@@ -3,11 +3,14 @@ import type { Span } from "./position.js";
 /**
  * The kinds the game's own lexer produces, and its own ids for them.
  *
- * Read out of `stellaris.exe` 4.4.6 rather than inferred. The lexer classifies
- * the first character of a token by `character - '!'` through a 93-entry index
- * table at RVA 0x1d35bd0; the twelve characters that table sends anywhere other
- * than the default are the entire punctuation of the format, and a second table
- * at 0x1d35c38 ends a bare token on exactly the same twelve. Everything else —
+ * Read out of `stellaris.exe` 4.4.6 rather than inferred, and read again from
+ * 4.5.2, which has not changed any of it; `npm run verify:lexer` reads it out of
+ * whichever build is installed. The lexer classifies the first character of a
+ * token by `character - '!'` through a 93-entry index table (RVA 0x1d35bd0 in
+ * 4.4.6, 0x1bb7080 in 4.5.2); the twelve characters that table sends anywhere
+ * other than the default are the entire punctuation of the format, and a second
+ * table (0x1d35c38; 4.5.2 carries two, at 0x1bb70e8 and 0x1bb7150) ends a bare
+ * token on exactly the same twelve. Everything else —
  * `[ ] @ $ | : / \ ' + - . % & ^ _ ` ~ ?`, every digit and letter, and every
  * byte above 0x7d — is an ordinary bare-token character. That is why `@[a+2]`,
  * `[[POP_GROUP]` and `mod_job_$_add` all arrive here as a single atom.
@@ -100,10 +103,11 @@ export const GAME_TOKEN_IDS: Readonly<Record<string, number>> = {
 /**
  * The words the dynamic-keyword registry gives an operator's token id.
  *
- * Six of the 9,892 built-in tokens are registered with the ids the comparison
- * characters produce, so the lexer returns the same token for the word as for
- * the symbol and nothing downstream can tell them apart. Case-insensitive,
- * like every built-in keyword: the registry folds ASCII case on lookup.
+ * Six of the built-in tokens — 9,892 in 4.4.6, 10,004 in 4.5.2 — are registered
+ * with the ids the comparison characters produce, so the lexer returns the same
+ * token for the word as for the symbol and nothing downstream can tell them
+ * apart. Case-insensitive, like every built-in keyword: the registry passes each
+ * character of a lookup through `tolower` before comparing.
  */
 export const OPERATOR_WORDS: ReadonlyMap<string, TokenKind> = new Map([
   ["greater_than", TokenKind.GreaterThan],
