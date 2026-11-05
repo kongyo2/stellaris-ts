@@ -4,6 +4,10 @@ import { define } from "../src/builders/index.js";
 import { defineMod, emit } from "../src/index.js";
 import { renderDefinitions } from "../src/runtime/build.js";
 import { bare, entries, gt, raw, repeated } from "../src/runtime/values.js";
+import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
+
+/** What this build of the game asks a mod to declare, so no test pins one release. */
+const SUPPORTED_VERSION = `v${vanillaModsCompatibilityVersion}.*`;
 
 /**
  * A key the game reads more than once under one definition.
@@ -110,7 +114,7 @@ describe("a key written more than once", () => {
  */
 describe("a key written more than once under a tag", () => {
   it("writes an event's options as separate blocks", () => {
-    const mod = defineMod({ name: "Rep", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Rep", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define(
         "event",
         "sts_demo.1",

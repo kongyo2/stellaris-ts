@@ -350,7 +350,15 @@ try {
     console.error(`TYPES over budget: ${line}`);
   }
 
-  for (const line of errors.slice(0, 10)) {
+  // The errors of a type over its budget first, all of them: the new error is
+  // the one to read, and the first ten overall are the budgeted ones it hides
+  // behind.
+  const overTypes: ReadonlySet<string> = new Set(
+    [...byType].filter(([type, count]) => count > (ERROR_BUDGET[type] ?? 0)).map(([type]) => type),
+  );
+  const isOver = (line: string): boolean => overTypes.has(/^type_([A-Za-z0-9_]+)\.ts/u.exec(line)?.[1] ?? "?");
+
+  for (const line of [...errors.filter(isOver), ...errors.filter((error) => !isOver(error)).slice(0, 10)]) {
     console.error(`TYPES ${line}`);
   }
 

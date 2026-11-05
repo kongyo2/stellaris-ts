@@ -4,8 +4,8 @@
 // `supported_version` against; a mod that does not cover it is listed as out
 // of date and the player is warned before every session.
 
-export const vanillaGameVersion = "v4.4.6";
-export const vanillaModsCompatibilityVersion = "4.4";
+export const vanillaGameVersion = "v4.5.2";
+export const vanillaModsCompatibilityVersion = "4.5";
 
 /** The languages the game reads a localisation file for, and no others. */
 export const vanillaLanguages: readonly string[] = ["l_braz_por", "l_english", "l_french", "l_german", "l_japanese", "l_korean", "l_polish", "l_russian", "l_simp_chinese", "l_spanish"];

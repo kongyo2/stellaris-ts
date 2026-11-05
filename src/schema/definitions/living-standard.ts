@@ -61,6 +61,8 @@ export const livingStandard: DefinitionType = defineType({
         field("potential", block([triggerEntries()]), occurs.one),
         modifierEntries(),
         field("custom_tooltip", primitive("localisation"), occurs.optional),
+        // vanilla 4.5.2: common/species_rights/living_standards/00_living_standards.txt
+        field("key", primitive("localisation"), occurs.optional),
       ]),
       occurs.any,
       { scope: replaceScope({ root: ScopeId.PopGroup }) },

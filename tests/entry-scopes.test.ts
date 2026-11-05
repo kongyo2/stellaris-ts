@@ -17,9 +17,13 @@ describe("entry scopes", () => {
   it("knows the scope of most definition types", () => {
     const known = schema.definitionTypes.filter((type) => typeof type.entryScope === "string");
 
-    // 16 stated by cwt plus 38 inferred. It may rise; it must not fall.
-    expect(known.length).toBeGreaterThanOrEqual(54);
-    expect(Object.keys(vanillaEntryScopes).length).toBeGreaterThanOrEqual(38);
+    // 16 stated by cwt plus 37 inferred. It may rise; it must not fall without
+    // a reason. It fell from 38 when the commands began keeping the `colony`
+    // scope the dump gives them: a planet command accepts a colony too, so
+    // `army`, `colony_type` and `decision` no longer narrow to one scope, while
+    // `councilor` and `storm_type` now do.
+    expect(known.length).toBeGreaterThanOrEqual(53);
+    expect(Object.keys(vanillaEntryScopes).length).toBeGreaterThanOrEqual(37);
   });
 
   it("reads a building on the planet it stands on", () => {

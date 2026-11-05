@@ -14,6 +14,8 @@ import { basename, isAbsolute, join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 
+import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
+
 interface CommandSpec {
   readonly command: string;
   readonly arguments: readonly string[];
@@ -175,7 +177,7 @@ function expectedPackageFiles(): string[] {
 
   for (const sourcePath of collectSourcePaths(SOURCE_ROOT)) {
     const stem: string = sourcePath.slice(0, -".ts".length);
-    files.push(`dist/${stem}.d.ts`, `dist/${stem}.d.ts.map`, `dist/${stem}.js`, `dist/${stem}.js.map`);
+    files.push(`dist/${stem}.d.ts`, `dist/${stem}.js`);
   }
 
   return files.sort();
@@ -391,7 +393,7 @@ void [output, kind, packageName];
     `import { defineMod } from "${PACKAGE_NAME}";
 import { define } from "${PACKAGE_NAME}/builders";
 
-export default defineMod({ name: "Pack Probe", version: "1", supportedVersion: "v4.4.*" })
+export default defineMod({ name: "Pack Probe", version: "1", supportedVersion: "v${vanillaModsCompatibilityVersion}.*" })
   .add(define("building", "sts_pack_lab", { category: "research" }))
   .localise("l_english", "sts_pack_lab", "Lab")
   .localise("l_english", "sts_pack_lab_desc", "A lab");
@@ -458,14 +460,19 @@ function assertCommandLine(consumerDirectory: string): void {
 }
 
 function verifyPackage(): string {
-  const nodeMajorText: string | undefined = process.versions.node.split(".")[0];
-  const nodeMajor: number = Number(nodeMajorText);
+  const [nodeMajor = Number.NaN, nodeMinor = Number.NaN] = process.versions.node.split(".").map(Number);
 
-  if (!Number.isInteger(nodeMajor) || nodeMajor < 22) {
-    throw new Error(`Package verification requires Node 22 or later, received ${process.versions.node}.`);
+  // The command line imports a `.ts` entry as it stands, which needs a Node
+  // that strips types by itself: 22.18 on the 22 line, and 23.6 after it.
+  if (!(nodeMajor === 22 ? nodeMinor >= 18 : nodeMajor === 23 ? nodeMinor >= 6 : nodeMajor > 23)) {
+    throw new Error(`Package verification requires Node 22.18 or later, received ${process.versions.node}.`);
   }
 
   const npmCliPath: string = resolveNpmCliPath();
+
+  // From an empty dist: a build writes over what is there and never removes
+  // anything, so a file whose source is gone would be packed beside the rest.
+  rmSync(join(REPOSITORY_ROOT, "dist"), { recursive: true, force: true });
 
   // Cache-free: a stale .tsbuildinfo after a hand-deleted dist makes the build
   // a no-op and the pack a lie about what would ship.

@@ -6,10 +6,24 @@ import { additionalEffectScopes, additionalTriggerScopes } from "./vanilla-scope
 
 const KNOWN_SCOPES: ReadonlySet<string> = new Set(Object.values(ScopeId));
 
-function asScopeIds(names: readonly string[]): readonly ScopeId[] {
-  // The dump names scopes as text; only the ones the catalog knows are kept, so
-  // a rename upstream drops a constraint rather than fabricating a scope.
-  return Object.values(ScopeId).filter((scope) => names.includes(scope) && KNOWN_SCOPES.has(scope));
+/**
+ * The catalog's ids for the scopes a command accepts, or `undefined` when the
+ * catalog lacks one of them.
+ *
+ * Keeping the known names and dropping the rest would narrow the command to
+ * what is left. That is how `colony`, which the dumps list for 250 commands
+ * in 4.4 and 256 in 4.5.1, went missing from every one of them while the
+ * catalog did not have it: `any_moon` (`colony planet ship`) read as
+ * planet-or-ship. A constraint that cannot be stated whole is not applied, so a
+ * rename upstream loosens a command rather than rejecting script the game
+ * accepts.
+ */
+function asScopeIds(names: readonly string[]): readonly ScopeId[] | undefined {
+  if (names.some((name) => !KNOWN_SCOPES.has(name))) {
+    return undefined;
+  }
+
+  return Object.values(ScopeId).filter((scope) => names.includes(scope));
 }
 
 /**
@@ -38,8 +52,8 @@ export function withScopeConstraints(commands: readonly ScriptCommandDefinition[
 
     const scopes: readonly string[] = [...documented, ...(extra[command.id] ?? [])];
 
-    const resolved: readonly ScopeId[] = asScopeIds(scopes);
+    const resolved: readonly ScopeId[] | undefined = asScopeIds(scopes);
 
-    return resolved.length === 0 ? command : { ...command, input: listedScopes(...resolved) };
+    return resolved === undefined || resolved.length === 0 ? command : { ...command, input: listedScopes(...resolved) };
   });
 }

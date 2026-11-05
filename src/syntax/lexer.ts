@@ -58,8 +58,8 @@ export interface LexOptions {
  * The twelve characters that end a bare token, and nothing else.
  *
  * Both of the game's dispatch tables — the one that classifies a token's first
- * character (RVA 0x1d35bd0) and the one that ends an accumulating bare token
- * (0x1d35c38) — send exactly these twelve away from the default case, over the
+ * character and the one that ends an accumulating bare token — send exactly
+ * these twelve away from the default case, over the
  * range `!`..`}`. Characters outside that range never reach either table, so
  * `~`, every byte of a UTF-8 sequence and every control character that is not
  * whitespace all stay inside the token.
@@ -129,7 +129,7 @@ export function isNumberLikeAtom(text: string): boolean {
  *
  * The keyword lookup happens before the numeric scan and folds ASCII case, so
  * `GREATER_THAN` is the same token as `>`. Only the six operator words change
- * a token's kind here; the other 9,886 built-ins are still atoms, because what
+ * a token's kind here; the other built-ins are still atoms, because what
  * they mean depends on where they were written and this is the wrong layer to
  * decide that.
  */

@@ -25,7 +25,7 @@ export interface ModOptions {
    */
   readonly id?: string;
   readonly version: string;
-  /** Which game versions this mod declares support for, e.g. `v4.4.*`. */
+  /** Which game versions this mod declares support for, e.g. `v4.5.*`. */
   readonly supportedVersion: string;
   readonly tags?: readonly string[];
   /** Steam Workshop id, if this mod has been published there. */
@@ -115,6 +115,16 @@ export interface AssetRecord extends OverrideOption {
   readonly bytes: Uint8Array;
 }
 
+/**
+ * What marks a mod, whichever copy of this package built it.
+ *
+ * The command line and the mod's own import are not always one install: a
+ * global `stellaris-ts` run over a project that depends on the package loads it
+ * twice, and `instanceof` is false across the two copies although the object is
+ * a mod in every way that is used. A registered symbol is the same in both.
+ */
+const MOD_BRAND: unique symbol = Symbol.for("@kongyo2/stellaris-ts.mod");
+
 export class Mod {
   readonly options: ModOptions;
   readonly #definitions: DefinitionRecord[] = [];
@@ -125,6 +135,7 @@ export class Mod {
 
   constructor(options: ModOptions) {
     this.options = options;
+    Object.defineProperty(this, MOD_BRAND, { value: true });
   }
 
   add(definition: DefinitionRecord): this {
@@ -196,4 +207,12 @@ export class Mod {
 
 export function defineMod(options: ModOptions): Mod {
   return new Mod(options);
+}
+
+/** Whether a value is a mod built by any copy of this package. */
+export function isMod(value: unknown): value is Mod {
+  return (
+    value instanceof Mod ||
+    (typeof value === "object" && value !== null && (value as { readonly [MOD_BRAND]?: unknown })[MOD_BRAND] === true)
+  );
 }

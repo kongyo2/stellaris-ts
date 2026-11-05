@@ -12,12 +12,15 @@
  * Both are marked values rather than new syntax, so the body stays an object.
  */
 
-// `Symbol()` types as `unique symbol` under `const`, which is what the branded
-// interfaces need. `Symbol.for` would return a plain `symbol` and force a cast.
-const COMPARISON_KEY: unique symbol = Symbol("stellaris-ts.comparison");
-const REPEATED_KEY: unique symbol = Symbol("stellaris-ts.repeated");
-const RAW_KEY: unique symbol = Symbol("stellaris-ts.raw");
-const ENTRIES_KEY: unique symbol = Symbol("stellaris-ts.entries");
+// Registered rather than private, and annotated `unique symbol` so the branded
+// interfaces still get one. The command line and the mod it loads can be two
+// copies of this package — a global install over a project's own dependency —
+// and with a private symbol each copy's markers were invisible to the other:
+// `gt(1)` was written out as the block `{ operator = ">" value = 1 }`.
+const COMPARISON_KEY: unique symbol = Symbol.for("@kongyo2/stellaris-ts.comparison");
+const REPEATED_KEY: unique symbol = Symbol.for("@kongyo2/stellaris-ts.repeated");
+const RAW_KEY: unique symbol = Symbol.for("@kongyo2/stellaris-ts.raw");
+const ENTRIES_KEY: unique symbol = Symbol.for("@kongyo2/stellaris-ts.entries");
 
 /**
  * The six the game's reader accepts, and `==` is not one of them.

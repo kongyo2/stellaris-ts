@@ -4,6 +4,10 @@ import { define } from "../src/builders/index.js";
 import { defineMod } from "../src/index.js";
 import { localisationKey, schema } from "../src/schema/index.js";
 import { validate } from "../src/validate/index.js";
+import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
+
+/** What this build of the game asks a mod to declare, so no test pins one release. */
+const SUPPORTED_VERSION = `v${vanillaModsCompatibilityVersion}.*`;
 
 /**
  * The key a definition needs a string under.
@@ -43,7 +47,7 @@ describe("localisation keys", () => {
   });
 
   it("reports the key the game would look up", () => {
-    const mod = defineMod({ name: "Loc", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Loc", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("job", "sts_curator", { category: "specialist" }),
     );
 

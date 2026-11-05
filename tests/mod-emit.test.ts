@@ -3,6 +3,10 @@ import { describe, expect, it } from "vitest";
 import { define, defineIn } from "../src/builders/index.js";
 import { bare, defineMod, emit, entries, gt, parse, print, raw, repeated, rgb, type EmitPlan } from "../src/index.js";
 import { BYTE_ORDER_MARK } from "../src/runtime/localisation.js";
+import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
+
+/** What this build of the game asks a mod to declare, so no test pins one release. */
+const SUPPORTED_VERSION = `v${vanillaModsCompatibilityVersion}.*`;
 
 function fileNamed(plan: EmitPlan, path: string): string {
   const file = plan.files.find((candidate) => candidate.path === path);
@@ -23,7 +27,7 @@ describe("mod emit", () => {
   const mod = defineMod({
     name: "Example Mod",
     version: "1.0.0",
-    supportedVersion: "v4.4.*",
+    supportedVersion: SUPPORTED_VERSION,
     tags: ["Gameplay"],
   })
     .add(
@@ -69,14 +73,14 @@ describe("mod emit", () => {
     const descriptor: string = fileNamed(plan, "descriptor.mod");
 
     expect(descriptor).toContain('name="Example Mod"');
-    expect(descriptor).toContain('supported_version="v4.4.*"');
+    expect(descriptor).toContain(`supported_version="${SUPPORTED_VERSION}"`);
     expect(descriptor).toContain('version="1.0.0"');
     expect(descriptor).toContain('\t"Gameplay"');
     expect(plan.modFileName).toBe("example_mod.mod");
   });
 
   it("refuses a filename vanilla already ships unless the override is declared", () => {
-    const colliding = defineMod({ name: "Collide", version: "1", supportedVersion: "v4.4.*" }).add(
+    const colliding = defineMod({ name: "Collide", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       defineIn("building", "00_capital_buildings.txt", "x", {}),
     );
     const result: EmitPlan = emit(colliding, {
@@ -88,7 +92,7 @@ describe("mod emit", () => {
   });
 
   it("checks against the shipped vanilla listing by default", () => {
-    const collides = defineMod({ name: "Collide", version: "1", supportedVersion: "v4.4.*" }).add(
+    const collides = defineMod({ name: "Collide", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       defineIn("building", "00_capital_buildings.txt", "x", {}),
     );
 
@@ -107,7 +111,7 @@ describe("mod emit", () => {
    * race, and the file that survives is whichever finished last.
    */
   it("refuses two files at the same path", () => {
-    const clashing = defineMod({ name: "Twice", version: "1", supportedVersion: "v4.4.*" })
+    const clashing = defineMod({ name: "Twice", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("building", "sts_lab", { category: "research" }))
       .file({ path: "common/buildings/zz_twice_building.txt", contents: "sts_other = { }\n" });
 
@@ -123,7 +127,7 @@ describe("mod emit", () => {
    * being written.
    */
   it("counts the descriptor it generates when a mod writes one too", () => {
-    const clashing = defineMod({ name: "Desc", version: "1", supportedVersion: "v4.4.*" }).file({
+    const clashing = defineMod({ name: "Desc", version: "1", supportedVersion: SUPPORTED_VERSION }).file({
       path: "descriptor.mod",
       contents: 'name="Hand written"\n',
     });
@@ -146,8 +150,25 @@ describe("mod emit", () => {
 });
 
 describe("the format's awkward corners", () => {
+  /**
+   * The command line and the mod can be two installs of this package. A marker
+   * one copy made has to mean the same to the other, or `gt(1)` is written as a
+   * block holding its own fields.
+   */
+  it("reads a marker made by another copy of the package", () => {
+    const foreign = { [Symbol.for("@kongyo2/stellaris-ts.comparison")]: true, operator: ">", value: 1 };
+    const mod = defineMod({ name: "Copy", version: "1", supportedVersion: SUPPORTED_VERSION }).add({
+      type: "building",
+      directory: "common/buildings",
+      id: "copy",
+      body: { potential: { num_owned_planets: foreign } },
+    });
+
+    expect(fileNamed(emit(mod), "common/buildings/zz_copy_building.txt")).toContain("num_owned_planets > 1");
+  });
+
   it("writes a comparison rather than an assignment", () => {
-    const mod = defineMod({ name: "Cmp", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Cmp", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "cmp", { potential: { num_owned_planets: gt(1) } }),
     );
 
@@ -155,7 +176,7 @@ describe("the format's awkward corners", () => {
   });
 
   it("repeats a key rather than collapsing it into a value list", () => {
-    const mod = defineMod({ name: "Rep", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Rep", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "rep", { potential: { has_modifier: repeated("a", "b") } }),
     );
     const script: string = fileNamed(emit(mod), "common/buildings/zz_rep_building.txt");
@@ -166,7 +187,7 @@ describe("the format's awkward corners", () => {
   });
 
   it("keeps a plain array a value list, which is a different thing", () => {
-    const mod = defineMod({ name: "List", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "List", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "lst", { convert_to: ["a", "b"] }),
     );
 
@@ -174,7 +195,7 @@ describe("the format's awkward corners", () => {
   });
 
   it("takes raw script for what has no object shape, and rejects it when malformed", () => {
-    const mod = defineMod({ name: "Raw", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Raw", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("building", "raw_one", { base_buildtime: raw("@[ base * 2 ]") }))
       .add(define("authority", "raw_two", { color: rgb(255, 0, 0), ruler_council_position: "councilor_head" }));
 
@@ -186,7 +207,7 @@ describe("the format's awkward corners", () => {
       /color = rgb \{\s+255\s+0\s+0\s+\}/u,
     );
 
-    const broken = defineMod({ name: "Broken", version: "1", supportedVersion: "v4.4.*" }).add(
+    const broken = defineMod({ name: "Broken", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "broken", { base_buildtime: raw("} = =") }),
     );
     expect(() => emit(broken)).toThrow(/not one PDX value/u);
@@ -198,7 +219,7 @@ describe("the format's awkward corners", () => {
    * holding two entries parses without complaint, and only the first was kept.
    */
   it("refuses a raw fragment that is more than one value", () => {
-    const trailing = defineMod({ name: "Trail", version: "1", supportedVersion: "v4.4.*" }).add(
+    const trailing = defineMod({ name: "Trail", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "trail", { base_buildtime: raw("{ a = 1 } b = 2") }),
     );
 
@@ -206,11 +227,36 @@ describe("the format's awkward corners", () => {
   });
 
   it("refuses a number PDX cannot write", () => {
-    const infinite = defineMod({ name: "Inf", version: "1", supportedVersion: "v4.4.*" }).add(
+    const infinite = defineMod({ name: "Inf", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "inf", { base_buildtime: 1 / 0 }),
     );
 
     expect(() => emit(infinite)).toThrow(/has no number Infinity/u);
+  });
+
+  /**
+   * `String()` writes `1e-7` below a millionth and `1e+21` from there up, and no
+   * number anywhere in vanilla is written that way. The digits stay the ones it
+   * chose, so nothing is rounded on the way.
+   */
+  it("writes very small and very large numbers in plain digits", () => {
+    const mod = defineMod({ name: "Tiny", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
+      define("static_modifier", "sts_tiny", {
+        pop_growth_speed: 0.0000001,
+        planet_stability_add: 1e21,
+        planet_amenities_add: -2.5e-8,
+        planet_crime_add: 1.23e25,
+        planet_housing_add: 0.125,
+      }),
+    );
+    const script: string = fileNamed(emit(mod), "common/static_modifiers/zz_tiny_static_modifier.txt");
+
+    expect(script).toContain("pop_growth_speed = 0.0000001");
+    expect(script).toContain("planet_stability_add = 1000000000000000000000");
+    expect(script).toContain("planet_amenities_add = -0.000000025");
+    expect(script).toContain("planet_crime_add = 12300000000000000000000000");
+    expect(script).toContain("planet_housing_add = 0.125");
+    expect(script).not.toMatch(/\de[+-]?\d/u);
   });
 
   /**
@@ -220,7 +266,7 @@ describe("the format's awkward corners", () => {
    */
   it("carries an asset through as the bytes that went in", () => {
     const bytes = new Uint8Array([0x44, 0x44, 0x53, 0x20, 0x00, 0xff, 0x80]);
-    const mod = defineMod({ name: "Icons", version: "1", supportedVersion: "v4.4.*" }).asset(
+    const mod = defineMod({ name: "Icons", version: "1", supportedVersion: SUPPORTED_VERSION }).asset(
       "gfx/interface/icons/buildings/sts_lab.dds",
       bytes,
     );
@@ -238,7 +284,7 @@ describe("the format's awkward corners", () => {
    * passed every texture a mod could possibly replace.
    */
   it("says nothing about an asset under a name of the mod's own", () => {
-    const mod = defineMod({ name: "Fine", version: "1", supportedVersion: "v4.4.*" }).asset(
+    const mod = defineMod({ name: "Fine", version: "1", supportedVersion: SUPPORTED_VERSION }).asset(
       "gfx/interface/icons/buildings/sts_kyome_lab.dds",
       new Uint8Array([1]),
     );
@@ -247,7 +293,7 @@ describe("the format's awkward corners", () => {
   });
 
   it("reports an asset that would replace a vanilla texture", () => {
-    const mod = defineMod({ name: "Clash", version: "1", supportedVersion: "v4.4.*" }).asset(
+    const mod = defineMod({ name: "Clash", version: "1", supportedVersion: SUPPORTED_VERSION }).asset(
       "gfx/interface/icons/buildings/avatar_chamber_1.dds",
       new Uint8Array([1]),
     );
@@ -263,7 +309,7 @@ describe("the format's awkward corners", () => {
    * about it.
    */
   it("takes an intended replacement at its word, for a raw file and for an asset", () => {
-    const mod = defineMod({ name: "Meant", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Meant", version: "1", supportedVersion: SUPPORTED_VERSION })
       .file({ path: "common/alerts.txt", contents: "x = { }\n", overrides: true })
       .asset("gfx/interface/icons/buildings/avatar_chamber_1.dds", new Uint8Array([1]), { overrides: true });
 
@@ -280,7 +326,7 @@ describe("the format's awkward corners", () => {
    * ship, and said it twice at paths it does.
    */
   it("says nothing about an intended replacement of a file vanilla does not ship", () => {
-    const mod = defineMod({ name: "Own", version: "1", supportedVersion: "v4.4.*" }).file({
+    const mod = defineMod({ name: "Own", version: "1", supportedVersion: SUPPORTED_VERSION }).file({
       path: "common/buildings/zz_own_extra.txt",
       contents: "x = { }\n",
       overrides: true,
@@ -290,7 +336,7 @@ describe("the format's awkward corners", () => {
   });
 
   it("keeps written order when bare values sit among keyed ones", () => {
-    const mod = defineMod({ name: "Ord", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Ord", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "ord", {
         potential: entries([["first", 1], bare("loose"), ["second", 2]]),
       }),
@@ -305,7 +351,7 @@ describe("the format's awkward corners", () => {
 
 describe("quoting", () => {
   it("doubles a backslash, because the game removes one before another", () => {
-    const mod = defineMod({ name: "Esc", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Esc", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "esc", { potential: { log: String.raw`- This: \[This.GetName]` } }),
     );
     const script: string = fileNamed(emit(mod), "common/buildings/zz_esc_building.txt");
@@ -316,7 +362,7 @@ describe("quoting", () => {
   });
 
   it("does not let a trailing backslash swallow the closing quote", () => {
-    const mod = defineMod({ name: "Trail", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Trail", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "trail", { potential: { log: "ends with\\" } }),
     );
     const script: string = fileNamed(emit(mod), "common/buildings/zz_trail_building.txt");
@@ -328,7 +374,7 @@ describe("quoting", () => {
   });
 
   it("quotes every character that ends a bare token", () => {
-    const mod = defineMod({ name: "Delims", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Delims", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "delims", {
         potential: {
           semicolon: "a;b",
@@ -352,10 +398,52 @@ describe("quoting", () => {
   });
 
   it("still escapes a quote, which would end the string", () => {
-    const mod = defineMod({ name: "Q", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "Q", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("building", "q", { potential: { log: 'say "hi"' } }),
     );
 
     expect(fileNamed(emit(mod), "common/buildings/zz_q_building.txt")).toContain('log = "say \\"hi\\""');
+  });
+
+  /**
+   * The descriptor is read by the same reader as script. Written unescaped,
+   * `The "Grand" Archive` was `name="The "` and two stray words after it, so the
+   * mod was listed under a name nobody gave it.
+   */
+  it("escapes the descriptor's values the way the game unescapes them", () => {
+    const mod = defineMod({
+      name: 'The "Grand" Archive \\ II',
+      version: "1",
+      supportedVersion: SUPPORTED_VERSION,
+      tags: ['Odd "Tag"'],
+      dependencies: ['Some "Framework"'],
+    });
+    const descriptor: string = fileNamed(emit(mod), "descriptor.mod");
+    const result = parse(descriptor);
+    const values = new Map<string, unknown>();
+
+    for (const entry of result.document.entries) {
+      if (entry.kind === "Assignment" && entry.value.kind === "Scalar") {
+        values.set(String(entry.key.value), entry.value.value);
+      }
+    }
+
+    expect(result.diagnostics).toEqual([]);
+    expect(values.get("name")).toBe('The "Grand" Archive \\ II');
+    expect(descriptor).toContain('\t"Odd \\"Tag\\""');
+    expect(descriptor).toContain('\t"Some \\"Framework\\""');
+  });
+});
+
+describe("localisation languages", () => {
+  it("names the prefixed spelling when the folder name was used", () => {
+    const mod = defineMod({ name: "Lang", version: "1", supportedVersion: SUPPORTED_VERSION }).localise(
+      "english",
+      "k",
+      "v",
+    );
+    const found = emit(mod).diagnostics.find((diagnostic) => diagnostic.code === "unknown-language");
+
+    expect(found?.message).toContain("l_english");
   });
 });

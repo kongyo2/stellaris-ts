@@ -113,16 +113,41 @@ for (const scope of schema.scopes) {
   }
 }
 
-const unknown = new Set<string>();
+/**
+ * Scope names the dump prints that are not a scope an object can be in.
+ *
+ * `no_scope` is the empty scope: `any_agreement` lists `country no_scope`
+ * because it also runs with nothing in scope at all. The checker never holds
+ * that as the current scope, so leaving it out narrows nothing it can test.
+ */
+const NOT_SCOPES: ReadonlySet<string> = new Set(["no_scope"]);
 
-function resolve(scopes: readonly string[]): readonly string[] {
+const unknown = new Set<string>();
+const leftOpen: string[] = [];
+
+/**
+ * The scopes a command accepts, or `undefined` when one of them is unknown here.
+ *
+ * Dropping only the unknown name would keep the rest and narrow the command to
+ * them: before the catalog had the mission scope, `add_mission_counter`
+ * (`country mission`) came out as country-only, and a mod using it on a mission
+ * would have been told it could not. A constraint that cannot be stated whole
+ * is not stated.
+ */
+function resolve(scopes: readonly string[]): readonly string[] | undefined {
   const resolved: string[] = [];
+  let complete = true;
 
   for (const scope of scopes) {
+    if (NOT_SCOPES.has(scope)) {
+      continue;
+    }
+
     const canonical: string | undefined = aliases.get(scope);
 
     if (canonical === undefined || !knownScopes.has(canonical)) {
       unknown.add(scope);
+      complete = false;
       continue;
     }
 
@@ -131,14 +156,18 @@ function resolve(scopes: readonly string[]): readonly string[] {
     }
   }
 
-  return resolved.sort(compareOrdinal);
+  return complete ? resolved.sort(compareOrdinal) : undefined;
 }
 
 function render(kind: string, entries: readonly Entry[]): readonly string[] {
   const lines: string[] = [`export const ${kind}Scopes: Readonly<Record<string, readonly string[]>> = {`];
 
   for (const entry of [...entries].sort((left, right) => compareOrdinal(left.name, right.name))) {
-    const resolved: readonly string[] = resolve(entry.scopes);
+    const resolved: readonly string[] | undefined = resolve(entry.scopes);
+    if (resolved === undefined) {
+      leftOpen.push(`${kind}:${entry.name}`);
+      continue;
+    }
     if (resolved.length > 0) {
       lines.push(`  ${JSON.stringify(entry.name)}: [${resolved.map((scope) => JSON.stringify(scope)).join(", ")}],`);
     }
@@ -175,9 +204,11 @@ console.log(
     `constrainedTriggers=${String(triggerEntries.length)}`,
     `constrainedEffects=${String(effectEntries.length)}`,
     `unknownScopeNames=${String(unknown.size)}`,
+    `leftUnconstrained=${String(leftOpen.length)}`,
   ].join(" "),
 );
 
 if (unknown.size > 0) {
   console.error(`SCOPES unrecognised: ${[...unknown].sort(compareOrdinal).slice(0, 20).join(", ")}`);
+  console.error(`SCOPES left unconstrained because of them: ${leftOpen.sort(compareOrdinal).join(", ")}`);
 }

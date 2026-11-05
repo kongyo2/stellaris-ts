@@ -24,7 +24,7 @@ import { define } from "@kongyo2/stellaris-ts/builders";
 const mod = defineMod({
   name: "Example",
   version: "1.0.0",
-  supportedVersion: "v4.4.*",
+  supportedVersion: "v4.5.*",
   tags: ["Gameplay"],
 })
   .add(
@@ -66,8 +66,9 @@ mod.file({ path: "common/inline_scripts/my_script.txt", contents: "..." });
 mod.asset("gfx/interface/icons/buildings/sts_example_lab.dds", bytes);
 ```
 
-A mod of any size is split across files. Node reads the entry directly, so it
-resolves the specifier as written — import the sibling as `./content.ts`, with
+A mod of any size is split across files. Node reads the entry directly — 22.18
+and later run TypeScript with no build step — so it resolves the specifier as
+written: import the sibling as `./content.ts`, with
 `"allowImportingTsExtensions": true` in `tsconfig.json`. `./content.js` fails on
 a filename you never wrote.
 
@@ -76,10 +77,19 @@ a filename you never wrote.
 ```bash
 npx stellaris-ts check ./mod.ts     # report, write nothing
 npx stellaris-ts build ./mod.ts     # report, then write the mod folder
+npx stellaris-ts --version          # and the game build it checks against
 ```
 
-`--language japanese` checks the strings a definition needs in that language as
-well; it may be repeated, and English is what it asks about otherwise.
+`--language japanese` checks the strings a definition needs in Japanese rather
+than English; repeat it, or write `--language english,japanese`, to check more
+than one. Options may stand before or after the entry.
+
+`build` writes into the launcher's mod folder — on Windows, the one under
+OneDrive when that is where the game keeps it — unless `--out` or
+`STELLARIS_MODS_DIR` names another. It lists what it wrote in
+`.stellaris-ts-files.json` beside the files, and the next build deletes any of
+those it no longer writes, so a definition you removed stops loading too.
+Nothing it did not write is touched.
 
 One diagnostic per line, `where: severity: code: message`, no colour. The same
 check is available as a function:
@@ -114,8 +124,8 @@ What it reports:
   installed game.
 
 Everything reported is measured against the installed game rather than inferred:
-1,854,633 keys of base-game script pass this checker with three exceptions, and
-those three are lines vanilla itself writes and the game drops.
+the base game's own script passes this checker with one exception, and that one
+is a line vanilla itself writes and the game drops.
 
 The parser underneath is measured the same way. Its token boundaries are the
 game's own, read out of the executable rather than inferred from what script
@@ -131,7 +141,7 @@ and nothing would say so.
 defineMod({
   name: "Example",
   version: "1.0.0",
-  supportedVersion: "v4.4.*",
+  supportedVersion: "v4.5.*",
   dependencies: ["Some Framework"],
   replacePaths: ["common/buildings"],
 });
@@ -171,27 +181,36 @@ The schema is maintained here. It was ported once from
 and nothing reads `.cwt` at build or run time.
 
 ```bash
-npm run verify            # 16 gates
+npm run verify            # 17 gates
 ```
 
-Six of them read an installed copy of Stellaris, found through
+Seven of them read an installed copy of Stellaris, found through
 `STELLARIS_GAME_PATH` or the usual Steam locations. They check the schema in both
 directions against the game, that every definition the game ships could have been
 written through `define`, that the generated types accept the game's own
-definitions, and that the parser and printer round-trip all 4,329 files of it —
+definitions, and that the parser and printer round-trip every file of it —
 `gfx` and `interface` included, because those are where `,` and `;` are actually
-written.
+written. The seventh reads the game's executable and holds the lexer to the
+character tables and keyword ids it finds there, so an update that changes how
+the game splits script shows up as a failure rather than as every other gate
+agreeing with the lexer it shares.
 
 The committed data under `src/generated/` is regenerated in this order, because
-each proposer must see the corpus without its own output:
+each proposer must see the corpus without its own output. The importers read the
+game's `-debug` dumps from `refs/`, which `npm run refs:sync` clones, and the
+generators do not format what they write:
 
 ```bash
+npm run refs:sync
 npm run index:game
 npm run import:modifiers
+npm run import:scopes
+npm run import:localisations
 npm run propose:commands
 npm run propose:scopes
 npm run propose:corrections
 npm run codegen
+npm run format
 ```
 
 ## Licence and content
