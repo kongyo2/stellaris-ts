@@ -1,11 +1,12 @@
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { homedir, platform } from "node:os";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { join, resolve } from "node:path";
 
+import { vanillaGameVersion } from "../generated/vanilla/game-version.js";
 import { emit, type EmitDiagnostic, type EmitPlan } from "../runtime/emit.js";
 import { LOCALISATION_LANGUAGES } from "../runtime/localisation.js";
-import { Mod } from "../runtime/mod.js";
+import { isMod, type Mod } from "../runtime/mod.js";
 import { writePlan } from "../runtime/write.js";
 import { validate, type ValidationDiagnostic } from "../validate/index.js";
 
@@ -64,6 +65,21 @@ function explainMissingModule(error: unknown, entry: string): Error {
   const message: string = error instanceof Error ? error.message : String(error);
   const specifier: string | undefined = /Cannot find module '([^']+\.js)'/u.exec(message)?.[1];
 
+  // A Node that cannot strip types refuses the entry by its extension, and says
+  // only that `.ts` is unknown — which reads as a fault in the file. Node 22.18
+  // was the first 22 release to strip types without being asked.
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    error.code === "ERR_UNKNOWN_FILE_EXTENSION" &&
+    /\.[cm]?ts$/u.test(entry)
+  ) {
+    return new Error(
+      `${message}\n\nNode ${process.versions.node} does not run TypeScript by itself. Node 22.18 and later do; upgrade it, or from 22.6 set NODE_OPTIONS=--experimental-strip-types.`,
+    );
+  }
+
   if (specifier === undefined || !existsSync(specifier.replace(/\.js$/u, ".ts"))) {
     return error instanceof Error ? error : new Error(message);
   }
@@ -84,11 +100,40 @@ async function loadMod(entry: string): Promise<Mod> {
 
   const value: unknown = loaded.default;
 
-  if (!(value instanceof Mod)) {
+  // Not `instanceof`: the mod may have been built by another copy of this
+  // package than the one running, and is no less a mod for it.
+  if (!isMod(value)) {
     throw new Error(`${entry} default-exports something that is not a Mod.`);
   }
 
   return value;
+}
+
+/** This package's own version, read from the manifest it was installed with. */
+function packageVersion(): string {
+  try {
+    const manifest: unknown = JSON.parse(
+      readFileSync(fileURLToPath(new URL("../../package.json", import.meta.url)), "utf8"),
+    );
+
+    if (typeof manifest === "object" && manifest !== null && "version" in manifest) {
+      return String(manifest.version);
+    }
+  } catch {
+    // Reported below as unknown rather than failing a request for a version.
+  }
+
+  return "unknown";
+}
+
+function directoryNames(directory: string): readonly string[] {
+  try {
+    return readdirSync(directory, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+  } catch {
+    return [];
+  }
 }
 
 /**
@@ -96,12 +141,32 @@ async function loadMod(entry: string): Promise<Mod> {
  *
  * Read at call time rather than fixed: it sits under the user's home
  * directory, so one machine's copy of it is no use to anyone else.
+ *
+ * On Windows the documents folder is often not `Documents`: OneDrive moves it
+ * under itself, and names it in the system's language — `OneDrive\ドキュメント`
+ * on a Japanese install — so the game's own folder is looked for there before
+ * settling on the default. The game creates it on first launch.
  */
-function defaultModsDirectory(): string {
-  const home: string = homedir();
-  return platform() === "linux"
-    ? join(home, ".local", "share", "Paradox Interactive", "Stellaris", "mod")
-    : join(home, "Documents", "Paradox Interactive", "Stellaris", "mod");
+export function defaultModsDirectory(home: string = homedir(), system: NodeJS.Platform = platform()): string {
+  if (system === "linux") {
+    return join(home, ".local", "share", "Paradox Interactive", "Stellaris", "mod");
+  }
+
+  const documents: string = join(home, "Documents", "Paradox Interactive", "Stellaris");
+
+  if (system === "win32" && !existsSync(documents)) {
+    for (const cloud of directoryNames(home).filter((name) => name.startsWith("OneDrive"))) {
+      for (const folder of directoryNames(join(home, cloud))) {
+        const candidate: string = join(home, cloud, folder, "Paradox Interactive", "Stellaris");
+
+        if (existsSync(candidate)) {
+          return join(candidate, "mod");
+        }
+      }
+    }
+  }
+
+  return join(documents, "mod");
 }
 
 function usage(): string {
@@ -110,6 +175,7 @@ function usage(): string {
     "",
     "  check <entry> [--language]          Validate without writing anything.",
     "  build <entry> [--out] [--language]  Validate, then write into the mod folder.",
+    "  --version                           Print the version and the game it checks against.",
     "",
     "The entry is a module whose default export is a Mod.",
     "--out defaults to the Stellaris mod folder; STELLARIS_MODS_DIR overrides it.",
@@ -120,6 +186,9 @@ function usage(): string {
 interface Options {
   readonly languages: readonly string[];
   readonly out: string | undefined;
+  /** What was written without a `--`: the entry, and anything after it. */
+  readonly positionals: readonly string[];
+  readonly help: boolean;
 }
 
 /**
@@ -134,10 +203,15 @@ interface Options {
  * A language is taken with or without its `l_` prefix, because the folder is
  * `japanese` and the file says `l_japanese`, and having to know which one this
  * asks for is a needless thing to get wrong.
+ *
+ * The entry may stand before the options or after them: `check --language
+ * japanese ./mod.ts` used to import a module called `--language`.
  */
 function parseOptions(rest: readonly string[]): { readonly options: Options } | { readonly error: string } {
   const languages: string[] = [];
+  const positionals: string[] = [];
   let out: string | undefined;
+  let help = false;
   let index = 0;
 
   while (index < rest.length) {
@@ -147,11 +221,17 @@ function parseOptions(rest: readonly string[]): { readonly options: Options } | 
     const attached: string | undefined = inline?.[2];
     let value: string | undefined = attached;
 
-    if (!name.startsWith("--")) {
-      return { error: `Unexpected argument: ${argument}. Options are written --name value or --name=value.` };
+    index += 1;
+
+    if (name === "--help" || name === "-h") {
+      help = true;
+      continue;
     }
 
-    index += 1;
+    if (!name.startsWith("--")) {
+      positionals.push(argument);
+      continue;
+    }
 
     if (value === undefined) {
       const next: string | undefined = rest[index];
@@ -193,15 +273,27 @@ function parseOptions(rest: readonly string[]): { readonly options: Options } | 
     };
   }
 
-  return { options: { languages: normalised, out } };
+  return { options: { languages: normalised, out, positionals, help } };
 }
 
 export async function run(argv: readonly string[]): Promise<number> {
-  const [command, entry, ...rest] = argv;
+  const [command, ...rest] = argv;
 
-  if (command === undefined || entry === undefined || command === "--help" || command === "-h") {
+  if (command === "--help" || command === "-h") {
     console.log(usage());
-    return command === undefined ? 2 : 0;
+    return 0;
+  }
+
+  // The version of the checker is half of it; the other half is which build of
+  // the game its identifiers were read from.
+  if (command === "--version" || command === "-v") {
+    console.log(`stellaris-ts ${packageVersion()} (Stellaris ${vanillaGameVersion})`);
+    return 0;
+  }
+
+  if (command === undefined) {
+    console.error(usage());
+    return 2;
   }
 
   if (command !== "check" && command !== "build") {
@@ -219,6 +311,29 @@ export async function run(argv: readonly string[]): Promise<number> {
   }
 
   const options: Options = parsed.options;
+
+  if (options.help) {
+    console.log(usage());
+    return 0;
+  }
+
+  // Without an entry there is nothing to check, and saying so with a zero exit
+  // let a script that lost its argument report a clean mod.
+  const [entry, ...extra] = options.positionals;
+
+  if (entry === undefined) {
+    console.error(`${command} needs the module whose default export is the mod, such as \`${command} ./mod.ts\`.`);
+    console.error(usage());
+    return 2;
+  }
+
+  if (extra.length > 0) {
+    console.error(
+      `${command} takes one entry, and was given ${String(options.positionals.length)}: ${options.positionals.join(", ")}.`,
+    );
+    console.error(usage());
+    return 2;
+  }
 
   const mod: Mod = await loadMod(entry);
   const plan: EmitPlan = emit(mod);
@@ -251,6 +366,12 @@ export async function run(argv: readonly string[]): Promise<number> {
 
   console.log(`WROTE files=${String(result.written.length)} directory=${result.modDirectory}`);
   console.log(`WROTE launcher=${result.modFilePath}`);
+
+  // Named one by one: a deleted file is the one outcome of a build worth
+  // reading line by line.
+  for (const path of result.removed) {
+    console.log(`REMOVED ${path}`);
+  }
 
   return 0;
 }

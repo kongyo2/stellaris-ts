@@ -66,8 +66,9 @@ mod.file({ path: "common/inline_scripts/my_script.txt", contents: "..." });
 mod.asset("gfx/interface/icons/buildings/sts_example_lab.dds", bytes);
 ```
 
-A mod of any size is split across files. Node reads the entry directly, so it
-resolves the specifier as written — import the sibling as `./content.ts`, with
+A mod of any size is split across files. Node reads the entry directly — 22.18
+and later run TypeScript with no build step — so it resolves the specifier as
+written: import the sibling as `./content.ts`, with
 `"allowImportingTsExtensions": true` in `tsconfig.json`. `./content.js` fails on
 a filename you never wrote.
 
@@ -76,10 +77,19 @@ a filename you never wrote.
 ```bash
 npx stellaris-ts check ./mod.ts     # report, write nothing
 npx stellaris-ts build ./mod.ts     # report, then write the mod folder
+npx stellaris-ts --version          # and the game build it checks against
 ```
 
-`--language japanese` checks the strings a definition needs in that language as
-well; it may be repeated, and English is what it asks about otherwise.
+`--language japanese` checks the strings a definition needs in Japanese rather
+than English; repeat it, or write `--language english,japanese`, to check more
+than one. Options may stand before or after the entry.
+
+`build` writes into the launcher's mod folder — on Windows, the one under
+OneDrive when that is where the game keeps it — unless `--out` or
+`STELLARIS_MODS_DIR` names another. It lists what it wrote in
+`.stellaris-ts-files.json` beside the files, and the next build deletes any of
+those it no longer writes, so a definition you removed stops loading too.
+Nothing it did not write is touched.
 
 One diagnostic per line, `where: severity: code: message`, no colour. The same
 check is available as a function:
