@@ -47,7 +47,8 @@ describe("defines come from the game", () => {
       expect(names.size).toBeGreaterThan(0);
     }
 
-    expect(fieldNames("NGameplay").size).toBe(919);
-    expect(fieldNames("NAI").size).toBe(590);
+    // What 4.5.2 declares; 4.4.6 had 919 and 590.
+    expect(fieldNames("NGameplay").size).toBe(921);
+    expect(fieldNames("NAI").size).toBe(603);
   });
 });

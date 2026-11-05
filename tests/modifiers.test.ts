@@ -5,6 +5,10 @@ import { defineMod } from "../src/index.js";
 import { schema } from "../src/schema/index.js";
 import { expandModifierNames } from "../src/schema/modifier-namespace.js";
 import { validate } from "../src/validate/index.js";
+import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
+
+/** What this build of the game asks a mod to declare, so no test pins one release. */
+const SUPPORTED_VERSION = `v${vanillaModsCompatibilityVersion}.*`;
 
 const codes = (mod: Parameters<typeof validate>[0]): readonly string[] =>
   validate(mod).map((diagnostic) => diagnostic.code);
@@ -16,7 +20,7 @@ const codes = (mod: Parameters<typeof validate>[0]): readonly string[] =>
  */
 describe("the modifier namespace", () => {
   it("accepts a modifier generated from a vanilla job", () => {
-    const mod = defineMod({ name: "Lab", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Lab", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("building", "b", { planet_modifier: { job_researcher_add: 2 } }))
       .localise("l_english", "b", "x");
 
@@ -24,7 +28,7 @@ describe("the modifier namespace", () => {
   });
 
   it("rejects one no rule produces", () => {
-    const mod = defineMod({ name: "Typo", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Typo", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("building", "b", { planet_modifier: { job_reseacher_add: 2 } }))
       .localise("l_english", "b", "x");
 
@@ -35,7 +39,7 @@ describe("the modifier namespace", () => {
   });
 
   it("generates modifiers from the mod's own definitions", () => {
-    const mod = defineMod({ name: "Job", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Job", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("job", "my_job", { category: "specialist" }))
       .add(define("building", "b", { planet_modifier: { job_my_job_add: 1 } }))
       .localise("l_english", "b", "x")
@@ -47,7 +51,7 @@ describe("the modifier namespace", () => {
   });
 
   it("does not distinguish case, as the game does not", () => {
-    const mod = defineMod({ name: "Case", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Case", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("static_modifier", "m", { COUNTRY_NAVAL_COVERAGE_MULT: 1 }))
       .localise("l_english", "m", "x");
 

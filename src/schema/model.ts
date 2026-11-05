@@ -13,7 +13,7 @@ import type { SchemaModel } from "./ir.js";
 import { withModifierCorrections } from "./modifier-corrections.js";
 import { links, scopes } from "./scopes.js";
 import { vanillaLinks, vanillaScopes } from "./vanilla-scopes.js";
-import { dumpCommands } from "./dump-commands.js";
+import { dumpCommands, withoutRetiredCommands } from "./dump-commands.js";
 import { vanillaCommands } from "./vanilla-commands.js";
 import { withEntryScopes } from "./vanilla-entry-scopes.js";
 import { vanillaDefinitionTypes } from "./vanilla-types.js";
@@ -36,9 +36,11 @@ export const schema: SchemaModel = defineSchema({
   scopes: [...scopes, ...vanillaScopes],
   scopeGroups,
   links: [...links, ...vanillaLinks],
-  // The dump-documented ones go through the constraint pass, because the same
-  // dump is where their scopes come from.
-  commands: [...withScopeConstraints([...commands, ...dumpCommands]), ...vanillaCommands],
+  // Every command goes through the constraint pass, because the dump is where
+  // the scopes come from and it documents commands from all three sources:
+  // each of the 84 found in vanilla's script is in the 4.5.1 dumps too. A
+  // command the dump does not mention passes through unchanged.
+  commands: withoutRetiredCommands(withScopeConstraints([...commands, ...dumpCommands, ...vanillaCommands])),
   ruleSets,
   namedValues,
   valueSets,

@@ -3,6 +3,10 @@ import { describe, expect, it } from "vitest";
 import { define } from "../src/builders/index.js";
 import { defineMod } from "../src/index.js";
 import { validate } from "../src/validate/index.js";
+import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
+
+/** What this build of the game asks a mod to declare, so no test pins one release. */
+const SUPPORTED_VERSION = `v${vanillaModsCompatibilityVersion}.*`;
 
 const codes = (mod: Parameters<typeof validate>[0]): readonly string[] =>
   validate(mod).map((diagnostic) => diagnostic.code);
@@ -14,7 +18,7 @@ const codes = (mod: Parameters<typeof validate>[0]): readonly string[] =>
  */
 describe("reference checking", () => {
   it("accepts a sprite the game ships", () => {
-    const mod = defineMod({ name: "Pic", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Pic", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("event", "pic.1", { picture: "GFX_evt_mining_station" }, { as: "country_event" }))
       .localise("l_english", "pic.1", "x");
 
@@ -22,7 +26,7 @@ describe("reference checking", () => {
   });
 
   it("rejects one it does not", () => {
-    const mod = defineMod({ name: "Typo", version: "1", supportedVersion: "v4.4.*" })
+    const mod = defineMod({ name: "Typo", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("event", "typo.1", { picture: "GFX_evt_no_such_picture" }, { as: "country_event" }))
       .localise("l_english", "typo.1", "x");
 
@@ -30,7 +34,7 @@ describe("reference checking", () => {
   });
 
   it("checks every entry of a list of references", () => {
-    const mod = defineMod({ name: "List", version: "1", supportedVersion: "v4.4.*" }).add(
+    const mod = defineMod({ name: "List", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
       define("technology", "t", {
         area: "physics",
         category: ["computing"],

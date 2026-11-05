@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { schema } from "../src/schema/index.js";
+import { commands, dumpCommands, schema, vanillaCommands } from "../src/schema/index.js";
 import type { CountryTriggers, PlanetTriggers } from "../src/generated/types/index.js";
 
 /**
@@ -12,10 +12,11 @@ import type { CountryTriggers, PlanetTriggers } from "../src/generated/types/ind
  * The proportion is asserted rather than assumed, so a regression in the import
  * shows up here instead of quietly making every trigger legal everywhere.
  *
- * The counts include what vanilla itself witnesses on top of the corpus: 58
- * commands the dump predates, and the `colony` and `carrier` scopes 4.4 added.
- * Those carry no scope constraint, which is why the constrained floor is a
- * floor and not a proportion.
+ * The counts include what vanilla itself witnesses on top of the corpus: the
+ * commands vanilla writes that the corpus never declared, and the `colony` and
+ * `carrier` scopes 4.4 added. A command no dump documents carries no scope
+ * constraint, which is why the constrained floor is a floor and not a
+ * proportion.
  */
 describe("scope constraints", () => {
   const scripted = schema.commands.filter((command) => command.family === "trigger" || command.family === "effect");
@@ -24,18 +25,19 @@ describe("scope constraints", () => {
   );
 
   it("covers every scope the game declares", () => {
-    // 41 from the corpus, plus `colony` and `carrier`, which vanilla 4.4.6
-    // writes as scope changes and no dump yet lists.
-    expect(schema.scopes.length).toBe(43);
+    // 41 from the corpus, plus `colony`, `carrier` and `mission`, which the
+    // game has had since 4.4 and the corpus predates.
+    expect(schema.scopes.length).toBe(44);
   });
 
   it("constrains the large majority of scripted commands", () => {
-    // 2,385 from the corpus and vanilla's own script, plus the eight the game's
-    // `-debug` documentation declares and neither of those had: with them, every
-    // command in the 4.3.7 trigger and effect dumps is in the schema.
-    expect(scripted.length).toBe(2393);
-    // 1,927 of them today. It may rise; it must not fall.
-    expect(constrained.length).toBeGreaterThanOrEqual(1900);
+    // The corpus, vanilla's own script, and what the game's `-debug`
+    // documentation declares and neither of those had: with them, every command
+    // in the 4.5.1 trigger and effect dumps and the 4.5.2 game's own is in the
+    // schema, less the four 4.5 removed.
+    expect(scripted.length).toBe(2468);
+    // 2,042 of them today. It may rise; it must not fall.
+    expect(constrained.length).toBeGreaterThanOrEqual(2042);
   });
 
   /**
@@ -80,4 +82,94 @@ describe("scope constraints", () => {
       expect(atWar.input.scopes).not.toContain("planet");
     }
   });
+
+  /**
+   * A scope the dump lists is kept or the constraint is dropped whole, never
+   * cut down to the scopes the catalog happens to know. Cutting it down is how
+   * `colony`, listed for 256 commands in the 4.5.1 dumps, went missing from all
+   * of them while the catalog lacked it, and how `add_mission_counter` read as
+   * country-only before the catalog had the mission.
+   */
+  it("keeps every scope a documented command accepts", () => {
+    expect(acceptedScopes("trigger", "any_moon")).toEqual(["colony", "planet", "ship"]);
+    expect(acceptedScopes("effect", "add_mission_counter")).toEqual(["country", "mission"]);
+    // The dump lists `galactic_community` for this one, which is a scope
+    // nothing else names; the command is left open rather than narrowed.
+    expect(acceptedScopes("effect", "save_global_event_target_as")).toBeUndefined();
+  });
+
+  /** Vanilla's script found these, and the dump says where they run. */
+  it("constrains a command vanilla writes when the dump documents it", () => {
+    expect(acceptedScopes("trigger", "pop_ethic_amount")).toEqual(["colony", "country", "pop_faction", "pop_group"]);
+    // The dump says colony; vanilla fires it from `capital_scope`, a planet.
+    expect(acceptedScopes("effect", "colony_event")).toEqual(["colony", "planet"]);
+  });
+
+  it("declares what 4.5.2 documents and no collected dump has yet", () => {
+    expect(acceptedScopes("trigger", "is_preferred_platform_weapons")).toEqual(["country"]);
+    expect(acceptedScopes("trigger", "pop_ethics_divergence")).toEqual(["colony", "planet", "ship"]);
+
+    for (const id of [
+      "set_ai_platform_weapon_preference",
+      "clear_ai_platform_weapon_preference",
+      "set_ai_platform_armor_ratio",
+      "clear_ai_platform_armor_ratio",
+      "set_ai_platform_shields_ratio",
+      "clear_ai_platform_shields_ratio",
+    ]) {
+      expect(acceptedScopes("effect", id)).toEqual(["country"]);
+    }
+  });
+
+  /** In the 4.4.6 dumps, in neither 4.5 one, and written by 4.5.2 vanilla only in comments. */
+  it("drops the commands 4.5 removed", () => {
+    for (const [family, id] of [
+      ["trigger", "check_pop_faction_parameter"],
+      ["trigger", "pop_has_ethic"],
+      ["trigger", "pop_group_has_ethic"],
+      ["effect", "pop_event"],
+    ] as const) {
+      expect(schema.commands.some((command) => command.family === family && command.id === id)).toBe(false);
+    }
+  });
+
+  /**
+   * A command found in vanilla's script is proposed only when nothing else
+   * declares it. Proposing one the documentation already declares would put a
+   * second, unconstrained definition beside the one with its scopes.
+   */
+  it("declares each command vanilla's script proposed once", () => {
+    const declared = new Set([...commands, ...dumpCommands].map((command) => `${command.family}:${command.id}`));
+
+    expect(vanillaCommands.filter((command) => declared.has(`${command.family}:${command.id}`))).toEqual([]);
+  });
+
+  /** Each link the scope dump has carried since 4.4 that the corpus predates. */
+  it("knows the links the corpus predates, with the scopes the dump gives them", () => {
+    const link = (id: string) => schema.links.find((entry) => entry.kind === "scope-link" && entry.id === id);
+
+    expect(link("issuer")).toMatchObject({
+      input: { scopes: ["mission"] },
+      output: { scopes: ["country"] },
+    });
+    expect(link("home_colony")).toMatchObject({ output: { scopes: ["colony"] } });
+    expect(link("background_colony")).toMatchObject({ input: { scopes: ["leader"] } });
+    expect(link("ship")).toMatchObject({ output: { scopes: ["ship"] } });
+
+    for (const rank of ["first", "second", "third"]) {
+      expect(link(`${rank}_damaging_country`)).toMatchObject({
+        input: { scopes: ["fleet"] },
+        output: { scopes: ["country"] },
+      });
+    }
+  });
 });
+
+/** The scopes a command accepts, sorted, or `undefined` when it is unconstrained. */
+function acceptedScopes(family: "trigger" | "effect", id: string): readonly string[] | undefined {
+  const command = schema.commands.find((entry) => entry.family === family && entry.id === id);
+
+  expect(command, `${family}:${id}`).toBeDefined();
+
+  return command?.input.kind === "listed-scopes" ? [...command.input.scopes].sort() : undefined;
+}

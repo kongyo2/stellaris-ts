@@ -899,6 +899,8 @@ export const ScopeId: {
   readonly AstralRift: "astral_rift";
   readonly BackgroundPlanet: "background_planet";
   readonly Bypass: "bypass";
+  readonly Carrier: "carrier";
+  readonly Colony: "colony";
   readonly CosmicStorm: "cosmic_storm";
   readonly CosmicStormInfluenceField: "cosmic_storm_influence_field";
   readonly Country: "country";
@@ -916,6 +918,7 @@ export const ScopeId: {
   readonly Leader: "leader";
   readonly LockCountry: "lock_country";
   readonly Megastructure: "megastructure";
+  readonly Mission: "mission";
   readonly Planet: "planet";
   readonly Pop: "pop";
   readonly PopFaction: "pop_faction";
@@ -941,6 +944,8 @@ export const ScopeId: {
   AstralRift: "astral_rift",
   BackgroundPlanet: "background_planet",
   Bypass: "bypass",
+  Carrier: "carrier",
+  Colony: "colony",
   CosmicStorm: "cosmic_storm",
   CosmicStormInfluenceField: "cosmic_storm_influence_field",
   Country: "country",
@@ -958,6 +963,7 @@ export const ScopeId: {
   Leader: "leader",
   LockCountry: "lock_country",
   Megastructure: "megastructure",
+  Mission: "mission",
   Planet: "planet",
   Pop: "pop",
   PopFaction: "pop_faction",

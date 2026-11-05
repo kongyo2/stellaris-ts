@@ -14,7 +14,7 @@ import { validate } from "@kongyo2/stellaris-ts/validate";
 const mod = defineMod({
   name: "stellaris-ts Example",
   version: "0.1.0",
-  supportedVersion: "v4.4.*",
+  supportedVersion: "v4.5.*",
   tags: ["Gameplay"],
 })
   .add(

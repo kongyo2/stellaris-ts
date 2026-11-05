@@ -5,6 +5,10 @@ import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { defaultModsDirectory, run } from "../src/cli/index.js";
+import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
+
+/** What this build of the game asks a mod to declare, so no test pins one release. */
+const SUPPORTED_VERSION = `v${vanillaModsCompatibilityVersion}.*`;
 
 /**
  * The command line, driven the way a mod author drives it.
@@ -26,7 +30,7 @@ beforeAll(async () => {
     `import { defineMod } from "${join(process.cwd(), "src", "index.ts").replaceAll("\\", "/")}";
      import { define } from "${join(process.cwd(), "src", "builders", "index.ts").replaceAll("\\", "/")}";
 
-     export default defineMod({ name: "Cli Demo", version: "1", supportedVersion: "v4.4.*" })
+     export default defineMod({ name: "Cli Demo", version: "1", supportedVersion: "${SUPPORTED_VERSION}" })
        .add(define("building", "sts_cli_lab", { category: "research" }))
        .localise("l_english", "sts_cli_lab", "Lab")
        .localise("l_english", "sts_cli_lab_desc", "A lab");`,

@@ -6,6 +6,10 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { define } from "../src/builders/index.js";
 import { defineMod, emit, writePlan, WRITE_MANIFEST } from "../src/index.js";
+import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
+
+/** What this build of the game asks a mod to declare, so no test pins one release. */
+const SUPPORTED_VERSION = `v${vanillaModsCompatibilityVersion}.*`;
 
 /**
  * What actually reaches the disk.
@@ -17,7 +21,7 @@ import { defineMod, emit, writePlan, WRITE_MANIFEST } from "../src/index.js";
  */
 let directory = "";
 
-const mod = defineMod({ name: "Written", version: "1", supportedVersion: "v4.4.*" })
+const mod = defineMod({ name: "Written", version: "1", supportedVersion: SUPPORTED_VERSION })
   .add(define("building", "sts_lab", { category: "research" }))
   .asset("gfx/interface/icons/buildings/sts_lab.dds", new Uint8Array([0x44, 0x44, 0x53, 0x20, 0x00, 0xff]));
 
@@ -47,7 +51,7 @@ describe("writing a plan", () => {
   });
 
   it("refuses to write a plan with errors", async () => {
-    const broken = defineMod({ name: "", version: "1", supportedVersion: "v4.4.*" });
+    const broken = defineMod({ name: "", version: "1", supportedVersion: SUPPORTED_VERSION });
 
     await expect(writePlan(broken, emit(broken), directory)).rejects.toThrow(/Refusing to write/u);
   });
@@ -61,7 +65,7 @@ describe("writing a plan", () => {
     const base = await mkdtemp(join(tmpdir(), "stellaris-ts-rebuild-"));
 
     try {
-      const before = defineMod({ name: "Rebuilt", version: "1", supportedVersion: "v4.4.*" })
+      const before = defineMod({ name: "Rebuilt", version: "1", supportedVersion: SUPPORTED_VERSION })
         .add(define("building", "sts_lab", { category: "research" }))
         .add(define("static_modifier", "sts_mod", { planet_stability_add: 1 }));
       const first = await writePlan(before, emit(before), base);
@@ -71,7 +75,7 @@ describe("writing a plan", () => {
       await writeFile(foreign, "not ours");
       expect(await exists(stale)).toBe(true);
 
-      const after = defineMod({ name: "Rebuilt", version: "1", supportedVersion: "v4.4.*" }).add(
+      const after = defineMod({ name: "Rebuilt", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
         define("building", "sts_lab", { category: "research" }),
       );
       const second = await writePlan(after, emit(after), base);
@@ -90,7 +94,10 @@ describe("writing a plan", () => {
 
     try {
       const icon = (path: string) =>
-        defineMod({ name: "Recased", version: "1", supportedVersion: "v4.4.*" }).asset(path, new Uint8Array([1]));
+        defineMod({ name: "Recased", version: "1", supportedVersion: SUPPORTED_VERSION }).asset(
+          path,
+          new Uint8Array([1]),
+        );
       const upper = icon("gfx/interface/icons/Sts_Icon.dds");
       const lower = icon("gfx/interface/icons/sts_icon.dds");
 
@@ -108,7 +115,7 @@ describe("writing a plan", () => {
     const base = await mkdtemp(join(tmpdir(), "stellaris-ts-escape-"));
 
     try {
-      const plain = defineMod({ name: "Guarded", version: "1", supportedVersion: "v4.4.*" }).add(
+      const plain = defineMod({ name: "Guarded", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
         define("building", "sts_lab", { category: "research" }),
       );
       const first = await writePlan(plain, emit(plain), base);

@@ -25,7 +25,7 @@ export interface ModOptions {
    */
   readonly id?: string;
   readonly version: string;
-  /** Which game versions this mod declares support for, e.g. `v4.4.*`. */
+  /** Which game versions this mod declares support for, e.g. `v4.5.*`. */
   readonly supportedVersion: string;
   readonly tags?: readonly string[];
   /** Steam Workshop id, if this mod has been published there. */

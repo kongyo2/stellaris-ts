@@ -9,9 +9,7 @@ import { definitionTypes } from "../../src/schema/definitions/index.js";
 import { withGameDeclaredFields } from "../../src/schema/open-fields.js";
 import { vanillaFieldNames } from "../../src/generated/vanilla/index.js";
 import { isVanillaDefect } from "../../src/schema/vanilla-defects.js";
-import { checkConformance, type ConformanceReport } from "../verify-schema/conformance.js";
-import { NodeKind, parse, type Document, type EntryNode, type ValueNode } from "../../src/syntax/index.js";
-import { readFile } from "node:fs/promises";
+import { checkConformance, type ConformanceReport, type ValueShape } from "../verify-schema/conformance.js";
 
 /**
  * Proposes the rules the ported corpus is missing.
@@ -21,8 +19,8 @@ import { readFile } from "node:fs/promises";
  * than a field whose value it describes loosely, because the type omits it
  * entirely and the checker calls correct script an error.
  *
- * So each finding is looked up in the file it came from, its values are read,
- * and the narrowest shape that covers all of them is proposed. The output is
+ * So each finding carries the narrowest shape that covers every use, widened
+ * by the conformance walk across all of them, and that is proposed. The output is
  * committed and reviewed rather than recomputed: a hole that opens in a later
  * patch has to show up as a diff, not be absorbed silently.
  *
@@ -35,53 +33,7 @@ import { readFile } from "node:fs/promises";
 const REPOSITORY_ROOT: string = fileURLToPath(new URL("../../", import.meta.url));
 const OUTPUT: string = join(REPOSITORY_ROOT, "src", "schema", "vanilla-corrections.ts");
 
-type Shape = "block" | "boolean" | "integer" | "list" | "number" | "scalar";
-
-function shapeOf(value: ValueNode): Shape {
-  if (value.kind === NodeKind.Block) {
-    return value.entries.every((entry) => entry.kind === NodeKind.Scalar) && value.entries.length > 0
-      ? "list"
-      : "block";
-  }
-
-  // Inline maths, a prefixed block, an optional block: all shapes a narrower
-  // rule would reject, so they widen to whatever holds text.
-  if (value.kind !== NodeKind.Scalar) {
-    return "scalar";
-  }
-
-  const text: string = String(value.value);
-
-  if (text === "yes" || text === "no") {
-    return "boolean";
-  }
-  if (/^-?\d+$/u.test(text)) {
-    return "integer";
-  }
-  if (/^-?\d*\.\d+$/u.test(text)) {
-    return "number";
-  }
-  return "scalar";
-}
-
-/** The one shape that covers both, widening only as far as it has to. */
-function widen(left: Shape, right: Shape): Shape {
-  if (left === right) {
-    return left;
-  }
-  if ((left === "integer" && right === "number") || (left === "number" && right === "integer")) {
-    return "number";
-  }
-  if ((left === "block" && right === "list") || (left === "list" && right === "block")) {
-    return "block";
-  }
-  if (left === "block" || right === "block" || left === "list" || right === "list") {
-    return "block";
-  }
-  return "scalar";
-}
-
-const EXPRESSION: Readonly<Record<Shape, string>> = {
+const EXPRESSION: Readonly<Record<ValueShape, string>> = {
   block: "anyValue()",
   boolean: 'primitive("boolean")',
   integer: 'primitive("integer")',
@@ -107,50 +59,9 @@ const report: ConformanceReport = await checkConformance(
 interface Proposal {
   readonly type: string;
   readonly field: string;
-  readonly shape: Shape;
+  readonly shape: ValueShape;
   readonly uses: number;
   readonly example: string;
-}
-
-const documents = new Map<string, Document>();
-
-async function documentAt(path: string): Promise<Document | undefined> {
-  const cached: Document | undefined = documents.get(path);
-
-  if (cached !== undefined) {
-    return cached;
-  }
-
-  try {
-    const source: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(path));
-    const result = parse(source);
-
-    if (result.errors.length > 0) {
-      return undefined;
-    }
-
-    documents.set(path, result.document);
-    return result.document;
-  } catch {
-    return undefined;
-  }
-}
-
-/** Every value written under a key anywhere in a document. */
-function valuesFor(entries: readonly EntryNode[], key: string, into: ValueNode[]): void {
-  for (const entry of entries) {
-    if (entry.kind !== NodeKind.Assignment) {
-      continue;
-    }
-
-    if (String(entry.key.value) === key) {
-      into.push(entry.value);
-    }
-
-    if (entry.value.kind === NodeKind.Block) {
-      valuesFor(entry.value.entries, key, into);
-    }
-  }
 }
 
 const proposals: Proposal[] = [];
@@ -169,23 +80,12 @@ for (const type of report.types) {
       continue;
     }
 
-    const values: ValueNode[] = [];
-
-    // Every file the finding names, not just the first: a field can hold a
-    // number in one place and a block in another, and widening across all of
-    // them is the only way to see it.
-    for (const example of finding.examples) {
-      // oxlint-disable-next-line no-await-in-loop
-      const document: Document | undefined = await documentAt(join(gamePath, ...example.split("/")));
-
-      if (document !== undefined) {
-        valuesFor(document.entries, finding.field, values);
-      }
-    }
-
-    const first: ValueNode | undefined = values[0];
-    const shape: Shape =
-      first === undefined ? "scalar" : values.map(shapeOf).reduce((left, right) => widen(left, right), shapeOf(first));
+    // The shape conformance widened over every use. Reading it back out of the
+    // files a finding names saw at most the three it keeps as examples, and
+    // any key of the same name at any depth: `policy.category` came out a bare
+    // word because the one list of categories, in 00_policies.txt, was not
+    // among the three.
+    const shape: ValueShape = finding.shape;
 
     proposals.push({
       type: type.type,
@@ -300,7 +200,7 @@ lines.push("};", "");
 
 await writeFile(OUTPUT, lines.join("\n"), "utf8");
 
-const shapes = new Map<Shape, number>();
+const shapes = new Map<ValueShape, number>();
 
 for (const proposal of proposals) {
   shapes.set(proposal.shape, (shapes.get(proposal.shape) ?? 0) + 1);

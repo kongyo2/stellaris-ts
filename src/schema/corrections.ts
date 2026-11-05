@@ -170,6 +170,10 @@ export const definitionCorrections: Readonly<Record<string, readonly EntryRule[]
   ],
   // vanilla 4.4.6: 36 uses in common/star_classes/00_star_classes.txt
   star_class: [field("arkship_picture", primitive("scalar"), occurs.optional)],
+  // vanilla 4.5.2: common/megastructures/99_README_MEGASTRUCTURES.txt documents
+  // it as a trigger, scope fleet, from country. Vanilla's one use is commented
+  // out, so reading vanilla's script alone stopped finding it.
+  megastructure: [field("build_menu_potential", block([triggerEntries()]), occurs.optional)],
 };
 
 /**
@@ -276,25 +280,43 @@ export const nestedCorrections: readonly NestedCorrection[] = [
  *
  * Only the occurrence changes: the value rule is whatever cwt said, and a field
  * the base game leaves out of half its own definitions is not one a mod must
- * write.
+ * write. A dotted name such as `resources.category` is a field inside a block.
  */
 function withOptionalFields(type: DefinitionType, optional: readonly string[]): DefinitionType {
-  const relaxed: ReadonlySet<string> = new Set(optional);
+  return {
+    ...type,
+    entries: relaxFields(
+      type.entries,
+      optional.map((name) => name.split(".")),
+    ),
+  };
+}
 
-  const visit = (entries: readonly EntryRule[]): readonly EntryRule[] =>
-    entries.map((entry) => {
-      if (entry.kind === "variant-rules") {
-        return { ...entry, entries: visit(entry.entries) };
-      }
+function relaxFields(entries: readonly EntryRule[], paths: readonly (readonly string[])[]): readonly EntryRule[] {
+  return entries.map((entry) => {
+    if (entry.kind === "variant-rules") {
+      return { ...entry, entries: relaxFields(entry.entries, paths) };
+    }
 
-      if (entry.kind !== "field" || typeof entry.key !== "string" || !relaxed.has(entry.key)) {
-        return entry;
-      }
+    if (entry.kind !== "field" || typeof entry.key !== "string") {
+      return entry;
+    }
 
-      return { ...entry, occurrence: { min: 0, max: entry.occurrence.max } };
-    });
+    const key: string = entry.key;
+    const here: readonly (readonly string[])[] = paths.filter((path) => path[0] === key);
+    const inside: readonly (readonly string[])[] = here.filter((path) => path.length > 1).map((path) => path.slice(1));
+    let relaxed: EntryRule = entry;
 
-  return { ...type, entries: visit(type.entries) };
+    if (here.some((path) => path.length === 1)) {
+      relaxed = { ...relaxed, occurrence: { min: 0, max: entry.occurrence.max } };
+    }
+
+    if (inside.length > 0 && relaxed.value.kind === "block") {
+      relaxed = { ...relaxed, value: { ...relaxed.value, entries: relaxFields(relaxed.value.entries, inside) } };
+    }
+
+    return relaxed;
+  });
 }
 
 /** Adds entries to the block a path names, leaving every other rule alone. */

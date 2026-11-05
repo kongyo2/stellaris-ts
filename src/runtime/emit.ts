@@ -1,5 +1,5 @@
 import { vanillaFiles as indexedVanillaFiles } from "../generated/vanilla/files.js";
-import { vanillaModsCompatibilityVersion } from "../generated/vanilla/game-version.js";
+import { vanillaGameVersion, vanillaModsCompatibilityVersion } from "../generated/vanilla/game-version.js";
 import { renderDefinitions } from "./build.js";
 import { bare, entries as orderedEntries, isBare, isEntries, type Entry } from "./values.js";
 import {
@@ -276,7 +276,7 @@ function renderDescriptor(options: ModOptions, includePath: string | undefined):
 /**
  * Whether a `supported_version` covers the version the launcher asks about.
  *
- * `v4.4.*` covers 4.4; `v4.3.*` does not, and the launcher marks the mod out of
+ * `v4.5.*` covers 4.5; `v4.4.*` does not, and the launcher marks the mod out of
  * date. A `*` matches whatever stands in its place.
  */
 function coversVersion(supported: string, compatibility: string): boolean {
@@ -324,7 +324,7 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
     diagnostics.push({
       severity: "error",
       code: "malformed-supported-version",
-      message: `supported_version must look like v4.4.* or 4.4.6, not ${mod.options.supportedVersion}. The launcher cannot read this one and will treat the mod as unsupported.`,
+      message: `supported_version must look like v${vanillaModsCompatibilityVersion}.* or ${vanillaGameVersion.replace(/^v/u, "")}, not ${mod.options.supportedVersion}. The launcher cannot read this one and will treat the mod as unsupported.`,
       path: "descriptor.mod",
     });
   } else if (!coversVersion(mod.options.supportedVersion, vanillaModsCompatibilityVersion)) {
