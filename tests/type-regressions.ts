@@ -47,5 +47,3 @@ define("building", "sts_lab", {
   category: "research",
   triggered_planet_modifier: { potential: { exists: "owner" }, job_researcher_add: 1 },
 });
-
-export {};
