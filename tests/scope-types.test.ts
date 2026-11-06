@@ -34,8 +34,9 @@ describe("scope constraints", () => {
     // The corpus, vanilla's own script, and what the game's `-debug`
     // documentation declares and neither of those had: with them, every command
     // in the 4.5.1 trigger and effect dumps and the 4.5.2 game's own is in the
-    // schema, less the four 4.5 removed.
-    expect(scripted.length).toBe(2468);
+    // schema, less the four 4.5 removed. One more declaration than commands
+    // for `damage_ship`, which the 4.5.2 documentation gives a block form too.
+    expect(scripted.length).toBe(2469);
     // 2,042 of them today. It may rise; it must not fall.
     expect(constrained.length).toBeGreaterThanOrEqual(2042);
   });

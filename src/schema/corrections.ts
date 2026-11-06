@@ -1,6 +1,7 @@
 import {
   anyKey,
   anyValue,
+  between,
   block,
   effectEntries,
   field,
@@ -8,6 +9,7 @@ import {
   literal,
   modifierEntries,
   modifierRuleEntries,
+  numericKey,
   occurs,
   oneOf,
   primitive,
@@ -186,12 +188,23 @@ export const definitionCorrections: Readonly<Record<string, readonly EntryRule[]
  */
 export interface NestedCorrection {
   readonly type: string;
-  /** Field keys from the definition body down to the block being corrected. */
+  /**
+   * Field keys from the definition body down to the block being corrected.
+   * {@link ITEM_BLOCKS} steps into the blocks a list holds with no key.
+   */
   readonly path: readonly string[];
   readonly entries: readonly EntryRule[];
   /** Where this came from, so a stale one can be recognised. */
   readonly evidence: string;
 }
+
+/**
+ * A path step into the keyless blocks of a list.
+ *
+ * `variants = { { value = { … } trigger = { … } } }` holds its entries as
+ * blocks with no key, so no field name reaches inside them.
+ */
+export const ITEM_BLOCKS = "{}";
 
 /**
  * The boolean wrapper vanilla writes around a technology prerequisite list.
@@ -273,6 +286,48 @@ export const nestedCorrections: readonly NestedCorrection[] = [
     evidence: "vanilla 4.4.6: 8 uses in gfx/models/ships/colossus/mindwarden_01",
     entries: [field("effects", primitive("scalar"), occurs.any)],
   },
+  {
+    type: DefinitionTypeId.AnomalyCategory,
+    path: ["on_success"],
+    evidence:
+      "vanilla 4.5.2: 91 weighted outcomes written `1 = { anomaly_event = … }` in common/anomalies; cwt's `int = { … }` was ported as a field called int",
+    entries: [
+      field(
+        numericKey(),
+        block([
+          field("max_once", primitive("boolean"), occurs.optional),
+          field("max_once_global", primitive("boolean"), occurs.optional),
+          modifierRuleEntries(),
+          field("anomaly_event", typeRef("event", "ship"), occurs.optional),
+          field("ship_event", typeRef("event", "ship"), occurs.optional),
+        ]),
+        occurs.any,
+      ),
+    ],
+  },
+  {
+    type: DefinitionTypeId.ParticleType,
+    path: ["subsystem", "childsystem"],
+    evidence:
+      "vanilla 4.5.2: `duration={ 12 2.5 }` in gfx/particles/infernal_red_giant_explosion.asset, as a subsystem writes it",
+    entries: [field("duration", block([item(primitive("number"), between(0, 2))]), occurs.optional)],
+  },
+  {
+    type: DefinitionTypeId.Portrait,
+    path: ["portrait_evolution", "variants", ITEM_BLOCKS, "value"],
+    evidence:
+      "vanilla 4.5.2: 19 psionic evolutions in gfx/portraits/portraits/24_portraits_psionics.txt swap the entity with `{ portrait_override = … }` instead of a decal and mask",
+    entries: [item(block([field("portrait_override", typeRef("model_entity"), occurs.one)]), occurs.any)],
+  },
+  {
+    type: DefinitionTypeId.SpecialProject,
+    path: ["requirements"],
+    evidence: "vanilla 4.5.2: `skill >` 3 times and `fleet_power >` or `>=` 12 times in common/special_projects",
+    entries: [
+      field("skill", primitive("integer", { min: 1, max: 10 }), occurs.optional, { operator: "==" }),
+      field("fleet_power", primitive("integer"), occurs.optional, { operator: "==" }),
+    ],
+  },
 ];
 
 /**
@@ -346,7 +401,9 @@ function addAtPath(
       return { ...entry, entries: addAtPath(entry.entries, path, extra) };
     }
 
-    if (entry.kind !== "field" || entry.key !== head || entry.value.kind !== "block") {
+    const step: boolean = head === ITEM_BLOCKS ? entry.kind === "item" : entry.kind === "field" && entry.key === head;
+
+    if (!step || (entry.kind !== "field" && entry.kind !== "item") || entry.value.kind !== "block") {
       return entry;
     }
 

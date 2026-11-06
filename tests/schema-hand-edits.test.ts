@@ -61,4 +61,31 @@ describe("hand-maintained schema corrections", () => {
       expect(vanillaIdsByType[typeId]).not.toContain("00_tags");
     });
   }
+
+  /**
+   * cwt lets a hidden event's title be anything, and the hidden variant's rule
+   * is accepted beside every other — so `title = { … }` passed, though the
+   * game's event reader copies the token after `title =` whatever it is and
+   * the event that results is titled "{". The edit is in `definitions/`, where
+   * a re-import would undo it.
+   */
+  it("keeps every rule for an event's title to a single value", () => {
+    const event = schema.definitionTypes.find((definition) => definition.id === DefinitionTypeId.Event);
+    const titles: EntryRule[] = [];
+    const visit = (entries: readonly EntryRule[]): void => {
+      for (const entry of entries) {
+        if (entry.kind === "variant-rules") {
+          visit(entry.entries);
+        } else if (entry.kind === "field" && entry.key === "title") {
+          titles.push(entry);
+        }
+      }
+    };
+    visit(event?.entries ?? []);
+
+    expect(titles.length).toBeGreaterThan(0);
+    for (const rule of titles) {
+      expect(rule.kind === "field" ? rule.value.kind : undefined).toBe("primitive");
+    }
+  });
 });

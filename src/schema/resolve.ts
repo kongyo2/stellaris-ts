@@ -63,16 +63,19 @@ interface PatternEntry {
   readonly prefix: string;
   readonly suffix: string;
   readonly value: ValueRule;
+  readonly comparable: boolean;
 }
 
 interface TypeKeyEntry {
   readonly type: string;
   readonly value: ValueRule;
+  readonly comparable: boolean;
 }
 
 interface NumericEntry {
   readonly integer: boolean;
   readonly value: ValueRule;
+  readonly comparable: boolean;
 }
 
 export interface BlockRules {
@@ -92,6 +95,15 @@ export interface BlockRules {
   readonly families: ReadonlySet<ScriptFamily>;
   readonly ruleSetFamilies: ReadonlySet<string>;
   readonly items: readonly ValueRule[];
+  /**
+   * The literal keys some rule here declares with a comparison, lower-cased as
+   * well as written.
+   *
+   * The reader keeps an assignment's operator apart from its value, and a key
+   * whose handler never asks for it reads `energy > 500` as `energy = 500`. A
+   * rule declared `==` is one whose key the game compares.
+   */
+  readonly comparisons: ReadonlySet<string>;
   /**
    * Keys every declaration of this block demands, at this depth.
    *
@@ -113,6 +125,12 @@ export interface KeyResolution {
   readonly commands: readonly ScriptCommandDefinition[];
   /** How the block under this key is scoped, when the key says. */
   readonly scope?: ScopeTransition;
+  /**
+   * Whether some rule this key matched is declared with a comparison, or
+   * nothing here is specific enough to say: a key accepted only because the
+   * block takes any key could be one that compares.
+   */
+  readonly comparable: boolean;
 }
 
 /**
@@ -216,10 +234,12 @@ interface Draft {
   readonly ruleSetFamilies: Set<string>;
   readonly items: ValueRule[];
   readonly requiredMinimums: Map<string, number>;
+  readonly comparisons: Set<string>;
 }
 
 const ANY: ValueRule = { kind: "any-value" };
 const FORBIDDEN: ValueRule = { kind: "opaque", reason: "forbidden" };
+const NUMBER: ValueRule = { kind: "primitive", type: "number" };
 
 function draft(): Draft {
   return {
@@ -237,6 +257,7 @@ function draft(): Draft {
     families: new Set<ScriptFamily>(),
     ruleSetFamilies: new Set<string>(),
     items: [],
+    comparisons: new Set<string>(),
   };
 }
 
@@ -276,6 +297,24 @@ function describesBlock(value: ResolvedValue): boolean {
 }
 
 /**
+ * Whether the game compares what is written in a block of these rules.
+ *
+ * A trigger compares — `num_owned_planets > 1` is what it is for. An effect
+ * does not: the reader keeps an assignment's operator apart from its value, and
+ * the handlers behind `add_resource`, `add_modifier`'s `days` and
+ * `spawn_system`'s distances take the value and never ask for the operator, so
+ * `add_resource = { energy > 500 }` adds 500. A block that is neither — a
+ * definition body, a modifier block, a trigger's own argument block such as
+ * `check_variable = { value > 2 }` — answers as the block around it does.
+ */
+export function comparesIn(rules: BlockRules, around: boolean): boolean {
+  if (rules.families.has("trigger")) {
+    return true;
+  }
+  return rules.families.has("effect") ? false : around;
+}
+
+/**
  * The keys a definition of this type must carry.
  *
  * Only what the type says outside a variant: a rule inside `whenVariant` applies
@@ -310,6 +349,8 @@ export class SchemaResolver {
   readonly #commandDefinitions = new Map<ScriptFamily, Map<string, ScriptCommandDefinition[]>>();
   readonly #keyedCommands = new Map<ScriptFamily, ScriptCommandDefinition[]>();
   readonly #ruleSets = new Map<string, Map<string, ValueRule[]>>();
+  /** The rule-set names declared with a comparison, per family, lower-cased. */
+  readonly #comparedRuleSets = new Map<string, Set<string>>();
   readonly #openRuleSets = new Set<string>();
   readonly #idSets = new Map<string, ReadonlySet<string>>();
   readonly #entryCache = new WeakMap<readonly EntryRule[], BlockRules>();
@@ -365,6 +406,12 @@ export class SchemaResolver {
       const values: ValueRule[] = bucket.get(name) ?? [];
       values.push(ruleSet.value);
       bucket.set(name, values);
+
+      if (ruleSet.operator !== "=") {
+        const compared: Set<string> = this.#comparedRuleSets.get(ruleSet.family) ?? new Set<string>();
+        compared.add(name);
+        this.#comparedRuleSets.set(ruleSet.family, compared);
+      }
     }
   }
 
@@ -416,7 +463,7 @@ export class SchemaResolver {
     // `@size` declares a script variable and `$PARAM$` is substituted before the
     // block is read; neither is a field of anything.
     if (isSyntacticKey(key)) {
-      return { accepted: true, values: [], commands: [] };
+      return { accepted: true, values: [], commands: [], comparable: true };
     }
 
     const values: ResolvedValue[] = [];
@@ -426,6 +473,9 @@ export class SchemaResolver {
       : undefined;
     let accepted: boolean = rules.wildcard;
     const lowered: string = key.toLowerCase();
+    // A block that takes any key cannot say which of them compare, so a key
+    // there is given the benefit of the doubt.
+    let comparable: boolean = rules.wildcard || rules.comparisons.has(key) || rules.comparisons.has(lowered);
 
     const direct: readonly ResolvedValue[] | undefined = rules.literals.get(key) ?? rules.literals.get(lowered);
     if (direct !== undefined) {
@@ -444,6 +494,7 @@ export class SchemaResolver {
         for (const definition of this.#commandDefinitions.get(family)?.get(lowered) ?? []) {
           commands.push(definition);
           transition ??= asTransition(definition.scope);
+          comparable ||= definition.operator !== "=";
         }
       }
 
@@ -451,6 +502,7 @@ export class SchemaResolver {
         if (keyed.key !== undefined && this.#matchesKey(keyed.key, key, lowered)) {
           accepted = true;
           values.push(this.#valueForKey(keyed.key, key, family, keyed.value));
+          comparable ||= keyed.operator !== "=";
         }
       }
 
@@ -479,12 +531,14 @@ export class SchemaResolver {
     for (const family of rules.ruleSetFamilies) {
       if (this.#openRuleSets.has(family)) {
         accepted = true;
+        comparable = true;
         continue;
       }
       const found: readonly ValueRule[] | undefined = this.#ruleSets.get(family)?.get(lowered);
       if (found !== undefined) {
         accepted = true;
         values.push(...found);
+        comparable ||= this.#comparedRuleSets.get(family)?.has(lowered) === true;
       }
     }
 
@@ -492,6 +546,7 @@ export class SchemaResolver {
       if (this.#idsOf(entry.type).has(key)) {
         accepted = true;
         values.push(entry.value);
+        comparable ||= entry.comparable;
       }
     }
 
@@ -506,6 +561,7 @@ export class SchemaResolver {
         if (integer || !entry.integer) {
           accepted = true;
           values.push(entry.value);
+          comparable ||= entry.comparable;
         }
       }
     }
@@ -518,6 +574,7 @@ export class SchemaResolver {
       ) {
         accepted = true;
         values.push(pattern.value);
+        comparable ||= pattern.comparable;
       }
     }
 
@@ -529,6 +586,7 @@ export class SchemaResolver {
       accepted,
       values,
       commands,
+      comparable,
       ...(transition === undefined ? {} : { scope: transition }),
     };
   }
@@ -678,6 +736,10 @@ export class SchemaResolver {
       }
     }
 
+    for (const name of [...into.comparisons]) {
+      into.comparisons.add(name.toLowerCase());
+    }
+
     const hasKeySource: boolean =
       into.wildcard ||
       into.literals.size > this.#model.policy.macros.length ||
@@ -704,6 +766,7 @@ export class SchemaResolver {
       families: into.families,
       ruleSetFamilies: into.ruleSetFamilies,
       items: into.items,
+      comparisons: into.comparisons,
       required: [...into.requiredMinimums]
         .filter(([, minimum]) => minimum >= 1)
         .map(([key]) => key)
@@ -735,7 +798,7 @@ export class SchemaResolver {
         // its `scalar` stand-in must not join what the value may be: one such
         // rule beside `picture = <sprite>` is enough to stop the reference from
         // being checked at all.
-        this.#collectKey(entry.key, entry.occurrence.max === 0 ? undefined : entry.value, into);
+        this.#collectKey(entry.key, entry.occurrence.max === 0 ? undefined : entry.value, into, entry.operator !== "=");
         return;
       case "item":
         into.items.push(entry.value);
@@ -758,7 +821,7 @@ export class SchemaResolver {
     }
   }
 
-  #collectKey(key: KeyRule, rule: ValueRule | undefined, into: Draft): void {
+  #collectKey(key: KeyRule, rule: ValueRule | undefined, into: Draft, comparable = false): void {
     const value: ValueRule = rule ?? FORBIDDEN;
 
     if (typeof key === "string") {
@@ -771,6 +834,9 @@ export class SchemaResolver {
         return;
       }
       addLiteral(into, key, value);
+      if (comparable) {
+        into.comparisons.add(key);
+      }
       return;
     }
 
@@ -787,17 +853,20 @@ export class SchemaResolver {
         }
         for (const member of members) {
           addLiteral(into, member, value);
+          if (comparable) {
+            into.comparisons.add(member);
+          }
         }
         return;
       }
       case "pattern-key":
-        into.patterns.push({ prefix: key.prefix, suffix: key.suffix, value });
+        into.patterns.push({ prefix: key.prefix, suffix: key.suffix, value, comparable });
         return;
       case "type-key":
-        into.typeKeys.push({ type: key.type, value });
+        into.typeKeys.push({ type: key.type, value, comparable });
         return;
       case "numeric-key":
-        into.numerics.push({ integer: key.integer, value });
+        into.numerics.push({ integer: key.integer, value, comparable });
         return;
       case "modifier-key":
         into.modifierValues.push(value);
@@ -879,6 +948,15 @@ export class SchemaResolver {
       case "any-value":
       case "opaque":
         into.wildcard = true;
+        return;
+      case "primitive":
+        // A colour is a block of numbers — `color = { 255 0 255 255 }`, as
+        // every one of the 88 in `common/named_colors` is written — as well as
+        // `rgb { … }`, so a block is a shape the rule takes.
+        if (value.type === "colour") {
+          into.sawBlockRule = true;
+          into.items.push(NUMBER);
+        }
         return;
       default:
         return;

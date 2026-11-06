@@ -1,3 +1,4 @@
+import { vanillaPlacement, type VanillaPlacement } from "../generated/vanilla/placement.js";
 import { vanillaTaggedKeys } from "../generated/vanilla/tagged-keys.js";
 import { definitionTypes } from "../schema/definitions/index.js";
 import { vanillaDefinitionTypes } from "../schema/vanilla-types.js";
@@ -89,6 +90,52 @@ function headersFor(type: DefinitionType, id: string): readonly string[] {
   return namespace === undefined || namespace === id ? [] : [`namespace = ${namespace}`];
 }
 
+/**
+ * The types the game reads from one file that it opens by name.
+ *
+ * Read out of the 4.5.2 executable, which passes these paths to its file reader
+ * directly — `flags/colors.txt` as `%s/colors.txt` with `flags` — rather than
+ * listing a directory. Every other file in `common` or `flags` is never opened
+ * for them, so a definition written there is not read at all.
+ */
+const ONLY_FILES: Readonly<Record<string, string>> = {
+  achievement: "common/achievements.txt",
+  alert: "common/alerts.txt",
+  alert_icon: "common/alerts.txt",
+  color_define: "flags/colors.txt",
+  randomizable_combo: "flags/colors.txt",
+};
+
+/**
+ * The block a definition of this type is written inside, if any.
+ *
+ * The schema names the container where it is one block for every definition.
+ * Where it names none in particular, what vanilla writes decides: twelve of the
+ * thirteen bitmap fonts are in `bitmapfonts`. A type with no such block is one
+ * vanilla only ever writes inside another definition — every `swap_type` is in
+ * the civic it swaps — and has no file of its own to be written to.
+ */
+function containerFor(type: DefinitionType, placement: VanillaPlacement | undefined): string | undefined {
+  const container = type.source.container;
+
+  if (container === undefined) {
+    return undefined;
+  }
+
+  if (container.kind === "named-container") {
+    return container.key;
+  }
+
+  if (placement?.container !== undefined) {
+    return placement.container;
+  }
+
+  const key: string = type.source.rootKeyFilter?.values[0] ?? type.id;
+  throw new Error(
+    `${type.id} is a ${key} block inside another definition, and the game reads it nowhere else: vanilla writes each one in the definition it belongs to. Write it as ${key} in that definition's body.`,
+  );
+}
+
 /** Which variant a block key selects, when the type has one per key. */
 function variantFor(type: DefinitionType, key: string | undefined): string | undefined {
   if (key === undefined) {
@@ -111,6 +158,11 @@ export function define<Type extends keyof DefinitionShapes>(
   const headers: readonly string[] = headersFor(schemaType, id);
   const variant: string | undefined = variantFor(schemaType, placement.key);
   const bareValue: boolean = schemaType.source.kind === "bare-values";
+  const wholeFile: boolean = schemaType.source.kind === "file-definitions";
+  const where: VanillaPlacement | undefined = vanillaPlacement[schemaType.id];
+  const container: string | undefined = containerFor(schemaType, where);
+  const extension: string | undefined = where?.extension === ".txt" ? undefined : where?.extension;
+  const onlyFile: string | undefined = ONLY_FILES[schemaType.id];
 
   // A job tag is the word and nothing else. A body would have to be written as
   // a block, and a block turns the word into a key the game does not read.
@@ -124,8 +176,12 @@ export function define<Type extends keyof DefinitionShapes>(
     id,
     body,
     ...(bareValue ? { bareValue } : {}),
+    ...(wholeFile ? { wholeFile } : {}),
     ...(placement.key === undefined ? {} : { blockKey: placement.key }),
     ...(placement.nameField === undefined ? {} : { nameField: placement.nameField }),
+    ...(container === undefined ? {} : { container }),
+    ...(extension === undefined ? {} : { extension }),
+    ...(onlyFile === undefined ? {} : { onlyFile }),
     ...(variant === undefined ? {} : { variant }),
     ...(headers.length === 0 ? {} : { headers }),
     ...(options.file === undefined ? {} : { file: options.file }),

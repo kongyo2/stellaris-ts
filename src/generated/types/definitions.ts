@@ -7912,7 +7912,7 @@ export interface EventDefinition {
   readonly show_sound_clear?: true | Authored;
   readonly situation?: string | Authored;
   readonly specimen?: SpecimenRef | Authored;
-  readonly title?: string | PdxValue | Authored;
+  readonly title?: string | PdxNumber | boolean | Authored;
   readonly trackable?: boolean | Authored;
   readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly trigger_clear?: true | Authored;
@@ -9261,7 +9261,7 @@ export interface ParticleTypeDefinition {
   readonly box_emitter_y?: PdxBlock | readonly PdxValue[] | string | PdxNumber | boolean | Authored;
   readonly box_emitter_z?: PdxBlock | readonly PdxValue[] | string | PdxNumber | boolean | Authored;
   readonly color?: RuleSetSubsystemColorColor | Authored;
-  readonly duration?: PdxNumber | Authored;
+  readonly duration?: PdxNumber | PdxBlock | readonly PdxValue[] | Authored;
   readonly emission?: PdxNumber | string | boolean | RuleSetEmissionEmission3 | Authored;
   readonly emission_pulse_duration?: PdxBlock | readonly PdxValue[] | PdxNumber | Authored;
   readonly emission_pulse_silence?: PdxNumber | Authored;
