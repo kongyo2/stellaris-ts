@@ -2808,7 +2808,25 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("name", scopeRef(ScopeId.Fleet), occurs.optional),
       field("size", scriptValue("integer"), occurs.optional),
       field("can_overflow", primitive("boolean"), occurs.optional),
-      field("ship_designs", block([item(primitive("localisation"), occurs.any)]), occurs.optional),
+      // "NAME_a # bare name, weight 1, no min/max" beside
+      // "{ design = NAME_b weight = 2.4 min = 1 max = 3 }", in the 4.5.2
+      // documentation; vanilla's fallen empires write the second.
+      field(
+        "ship_designs",
+        block([
+          item(primitive("localisation"), occurs.any),
+          item(
+            block([
+              field("design", primitive("localisation"), occurs.one),
+              field("weight", primitive("number"), occurs.optional),
+              field("min", primitive("integer"), occurs.optional),
+              field("max", primitive("integer"), occurs.optional),
+            ]),
+            occurs.any,
+          ),
+        ]),
+        occurs.optional,
+      ),
       // The block runs on the fleet that was just created, not on whatever
       // created it: vanilla writes `set_location` there, and that reads a fleet.
       field("effect", block([effectEntries()]), occurs.optional, { scope: enterScope(ScopeId.Fleet) }),
@@ -3246,6 +3264,21 @@ export const commands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: scriptValue("integer"),
     documentation: "Damages ship by a specific amount",
+  }),
+  scriptCommand({
+    // The 4.5.2 documentation: "Can also specify attacker (ship or country) for
+    // on-action attribution: damage_ship = { amount = 120 attacker = … }", and
+    // vanilla's events and scripted effects write it that way.
+    id: "damage_ship",
+    family: "effect",
+    input: unspecifiedScope(),
+    operator: "=",
+    value: block([
+      field("amount", scriptValue("integer"), occurs.one),
+      field("attacker", scopeRef(ScopeId.Ship), occurs.optional),
+      field("attacker", scopeRef(ScopeId.Country), occurs.optional),
+    ]),
+    documentation: "Damages ship (or all ships in scoped fleet) by a specific amount, attributed to an attacker",
   }),
   scriptCommand({
     id: "date_distortion",
@@ -5642,8 +5675,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("target", scopeRef(ScopeId.Ship), occurs.optional),
       field("min_jumps", primitive("integer"), occurs.optional),
       field("max_jumps", primitive("integer"), occurs.optional),
-      field("min_distance", primitive("integer", { min: 0, max: 100 }), occurs.optional),
-      field("max_distance", primitive("integer", { min: 0, max: 100 }), occurs.optional),
+      // Written `>=` and `<=` in vanilla, as for `spawn_system`, and read the same way.
+      field("min_distance", primitive("integer", { min: 0, max: 100 }), occurs.optional, { operator: "==" }),
+      field("max_distance", primitive("integer", { min: 0, max: 100 }), occurs.optional, { operator: "==" }),
       field("direction", literal("corewards"), occurs.optional),
       field("direction", literal("rimwards"), occurs.optional),
       field("hyperlane", primitive("boolean"), occurs.optional),
@@ -10077,7 +10111,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
     input: unspecifiedScope(),
     operator: "=",
     value: block([
-      field("type", typeRef("starbase_module"), occurs.optional),
+      // "Matching/not matching": the 4.5.2 handler reads the operator and
+      // takes `=` or `!=`, logging "Not a valid assign operator" for any other.
+      field("type", typeRef("starbase_module"), occurs.optional, { operator: "==" }),
       field("count", primitive("integer"), occurs.optional),
     ]),
     documentation: "Remove a number of random module(s) matching/not matching a type from the starbase",
@@ -13267,8 +13303,12 @@ export const commands: readonly ScriptCommandDefinition[] = [
     input: unspecifiedScope(),
     operator: "=",
     value: block([
-      field("min_distance", primitive("number"), occurs.optional),
-      field("max_distance", primitive("number"), occurs.optional),
+      // Vanilla writes `min_distance >= 10 max_distance <= 20` here. The 4.5.2
+      // reader behind both takes the value and never the operator, so the
+      // comparison means what `=` would; it is accepted because the key
+      // already says which bound it is.
+      field("min_distance", primitive("number"), occurs.optional, { operator: "==" }),
+      field("max_distance", primitive("number"), occurs.optional, { operator: "==" }),
       field("min_jumps", primitive("integer", { min: 0, max: 1000 }), occurs.optional),
       field("max_jumps", primitive("integer", { min: 0, max: 1000 }), occurs.optional),
       field("initializer", typeRef("solar_system_initializer"), occurs.optional),

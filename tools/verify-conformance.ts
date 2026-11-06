@@ -142,6 +142,29 @@ for (const entry of report.types) {
   }
 }
 
+// Direction F: a block where the rules take a single value, or a bare block in
+// a list where no item rule takes one. The game reads the `{` as the value and
+// the block's contents one level up, so a vanilla file that loads this way is a
+// hole in the schema — and `validate` reports the same shape in a mod as an
+// error.
+for (const entry of report.types) {
+  for (const finding of entry.shapeMismatches) {
+    console.error(
+      `CONFORMANCE ${entry.type} shape: ${finding.path.length === 0 ? finding.field : `${finding.path}.${finding.field}`} is a block, and ${finding.shape === "block-for-value" ? "every rule takes a single value" : "no item rule takes a block"} (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
+    );
+  }
+}
+
+// Direction G: a comparison outside a trigger. Nothing there reads the
+// operator unless the rule says so, and `validate` reports one in a mod.
+for (const entry of report.types) {
+  for (const finding of entry.comparisonMismatches) {
+    console.error(
+      `CONFORMANCE ${entry.type} comparison: ${finding.path.length === 0 ? finding.field : `${finding.path}.${finding.field}`} ${finding.operator} outside a trigger, and no rule for it compares (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
+    );
+  }
+}
+
 if (defectsFound !== expectedDefects) {
   console.error(
     `CONFORMANCE ${String(expectedDefects)} vanilla defects are listed but ${String(defectsFound)} were found; a listed one has stopped being reported, so the list is stale.`,
@@ -189,6 +212,8 @@ console.log(
     `phantomRequirements=${String(report.missingRequiredTotal)}`,
     `scopeViolations=${String(report.scopeViolationTotal)}`,
     `valueMismatches=${String(unexplainedValues.length)}`,
+    `shapeMismatches=${String(report.shapeMismatchTotal)}`,
+    `comparisonMismatches=${String(report.comparisonMismatchTotal)}`,
     `missingDirectories=${String(report.missingDirectories.length)}`,
     `unexplainedKeys=${String(unexplained.length)}`,
     `gatedStrict=${String(strictGated.length)}/${String(GATED_TYPES.length)}`,
@@ -210,6 +235,8 @@ if (
   report.missingRequiredTotal > 0 ||
   report.scopeViolationTotal > 0 ||
   unexplainedValues.length > 0 ||
+  report.shapeMismatchTotal > 0 ||
+  report.comparisonMismatchTotal > 0 ||
   defectsFound !== expectedDefects ||
   missingGated.length > 0 ||
   strictnessRegressed ||

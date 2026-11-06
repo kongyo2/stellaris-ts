@@ -11,6 +11,7 @@ import {
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
 import {
   applyScope,
+  comparesIn,
   requiredKeys,
   SchemaResolver,
   type BlockRules,
@@ -186,6 +187,31 @@ export interface RequiredFinding {
   readonly examples: readonly string[];
 }
 
+/**
+ * A block vanilla writes where the rules take none.
+ *
+ * Under a key every rule reads as one value, the game takes the `{` itself as
+ * that value and the block's contents as keys of the block around it; as a bare
+ * block in a list, it is an entry no item rule describes. Either way vanilla
+ * loading it means the schema is the one that is wrong.
+ */
+export interface ShapeFinding {
+  readonly path: string;
+  readonly field: string;
+  readonly shape: "block-for-value" | "block-in-list";
+  readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
+/** A comparison vanilla writes outside a trigger, under a key no rule declares as comparing. */
+export interface ComparisonFinding {
+  readonly path: string;
+  readonly field: string;
+  readonly operator: string;
+  readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
 export interface TypeReport {
   readonly type: string;
   readonly directory: string;
@@ -199,6 +225,8 @@ export interface TypeReport {
   readonly missingRequired: readonly RequiredFinding[];
   readonly scopeViolations: readonly ScopeFinding[];
   readonly valueMismatches: readonly ValueFinding[];
+  readonly shapeMismatches: readonly ShapeFinding[];
+  readonly comparisonMismatches: readonly ComparisonFinding[];
 }
 
 /**
@@ -226,6 +254,8 @@ export interface ConformanceReport {
   readonly missingRequiredTotal: number;
   readonly scopeViolationTotal: number;
   readonly valueMismatchTotal: number;
+  readonly shapeMismatchTotal: number;
+  readonly comparisonMismatchTotal: number;
 }
 
 /**
@@ -515,9 +545,37 @@ export async function checkConformance(
       string,
       { path: string; field: string; context: FindingContext; shape: ValueShape; count: number; examples: string[] }
     >();
+    const shapeIssues = new Map<
+      string,
+      { path: string; field: string; shape: ShapeFinding["shape"]; count: number; examples: string[] }
+    >();
+    const comparisonIssues = new Map<
+      string,
+      { path: string; field: string; operator: string; count: number; examples: string[] }
+    >();
     const seen = new Set<string>();
     let definitionsSeen = 0;
     let keysChecked = 0;
+
+    const recordShape = (path: string, field: string, shape: ShapeFinding["shape"], file: string): void => {
+      const identity: string = `${path} ${field} ${shape}`;
+      const issue = shapeIssues.get(identity) ?? { path, field, shape, count: 0, examples: [] };
+      issue.count += 1;
+      if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+        issue.examples.push(file);
+      }
+      shapeIssues.set(identity, issue);
+    };
+
+    const recordComparison = (path: string, field: string, operator: string, file: string): void => {
+      const identity: string = `${path} ${field} ${operator}`;
+      const issue = comparisonIssues.get(identity) ?? { path, field, operator, count: 0, examples: [] };
+      issue.count += 1;
+      if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+        issue.examples.push(file);
+      }
+      comparisonIssues.set(identity, issue);
+    };
 
     const record = (path: string, field: string, file: string, context: FindingContext, shape: ValueShape): void => {
       const identity: string = `${path} ${field}`;
@@ -537,6 +595,7 @@ export async function checkConformance(
       file: string,
       scope: ScopeState,
       atEntryScope: boolean,
+      compares: boolean,
     ): void => {
       // A rule can demand a key at any depth, and until now only the top level
       // of a definition was asked. `modifier = { factor = … }` declared `factor`
@@ -566,6 +625,20 @@ export async function checkConformance(
       }
 
       for (const entry of block.entries) {
+        // A block with no key is an item of a list, and only an item rule that
+        // takes a block can describe it: `ship_designs = { { design = … } }`.
+        if (entry.kind === NodeKind.Block) {
+          const items: BlockRules | undefined =
+            rules.items.length === 0 ? undefined : resolver.rulesForValues(rules.items);
+
+          if (!rules.wildcard && (items === undefined || items.scalarOnly)) {
+            recordShape(trail, "{ }", "block-in-list", file);
+          } else if (items !== undefined) {
+            walk(entry, items, trail, file, scope, false, comparesIn(items, compares));
+          }
+          continue;
+        }
+
         if (entry.kind !== NodeKind.Assignment) {
           continue;
         }
@@ -582,6 +655,12 @@ export async function checkConformance(
         if (!resolution.accepted) {
           record(trail, key, file, contextOf(rules), shapeOf(entry.value));
           continue;
+        }
+
+        // Outside a trigger nothing reads the operator, unless the rule for the
+        // key says it compares.
+        if (entry.operator !== "=" && !compares && !resolution.comparable) {
+          recordComparison(trail, key, entry.operator, file);
         }
 
         for (const command of resolution.commands) {
@@ -663,8 +742,9 @@ export async function checkConformance(
 
         // A rule that describes a scalar says nothing about the keys inside a
         // block written there. That is a shape disagreement, not an unknown key,
-        // and reporting it here would drown the keys that are.
+        // and is counted as one rather than drowning the keys that are.
         if (child.scalarOnly) {
+          recordShape(trail, key, "block-for-value", file);
           continue;
         }
 
@@ -675,6 +755,7 @@ export async function checkConformance(
           file,
           applyScope(scope, resolution.scope),
           atEntryScope && resolution.scope === undefined,
+          comparesIn(child, compares),
         );
       }
     };
@@ -693,7 +774,7 @@ export async function checkConformance(
         definitionsSeen += 1;
         const variant: string | undefined = variants.get(claimed.key.toLowerCase());
         const blockScope: ScopeState = variant === undefined ? entryScope : { current: variant, root: variant };
-        walk(claimed.block, root, "", display, blockScope, true);
+        walk(claimed.block, root, "", display, blockScope, true, comparesIn(root, false));
 
         if (required.length === 0) {
           continue;
@@ -768,6 +849,24 @@ export async function checkConformance(
       missingRequired: [...missingRequired]
         .map(([field, absence]) => ({ field, missingFrom: absence.count, examples: absence.examples }))
         .sort((left, right) => right.missingFrom - left.missingFrom || compareOrdinal(left.field, right.field)),
+      shapeMismatches: [...shapeIssues.values()]
+        .map((issue) => ({
+          path: issue.path,
+          field: issue.field,
+          shape: issue.shape,
+          occurrences: issue.count,
+          examples: issue.examples,
+        }))
+        .sort((left, right) => right.occurrences - left.occurrences || compareOrdinal(left.field, right.field)),
+      comparisonMismatches: [...comparisonIssues.values()]
+        .map((issue) => ({
+          path: issue.path,
+          field: issue.field,
+          operator: issue.operator,
+          occurrences: issue.count,
+          examples: issue.examples,
+        }))
+        .sort((left, right) => right.occurrences - left.occurrences || compareOrdinal(left.field, right.field)),
     });
   });
 
@@ -787,5 +886,7 @@ export async function checkConformance(
     missingRequiredTotal: reports.reduce((total, report) => total + report.missingRequired.length, 0),
     scopeViolationTotal: reports.reduce((total, report) => total + report.scopeViolations.length, 0),
     valueMismatchTotal: reports.reduce((total, report) => total + report.valueMismatches.length, 0),
+    shapeMismatchTotal: reports.reduce((total, report) => total + report.shapeMismatches.length, 0),
+    comparisonMismatchTotal: reports.reduce((total, report) => total + report.comparisonMismatches.length, 0),
   };
 }

@@ -214,7 +214,10 @@ function modFilePath(path: string): string | undefined {
  *
  * The default carries a `zz_<mod>_` prefix for two reasons: it cannot collide
  * with a vanilla name, and Stellaris loads files in alphabetical order, so a
- * late name wins where load order decides.
+ * late name wins where load order decides. Its extension is the one the game
+ * reads the type from — a sprite in `interface/zz_mod_sprite.txt` is in a file
+ * the game never opens. A definition that is a whole file is named by its id,
+ * because the id is the file name.
  */
 function targetFile(mod: ModOptions, definition: DefinitionRecord): string {
   if (definition.overrides !== undefined) {
@@ -225,7 +228,25 @@ function targetFile(mod: ModOptions, definition: DefinitionRecord): string {
     return `${definition.directory}/${definition.file}`;
   }
 
-  return `${definition.directory}/zz_${modSlug(mod)}_${definition.type}.txt`;
+  const extension: string = definition.extension ?? ".txt";
+
+  if (definition.wholeFile === true) {
+    return `${definition.directory}/${definition.id}${extension}`;
+  }
+
+  return `${definition.directory}/zz_${modSlug(mod)}_${definition.type}${extension}`;
+}
+
+/** `.gfx` for `interface/x.gfx`, the empty string for a name with none. */
+function extensionOf(path: string): string {
+  const name: string = path.slice(path.lastIndexOf("/") + 1);
+  const dot: number = name.lastIndexOf(".");
+  return dot < 0 ? "" : name.slice(dot).toLowerCase();
+}
+
+/** A body as the entries it holds, in order, for writing at the root of a file. */
+function bodyEntries(body: object): readonly Entry[] {
+  return isEntries(body) ? body.entries : Object.entries(body).map(([key, value]): Entry => [key, value]);
 }
 
 /**
@@ -300,9 +321,7 @@ function coversVersion(supported: string, compatibility: string): boolean {
  * first because that is where every vanilla definition puts it.
  */
 function withNameField(nameField: string, id: string, body: object): object {
-  const existing: readonly Entry[] = isEntries(body)
-    ? body.entries
-    : Object.entries(body).map(([key, value]): Entry => [key, value]);
+  const existing: readonly Entry[] = bodyEntries(body);
 
   const named: boolean = existing.some((entry) => !isBare(entry) && entry[0] === nameField);
 
@@ -312,7 +331,42 @@ function withNameField(nameField: string, id: string, body: object): object {
 /** One definition on its way to a file, kept with the id it sorts by. */
 interface DefinitionEntry {
   readonly id: string;
-  readonly entry: Entry;
+  /** What is written: one entry, or a whole file's worth for a whole-file definition. */
+  readonly entries: readonly Entry[];
+  /** The block the game reads it from inside, when it is not the file root. */
+  readonly container?: string;
+}
+
+/**
+ * A file's definitions, each inside the block the game reads its type from.
+ *
+ * Sorted by id within each block so the same mod always emits the same bytes.
+ * Not by block key: a tagged type writes many definitions under the same one.
+ * The definitions with no container come first, and each container is written
+ * once however many definitions it holds, as vanilla writes them.
+ */
+function fileEntries(definitions: readonly DefinitionEntry[]): readonly Entry[] {
+  const sorted: readonly DefinitionEntry[] = [...definitions].sort((left, right) => compareOrdinal(left.id, right.id));
+  const containers = new Map<string, Entry[]>();
+  const root: Entry[] = [];
+
+  for (const definition of sorted) {
+    if (definition.container === undefined) {
+      root.push(...definition.entries);
+      continue;
+    }
+
+    const held: Entry[] = containers.get(definition.container) ?? [];
+    held.push(...definition.entries);
+    containers.set(definition.container, held);
+  }
+
+  return [
+    ...root,
+    ...[...containers]
+      .sort((left, right) => compareOrdinal(left[0], right[0]))
+      .map(([key, held]): Entry => [key, orderedEntries(held)]),
+  ];
 }
 
 export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
@@ -369,18 +423,46 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
     // `same.txt` on disk but a different string here.
     const path: string = modFilePath(targetFile(mod.options, definition)) ?? targetFile(mod.options, definition);
     const bucket: DefinitionEntry[] = grouped.get(path) ?? [];
+    const container: { readonly container?: string } =
+      definition.container === undefined ? {} : { container: definition.container };
 
     if (definition.bareValue === true) {
-      bucket.push({ id: definition.id, entry: bare(definition.id) });
+      bucket.push({ id: definition.id, entries: [bare(definition.id)], ...container });
+    } else if (definition.wholeFile === true) {
+      bucket.push({ id: definition.id, entries: bodyEntries(definition.body), ...container });
     } else {
       const body: object =
         definition.nameField === undefined
           ? definition.body
           : withNameField(definition.nameField, definition.id, definition.body);
-      bucket.push({ id: definition.id, entry: [definition.blockKey ?? definition.id, body] });
+      bucket.push({ id: definition.id, entries: [[definition.blockKey ?? definition.id, body]], ...container });
     }
 
     grouped.set(path, bucket);
+
+    // The game lists `interface` for `.gfx` and `sound` for `.asset`, and opens
+    // nothing else there: a sprite named into `my.txt` is in a file it never
+    // reads. Only the types vanilla keeps outside `.txt` are held to it, since
+    // some `common` directories are listed with no extension at all.
+    if (definition.extension !== undefined && extensionOf(path) !== definition.extension) {
+      diagnostics.push({
+        severity: "error",
+        code: "unread-extension",
+        message: `The game reads ${definition.type} from ${definition.extension} files and does not open ${path}, so ${definition.id} is never loaded. Name the file with ${definition.extension}.`,
+        path,
+      });
+    }
+
+    // Opened by name and read from nowhere else. Writing that file replaces the
+    // base game's whole copy of it, which is a decision rather than a default.
+    if (definition.onlyFile !== undefined && path.toLowerCase() !== definition.onlyFile.toLowerCase()) {
+      diagnostics.push({
+        severity: "error",
+        code: "unread-file",
+        message: `The game reads ${definition.type} from ${definition.onlyFile} alone, so ${definition.id} in ${path} is never loaded. Writing ${definition.onlyFile} replaces the base game's copy entirely; set overrides to "${definition.onlyFile}" on the definition if that is the intent.`,
+        path,
+      });
+    }
 
     if (definition.headers !== undefined && definition.headers.length > 0) {
       const lines: Set<string> = headers.get(path) ?? new Set<string>();
@@ -403,13 +485,8 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   const files: EmittedFile[] = [];
 
   for (const [path, definitions] of [...grouped].sort((left, right) => compareOrdinal(left[0], right[0]))) {
-    // Sorted by id so the same mod always emits the same bytes. Not by block
-    // key: a tagged type writes many definitions under the same one.
-    const sorted: readonly Entry[] = [...definitions]
-      .sort((left, right) => compareOrdinal(left.id, right.id))
-      .map((definition) => definition.entry);
     const preamble: readonly string[] = [...(headers.get(path) ?? [])].sort(compareOrdinal);
-    const body: string = renderDefinitions(sorted);
+    const body: string = renderDefinitions(fileEntries(definitions));
     files.push({
       kind: "text",
       path,

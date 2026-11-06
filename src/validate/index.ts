@@ -14,6 +14,7 @@ import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import {
   applyScope,
+  comparesIn,
   requiredKeys,
   SchemaResolver,
   type BlockRules,
@@ -323,15 +324,21 @@ function withOwnEnumMembers(
   return merged;
 }
 
-/** The entries a body value holds, as key/value pairs plus bare items. */
-function entriesOf(value: unknown): { readonly keyed: readonly (readonly [string, unknown])[]; readonly bare: number } {
+/**
+ * The entries a body value holds: its key/value pairs, and the values with no
+ * key — every element of an array, and each `bare()` of an ordered list.
+ */
+function entriesOf(value: unknown): {
+  readonly keyed: readonly (readonly [string, unknown])[];
+  readonly bare: readonly unknown[];
+} {
   if (isEntries(value)) {
     const keyed: (readonly [string, unknown])[] = [];
-    let bare = 0;
+    const bare: unknown[] = [];
 
     for (const entry of value.entries) {
       if (isBare(entry)) {
-        bare += 1;
+        bare.push(entry.bare);
       } else {
         keyed.push(entry);
       }
@@ -340,11 +347,15 @@ function entriesOf(value: unknown): { readonly keyed: readonly (readonly [string
     return { keyed, bare };
   }
 
-  if (typeof value !== "object" || value === null || Array.isArray(value) || isRaw(value) || isRepeated(value)) {
-    return { keyed: [], bare: 0 };
+  if (Array.isArray(value)) {
+    return { keyed: [], bare: value };
   }
 
-  return { keyed: Object.entries(value), bare: 0 };
+  if (typeof value !== "object" || value === null || isRaw(value) || isRepeated(value)) {
+    return { keyed: [], bare: [] };
+  }
+
+  return { keyed: Object.entries(value), bare: [] };
 }
 
 /** Whether a value is a block rather than a scalar, for deciding to recurse. */
@@ -585,6 +596,72 @@ function checkInlineScript(walker: Walker, definition: string, path: string, key
   });
 }
 
+/** `gt(500)` as the game would read it: `> 500`. */
+function comparisonText(operator: string, value: unknown): string {
+  const written: string =
+    typeof value === "boolean"
+      ? value
+        ? "yes"
+        : "no"
+      : typeof value === "string" || typeof value === "number"
+        ? String(value)
+        : isRaw(value)
+          ? value.text
+          : "{ … }";
+  return `${operator} ${written}`;
+}
+
+/**
+ * The values a block holds with no key, against what its items may be.
+ *
+ * An array is one key holding a list — `prerequisites = { tech_a tech_b }`, or
+ * `ship_designs = { { design = … } }` — never the key written once per
+ * element; that is what `repeated()` is for. A block with no key, where no
+ * item rule takes one, is the mistake of writing `option: [{ … }, { … }]` for
+ * two options: the game reads one option holding two blocks with no key, and
+ * the event has no options at all.
+ */
+function checkItems(
+  walker: Walker,
+  definition: string,
+  path: string,
+  rules: BlockRules,
+  items: readonly unknown[],
+  scope: ScopeState,
+  compares: boolean,
+): void {
+  if (items.length === 0) {
+    return;
+  }
+
+  // Reported against the key that holds the list, from the block around it; a
+  // body that is itself a list is held by the definition.
+  const cut: number = path.lastIndexOf(".");
+  const key: string = path.length === 0 ? definition : path.slice(cut + 1);
+  const around: string = cut < 0 ? "" : path.slice(0, cut);
+  const itemRules: BlockRules | undefined =
+    rules.items.length === 0 ? undefined : walker.resolver.rulesForValues(rules.items);
+
+  if (items.some((item) => isBlockLike(item)) && !rules.wildcard && (itemRules === undefined || itemRules.scalarOnly)) {
+    walker.diagnostics.push({
+      severity: "error",
+      code: "unexpected-value-list",
+      message: `${key} holds blocks with no key of their own — which is what an array writes — and nothing here takes one. To write ${key} once per block, use repeated().`,
+      definition,
+      path: around,
+    });
+    return;
+  }
+
+  for (const item of items) {
+    if (!isBlockLike(item)) {
+      checkItem(walker, definition, around, key, item, rules.items);
+    } else if (itemRules !== undefined) {
+      walkBlock(walker, definition, path, itemRules, item, scope, comparesIn(itemRules, compares));
+    }
+  }
+}
+
 function walkBlock(
   walker: Walker,
   definition: string,
@@ -592,8 +669,11 @@ function walkBlock(
   rules: BlockRules,
   body: unknown,
   scope: ScopeState,
+  compares: boolean,
 ): void {
-  const { keyed } = entriesOf(body);
+  const { keyed, bare } = entriesOf(body);
+
+  checkItems(walker, definition, path, rules, bare, scope, compares);
 
   for (const [key, rawValue] of keyed) {
     if (rawValue === undefined || rawValue === null) {
@@ -619,12 +699,31 @@ function walkBlock(
       continue;
     }
 
+    // One block where a value belongs is enough to wreck the definition, and
+    // saying so once per key is the useful report.
+    let reportedBlock = false;
+
     for (const occurrence of occurrences) {
       if (occurrence === undefined || occurrence === null) {
         continue;
       }
 
       const value: unknown = isCompared(occurrence) ? occurrence.value : occurrence;
+
+      // Outside a trigger the reader keeps the operator and the handler never
+      // looks at it. The few keys vanilla does compare there — a spawned
+      // system's distances, the module type a starbase loses, a special
+      // project's requirements — are declared as comparing.
+      if (isCompared(occurrence) && occurrence.operator !== "=" && !compares && !resolution.comparable) {
+        walker.diagnostics.push({
+          severity: "error",
+          code: "unexpected-comparison",
+          message: `${key} ${comparisonText(occurrence.operator, value)} compares, and nothing here reads a comparison: outside a trigger the game takes the value and not the operator, as if it said ${key} = ${comparisonText("", value).trim()}.`,
+          definition,
+          path,
+        });
+      }
+
       checkValue(walker, definition, path, key, value, resolution);
       checkScope(walker, definition, path, key, resolution, scope);
 
@@ -638,29 +737,34 @@ function walkBlock(
 
       const child: BlockRules = walker.resolver.rulesForValues(resolution.values);
 
-      // A rule describing a scalar says nothing about the keys inside a block
-      // written there; recursing would report every one of them.
+      // Where every rule takes a single value, the handler reads the token
+      // after `=` as that value whatever it is. It takes `{` itself — an event
+      // titled with a block shows "{" — and the block's contents are read as if
+      // they stood beside the key, until its closing brace ends the block
+      // around it early.
       if (child.scalarOnly) {
-        continue;
-      }
-
-      const childPath: string = path.length === 0 ? key : `${path}.${key}`;
-      const childScope: ScopeState = applyScope(scope, resolution.scope);
-
-      // An array is either the same key written once per block, or a value list
-      // whose bare items the block's `item` rules describe.
-      if (Array.isArray(value)) {
-        for (const element of value) {
-          if (isBlockLike(element)) {
-            walkBlock(walker, definition, childPath, child, element, childScope);
-          } else {
-            checkItem(walker, definition, path, key, element, child.items);
-          }
+        if (!reportedBlock) {
+          walker.diagnostics.push({
+            severity: "error",
+            code: "unexpected-block",
+            message: `${key} takes a single value, not a block. The game takes the "{" itself as the value (an event title written this way reads "{"), reads what the block holds as keys beside ${key}, and its closing brace closes ${path.length === 0 ? "the definition" : path} early.`,
+            definition,
+            path,
+          });
+          reportedBlock = true;
         }
         continue;
       }
 
-      walkBlock(walker, definition, childPath, child, value, childScope);
+      walkBlock(
+        walker,
+        definition,
+        path.length === 0 ? key : `${path}.${key}`,
+        child,
+        value,
+        applyScope(scope, resolution.scope),
+        comparesIn(child, compares),
+      );
     }
   }
 }
@@ -784,7 +888,8 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
           : undefined;
     const entryScope: ScopeState = scopeName === undefined ? {} : { current: scopeName, root: scopeName };
 
-    walkBlock(walker, definition.id, "", walker.resolver.rulesForType(type), definition.body, entryScope);
+    const root: BlockRules = walker.resolver.rulesForType(type);
+    walkBlock(walker, definition.id, "", root, definition.body, entryScope, comparesIn(root, false));
 
     // A field the game needs and the definition does not have. What counts as
     // needed is checked against vanilla itself — a requirement base-game content

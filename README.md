@@ -47,16 +47,33 @@ const mod = defineMod({
 await writePlan(mod, emit(mod), modsDirectory);
 ```
 
-`define` knows where each type lives, so the directory is never a decision. It
-also knows the 43 types whose block key is a tag rather than their identity — an
-event is `country_event = { id = utopia.1 }`, never `utopia.1 = { ... }` — and
-asks for the tag:
+`define` knows where each type lives, so where a definition goes is never a
+decision: the directory, the extension the game reads there, and the block the
+type is read from inside. A sprite is written into `spriteTypes = { }` in a
+`.gfx` file and a sound effect into a `.asset` file, because the game reads them
+nowhere else. It also knows the 43 types whose block key is a tag rather than
+their identity — an event is `country_event = { id = utopia.1 }`, never
+`utopia.1 = { ... }` — and asks for the tag:
 
 ```ts
 define("event", "utopia.1", { is_triggered_only: true }, { as: "country_event" });
 ```
 
 The file gets its `namespace = utopia` line, and the id goes inside the block.
+
+A body is an object, so each key is written once. An array is that key holding
+a list — `prerequisites: ["tech_a", "tech_b"]` is `prerequisites = { tech_a tech_b }`
+— and `repeated()` writes the key once per value, which is how an event gets
+two options:
+
+```ts
+import { repeated } from "@kongyo2/stellaris-ts";
+
+option: repeated({ name: "utopia.1.a" }, { name: "utopia.1.b" }),
+```
+
+The same key written twice in one object literal keeps only the last value, and
+the checker never sees the first. `tsc --noEmit` reports it as TS1117.
 
 Types the library has no shape for can still go in, verbatim, and so can the
 icons and sounds the definitions point at:
@@ -106,6 +123,13 @@ What it reports:
   definitions bring into existence;
 - a value outside what the rules take — the wrong member of an enum, a word where
   a number belongs;
+- a block where the game reads a single value — an event's `title = { ... }`,
+  which the game titles `{` before reading the rest of the block as part of the
+  event;
+- a comparison outside a trigger — `add_resource = { energy > 500 }` adds 500,
+  because nothing there reads the operator;
+- an array of blocks under a key that takes none — `option: [{ ... }, { ... }]`
+  is one option holding two blocks with no key, and the event has no options;
 - a trigger or effect read on the wrong kind of object, following the scope down
   through links, iterators and scope changes;
 - a reference to something neither the base game nor the mod defines;
@@ -116,6 +140,8 @@ What it reports:
   directories the game merges instead, where adding to `on_game_start` is the
   point rather than a mistake;
 - a file name the base game already ships, which this would replace wholesale;
+- a definition in a file the game never opens for its type — a sprite named
+  into a `.txt` file, an alert anywhere but `common/alerts.txt`;
 - an `inline_script` block that names no `script` to inject;
 - a `@name` the game would refuse to register, after which every use of it is
   read as the literal text;

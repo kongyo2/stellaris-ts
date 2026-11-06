@@ -47,6 +47,23 @@ export interface TypeIndex {
   readonly ids: readonly string[];
   /** For a tagged type, the block keys vanilla writes its definitions under. */
   readonly tags: readonly string[];
+  /**
+   * How many of vanilla's definitions of this type sit in a file of each
+   * extension.
+   *
+   * The game lists `interface` for `.gfx` and `.gui` and `sound` for `.asset`,
+   * and a definition in a file of any other extension there is never opened.
+   * Which of the files in a directory a type lives in is a fact about the type,
+   * not the directory: `gfx/models` holds meshes in `.gfx` and entities in
+   * `.asset`.
+   */
+  readonly extensions: Readonly<Record<string, number>>;
+  /**
+   * For a type read from inside a block, how many of its definitions sit under
+   * each block key: `spriteTypes` for every sprite, a different civic for each
+   * `swap_type`.
+   */
+  readonly containers: Readonly<Record<string, number>>;
 }
 
 /** The scripted trigger and effect types whose calls take parameters. */
@@ -318,9 +335,16 @@ function definitionTags(type: DefinitionType, document: Document, into: Set<stri
   }
 }
 
-function definitionIds(type: DefinitionType, document: Document, fileName: string): string[] {
+/** One definition a type claims from a file, and the block it was found inside. */
+interface Claim {
+  readonly id: string;
+  /** The root-level key of the block holding it, for a type read from inside one. */
+  readonly container?: string;
+}
+
+function definitionIds(type: DefinitionType, document: Document, fileName: string): Claim[] {
   if (type.source.kind === "file-definitions") {
-    return [type.source.stripExtension ? fileName.replace(/\.[^.]+$/u, "") : fileName];
+    return [{ id: type.source.stripExtension ? fileName.replace(/\.[^.]+$/u, "") : fileName }];
   }
 
   // A tag file has no blocks: every root-level value is one definition, and
@@ -329,7 +353,8 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
     return document.entries
       .filter((entry) => entry.kind === NodeKind.Scalar)
       .map((entry) => String(entry.value).replace(/^"|"$/gu, ""))
-      .filter((id) => id.length > 0);
+      .filter((id) => id.length > 0)
+      .map((id) => ({ id }));
   }
 
   const filter = type.source.rootKeyFilter;
@@ -342,18 +367,22 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
 
   const container = type.source.container;
   const nameField: string | undefined = type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
-  const ids: string[] = [];
+  const claims: Claim[] = [];
 
   /** Reads one definition block: its key, or the field the type names. */
-  const claim = (key: string, body: Block): void => {
+  const claim = (key: string, body: Block, holder: string | undefined): void => {
+    const found = (id: string): void => {
+      claims.push(holder === undefined ? { id } : { id, container: holder });
+    };
+
     if (nameField === undefined) {
-      ids.push(key);
+      found(key);
       return;
     }
 
     for (const field of body.entries) {
       if (keyOf(field) === nameField && field.kind === NodeKind.Assignment && field.value.kind === NodeKind.Scalar) {
-        ids.push(String(field.value.value));
+        found(String(field.value.value));
       }
     }
   };
@@ -374,20 +403,28 @@ function definitionIds(type: DefinitionType, document: Document, fileName: strin
         const nestedKey: string | undefined = keyOf(nested);
         const nestedBlock: Block | undefined = blockOf(nested);
         if (nestedKey !== undefined && nestedBlock !== undefined && accepted(nestedKey)) {
-          claim(nestedKey, nestedBlock);
+          claim(nestedKey, nestedBlock, key);
         }
       }
       continue;
     }
 
     if (accepted(key)) {
-      claim(key, block);
+      claim(key, block, undefined);
     }
   }
 
   // A quoted key keeps its quotes in the raw value; the identifier is the text
   // inside them, which is what every reference elsewhere in script writes.
-  return ids.map((id) => id.replace(/^"|"$/gu, "")).filter((id) => id.length > 0);
+  return claims
+    .map((found) => ({ ...found, id: found.id.replace(/^"|"$/gu, "") }))
+    .filter((found) => found.id.length > 0);
+}
+
+/** `.gfx` for `spriteTypes.gfx`, the empty string for an extensionless inline script. */
+function extensionOf(fileName: string): string {
+  const dot: number = fileName.lastIndexOf(".");
+  return dot < 0 ? "" : fileName.slice(dot).toLowerCase();
 }
 
 /**
@@ -490,14 +527,23 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
   const types: TypeIndex[] = await mapWithLimit(model.definitionTypes, 2, async (type): Promise<TypeIndex> => {
     const ids = new Set<string>();
     const tags = new Set<string>();
+    const extensions: Record<string, number> = {};
+    const containers: Record<string, number> = {};
     const fields: Set<string> | undefined = gameDeclaredFieldTypes.includes(type.id) ? new Set<string>() : undefined;
 
     await forEachDocument(
       type.source.directory,
       type.source.includeSubdirectories,
       (fileName, document) => {
-        for (const id of definitionIds(type, document, fileName)) {
-          ids.add(id);
+        const extension: string = extensionOf(fileName);
+
+        for (const found of definitionIds(type, document, fileName)) {
+          ids.add(found.id);
+          extensions[extension] = (extensions[extension] ?? 0) + 1;
+
+          if (found.container !== undefined) {
+            containers[found.container] = (containers[found.container] ?? 0) + 1;
+          }
         }
 
         definitionTags(type, document, tags);
@@ -518,6 +564,8 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
       directory: type.source.directory,
       ids: [...ids].sort(compareOrdinal),
       tags: [...tags].sort(compareOrdinal),
+      extensions,
+      containers,
     };
   });
 

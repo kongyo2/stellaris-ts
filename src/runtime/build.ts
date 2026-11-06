@@ -34,7 +34,14 @@ import {
  * deterministic and stays consistent with what the parser reads back.
  */
 
-/** Any value a definition can hold. Arrays stand for a key repeated in script. */
+/**
+ * Any value a definition can hold.
+ *
+ * An array is one key holding a list: `prerequisites: ["a", "b"]` is
+ * `prerequisites = { a b }`, and an array of objects is a block of blocks with
+ * no key of their own. To write a key once per value — two `option` blocks —
+ * use `repeated()`.
+ */
 export type ScriptValue =
   | boolean
   | number

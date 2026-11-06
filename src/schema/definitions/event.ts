@@ -536,7 +536,12 @@ export const event: DefinitionType = defineType({
       ),
     ]),
     whenVariant("hidden", [
-      field("title", anyValue(), occurs.optional, { severity: "information" }),
+      // Any word, since a hidden event's title is never shown — but a word.
+      // The 4.5.2 event reader copies the token after `title =` as the title
+      // whatever it is and never reads a block there, hidden or not, so
+      // `title = { … }` puts "{" in the title and the block's contents into
+      // the event itself.
+      field("title", primitive("scalar"), occurs.optional, { severity: "information" }),
       field("desc", anyValue(), occurs.optional, { severity: "information" }),
       field("picture", primitive("scalar"), between(0, 0), { severity: "information" }),
       field("location", primitive("scalar"), between(0, 0), { severity: "information" }),

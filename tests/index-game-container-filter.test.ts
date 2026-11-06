@@ -71,6 +71,9 @@ it("applies a root-key filter to nested definitions after selecting their contai
         ids: ["kept"],
         // The block key is a tag for this type, so the tag is indexed too.
         tags: ["containerWindowType"],
+        // And where it was found, which is where `emit` has to write one.
+        extensions: { ".gui": 1 },
+        containers: { guiTypes: 1 },
       },
     ]);
 

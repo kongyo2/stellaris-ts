@@ -84,6 +84,36 @@ export interface DefinitionRecord {
   readonly variant?: string;
   /** Lines the file needs before any definition, such as an event namespace. */
   readonly headers?: readonly string[];
+  /**
+   * The block the game reads this type from inside, when it is not the root of
+   * the file.
+   *
+   * Every vanilla sprite is `spriteTypes = { spriteType = { ... } }`, and the
+   * game reads sprites from inside `spriteTypes` and nowhere else: one written
+   * at the root of the file is not a sprite, and nothing says so.
+   */
+  readonly container?: string;
+  /**
+   * The extension of the files the game reads this type from. `.txt` when
+   * absent.
+   *
+   * The game lists `interface` for `.gfx` and `.gui`, and `gfx`, `sound`,
+   * `music` and `fonts` for `.asset`. A sprite in a `.txt` file is in a file it
+   * never opens.
+   */
+  readonly extension?: string;
+  /**
+   * The definition is a whole file: the id names the file and the body is what
+   * the file holds at its root, as `common/diplomacy_economy` is read. Writing
+   * it as `id = { ... }` gives the game one key it does not know.
+   */
+  readonly wholeFile?: boolean;
+  /**
+   * The one file the game reads this type from, when it opens that file by
+   * name: `common/alerts.txt` is opened as itself, and an alert written anywhere
+   * else is never read.
+   */
+  readonly onlyFile?: string;
 }
 
 /**
