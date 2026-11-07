@@ -8,18 +8,39 @@ import {
   vanillaModifierNames,
   vanillaScriptedParameters,
 } from "../../src/generated/vanilla/index.js";
+import { vanillaLocalisationKeys } from "../../src/generated/vanilla/localisation-keys.js";
+import { localisationKey } from "../../src/schema/ir.js";
+import {
+  localisationKeyIn,
+  namesLocalisation,
+  requirementApplies,
+  variantHolds,
+  type FieldOccurrence,
+  type VariantSubject,
+} from "../../src/schema/localisation-references.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
+import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../../src/schema/scopeless-on-actions.js";
 import {
   applyScope,
   comparesIn,
+  frameOf,
   requiredKeys,
   SchemaResolver,
+  valuesFor,
   type BlockRules,
   type ResolvedValue,
   type ScopeState,
   type ScriptFamily,
 } from "../../src/schema/resolve.js";
-import { NodeKind, parse, type Block, type Document, type ValueNode } from "../../src/syntax/index.js";
+import {
+  NodeKind,
+  parse,
+  type Block,
+  type Document,
+  type EntryNode,
+  type Scalar,
+  type ValueNode,
+} from "../../src/syntax/index.js";
 import type { DefinitionType, EntryRule, SchemaModel, ScriptCommandDefinition } from "../../src/schema/ir.js";
 
 /**
@@ -212,6 +233,34 @@ export interface ComparisonFinding {
   readonly examples: readonly string[];
 }
 
+/**
+ * A string vanilla names that no localisation file of the game defines.
+ *
+ * The game shows such a key as itself. A rule that reads a value as a string's
+ * name is only right if vanilla's own values are names of strings, so every
+ * one of them that resolves to nothing is either a mistake in vanilla or a rule
+ * that should not be read that way.
+ */
+export interface LocalisationFinding {
+  readonly path: string;
+  readonly field: string;
+  readonly key: string;
+  readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
+/** A string a requirement asks every definition for, which vanilla's definitions lack. */
+export interface MissingStringFinding {
+  readonly pattern: string;
+  readonly variant?: string;
+  /** How many of the definitions it applies to lack it, of how many. */
+  readonly missingFrom: number;
+  readonly appliesTo: number;
+  readonly keys: readonly string[];
+  /** The definitions that lack it. */
+  readonly ids: readonly string[];
+}
+
 export interface TypeReport {
   readonly type: string;
   readonly directory: string;
@@ -227,6 +276,8 @@ export interface TypeReport {
   readonly valueMismatches: readonly ValueFinding[];
   readonly shapeMismatches: readonly ShapeFinding[];
   readonly comparisonMismatches: readonly ComparisonFinding[];
+  readonly unresolvedStrings: readonly LocalisationFinding[];
+  readonly missingStrings: readonly MissingStringFinding[];
 }
 
 /**
@@ -256,6 +307,13 @@ export interface ConformanceReport {
   readonly valueMismatchTotal: number;
   readonly shapeMismatchTotal: number;
   readonly comparisonMismatchTotal: number;
+  /** How many values and keys were read as a string's name and looked up. */
+  readonly stringsChecked: number;
+  /** How many generic events vanilla fires with no scope, and how many of them were walked as such. */
+  readonly scopelessEvents: number;
+  readonly scopelessEventsWalked: number;
+  /** How many scripted effect and trigger calls were read again in a caller's empty scope. */
+  readonly callsFollowed: number;
 }
 
 /**
@@ -480,8 +538,243 @@ function enumMembersOf(model: SchemaModel, id: string): readonly string[] {
   return definition.kind === "static-enum" ? definition.values : (extractedEnumMembers[id] ?? []);
 }
 
+/** The keys of every string vanilla's localisation files define. */
+const vanillaStrings: ReadonlySet<string> = new Set(vanillaLocalisationKeys);
+
+/**
+ * A scalar as it was written: `NO` rather than the boolean the parser reads it
+ * as, and a quoted string without its quotes.
+ */
+function scalarText(scalar: Scalar): string {
+  return typeof scalar.value === "string" ? scalar.value : scalar.raw;
+}
+
+/** Whether a block is the trigger `{ always = no }`, which never holds. */
+function isNever(value: ValueNode): boolean {
+  if (value.kind !== NodeKind.Block) {
+    return false;
+  }
+  const written = value.entries.filter((entry) => entry.kind !== NodeKind.Trivia);
+  const only = written[0];
+  return (
+    written.length === 1 &&
+    only?.kind === NodeKind.Assignment &&
+    String(only.key.value).toLowerCase() === "always" &&
+    only.value.kind === NodeKind.Scalar &&
+    scalarText(only.value).toLowerCase() === "no"
+  );
+}
+
+/** A claimed block's top-level fields, as a variant predicate reads them. */
+function subjectOf(block: Block, rootKey: string): VariantSubject {
+  const fields = new Map<string, FieldOccurrence[]>();
+
+  for (const entry of block.entries) {
+    if (entry.kind !== NodeKind.Assignment) {
+      continue;
+    }
+    const name: string = String(entry.key.value).toLowerCase();
+    const bucket: FieldOccurrence[] = fields.get(name) ?? [];
+    bucket.push(
+      entry.value.kind === NodeKind.Scalar
+        ? { kind: "scalar", text: scalarText(entry.value) }
+        : { kind: "block", never: isNever(entry.value) },
+    );
+    fields.set(name, bucket);
+  }
+
+  return { rootKey, occurrences: (field: string) => fields.get(field.toLowerCase()) ?? [] };
+}
+
+/** The identity of a claimed definition: its key, or the field a tagged type carries it in. */
+function identityOf(type: DefinitionType, block: Block, key: string): string | undefined {
+  if (type.source.kind !== "tagged-blocks") {
+    return key;
+  }
+
+  const nameField: string = type.source.nameField;
+  const named = block.entries.find(
+    (entry) => entry.kind === NodeKind.Assignment && String(entry.key.value) === nameField,
+  );
+
+  return named?.kind === NodeKind.Assignment && named.value.kind === NodeKind.Scalar
+    ? String(named.value.value)
+    : undefined;
+}
+
 /** The modifier namespace, expanded once against what vanilla declares. */
 let resolvedModifiers: ReadonlySet<string> | undefined;
+
+/** The scalars a list of entries holds, at any depth. */
+function scalarsOf(entries: readonly EntryNode[], into: (text: string) => void): void {
+  for (const entry of entries) {
+    if (entry.kind === NodeKind.Scalar) {
+      into(scalarText(entry));
+    } else if (entry.kind === NodeKind.Block) {
+      scalarsOf(entry.entries, into);
+    } else if (entry.kind === NodeKind.Assignment) {
+      scalarsOf([entry.value], into);
+    } else if (entry.kind === NodeKind.OptionalBlock) {
+      scalarsOf(entry.entries, into);
+    } else if (entry.kind === NodeKind.PrefixedBlock) {
+      scalarsOf(entry.block.entries, into);
+    }
+  }
+}
+
+/**
+ * Vanilla's events fired with no scope at all, by the on_actions that fire them.
+ *
+ * Read the way `validate` reads a mod: the events only the on_actions the game
+ * fires without a scope list, and that no other line of vanilla names — no
+ * `country_event = { id = … }`, no second on_action, no `fire_on_action` of a
+ * pulse from inside a scope.
+ */
+async function vanillaScopelessEvents(
+  model: SchemaModel,
+  gamePath: string,
+): Promise<ReadonlyMap<string, readonly string[]>> {
+  const onActions: readonly string[] = await collectFiles(join(gamePath, "common", "on_actions"), false);
+  const listings = new Map<string, string[]>();
+  const listedFiles = new Set<string>(onActions);
+
+  const onActionTexts: readonly string[] = await Promise.all(
+    onActions.map(async (file) => new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file))),
+  );
+
+  for (const text of onActionTexts) {
+    const { document } = parse(text);
+    for (const entry of document.entries) {
+      if (entry.kind !== NodeKind.Assignment || entry.value.kind !== NodeKind.Block) {
+        continue;
+      }
+      const listed: string[] = listings.get(String(entry.key.value)) ?? [];
+      for (const field of entry.value.entries) {
+        if (field.kind !== NodeKind.Assignment || field.value.kind !== NodeKind.Block) {
+          continue;
+        }
+        const name: string = String(field.key.value);
+        for (const item of field.value.entries) {
+          if (name === "events" && item.kind === NodeKind.Scalar) {
+            listed.push(scalarText(item));
+          } else if (
+            name === "random_events" &&
+            item.kind === NodeKind.Assignment &&
+            item.value.kind === NodeKind.Scalar
+          ) {
+            listed.push(scalarText(item.value));
+          }
+        }
+      }
+      listings.set(String(entry.key.value), listed);
+    }
+  }
+
+  // Only what could matter is counted: the events those on_actions list, and
+  // the on_actions themselves.
+  const candidates = new Set<string>(scopelessOnActions);
+  for (const onAction of scopelessOnActions) {
+    for (const event of listings.get(onAction) ?? []) {
+      candidates.add(event);
+    }
+  }
+
+  const mentions = new Map<string, number>();
+  const directories = new Map<string, boolean>(
+    model.definitionTypes.map((type) => [type.source.directory, type.source.includeSubdirectories]),
+  );
+  const files = new Set<string>(
+    (
+      await Promise.all(
+        [...directories].map(async ([directory, recurse]) =>
+          collectFiles(join(gamePath, ...directory.split("/")), recurse),
+        ),
+      )
+    ).flat(),
+  );
+
+  await mapWithLimit([...files], READ_CONCURRENCY, async (file): Promise<void> => {
+    const text: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file));
+    if (![...candidates].some((candidate) => text.includes(candidate))) {
+      return;
+    }
+    const { document } = parse(text);
+    const count = (value: string): void => {
+      if (candidates.has(value)) {
+        mentions.set(value, (mentions.get(value) ?? 0) + 1);
+      }
+    };
+
+    if (!listedFiles.has(file)) {
+      // An event's own `id` names the event it is, not one it fires.
+      for (const entry of document.entries) {
+        if (entry.kind === NodeKind.Assignment && entry.value.kind === NodeKind.Block) {
+          scalarsOf(
+            entry.value.entries.filter(
+              (field) => !(field.kind === NodeKind.Assignment && String(field.key.value) === "id"),
+            ),
+            count,
+          );
+          continue;
+        }
+        scalarsOf([entry], count);
+      }
+      return;
+    }
+
+    // In an on_action file, listing an event is not mentioning it.
+    for (const entry of document.entries) {
+      if (entry.kind !== NodeKind.Assignment || entry.value.kind !== NodeKind.Block) {
+        scalarsOf([entry], count);
+        continue;
+      }
+      for (const field of entry.value.entries) {
+        const name: string = field.kind === NodeKind.Assignment ? String(field.key.value) : "";
+        if (name !== "events" && name !== "random_events") {
+          scalarsOf([field], count);
+        }
+      }
+    }
+  });
+
+  return scopelessEvents(listings, mentions);
+}
+
+/** Vanilla's scripted effects and triggers, by `family:id`, for reading a call in its caller's scope. */
+async function vanillaScriptedBodies(model: SchemaModel, gamePath: string): Promise<ReadonlyMap<string, Block>> {
+  const bodies = new Map<string, Block>();
+
+  const sources = await Promise.all(
+    (
+      [
+        ["scripted_effect", "effect"],
+        ["scripted_trigger", "trigger"],
+      ] as const
+    ).map(async ([typeId, family]) => {
+      const type: DefinitionType | undefined = model.definitionTypes.find((candidate) => candidate.id === typeId);
+      const files: readonly string[] =
+        type === undefined
+          ? []
+          : await collectFiles(join(gamePath, ...type.source.directory.split("/")), type.source.includeSubdirectories);
+      const texts: readonly string[] = await Promise.all(
+        files.map(async (file) => new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file))),
+      );
+      return { family, texts };
+    }),
+  );
+
+  for (const { family, texts } of sources) {
+    for (const text of texts) {
+      for (const entry of parse(text).document.entries) {
+        if (entry.kind === NodeKind.Assignment && entry.value.kind === NodeKind.Block) {
+          bodies.set(`${family}:${String(entry.key.value)}`, entry.value);
+        }
+      }
+    }
+  }
+
+  return bodies;
+}
 
 function modifierNames(model: SchemaModel): ReadonlySet<string> {
   resolvedModifiers ??= expandModifierNames(model.modifiers, vanillaIdsByType, vanillaModifierNames);
@@ -494,6 +787,16 @@ export async function checkConformance(
   options: ConformanceOptions = {},
 ): Promise<ConformanceReport> {
   const reports: TypeReport[] = [];
+  let stringsChecked = 0;
+  let scopelessEventsWalked = 0;
+  const firedWithoutScope: ReadonlyMap<string, readonly string[]> = await vanillaScopelessEvents(model, gamePath);
+  const scripted: ReadonlyMap<string, Block> = await vanillaScriptedBodies(model, gamePath);
+  const scriptedTypes = new Map<string, DefinitionType>(
+    model.definitionTypes
+      .filter((type) => type.id === "scripted_effect" || type.id === "scripted_trigger")
+      .map((type) => [type.id === "scripted_effect" ? "effect" : "trigger", type]),
+  );
+  let callsFollowed = 0;
   const missingDirectories: string[] = [];
 
   const resolver = new SchemaResolver(model, {
@@ -553,9 +856,22 @@ export async function checkConformance(
       string,
       { path: string; field: string; operator: string; count: number; examples: string[] }
     >();
+    const stringIssues = new Map<
+      string,
+      { path: string; field: string; key: string; count: number; examples: string[] }
+    >();
+    const requirements = type.localisation.filter(
+      (requirement) => requirement.required && requirement.source.kind === "definition-id",
+    );
+    const requirementIssues = requirements.map(() => ({ appliesTo: 0, missing: [] as string[], ids: [] as string[] }));
+    let inVariant: (variant: string) => boolean = () => false;
     const seen = new Set<string>();
+    // The scripted effects and triggers being read in a caller's scope, so that
+    // one calling itself is read once.
+    const calling = new Set<string>();
     let definitionsSeen = 0;
     let keysChecked = 0;
+    let scopelessWalked = 0;
 
     const recordShape = (path: string, field: string, shape: ShapeFinding["shape"], file: string): void => {
       const identity: string = `${path} ${field} ${shape}`;
@@ -577,6 +893,16 @@ export async function checkConformance(
       comparisonIssues.set(identity, issue);
     };
 
+    const recordString = (path: string, field: string, key: string, file: string): void => {
+      const identity: string = `${path} ${field} ${key}`;
+      const issue = stringIssues.get(identity) ?? { path, field, key, count: 0, examples: [] };
+      issue.count += 1;
+      if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+        issue.examples.push(file);
+      }
+      stringIssues.set(identity, issue);
+    };
+
     const record = (path: string, field: string, file: string, context: FindingContext, shape: ValueShape): void => {
       const identity: string = `${path} ${field}`;
       const entry = unknown.get(identity) ?? { path, field, context, shape, count: 0, examples: [] };
@@ -596,6 +922,9 @@ export async function checkConformance(
       scope: ScopeState,
       atEntryScope: boolean,
       compares: boolean,
+      // What a value means here, as `validate` carries it: only the rules that
+      // apply to this definition's variants.
+      meaning: BlockRules | undefined,
     ): void => {
       // A rule can demand a key at any depth, and until now only the top level
       // of a definition was asked. `modifier = { factor = … }` declared `factor`
@@ -634,7 +963,13 @@ export async function checkConformance(
           if (!rules.wildcard && (items === undefined || items.scalarOnly)) {
             recordShape(trail, "{ }", "block-in-list", file);
           } else if (items !== undefined) {
-            walk(entry, items, trail, file, scope, false, comparesIn(items, compares));
+            const itemMeaning: BlockRules | undefined =
+              meaning === rules
+                ? items
+                : meaning === undefined || meaning.items.length === 0
+                  ? undefined
+                  : resolver.rulesForValues(meaning.items);
+            walk(entry, items, trail, file, scope, false, comparesIn(items, compares), itemMeaning);
           }
           continue;
         }
@@ -651,10 +986,69 @@ export async function checkConformance(
         }
 
         const resolution = resolver.resolve(rules, key);
+        const sense =
+          meaning === undefined ? undefined : meaning === rules ? resolution : resolver.resolve(meaning, key);
+        const applicable: readonly ResolvedValue[] =
+          sense === undefined || meaning === undefined ? [] : valuesFor(meaning, sense.values, inVariant);
 
         if (!resolution.accepted) {
           record(trail, key, file, contextOf(rules), shapeOf(entry.value));
           continue;
+        }
+
+        // A scripted effect or trigger called where there is no scope runs its
+        // body there too, and what it reads there is read on nothing.
+        if (scope.current === NO_SCOPE || scope.root === NO_SCOPE) {
+          const followed = new Set<string>();
+          for (const value of resolution.values) {
+            if (value.kind !== "scripted-call") {
+              continue;
+            }
+            const callee: string = `${value.family}:${value.callee}`;
+            const body: Block | undefined = scripted.get(callee);
+            const calleeType: DefinitionType | undefined = scriptedTypes.get(value.family);
+            // The scalar call and the call with parameters are two rules for one callee.
+            if (body === undefined || calleeType === undefined || calling.has(callee) || followed.has(callee)) {
+              continue;
+            }
+            followed.add(callee);
+            calling.add(callee);
+            callsFollowed += 1;
+            const calleeRules: BlockRules = resolver.rulesForType(calleeType);
+            walk(
+              body,
+              calleeRules,
+              `${trail.length === 0 ? key : `${trail}.${key}`}>`,
+              file,
+              scope,
+              false,
+              comparesIn(calleeRules, value.family === "trigger"),
+              calleeRules,
+            );
+            calling.delete(callee);
+          }
+        }
+
+        // A key that names a string, as a situation's stages are written.
+        if (sense?.localisationKey === true) {
+          const named: string | undefined = localisationKeyIn(key);
+          stringsChecked += named === undefined ? 0 : 1;
+          if (named !== undefined && !vanillaStrings.has(named)) {
+            recordString(trail, "<key>", named, file);
+          }
+        }
+
+        // A tagged type's identity names its own strings, and the requirements
+        // below already ask for those.
+        const identityField: boolean =
+          trail.length === 0 && type.source.kind === "tagged-blocks" && key === type.source.nameField;
+
+        if (!identityField && entry.value.kind === NodeKind.Scalar && namesLocalisation(applicable)) {
+          const named: string | undefined = localisationKeyIn(scalarText(entry.value));
+          stringsChecked += named === undefined ? 0 : 1;
+          if (named !== undefined && !vanillaStrings.has(named)) {
+            recordString(trail, key, named, file);
+          }
         }
 
         // Outside a trigger nothing reads the operator, unless the rule for the
@@ -694,6 +1088,30 @@ export async function checkConformance(
                 constrained.flatMap((command) => (command.input.kind === "listed-scopes" ? command.input.scopes : [])),
               ),
             ],
+            count: 0,
+            examples: [],
+          };
+          issue.count += 1;
+          if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+            issue.examples.push(file);
+          }
+          scopeIssues.set(identity, issue);
+        }
+
+        // A value naming a scope through a frame that holds none: `who = root`
+        // in an event the game fires with no scope.
+        if (
+          entry.value.kind === NodeKind.Scalar &&
+          namesScope(applicable) &&
+          frameOf(scope, scalarText(entry.value)) === NO_SCOPE
+        ) {
+          const named: string = `${key} = ${scalarText(entry.value)}`;
+          const identity = `${named} ${NO_SCOPE} ${trail}`;
+          const issue = scopeIssues.get(identity) ?? {
+            command: named,
+            path: trail,
+            writtenIn: NO_SCOPE,
+            accepts: ["a scope"],
             count: 0,
             examples: [],
           };
@@ -748,6 +1166,13 @@ export async function checkConformance(
           continue;
         }
 
+        const childMeaning: BlockRules | undefined =
+          applicable.length === 0
+            ? undefined
+            : meaning === rules && applicable.length === resolution.values.length
+              ? child
+              : resolver.rulesForValues(applicable);
+
         walk(
           entry.value,
           child,
@@ -756,6 +1181,7 @@ export async function checkConformance(
           applyScope(scope, resolution.scope),
           atEntryScope && resolution.scope === undefined,
           comparesIn(child, compares),
+          childMeaning,
         );
       }
     };
@@ -773,8 +1199,51 @@ export async function checkConformance(
       for (const claimed of definitionBlocks(model, type, result.document)) {
         definitionsSeen += 1;
         const variant: string | undefined = variants.get(claimed.key.toLowerCase());
-        const blockScope: ScopeState = variant === undefined ? entryScope : { current: variant, root: variant };
-        walk(claimed.block, root, "", display, blockScope, true, comparesIn(root, false));
+        // A generic event only the scopeless on_actions fire runs in no scope.
+        const scopeless: boolean =
+          type.id === "event" &&
+          claimed.key === "event" &&
+          firedWithoutScope.has(identityOf(type, claimed.block, claimed.key) ?? "");
+        const blockScope: ScopeState = scopeless
+          ? { current: NO_SCOPE, root: NO_SCOPE, prev: NO_SCOPE, from: NO_SCOPE }
+          : variant === undefined
+            ? entryScope
+            : { current: variant, root: variant };
+        if (scopeless) {
+          scopelessWalked += 1;
+        }
+        const subject: VariantSubject = subjectOf(claimed.block, claimed.key);
+        inVariant = (id: string): boolean => {
+          const declared = type.variants.find((candidate) => candidate.id === id);
+          return declared !== undefined && variantHolds(declared.when, subject);
+        };
+        walk(claimed.block, root, "", display, blockScope, true, comparesIn(root, false), root);
+
+        // Every string a requirement asks of this definition, against the game's
+        // own localisation files.
+        const identity: string | undefined =
+          type.source.kind === "file-definitions"
+            ? (display.split("/").at(-1) ?? "").replace(/\.[^.]*$/u, "")
+            : identityOf(type, claimed.block, claimed.key);
+
+        if (identity !== undefined) {
+          requirements.forEach((requirement, index) => {
+            const issue = requirementIssues[index];
+            if (
+              issue === undefined ||
+              requirement.source.kind !== "definition-id" ||
+              !requirementApplies(type, requirement, subject)
+            ) {
+              return;
+            }
+            issue.appliesTo += 1;
+            const wanted: string = localisationKey(requirement.source.pattern, identity);
+            if (!vanillaStrings.has(wanted)) {
+              issue.missing.push(wanted);
+              issue.ids.push(identity);
+            }
+          });
+        }
 
         if (required.length === 0) {
           continue;
@@ -800,6 +1269,8 @@ export async function checkConformance(
         }
       }
     });
+
+    scopelessEventsWalked += scopelessWalked;
 
     reports.push({
       type: type.id,
@@ -867,6 +1338,31 @@ export async function checkConformance(
           examples: issue.examples,
         }))
         .sort((left, right) => right.occurrences - left.occurrences || compareOrdinal(left.field, right.field)),
+      unresolvedStrings: [...stringIssues.values()]
+        .map((issue) => ({
+          path: issue.path,
+          field: issue.field,
+          key: issue.key,
+          occurrences: issue.count,
+          examples: issue.examples,
+        }))
+        .sort((left, right) => compareOrdinal(left.key, right.key) || compareOrdinal(left.path, right.path)),
+      missingStrings: requirements.flatMap((requirement, index) => {
+        const issue = requirementIssues[index];
+        if (issue === undefined || issue.missing.length === 0 || requirement.source.kind !== "definition-id") {
+          return [];
+        }
+        return [
+          {
+            pattern: requirement.source.pattern,
+            ...(requirement.variant === undefined ? {} : { variant: requirement.variant }),
+            missingFrom: issue.missing.length,
+            appliesTo: issue.appliesTo,
+            keys: [...new Set(issue.missing)].sort(compareOrdinal),
+            ids: [...new Set(issue.ids)].sort(compareOrdinal),
+          },
+        ];
+      }),
     });
   });
 
@@ -888,5 +1384,9 @@ export async function checkConformance(
     valueMismatchTotal: reports.reduce((total, report) => total + report.valueMismatches.length, 0),
     shapeMismatchTotal: reports.reduce((total, report) => total + report.shapeMismatches.length, 0),
     comparisonMismatchTotal: reports.reduce((total, report) => total + report.comparisonMismatches.length, 0),
+    stringsChecked,
+    scopelessEvents: firedWithoutScope.size,
+    scopelessEventsWalked,
+    callsFollowed,
   };
 }

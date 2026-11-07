@@ -9,6 +9,7 @@ import { requireGamePath } from "../game-path.js";
 import { schema } from "../../src/schema/index.js";
 import { NodeKind, parse, type Block, type Document, type EntryNode } from "../../src/syntax/index.js";
 import { convertBlock, type ConversionResult } from "../verify-reproduce/roundtrip.js";
+import { bare, entries as orderedEntries, isEntries, type EntriesValue, type Entry } from "../../src/runtime/values.js";
 import { HELPERS, literal } from "./literal.js";
 import { BUDGET } from "./budget.js";
 import type { DefinitionType } from "../../src/schema/ir.js";
@@ -122,12 +123,9 @@ function blockOf(entry: EntryNode): Block | undefined {
   return entry.kind === NodeKind.Assignment && entry.value.kind === NodeKind.Block ? entry.value : undefined;
 }
 
-/** The bodies a type claims from one file, already converted to object form. */
-function bodiesOf(type: DefinitionType, document: Document): readonly Record<string, unknown>[] {
-  const bodies: Record<string, unknown>[] = [];
-  // A tagged type carries its identity inside the block and `define` writes it
-  // there, so the generated body type does not have it.
-  const nameField: string | undefined = type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
+/** The blocks a type claims from one file. */
+function claimedBlocks(type: DefinitionType, document: Document): readonly Block[] {
+  const blocks: Block[] = [];
   const container = type.source.container;
   // A type that names its root keys claims those and no others. `sound_falloff`
   // shares `sound/` with `sound`, `category` and `soundeffect`, and reading
@@ -140,25 +138,6 @@ function bodiesOf(type: DefinitionType, document: Document): readonly Record<str
       : filter.mode === "include"
         ? filter.values.includes(key)
         : !filter.values.includes(key);
-
-  const claim = (block: Block): void => {
-    const converted: ConversionResult = convertBlock(block);
-    const value: Record<string, unknown> | undefined = converted.value;
-
-    // A body that is a value list has no object form and is written with
-    // `mod.file`, which has no type to check.
-    if (value === undefined || Object.keys(value).some((key) => key.length === 0)) {
-      return;
-    }
-
-    if (nameField !== undefined) {
-      const { [nameField]: _identity, ...rest } = value;
-      bodies.push(rest);
-      return;
-    }
-
-    bodies.push(value);
-  };
 
   for (const entry of document.entries) {
     const block: Block | undefined = blockOf(entry);
@@ -178,15 +157,90 @@ function bodiesOf(type: DefinitionType, document: Document): readonly Record<str
         const nestedKey: string | undefined =
           nested.kind === NodeKind.Assignment ? String(nested.key.value).replace(/^"|"$/gu, "") : undefined;
         if (nestedBlock !== undefined && nestedKey !== undefined && accepted(nestedKey)) {
-          claim(nestedBlock);
+          blocks.push(nestedBlock);
         }
       }
       continue;
     }
 
     if (accepted(key)) {
-      claim(block);
+      blocks.push(block);
     }
+  }
+
+  return blocks;
+}
+
+/**
+ * A tagged type carries its identity inside the block and `define` writes it
+ * there, so the body a mod author writes does not have it.
+ */
+function nameFieldOf(type: DefinitionType): string | undefined {
+  return type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
+}
+
+/** The bodies a type claims from one file, already converted to object form. */
+function bodiesOf(type: DefinitionType, document: Document): readonly Record<string, unknown>[] {
+  const bodies: Record<string, unknown>[] = [];
+  const nameField: string | undefined = nameFieldOf(type);
+
+  for (const block of claimedBlocks(type, document)) {
+    const converted: ConversionResult = convertBlock(block);
+    const value: Record<string, unknown> | undefined = converted.value;
+
+    // A body with no object form is an ordered one, which `orderedBodiesOf`
+    // asks about against the type `define` takes.
+    if (value === undefined || Object.keys(value).some((key) => key.length === 0)) {
+      continue;
+    }
+
+    if (nameField !== undefined) {
+      const { [nameField]: _identity, ...rest } = value;
+      bodies.push(rest);
+      continue;
+    }
+
+    bodies.push(value);
+  }
+
+  return bodies;
+}
+
+/**
+ * The bodies an author can only write as an ordered list, as `define` is handed
+ * them.
+ *
+ * Read in written order, the way the reproduce gate reads them: a scripted
+ * effect's `set_variable`, `if`, `set_variable` is a body no object can hold.
+ * These are checked against what `define` takes rather than against the
+ * object shape, because that is the question an author meets — and for as long
+ * as the body parameter was the object shape alone, every one of them failed
+ * with "Index signature for type 'string' is missing in type 'EntriesValue'"
+ * and nothing here asked.
+ */
+function orderedBodiesOf(type: DefinitionType, document: Document): readonly EntriesValue[] {
+  const bodies: EntriesValue[] = [];
+  const nameField: string | undefined = nameFieldOf(type);
+
+  for (const block of claimedBlocks(type, document)) {
+    const converted: ConversionResult = convertBlock(block, { order: "written" });
+    const wrapped: unknown = converted.value?.[""];
+
+    if (wrapped === undefined) {
+      continue;
+    }
+
+    const items: readonly Entry[] = isEntries(wrapped)
+      ? wrapped.entries
+      : Array.isArray(wrapped)
+        ? (wrapped as readonly unknown[]).map((item) => bare(item))
+        : [];
+
+    bodies.push(
+      orderedEntries(
+        nameField === undefined ? items : items.filter((item) => !Array.isArray(item) || item[0] !== nameField),
+      ),
+    );
   }
 
   return bodies;
@@ -198,8 +252,10 @@ const directory: string = mkdtempSync(join(tmpdir(), "stellaris-ts-types-"));
 try {
   const typesPath: string = join(REPOSITORY_ROOT, "src", "generated", "types", "index.ts").replaceAll("\\", "/");
   const valuesPath: string = join(REPOSITORY_ROOT, "src", "runtime", "values.ts").replaceAll("\\", "/");
+  const buildersPath: string = join(REPOSITORY_ROOT, "src", "builders", "index.ts").replaceAll("\\", "/");
   const names: string[] = [];
   let written = 0;
+  let writtenOrdered = 0;
   let skipped = 0;
 
   for (const type of schema.definitionTypes) {
@@ -214,9 +270,10 @@ try {
     );
 
     const literals: string[] = [];
+    const ordered: string[] = [];
 
     for (const file of files) {
-      if (literals.length >= PER_TYPE_LIMIT) {
+      if (literals.length >= PER_TYPE_LIMIT && ordered.length >= PER_TYPE_LIMIT) {
         break;
       }
 
@@ -227,7 +284,7 @@ try {
         continue;
       }
 
-      for (const body of bodiesOf(type, result.document)) {
+      for (const body of literals.length >= PER_TYPE_LIMIT ? [] : bodiesOf(type, result.document)) {
         if (literals.length >= PER_TYPE_LIMIT) {
           break;
         }
@@ -238,31 +295,70 @@ try {
           skipped += 1;
         }
       }
+
+      for (const body of ordered.length >= PER_TYPE_LIMIT ? [] : orderedBodiesOf(type, result.document)) {
+        if (ordered.length >= PER_TYPE_LIMIT) {
+          break;
+        }
+
+        try {
+          ordered.push(literal(body));
+        } catch {
+          skipped += 1;
+        }
+      }
     }
 
-    if (literals.length === 0) {
-      continue;
+    const stem: string = type.id.replace(/[^A-Za-z0-9_]/gu, "_");
+
+    if (literals.length > 0) {
+      const name = `${pascal(type.id)}Definition`;
+      const file = `type_${stem}.ts`;
+
+      writeFileSync(
+        join(directory, file),
+        [
+          `import type { ${name} } from "${typesPath}";`,
+          `import { ${HELPERS.join(", ")} } from "${valuesPath}";`,
+          "",
+          `void [${HELPERS.join(", ")}];`,
+          "",
+          ...literals.map((body, index) => `export const value${String(index)}: ${name} = ${body};`),
+          "",
+        ].join("\n"),
+        "utf8",
+      );
+
+      names.push(file);
+      written += literals.length;
     }
 
-    const name = `${pascal(type.id)}Definition`;
-    const file = `type_${type.id.replace(/[^A-Za-z0-9_]/gu, "_")}.ts`;
+    // The bodies only an ordered list can write, against what `define` takes.
+    // Not budgeted: an ordered list holds its values untyped, so the one thing
+    // that can fail here is whether the body is accepted at all.
+    if (ordered.length > 0) {
+      const file = `ordered_${stem}.ts`;
 
-    writeFileSync(
-      join(directory, file),
-      [
-        `import type { ${name} } from "${typesPath}";`,
-        `import { ${HELPERS.join(", ")} } from "${valuesPath}";`,
-        "",
-        `void [${HELPERS.join(", ")}];`,
-        "",
-        ...literals.map((body, index) => `export const value${String(index)}: ${name} = ${body};`),
-        "",
-      ].join("\n"),
-      "utf8",
-    );
+      writeFileSync(
+        join(directory, file),
+        [
+          `import type { DefinitionBody } from "${buildersPath}";`,
+          `import { ${HELPERS.join(", ")} } from "${valuesPath}";`,
+          "",
+          `void [${HELPERS.join(", ")}];`,
+          "",
+          ...ordered.map(
+            (body, index) =>
+              `export const ordered${String(index)}: DefinitionBody<${JSON.stringify(type.id)}> = ${body};`,
+          ),
+          "",
+        ].join("\n"),
+        "utf8",
+      );
 
-    names.push(file);
-    written += literals.length;
+      names.push(file);
+      writtenOrdered += ordered.length;
+    }
   }
 
   writeFileSync(
@@ -316,8 +412,12 @@ try {
   }
 
   const byType = new Map<string, number>();
+  const orderedErrors: readonly string[] = errors.filter((line) => /^ordered_[A-Za-z0-9_]+\.ts/u.test(line));
 
   for (const line of errors) {
+    if (/^ordered_[A-Za-z0-9_]+\.ts/u.test(line)) {
+      continue;
+    }
     const file: string = /^type_([A-Za-z0-9_]+)\.ts/u.exec(line)?.[1] ?? "?";
     byType.set(file, (byType.get(file) ?? 0) + 1);
   }
@@ -329,8 +429,10 @@ try {
       "SUMMARY mode=types",
       `types=${String(names.length)}`,
       `definitions=${String(written)}`,
+      `orderedBodies=${String(writtenOrdered)}`,
       `unconvertible=${String(skipped)}`,
-      `errors=${String(errors.length)}`,
+      `errors=${String(errors.length - orderedErrors.length)}`,
+      `orderedErrors=${String(orderedErrors.length)}`,
       `budget=${String(budgeted)}`,
     ].join(" "),
   );
@@ -364,6 +466,19 @@ try {
 
   if (over.length > 0) {
     console.error(`TYPES ${String(over.length)} types reject more of the game than they did.`);
+    process.exitCode = 1;
+  }
+
+  // Nothing is budgeted here: a body only an ordered list can write is one
+  // `define` has to take, or that definition cannot be authored at all.
+  for (const line of orderedErrors.slice(0, 20)) {
+    console.error(`TYPES ${line}`);
+  }
+
+  if (orderedErrors.length > 0) {
+    console.error(
+      `TYPES ${String(orderedErrors.length)} ordered bodies are rejected by the type define takes for their body.`,
+    );
     process.exitCode = 1;
   }
 } finally {

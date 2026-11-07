@@ -420,6 +420,7 @@ function checkPredicate(context: ValidationContext, predicate: VariantPredicate,
       return;
     case "always":
     case "field-equals":
+    case "field-never":
     case "field-presence":
     case "root-key":
       return;

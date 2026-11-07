@@ -15,6 +15,7 @@ import {
   keyedBlocks,
   modifierEntries,
   modifierRuleEntries,
+  not,
   occurs,
   primitive,
   replaceScope,
@@ -32,7 +33,8 @@ export const army: DefinitionType = defineType({
   variants: [
     { id: "buildable", when: fieldPresent("potential") },
     { id: "pop_spawned", when: fieldEquals("is_pop_spawned", true) },
-    { id: "has_species", when: fieldEquals("has_species", false) },
+    // cwt: `## cardinality = 0..0` on `has_species = no`, lost in the port.
+    { id: "has_species", when: not(fieldEquals("has_species", false)) },
   ],
   localisation: [
     definitionLocalisation("Name", "$", true),

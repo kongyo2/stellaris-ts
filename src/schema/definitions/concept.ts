@@ -8,6 +8,7 @@ import {
   defineType,
   definitionLocalisation,
   field,
+  fieldAbsent,
   item,
   keyedBlocks,
   occurs,
@@ -20,8 +21,14 @@ import type { DefinitionType } from "../ir.js";
 export const concept: DefinitionType = defineType({
   id: DefinitionTypeId.Concept,
   source: keyedBlocks("common/game_concepts"),
-  variants: [],
-  localisation: [definitionLocalisation("Name", "$", true), definitionLocalisation("Desc", "$_desc", true)],
+  // A concept with `tooltip_override = "trait:…"` shows that object's tooltip
+  // instead of its own description: none of vanilla's 84 overriding concepts has
+  // a `_desc`, and every one of the rest does.
+  variants: [{ id: "own_tooltip", when: fieldAbsent("tooltip_override") }],
+  localisation: [
+    definitionLocalisation("Name", "$", true),
+    definitionLocalisation("Desc", "$_desc", true, "own_tooltip"),
+  ],
   modifiers: [],
   entries: [
     field("icon", primitive("file"), occurs.optional),

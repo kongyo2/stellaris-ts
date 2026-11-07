@@ -75,6 +75,29 @@ option: repeated({ name: "utopia.1.a" }, { name: "utopia.1.b" }),
 The same key written twice in one object literal keeps only the last value, and
 the checker never sees the first. `tsc --noEmit` reports it as TS1117.
 
+An object also keeps a key's repetitions together, which is all a building
+needs and wrong for anything that runs in order. A scripted effect, an
+`immediate` and an option run top to bottom, so where a key comes back after
+another one — `set_variable`, then `if`, then `set_variable` again — the block
+is an ordered list, and the body of a definition takes one as well as any block
+inside it:
+
+```ts
+import { entries } from "@kongyo2/stellaris-ts";
+
+define(
+  "scripted_effect",
+  "sts_pay_loan",
+  entries([
+    ["set_variable", { which: "sts_debt", value: 1 }],
+    ["if", { limit: { always: true }, set_variable: { which: "sts_debt", value: 2 } }],
+    ["set_variable", { which: "sts_paid", value: "sts_debt" }],
+  ]),
+);
+```
+
+`repeated()` there would write both `set_variable` before the `if`.
+
 Types the library has no shape for can still go in, verbatim, and so can the
 icons and sounds the definitions point at:
 
@@ -132,10 +155,16 @@ What it reports:
   is one option holding two blocks with no key, and the event has no options;
 - a trigger or effect read on the wrong kind of object, following the scope down
   through links, iterators and scope changes;
+- a trigger, an effect or a `who = root` read where there is no scope at all: an
+  event that only `on_yearly_pulse`, the other pulses or `on_game_start` fire
+  runs with none, and so does every scripted effect it calls;
 - a reference to something neither the base game nor the mod defines;
 - a required field the definition has not got;
 - a parameter a scripted trigger or effect does not take;
-- a string a definition needs and the mod has not localised;
+- a string a definition needs or names that neither the mod nor the base game
+  defines — its own name, an event's `title`, `desc` and options, a
+  `custom_tooltip` or `fail_text`, a situation's stages and approaches — which
+  the game shows as the key itself;
 - an id the base game already uses, which this would replace — except in the
   directories the game merges instead, where adding to `on_game_start` is the
   point rather than a mistake;
@@ -150,8 +179,11 @@ What it reports:
   installed game.
 
 Everything reported is measured against the installed game rather than inferred:
-the base game's own script passes this checker with one exception, and that one
-is a line vanilla itself writes and the game drops.
+the base game's own script passes this checker except where vanilla itself is
+wrong, and each of those is listed by name — a line it writes and the game
+drops, an event whose trigger reads a country flag where there is no country,
+28 strings it names and never wrote, and 40 definitions that lack a string the
+rest of their type has.
 
 The parser underneath is measured the same way. Its token boundaries are the
 game's own, read out of the executable rather than inferred from what script

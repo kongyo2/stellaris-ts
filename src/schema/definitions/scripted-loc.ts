@@ -32,11 +32,16 @@ export const scriptedLoc: DefinitionType = defineType({
         field("weight", block([modifierRuleEntries()]), occurs.optional),
         field("weight", primitive("number"), occurs.optional),
         field("trigger", block([triggerEntries()]), occurs.optional),
-        field("localization_key", primitive("localisation"), occurs.one),
+        // Any word, not only a string's key. A scripted loc hands back whatever
+        // the key resolves to, and a key no string has resolves to itself —
+        // which vanilla relies on: `GFX_council_room_*` come back as sprite
+        // names for the council room, and `planet` and `moon` as words. Of the
+        // keys vanilla's scripted locs name, 64 are strings of no language.
+        field("localization_key", primitive("scalar"), occurs.one),
       ]),
       occurs.any,
     ),
-    field("default", primitive("localisation"), occurs.optional),
+    field("default", primitive("scalar"), occurs.optional),
     field("value", scriptValue("number"), occurs.optional, { documentation: "value = value:<some_script_value>" }),
   ],
 });

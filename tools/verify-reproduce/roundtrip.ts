@@ -55,7 +55,66 @@ export interface ConversionResult {
   readonly failure?: ConversionFailure;
 }
 
-function convertValue(value: ValueNode): { value?: unknown; failure?: ConversionFailure } {
+export interface ConversionOptions {
+  /**
+   * Whether a block keeps the order it was written in.
+   *
+   * `grouped` writes a block as an object wherever its entries all have keys,
+   * which puts a key's repetitions together: `a b a` comes out `a a b`. That is
+   * the right reading for asking the compiler about values, since an object is
+   * what the generated types describe. It is the wrong one for asking whether
+   * vanilla can be written at all — a scripted effect's `set_variable`, `if`,
+   * `set_variable` regrouped is a different effect — so `written` turns to an
+   * ordered entry list wherever an object would not print the keys in the order
+   * they stand.
+   */
+  readonly order?: "grouped" | "written";
+}
+
+/**
+ * The canonical array indices, which an object lists first and in ascending
+ * order whatever order they were added in. `random_list = { 50 = { } 25 = { } }`
+ * built as an object prints `25` first.
+ */
+function isArrayIndex(key: string): boolean {
+  return /^(?:0|[1-9]\d*)$/u.test(key) && Number(key) < 4_294_967_295;
+}
+
+/** Whether an object built from these entries, repetitions grouped, prints their keys in this order. */
+function objectKeepsOrder(entries: readonly EntryNode[]): boolean {
+  const firsts: string[] = [];
+  const seen = new Set<string>();
+  let previous: string | undefined;
+
+  for (const entry of entries) {
+    if (entry.kind !== NodeKind.Assignment) {
+      continue;
+    }
+
+    const key: string = String(entry.key.value);
+
+    if (seen.has(key)) {
+      if (previous !== key) {
+        return false;
+      }
+    } else {
+      seen.add(key);
+      firsts.push(key);
+    }
+
+    previous = key;
+  }
+
+  const indices: readonly string[] = firsts.filter(isArrayIndex);
+  const printed: readonly string[] = [
+    ...[...indices].sort((left, right) => Number(left) - Number(right)),
+    ...firsts.filter((key) => !isArrayIndex(key)),
+  ];
+
+  return printed.every((key, index) => key === firsts[index]);
+}
+
+function convertValue(value: ValueNode, options: ConversionOptions): { value?: unknown; failure?: ConversionFailure } {
   switch (value.kind) {
     case NodeKind.Scalar:
       // The parsed value, not the raw text: a quoted string's raw form still
@@ -64,7 +123,7 @@ function convertValue(value: ValueNode): { value?: unknown; failure?: Conversion
       // unquoted identifiers, so their value and raw agree.
       return { value: value.value };
     case NodeKind.Block: {
-      const converted: ConversionResult = convertBlock(value);
+      const converted: ConversionResult = convertBlock(value, options);
       return converted.value === undefined
         ? { failure: converted.failure ?? "error-node" }
         : { value: converted.value };
@@ -84,11 +143,12 @@ function convertValue(value: ValueNode): { value?: unknown; failure?: Conversion
  * cannot.
  *
  * A plain object is the right shape for most of the format and reads far better,
- * so it stays the default. Order only becomes visible when a bare value sits
- * among keyed ones, or a nested block has no key — and then nothing but an
- * ordered list will do.
+ * so it stays the default. An object cannot hold a bare value among keyed ones
+ * or a nested block with no key, and with `order: "written"` it cannot hold a
+ * key repeated around another one either — nothing but an ordered list will do
+ * for those.
  */
-export function convertBlock(block: Block): ConversionResult {
+export function convertBlock(block: Block, options: ConversionOptions = {}): ConversionResult {
   const entries: readonly EntryNode[] = block.entries.filter((entry) => entry.kind !== NodeKind.Trivia);
   const hasBare: boolean = entries.some((entry) => entry.kind === NodeKind.Scalar);
   const hasKeyed: boolean = entries.some((entry) => entry.kind === NodeKind.Assignment);
@@ -108,8 +168,8 @@ export function convertBlock(block: Block): ConversionResult {
     return { value: { [LIST_SENTINEL]: listed } };
   }
 
-  if ((hasBare && hasKeyed) || hasAnonymous) {
-    return convertOrdered(entries);
+  if ((hasBare && hasKeyed) || hasAnonymous || (options.order === "written" && !objectKeepsOrder(entries))) {
+    return convertOrdered(entries, options);
   }
 
   const result: Record<string, unknown> = {};
@@ -117,10 +177,10 @@ export function convertBlock(block: Block): ConversionResult {
 
   for (const entry of entries) {
     if (entry.kind !== NodeKind.Assignment) {
-      return convertOrdered(entries);
+      return convertOrdered(entries, options);
     }
 
-    const converted = convertValue(entry.value);
+    const converted = convertValue(entry.value, options);
     if (converted.value === undefined) {
       return { failure: converted.failure ?? "error-node" };
     }
@@ -145,12 +205,12 @@ export function convertBlock(block: Block): ConversionResult {
 }
 
 /** Keeps the written order, which an object cannot. */
-function convertOrdered(entries: readonly EntryNode[]): ConversionResult {
+function convertOrdered(entries: readonly EntryNode[], options: ConversionOptions): ConversionResult {
   const items: Entry[] = [];
 
   for (const entry of entries) {
     if (entry.kind === NodeKind.Assignment) {
-      const converted = convertValue(entry.value);
+      const converted = convertValue(entry.value, options);
       if (converted.value === undefined) {
         return { failure: converted.failure ?? "error-node" };
       }
@@ -174,7 +234,7 @@ function convertOrdered(entries: readonly EntryNode[]): ConversionResult {
       continue;
     }
 
-    const converted = convertValue(entry);
+    const converted = convertValue(entry, options);
     if (converted.value === undefined) {
       return { failure: converted.failure ?? "error-node" };
     }

@@ -4,19 +4,31 @@ import {
   vanillaModifierNames,
   vanillaScriptedParameters,
 } from "../generated/vanilla/index.js";
+import { vanillaLocalisationKeys } from "../generated/vanilla/localisation-keys.js";
 import type { DefinitionRecord, Mod, RawFileRecord } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { captureFromDocument } from "../schema/extraction.js";
 import { localisationKey } from "../schema/ir.js";
+import {
+  localisationKeyIn,
+  namesLocalisation,
+  requirementApplies,
+  variantHolds,
+  type FieldOccurrence,
+  type VariantSubject,
+} from "../schema/localisation-references.js";
 import { engineFixedEnums, mergedDefinitionTypes } from "../schema/merged-types.js";
-import { parse, type Document } from "../syntax/index.js";
+import { NodeKind, parse, type Document, type EntryNode } from "../syntax/index.js";
+import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../schema/scopeless-on-actions.js";
 import { schema } from "../schema/index.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import {
   applyScope,
   comparesIn,
+  frameOf,
   requiredKeys,
   SchemaResolver,
+  valuesFor,
   type BlockRules,
   type KeyResolution,
   type ResolvedValue,
@@ -142,7 +154,49 @@ interface Walker {
   readonly enumMembers: Readonly<Record<string, readonly string[]>>;
   /** Keys the game injects script through, lower-cased. Just `inline_script`. */
   readonly macroKeys: ReadonlySet<string>;
+  /** Whether a string exists in a language: the mod's own, or the base game's. */
+  readonly localised: (language: string, key: string) => boolean;
+  readonly languages: readonly string[];
+  /** Whether the definition being walked is in a variant of its type. */
+  inVariant: (variant: string) => boolean;
+  /** Why the definition being walked has no scope, when it is known to have none. */
+  noScope: string | undefined;
+  /** The mod's own scripted effects and triggers, by `family:id`, for reading a call in its caller's scope. */
+  readonly scripted: ReadonlyMap<string, DefinitionRecord>;
+  /** The ones being read in a caller's scope right now, so that one calling itself is read once. */
+  readonly calling: Set<string>;
   readonly diagnostics: ValidationDiagnostic[];
+}
+
+/** The base game's localisation keys, built once: there are 162,858 of them. */
+let vanillaKeys: ReadonlySet<string> | undefined;
+
+function vanillaLocalisation(): ReadonlySet<string> {
+  vanillaKeys ??= new Set(vanillaLocalisationKeys);
+  return vanillaKeys;
+}
+
+/**
+ * A string a definition names, checked in every language asked for.
+ *
+ * The game shows a key nothing defines as the key itself, wherever it shows
+ * the string: an event titled `sts_demo.1.name` that the mod never wrote reads
+ * "sts_demo.1.name". A key the base game defines is as good as one the mod does.
+ */
+function checkNamedString(walker: Walker, definition: string, path: string, name: string, where: string): void {
+  for (const language of walker.languages) {
+    if (walker.localised(language, name)) {
+      continue;
+    }
+
+    walker.diagnostics.push({
+      severity: "warning",
+      code: "missing-localisation",
+      message: `No ${language} string for ${name}, which ${where}; the game will show the key itself.`,
+      definition,
+      path,
+    });
+  }
 }
 
 function enumMembers(walker: Walker, id: string): readonly string[] {
@@ -556,7 +610,40 @@ function checkScope(
   walker.diagnostics.push({
     severity: "error",
     code: "wrong-scope",
-    message: `${key} reads a ${allowed.join(" or a ")}, and here the scope is ${current}. The game answers it false for ever rather than reporting anything.`,
+    message:
+      current === NO_SCOPE
+        ? `${key} reads a ${allowed.join(" or a ")}, and here there is no scope at all: ${walker.noScope ?? "nothing hands this block one"}. There is nothing for it to read.`
+        : `${key} reads a ${allowed.join(" or a ")}, and here the scope is ${current}. The game answers it false for ever rather than reporting anything.`,
+    definition,
+    path,
+  });
+}
+
+/**
+ * A value that names a scope through a frame that holds none.
+ *
+ * `add_trust = { who = root }` inside `every_country` reads each country as
+ * `this` and `root` as whoever fired the event. Fired by `on_yearly_pulse`,
+ * that is nobody, and the trust is added towards no one.
+ */
+function checkNamedScope(
+  walker: Walker,
+  definition: string,
+  path: string,
+  key: string,
+  value: string,
+  scope: ScopeState,
+): void {
+  if (frameOf(scope, value) !== NO_SCOPE) {
+    return;
+  }
+
+  const head: string = value.split(".")[0] ?? value;
+
+  walker.diagnostics.push({
+    severity: "error",
+    code: "wrong-scope",
+    message: `${key} = ${value} names ${head}, and here ${head} is no scope at all: ${walker.noScope ?? "nothing hands this block one"}. It names nothing.`,
     definition,
     path,
   });
@@ -629,6 +716,7 @@ function checkItems(
   items: readonly unknown[],
   scope: ScopeState,
   compares: boolean,
+  meaning: BlockRules | undefined,
 ): void {
   if (items.length === 0) {
     return;
@@ -657,11 +745,25 @@ function checkItems(
     if (!isBlockLike(item)) {
       checkItem(walker, definition, around, key, item, rules.items);
     } else if (itemRules !== undefined) {
-      walkBlock(walker, definition, path, itemRules, item, scope, comparesIn(itemRules, compares));
+      const itemMeaning: BlockRules | undefined =
+        meaning === rules
+          ? itemRules
+          : meaning === undefined || meaning.items.length === 0
+            ? undefined
+            : walker.resolver.rulesForValues(meaning.items);
+      walkBlock(walker, definition, path, itemRules, item, scope, comparesIn(itemRules, compares), itemMeaning);
     }
   }
 }
 
+/**
+ * Walks one block. `rules` say what is accepted here: every variant's, since
+ * which variant a definition is depends on its body. `meaning` says what a
+ * value is: only the rules that apply to this definition, carried down from
+ * the key above, so a hidden event's `desc = { text = … }` is not read as a
+ * string's name although another variant's `desc` block declares `text` one.
+ * `undefined` when no rule that applies describes this block.
+ */
 function walkBlock(
   walker: Walker,
   definition: string,
@@ -670,10 +772,11 @@ function walkBlock(
   body: unknown,
   scope: ScopeState,
   compares: boolean,
+  meaning: BlockRules | undefined,
 ): void {
   const { keyed, bare } = entriesOf(body);
 
-  checkItems(walker, definition, path, rules, bare, scope, compares);
+  checkItems(walker, definition, path, rules, bare, scope, compares, meaning);
 
   for (const [key, rawValue] of keyed) {
     if (rawValue === undefined || rawValue === null) {
@@ -684,6 +787,26 @@ function walkBlock(
     // it stood alone, and `gt(1)` compares rather than assigns.
     const occurrences: readonly unknown[] = isRepeated(rawValue) ? rawValue.values : [rawValue];
     const resolution: KeyResolution = walker.resolver.resolve(rules, key);
+    const sense: KeyResolution | undefined =
+      meaning === undefined ? undefined : meaning === rules ? resolution : walker.resolver.resolve(meaning, key);
+    const applicable: readonly ResolvedValue[] =
+      sense === undefined || meaning === undefined ? [] : valuesFor(meaning, sense.values, walker.inVariant);
+
+    // A scripted effect or trigger the mod defines, called where there is no
+    // scope, runs its body there too: what it reads on `root` is read on
+    // nothing. The body is checked on its own as well, where its scope is not
+    // known, so only what the empty scope adds is kept.
+    if (scope.current === NO_SCOPE || scope.root === NO_SCOPE) {
+      followCalls(walker, definition, path.length === 0 ? key : `${path}.${key}`, resolution, scope);
+    }
+
+    // A stage of a situation is written under the key of its own name.
+    if (sense?.localisationKey === true) {
+      const named: string | undefined = localisationKeyIn(key);
+      if (named !== undefined) {
+        checkNamedString(walker, definition, path, named, "is written as a key here and so names a string");
+      }
+    }
 
     if (!resolution.accepted) {
       const where: string = path.length === 0 ? "" : ` inside ${path}`;
@@ -727,6 +850,17 @@ function walkBlock(
       checkValue(walker, definition, path, key, value, resolution);
       checkScope(walker, definition, path, key, resolution, scope);
 
+      if (typeof value === "string" && namesScope(applicable)) {
+        checkNamedScope(walker, definition, path, key, value, scope);
+      }
+
+      if (typeof value === "string" && namesLocalisation(applicable)) {
+        const named: string | undefined = localisationKeyIn(value);
+        if (named !== undefined) {
+          checkNamedString(walker, definition, path, named, `${key} names`);
+        }
+      }
+
       if (walker.macroKeys.has(key.toLowerCase())) {
         checkInlineScript(walker, definition, path, key, value);
       }
@@ -756,6 +890,13 @@ function walkBlock(
         continue;
       }
 
+      const childMeaning: BlockRules | undefined =
+        applicable.length === 0
+          ? undefined
+          : meaning === rules && applicable.length === resolution.values.length
+            ? child
+            : walker.resolver.rulesForValues(applicable);
+
       walkBlock(
         walker,
         definition,
@@ -764,9 +905,244 @@ function walkBlock(
         value,
         applyScope(scope, resolution.scope),
         comparesIn(child, compares),
+        childMeaning,
       );
     }
   }
+}
+
+/** The scalar values an event list holds: `events = { a b }`, or the weighted `random_events = { 10 = a }`. */
+function listedEvents(value: unknown, weighted: boolean): readonly string[] {
+  const { keyed, bare } = entriesOf(value);
+  const listed: readonly unknown[] = weighted ? keyed.flatMap(([, item]) => occurrencesOf(item)) : bare;
+  return listed.filter((item): item is string => typeof item === "string");
+}
+
+/** Which events each of the mod's on_actions lists, the same on_action written twice counted together. */
+function onActionListings(definitions: readonly DefinitionRecord[]): ReadonlyMap<string, readonly string[]> {
+  const listings = new Map<string, string[]>();
+
+  for (const definition of definitions) {
+    if (definition.type !== "on_action") {
+      continue;
+    }
+
+    const listed: string[] = listings.get(definition.id) ?? [];
+
+    for (const [key, value] of entriesOf(definition.body).keyed) {
+      for (const occurrence of occurrencesOf(value)) {
+        if (key === "events" || key === "random_events") {
+          listed.push(...listedEvents(occurrence, key === "random_events"));
+        }
+      }
+    }
+
+    listings.set(definition.id, listed);
+  }
+
+  return listings;
+}
+
+/** Counts every scalar a value holds, at any depth. */
+function countScalars(value: unknown, into: Map<string, number>): void {
+  if (typeof value === "string") {
+    into.set(value, (into.get(value) ?? 0) + 1);
+    return;
+  }
+
+  if (isRepeated(value)) {
+    for (const item of value.values) {
+      countScalars(item, into);
+    }
+    return;
+  }
+
+  if (isCompared(value)) {
+    countScalars(value.value, into);
+    return;
+  }
+
+  if (isRaw(value)) {
+    countDocument(parse(value.text).document.entries, into);
+    return;
+  }
+
+  if (!isBlockLike(value)) {
+    return;
+  }
+
+  const { keyed, bare } = entriesOf(value);
+
+  for (const item of bare) {
+    countScalars(item, into);
+  }
+
+  for (const [, item] of keyed) {
+    countScalars(item, into);
+  }
+}
+
+function countDocument(entries: readonly EntryNode[], into: Map<string, number>): void {
+  for (const entry of entries) {
+    if (entry.kind === NodeKind.Scalar) {
+      into.set(String(entry.value), (into.get(String(entry.value)) ?? 0) + 1);
+    } else if (entry.kind === NodeKind.Block) {
+      countDocument(entry.entries, into);
+    } else if (entry.kind === NodeKind.Assignment) {
+      countDocument([entry.value], into);
+    } else if (entry.kind === NodeKind.OptionalBlock) {
+      // `[[PARAM] … ]` holds script that runs when the parameter is set.
+      countDocument(entry.entries, into);
+    } else if (entry.kind === NodeKind.PrefixedBlock) {
+      countDocument(entry.block.entries, into);
+    }
+  }
+}
+
+/**
+ * Every name the mod writes anywhere but in an on_action's event list.
+ *
+ * An event named here may be fired by a `country_event = { id = … }`, and an
+ * on_action named here by a `fire_on_action`, either of them from a scope.
+ * The mod's raw files count as well, since nothing here can read what they do.
+ */
+function mentions(
+  definitions: readonly DefinitionRecord[],
+  files: readonly RawFileRecord[],
+): ReadonlyMap<string, number> {
+  const counted = new Map<string, number>();
+
+  for (const definition of definitions) {
+    if (definition.type !== "on_action") {
+      countScalars(definition.body, counted);
+      continue;
+    }
+
+    for (const [key, value] of entriesOf(definition.body).keyed) {
+      if (key !== "events" && key !== "random_events") {
+        countScalars(value, counted);
+      }
+    }
+  }
+
+  for (const file of files) {
+    countDocument(parse(file.contents).document.entries, counted);
+  }
+
+  // Listed on_actions are names too, but listing is not firing.
+  for (const onAction of scopelessOnActions) {
+    if (definitions.some((definition) => definition.type === "on_action" && definition.id === onAction)) {
+      counted.set(onAction, counted.get(onAction) ?? 0);
+    }
+  }
+
+  return counted;
+}
+
+/** Whether a block is the trigger `{ always = no }`, which never holds. */
+function isNever(value: unknown): boolean {
+  const { keyed, bare } = entriesOf(value);
+  const only = keyed[0];
+  return (
+    bare.length === 0 &&
+    keyed.length === 1 &&
+    only !== undefined &&
+    only[0].toLowerCase() === "always" &&
+    (only[1] === false || (typeof only[1] === "string" && only[1].toLowerCase() === "no"))
+  );
+}
+
+/** The fields a definition writes at its top level, as a variant predicate reads them. */
+function variantSubject(definition: DefinitionRecord): VariantSubject {
+  const fields = new Map<string, FieldOccurrence[]>();
+
+  for (const [key, value] of entriesOf(definition.body).keyed) {
+    const bucket: FieldOccurrence[] = fields.get(key.toLowerCase()) ?? [];
+
+    for (const occurrence of occurrencesOf(value)) {
+      const read: unknown = isCompared(occurrence) ? occurrence.value : occurrence;
+      // Left `undefined` or `null` is not written, as the walk reads it.
+      if (read === undefined || read === null) {
+        continue;
+      }
+      bucket.push(
+        typeof read === "boolean"
+          ? { kind: "scalar", text: read ? "yes" : "no" }
+          : typeof read === "string" || typeof read === "number"
+            ? { kind: "scalar", text: String(read) }
+            : { kind: "block", never: isBlockLike(read) && isNever(read) },
+      );
+    }
+
+    fields.set(key.toLowerCase(), bucket);
+  }
+
+  return {
+    rootKey: definition.blockKey ?? definition.id,
+    occurrences: (field: string) => fields.get(field.toLowerCase()) ?? [],
+  };
+}
+
+/** Reads each mod-defined scripted effect or trigger a key calls, in the scope it is called in. */
+function followCalls(
+  walker: Walker,
+  definition: string,
+  path: string,
+  resolution: KeyResolution,
+  scope: ScopeState,
+): void {
+  // The scalar call and the call with parameters are two rules for one callee.
+  const followed = new Set<string>();
+
+  for (const value of resolution.values) {
+    if (value.kind !== "scripted-call") {
+      continue;
+    }
+
+    const callee: string = `${value.family}:${value.callee}`;
+    if (followed.has(callee)) {
+      continue;
+    }
+    followed.add(callee);
+    const record: DefinitionRecord | undefined = walker.scripted.get(callee);
+    const type: DefinitionType | undefined = walker.model.definitionTypes.find(
+      (candidate) => candidate.id === `scripted_${value.family}`,
+    );
+
+    if (record === undefined || type === undefined || walker.calling.has(callee)) {
+      continue;
+    }
+
+    walker.calling.add(callee);
+    const sink: ValidationDiagnostic[] = [];
+    const rules: BlockRules = walker.resolver.rulesForType(type);
+    walkBlock(
+      { ...walker, diagnostics: sink },
+      definition,
+      `${path}>`,
+      rules,
+      record.body,
+      scope,
+      comparesIn(rules, value.family === "trigger"),
+      rules,
+    );
+    walker.calling.delete(callee);
+
+    for (const diagnostic of sink) {
+      if (diagnostic.code === "wrong-scope" && !walker.diagnostics.some((seen) => sameDiagnostic(seen, diagnostic))) {
+        walker.diagnostics.push(diagnostic);
+      }
+    }
+  }
+}
+
+function sameDiagnostic(left: ValidationDiagnostic, right: ValidationDiagnostic): boolean {
+  return (
+    left.definition === right.definition &&
+    left.path === right.path &&
+    left.code === right.code &&
+    left.message === right.message
+  );
 }
 
 export function validate(mod: Mod, options: ValidationOptions = {}): readonly ValidationDiagnostic[] {
@@ -774,12 +1150,22 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const languages: readonly string[] = options.languages ?? ["l_english"];
   const diagnostics: ValidationDiagnostic[] = [];
   const declared = new Set<string>(mod.definitions.map((definition) => `${definition.type}:${definition.id}`));
-  const strings = new Map<string, ReadonlySet<string>>();
+  const strings = new Map<string, Set<string>>();
   const seen = new Set<string>();
 
-  for (const [language, entries] of mod.localisation) {
-    strings.set(language, new Set(entries.map((entry) => entry.key)));
+  // A replacement is a string the game reads like any other, only last.
+  for (const set of [mod.localisation, mod.localisationReplacements]) {
+    for (const [language, entries] of set) {
+      const bucket: Set<string> = strings.get(language) ?? new Set<string>();
+      for (const entry of entries) {
+        bucket.add(entry.key);
+      }
+      strings.set(language, bucket);
+    }
   }
+
+  const localised = (language: string, key: string): boolean =>
+    strings.get(language)?.has(key) === true || vanillaLocalisation().has(key);
 
   // A mod's own definitions generate modifiers exactly as vanilla's do: adding a
   // job called `my_job` brings `job_my_job_add` into existence, so the mod has to
@@ -811,8 +1197,25 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     declared,
     enumMembers: ownEnumMembers,
     macroKeys: new Set(model.policy.macros.map((macro) => macro.key.toLowerCase())),
+    localised,
+    languages,
+    inVariant: () => false,
+    noScope: undefined,
+    scripted: new Map(
+      mod.definitions
+        .filter((definition) => definition.type === "scripted_effect" || definition.type === "scripted_trigger")
+        .map((definition) => [`${definition.type.replace(/^scripted_/u, "")}:${definition.id}`, definition]),
+    ),
+    calling: new Set<string>(),
     diagnostics,
   };
+
+  // The events fired with no scope at all: the ones only the on_actions the
+  // game fires that way list, and that nothing else names.
+  const firedWithoutScope: ReadonlyMap<string, readonly string[]> = scopelessEvents(
+    onActionListings(mod.definitions),
+    mentions(mod.definitions, mod.files),
+  );
 
   for (const definition of mod.definitions) {
     const type: DefinitionType | undefined = model.definitionTypes.find(
@@ -886,10 +1289,26 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         : typeof type.entryScope === "string"
           ? type.entryScope
           : undefined;
-    const entryScope: ScopeState = scopeName === undefined ? {} : { current: scopeName, root: scopeName };
+    const firedBy: readonly string[] | undefined =
+      definition.type === "event" && definition.blockKey === "event" ? firedWithoutScope.get(definition.id) : undefined;
+    walker.noScope =
+      firedBy === undefined
+        ? undefined
+        : `${definition.id} is fired only by ${firedBy.join(" and ")}, which ${firedBy.length === 1 ? "fires" : "fire"} it with none`;
+    const entryScope: ScopeState =
+      firedBy !== undefined
+        ? { current: NO_SCOPE, root: NO_SCOPE, prev: NO_SCOPE, from: NO_SCOPE }
+        : scopeName === undefined
+          ? {}
+          : { current: scopeName, root: scopeName };
 
     const root: BlockRules = walker.resolver.rulesForType(type);
-    walkBlock(walker, definition.id, "", root, definition.body, entryScope, comparesIn(root, false));
+    const subject: VariantSubject = variantSubject(definition);
+    walker.inVariant = (variant: string): boolean => {
+      const found = type.variants.find((candidate) => candidate.id === variant);
+      return found !== undefined && variantHolds(found.when, subject);
+    };
+    walkBlock(walker, definition.id, "", root, definition.body, entryScope, comparesIn(root, false), root);
 
     // A field the game needs and the definition does not have. What counts as
     // needed is checked against vanilla itself — a requirement base-game content
@@ -917,14 +1336,18 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
     // A missing string shows in-game as the raw key: easy to ship, easy to miss.
     for (const requirement of type.localisation) {
-      if (!requirement.required || requirement.source.kind !== "definition-id") {
+      if (
+        !requirement.required ||
+        requirement.source.kind !== "definition-id" ||
+        !requirementApplies(type, requirement, subject)
+      ) {
         continue;
       }
 
       const key: string = localisationKey(requirement.source.pattern, definition.id);
 
       for (const language of languages) {
-        if (strings.get(language)?.has(key) !== true) {
+        if (!localised(language, key)) {
           diagnostics.push({
             severity: "warning",
             code: "missing-localisation",

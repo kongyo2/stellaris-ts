@@ -29,7 +29,9 @@ export const sectionTemplate: DefinitionType = defineType({
   id: DefinitionTypeId.SectionTemplate,
   source: taggedBlocks("common/section_templates", "key", []),
   variants: [{ id: "needs_locs", when: fieldPresent("ship_size") }],
-  localisation: [definitionLocalisation("Name", "$", true, "needs_locs")],
+  // Not required: 294 of vanilla's 481 sections with a `ship_size` have no
+  // string under their key, and the game loads and builds every one of them.
+  localisation: [definitionLocalisation("Name", "$", false, "needs_locs")],
   modifiers: [],
   entries: [
     field("key", primitive("scalar"), occurs.one),

@@ -1,4 +1,5 @@
-import { define } from "../src/builders/index.js";
+import { define, type DefinitionBody } from "../src/builders/index.js";
+import { entries } from "../src/runtime/values.js";
 import { EnumId, ScopeId, enumRef, scopeRef } from "../src/schema/index.js";
 
 const values: string[] = [];
@@ -47,3 +48,22 @@ define("building", "sts_lab", {
   category: "research",
   triggered_planet_modifier: { potential: { exists: "owner" }, job_researcher_add: 1 },
 });
+
+// A scripted effect is a sequence of steps, and `entries()` is the one way to
+// write a key twice around another one. The body itself takes it, as every
+// block inside a body already did.
+define(
+  "scripted_effect",
+  "sts_ordered_effect",
+  entries([
+    ["set_variable", { which: "a", value: 1 }],
+    ["if", { limit: { always: true }, set_variable: { which: "a", value: 2 } }],
+    ["set_variable", { which: "b", value: "a" }],
+  ]),
+);
+define("scripted_trigger", "sts_ordered_trigger", entries([["always", true]]));
+define("event", "sts_ordered.1", entries([["is_triggered_only", true]]), { as: "country_event" });
+
+// What `define` takes for a type, named, so a body can be built before the call.
+const orderedBody: DefinitionBody<"scripted_effect"> = entries([["always", true]]);
+void orderedBody;

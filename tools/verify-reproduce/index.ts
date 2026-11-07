@@ -91,17 +91,18 @@ async function collectFiles(directory: string, recurse: boolean): Promise<string
 /**
  * Compares two parsed blocks by what the game would load.
  *
- * Three differences are deliberately not differences:
+ * Two differences are deliberately not differences: `icon = "x"` and
+ * `icon = x` are the same string, and `0.50` and `0.5` the same number, so a
+ * shape holds the parsed value rather than the text.
  *
- * - `icon = "x"` and `icon = x` are the same string, as are `0.50` and `0.5`.
- * - The order of *distinct* keys in a definition body. The game reads them into
- *   a struct; nothing depends on which came first.
- * - Nothing else. The order of a key's own repetitions is compared, because a
- *   list of triggered modifiers is evaluated in order.
- *
- * A plain object cannot interleave two keys the way script can, so without the
- * second point every definition that alternates `a b a` would read as a failure
- * when the game cannot tell the difference.
+ * Order is compared, at every depth. It used to be compared only among one
+ * key's own repetitions, on the reading that a definition body is loaded into a
+ * struct — which holds for a building and not for a scripted effect, whose body
+ * runs top to bottom. `set_variable`, `if`, `set_variable` written back as
+ * `set_variable`, `set_variable`, `if` passed, and the gate counted 2,626
+ * definitions as reproduced that an object can only write in another order.
+ * The converter now keeps the written order wherever an object would not, so
+ * what is printed is what was read, in sequence.
  */
 interface Shape {
   readonly kind: string;
@@ -134,7 +135,6 @@ function shapeOfValue(value: EntryNode): Shape {
   return value.kind === NodeKind.Scalar ? { kind: "scalar", value: value.value } : (shapeOf(value) ?? { kind: "?" });
 }
 
-/** Groups by key, keeping each key's own repetitions in order. */
 function shapesOf(entries: readonly EntryNode[]): readonly Shape[] {
   return entries.map(shapeOf).filter((shape): shape is Shape => shape !== undefined);
 }
@@ -144,102 +144,35 @@ function keyOf(shape: Shape): string {
 }
 
 function sameShape(left: readonly EntryNode[], right: readonly EntryNode[]): boolean {
-  return sameShapes(shapesOf(left), shapesOf(right));
+  return firstDifference(shapesOf(left), shapesOf(right), "root") === undefined;
 }
 
-/** Names the first place two shapes differ, for `--explain`. */
+/** Names the first place two shapes differ, in order, or `undefined` when they do not. */
 function firstDifference(left: readonly Shape[], right: readonly Shape[], path: string): string | undefined {
-  if (left.length !== right.length) {
-    const l = new Set(left.map(keyOf));
-    const r = new Set(right.map(keyOf));
-    const missing: readonly string[] = [...l].filter((key) => !r.has(key));
-    const extra: readonly string[] = [...r].filter((key) => !l.has(key));
-    return `${path}: ${String(left.length)} vs ${String(right.length)} entries; missing=[${missing.slice(0, 4).join(", ")}] extra=[${extra.slice(0, 4).join(", ")}]`;
-  }
+  for (let index = 0; index < Math.max(left.length, right.length); index += 1) {
+    const a: Shape | undefined = left[index];
+    const b: Shape | undefined = right[index];
 
-  const group = (shapes: readonly Shape[]): Map<string, Shape[]> => {
-    const grouped = new Map<string, Shape[]>();
-    for (const shape of shapes) {
-      const bucket: Shape[] = grouped.get(keyOf(shape)) ?? [];
-      bucket.push(shape);
-      grouped.set(keyOf(shape), bucket);
-    }
-    return grouped;
-  };
-
-  const l: Map<string, Shape[]> = group(left);
-  const r: Map<string, Shape[]> = group(right);
-
-  for (const [key, lefts] of l) {
-    const rights: Shape[] | undefined = r.get(key);
-
-    if (rights === undefined) {
-      return `${path}: right is missing ${key}`;
+    if (a === undefined || b === undefined) {
+      return `${path}: ${String(left.length)} vs ${String(right.length)} entries; first unmatched is ${keyOf(a ?? b ?? { kind: "?" })} at ${String(index)}`;
     }
 
-    if (rights.length !== lefts.length) {
-      return `${path}.${key}: repeated ${String(lefts.length)} vs ${String(rights.length)} times`;
+    if (keyOf(a) !== keyOf(b)) {
+      return `${path}[${String(index)}]: ${keyOf(a)} was written, ${keyOf(b)} came back`;
     }
 
-    for (let index = 0; index < lefts.length; index += 1) {
-      const deeper: string | undefined = firstDifference(
-        lefts[index]?.children ?? [],
-        rights[index]?.children ?? [],
-        `${path}.${key}`,
-      );
-      if (deeper !== undefined) {
-        return deeper;
-      }
+    const deeper: string | undefined = firstDifference(
+      a.children ?? [],
+      b.children ?? [],
+      `${path}.${String(a.value ?? a.kind)}`,
+    );
+
+    if (deeper !== undefined) {
+      return deeper;
     }
   }
 
   return undefined;
-}
-
-function sameShapes(left: readonly Shape[], right: readonly Shape[]): boolean {
-  if (left.length !== right.length) {
-    return false;
-  }
-
-  const group = (shapes: readonly Shape[]): Map<string, Shape[]> => {
-    const grouped = new Map<string, Shape[]>();
-    for (const shape of shapes) {
-      const bucket: Shape[] = grouped.get(keyOf(shape)) ?? [];
-      bucket.push(shape);
-      grouped.set(keyOf(shape), bucket);
-    }
-    return grouped;
-  };
-
-  const l: Map<string, Shape[]> = group(left);
-  const r: Map<string, Shape[]> = group(right);
-
-  if (l.size !== r.size) {
-    return false;
-  }
-
-  for (const [key, lefts] of l) {
-    const rights: Shape[] | undefined = r.get(key);
-
-    if (rights === undefined || rights.length !== lefts.length) {
-      return false;
-    }
-
-    for (let index = 0; index < lefts.length; index += 1) {
-      const a: Shape | undefined = lefts[index];
-      const b: Shape | undefined = rights[index];
-
-      if (a === undefined || b === undefined) {
-        return false;
-      }
-
-      if (!sameShapes(a.children ?? [], b.children ?? [])) {
-        return false;
-      }
-    }
-  }
-
-  return true;
 }
 
 const gamePath: string = requireGamePath();
@@ -292,7 +225,7 @@ await mapWithLimit([...new Set(listings.flat())], READ_CONCURRENCY, async (file)
     definitions += 1;
     const id: string = entry.key.raw;
     const original: Block = entry.value;
-    const converted: ConversionResult = convertBlock(original);
+    const converted: ConversionResult = convertBlock(original, { order: "written" });
 
     if (converted.failure !== undefined || converted.value === undefined) {
       record(converted.failure ?? "reparse-failed", relative, id);

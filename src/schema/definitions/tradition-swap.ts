@@ -3,7 +3,7 @@
 
 import { DefinitionTypeId } from "../catalog.js";
 
-import { defineType, definitionLocalisation, fieldEquals, taggedBlocks } from "../ir.js";
+import { defineType, definitionLocalisation, fieldEquals, not, taggedBlocks } from "../ir.js";
 
 import type { DefinitionType } from "../ir.js";
 
@@ -13,7 +13,9 @@ export const traditionSwap: DefinitionType = defineType({
     rootKeyFilter: { mode: "include", values: ["tradition_swap"] },
     container: { kind: "any-container" },
   }),
-  variants: [{ id: "not_inheriting_name", when: fieldEquals("inherit_name", true) }],
+  // Ported with its negation lost: a swap that inherits the name has none of
+  // its own to localise. `inherit_name` defaults to no.
+  variants: [{ id: "not_inheriting_name", when: not(fieldEquals("inherit_name", true)) }],
   localisation: [
     definitionLocalisation("Name", "$", false),
     definitionLocalisation("Effects", "$_desc", false),
