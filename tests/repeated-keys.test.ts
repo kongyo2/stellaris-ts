@@ -132,3 +132,80 @@ describe("a key written more than once under a tag", () => {
     expect(contents).not.toContain("values");
   });
 });
+
+/**
+ * A body whose order is what it means.
+ *
+ * A scripted effect runs top to bottom, so `set_variable`, `if`,
+ * `set_variable` is three steps in that order. An object holds the two
+ * `set_variable` together and `repeated()` writes them back to back, before the
+ * `if` — a different effect, written without a word. `entries()` keeps the
+ * order, and `define` has to take it as the body itself, not only as a block
+ * inside one.
+ */
+describe("a body written in order", () => {
+  const ordered = entries([
+    ["set_variable", { which: "a", value: 1 }],
+    ["if", { limit: { always: true }, set_variable: { which: "a", value: 2 } }],
+    ["set_variable", { which: "b", value: "a" }],
+  ]);
+
+  const emitted = (mod: ReturnType<typeof defineMod>, suffix: string): string => {
+    const file = emit(mod).files.find((candidate) => candidate.path.endsWith(suffix));
+    return file?.kind === "text" ? file.contents : "";
+  };
+
+  it("writes a scripted effect's steps in the order they were given", () => {
+    const mod = defineMod({ name: "Ordered", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
+      define("scripted_effect", "sts_ordered", ordered),
+    );
+
+    expect(emitted(mod, "zz_ordered_scripted_effect.txt")).toBe(
+      [
+        "sts_ordered = {",
+        "\tset_variable = {",
+        "\t\twhich = a",
+        "\t\tvalue = 1",
+        "\t}",
+        "\tif = {",
+        "\t\tlimit = {",
+        "\t\t\talways = yes",
+        "\t\t}",
+        "\t\tset_variable = {",
+        "\t\t\twhich = a",
+        "\t\t\tvalue = 2",
+        "\t\t}",
+        "\t}",
+        "\tset_variable = {",
+        "\t\twhich = b",
+        "\t\tvalue = a",
+        "\t}",
+        "}",
+        "",
+      ].join("\n"),
+    );
+  });
+
+  it("puts a tagged type's id first and keeps the rest in order", () => {
+    const mod = defineMod({ name: "Ordered", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
+      define(
+        "event",
+        "sts_ordered.1",
+        entries([
+          ["is_triggered_only", true],
+          ["immediate", ordered],
+        ]),
+        { as: "country_event" },
+      ),
+    );
+
+    expect(emitted(mod, "zz_ordered_event.txt")).toContain(
+      "country_event = {\n\tid = sts_ordered.1\n\tis_triggered_only = yes\n\timmediate = {\n\t\tset_variable = {",
+    );
+  });
+
+  it("counts what an ordered body holds for a type that is its name alone", () => {
+    expect(() => define("job_tags", "sts_tag", entries([]))).not.toThrow();
+    expect(() => define("job_tags", "sts_tag", entries([["a", 1]]))).toThrow(/written as the identifier alone/u);
+  });
+});

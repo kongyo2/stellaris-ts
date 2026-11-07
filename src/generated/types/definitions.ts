@@ -147,6 +147,9 @@ export type MapGalaxyShapeRef = VanillaId<"map_galaxy_shape"> | (string & {});
 /** Any `megastructure` identifier: the ones vanilla ships, or one this mod defines. */
 export type MegastructureRef = VanillaId<"megastructure"> | (string & {});
 
+/** Any `message_type` identifier: the ones vanilla ships, or one this mod defines. */
+export type MessageTypeRef = VanillaId<"message_type"> | (string & {});
+
 /** Any `model_animation` identifier: the ones vanilla ships, or one this mod defines. */
 export type ModelAnimationRef = VanillaId<"model_animation"> | (string & {});
 
@@ -7723,7 +7726,7 @@ export interface EventDefinition {
   readonly diplomatic_title?: string | Authored;
   readonly espionage_operation?: boolean | Authored;
   readonly event_chain?: EventChainRef | Authored;
-  readonly event_message_type?: string | Authored;
+  readonly event_message_type?: MessageTypeRef | Authored;
   readonly event_picture_background?: SpriteRef | Authored;
   readonly event_window_type?: "crisis_leader_conversation" | "CRISIS_LEADER_CONVERSATION" | "leader_recruit" | "LEADER_RECRUIT" | "leader_story" | "LEADER_STORY" | "leader_conversation" | "LEADER_CONVERSATION" | Authored;
   readonly fire_only_once?: boolean | Authored;
@@ -9120,7 +9123,7 @@ export interface NameListDefinition {
 } | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly customize_random_override?: string | Authored;
+  readonly customize_random_override?: NameListRef | Authored;
   readonly design_names?: PdxBlock | readonly PdxValue[] | Authored;
   readonly fleet_names?: {
   readonly generic?: PdxBlock | readonly PdxValue[] | Authored;
@@ -10371,10 +10374,10 @@ export interface ScriptedEffectDefinition {
 }
 
 export interface ScriptedLocDefinition {
-  readonly default?: string | Authored;
+  readonly default?: string | PdxNumber | boolean | Authored;
   readonly random?: boolean | Authored;
   readonly text?: {
-  readonly localization_key: string | Authored;
+  readonly localization_key: string | PdxNumber | boolean | Authored;
   readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly weight?: PdxBlock | readonly PdxValue[] | PdxNumber | Authored;
   readonly [key: string]: PdxValue | undefined;

@@ -4,7 +4,23 @@ import { definitionTypes } from "../schema/definitions/index.js";
 import { vanillaDefinitionTypes } from "../schema/vanilla-types.js";
 import type { DefinitionType } from "../schema/ir.js";
 import type { DefinitionRecord } from "../runtime/mod.js";
+import { isEntries, type EntriesValue } from "../runtime/values.js";
 import type { DefinitionShapes } from "../generated/types/index.js";
+
+/**
+ * What a definition of one type may be written as: its shape, or an ordered
+ * entry list.
+ *
+ * A block is a sequence, and a body whose order means something cannot be an
+ * object. A scripted effect runs its effects top to bottom, so
+ * `set_variable`, then `if`, then `set_variable` again is three steps in that
+ * order — and an object can only hold the two `set_variable` together, which
+ * `repeated()` then writes one after the other before the `if`. `entries()` is
+ * the one shape that keeps the order, and every block inside a body already
+ * took it; the body itself did not, so the one place a scripted effect's order
+ * lives was the one place it could not be written.
+ */
+export type DefinitionBody<Type extends keyof DefinitionShapes> = DefinitionShapes[Type] | EntriesValue;
 
 /**
  * Builds one definition of a given type.
@@ -150,7 +166,7 @@ function variantFor(type: DefinitionType, key: string | undefined): string | und
 export function define<Type extends keyof DefinitionShapes>(
   type: Type,
   id: string,
-  body: DefinitionShapes[Type],
+  body: DefinitionBody<Type>,
   options: DefineOptions = {},
 ): DefinitionRecord {
   const schemaType: DefinitionType = typeFor(type);
@@ -165,8 +181,9 @@ export function define<Type extends keyof DefinitionShapes>(
   const onlyFile: string | undefined = ONLY_FILES[schemaType.id];
 
   // A job tag is the word and nothing else. A body would have to be written as
-  // a block, and a block turns the word into a key the game does not read.
-  if (bareValue && Object.keys(body).length > 0) {
+  // a block, and a block turns the word into a key the game does not read. An
+  // ordered list counts what it holds, not its own one property.
+  if (bareValue && (isEntries(body) ? body.entries.length : Object.keys(body).length) > 0) {
     throw new Error(`${type} is written as the identifier alone, so a body would not be read. Pass {}.`);
   }
 
@@ -193,7 +210,7 @@ export function defineIn<Type extends keyof DefinitionShapes>(
   type: Type,
   file: string,
   id: string,
-  body: DefinitionShapes[Type],
+  body: DefinitionBody<Type>,
   options: Omit<DefineOptions, "file"> = {},
 ): DefinitionRecord {
   return define(type, id, body, { ...options, file });

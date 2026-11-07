@@ -101,6 +101,17 @@ export interface GameIndex {
    */
   readonly modifierNames: readonly string[];
   /**
+   * Every localisation key the base game defines, in any language.
+   *
+   * A definition names strings by key — an event's `desc`, an option's `name`,
+   * a `custom_tooltip` — and a key nothing defines shows in game as the key
+   * itself. A mod may name the base game's strings as well as its own, so the
+   * check needs to know which keys are the game's. Keys only, never the text;
+   * compared as written, because the game looks a key up by the hash of its
+   * bytes and folds no case.
+   */
+  readonly localisationKeys: readonly string[];
+  /**
    * Field names the game declares, for the types that declare their own.
    *
    * `common/defines` holds a few thousand engine constants that no ported corpus
@@ -666,7 +677,7 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     enums: enums.sort((left, right) => compareOrdinal(left.id, right.id)),
     filesRead,
     vanillaFiles,
-    modifierNames: await collectModifierNames(gamePath),
+    ...(await collectLocalisation(gamePath)),
     fieldNames,
     scriptedParameters,
   };
@@ -717,23 +728,53 @@ async function collectLanguages(gamePath: string): Promise<readonly string[]> {
   }
 }
 
-async function collectModifierNames(gamePath: string): Promise<readonly string[]> {
-  const files: readonly string[] = await collectLocalisationFiles(join(gamePath, "localisation"));
+/**
+ * One entry of a localisation file: `key:0 "text"`, or `key: "text"`.
+ *
+ * Indentation is optional — `astral_planes_l_english.yml` writes a few hundred
+ * keys at the start of the line, and the game shows those strings — and the
+ * version number is too. Every line of the 4.5.2 files that is not blank, a
+ * comment or a language header has this shape: 1,516,503 of them.
+ */
+const LOCALISATION_ENTRY = /^\s*([^\s:#"]+):\d*\s*"/u;
+
+async function collectLocalisation(
+  gamePath: string,
+): Promise<{ readonly modifierNames: readonly string[]; readonly localisationKeys: readonly string[] }> {
+  // The game reads `pdx_online_assets/localisation` into the same table at
+  // start-up (`main.cpp`, beside "Initialized localization: "), so its keys are
+  // as good as any other's. They are the online and mod-upload screens'
+  // strings, though, and `MOD_DETAILS` there is no modifier.
+  const scripted: readonly string[] = await collectLocalisationFiles(join(gamePath, "localisation"));
+  const online: ReadonlySet<string> = new Set(
+    await collectLocalisationFiles(join(gamePath, "pdx_online_assets", "localisation")),
+  );
+  const files: readonly string[] = [...scripted, ...online];
   const names = new Set<string>();
+  const keys = new Set<string>();
 
   await mapWithLimit(files, READ_CONCURRENCY, async (file): Promise<void> => {
     const text: string = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file));
 
     for (const line of text.split(/\r?\n/u)) {
-      const match: RegExpExecArray | null = /^\s*mod_([A-Za-z0-9_.]+):/iu.exec(line);
+      const match: RegExpExecArray | null = online.has(file) ? null : /^\s*mod_([A-Za-z0-9_.]+):/iu.exec(line);
 
       if (match?.[1] !== undefined) {
         names.add(match[1].toLowerCase());
       }
+
+      const entry: string | undefined = LOCALISATION_ENTRY.exec(line)?.[1];
+
+      if (entry !== undefined) {
+        keys.add(entry);
+      }
     }
   });
 
-  return [...names].sort(compareOrdinal);
+  return {
+    modifierNames: [...names].sort(compareOrdinal),
+    localisationKeys: [...keys].sort(compareOrdinal),
+  };
 }
 
 async function collectLocalisationFiles(directory: string): Promise<string[]> {

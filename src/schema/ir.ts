@@ -493,6 +493,19 @@ export interface FieldPresencePredicate {
   readonly present: boolean;
 }
 
+/**
+ * The field is written, and every occurrence is the trigger `{ always = no }`.
+ *
+ * That is how vanilla says a definition can never be what the field asks: 12
+ * of its name lists are `selectable = { always = no }`. `field-presence` reads
+ * such a field as not written; this tells it apart from one left out, which a
+ * name list's `selectable` defaults to yes for.
+ */
+export interface FieldNeverPredicate {
+  readonly kind: "field-never";
+  readonly field: string;
+}
+
 export interface AllPredicate {
   readonly kind: "all";
   readonly predicates: readonly VariantPredicate[];
@@ -517,6 +530,7 @@ export type VariantPredicate =
   | AlwaysPredicate
   | AnyPredicate
   | FieldEqualsPredicate
+  | FieldNeverPredicate
   | FieldPresencePredicate
   | NotPredicate
   | RootKeyPredicate;
@@ -1081,6 +1095,10 @@ export function fieldPresent(fieldName: string): FieldPresencePredicate {
 
 export function fieldAbsent(fieldName: string): FieldPresencePredicate {
   return { kind: "field-presence", field: fieldName, present: false };
+}
+
+export function fieldNever(fieldName: string): FieldNeverPredicate {
+  return { kind: "field-never", field: fieldName };
 }
 
 export function allOf(...predicates: readonly VariantPredicate[]): AllPredicate {

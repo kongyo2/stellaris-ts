@@ -172,7 +172,12 @@ export const event: DefinitionType = defineType({
     field("id", primitive("scalar"), occurs.one),
     field("is_test_event", literal(true), occurs.optional),
     field("diplomatic_title", primitive("localisation"), occurs.optional),
-    field("event_message_type", primitive("localisation"), occurs.optional),
+    // A message type's id, not a string: the 4.5.2 event reader looks it up
+    // among the message types and logs "No such message type %s as specified
+    // in event %s" when it finds none (`0x8e58b0`). Every value vanilla writes
+    // here — ENCLAVE_DIPLOMACY 26 times, MESSAGE_TERRAFORM_CANDIDATE_FOUND,
+    // EMPIRE_FOCUS — is a message type, and none of them is a localisation key.
+    field("event_message_type", typeRef("message_type"), occurs.optional),
     whenVariant("inherited", [
       field("base", typeRef("event"), occurs.one),
       field("desc_clear", literal(true), occurs.optional),

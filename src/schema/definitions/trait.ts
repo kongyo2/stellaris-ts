@@ -13,6 +13,7 @@ import {
   enumRef,
   field,
   fieldEquals,
+  fieldAbsent,
   fieldPresent,
   item,
   keyedBlocks,
@@ -36,13 +37,19 @@ export const trait: DefinitionType = defineType({
   id: DefinitionTypeId.Trait,
   source: keyedBlocks("common/traits"),
   variants: [
-    { id: "species_trait", when: fieldPresent("leader_class") },
+    // cwt: `## cardinality = 0..0` on `leader_class`, lost in the port, so a
+    // species trait was read as a leader trait and the other way round.
+    { id: "species_trait", when: fieldAbsent("leader_class") },
     { id: "leader_trait", when: fieldPresent("leader_class") },
     { id: "leader_trait_subclass", when: fieldEquals("subclass_trait", true) },
     { id: "leader_trait_veteran", when: fieldEquals("veteran_class_locked_trait", true) },
     { id: "leader_trait_destiny", when: fieldEquals("destiny_trait", true) },
     { id: "leader_trait_replacement", when: fieldPresent("replace_traits") },
-    { id: "leader_trait_not_replacement", when: fieldPresent("replace_traits") },
+    // Ported with its negation lost, so both variants meant the same thing. A
+    // replacement inherits the strings of the trait it replaces: all 230 of
+    // vanilla's traits with `replace_traits` lack their own name, and none of
+    // the 827 without it does.
+    { id: "leader_trait_not_replacement", when: fieldAbsent("replace_traits") },
   ],
   localisation: [
     definitionLocalisation("Name", "$", false),

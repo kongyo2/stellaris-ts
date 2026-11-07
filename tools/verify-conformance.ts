@@ -4,7 +4,17 @@ import { requireGamePath } from "./game-path.js";
 
 import { vanillaFieldNames } from "../src/generated/vanilla/index.js";
 import { schema } from "../src/schema/index.js";
-import { isVanillaDefect, isVanillaValueDefect, vanillaFieldDefects } from "../src/schema/vanilla-defects.js";
+import {
+  isVanillaDefect,
+  isVanillaScopeDefect,
+  isVanillaUnlocalisedDefinition,
+  isVanillaUnlocalisedReference,
+  isVanillaValueDefect,
+  vanillaFieldDefects,
+  vanillaScopeDefects,
+  vanillaUnlocalisedDefinitions,
+  vanillaUnlocalisedReferences,
+} from "../src/schema/vanilla-defects.js";
 import { checkConformance, type ConformanceReport } from "./verify-schema/conformance.js";
 
 /**
@@ -123,12 +133,30 @@ for (const finding of unexplainedValues) {
 // answers a wrongly-scoped trigger with `false` for ever and never says why, so
 // a disagreement here is either a real bug in vanilla or a wrong constraint —
 // and the constraints come from a dump two patches older than the install.
-for (const entry of report.types) {
-  for (const finding of entry.scopeViolations) {
-    console.error(
-      `CONFORMANCE ${entry.type} scope: ${finding.command} at ${finding.path} runs in ${finding.writtenIn}, and accepts only ${finding.accepts.join(", ")} (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
-    );
-  }
+const unexplainedScopes = report.types.flatMap((entry) =>
+  entry.scopeViolations
+    .filter((finding) => !isVanillaScopeDefect(entry.type, finding.path, finding.command))
+    .map((finding) => ({ type: entry.type, finding })),
+);
+
+const staleScopes: readonly string[] = Object.entries(vanillaScopeDefects).flatMap(([type, sites]) =>
+  sites.filter(
+    (site) =>
+      !report.types.some(
+        (entry) =>
+          entry.type === type && entry.scopeViolations.some((finding) => `${finding.path} ${finding.command}` === site),
+      ),
+  ),
+);
+
+for (const site of staleScopes) {
+  console.error(`CONFORMANCE ${site} is listed as a scope mistake in vanilla and is no longer found.`);
+}
+
+for (const { type, finding } of unexplainedScopes) {
+  console.error(
+    `CONFORMANCE ${type} scope: ${finding.command} at ${finding.path} runs in ${finding.writtenIn}, and accepts only ${finding.accepts.join(", ")} (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
+  );
 }
 
 // Direction C: a field the schema requires that a vanilla definition omits.
@@ -164,6 +192,75 @@ for (const entry of report.types) {
     );
   }
 }
+
+// Direction L: a string vanilla names that no localisation file defines. The
+// game shows such a key as itself, so a rule reading the value as a string's
+// name is right only if vanilla's own values are strings' names; each one that
+// is not is either a gap in vanilla, listed by key, or a rule to correct.
+const unexplainedStrings = report.types.flatMap((entry) =>
+  entry.unresolvedStrings
+    .filter((finding) => !isVanillaUnlocalisedReference(entry.type, finding.key))
+    .map((finding) => ({ type: entry.type, ...finding })),
+);
+
+for (const finding of unexplainedStrings) {
+  const where: string = finding.field === "<key>" ? `the key ${finding.key} written` : finding.field;
+  console.error(
+    `CONFORMANCE ${finding.type} unlocalised: ${where} ${finding.path.length === 0 ? "" : `inside ${finding.path} `}names ${finding.key}, which no localisation file defines (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
+  );
+}
+
+// And a string a requirement asks of every definition, which vanilla's own
+// definitions lack. Kept as a requirement only where vanilla nearly always has
+// it, with the exceptions listed by id; otherwise the requirement is wrong.
+const unexplainedMissing = report.types.flatMap((entry) =>
+  entry.missingStrings.flatMap((finding) =>
+    finding.ids
+      .filter((id) => !isVanillaUnlocalisedDefinition(entry.type, id))
+      .map((id) => ({ type: entry.type, pattern: finding.pattern, id, finding })),
+  ),
+);
+
+for (const { type, pattern, id, finding } of unexplainedMissing) {
+  console.error(
+    `CONFORMANCE ${type} missing-string: ${pattern}${finding.variant === undefined ? "" : ` (variant ${finding.variant})`} is required, and vanilla's ${id} has none; ${String(finding.missingFrom)} of ${String(finding.appliesTo)} lack it.`,
+  );
+}
+
+// A listed gap that is no longer found has been fixed, or the rule reading it
+// changed; either way the list is stale and would excuse the next one.
+const staleStrings: readonly string[] = [
+  ...Object.entries(vanillaUnlocalisedReferences).flatMap(([type, keys]) =>
+    keys
+      .filter(
+        (key) =>
+          !report.types.some(
+            (entry) => entry.type === type && entry.unresolvedStrings.some((finding) => finding.key === key),
+          ),
+      )
+      .map((key) => `${type} reference ${key}`),
+  ),
+  ...Object.entries(vanillaUnlocalisedDefinitions).flatMap(([type, ids]) =>
+    ids
+      .filter(
+        (id) =>
+          !report.types.some(
+            (entry) => entry.type === type && entry.missingStrings.some((finding) => finding.ids.includes(id)),
+          ),
+      )
+      .map((id) => `${type} definition ${id}`),
+  ),
+];
+
+for (const stale of staleStrings) {
+  console.error(`CONFORMANCE ${stale} is listed as a localisation gap in vanilla and is no longer found.`);
+}
+
+const stringGaps: number = report.types.reduce(
+  (total, entry) =>
+    total + entry.unresolvedStrings.filter((finding) => isVanillaUnlocalisedReference(entry.type, finding.key)).length,
+  0,
+);
 
 if (defectsFound !== expectedDefects) {
   console.error(
@@ -210,7 +307,7 @@ console.log(
     `topLevelUnknown=${String(report.topLevelUnknownTotal)}`,
     `unusedRules=${String(report.unusedRuleTotal)}`,
     `phantomRequirements=${String(report.missingRequiredTotal)}`,
-    `scopeViolations=${String(report.scopeViolationTotal)}`,
+    `scopeViolations=${String(unexplainedScopes.length)}`,
     `valueMismatches=${String(unexplainedValues.length)}`,
     `shapeMismatches=${String(report.shapeMismatchTotal)}`,
     `comparisonMismatches=${String(report.comparisonMismatchTotal)}`,
@@ -219,6 +316,12 @@ console.log(
     `gatedStrict=${String(strictGated.length)}/${String(GATED_TYPES.length)}`,
     `gatedPermissive=${permissiveGated.join(",") || "none"}`,
     `vanillaDefects=${String(defectsFound)}`,
+    `stringsChecked=${String(report.stringsChecked)}`,
+    `scopelessEvents=${String(report.scopelessEventsWalked)}/${String(report.scopelessEvents)}`,
+    `callsFollowed=${String(report.callsFollowed)}`,
+    `unlocalised=${String(unexplainedStrings.length)}`,
+    `missingStrings=${String(unexplainedMissing.length)}`,
+    `vanillaStringGaps=${String(stringGaps)}`,
     `modifierDump=${schema.modifiers.source}`,
     `gameDeclaredFields=${String(declaredFields)}`,
   ].join(" "),
@@ -233,11 +336,15 @@ if (declaredFields < DECLARED_FIELD_FLOOR) {
 if (
   unexplained.length > 0 ||
   report.missingRequiredTotal > 0 ||
-  report.scopeViolationTotal > 0 ||
+  unexplainedScopes.length > 0 ||
+  staleScopes.length > 0 ||
   unexplainedValues.length > 0 ||
   report.shapeMismatchTotal > 0 ||
   report.comparisonMismatchTotal > 0 ||
   defectsFound !== expectedDefects ||
+  unexplainedStrings.length > 0 ||
+  unexplainedMissing.length > 0 ||
+  staleStrings.length > 0 ||
   missingGated.length > 0 ||
   strictnessRegressed ||
   declaredFields < DECLARED_FIELD_FLOOR

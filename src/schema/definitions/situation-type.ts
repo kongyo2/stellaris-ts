@@ -4,7 +4,6 @@
 import { DefinitionTypeId, EnumId, ScopeId } from "../catalog.js";
 
 import {
-  anyKey,
   block,
   defineType,
   definitionLocalisation,
@@ -12,6 +11,7 @@ import {
   enterScope,
   enumRef,
   field,
+  fieldAbsent,
   fieldEquals,
   item,
   keyedBlocks,
@@ -21,6 +21,7 @@ import {
   numericKey,
   occurs,
   primitive,
+  primitiveKey,
   replaceScope,
   ruleSetEntries,
   scriptValue,
@@ -37,11 +38,22 @@ export const situationType: DefinitionType = defineType({
   variants: [
     { id: "monodirectional", when: fieldEquals("progress_direction", "monodirectional") },
     { id: "bidirectional", when: fieldEquals("progress_direction", "bidirectional") },
+    // The 4.5.2 executable checks `<id>_type` only for a situation with no
+    // `title` of its own, and `<id>_desc` only for one with no `desc`
+    // (`0x4e4490`, which tests the count of each before looking the key up). In
+    // vanilla every one of the 84 untitled situations has `_type` and every one
+    // of the 81 undescribed ones has `_desc`; three titled and five described
+    // ones have neither.
+    { id: "untitled", when: fieldAbsent("title") },
+    { id: "undescribed", when: fieldAbsent("desc") },
   ],
+  // The same function looks each of these up at load and logs "Missing
+  // situation localization key" for one it cannot find, along with the name of
+  // every approach and the key of every stage.
   localisation: [
     definitionLocalisation("Name", "$", true),
-    definitionLocalisation("Type Name", "$_type", true),
-    definitionLocalisation("Description", "$_desc", false),
+    definitionLocalisation("Type Name", "$_type", true, "untitled"),
+    definitionLocalisation("Description", "$_desc", true, "undescribed"),
     definitionLocalisation("Monthly Change Tooltip", "$_monthly_change_tooltip", true),
   ],
   modifiers: [],
@@ -198,7 +210,7 @@ export const situationType: DefinitionType = defineType({
       "stages",
       block([
         field(
-          anyKey(),
+          primitiveKey("localisation"),
           block([
             field("end", primitive("integer"), occurs.optional, {
               documentation:

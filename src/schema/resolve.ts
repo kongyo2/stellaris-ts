@@ -48,6 +48,15 @@ export interface ScriptedCallValue {
 
 export type ResolvedValue = ScriptedCallValue | ValueRule;
 
+/**
+ * A variant a rule was declared under: `whenVariant` includes its rules for
+ * the definitions in the variant, `unlessVariant` for the ones outside it.
+ */
+export interface VariantCondition {
+  readonly variant: string;
+  readonly mode: "include" | "exclude";
+}
+
 export interface ResolverData {
   /** Identifiers per definition type: vanilla's, plus the mod's own when validating. */
   readonly idsByType: Readonly<Record<string, readonly string[]>>;
@@ -83,6 +92,23 @@ export interface BlockRules {
   readonly scopeChanges: ReadonlyMap<string, ScopeChange>;
   /** Some rule here accepts arbitrary keys, so nothing can be reported unknown. */
   readonly wildcard: boolean;
+  /**
+   * The variants each value rule was declared under, for a rule declared
+   * inside one.
+   *
+   * Every variant's rules are accepted, because which variant a definition is
+   * depends on its body and narrowing would reject script the game loads. What
+   * a value *means* can still depend on it: a hidden event's `title` is any
+   * word and is never shown, every other event's is the key of the string its
+   * window shows, and a check that reads the union reads neither.
+   */
+  readonly conditions: ReadonlyMap<ResolvedValue, readonly VariantCondition[]>;
+  /**
+   * Some rule here takes a localisation key as its key: each stage of a
+   * situation is written under the key of its own name, and the game looks that
+   * key up.
+   */
+  readonly localisationKeys: boolean;
   /** No rule here describes a block at all: a block written here is a shape error. */
   readonly scalarOnly: boolean;
   readonly scopeKeys: boolean;
@@ -125,6 +151,11 @@ export interface KeyResolution {
   readonly commands: readonly ScriptCommandDefinition[];
   /** How the block under this key is scoped, when the key says. */
   readonly scope?: ScopeTransition;
+  /**
+   * The key itself names a string: nothing here matched it but a rule that
+   * takes a localisation key where a key belongs.
+   */
+  readonly localisationKey?: boolean;
   /**
    * Whether some rule this key matched is declared with a comparison, or
    * nothing here is specific enough to say: a key accepted only because the
@@ -186,11 +217,42 @@ function frameScope(state: ScopeState, word: string): string | undefined {
 }
 
 /**
+ * What a value naming a frame points at: `root`, `this`, `prev` or `from`, alone
+ * or at the head of a chain (`root.owner` starts at `root`).
+ *
+ * `undefined` when the value does not start with one of those, or the scope it
+ * names is not known here.
+ */
+export function frameOf(state: ScopeState, value: string): string | undefined {
+  const head: string = (value.split(".")[0] ?? value).toLowerCase();
+  return FRAME_WORDS.has(head) ? frameScope(state, head) : undefined;
+}
+
+/**
  * The scope a block runs in, given the one around it.
  *
  * Anything the transition does not pin down comes back with no `current`, and a
  * check that does not know the scope reports nothing.
  */
+/**
+ * The value rules that apply to one definition, given which variants it is in.
+ *
+ * A rule declared under no variant always applies; one declared under a
+ * variant applies when the definition is in it (`include`) or outside it
+ * (`exclude`), at every level of nesting it was declared at.
+ */
+export function valuesFor(
+  rules: BlockRules,
+  values: readonly ResolvedValue[],
+  inVariant: (variant: string) => boolean,
+): readonly ResolvedValue[] {
+  return values.filter((value) =>
+    (rules.conditions.get(value) ?? []).every((condition) =>
+      condition.mode === "include" ? inVariant(condition.variant) : !inVariant(condition.variant),
+    ),
+  );
+}
+
 export function applyScope(state: ScopeState, transition: ScopeTransition | undefined): ScopeState {
   if (transition === undefined) {
     return state;
@@ -221,7 +283,9 @@ export function applyScope(state: ScopeState, transition: ScopeTransition | unde
 
 interface Draft {
   readonly scopeChanges: Map<string, ScopeChange>;
+  readonly conditions: Map<ResolvedValue, readonly VariantCondition[]>;
   wildcard: boolean;
+  localisationKeys: boolean;
   scopeKeys: boolean;
   parameters: boolean;
   sawBlockRule: boolean;
@@ -245,7 +309,9 @@ function draft(): Draft {
   return {
     requiredMinimums: new Map<string, number>(),
     scopeChanges: new Map<string, ScopeChange>(),
+    conditions: new Map<ResolvedValue, readonly VariantCondition[]>(),
     wildcard: false,
+    localisationKeys: false,
     scopeKeys: false,
     parameters: false,
     sawBlockRule: false,
@@ -582,12 +648,17 @@ export class SchemaResolver {
       accepted = true;
     }
 
+    // Accepted for no reason but that the block takes a localisation key: the
+    // key is a string's name, and nothing more specific claimed it.
+    const localisationKey: boolean = rules.localisationKeys && values.length === 0 && commands.length === 0;
+
     return {
       accepted,
       values,
       commands,
       comparable,
       ...(transition === undefined ? {} : { scope: transition }),
+      ...(localisationKey ? { localisationKey } : {}),
     };
   }
 
@@ -754,6 +825,8 @@ export class SchemaResolver {
 
     return {
       wildcard: into.wildcard || into.parameters,
+      conditions: into.conditions,
+      localisationKeys: into.localisationKeys,
       scopeChanges: into.scopeChanges,
       scalarOnly: !into.sawBlockRule && !hasKeySource && into.items.length === 0,
       scopeKeys: into.scopeKeys,
@@ -774,7 +847,12 @@ export class SchemaResolver {
     };
   }
 
-  #collectEntry(entry: EntryRule, into: Draft, conditional = false): void {
+  #collectEntry(
+    entry: EntryRule,
+    into: Draft,
+    conditional = false,
+    conditions: readonly VariantCondition[] = [],
+  ): void {
     switch (entry.kind) {
       case "field":
         if (entry.scope !== undefined && typeof entry.key === "string") {
@@ -799,6 +877,9 @@ export class SchemaResolver {
         // rule beside `picture = <sprite>` is enough to stop the reference from
         // being checked at all.
         this.#collectKey(entry.key, entry.occurrence.max === 0 ? undefined : entry.value, into, entry.operator !== "=");
+        if (conditions.length > 0) {
+          into.conditions.set(entry.value, conditions);
+        }
         return;
       case "item":
         into.items.push(entry.value);
@@ -807,7 +888,7 @@ export class SchemaResolver {
         // Which variant applies depends on the body, so every variant's rules
         // are accepted. Narrowing would reject script the game loads.
         for (const child of entry.entries) {
-          this.#collectEntry(child, into, true);
+          this.#collectEntry(child, into, true, [...conditions, { variant: entry.variant, mode: entry.mode }]);
         }
         return;
       case "script-entries":
@@ -882,6 +963,7 @@ export class SchemaResolver {
         // A file path, a localisation key or a number written where a key
         // belongs: the set is open, so the value rule is what matters.
         into.wildcard = true;
+        into.localisationKeys ||= key.type === "localisation";
         return;
       case "rule-set-key":
         into.ruleSetFamilies.add(key.family);

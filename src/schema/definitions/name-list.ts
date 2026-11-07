@@ -9,12 +9,15 @@ import {
   defineType,
   definitionLocalisation,
   field,
-  fieldPresent,
+  fieldAbsent,
+  fieldNever,
   item,
   keyedBlocks,
   literal,
+  not,
   occurs,
   primitive,
+  typeRef,
   replaceScope,
   triggerEntries,
   typeKey,
@@ -26,8 +29,12 @@ export const nameList: DefinitionType = defineType({
   id: DefinitionTypeId.NameList,
   source: keyedBlocks("common/name_lists"),
   variants: [
-    { id: "random", when: fieldPresent("randomized") },
-    { id: "selectable", when: fieldPresent("selectable") },
+    // cwt: `## cardinality = 0..0` on `randomized`, lost in the port.
+    { id: "random", when: fieldAbsent("randomized") },
+    // A name list is selectable unless it says it never is: all 64 of vanilla's
+    // that leave `selectable` out have a `name_list_<id>` string, and 12 of the
+    // 16 written `selectable = { always = no }` have none.
+    { id: "selectable", when: not(fieldNever("selectable")) },
   ],
   localisation: [
     definitionLocalisation("Name", "name_list_$", false),
@@ -38,7 +45,10 @@ export const nameList: DefinitionType = defineType({
   entries: [
     field("language", primitive("scalar"), occurs.optional),
     field("category", primitive("scalar"), occurs.optional),
-    field("customize_random_override", primitive("localisation"), occurs.optional),
+    // Another name list, whose names the customisation screen draws from:
+    // every value vanilla writes (ART4, HUM1, HUM2, MACHINE1) is a name list's
+    // id and none is a localisation key.
+    field("customize_random_override", typeRef("name_list"), occurs.optional),
     field("selectable", block([triggerEntries({ scope: replaceScope({ root: ScopeId.Country }) })]), occurs.optional),
     field("trigger", block([triggerEntries()]), occurs.optional, { scope: replaceScope({ root: ScopeId.Country }) }),
     field("randomized", literal(false), occurs.optional, {
