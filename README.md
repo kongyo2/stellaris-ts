@@ -158,13 +158,24 @@ What it reports:
 - a trigger, an effect or a `who = root` read where there is no scope at all: an
   event that only `on_yearly_pulse`, the other pulses or `on_game_start` fire
   runs with none, and so does every scripted effect it calls;
-- a reference to something neither the base game nor the mod defines;
+- a reference to something neither the base game nor the mod defines,
+  counting what the mod's own raw files define — a sprite in its `.gfx`, a
+  scripted trigger written by hand;
+- a name the game builds and cannot find: the entity a ship size is drawn
+  with, `<key>_entity` when it names none, and the sprite
+  `GFX_<key>_outliner_icon` the outliner shows a megastructure by;
 - a required field the definition has not got;
 - a parameter a scripted trigger or effect does not take;
 - a string a definition needs or names that neither the mod nor the base game
   defines — its own name, an event's `title`, `desc` and options, a
-  `custom_tooltip` or `fail_text`, a situation's stages and approaches — which
-  the game shows as the key itself;
+  `custom_tooltip` or `fail_text`, a situation's stages and approaches, a
+  policy option's `_desc` and each policy flag's `_name`, each item of a list
+  of strings such as a timeline event's `text` — which the game shows as the
+  key itself;
+- what the game logs at load as something that "will not display well": a
+  situation approach with nothing to show, an `on_fail` holding a single
+  effect, and a condition with no `desc` in the weights the game shows reason
+  by reason, a resolution's `ai_weight` among them;
 - an id the base game already uses, which this would replace — except in the
   directories the game merges instead, where adding to `on_game_start` is the
   point rather than a mistake;

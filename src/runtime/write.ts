@@ -13,6 +13,12 @@ export interface WriteResult {
   readonly written: readonly string[];
   /** Files the previous build wrote and this one no longer does, now deleted. */
   readonly removed: readonly string[];
+  /**
+   * Files the previous build wrote and this one no longer does that could not
+   * be deleted: the game holding one open, a folder where the file was. They
+   * stay in the manifest, so the next build tries again.
+   */
+  readonly stuck: readonly string[];
 }
 
 /**
@@ -95,18 +101,26 @@ export async function writePlan(mod: Mod, plan: EmitPlan, modsDirectory: string)
   const current = new Set<string>(plan.files.map((file) => file.path.toLowerCase()));
   const removed: readonly string[] = previous.filter((path) => !current.has(path.toLowerCase())).sort();
 
-  await Promise.all(removed.map(async (path) => rm(join(modDirectory, ...path.split("/")), { force: true })));
+  // A deletion that fails must not end the build there: the new files are on
+  // disk by now, and a manifest left as it was would not list them, so the
+  // next build could never remove them either. One that cannot be deleted is
+  // kept in the manifest instead, and tried again next time.
+  const outcomes = await Promise.allSettled(
+    removed.map(async (path) => rm(join(modDirectory, ...path.split("/")), { force: true })),
+  );
+  const stuck: readonly string[] = removed.filter((_, index) => outcomes[index]?.status === "rejected");
+  const deleted: readonly string[] = removed.filter((_, index) => outcomes[index]?.status === "fulfilled");
 
   await writeFile(
     join(modDirectory, WRITE_MANIFEST),
-    `${JSON.stringify({ files: [...written].sort() }, undefined, 2)}\n`,
+    `${JSON.stringify({ files: [...new Set([...written, ...stuck])].sort() }, undefined, 2)}\n`,
     "utf8",
   );
 
   const modFilePath: string = resolve(modsDirectory, plan.modFileName);
   await writeFile(modFilePath, renderModFile(mod.options, modDirectory), "utf8");
 
-  return { modDirectory, modFilePath, written: written.sort(), removed };
+  return { modDirectory, modFilePath, written: written.sort(), removed: deleted, stuck };
 }
 
 export { BYTE_ORDER_MARK };

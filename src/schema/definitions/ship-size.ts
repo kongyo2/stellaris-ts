@@ -156,12 +156,10 @@ export const shipSize: DefinitionType = defineType({
     field("construction_type", literal("spaceport"), occurs.optional),
     field("construction_type", literal("starbase_defenses"), occurs.optional),
     field("selectable", block([triggerEntries()]), occurs.optional),
-    field("possible_starbase", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Starbase }),
-    }),
-    field("potential_starbase", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Starbase }),
-    }),
+    // No `possible_starbase`, `potential_starbase`, `potential_planet` or
+    // `possible_planet`: none of the four words is in the 4.5.2 executable,
+    // whose reader logs "Unexpected token" for a key it does not know, and
+    // vanilla writes none of them.
     field("required_component_set", typeRef("component_set", "required_component"), occurs.any),
     field("valid_target_aggressive_stance", primitive("boolean"), occurs.optional),
     field("auto_upgrade", primitive("boolean"), occurs.optional),
@@ -178,12 +176,6 @@ export const shipSize: DefinitionType = defineType({
     }),
     field("possible_country", block([triggerEntries()]), occurs.optional, {
       scope: replaceScope({ root: ScopeId.Country }),
-    }),
-    field("potential_planet", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Planet }),
-    }),
-    field("possible_planet", block([triggerEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Planet }),
     }),
     field("potential_construction", block([triggerEntries()]), occurs.optional, {
       scope: replaceScope({ root: anyScope() }),

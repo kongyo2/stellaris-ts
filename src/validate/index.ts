@@ -2,21 +2,32 @@ import {
   extractedEnumMembers,
   vanillaIdsByType,
   vanillaModifierNames,
+  vanillaPlacement,
   vanillaScriptedParameters,
 } from "../generated/vanilla/index.js";
 import { vanillaLocalisationKeys } from "../generated/vanilla/localisation-keys.js";
 import type { DefinitionRecord, Mod, RawFileRecord } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
+import { definitionIds } from "../schema/definition-ids.js";
 import { captureFromDocument } from "../schema/extraction.js";
 import { localisationKey } from "../schema/ir.js";
 import {
   localisationKeyIn,
-  namesLocalisation,
+  namedStrings,
   requirementApplies,
   variantHolds,
   type FieldOccurrence,
   type VariantSubject,
 } from "../schema/localisation-references.js";
+import {
+  loadBlockOfEntries,
+  loadCheckedTypes,
+  loadChecks,
+  type LoadBlock,
+  type LoadCheckContext,
+  type LoadEntry,
+  type LoadValue,
+} from "../schema/load-checks.js";
 import { engineFixedEnums, mergedDefinitionTypes } from "../schema/merged-types.js";
 import { NodeKind, parse, type Document, type EntryNode } from "../syntax/index.js";
 import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../schema/scopeless-on-actions.js";
@@ -199,6 +210,39 @@ function checkNamedString(walker: Walker, definition: string, path: string, name
   }
 }
 
+/**
+ * Every string a value names, by its rules' patterns: `$` is the value itself,
+ * so a policy option written `name = sts_open` names `sts_open` and
+ * `sts_open_desc`, and a policy flag `sts_open_name` alone.
+ */
+function checkNamedStrings(
+  walker: Walker,
+  definition: string,
+  path: string,
+  value: string,
+  patterns: readonly string[],
+  key: string,
+  item: boolean,
+): void {
+  const named: string | undefined = patterns.length === 0 ? undefined : localisationKeyIn(value);
+
+  if (named === undefined) {
+    return;
+  }
+
+  const written: string = item ? `${key} = { ${named} }` : `${key} = ${named}`;
+
+  for (const pattern of patterns) {
+    checkNamedString(
+      walker,
+      definition,
+      path,
+      localisationKey(pattern, named),
+      pattern === "$" ? `${written} names` : `${written} asks for`,
+    );
+  }
+}
+
 function enumMembers(walker: Walker, id: string): readonly string[] {
   const definition: EnumDefinition | undefined = walker.model.enums.find((candidate) => candidate.id === id);
 
@@ -314,21 +358,9 @@ function captureFromBody(
 function withOwnEnumMembers(
   model: SchemaModel,
   definitions: readonly DefinitionRecord[],
-  files: readonly RawFileRecord[],
+  parsed: ReadonlyMap<string, Document>,
 ): Readonly<Record<string, readonly string[]>> {
   const merged: Record<string, readonly string[]> = { ...extractedEnumMembers };
-  // A raw file is script the mod wrote for a type this library has no shape
-  // for, and `common/component_tags` is exactly that: a list of words with no
-  // definition type behind it. Parsed once, because a route per file per enum
-  // would parse the same file twenty-seven times.
-  const parsed = new Map<string, Document>();
-
-  for (const record of files) {
-    const result = parse(record.contents);
-    if (result.errors.length === 0) {
-      parsed.set(record.path, result.document);
-    }
-  }
 
   for (const definition of model.enums) {
     if (definition.kind !== "extracted-enum" || engineFixedEnums[definition.id] !== undefined) {
@@ -376,6 +408,158 @@ function withOwnEnumMembers(
   }
 
   return merged;
+}
+
+/**
+ * A mod's raw files, parsed once: the ones that parse.
+ *
+ * A raw file is script the mod wrote for a type this library has no shape
+ * for, and `common/component_tags` is exactly that: a list of words with no
+ * definition type behind it. Parsed once, because a route per file per enum
+ * would parse the same file twenty-seven times.
+ */
+function parseRawFiles(files: readonly RawFileRecord[]): ReadonlyMap<string, Document> {
+  const parsed = new Map<string, Document>();
+
+  for (const record of files) {
+    const result = parse(record.contents);
+    if (result.errors.length === 0) {
+      parsed.set(record.path, result.document);
+    }
+  }
+
+  return parsed;
+}
+
+/**
+ * The definitions a mod's raw files declare, by type.
+ *
+ * `mod.file()` ships what `define()` has no shape for, and a mod's own `.gfx`
+ * of sprites, its `.asset` of entities and a `common/scripted_triggers` file
+ * written by hand are definitions the game loads like any other. Knowing only
+ * `define()`'s, the check reported every call to such a trigger as an unknown
+ * key. A file counts for a type when it sits where the type is read from and
+ * has the extension the game reads there.
+ */
+function rawFileIds(model: SchemaModel, parsed: ReadonlyMap<string, Document>): Record<string, string[]> {
+  const ids: Record<string, string[]> = {};
+
+  for (const [written, document] of parsed) {
+    // The emitter takes either separator, and reads `./common/x.txt` as the
+    // `common/x.txt` it writes.
+    const path: string = written
+      .replaceAll("\\", "/")
+      .split("/")
+      .filter((part) => part !== "" && part !== ".")
+      .join("/");
+    const slash: number = path.lastIndexOf("/");
+    const directory: string = slash < 0 ? "" : path.slice(0, slash);
+    const name: string = path.slice(slash + 1);
+    const dot: number = name.lastIndexOf(".");
+    const extension: string = dot < 0 ? "" : name.slice(dot).toLowerCase();
+
+    for (const type of model.definitionTypes) {
+      const source = type.source;
+      const covers: boolean = source.includeSubdirectories
+        ? directory === source.directory || directory.startsWith(`${source.directory}/`)
+        : directory === source.directory;
+
+      if (
+        !covers ||
+        (source.files !== undefined && !source.files.includes(name)) ||
+        extension !== (vanillaPlacement[type.id]?.extension ?? ".txt")
+      ) {
+        continue;
+      }
+
+      for (const claim of definitionIds(type, document, name)) {
+        (ids[type.id] ??= []).push(claim.id);
+      }
+    }
+  }
+
+  return ids;
+}
+
+/**
+ * A body value as the game's own load checks read it.
+ *
+ * `repeated()` is the key once per value, `gt(1)` its value, and `raw()` the
+ * script it holds, parsed. An `inline_script`, or raw text that does not
+ * parse, leaves the block open: something is in it that nothing here can see.
+ */
+function loadValueOf(value: unknown): LoadValue | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  if (typeof value === "boolean") {
+    return { kind: "scalar", text: value ? "yes" : "no" };
+  }
+  if (typeof value === "string" || typeof value === "number") {
+    return { kind: "scalar", text: String(value) };
+  }
+  if (isCompared(value)) {
+    return loadValueOf(value.value);
+  }
+  if (isRaw(value)) {
+    const result = parse(value.text);
+    const written: readonly EntryNode[] = result.document.entries.filter((entry) => entry.kind !== NodeKind.Trivia);
+    const only: EntryNode | undefined = written[0];
+    if (result.errors.length > 0 || written.length !== 1 || only === undefined) {
+      return { kind: "unreadable" };
+    }
+    if (only.kind === NodeKind.Block) {
+      return loadBlockOfEntries(only.entries);
+    }
+    return only.kind === NodeKind.Scalar
+      ? (loadBlockOfEntries([only]).entries[0]?.value ?? { kind: "unreadable" })
+      : { kind: "unreadable" };
+  }
+  return isBlockLike(value) ? loadBlockOf(value) : { kind: "unreadable" };
+}
+
+function loadBlockOf(body: unknown): LoadBlock {
+  if (isRaw(body)) {
+    const read: LoadValue | undefined = loadValueOf(body);
+    return read?.kind === "block" ? read : { kind: "block", entries: [], open: true };
+  }
+
+  const entries: LoadEntry[] = [];
+  let open = false;
+
+  const add = (key: string | undefined, value: unknown): void => {
+    for (const occurrence of key === undefined ? [value] : occurrencesOf(value)) {
+      const read: LoadValue | undefined = loadValueOf(occurrence);
+      if (read === undefined) {
+        continue;
+      }
+      if (key?.toLowerCase() === "inline_script") {
+        open = true;
+      }
+      entries.push({ key, value: read });
+    }
+  };
+
+  if (isEntries(body)) {
+    // An ordered list keeps keyed and bare entries in the order written.
+    for (const entry of body.entries) {
+      if (isBare(entry)) {
+        add(undefined, entry.bare);
+      } else {
+        add(entry[0], entry[1]);
+      }
+    }
+  } else {
+    const { keyed, bare } = entriesOf(body);
+    for (const item of bare) {
+      add(undefined, item);
+    }
+    for (const [key, value] of keyed) {
+      add(key, value);
+    }
+  }
+
+  return { kind: "block", entries, open };
 }
 
 /**
@@ -741,9 +925,17 @@ function checkItems(
     return;
   }
 
+  // What an item means, as for a keyed value: only the item rules that apply
+  // to this definition. `tags = { … }` names strings in one type and is a list
+  // of words in another, and `meaning` is what tells them apart.
+  const itemNames: readonly string[] = meaning === undefined ? [] : namedStrings(meaning.items);
+
   for (const item of items) {
     if (!isBlockLike(item)) {
       checkItem(walker, definition, around, key, item, rules.items);
+      if (typeof item === "string") {
+        checkNamedStrings(walker, definition, around, item, itemNames, key, true);
+      }
     } else if (itemRules !== undefined) {
       const itemMeaning: BlockRules | undefined =
         meaning === rules
@@ -854,11 +1046,8 @@ function walkBlock(
         checkNamedScope(walker, definition, path, key, value, scope);
       }
 
-      if (typeof value === "string" && namesLocalisation(applicable)) {
-        const named: string | undefined = localisationKeyIn(value);
-        if (named !== undefined) {
-          checkNamedString(walker, definition, path, named, `${key} names`);
-        }
+      if (typeof value === "string") {
+        checkNamedStrings(walker, definition, path, value, namedStrings(applicable), key, false);
       }
 
       if (walker.macroKeys.has(key.toLowerCase())) {
@@ -911,11 +1100,29 @@ function walkBlock(
   }
 }
 
-/** The scalar values an event list holds: `events = { a b }`, or the weighted `random_events = { 10 = a }`. */
+/**
+ * The scalar values an event list holds: `events = { a b }`, or the weighted
+ * `random_events = { 10 = a }`. A list written with `raw()` is the same list
+ * once parsed, as the game reads what the emitter writes.
+ */
 function listedEvents(value: unknown, weighted: boolean): readonly string[] {
+  if (isRaw(value)) {
+    const read: LoadValue | undefined = loadValueOf(value);
+    return read?.kind !== "block"
+      ? []
+      : read.entries
+          .filter((entry) => (entry.key !== undefined) === weighted)
+          .flatMap((entry) => (entry.value.kind === "scalar" ? [entry.value.text] : []));
+  }
+
   const { keyed, bare } = entriesOf(value);
   const listed: readonly unknown[] = weighted ? keyed.flatMap(([, item]) => occurrencesOf(item)) : bare;
   return listed.filter((item): item is string => typeof item === "string");
+}
+
+/** A raw value this cannot read as a block: what it lists is not known. */
+function isUnreadableRaw(value: unknown): boolean {
+  return occurrencesOf(value).some((occurrence) => isRaw(occurrence) && loadValueOf(occurrence)?.kind !== "block");
 }
 
 /** Which events each of the mod's on_actions lists, the same on_action written twice counted together. */
@@ -1013,13 +1220,17 @@ function mentions(
   const counted = new Map<string, number>();
 
   for (const definition of definitions) {
-    if (definition.type !== "on_action") {
+    // An on_action written wholly with `raw()` lists what this cannot see, so
+    // every name in it counts as a mention.
+    if (definition.type !== "on_action" || isRaw(definition.body)) {
       countScalars(definition.body, counted);
       continue;
     }
 
+    // An event list is listing, not firing, unless it cannot be read: then
+    // what it lists might be anything, and naming is the safe reading.
     for (const [key, value] of entriesOf(definition.body).keyed) {
-      if (key !== "events" && key !== "random_events") {
+      if ((key !== "events" && key !== "random_events") || isUnreadableRaw(value)) {
         countScalars(value, counted);
       }
     }
@@ -1169,8 +1380,15 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
   // A mod's own definitions generate modifiers exactly as vanilla's do: adding a
   // job called `my_job` brings `job_my_job_add` into existence, so the mod has to
-  // be part of what the namespace is expanded over.
-  const ownIds: Record<string, string[]> = {};
+  // be part of what the namespace is expanded over. What its raw files define
+  // is its own as well.
+  const parsedFiles: ReadonlyMap<string, Document> = parseRawFiles(mod.files);
+  const ownIds: Record<string, string[]> = rawFileIds(model, parsedFiles);
+  for (const [type, ids] of Object.entries(ownIds)) {
+    for (const id of ids) {
+      declared.add(`${type}:${id}`);
+    }
+  }
   for (const definition of mod.definitions) {
     (ownIds[definition.type] ??= []).push(definition.id);
   }
@@ -1180,8 +1398,20 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const ownEnumMembers: Readonly<Record<string, readonly string[]>> = withOwnEnumMembers(
     model,
     mod.definitions,
-    mod.files,
+    parsedFiles,
   );
+  const idSets = new Map<string, ReadonlySet<string>>();
+  const loadContext: LoadCheckContext = {
+    defines: (type: string, id: string): boolean => {
+      let set: ReadonlySet<string> | undefined = idSets.get(type);
+      if (set === undefined) {
+        set = new Set(idsByType[type] ?? []);
+        idSets.set(type, set);
+      }
+      return set.has(id);
+    },
+    ids: (type: string): readonly string[] => idsByType[type] ?? [],
+  };
   const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
   const walker: Walker = {
@@ -1330,6 +1560,19 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
           message: `${definition.type} needs ${key}, and this definition has none.`,
           definition: definition.id,
           path: "",
+        });
+      }
+    }
+
+    // What the game's loader logs about this definition, and loads it anyway.
+    if (loadCheckedTypes.has(definition.type)) {
+      for (const finding of loadChecks(definition.type, definition.id, loadBlockOf(definition.body), loadContext)) {
+        diagnostics.push({
+          severity: "warning",
+          code: finding.code,
+          message: finding.message,
+          definition: definition.id,
+          path: finding.path,
         });
       }
     }

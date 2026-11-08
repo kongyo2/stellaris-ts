@@ -175,7 +175,40 @@ export const definitionCorrections: Readonly<Record<string, readonly EntryRule[]
   // vanilla 4.5.2: common/megastructures/99_README_MEGASTRUCTURES.txt documents
   // it as a trigger, scope fleet, from country. Vanilla's one use is commented
   // out, so reading vanilla's script alone stopped finding it.
-  megastructure: [field("build_menu_potential", block([triggerEntries()]), occurs.optional)],
+  megastructure: [
+    field("build_menu_potential", block([triggerEntries()]), occurs.optional),
+    // 4.5.2 executable, the megastructure reader (`0xd42150`): two flags read as
+    // yes or no, the two dismantle effects beside `on_dismantle_complete`, two
+    // modifier blocks beside `station_modifier`, and a number. Vanilla writes
+    // none of them, so reading vanilla never found them.
+    field("can_prevent_crisis_terraformation", primitive("boolean"), occurs.optional),
+    field("generate_borders", primitive("boolean"), occurs.optional),
+    field("on_dismantle_start", block([effectEntries()]), occurs.optional),
+    field("on_dismantle_cancel", block([effectEntries()]), occurs.optional),
+    field("orbit_modifier", block([modifierEntries()]), occurs.optional),
+    field("system_modifier", block([modifierEntries()]), occurs.optional),
+    field("starbase_capacity_used", primitive("number"), occurs.optional),
+  ],
+  // 4.5.2 executable, the policy reader (`0x501e90`): a policy's own
+  // `prerequisites`, read into the same technology list as an option's.
+  policy: [field("prerequisites", block([item(typeRef("technology"), occurs.any)]), occurs.optional)],
+  // 4.5.2 executable, the ship size reader (`0xd26c70`). Its
+  // `combat_max_speed`, `combat_rotation_speed` and `empire_limit` handlers
+  // only log that the key was removed, so those stay unknown.
+  ship_size: [
+    field("build_speed_mult", primitive("number"), occurs.optional),
+    field("encampment_required_progress", primitive("number"), occurs.optional),
+    field("can_lead_armada", primitive("boolean"), occurs.optional),
+    field("ignore_closed_borders", primitive("boolean"), occurs.optional),
+  ],
+  // 4.5.2 executable, the situation reader (`0x4e3690`): four strings, read
+  // as `override_finisher_desc` and the others vanilla writes are.
+  situation_type: [
+    field("custom_tooltip", primitive("localisation"), occurs.optional),
+    field("custom_tooltip_with_modifiers", primitive("localisation"), occurs.optional),
+    field("override_active_desc", primitive("localisation"), occurs.optional),
+    field("override_active_title", primitive("localisation"), occurs.optional),
+  ],
 };
 
 /**
@@ -220,6 +253,13 @@ function prerequisiteLogic(): readonly EntryRule[] {
 }
 
 export const nestedCorrections: readonly NestedCorrection[] = [
+  {
+    type: DefinitionTypeId.SituationType,
+    path: ["approach"],
+    evidence:
+      "4.5.2 executable: the approach reader (`0x4e65d0`) reads `custom_tooltip` as a string, kept apart from the effects the situation's check counts",
+    entries: [field("custom_tooltip", primitive("localisation"), occurs.optional)],
+  },
   {
     type: DefinitionTypeId.Building,
     path: ["prerequisites"],

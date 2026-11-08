@@ -85,24 +85,10 @@ export const anomalyCategory: DefinitionType = defineType({
     }),
     field(
       "on_success",
-      block([
-        field(numericKey(), typeRef("event", "ship"), between(0, 100)),
-        field(
-          "int",
-          block([
-            field("max_once", primitive("boolean"), occurs.optional, {
-              documentation: "Individual outcomes default to max_once = yes",
-            }),
-            field("max_once_global", primitive("boolean"), occurs.optional, {
-              documentation: "Individual outcomes default to max_once_global = no",
-            }),
-            modifierRuleEntries(),
-            field("anomaly_event", typeRef("event", "ship"), occurs.optional),
-            field("ship_event", typeRef("event", "ship"), occurs.optional),
-          ]),
-          between(0, 100),
-        ),
-      ]),
+      // A weighted outcome's block form, `1 = { anomaly_event = … }`, is the
+      // correction in `corrections.ts`: cwt wrote it `int = { … }`, which ported
+      // as a key literally called `int` that the game never reads.
+      block([field(numericKey(), typeRef("event", "ship"), between(0, 100))]),
       occurs.one,
     ),
   ],

@@ -46,6 +46,18 @@ export interface PrimitiveValue {
   readonly range?: NumericRange;
   readonly path?: string;
   readonly format?: string;
+  /**
+   * The strings a value under this rule names, with `$` standing for the
+   * value.
+   *
+   * A localisation key names itself, and that is what a rule without this
+   * means. Some values name more than that, or something else: a policy
+   * option's `name` is looked up as written and with `_desc` after it, and
+   * each of its `policy_flags` only with `_name` after it, although a flag is
+   * no string's name of its own (`0x4ffdf0` and `0x4fee10` in the 4.5.2
+   * executable).
+   */
+  readonly names?: readonly string[];
 }
 
 export interface AnyValue {
@@ -815,6 +827,14 @@ export function primitive(type: PrimitiveType, range?: NumericRange, path?: stri
     ...(path === undefined ? {} : { path }),
     ...(format === undefined ? {} : { format }),
   };
+}
+
+/**
+ * A value that names strings by pattern, `$` standing for the value:
+ * `namingStrings("scalar", "$_name")` is a word whose string is `<word>_name`.
+ */
+export function namingStrings(type: PrimitiveType, ...names: readonly string[]): PrimitiveValue {
+  return { kind: "primitive", type, names };
 }
 
 export function anyValue(): AnyValue {

@@ -10,6 +10,7 @@ import {
   type Document,
   type EntryNode,
 } from "../../src/syntax/index.js";
+import { definitionIds } from "../../src/schema/definition-ids.js";
 import { captureFromDocument } from "../../src/schema/extraction.js";
 import { gameDeclaredFieldTypes } from "../../src/schema/open-fields.js";
 import type { DefinitionType, EnumDefinition, SchemaModel } from "../../src/schema/ir.js";
@@ -279,14 +280,6 @@ function keyOf(entry: EntryNode): string | undefined {
 }
 
 /**
- * Ids a definition type claims from one file, mirroring how the game loads them.
- *
- * Container and naming compose. A sprite lives at
- * `spriteTypes = { spriteType = { name = "GFX_x" } }`: a container to descend
- * into, and then a name field to read — not the nested key, which is
- * `spriteType` for every one of them.
- */
-/**
  * The block keys a tagged type is written under.
  *
  * `taggedBlocks` means the block key is a tag and the identity is a field
@@ -344,92 +337,6 @@ function definitionTags(type: DefinitionType, document: Document, into: Set<stri
       claim(key, block);
     }
   }
-}
-
-/** One definition a type claims from a file, and the block it was found inside. */
-interface Claim {
-  readonly id: string;
-  /** The root-level key of the block holding it, for a type read from inside one. */
-  readonly container?: string;
-}
-
-function definitionIds(type: DefinitionType, document: Document, fileName: string): Claim[] {
-  if (type.source.kind === "file-definitions") {
-    return [{ id: type.source.stripExtension ? fileName.replace(/\.[^.]+$/u, "") : fileName }];
-  }
-
-  // A tag file has no blocks: every root-level value is one definition, and
-  // reading only assignments finds nothing at all.
-  if (type.source.kind === "bare-values") {
-    return document.entries
-      .filter((entry) => entry.kind === NodeKind.Scalar)
-      .map((entry) => String(entry.value).replace(/^"|"$/gu, ""))
-      .filter((id) => id.length > 0)
-      .map((id) => ({ id }));
-  }
-
-  const filter = type.source.rootKeyFilter;
-  const accepted = (key: string): boolean =>
-    filter === undefined
-      ? true
-      : filter.mode === "include"
-        ? filter.values.includes(key)
-        : !filter.values.includes(key);
-
-  const container = type.source.container;
-  const nameField: string | undefined = type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
-  const claims: Claim[] = [];
-
-  /** Reads one definition block: its key, or the field the type names. */
-  const claim = (key: string, body: Block, holder: string | undefined): void => {
-    const found = (id: string): void => {
-      claims.push(holder === undefined ? { id } : { id, container: holder });
-    };
-
-    if (nameField === undefined) {
-      found(key);
-      return;
-    }
-
-    for (const field of body.entries) {
-      if (keyOf(field) === nameField && field.kind === NodeKind.Assignment && field.value.kind === NodeKind.Scalar) {
-        found(String(field.value.value));
-      }
-    }
-  };
-
-  for (const entry of document.entries) {
-    const key: string | undefined = keyOf(entry);
-    const block: Block | undefined = blockOf(entry);
-
-    if (key === undefined || block === undefined) {
-      continue;
-    }
-
-    if (container !== undefined) {
-      if (container.kind !== "any-container" && container.key !== key) {
-        continue;
-      }
-      for (const nested of block.entries) {
-        const nestedKey: string | undefined = keyOf(nested);
-        const nestedBlock: Block | undefined = blockOf(nested);
-        if (nestedKey !== undefined && nestedBlock !== undefined && accepted(nestedKey)) {
-          claim(nestedKey, nestedBlock, key);
-        }
-      }
-      continue;
-    }
-
-    if (accepted(key)) {
-      claim(key, block, undefined);
-    }
-  }
-
-  // A quoted key keeps its quotes in the raw value; the identifier is the text
-  // inside them, which is what every reference elsewhere in script writes.
-  return claims
-    .map((found) => ({ ...found, id: found.id.replace(/^"|"$/gu, "") }))
-    .filter((found) => found.id.length > 0);
 }
 
 /** `.gfx` for `spriteTypes.gfx`, the empty string for an extensionless inline script. */

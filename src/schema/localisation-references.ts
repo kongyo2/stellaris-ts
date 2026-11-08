@@ -18,17 +18,18 @@ import type { DefinitionType, LocalisationRequirement, VariantPredicate } from "
  */
 
 /**
- * Whether a scalar written under a key with these rules names a localisation
- * key.
+ * The strings a scalar written under a key with these rules names, as
+ * patterns with `$` standing for the value; empty when it names none.
  *
- * Only when every rule that could read a scalar takes one: `name` in a
+ * Only when every rule that could read a scalar names one: `name` in a
  * technology swap is a technology or a string, and naming either is fine. A
  * rule that only describes a block says nothing about a scalar written there —
  * an event's `desc` is a key or a `{ trigger text }` block, and a key written as
- * a scalar is still a key.
+ * a scalar is still a key. Rules that name different strings name the ones
+ * they agree on.
  */
-export function namesLocalisation(values: readonly ResolvedValue[]): boolean {
-  let names = false;
+export function namedStrings(values: readonly ResolvedValue[]): readonly string[] {
+  let names: readonly string[] | undefined;
 
   for (const value of values) {
     switch (value.kind) {
@@ -38,18 +39,20 @@ export function namesLocalisation(values: readonly ResolvedValue[]): boolean {
       case "list":
       case "rule-set-reference":
         continue;
-      case "primitive":
-        if (value.type !== "localisation") {
-          return false;
+      case "primitive": {
+        const own: readonly string[] | undefined = value.names ?? (value.type === "localisation" ? ["$"] : undefined);
+        if (own === undefined) {
+          return [];
         }
-        names = true;
+        names = names === undefined ? own : names.filter((name) => own.includes(name));
         continue;
+      }
       default:
-        return false;
+        return [];
     }
   }
 
-  return names;
+  return names ?? [];
 }
 
 /**
