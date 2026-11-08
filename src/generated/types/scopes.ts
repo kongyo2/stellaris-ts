@@ -136,7 +136,6 @@ export interface AgreementTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -169,7 +168,6 @@ export interface AgreementTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -256,7 +254,6 @@ export interface AgreementTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -320,7 +317,6 @@ export interface AgreementEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -377,7 +373,6 @@ export interface AgreementEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -437,7 +432,6 @@ export interface AgreementEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -466,7 +460,6 @@ export interface AgreementEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -512,8 +505,6 @@ export interface AgreementEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -556,7 +547,6 @@ export interface AgreementEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -597,7 +587,6 @@ export interface AllianceTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -628,7 +617,6 @@ export interface AllianceTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -707,7 +695,6 @@ export interface AllianceTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -764,7 +751,6 @@ export interface AllianceEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -820,7 +806,6 @@ export interface AllianceEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -876,7 +861,6 @@ export interface AllianceEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -905,7 +889,6 @@ export interface AllianceEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -945,8 +928,6 @@ export interface AllianceEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -976,7 +957,6 @@ export interface AllianceEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -1017,7 +997,6 @@ export interface AmbientObjectTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -1051,7 +1030,6 @@ export interface AmbientObjectTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -1137,7 +1115,6 @@ export interface AmbientObjectTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -1199,7 +1176,6 @@ export interface AmbientObjectEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -1256,7 +1232,6 @@ export interface AmbientObjectEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -1316,7 +1291,6 @@ export interface AmbientObjectEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -1345,7 +1319,6 @@ export interface AmbientObjectEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -1389,8 +1362,6 @@ export interface AmbientObjectEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_location?: PdxValue;
@@ -1425,7 +1396,6 @@ export interface AmbientObjectEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -1466,7 +1436,6 @@ export interface ArchaeologicalSiteTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -1500,7 +1469,6 @@ export interface ArchaeologicalSiteTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -1597,7 +1565,6 @@ export interface ArchaeologicalSiteTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -1660,7 +1627,6 @@ export interface ArchaeologicalSiteEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -1717,7 +1683,6 @@ export interface ArchaeologicalSiteEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly expire_site_event?: PdxValue;
@@ -1780,7 +1745,6 @@ export interface ArchaeologicalSiteEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -1809,7 +1773,6 @@ export interface ArchaeologicalSiteEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -1855,8 +1818,6 @@ export interface ArchaeologicalSiteEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -1892,7 +1853,6 @@ export interface ArchaeologicalSiteEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -1933,7 +1893,6 @@ export interface ArmyTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly army_type?: PdxValue;
   readonly calc_true_if?: PdxValue;
@@ -1968,7 +1927,6 @@ export interface ArmyTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -2058,7 +2016,6 @@ export interface ArmyTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -2121,7 +2078,6 @@ export interface ArmyEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -2179,7 +2135,6 @@ export interface ArmyEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly exile_leader_as?: PdxValue;
@@ -2243,7 +2198,6 @@ export interface ArmyEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -2272,7 +2226,6 @@ export interface ArmyEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -2317,8 +2270,6 @@ export interface ArmyEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_leader?: PdxValue;
@@ -2357,7 +2308,6 @@ export interface ArmyEffects {
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
   readonly unassign_leader?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -2398,7 +2348,6 @@ export interface AstralRiftTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly astral_rift_relative_difficulty?: PdxValue;
   readonly calc_true_if?: PdxValue;
@@ -2432,7 +2381,6 @@ export interface AstralRiftTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -2525,7 +2473,6 @@ export interface AstralRiftTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -2593,7 +2540,6 @@ export interface AstralRiftEffects {
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_mining_station?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_research_station?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
@@ -2651,7 +2597,6 @@ export interface AstralRiftEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -2712,7 +2657,6 @@ export interface AstralRiftEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -2741,7 +2685,6 @@ export interface AstralRiftEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -2788,8 +2731,6 @@ export interface AstralRiftEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_next_astral_rift_event?: PdxValue;
@@ -2825,7 +2766,6 @@ export interface AstralRiftEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -2866,7 +2806,6 @@ export interface BackgroundPlanetTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -2897,7 +2836,6 @@ export interface BackgroundPlanetTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -2976,7 +2914,6 @@ export interface BackgroundPlanetTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -3033,7 +2970,6 @@ export interface BackgroundPlanetEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -3089,7 +3025,6 @@ export interface BackgroundPlanetEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -3145,7 +3080,6 @@ export interface BackgroundPlanetEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -3174,7 +3108,6 @@ export interface BackgroundPlanetEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -3214,8 +3147,6 @@ export interface BackgroundPlanetEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -3245,7 +3176,6 @@ export interface BackgroundPlanetEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -3286,7 +3216,6 @@ export interface BypassTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly can_lock_be_renewed?: PdxValue;
@@ -3320,7 +3249,6 @@ export interface BypassTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -3402,7 +3330,6 @@ export interface BypassTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -3464,7 +3391,6 @@ export interface BypassEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -3521,7 +3447,6 @@ export interface BypassEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -3583,7 +3508,6 @@ export interface BypassEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -3612,7 +3536,6 @@ export interface BypassEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -3655,8 +3578,6 @@ export interface BypassEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -3690,7 +3611,6 @@ export interface BypassEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -3731,7 +3651,6 @@ export interface CarrierTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -3762,7 +3681,6 @@ export interface CarrierTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -3841,7 +3759,6 @@ export interface CarrierTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -3898,7 +3815,6 @@ export interface CarrierEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -3954,7 +3870,6 @@ export interface CarrierEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -4010,7 +3925,6 @@ export interface CarrierEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -4039,7 +3953,6 @@ export interface CarrierEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -4079,8 +3992,6 @@ export interface CarrierEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -4110,7 +4021,6 @@ export interface CarrierEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -4160,7 +4070,6 @@ export interface ColonyTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_targeting_situation?: PdxValue;
   readonly artificial_pops_last_month_growth?: PdxValue;
@@ -4218,7 +4127,6 @@ export interface ColonyTriggers {
   readonly count_rim_system?: PdxValue;
   readonly count_species?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_targeting_situation?: PdxValue;
   readonly custom_progress?: PdxValue;
@@ -4398,7 +4306,6 @@ export interface ColonyTriggers {
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
   readonly total_workforce_with_job_tag?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly uses_district_set?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
@@ -4483,7 +4390,6 @@ export interface ColonyEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_pop_group?: PdxValue;
   readonly create_rebels?: PdxValue;
   readonly create_sector?: PdxValue;
@@ -4555,7 +4461,6 @@ export interface ColonyEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_targeting_situation?: PdxValue;
@@ -4628,7 +4533,6 @@ export interface ColonyEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_targeting_situation?: PdxValue;
@@ -4667,7 +4571,6 @@ export interface ColonyEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_targeting_situation?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
@@ -4734,8 +4637,6 @@ export interface ColonyEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_name?: PdxValue;
@@ -4783,7 +4684,6 @@ export interface ColonyEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -4828,7 +4728,6 @@ export interface CosmicStormTriggers {
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
   readonly any_system_added_to_storm?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_system_removed_from_storm?: PdxValue;
   readonly any_system_within_storm?: PdxValue;
@@ -4862,7 +4761,6 @@ export interface CosmicStormTriggers {
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
   readonly count_system_added_to_storm?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_system_removed_from_storm?: PdxValue;
   readonly count_system_within_storm?: PdxValue;
@@ -4945,7 +4843,6 @@ export interface CosmicStormTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -5003,7 +4900,6 @@ export interface CosmicStormEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -5061,7 +4957,6 @@ export interface CosmicStormEffects {
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
   readonly every_system_added_to_storm?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_system_removed_from_storm?: PdxValue;
@@ -5121,7 +5016,6 @@ export interface CosmicStormEffects {
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
   readonly ordered_system_added_to_storm?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_system_removed_from_storm?: PdxValue;
@@ -5153,7 +5047,6 @@ export interface CosmicStormEffects {
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
   readonly random_system_added_to_storm?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_system_removed_from_storm?: PdxValue;
   readonly random_system_within_storm?: PdxValue;
@@ -5195,8 +5088,6 @@ export interface CosmicStormEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -5227,7 +5118,6 @@ export interface CosmicStormEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -5268,7 +5158,6 @@ export interface CosmicStormInfluenceFieldTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_in_cosmic_storm_influence_field?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
@@ -5300,7 +5189,6 @@ export interface CosmicStormInfluenceFieldTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_in_cosmic_storm_influence_field?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
@@ -5380,7 +5268,6 @@ export interface CosmicStormInfluenceFieldTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -5439,7 +5326,6 @@ export interface CosmicStormInfluenceFieldEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -5495,7 +5381,6 @@ export interface CosmicStormInfluenceFieldEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_in_cosmic_storm_influence_field?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
@@ -5552,7 +5437,6 @@ export interface CosmicStormInfluenceFieldEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_in_cosmic_storm_influence_field?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
@@ -5582,7 +5466,6 @@ export interface CosmicStormInfluenceFieldEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_in_cosmic_storm_influence_field?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly recalculate_storm_influence_field?: PdxValue;
@@ -5625,8 +5508,6 @@ export interface CosmicStormInfluenceFieldEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -5656,7 +5537,6 @@ export interface CosmicStormInfluenceFieldEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -5747,7 +5627,6 @@ export interface CountryTriggers {
   readonly any_spynetwork?: PdxValue;
   readonly any_subject?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_system_with_aura?: PdxValue;
   readonly any_system_within_border?: PdxValue;
@@ -5861,7 +5740,6 @@ export interface CountryTriggers {
   readonly count_starbase_sizes?: PdxValue;
   readonly count_subject?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_system_with_aura?: PdxValue;
   readonly count_system_within_border?: PdxValue;
@@ -6286,7 +6164,6 @@ export interface CountryTriggers {
   readonly used_naval_capacity_integer?: PdxValue;
   readonly used_naval_capacity_percent?: PdxValue;
   readonly used_starbase_capacity?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly used_starbase_capacity_percent?: PdxValue;
   readonly uses_ship_category?: PdxValue;
   readonly vassals?: PdxValue;
@@ -6438,7 +6315,6 @@ export interface CountryEffects {
   readonly create_normal_pirate_country?: PdxValue;
   readonly create_patron_relation?: PdxValue;
   readonly create_point_of_interest?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_random_fleet?: PdxValue;
   readonly create_saved_leader?: PdxValue;
   readonly create_ship_design?: PdxValue;
@@ -6557,7 +6433,6 @@ export interface CountryEffects {
   readonly every_spynetwork?: PdxValue;
   readonly every_subject?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_system_with_aura?: PdxValue;
@@ -6697,7 +6572,6 @@ export interface CountryEffects {
   readonly ordered_spynetwork?: PdxValue;
   readonly ordered_subject?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_system_with_aura?: PdxValue;
@@ -6783,7 +6657,6 @@ export interface CountryEffects {
   readonly random_spynetwork?: PdxValue;
   readonly random_subject?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_system_with_aura?: PdxValue;
   readonly random_system_within_border?: PdxValue;
@@ -6900,9 +6773,7 @@ export interface CountryEffects {
   readonly set_emperor_can_change_council_members?: PdxValue;
   readonly set_empire_flag?: PdxValue;
   readonly set_empire_name?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
   readonly set_faction_hostility?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_faction_properties?: PdxValue;
   readonly set_fauna_fleet_growth_stance?: PdxValue;
   readonly set_federation_leader?: PdxValue;
@@ -6982,7 +6853,6 @@ export interface CountryEffects {
   readonly transfer_resources_to_empire?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly unlock_council_selection?: PdxValue;
   readonly unlock_council_slots?: PdxValue;
   readonly unlock_exhibit?: PdxValue;
@@ -7028,7 +6898,6 @@ export interface DebrisTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -7059,7 +6928,6 @@ export interface DebrisTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -7141,7 +7009,6 @@ export interface DebrisTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -7199,7 +7066,6 @@ export interface DebrisEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -7255,7 +7121,6 @@ export interface DebrisEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -7311,7 +7176,6 @@ export interface DebrisEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -7341,7 +7205,6 @@ export interface DebrisEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reanimate_space_fauna?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
@@ -7382,8 +7245,6 @@ export interface DebrisEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -7413,7 +7274,6 @@ export interface DebrisEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -7454,7 +7314,6 @@ export interface DepositTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -7488,7 +7347,6 @@ export interface DepositTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -7577,7 +7435,6 @@ export interface DepositTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -7639,7 +7496,6 @@ export interface DepositEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -7696,7 +7552,6 @@ export interface DepositEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -7756,7 +7611,6 @@ export interface DepositEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -7785,7 +7639,6 @@ export interface DepositEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -7830,8 +7683,6 @@ export interface DepositEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -7866,7 +7717,6 @@ export interface DepositEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -7907,7 +7757,6 @@ export interface DesignTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -7939,7 +7788,6 @@ export interface DesignTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -8024,7 +7872,6 @@ export interface DesignTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -8081,7 +7928,6 @@ export interface DesignEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -8137,7 +7983,6 @@ export interface DesignEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -8193,7 +8038,6 @@ export interface DesignEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -8222,7 +8066,6 @@ export interface DesignEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -8265,8 +8108,6 @@ export interface DesignEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -8296,7 +8137,6 @@ export interface DesignEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -8337,7 +8177,6 @@ export interface DlcRecommendationTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -8368,7 +8207,6 @@ export interface DlcRecommendationTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -8456,7 +8294,6 @@ export interface DlcRecommendationTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -8513,7 +8350,6 @@ export interface DlcRecommendationEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -8569,7 +8405,6 @@ export interface DlcRecommendationEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -8625,7 +8460,6 @@ export interface DlcRecommendationEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -8654,7 +8488,6 @@ export interface DlcRecommendationEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -8694,8 +8527,6 @@ export interface DlcRecommendationEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -8725,7 +8556,6 @@ export interface DlcRecommendationEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -8766,7 +8596,6 @@ export interface EspionageAssetTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -8799,7 +8628,6 @@ export interface EspionageAssetTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -8881,7 +8709,6 @@ export interface EspionageAssetTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -8942,7 +8769,6 @@ export interface EspionageAssetEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -8999,7 +8825,6 @@ export interface EspionageAssetEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -9059,7 +8884,6 @@ export interface EspionageAssetEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -9088,7 +8912,6 @@ export interface EspionageAssetEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -9132,8 +8955,6 @@ export interface EspionageAssetEffects {
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
   readonly set_espionage_asset_flag?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -9168,7 +8989,6 @@ export interface EspionageAssetEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -9210,7 +9030,6 @@ export interface EspionageOperationTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -9245,7 +9064,6 @@ export interface EspionageOperationTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -9342,7 +9160,6 @@ export interface EspionageOperationTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -9407,7 +9224,6 @@ export interface EspionageOperationEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -9467,7 +9283,6 @@ export interface EspionageOperationEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -9529,7 +9344,6 @@ export interface EspionageOperationEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -9559,7 +9373,6 @@ export interface EspionageOperationEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -9606,8 +9419,6 @@ export interface EspionageOperationEffects {
   readonly set_emperor_can_change_council_members?: PdxValue;
   readonly set_espionage_operation_flag?: PdxValue;
   readonly set_espionage_operation_progress_locked?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -9643,7 +9454,6 @@ export interface EspionageOperationEffects {
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
   readonly unassign_espionage_asset?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -9684,7 +9494,6 @@ export interface ExhibitTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -9715,7 +9524,6 @@ export interface ExhibitTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -9797,7 +9605,6 @@ export interface ExhibitTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -9854,7 +9661,6 @@ export interface ExhibitEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -9910,7 +9716,6 @@ export interface ExhibitEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -9966,7 +9771,6 @@ export interface ExhibitEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -9995,7 +9799,6 @@ export interface ExhibitEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -10035,8 +9838,6 @@ export interface ExhibitEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -10066,7 +9867,6 @@ export interface ExhibitEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -10107,7 +9907,6 @@ export interface ExplorerTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -10138,7 +9937,6 @@ export interface ExplorerTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -10217,7 +10015,6 @@ export interface ExplorerTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -10274,7 +10071,6 @@ export interface ExplorerEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -10330,7 +10126,6 @@ export interface ExplorerEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -10386,7 +10181,6 @@ export interface ExplorerEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -10415,7 +10209,6 @@ export interface ExplorerEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -10455,8 +10248,6 @@ export interface ExplorerEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -10486,7 +10277,6 @@ export interface ExplorerEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -10529,7 +10319,6 @@ export interface FederationTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -10564,7 +10353,6 @@ export interface FederationTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -10660,7 +10448,6 @@ export interface FederationTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -10725,7 +10512,6 @@ export interface FederationEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -10785,7 +10571,6 @@ export interface FederationEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -10847,7 +10632,6 @@ export interface FederationEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -10878,7 +10662,6 @@ export interface FederationEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -10926,8 +10709,6 @@ export interface FederationEffects {
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
   readonly set_equal_voting_power?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_federation_flag?: PdxValue;
   readonly set_federation_law?: PdxValue;
   readonly set_federation_leader?: PdxValue;
@@ -10972,7 +10753,6 @@ export interface FederationEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -11013,7 +10793,6 @@ export interface FirstContactTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -11047,7 +10826,6 @@ export interface FirstContactTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -11139,7 +10917,6 @@ export interface FirstContactTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -11201,7 +10978,6 @@ export interface FirstContactEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -11258,7 +11034,6 @@ export interface FirstContactEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -11320,7 +11095,6 @@ export interface FirstContactEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -11349,7 +11123,6 @@ export interface FirstContactEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -11392,8 +11165,6 @@ export interface FirstContactEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_first_contact_flag?: PdxValue;
   readonly set_first_contact_stage?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
@@ -11432,7 +11203,6 @@ export interface FirstContactEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -11476,7 +11246,6 @@ export interface FleetTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly can_access_system?: PdxValue;
@@ -11517,7 +11286,6 @@ export interface FleetTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_used_naval_cap?: PdxValue;
   readonly custom_progress?: PdxValue;
@@ -11653,7 +11421,6 @@ export interface FleetTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly valid_planet_killer_target?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
@@ -11726,7 +11493,6 @@ export interface FleetEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
@@ -11791,7 +11557,6 @@ export interface FleetEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly exile_leader_as?: PdxValue;
@@ -11863,7 +11628,6 @@ export interface FleetEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -11897,7 +11661,6 @@ export interface FleetEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -11959,8 +11722,6 @@ export interface FleetEffects {
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
   readonly set_event_locked?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_fauna_fleet_growth_stance?: PdxValue;
   readonly set_fleet_bombardment_stance?: PdxValue;
   readonly set_fleet_flag?: PdxValue;
@@ -12017,7 +11778,6 @@ export interface FleetEffects {
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
   readonly unassign_leader?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -12058,7 +11818,6 @@ export interface LeaderTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_trait_available_for_species?: PdxValue;
   readonly any_trait_of_species?: PdxValue;
@@ -12095,7 +11854,6 @@ export interface LeaderTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_trait_available_for_species?: PdxValue;
   readonly count_trait_of_species?: PdxValue;
@@ -12228,7 +11986,6 @@ export interface LeaderTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -12299,7 +12056,6 @@ export interface LeaderEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -12356,7 +12112,6 @@ export interface LeaderEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_trait_available_for_species?: PdxValue;
@@ -12424,7 +12179,6 @@ export interface LeaderEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_trait_available_for_species?: PdxValue;
@@ -12455,7 +12209,6 @@ export interface LeaderEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_trait_available_for_species?: PdxValue;
   readonly random_trait_of_species?: PdxValue;
@@ -12511,8 +12264,6 @@ export interface LeaderEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_gender?: PdxValue;
   readonly set_global_flag?: PdxValue;
@@ -12562,7 +12313,6 @@ export interface LeaderEffects {
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
   readonly unassign_leader?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -12603,7 +12353,6 @@ export interface LockCountryTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -12634,7 +12383,6 @@ export interface LockCountryTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -12713,7 +12461,6 @@ export interface LockCountryTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -12770,7 +12517,6 @@ export interface LockCountryEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -12826,7 +12572,6 @@ export interface LockCountryEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -12882,7 +12627,6 @@ export interface LockCountryEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -12911,7 +12655,6 @@ export interface LockCountryEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -12951,8 +12694,6 @@ export interface LockCountryEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -12982,7 +12723,6 @@ export interface LockCountryEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -13024,7 +12764,6 @@ export interface MegastructureTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly built_on_planet?: PdxValue;
   readonly calc_true_if?: PdxValue;
@@ -13062,7 +12801,6 @@ export interface MegastructureTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -13153,7 +12891,6 @@ export interface MegastructureTriggers {
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
   readonly upgrade_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -13217,7 +12954,6 @@ export interface MegastructureEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -13275,7 +13011,6 @@ export interface MegastructureEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_modifier_to_variable?: PdxValue;
@@ -13339,7 +13074,6 @@ export interface MegastructureEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -13369,7 +13103,6 @@ export interface MegastructureEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -13414,8 +13147,6 @@ export interface MegastructureEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_graphical_culture?: PdxValue;
@@ -13457,7 +13188,6 @@ export interface MegastructureEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -13499,7 +13229,6 @@ export interface MissionTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -13530,7 +13259,6 @@ export interface MissionTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -13611,7 +13339,6 @@ export interface MissionTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -13670,7 +13397,6 @@ export interface MissionEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -13726,7 +13452,6 @@ export interface MissionEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -13782,7 +13507,6 @@ export interface MissionEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -13811,7 +13535,6 @@ export interface MissionEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -13852,8 +13575,6 @@ export interface MissionEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_mission_flag?: PdxValue;
@@ -13884,7 +13605,6 @@ export interface MissionEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -13935,7 +13655,6 @@ export interface PlanetTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_targeting_situation?: PdxValue;
   readonly artificial_pops_last_month_growth?: PdxValue;
@@ -13998,7 +13717,6 @@ export interface PlanetTriggers {
   readonly count_rim_system?: PdxValue;
   readonly count_species?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_targeting_situation?: PdxValue;
   readonly custom_progress?: PdxValue;
@@ -14210,7 +13928,6 @@ export interface PlanetTriggers {
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
   readonly total_workforce_with_job_tag?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly uses_district_set?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
@@ -14307,7 +14024,6 @@ export interface PlanetEffects {
   readonly create_mining_station?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
   readonly create_point_of_interest?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_pop_group?: PdxValue;
   readonly create_rebels?: PdxValue;
   readonly create_research_station?: PdxValue;
@@ -14385,7 +14101,6 @@ export interface PlanetEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_targeting_situation?: PdxValue;
@@ -14461,7 +14176,6 @@ export interface PlanetEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_targeting_situation?: PdxValue;
@@ -14503,7 +14217,6 @@ export interface PlanetEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_targeting_situation?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
@@ -14572,8 +14285,6 @@ export interface PlanetEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_name?: PdxValue;
@@ -14629,7 +14340,6 @@ export interface PlanetEffects {
   readonly trigger_megastructure_icon?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -14675,7 +14385,6 @@ export interface PopTriggers {
   readonly any_pop_faction?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_trait_available_for_species?: PdxValue;
   readonly any_trait_of_species?: PdxValue;
@@ -14718,7 +14427,6 @@ export interface PopTriggers {
   readonly count_rim_system?: PdxValue;
   readonly count_species_traits?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_trait_available_for_species?: PdxValue;
   readonly count_trait_of_species?: PdxValue;
@@ -14853,7 +14561,6 @@ export interface PopTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -14918,7 +14625,6 @@ export interface PopEffects {
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
   readonly create_point_of_interest?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -14977,7 +14683,6 @@ export interface PopEffects {
   readonly every_pop_faction?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_trait_available_for_species?: PdxValue;
@@ -15045,7 +14750,6 @@ export interface PopEffects {
   readonly ordered_pop_faction?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_trait_available_for_species?: PdxValue;
@@ -15078,7 +14782,6 @@ export interface PopEffects {
   readonly random_pop_faction?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_trait_available_for_species?: PdxValue;
   readonly random_trait_of_species?: PdxValue;
@@ -15127,8 +14830,6 @@ export interface PopEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_living_standard?: PdxValue;
@@ -15171,7 +14872,6 @@ export interface PopEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -15213,7 +14913,6 @@ export interface PopFactionTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -15249,7 +14948,6 @@ export interface PopFactionTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -15344,7 +15042,6 @@ export interface PopFactionTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -15406,7 +15103,6 @@ export interface PopFactionEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -15464,7 +15160,6 @@ export interface PopFactionEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_modifier_to_variable?: PdxValue;
@@ -15526,7 +15221,6 @@ export interface PopFactionEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -15557,7 +15251,6 @@ export interface PopFactionEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -15601,9 +15294,7 @@ export interface PopFactionEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
   readonly set_faction_extorted?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_name?: PdxValue;
@@ -15640,7 +15331,6 @@ export interface PopFactionEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -15683,7 +15373,6 @@ export interface PopGroupTriggers {
   readonly any_pop_faction?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_trait_available_for_species?: PdxValue;
   readonly any_trait_of_species?: PdxValue;
@@ -15726,7 +15415,6 @@ export interface PopGroupTriggers {
   readonly count_rim_system?: PdxValue;
   readonly count_species_traits?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_trait_available_for_species?: PdxValue;
   readonly count_trait_of_species?: PdxValue;
@@ -15871,7 +15559,6 @@ export interface PopGroupTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -15937,7 +15624,6 @@ export interface PopGroupEffects {
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
   readonly create_point_of_interest?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -15996,7 +15682,6 @@ export interface PopGroupEffects {
   readonly every_pop_faction?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_trait_available_for_species?: PdxValue;
@@ -16063,7 +15748,6 @@ export interface PopGroupEffects {
   readonly ordered_pop_faction?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_trait_available_for_species?: PdxValue;
@@ -16101,7 +15785,6 @@ export interface PopGroupEffects {
   readonly random_pop_faction?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_trait_available_for_species?: PdxValue;
   readonly random_trait_of_species?: PdxValue;
@@ -16151,8 +15834,6 @@ export interface PopGroupEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_living_standard?: PdxValue;
@@ -16195,7 +15876,6 @@ export interface PopGroupEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -16237,7 +15917,6 @@ export interface PopJobTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -16269,7 +15948,6 @@ export interface PopJobTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -16352,7 +16030,6 @@ export interface PopJobTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -16409,7 +16086,6 @@ export interface PopJobEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -16466,7 +16142,6 @@ export interface PopJobEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -16524,7 +16199,6 @@ export interface PopJobEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -16554,7 +16228,6 @@ export interface PopJobEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -16595,8 +16268,6 @@ export interface PopJobEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -16626,7 +16297,6 @@ export interface PopJobEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -16673,7 +16343,6 @@ export interface SectorTriggers {
   readonly any_pre_ftl_within_border?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_system_within_border?: PdxValue;
   readonly calc_true_if?: PdxValue;
@@ -16716,7 +16385,6 @@ export interface SectorTriggers {
   readonly count_pre_ftl_within_border?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_system_within_border?: PdxValue;
   readonly custom_progress?: PdxValue;
@@ -16804,7 +16472,6 @@ export interface SectorTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -16865,7 +16532,6 @@ export interface SectorEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -16928,7 +16594,6 @@ export interface SectorEffects {
   readonly every_pre_ftl_within_border?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_system_within_border?: PdxValue;
@@ -16995,7 +16660,6 @@ export interface SectorEffects {
   readonly ordered_pre_ftl_within_border?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_system_within_border?: PdxValue;
@@ -17031,7 +16695,6 @@ export interface SectorEffects {
   readonly random_pre_ftl_within_border?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_system_within_border?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
@@ -17075,8 +16738,6 @@ export interface SectorEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_name?: PdxValue;
@@ -17113,7 +16774,6 @@ export interface SectorEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -17165,7 +16825,6 @@ export interface ShipTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_targeting_situation?: PdxValue;
   readonly artificial_pops_last_month_growth?: PdxValue;
@@ -17228,7 +16887,6 @@ export interface ShipTriggers {
   readonly count_rim_system?: PdxValue;
   readonly count_species?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_targeting_situation?: PdxValue;
   readonly count_used_naval_cap?: PdxValue;
@@ -17474,7 +17132,6 @@ export interface ShipTriggers {
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
   readonly total_workforce_with_job_tag?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly used_stockpile_capacity_percentage?: PdxValue;
   readonly uses_district_set?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
@@ -17569,7 +17226,6 @@ export interface ShipEffects {
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
   readonly create_point_of_interest?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_pop_group?: PdxValue;
   readonly create_rebels?: PdxValue;
   readonly create_sector?: PdxValue;
@@ -17645,7 +17301,6 @@ export interface ShipEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_targeting_situation?: PdxValue;
@@ -17721,7 +17376,6 @@ export interface ShipEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_targeting_situation?: PdxValue;
@@ -17761,7 +17415,6 @@ export interface ShipEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_targeting_situation?: PdxValue;
   readonly reanimate_space_fauna?: PdxValue;
@@ -17847,8 +17500,6 @@ export interface ShipEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_graphical_culture?: PdxValue;
@@ -17909,7 +17560,6 @@ export interface ShipEffects {
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
   readonly unassign_leader?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -17953,7 +17603,6 @@ export interface ShipGrowthStageTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly can_be_reanimated?: PdxValue;
@@ -17987,7 +17636,6 @@ export interface ShipGrowthStageTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -18078,7 +17726,6 @@ export interface ShipGrowthStageTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -18139,7 +17786,6 @@ export interface ShipGrowthStageEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -18196,7 +17842,6 @@ export interface ShipGrowthStageEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -18256,7 +17901,6 @@ export interface ShipGrowthStageEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -18285,7 +17929,6 @@ export interface ShipGrowthStageEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -18327,8 +17970,6 @@ export interface ShipGrowthStageEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -18362,7 +18003,6 @@ export interface ShipGrowthStageEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -18403,7 +18043,6 @@ export interface SituationTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly can_set_situation_approach?: PdxValue;
@@ -18437,7 +18076,6 @@ export interface SituationTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly current_situation_approach?: PdxValue;
   readonly current_stage?: PdxValue;
@@ -18526,7 +18164,6 @@ export interface SituationTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -18589,7 +18226,6 @@ export interface SituationEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -18646,7 +18282,6 @@ export interface SituationEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -18706,7 +18341,6 @@ export interface SituationEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -18735,7 +18369,6 @@ export interface SituationEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -18778,8 +18411,6 @@ export interface SituationEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -18819,7 +18450,6 @@ export interface SituationEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -18861,7 +18491,6 @@ export interface SpeciesTriggers {
   readonly any_rim_system?: PdxValue;
   readonly any_species_pop_group?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_trait_available_for_species?: PdxValue;
   readonly any_trait_of_species?: PdxValue;
@@ -18900,7 +18529,6 @@ export interface SpeciesTriggers {
   readonly count_species_pop_group?: PdxValue;
   readonly count_species_traits?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_trait_available_for_species?: PdxValue;
   readonly count_trait_of_species?: PdxValue;
@@ -19016,7 +18644,6 @@ export interface SpeciesTriggers {
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
   readonly uplift_is_archetype?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -19079,7 +18706,6 @@ export interface SpeciesEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -19137,7 +18763,6 @@ export interface SpeciesEffects {
   readonly every_rim_system?: PdxValue;
   readonly every_species_pop_group?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_trait_available_for_species?: PdxValue;
@@ -19203,7 +18828,6 @@ export interface SpeciesEffects {
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_species_pop_group?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_trait_available_for_species?: PdxValue;
@@ -19235,7 +18859,6 @@ export interface SpeciesEffects {
   readonly random_rim_system?: PdxValue;
   readonly random_species_pop_group?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_trait_available_for_species?: PdxValue;
   readonly random_trait_of_species?: PdxValue;
@@ -19283,8 +18906,6 @@ export interface SpeciesEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_habitability_trait?: PdxValue;
@@ -19329,7 +18950,6 @@ export interface SpeciesEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -19372,7 +18992,6 @@ export interface SpyNetworkTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -19408,7 +19027,6 @@ export interface SpyNetworkTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -19501,7 +19119,6 @@ export interface SpyNetworkTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -19565,7 +19182,6 @@ export interface SpyNetworkEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -19625,7 +19241,6 @@ export interface SpyNetworkEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -19687,7 +19302,6 @@ export interface SpyNetworkEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -19718,7 +19332,6 @@ export interface SpyNetworkEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -19762,8 +19375,6 @@ export interface SpyNetworkEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -19799,7 +19410,6 @@ export interface SpyNetworkEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -19840,7 +19450,6 @@ export interface StarTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -19871,7 +19480,6 @@ export interface StarTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -19950,7 +19558,6 @@ export interface StarTriggers {
   readonly success_text?: PdxValue;
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -20007,7 +19614,6 @@ export interface StarEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -20063,7 +19669,6 @@ export interface StarEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -20119,7 +19724,6 @@ export interface StarEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -20148,7 +19752,6 @@ export interface StarEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -20188,8 +19791,6 @@ export interface StarEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -20219,7 +19820,6 @@ export interface StarEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -20262,7 +19862,6 @@ export interface StarbaseTriggers {
   readonly any_rim_system?: PdxValue;
   readonly any_starbase_in_network?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly can_be_upgraded?: PdxValue;
@@ -20301,7 +19900,6 @@ export interface StarbaseTriggers {
   readonly count_starbase_in_network?: PdxValue;
   readonly count_starbase_modules?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -20398,7 +19996,6 @@ export interface StarbaseTriggers {
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
   readonly used_defense_platform_capacity_percent?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly used_stockpile_capacity_percentage?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly waystation_has_remote_collection?: PdxValue;
@@ -20467,7 +20064,6 @@ export interface StarbaseEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
@@ -20528,7 +20124,6 @@ export interface StarbaseEffects {
   readonly every_rim_system?: PdxValue;
   readonly every_starbase_in_network?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly export_trigger_value_to_variable?: PdxValue;
@@ -20590,7 +20185,6 @@ export interface StarbaseEffects {
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_starbase_in_network?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -20621,7 +20215,6 @@ export interface StarbaseEffects {
   readonly random_rim_system?: PdxValue;
   readonly random_starbase_in_network?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -20670,8 +20263,6 @@ export interface StarbaseEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_graphical_culture?: PdxValue;
@@ -20715,7 +20306,6 @@ export interface StarbaseEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -20767,7 +20357,6 @@ export interface SystemTriggers {
   readonly any_starbase_in_system?: PdxValue;
   readonly any_system?: PdxValue;
   readonly any_system_ambient_object?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_system_planet?: PdxValue;
   readonly any_system_planet_colony?: PdxValue;
@@ -20824,7 +20413,6 @@ export interface SystemTriggers {
   readonly count_starbase_modules?: PdxValue;
   readonly count_system?: PdxValue;
   readonly count_system_ambient_object?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_system_planet?: PdxValue;
   readonly count_system_planet_colony?: PdxValue;
@@ -20959,7 +20547,6 @@ export interface SystemTriggers {
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
   readonly total_system_workforce_with_job_tag?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -21027,7 +20614,6 @@ export interface SystemEffects {
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_nebula?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -21097,7 +20683,6 @@ export interface SystemEffects {
   readonly every_starbase_in_system?: PdxValue;
   readonly every_system?: PdxValue;
   readonly every_system_ambient_object?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_system_planet?: PdxValue;
@@ -21174,7 +20759,6 @@ export interface SystemEffects {
   readonly ordered_starbase_in_system?: PdxValue;
   readonly ordered_system?: PdxValue;
   readonly ordered_system_ambient_object?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_system_planet?: PdxValue;
@@ -21217,7 +20801,6 @@ export interface SystemEffects {
   readonly random_starbase_in_system?: PdxValue;
   readonly random_system?: PdxValue;
   readonly random_system_ambient_object?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_system_planet?: PdxValue;
   readonly random_system_planet_colony?: PdxValue;
@@ -21268,8 +20851,6 @@ export interface SystemEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_name?: PdxValue;
@@ -21315,7 +20896,6 @@ export interface SystemEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly unset_cosmic_storm?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
@@ -21358,7 +20938,6 @@ export interface TraitTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly calc_true_if?: PdxValue;
   readonly caravaneers_enabled?: PdxValue;
@@ -21389,7 +20968,6 @@ export interface TraitTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly custom_progress?: PdxValue;
   readonly custom_tooltip?: PdxValue;
@@ -21470,7 +21048,6 @@ export interface TraitTriggers {
   readonly text?: PdxValue;
   readonly trait_has_all_tags?: PdxValue;
   readonly trait_has_any_tag?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly years_passed?: PdxValue;
   readonly [key: string]: PdxValue | undefined;
@@ -21527,7 +21104,6 @@ export interface TraitEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -21583,7 +21159,6 @@ export interface TraitEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly finish_current_operaton_stage?: PdxValue;
@@ -21639,7 +21214,6 @@ export interface TraitEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly particle_storm_apply_aftermath_modifier?: PdxValue;
@@ -21668,7 +21242,6 @@ export interface TraitEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
   readonly reckoning_spawn?: PdxValue;
@@ -21708,8 +21281,6 @@ export interface TraitEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_psionic_choir_policy?: PdxValue;
@@ -21739,7 +21310,6 @@ export interface TraitEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;
@@ -21782,7 +21352,6 @@ export interface WarTriggers {
   readonly any_playable_country?: PdxValue;
   readonly any_rim_system?: PdxValue;
   readonly any_system?: PdxValue;
-  readonly any_system_colony?: PdxValue;
   readonly any_system_megastructure?: PdxValue;
   readonly any_war_participant?: PdxValue;
   readonly attacker_war_exhaustion?: PdxValue;
@@ -21819,7 +21388,6 @@ export interface WarTriggers {
   readonly count_potential_war_participants?: PdxValue;
   readonly count_rim_system?: PdxValue;
   readonly count_system?: PdxValue;
-  readonly count_system_colony?: PdxValue;
   readonly count_system_megastructure?: PdxValue;
   readonly count_war_participant?: PdxValue;
   readonly count_war_participants?: PdxValue;
@@ -21907,7 +21475,6 @@ export interface WarTriggers {
   readonly switch?: PdxValue;
   readonly text?: PdxValue;
   readonly timed_flag_days_left?: PdxValue;
-  readonly used_starbase_capacity_integer?: PdxValue;
   readonly using_war_goal?: PdxValue;
   readonly voidworms_scaling?: PdxValue;
   readonly war_begun_num_fleets_gone_mia?: PdxValue;
@@ -21970,7 +21537,6 @@ export interface WarEffects {
   readonly create_mindwarden_fleet_leader?: PdxValue;
   readonly create_mindwarden_raid_fleet?: PdxValue;
   readonly create_normal_pirate_country?: PdxValue;
-  readonly create_pop?: PdxValue;
   readonly create_ship_design?: PdxValue;
   readonly create_ship_with_random_graphical_culture?: PdxValue;
   readonly create_species?: PdxValue;
@@ -22029,7 +21595,6 @@ export interface WarEffects {
   readonly every_playable_country?: PdxValue;
   readonly every_rim_system?: PdxValue;
   readonly every_system?: PdxValue;
-  readonly every_system_colony?: PdxValue;
   readonly every_system_in_cluster?: PdxValue;
   readonly every_system_megastructure?: PdxValue;
   readonly every_war_participant?: PdxValue;
@@ -22092,7 +21657,6 @@ export interface WarEffects {
   readonly ordered_playable_country?: PdxValue;
   readonly ordered_rim_system?: PdxValue;
   readonly ordered_system?: PdxValue;
-  readonly ordered_system_colony?: PdxValue;
   readonly ordered_system_in_cluster?: PdxValue;
   readonly ordered_system_megastructure?: PdxValue;
   readonly ordered_war_participant?: PdxValue;
@@ -22124,7 +21688,6 @@ export interface WarEffects {
   readonly random_playable_country?: PdxValue;
   readonly random_rim_system?: PdxValue;
   readonly random_system?: PdxValue;
-  readonly random_system_colony?: PdxValue;
   readonly random_system_megastructure?: PdxValue;
   readonly random_war_participant?: PdxValue;
   readonly reckoning_consume_world?: PdxValue;
@@ -22169,8 +21732,6 @@ export interface WarEffects {
   readonly set_emergency_fund_active?: PdxValue;
   readonly set_emergency_fund_contribution_rate?: PdxValue;
   readonly set_emperor_can_change_council_members?: PdxValue;
-  readonly set_faction_auto_delete?: PdxValue;
-  readonly set_faction_needs_colony?: PdxValue;
   readonly set_galactic_defense_force?: PdxValue;
   readonly set_global_flag?: PdxValue;
   readonly set_name?: PdxValue;
@@ -22208,7 +21769,6 @@ export interface WarEffects {
   readonly transfer_pop_amount?: PdxValue;
   readonly try_remove_penal_experimental_mod?: PdxValue;
   readonly turn_main_species_to_psionic?: PdxValue;
-  readonly unemploy_pop?: PdxValue;
   readonly update_eotc_accords?: PdxValue;
   readonly update_every_leader_from_psionic_countries?: PdxValue;
   readonly update_reckoning_event_chain?: PdxValue;

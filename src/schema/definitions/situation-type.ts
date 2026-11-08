@@ -171,7 +171,8 @@ export const situationType: DefinitionType = defineType({
         }),
         field("ai_weight", primitive("integer"), occurs.optional),
         field("ai_weight", block([modifierRuleEntries()]), occurs.optional),
-        field("active_tooltip", primitive("localisation"), occurs.optional),
+        // No `active_tooltip`: the 4.5.2 approach reader (`0x4e65d0`) has no
+        // such key and logs "Unexpected token" for one, and vanilla writes none.
       ]),
       occurs.any,
     ),

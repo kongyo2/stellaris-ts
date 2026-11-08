@@ -15,8 +15,8 @@ import {
   keyedBlocks,
   modifierEntries,
   modifierRuleEntries,
+  namingStrings,
   occurs,
-  primitive,
   replaceScope,
   triggerEntries,
   typeRef,
@@ -42,7 +42,10 @@ export const policy: DefinitionType = defineType({
     field(
       "option",
       block([
-        field("name", primitive("localisation"), occurs.one),
+        // The option's own string and its description: the policy's check
+        // (`0x502b10`) asks each option for both (`0x4ffdf0`), and logs
+        // "Missing Policy Localization Key" for either one it cannot find.
+        field("name", namingStrings("localisation", "$", "$_desc"), occurs.one),
         field("icon", typeRef("sprite"), occurs.optional),
         field("pre_sapient_purge", typeRef("purge_type"), occurs.optional),
         field(
@@ -60,7 +63,10 @@ export const policy: DefinitionType = defineType({
           ]),
           occurs.any,
         ),
-        field("policy_flags", block([item(primitive("scalar"), between(0, 10))]), occurs.optional),
+        // Each flag is registered as it is read, and its `<flag>_name` looked up
+        // there and then (`0x4fee10`): vanilla gives every one of its 148 a
+        // string, most of them `$<option>$`.
+        field("policy_flags", block([item(namingStrings("scalar", "$_name"), between(0, 10))]), occurs.optional),
         field("on_enabled", block([effectEntries()]), occurs.optional),
         field("on_disabled", block([effectEntries()]), occurs.optional),
         field("potential", block([triggerEntries()]), occurs.optional),

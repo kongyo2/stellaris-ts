@@ -373,5 +373,10 @@ export async function run(argv: readonly string[]): Promise<number> {
     console.log(`REMOVED ${path}`);
   }
 
+  // Still loading, and still listed: the next build tries again.
+  for (const path of result.stuck) {
+    console.log(`STUCK ${path}`);
+  }
+
   return 0;
 }

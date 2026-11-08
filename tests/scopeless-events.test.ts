@@ -44,6 +44,26 @@ describe("an event the game fires with no scope", () => {
     ]);
   });
 
+  // An event list written with raw() is a list the game reads like any other:
+  // another on_action listing the event there fires it with a scope.
+  it("reads an event list written with raw()", () => {
+    const listedTwice = mod()
+      .add(yearly("sts_scope.1", { immediate: trust }))
+      .add(define("on_action", "on_yearly_pulse", { events: ["sts_scope.1"] }))
+      .add(define("on_action", "on_yearly_pulse_country", { events: raw("{ sts_scope.1 }") }));
+    const onlyRaw = mod()
+      .add(yearly("sts_scope.1", { immediate: trust }))
+      .add(define("on_action", "on_yearly_pulse", { events: raw("{ sts_scope.1 }") }));
+    const unreadable = mod()
+      .add(yearly("sts_scope.1", { immediate: trust }))
+      .add(define("on_action", "on_yearly_pulse", { events: ["sts_scope.1"] }))
+      .add(define("on_action", "on_yearly_pulse_country", { events: raw("{ sts_scope.1") }));
+
+    expect(emptyScopes(listedTwice)).toEqual([]);
+    expect(emptyScopes(onlyRaw)).toHaveLength(1);
+    expect(emptyScopes(unreadable)).toEqual([]);
+  });
+
   it("reads a weighted random_events list the same way", () => {
     const target = mod()
       .add(yearly("sts_scope.1", { immediate: trust }))

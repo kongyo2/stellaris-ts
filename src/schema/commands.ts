@@ -991,8 +991,11 @@ export const commands: readonly ScriptCommandDefinition[] = [
     value: block([
       field("type", typeRef("timeline_events_type"), occurs.one),
       field("date", scriptValue("number"), occurs.optional),
-      field("targets", block([item(primitive("localisation"), occurs.any)]), occurs.optional),
+      // "array of event targets" in the 4.5.2 documentation, and vanilla's
+      // are `root` and `root.owner`: scopes, which the type's string reads.
+      field("targets", block([item(scopeRef(), occurs.any)]), occurs.optional),
       field("override_tooltip", primitive("localisation"), occurs.optional),
+      field("override_tooltip_delayed", primitive("localisation"), occurs.optional),
       field("override_text", block([item(primitive("localisation"), occurs.any)]), occurs.optional),
       field("override_texture", block([item(primitive("scalar"), occurs.any)]), occurs.optional),
       field("override_id", primitive("scalar"), occurs.optional),

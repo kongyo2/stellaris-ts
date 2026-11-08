@@ -59,7 +59,8 @@ export const megastructure: DefinitionType = defineType({
       occurs.optional,
     ),
     field("is_grand_archive", primitive("boolean"), occurs.optional),
-    field("construction_blocks_others", primitive("boolean"), occurs.optional),
+    // No `construction_blocks_others`: the word is nowhere in the 4.5.2
+    // executable, which reads `construction_blocks_and_blocked_by` below.
     field("build_outside_gravity_well", primitive("boolean"), occurs.optional),
     field("show_galactic_map_icon", primitive("boolean"), occurs.optional),
     field("show_in_outliner", primitive("boolean"), occurs.optional, {

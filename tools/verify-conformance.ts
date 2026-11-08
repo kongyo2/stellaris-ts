@@ -204,7 +204,12 @@ const unexplainedStrings = report.types.flatMap((entry) =>
 );
 
 for (const finding of unexplainedStrings) {
-  const where: string = finding.field === "<key>" ? `the key ${finding.key} written` : finding.field;
+  const where: string =
+    finding.field === "<key>"
+      ? `the key ${finding.key} written`
+      : finding.field === "<item>"
+        ? "an item"
+        : finding.field;
   console.error(
     `CONFORMANCE ${finding.type} unlocalised: ${where} ${finding.path.length === 0 ? "" : `inside ${finding.path} `}names ${finding.key}, which no localisation file defines (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
   );
@@ -255,6 +260,23 @@ const staleStrings: readonly string[] = [
 for (const stale of staleStrings) {
   console.error(`CONFORMANCE ${stale} is listed as a localisation gap in vanilla and is no longer found.`);
 }
+
+// Direction M: what the game's loader logs about a definition — an entity or
+// an outliner icon it cannot find, an approach or a weight's reason it says
+// will not display well. The game loads vanilla without one of those lines in
+// its log, so a vanilla definition one of these checks reports is a check
+// that is wrong.
+const loadFindings = report.types.flatMap((entry) =>
+  entry.loadFindings.map((finding) => ({ type: entry.type, ...finding })),
+);
+
+for (const finding of loadFindings) {
+  console.error(
+    `CONFORMANCE ${finding.type} load-check: ${finding.id}${finding.path.length === 0 ? "" : `.${finding.path}`} ${finding.code}: ${finding.message} (${finding.file})`,
+  );
+}
+
+const loadChecked: number = report.types.reduce((total, entry) => total + entry.loadChecked, 0);
 
 const stringGaps: number = report.types.reduce(
   (total, entry) =>
@@ -322,6 +344,8 @@ console.log(
     `unlocalised=${String(unexplainedStrings.length)}`,
     `missingStrings=${String(unexplainedMissing.length)}`,
     `vanillaStringGaps=${String(stringGaps)}`,
+    `loadChecked=${String(loadChecked)}`,
+    `loadFindings=${String(loadFindings.length)}`,
     `modifierDump=${schema.modifiers.source}`,
     `gameDeclaredFields=${String(declaredFields)}`,
   ].join(" "),
@@ -345,6 +369,7 @@ if (
   unexplainedStrings.length > 0 ||
   unexplainedMissing.length > 0 ||
   staleStrings.length > 0 ||
+  loadFindings.length > 0 ||
   missingGated.length > 0 ||
   strictnessRegressed ||
   declaredFields < DECLARED_FIELD_FLOOR

@@ -42,7 +42,9 @@ export const civicOrOrigin: DefinitionType = defineType({
       documentation:
         "AND trigger, no scope; use this to prevent the civic from being selectable by the player (UI). Possibly only works with DLC checks.",
     }),
-    field("flags", block([item(primitive("localisation"), occurs.any)]), occurs.optional),
+    // Country flags the civic sets, `first_alien_life` and
+    // `suppress_vanilla_factions` among vanilla's: words, not strings' names.
+    field("flags", block([item(primitive("scalar"), occurs.any)]), occurs.optional),
     field("ai_playable", block([triggerEntries()]), occurs.optional, {
       documentation:
         "AND trigger, no scope; use this to prevent the civic from being selectable by the AI. Possibly only works with DLC checks.",

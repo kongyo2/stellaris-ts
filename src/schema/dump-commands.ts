@@ -701,10 +701,13 @@ export const dumpCommands: readonly ScriptCommandDefinition[] = [
 /**
  * Commands the game no longer has.
  *
- * Each is in the 4.4.6 dumps and absent from the 4.5.1 ones, and 4.5.2 vanilla
- * writes it nowhere but in comments. The corpus still declares them, so without
- * this a mod written against 4.4 would check clean and then do nothing: the game
- * drops an unknown trigger or effect with a line in error.log and nothing else.
+ * Each is in an older dump and absent from the 4.5.1 ones and from the
+ * documentation the 4.5.2 executable prints of itself, and 4.5.2 vanilla writes
+ * it nowhere but in comments. The corpus still declares them, so without this a
+ * mod written against an older release would check clean and then do nothing:
+ * the game drops an unknown trigger or effect with a line in error.log and
+ * nothing else. The 4.5.2 executable keeps some of the words in its keyword
+ * table (`create_pop` is id `0x275f`) and registers no command by them.
  */
 export const retiredCommands: readonly { readonly id: string; readonly family: string; readonly reason: string }[] = [
   {
@@ -723,6 +726,18 @@ export const retiredCommands: readonly { readonly id: string; readonly family: s
     reason: "the dump documents `pop_ethic_amount` and `pop_ethic_percentage` in its place",
   },
   { id: "pop_event", family: "effect", reason: "vanilla's last uses are commented out" },
+  // Last documented in 4.3.7: 4.4's pop groups took colonies out of a
+  // system's iterators and single pops out of the effects.
+  { id: "any_system_colony", family: "trigger", reason: "last documented in 4.3.7" },
+  { id: "count_system_colony", family: "trigger", reason: "last documented in 4.3.7" },
+  { id: "every_system_colony", family: "effect", reason: "last documented in 4.3.7" },
+  { id: "ordered_system_colony", family: "effect", reason: "last documented in 4.3.7" },
+  { id: "random_system_colony", family: "effect", reason: "last documented in 4.3.7" },
+  { id: "create_pop", family: "effect", reason: "last documented in 4.3.7; 4.5.2 documents `create_pop_group`" },
+  { id: "unemploy_pop", family: "effect", reason: "last documented in 4.3.7" },
+  { id: "set_faction_auto_delete", family: "effect", reason: "last documented in 4.3.7" },
+  { id: "set_faction_needs_colony", family: "effect", reason: "last documented in 4.3.7" },
+  { id: "used_starbase_capacity_integer", family: "trigger", reason: "last documented in 4.3.7" },
 ];
 
 /** The commands without the ones the game no longer has. */

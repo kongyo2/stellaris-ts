@@ -420,8 +420,23 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   for (const definition of mod.definitions) {
     // Through the same canonicalisation as a supplied path: `defineIn` takes a
     // file name from the caller, and `./same.txt` is the same file as
-    // `same.txt` on disk but a different string here.
-    const path: string = modFilePath(targetFile(mod.options, definition)) ?? targetFile(mod.options, definition);
+    // `same.txt` on disk but a different string here. A definition that is a
+    // whole file is named by its id, so an id of `../x` names a file outside
+    // the folder, and writing it would write over whatever is there.
+    const target: string = targetFile(mod.options, definition);
+    const inside: string | undefined = modFilePath(target);
+
+    if (inside === undefined) {
+      diagnostics.push({
+        severity: "error",
+        code: "escaping-path",
+        message: `${target} leaves the mod folder, so ${definition.id} is not written. Everything a mod ships is written under it.`,
+        path: target,
+      });
+      continue;
+    }
+
+    const path: string = inside;
     const bucket: DefinitionEntry[] = grouped.get(path) ?? [];
     const container: { readonly container?: string } =
       definition.container === undefined ? {} : { container: definition.container };

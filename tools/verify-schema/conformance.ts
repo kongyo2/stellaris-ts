@@ -11,8 +11,14 @@ import {
 import { vanillaLocalisationKeys } from "../../src/generated/vanilla/localisation-keys.js";
 import { localisationKey } from "../../src/schema/ir.js";
 import {
+  loadBlockOfEntries,
+  loadCheckedTypes,
+  loadChecks,
+  type LoadCheckContext,
+} from "../../src/schema/load-checks.js";
+import {
   localisationKeyIn,
-  namesLocalisation,
+  namedStrings,
   requirementApplies,
   variantHolds,
   type FieldOccurrence,
@@ -261,6 +267,20 @@ export interface MissingStringFinding {
   readonly ids: readonly string[];
 }
 
+/**
+ * Something the game's loader would log about a vanilla definition.
+ *
+ * The game loads vanilla without one of these lines in `error.log`, so each is
+ * a check of {@link loadChecks} that is wrong.
+ */
+export interface LoadCheckFinding {
+  readonly id: string;
+  readonly code: string;
+  readonly path: string;
+  readonly message: string;
+  readonly file: string;
+}
+
 export interface TypeReport {
   readonly type: string;
   readonly directory: string;
@@ -278,6 +298,9 @@ export interface TypeReport {
   readonly comparisonMismatches: readonly ComparisonFinding[];
   readonly unresolvedStrings: readonly LocalisationFinding[];
   readonly missingStrings: readonly MissingStringFinding[];
+  /** Definitions the game's own load checks were run over. */
+  readonly loadChecked: number;
+  readonly loadFindings: readonly LoadCheckFinding[];
 }
 
 /**
@@ -799,6 +822,19 @@ export async function checkConformance(
   let callsFollowed = 0;
   const missingDirectories: string[] = [];
 
+  const vanillaIdSets = new Map<string, ReadonlySet<string>>();
+  const loadContext: LoadCheckContext = {
+    defines: (type: string, id: string): boolean => {
+      let set: ReadonlySet<string> | undefined = vanillaIdSets.get(type);
+      if (set === undefined) {
+        set = new Set(vanillaIdsByType[type] ?? []);
+        vanillaIdSets.set(type, set);
+      }
+      return set.has(id);
+    },
+    ids: (type: string): readonly string[] => vanillaIdsByType[type] ?? [],
+  };
+
   const resolver = new SchemaResolver(model, {
     idsByType: vanillaIdsByType,
     modifierNames: modifierNames(model),
@@ -871,6 +907,8 @@ export async function checkConformance(
     const calling = new Set<string>();
     let definitionsSeen = 0;
     let keysChecked = 0;
+    let loadChecked = 0;
+    const loadFindings: LoadCheckFinding[] = [];
     let scopelessWalked = 0;
 
     const recordShape = (path: string, field: string, shape: ShapeFinding["shape"], file: string): void => {
@@ -901,6 +939,27 @@ export async function checkConformance(
         issue.examples.push(file);
       }
       stringIssues.set(identity, issue);
+    };
+
+    // Every string a value names, each pattern with `$` standing for the value.
+    const checkStrings = (
+      path: string,
+      field: string,
+      text: string,
+      patterns: readonly string[],
+      file: string,
+    ): void => {
+      const named: string | undefined = patterns.length === 0 ? undefined : localisationKeyIn(text);
+      if (named === undefined) {
+        return;
+      }
+      for (const pattern of patterns) {
+        const wanted: string = localisationKey(pattern, named);
+        stringsChecked += 1;
+        if (!vanillaStrings.has(wanted)) {
+          recordString(path, field, wanted, file);
+        }
+      }
     };
 
     const record = (path: string, field: string, file: string, context: FindingContext, shape: ValueShape): void => {
@@ -953,7 +1012,16 @@ export async function checkConformance(
         }
       }
 
+      // A word with no key is an item of a list, and names whatever the item
+      // rules that apply here say it names, as a keyed value does.
+      const itemNames: readonly string[] = meaning === undefined ? [] : namedStrings(meaning.items);
+
       for (const entry of block.entries) {
+        if (entry.kind === NodeKind.Scalar) {
+          checkStrings(trail, "<item>", scalarText(entry), itemNames, file);
+          continue;
+        }
+
         // A block with no key is an item of a list, and only an item rule that
         // takes a block can describe it: `ship_designs = { { design = … } }`.
         if (entry.kind === NodeKind.Block) {
@@ -1043,12 +1111,8 @@ export async function checkConformance(
         const identityField: boolean =
           trail.length === 0 && type.source.kind === "tagged-blocks" && key === type.source.nameField;
 
-        if (!identityField && entry.value.kind === NodeKind.Scalar && namesLocalisation(applicable)) {
-          const named: string | undefined = localisationKeyIn(scalarText(entry.value));
-          stringsChecked += named === undefined ? 0 : 1;
-          if (named !== undefined && !vanillaStrings.has(named)) {
-            recordString(trail, key, named, file);
-          }
+        if (!identityField && entry.value.kind === NodeKind.Scalar) {
+          checkStrings(trail, key, scalarText(entry.value), namedStrings(applicable), file);
         }
 
         // Outside a trigger nothing reads the operator, unless the rule for the
@@ -1226,6 +1290,14 @@ export async function checkConformance(
             ? (display.split("/").at(-1) ?? "").replace(/\.[^.]*$/u, "")
             : identityOf(type, claimed.block, claimed.key);
 
+        // What the game's loader would log about this definition.
+        if (identity !== undefined && loadCheckedTypes.has(type.id)) {
+          loadChecked += 1;
+          for (const finding of loadChecks(type.id, identity, loadBlockOfEntries(claimed.block.entries), loadContext)) {
+            loadFindings.push({ id: identity, ...finding, file: display });
+          }
+        }
+
         if (identity !== undefined) {
           requirements.forEach((requirement, index) => {
             const issue = requirementIssues[index];
@@ -1347,6 +1419,10 @@ export async function checkConformance(
           examples: issue.examples,
         }))
         .sort((left, right) => compareOrdinal(left.key, right.key) || compareOrdinal(left.path, right.path)),
+      loadChecked,
+      loadFindings: [...loadFindings].sort(
+        (left, right) => compareOrdinal(left.id, right.id) || compareOrdinal(left.path, right.path),
+      ),
       missingStrings: requirements.flatMap((requirement, index) => {
         const issue = requirementIssues[index];
         if (issue === undefined || issue.missing.length === 0 || requirement.source.kind !== "definition-id") {

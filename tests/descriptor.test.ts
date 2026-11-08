@@ -117,6 +117,18 @@ describe("the name a mod's files are called after", () => {
     expect(escapes.every((diagnostic) => diagnostic.severity === "error")).toBe(true);
   });
 
+  // A definition's file is named by the caller, and a whole-file definition's
+  // by its id; either can climb out, and it is reported rather than written.
+  it("refuses a definition whose file leaves the mod folder", () => {
+    const escaping = defineMod({ name: "Esc", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
+      defineIn("building", "../../escaped.txt", "sts_lab", { category: "research" }),
+    );
+    const plan = emit(escaping);
+
+    expect(plan.diagnostics.filter((diagnostic) => diagnostic.code === "escaping-path")).toHaveLength(1);
+    expect(plan.files.some((file) => file.path.includes("escaped"))).toBe(false);
+  });
+
   /**
    * Most people build on a filesystem that folds case, where `gfx/Icon.dds` and
    * `gfx/icon.dds` are one file and the bytes that survive are whichever write

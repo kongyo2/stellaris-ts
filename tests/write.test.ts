@@ -1,4 +1,4 @@
-import { access, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { isAbsolute, join, relative } from "node:path";
 
@@ -84,6 +84,42 @@ describe("writing a plan", () => {
       expect(await exists(stale)).toBe(false);
       expect(await exists(foreign)).toBe(true);
       expect(await exists(join(second.modDirectory, "common", "buildings", "zz_rebuilt_building.txt"))).toBe(true);
+    } finally {
+      await rm(base, { recursive: true, force: true });
+    }
+  });
+
+  // The game holds its files open on Windows, and a folder can stand where a
+  // file was; either makes a deletion fail after the new files are written.
+  it("keeps listing a file it could not delete, and finishes the build", async () => {
+    const base = await mkdtemp(join(tmpdir(), "stellaris-ts-stuck-"));
+
+    try {
+      const before = defineMod({ name: "Stuck", version: "1", supportedVersion: SUPPORTED_VERSION })
+        .add(define("building", "sts_lab", { category: "research" }))
+        .add(define("static_modifier", "sts_mod", { planet_stability_add: 1 }));
+      const first = await writePlan(before, emit(before), base);
+      const stale: string = join(first.modDirectory, "common", "static_modifiers", "zz_stuck_static_modifier.txt");
+
+      await rm(stale);
+      await mkdir(stale);
+      await writeFile(join(stale, "inside.txt"), "not a file to delete");
+
+      const after = defineMod({ name: "Stuck", version: "1", supportedVersion: SUPPORTED_VERSION }).add(
+        define("building", "sts_lab", { category: "research" }),
+      );
+      const second = await writePlan(after, emit(after), base);
+      const manifest: unknown = JSON.parse(await readFile(join(second.modDirectory, WRITE_MANIFEST), "utf8"));
+
+      expect(second.removed).toEqual([]);
+      expect(second.stuck).toEqual(["common/static_modifiers/zz_stuck_static_modifier.txt"]);
+      expect(manifest).toMatchObject({
+        files: expect.arrayContaining([
+          "common/buildings/zz_stuck_building.txt",
+          "common/static_modifiers/zz_stuck_static_modifier.txt",
+        ]) as unknown,
+      });
+      expect(await exists(second.modFilePath)).toBe(true);
     } finally {
       await rm(base, { recursive: true, force: true });
     }

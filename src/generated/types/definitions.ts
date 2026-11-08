@@ -5778,16 +5778,7 @@ export interface AnomalyCategoryDefinition {
   readonly max_once_global?: boolean | Authored;
   readonly null_spawn_chance?: PdxNumber | Authored;
   readonly on_spawn?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly on_success: EventRef | {
-  readonly int?: {
-  readonly anomaly_event?: EventRef | Authored;
-  readonly max_once?: boolean | Authored;
-  readonly max_once_global?: boolean | Authored;
-  readonly ship_event?: EventRef | Authored;
-  readonly [key: string]: PdxValue | undefined;
-} | Authored;
-  readonly [key: string]: PdxValue | undefined;
-} | Authored;
+  readonly on_success: EventRef | PdxBlock | readonly PdxValue[] | Authored;
   readonly picture?: SpriteRef | Authored;
   readonly should_ai_and_humans_use?: boolean | Authored;
   readonly should_ai_use?: boolean | Authored;
@@ -8691,8 +8682,8 @@ export interface MegastructureDefinition {
   readonly build_type?: "inside_gravity_well" | "INSIDE_GRAVITY_WELL" | "outside_gravity_well" | "OUTSIDE_GRAVITY_WELL" | "around_planet" | "AROUND_PLANET" | Authored;
   readonly bypass_type?: BypassRef | Authored;
   readonly can_be_dismantled_by_non_owner?: boolean | Authored;
+  readonly can_prevent_crisis_terraformation?: boolean | Authored;
   readonly construction_blocks_and_blocked_by?: "none" | "NONE" | "self_type" | "SELF_TYPE" | "multi_stage_type" | "MULTI_STAGE_TYPE" | Authored;
-  readonly construction_blocks_others?: boolean | Authored;
   readonly construction_entity?: string | PdxNumber | boolean | Authored;
   readonly construction_scale?: PdxNumber | Authored;
   readonly context_menu_potential?: PdxValue | Authored;
@@ -8724,6 +8715,7 @@ export interface MegastructureDefinition {
   readonly y: PdxNumber | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly generate_borders?: boolean | Authored;
   readonly hide_name?: boolean | Authored;
   readonly hyperlane_range?: PdxNumber | Authored;
   readonly is_grand_archive?: boolean | Authored;
@@ -8737,7 +8729,10 @@ export interface MegastructureDefinition {
   readonly on_build_start?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_build_unqueued?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_cycle_complete?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_dismantle_cancel?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_dismantle_complete?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_dismantle_start?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly orbit_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly order_icon?: string | PdxNumber | boolean | Authored;
   readonly outliner_trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly overclock_cooldown?: string | PdxNumber | boolean | Authored;
@@ -8774,7 +8769,9 @@ export interface MegastructureDefinition {
   readonly show_in_outliner?: boolean | Authored;
   readonly show_prereqs?: boolean | Authored;
   readonly starbase?: StarbaseLevelRef | Authored;
+  readonly starbase_capacity_used?: PdxNumber | Authored;
   readonly station_modifier?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly system_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly tooltip_best_systems_header?: string | PdxNumber | boolean | Authored;
   readonly tooltip_show_star_resources?: string | PdxNumber | boolean | Authored;
   readonly tooltip_system_filter?: PdxValue | Authored;
@@ -9649,6 +9646,7 @@ export interface PolicyDefinition {
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly potential?: TriggersByScope["country"] | Authored;
+  readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
@@ -10539,10 +10537,12 @@ export interface ShipSizeDefinition {
   readonly base_ship_size?: string | PdxNumber | boolean | Authored;
   readonly bioship_growth_progress_required?: number | string | Authored;
   readonly build_block_radius?: PdxNumber | Authored;
+  readonly build_speed_mult?: PdxNumber | Authored;
   readonly build_time?: PdxNumber | Authored;
   readonly can_be_inspected?: boolean | Authored;
   readonly can_disable?: boolean | Authored;
   readonly can_have_federation_design?: boolean | Authored;
+  readonly can_lead_armada?: boolean | Authored;
   readonly carries_colony?: string | PdxNumber | boolean | Authored;
   readonly class: string | Authored;
   readonly cloaking_forbidden?: true | Authored;
@@ -10560,6 +10560,7 @@ export interface ShipSizeDefinition {
   readonly display_attack_neutral_fleet_button?: string | PdxNumber | boolean | Authored;
   readonly enable_3dview_in_ship_browser?: boolean | true | Authored;
   readonly enable_default_design?: boolean | Authored;
+  readonly encampment_required_progress?: PdxNumber | Authored;
   readonly entity?: ModelEntityRef | string | PdxNumber | boolean | Authored;
   readonly evaluation_resource?: ResourceRef | Authored;
   readonly fleet_slot_size?: PdxNumber | Authored;
@@ -10574,6 +10575,7 @@ export interface ShipSizeDefinition {
   readonly icon?: string | PdxNumber | boolean | Authored;
   readonly icon_cloned?: string | PdxNumber | boolean | Authored;
   readonly icon_frame?: PdxNumber | Authored;
+  readonly ignore_closed_borders?: boolean | Authored;
   readonly is_bio_ship?: boolean | Authored;
   readonly is_civilian?: boolean | Authored;
   readonly is_designable?: boolean | Authored;
@@ -10607,12 +10609,8 @@ export interface ShipSizeDefinition {
   readonly planet_view_header?: string | PdxNumber | boolean | Authored;
   readonly possible_construction?: PdxBlock | readonly PdxValue[] | Authored;
   readonly possible_country?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly possible_planet?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly possible_starbase?: PdxBlock | readonly PdxValue[] | Authored;
   readonly potential_construction?: PdxBlock | readonly PdxValue[] | Authored;
   readonly potential_country?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential_planet?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential_starbase?: PdxBlock | readonly PdxValue[] | Authored;
   readonly pre_communications_name?: string | Authored;
   readonly prerequisites?: PdxBlock | readonly PdxValue[] | Authored;
   readonly preserve_movement_animation_progress?: string | PdxNumber | boolean | Authored;
@@ -10681,9 +10679,9 @@ export interface ShipsetDefinition {
 export interface SituationTypeDefinition {
   readonly abort_trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly approach?: {
-  readonly active_tooltip?: string | Authored;
   readonly ai_weight?: PdxNumber | PdxBlock | readonly PdxValue[] | Authored;
   readonly allow?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly custom_tooltip?: string | Authored;
   readonly custom_tooltip_with_modifiers?: string | Authored;
   readonly default?: true | Authored;
   readonly icon: SpriteRef | Authored;
@@ -10709,6 +10707,8 @@ export interface SituationTypeDefinition {
   readonly complete_category?: "positive" | "POSITIVE" | "negative" | "NEGATIVE" | "neutral" | "NEUTRAL" | Authored;
   readonly complete_icon?: SpriteRef | Authored;
   readonly complete_icon_frame?: SpriteRef | Authored;
+  readonly custom_tooltip?: string | Authored;
+  readonly custom_tooltip_with_modifiers?: string | Authored;
   readonly desc?: string | {
   readonly text?: string | Authored;
   readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
@@ -10736,6 +10736,8 @@ export interface SituationTypeDefinition {
 } | Authored;
   readonly on_progress_complete?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_start?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly override_active_desc?: string | Authored;
+  readonly override_active_title?: string | Authored;
   readonly override_finisher_desc?: string | PdxNumber | boolean | Authored;
   readonly override_finisher_title?: string | PdxNumber | boolean | Authored;
   readonly override_progress_current_desc?: string | PdxNumber | boolean | Authored;
