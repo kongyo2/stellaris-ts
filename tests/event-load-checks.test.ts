@@ -186,6 +186,18 @@ describe("an event's fields that do not go together", () => {
     expect(found[0]?.message).toContain("sts.a");
   });
 
+  // Reading `exclusive_trigger` sets a flag whatever its block holds (`+0x4ec`);
+  // only `trigger` is asked for a condition (the count at `+0x1f4`).
+  it("are so even when the exclusive_trigger written is empty", () => {
+    const emptyExclusive = countryEvent({
+      is_triggered_only: true,
+      ...window,
+      option: { name: "sts.a", trigger: { always: true }, exclusive_trigger: {} },
+    });
+
+    expect(reported(mod().add(emptyExclusive), "conflicting-fields")).toEqual(["sts_events.1.option"]);
+  });
+
   it("are diplomatic with a leader_story window, and a difficulty outside an astral rift event", () => {
     const story = countryEvent({
       is_triggered_only: true,

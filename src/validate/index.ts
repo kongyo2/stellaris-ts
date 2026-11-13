@@ -1574,6 +1574,10 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const languages: readonly string[] = options.languages ?? ["l_english"];
   const diagnostics: ValidationDiagnostic[] = [];
   const declared = new Set<string>(mod.definitions.map((definition) => `${definition.type}:${definition.id}`));
+  // As the descriptor writes them: one separator, no trailing one.
+  const hiddenDirectories: ReadonlySet<string> = new Set(
+    (mod.options.replacePaths ?? []).map((path) => normalisedPath(path)),
+  );
   const strings = new Map<string, Set<string>>();
   const seen = new Set<string>();
 
@@ -1709,7 +1713,14 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     // afterwards. Except where the game merges instead — adding to
     // `on_game_start` is how a mod hooks the start of a game, and every mod
     // that does it correctly was being warned about it.
-    if (precedence !== "merged" && (vanillaIdsByType[definition.type] ?? []).includes(definition.id)) {
+    // A directory named in `replace_path` is one the game reads no base-game
+    // file from, so nothing of the base game's is left there to replace or to
+    // be read first; `emit` says what hiding the directory costs.
+    if (
+      precedence !== "merged" &&
+      !hiddenDirectories.has(definition.directory) &&
+      (vanillaIdsByType[definition.type] ?? []).includes(definition.id)
+    ) {
       diagnostics.push(vanillaOverride(mod, definition, precedence));
     }
 

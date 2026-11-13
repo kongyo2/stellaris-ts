@@ -137,6 +137,20 @@ describe("a definition of an id the base game uses", () => {
     expect(replaced[0]?.message).toContain("counts only if its file is read before");
   });
 
+  // `replace_path` hides the directory's base-game files, so no definition
+  // of the base game's is left there to come first or to be replaced.
+  it("is the only one where the mod replaces the directory it is read from", () => {
+    const target = defineMod({
+      name: "Order",
+      version: "1",
+      supportedVersion: SUPPORTED_VERSION,
+      replacePaths: ["events/"],
+    }).add(define("event", vanillaEvent, hidden, { as: "country_event" }));
+
+    expect(found(target, "ignored-vanilla-override")).toEqual([]);
+    expect(found(target, "replaces-vanilla-definition")).toEqual([]);
+  });
+
   it("is still no warning where the game merges", () => {
     const target = mod().add(define("on_action", "on_game_start", { events: [] }));
 

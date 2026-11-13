@@ -569,8 +569,11 @@ interface EventState {
  * writes `factor = 1` first.
  *
  * An option (`0xa23dc0`, `eventoption.cpp:538`) `cannot have both trigger and
- * exclusive_trigger`: `exclusive_trigger` is read apart from `trigger`
- * (`+0x240` and `+0x168`), and the check asks whether both hold anything.
+ * exclusive_trigger`. The two are not asked the same thing: reading
+ * `exclusive_trigger` sets a flag whatever its block holds (`+0x4ec`), and the
+ * check asks for that flag and for a `trigger` holding at least one condition
+ * (the count at `+0x1f4`). So an empty `exclusive_trigger` beside a `trigger`
+ * that says something is logged, and an empty `trigger` beside either is not.
  *
  * An event that inherits from another with `base` copies what the other read,
  * so nothing is said about one; nor about one holding script this cannot see.
