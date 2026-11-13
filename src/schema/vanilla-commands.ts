@@ -21,7 +21,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: anyValue(),
   }),
-  // 922 uses across 10 types, e.g. common/anomalies/95_anomaly_categories_distant_stars.txt
+  // 924 uses across 10 types, e.g. common/anomalies/95_anomaly_categories_distant_stars.txt
   scriptCommand({
     id: "carrier_event",
     family: "effect",
@@ -317,7 +317,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 516 uses across 8 types, e.g. common/buildings/15_overlord_holdings.txt
+  // 518 uses across 8 types, e.g. common/buildings/15_overlord_holdings.txt
   scriptCommand({
     id: "set_carrier_flag",
     family: "effect",
@@ -325,7 +325,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 4 uses across 2 types, e.g. events/synthetic_dawn_events.txt
+  // 5 uses across 2 types, e.g. events/game_start.txt
   scriptCommand({
     id: "set_faction_properties",
     family: "effect",
@@ -333,7 +333,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: anyValue(),
   }),
-  // 4 uses across 2 types, e.g. events/synthetic_dawn_events.txt
+  // 5 uses across 2 types, e.g. events/game_start.txt
   scriptCommand({
     id: "set_resource_converter",
     family: "effect",
@@ -349,7 +349,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 111 uses across 4 types, e.g. common/buildings/15_overlord_holdings.txt
+  // 114 uses across 4 types, e.g. common/buildings/15_overlord_holdings.txt
   scriptCommand({
     id: "set_timed_carrier_flag",
     family: "effect",
@@ -557,7 +557,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("integer"),
   }),
-  // 1101 uses across 19 types, e.g. common/achievements.txt
+  // 1110 uses across 19 types, e.g. common/achievements.txt
   scriptCommand({
     id: "has_carrier_flag",
     family: "trigger",
@@ -597,7 +597,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 1895 uses across 66 types, e.g. common/achievements.txt
+  // 1897 uses across 66 types, e.g. common/achievements.txt
   scriptCommand({
     id: "is_nomadic",
     family: "trigger",

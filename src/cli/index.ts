@@ -179,6 +179,7 @@ function usage(): string {
     "",
     "The entry is a module whose default export is a Mod.",
     "--out defaults to the Stellaris mod folder; STELLARIS_MODS_DIR overrides it.",
+    "build exits 1 when a file of the last build could not be removed (STUCK), as when the game holds it open.",
     "--language may be repeated, and takes `japanese` or `l_japanese`. Defaults to English.",
   ].join("\n");
 }
@@ -373,10 +374,13 @@ export async function run(argv: readonly string[]): Promise<number> {
     console.log(`REMOVED ${path}`);
   }
 
-  // Still loading, and still listed: the next build tries again.
+  // Still loading, and still listed: the next build tries again. The folder
+  // is not what this build describes while one of them is there — a
+  // definition taken out of the mod is still read by the game — so the build
+  // has not succeeded, and a caller that reads only the exit code is told so.
   for (const path of result.stuck) {
-    console.log(`STUCK ${path}`);
+    console.warn(`STUCK ${path}`);
   }
 
-  return 0;
+  return result.stuck.length > 0 ? 1 : 0;
 }

@@ -5,10 +5,19 @@ import {
   vanillaPlacement,
   vanillaScriptedParameters,
 } from "../generated/vanilla/index.js";
+import { vanillaFiles } from "../generated/vanilla/files.js";
 import { vanillaLocalisationKeys } from "../generated/vanilla/localisation-keys.js";
+import { definitionFilePath } from "../runtime/emit.js";
 import type { DefinitionRecord, Mod, RawFileRecord } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { definitionIds } from "../schema/definition-ids.js";
+import {
+  firstDefinitionWins,
+  LAST_DEFINITION_LOG,
+  precedenceOf,
+  readOrder,
+  type DefinitionPrecedence,
+} from "../schema/definition-precedence.js";
 import { captureFromDocument } from "../schema/extraction.js";
 import { localisationKey } from "../schema/ir.js";
 import {
@@ -20,6 +29,7 @@ import {
   type VariantSubject,
 } from "../schema/localisation-references.js";
 import {
+  engineCommandNames,
   loadBlockOfEntries,
   loadCheckedTypes,
   loadChecks,
@@ -28,10 +38,11 @@ import {
   type LoadEntry,
   type LoadValue,
 } from "../schema/load-checks.js";
-import { engineFixedEnums, mergedDefinitionTypes } from "../schema/merged-types.js";
+import { engineFixedEnums } from "../schema/merged-types.js";
 import { NodeKind, parse, type Document, type EntryNode } from "../syntax/index.js";
 import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../schema/scopeless-on-actions.js";
 import { schema } from "../schema/index.js";
+import { branchChain, isBranchBody, type BranchChain } from "../schema/script-order.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
 import {
   applyScope,
@@ -176,7 +187,27 @@ interface Walker {
   readonly scripted: ReadonlyMap<string, DefinitionRecord>;
   /** The ones being read in a caller's scope right now, so that one calling itself is read once. */
   readonly calling: Set<string>;
+  /** The strings already reported missing, by definition, language and key. */
+  readonly unlocalised: Set<string>;
   readonly diagnostics: ValidationDiagnostic[];
+}
+
+/**
+ * Whether this is the first time a definition is found to lack a string.
+ *
+ * One string is often named twice: a special project's `key` is its id, and
+ * two options may share a tooltip. Writing the string once mends every one of
+ * them, so it is reported once per definition.
+ */
+function firstMention(seen: Set<string>, definition: string, language: string, key: string): boolean {
+  const mention: string = `${definition}\t${language}\t${key}`;
+
+  if (seen.has(mention)) {
+    return false;
+  }
+
+  seen.add(mention);
+  return true;
 }
 
 /** The base game's localisation keys, built once: there are 162,858 of them. */
@@ -196,7 +227,7 @@ function vanillaLocalisation(): ReadonlySet<string> {
  */
 function checkNamedString(walker: Walker, definition: string, path: string, name: string, where: string): void {
   for (const language of walker.languages) {
-    if (walker.localised(language, name)) {
+    if (walker.localised(language, name) || !firstMention(walker.unlocalised, definition, language, name)) {
       continue;
     }
 
@@ -394,7 +425,7 @@ function withOwnEnumMembers(
         // The emitter takes either separator and writes one; reading only `/`
         // here put a file written `common\component_tags\x.txt` in no
         // directory at all, so what it declared was never seen.
-        const normalised: string = path.replaceAll("\\", "/");
+        const normalised: string = normalisedPath(path);
         const separator: number = normalised.lastIndexOf("/");
         if (covers(separator < 0 ? "" : normalised.slice(0, separator))) {
           captureFromDocument(document.entries, source.route, source.startFromRoot, found);
@@ -408,6 +439,21 @@ function withOwnEnumMembers(
   }
 
   return merged;
+}
+
+/**
+ * A raw file's path as the emitter writes it: one separator, no `.` segment.
+ *
+ * The emitter takes either separator and reads `./common/x.txt` as the
+ * `common/x.txt` it writes, so everything that asks which directory a raw
+ * file is in has to read the path the same way.
+ */
+function normalisedPath(written: string): string {
+  return written
+    .replaceAll("\\", "/")
+    .split("/")
+    .filter((part) => part !== "" && part !== ".")
+    .join("/");
 }
 
 /**
@@ -445,13 +491,7 @@ function rawFileIds(model: SchemaModel, parsed: ReadonlyMap<string, Document>): 
   const ids: Record<string, string[]> = {};
 
   for (const [written, document] of parsed) {
-    // The emitter takes either separator, and reads `./common/x.txt` as the
-    // `common/x.txt` it writes.
-    const path: string = written
-      .replaceAll("\\", "/")
-      .split("/")
-      .filter((part) => part !== "" && part !== ".")
-      .join("/");
+    const path: string = normalisedPath(written);
     const slash: number = path.lastIndexOf("/");
     const directory: string = slash < 0 ? "" : path.slice(0, slash);
     const name: string = path.slice(slash + 1);
@@ -949,6 +989,81 @@ function checkItems(
 }
 
 /**
+ * The keyed entries of an ordered block that stand right after script nothing
+ * here can read — a bare `raw()` — by their place among the keyed entries.
+ *
+ * `entries([bare(raw("if = { … }")), ["else", { … }]])` writes an `if` and its
+ * `else`, and only the second is a key.
+ */
+function afterOpaque(body: unknown): ReadonlySet<number> {
+  const found = new Set<number>();
+
+  if (!isEntries(body)) {
+    return found;
+  }
+
+  let keyed = 0;
+  let pending = false;
+
+  for (const entry of body.entries) {
+    if (isBare(entry)) {
+      pending ||= isRaw(entry.bare);
+      continue;
+    }
+    if (pending) {
+      found.add(keyed);
+      pending = false;
+    }
+    keyed += 1;
+  }
+
+  return found;
+}
+
+/**
+ * An `else` or an `else_if` with no `if` read just before it.
+ *
+ * A field of the block that is not itself an effect — an option's `name`, its
+ * `trigger` — is taken by the block's own reader and never joins the list the
+ * `else` is matched against, so it does not come between an `if` and its
+ * `else`. Every other key does.
+ */
+function checkBranch(
+  walker: Walker,
+  definition: string,
+  path: string,
+  rules: BlockRules,
+  key: string,
+  occurrences: readonly unknown[],
+  branches: BranchChain,
+): void {
+  const lowered: string = key.toLowerCase();
+  const macro: boolean = walker.macroKeys.has(lowered);
+
+  if (!macro && (rules.literals.has(key) || rules.literals.has(lowered))) {
+    return;
+  }
+
+  for (const occurrence of occurrences) {
+    if (occurrence === undefined || occurrence === null) {
+      continue;
+    }
+
+    if (branches.next(key)) {
+      continue;
+    }
+
+    walker.diagnostics.push({
+      severity: "error",
+      code: "else-without-if",
+      message: `${key} does not follow an if or an else_if${path.length === 0 ? "" : ` inside ${path}`}. The game matches an ${lowered} to the if read just before it in the same block; this one has none, so the game logs "Else/else if not following an if or else if" and the branch never runs. An object writes its keys in the order they were added, and entries() keeps an order an object cannot.`,
+      definition,
+      path,
+    });
+  }
+}
+
+/**
  * Walks one block. `rules` say what is accepted here: every variant's, since
  * which variant a definition is depends on its body. `meaning` says what a
  * value is: only the rules that apply to this definition, carried down from
@@ -970,7 +1085,19 @@ function walkBlock(
 
   checkItems(walker, definition, path, rules, bare, scope, compares, meaning);
 
-  for (const [key, rawValue] of keyed) {
+  // An effect or a trigger block is read in order, and an `else` belongs to
+  // the `if` read just before it.
+  const branches: BranchChain | undefined =
+    (rules.families.has("effect") || rules.families.has("trigger")) && !isBranchBody(path) ? branchChain() : undefined;
+  const opaque: ReadonlySet<number> = branches === undefined ? new Set<number>() : afterOpaque(body);
+
+  for (const [index, [key, rawValue]] of keyed.entries()) {
+    // A bare `raw("if = { … }")` stood just before this key: it may be the
+    // `if` an `else` here belongs to.
+    if (opaque.has(index)) {
+      branches?.unknown();
+    }
+
     if (rawValue === undefined || rawValue === null) {
       continue;
     }
@@ -979,6 +1106,10 @@ function walkBlock(
     // it stood alone, and `gt(1)` compares rather than assigns.
     const occurrences: readonly unknown[] = isRepeated(rawValue) ? rawValue.values : [rawValue];
     const resolution: KeyResolution = walker.resolver.resolve(rules, key);
+
+    if (branches !== undefined) {
+      checkBranch(walker, definition, path, rules, key, occurrences, branches);
+    }
     const sense: KeyResolution | undefined =
       meaning === undefined ? undefined : meaning === rules ? resolution : walker.resolver.resolve(meaning, key);
     const applicable: readonly ResolvedValue[] =
@@ -1328,7 +1459,10 @@ function followCalls(
     const sink: ValidationDiagnostic[] = [];
     const rules: BlockRules = walker.resolver.rulesForType(type);
     walkBlock(
-      { ...walker, diagnostics: sink },
+      // Its own account of the strings found missing, as well: what this walk
+      // reports is thrown away but for the scopes, and a key it marked as
+      // reported would never be reported where the caller names it too.
+      { ...walker, diagnostics: sink, unlocalised: new Set(walker.unlocalised) },
       definition,
       `${path}>`,
       rules,
@@ -1356,11 +1490,198 @@ function sameDiagnostic(left: ValidationDiagnostic, right: ValidationDiagnostic)
   );
 }
 
+/**
+ * The base game's files this mod ships a file of its own in place of, by
+ * directory and in the base game's spelling.
+ *
+ * A file of the same name replaces the base game's whole file, and every
+ * definition that file held is gone with it — whether the mod's file is a
+ * definition's, a raw file or an asset. Folded as `emit` folds a collision:
+ * `Events/X.txt` stands in for `events/x.txt` wherever the filesystem folds.
+ */
+function replacedVanillaFiles(mod: Mod): ReadonlyMap<string, ReadonlySet<string>> {
+  const replaced = new Map<string, Set<string>>();
+
+  const note = (written: string | undefined): void => {
+    if (written === undefined) {
+      return;
+    }
+
+    const path: string = normalisedPath(written);
+    const slash: number = path.lastIndexOf("/");
+    const directory: string = slash < 0 ? "" : path.slice(0, slash);
+    const name: string = path.slice(slash + 1).toLowerCase();
+    const shipped: string | undefined = (vanillaFiles[directory] ?? []).find((other) => other.toLowerCase() === name);
+
+    if (shipped !== undefined) {
+      const bucket: Set<string> = replaced.get(directory) ?? new Set<string>();
+      bucket.add(shipped);
+      replaced.set(directory, bucket);
+    }
+  };
+
+  for (const file of mod.files) {
+    note(file.path);
+  }
+  for (const asset of mod.assets) {
+    note(asset.path);
+  }
+  for (const definition of mod.definitions) {
+    note(definitionFilePath(mod.options, definition));
+  }
+
+  return replaced;
+}
+
+/** `a.txt, b.txt, c.txt and 4 more`: a list short enough to read. */
+function someOf(names: readonly string[]): string {
+  const shown: readonly string[] = names.slice(0, 3);
+  return names.length > shown.length
+    ? `${shown.join(", ")} and ${String(names.length - shown.length)} more`
+    : shown.join(", ");
+}
+
+/** `an event`, `a building`: a type's id with its article. */
+function withArticle(type: string): string {
+  return `${/^[aeiou]/iu.test(type) ? "an" : "a"} ${type}`;
+}
+
+/**
+ * A file name that sorts before every one of the others, in the byte order
+ * the game reads a directory in: the name itself behind the shortest run of
+ * zeros that does, or behind `!` where the base game's own names start lower
+ * than any digit.
+ */
+function nameReadFirst(name: string, others: readonly string[]): string {
+  for (const prefix of ["00_", "000_", "0000_", "00000_"]) {
+    if (readOrder(`${prefix}${name}`, others) === -1) {
+      return `${prefix}${name}`;
+    }
+  }
+
+  return `!_${name}`;
+}
+
+/** The line the game logs for an id, from the format it prints it with. */
+function logged(format: string, id: string): string {
+  return format.replace(", using the one at %s", "").replace("%s", id);
+}
+
+/** What happens to the second definition of an id, by which one the game keeps. */
+function duplicateMessage(definition: DefinitionRecord, precedence: DefinitionPrecedence): string {
+  const twice: string = `${definition.id} is defined more than once as ${withArticle(definition.type)}`;
+
+  switch (precedence) {
+    case "first":
+      return `${twice}. The game keeps the first one it reads and drops every later one, logging "${logged(firstDefinitionWins[definition.type] ?? "", definition.id)}".`;
+    case "last":
+      return `${twice}; only the last one the game reads loads, and it logs "${logged(LAST_DEFINITION_LOG, definition.id)}" for it.`;
+    default:
+      return `${twice}, and the game keeps one of them.`;
+  }
+}
+
+/**
+ * A definition of an id the base game already uses.
+ *
+ * Which of the two the game keeps is decided by the order it reads them in,
+ * and that by the names of their files: files of a directory are read in the
+ * order of their names, the base game's and a mod's alike. Where the game
+ * keeps the last definition, the default file — which sorts after every one
+ * of the base game's — replaces the base game's; where it keeps the first,
+ * the same file is the one place such a definition does nothing.
+ */
+function vanillaOverride(
+  mod: Mod,
+  definition: DefinitionRecord,
+  precedence: DefinitionPrecedence,
+  replaced: ReadonlyMap<string, ReadonlySet<string>>,
+): ValidationDiagnostic {
+  const base = { definition: definition.id, path: "" };
+  const what: string = `${definition.id} is ${withArticle(definition.type)} the base game defines`;
+
+  if (precedence !== "first" && precedence !== "last") {
+    return {
+      ...base,
+      severity: "warning",
+      code: "replaces-vanilla-definition",
+      message: `${what} as well, and the game keeps one of the two.`,
+    };
+  }
+
+  const line: string = logged(
+    precedence === "first" ? (firstDefinitionWins[definition.type] ?? "") : LAST_DEFINITION_LOG,
+    definition.id,
+  );
+  const path: string | undefined = definitionFilePath(mod.options, definition);
+  const slash: number = path === undefined ? -1 : path.lastIndexOf("/");
+  const name: string = path === undefined ? "" : path.slice(slash + 1);
+  const directory: string = path === undefined || slash < 0 ? "" : path.slice(0, slash);
+  const dot: number = name.lastIndexOf(".");
+  const extension: string = dot < 0 ? "" : name.slice(dot).toLowerCase();
+  // Only the files the game reads the type from take part in the order.
+  const others: readonly string[] = (vanillaFiles[directory] ?? []).filter((other) =>
+    other.toLowerCase().endsWith(extension),
+  );
+  const kept: string = `the game keeps the ${precedence} ${definition.type} of an id it reads`;
+  // The base game's files in this directory that the mod ships its own in
+  // place of: this definition's file, a raw file, another definition's. What
+  // such a file defined is gone with it, and the index does not say which
+  // file defined which id, so the base game's definition may be gone too.
+  const gone: readonly string[] = others.filter((other) => replaced.get(directory)?.has(other) === true);
+
+  if (gone.length > 0) {
+    return {
+      ...base,
+      severity: "warning",
+      code: "replaces-vanilla-definition",
+      message: `${what}, and ${kept}. This mod replaces ${someOf(gone)} in ${directory}: if the base game defined ${definition.id} there, this definition is the only one left; if not, it counts only if its file is read ${precedence === "first" ? "before" : "after"} the base game's file that defines it.`,
+    };
+  }
+
+  const order: -1 | 0 | 1 = path === undefined || others.length === 0 ? 0 : readOrder(name, others);
+  const where: string = `${path ?? name} is read ${order === -1 ? "before" : "after"} every file of the base game in ${directory}`;
+
+  if (order === 0) {
+    return {
+      ...base,
+      severity: "warning",
+      code: "replaces-vanilla-definition",
+      message: `${what}, and ${kept}: this one counts only if its file is read ${precedence === "first" ? "before" : "after"} the base game's file that defines ${definition.id}. Files are read in the order of their names.`,
+    };
+  }
+
+  // Read on the side the game keeps: this one replaces the base game's.
+  if ((precedence === "first") === (order === -1)) {
+    return {
+      ...base,
+      severity: "warning",
+      code: "replaces-vanilla-definition",
+      message: `${what}; this replaces it, since ${where} and ${kept}. It logs "${line}".`,
+    };
+  }
+
+  return {
+    ...base,
+    severity: "error",
+    code: "ignored-vanilla-override",
+    message:
+      precedence === "first"
+        ? `${what}, and ${kept}. ${where}, so this definition is dropped and the game logs "${line}". To replace the base game's, write it to a file whose name sorts before the base game's, such as defineIn("${definition.type}", "${nameReadFirst(name, others)}", …), or replace the file that defines it.`
+        : `${what}, and ${kept}. ${where}, so the base game's definition is read over this one and the game logs "${line}". To replace the base game's, write it to a file whose name sorts after the base game's, as the default file's does.`,
+  };
+}
+
 export function validate(mod: Mod, options: ValidationOptions = {}): readonly ValidationDiagnostic[] {
   const model: SchemaModel = options.model ?? schema;
   const languages: readonly string[] = options.languages ?? ["l_english"];
   const diagnostics: ValidationDiagnostic[] = [];
   const declared = new Set<string>(mod.definitions.map((definition) => `${definition.type}:${definition.id}`));
+  // As the descriptor writes them: one separator, no trailing one.
+  const hiddenDirectories: ReadonlySet<string> = new Set(
+    (mod.options.replacePaths ?? []).map((path) => normalisedPath(path)),
+  );
+  const replacedFiles: ReadonlyMap<string, ReadonlySet<string>> = replacedVanillaFiles(mod);
   const strings = new Map<string, Set<string>>();
   const seen = new Set<string>();
 
@@ -1411,7 +1732,16 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       return set.has(id);
     },
     ids: (type: string): readonly string[] => idsByType[type] ?? [],
+    command: (family: "effect" | "trigger", name: string): boolean =>
+      engineCommandNames(model, family).has(name.toLowerCase()),
+    // The modifiers the game defines itself, without the names read off the
+    // keys of its strings: expanded only when a static modifier asks.
+    modifier: (name: string): boolean => {
+      engineModifiers ??= expandModifierNames(model.modifiers, idsByType);
+      return engineModifiers.has(name.toLowerCase());
+    },
   };
+  let engineModifiers: ReadonlySet<string> | undefined;
   const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
   const walker: Walker = {
@@ -1437,6 +1767,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         .map((definition) => [`${definition.type.replace(/^scripted_/u, "")}:${definition.id}`, definition]),
     ),
     calling: new Set<string>(),
+    unlocalised: new Set<string>(),
     diagnostics,
   };
 
@@ -1463,15 +1794,17 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       continue;
     }
 
-    // Two definitions of the same id: the later one wins and the earlier one
-    // silently does nothing. Unless the game merges them — a mod may well add to
-    // `on_game_start` from two places, and every one of them runs.
+    // Two definitions of the same id, of which the game keeps one. Unless it
+    // merges them — a mod may well add to `on_game_start` from two places, and
+    // every one of them runs.
     const identity: string = `${definition.type}:${definition.id}`;
-    if (seen.has(identity) && mergedDefinitionTypes[definition.type] === undefined) {
+    const precedence: DefinitionPrecedence = precedenceOf(type);
+
+    if (seen.has(identity) && precedence !== "merged") {
       diagnostics.push({
         severity: "error",
         code: "duplicate-definition",
-        message: `${definition.id} is defined more than once as a ${definition.type}; only the last one loads.`,
+        message: duplicateMessage(definition, precedence),
         definition: definition.id,
         path: "",
       });
@@ -1479,21 +1812,21 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     seen.add(identity);
 
     // Defining an id the base game already uses replaces its definition
-    // wholesale. Sometimes that is the point; it is never something to discover
+    // wholesale where the game keeps the last one it reads, and does nothing
+    // at all where it keeps the first and reads the base game's first.
+    // Sometimes replacing is the point; it is never something to discover
     // afterwards. Except where the game merges instead — adding to
     // `on_game_start` is how a mod hooks the start of a game, and every mod
     // that does it correctly was being warned about it.
+    // A directory named in `replace_path` is one the game reads no base-game
+    // file from, so nothing of the base game's is left there to replace or to
+    // be read first; `emit` says what hiding the directory costs.
     if (
-      mergedDefinitionTypes[definition.type] === undefined &&
+      precedence !== "merged" &&
+      !hiddenDirectories.has(definition.directory) &&
       (vanillaIdsByType[definition.type] ?? []).includes(definition.id)
     ) {
-      diagnostics.push({
-        severity: "warning",
-        code: "replaces-vanilla-definition",
-        message: `${definition.id} is a ${definition.type} the base game defines; this replaces it, and whichever loads last wins.`,
-        definition: definition.id,
-        path: "",
-      });
+      diagnostics.push(vanillaOverride(mod, definition, precedence, replacedFiles));
     }
 
     // An event id is `namespace.number`, and the file declares the namespace.
@@ -1566,7 +1899,13 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
     // What the game's loader logs about this definition, and loads it anyway.
     if (loadCheckedTypes.has(definition.type)) {
-      for (const finding of loadChecks(definition.type, definition.id, loadBlockOf(definition.body), loadContext)) {
+      for (const finding of loadChecks(
+        definition.type,
+        definition.id,
+        loadBlockOf(definition.body),
+        loadContext,
+        definition.blockKey ?? definition.id,
+      )) {
         diagnostics.push({
           severity: "warning",
           code: finding.code,
@@ -1590,7 +1929,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       const key: string = localisationKey(requirement.source.pattern, definition.id);
 
       for (const language of languages) {
-        if (!localised(language, key)) {
+        if (!localised(language, key) && firstMention(walker.unlocalised, definition.id, language, key)) {
           diagnostics.push({
             severity: "warning",
             code: "missing-localisation",

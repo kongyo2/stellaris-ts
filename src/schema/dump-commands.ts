@@ -738,6 +738,35 @@ export const retiredCommands: readonly { readonly id: string; readonly family: s
   { id: "set_faction_auto_delete", family: "effect", reason: "last documented in 4.3.7" },
   { id: "set_faction_needs_colony", family: "effect", reason: "last documented in 4.3.7" },
   { id: "used_starbase_capacity_integer", family: "trigger", reason: "last documented in 4.3.7" },
+  // In no dump the 4.5.2 executable prints of itself, defined by no file of
+  // the base game, and written by none of its script. The first two are still
+  // words in the executable's keyword table; none of the others is a word in
+  // it at all, so nothing could be registered under them.
+  { id: "resettle_pop", family: "effect", reason: "a keyword the 4.5.2 executable registers no effect by" },
+  { id: "count_armies", family: "trigger", reason: "a keyword the 4.5.2 executable registers no trigger by" },
+  { id: "create_megastructure_system", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "delete_ship_naval_cap", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "finish_current_operaton_stage", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "gain_supersitious_beliefs_cloaking_tech", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "ordered_system_in_cluster", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "roll_superstitious_event_high", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "roll_superstitious_event_low", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "roll_superstitious_event_medium", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "scope_field", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "scope_field", family: "trigger", reason: "not a word in the 4.5.2 executable" },
+  { id: "set_agreement_term", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "set_timed_design_flag", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "spawn_mindwarden_megastructures", family: "effect", reason: "not a word in the 4.5.2 executable" },
+  { id: "check_economic_modifier_for_job", family: "trigger", reason: "not a word in the 4.5.2 executable" },
+  // Written four times in `give_next_breakthrough_effect`'s
+  // body and defined nowhere: not a scripted effect of the base game, not in
+  // the dumps, not a word in the executable. The corpus declared it so those
+  // four lines would pass.
+  {
+    id: "give_breakthrough_tech_option_or_progress_effect",
+    family: "effect",
+    reason: "the base game calls it and nothing defines it",
+  },
 ];
 
 /** The commands without the ones the game no longer has. */

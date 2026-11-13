@@ -62888,6 +62888,7 @@ export type VanillaScriptedEffectId =
   | "STORM_FEVER_ENABLE_CHALLENGE_2"
   | "aborted_crew_contract_effect"
   | "aborted_passenger_contract_effect"
+  | "accept_end_of_the_cycle"
   | "achieve_ftl_effect"
   | "activate_behemoth_superweapon"
   | "add_500_unity_per_year_passed"
@@ -62926,6 +62927,7 @@ export type VanillaScriptedEffectId =
   | "add_cosmogenesis_level_5_perks"
   | "add_dark_matter"
   | "add_deposit_if_missing"
+  | "add_deposit_with_message"
   | "add_disintegrator_field"
   | "add_district_and_planet_size_if_needed_effect"
   | "add_district_and_planet_size_if_needed_effect_amount"
@@ -62949,6 +62951,7 @@ export type VanillaScriptedEffectId =
   | "add_initial_leader_traits_effect"
   | "add_laser_tech"
   | "add_laser_tech_progress"
+  | "add_latent_psionic_trait"
   | "add_manufactured_resources_effect"
   | "add_mining_tech"
   | "add_mining_tech_progress"
@@ -62960,13 +62963,16 @@ export type VanillaScriptedEffectId =
   | "add_non_aligned_league_opinions"
   | "add_observation_insight_effect"
   | "add_or_level_up_veteran_trait_effect"
+  | "add_percentage_to_all_resources"
   | "add_pre_ftl_buildings"
   | "add_primitive_farm_or_mine"
   | "add_prospectorium_leader_trait"
   | "add_psionic_aura_level_visual"
+  | "add_psionic_trait"
   | "add_random_expertise_trait_effect"
   | "add_random_natural_blocker"
   | "add_random_natural_blocker_and_give_tech"
+  | "add_random_trait_by_tag"
   | "add_random_trait_evopred"
   | "add_rare_crystals"
   | "add_rare_resources_effect"
@@ -63014,6 +63020,7 @@ export type VanillaScriptedEffectId =
   | "akashic_library_artifacts_effect"
   | "align_pre_FTL_country_ethics"
   | "all_random_events"
+  | "animator_of_clay_create_vessels"
   | "annihilate_captured_arks_effect"
   | "apex_predator_switch"
   | "append_cloned_fauna_size"
@@ -63099,10 +63106,13 @@ export type VanillaScriptedEffectId =
   | "breach_fix_resolution_rulesofwar_independent_tribunals"
   | "breach_fix_resolution_rulesofwar_last_resort_doctrine"
   | "breach_fix_resolution_rulesofwar_reverence_for_life"
+  | "breach_shroud"
   | "break_cycle_of_conflict"
+  | "break_cycle_of_fortune"
   | "break_cycle_of_growth"
   | "break_cycle_of_harmony"
   | "break_cycle_of_knowledge"
+  | "break_cycle_of_omens"
   | "break_cycle_of_prosperity"
   | "break_cycles"
   | "broken_shackles_start_pop_ethic_effect"
@@ -63121,6 +63131,7 @@ export type VanillaScriptedEffectId =
   | "cara_generate_dealexample"
   | "cara_home_return"
   | "celestial_storm_add"
+  | "celestial_storm_apply_aftermath_modifier"
   | "celestial_storm_apply_deposits"
   | "celestial_storm_remove"
   | "central_crystal_country_spawn_effect"
@@ -63148,14 +63159,17 @@ export type VanillaScriptedEffectId =
   | "clear_assimilation_variables"
   | "clear_aura_clashing_flags"
   | "clear_consecration_effect"
+  | "clear_covenant_flags"
   | "clear_crisis_analysis_modifiers"
   | "clear_cycle_flags"
+  | "clear_cycle_rolled_flags"
   | "clear_fleet_doctrine_flags"
   | "clear_natural_blockers_effect"
   | "clear_platform_defense_preference_flags"
   | "clear_platform_preference_overrides"
   | "clear_platform_weapon_preference_flags"
   | "clear_psionic_aura_visuals"
+  | "clear_selected_shroud_song"
   | "clear_ship_defense_preference_flags"
   | "clear_ship_preference_overrides"
   | "clear_ship_weapon_preference_flags"
@@ -63163,6 +63177,7 @@ export type VanillaScriptedEffectId =
   | "clear_starbase_preference_overrides"
   | "clear_starbase_weapon_preference_flags"
   | "clone_army_random_events"
+  | "close_mindwarden_diplomacy"
   | "close_shroud_rift_effect"
   | "collector_surrenders_artifact"
   | "compare_and_modify_ethics_factor"
@@ -63266,9 +63281,11 @@ export type VanillaScriptedEffectId =
   | "create_early_pre_ftl_hive_empire"
   | "create_embarking_arkship"
   | "create_embarking_subject_country_effect"
+  | "create_enclave_with_country"
   | "create_enigmatic_cache_fleet"
   | "create_espionage_contract"
   | "create_exiled_country"
+  | "create_exiled_starhold"
   | "create_faction_formed_message"
   | "create_faction_shifted_message"
   | "create_fallen_empire_arkship"
@@ -63369,6 +63386,11 @@ export type VanillaScriptedEffectId =
   | "create_medium_marauder_auxiliaries"
   | "create_mercenary_enclave_country"
   | "create_mercenary_mindwarden_enclave_country"
+  | "create_mindwarden_commander"
+  | "create_mindwarden_defense_fleet"
+  | "create_mindwarden_enclave"
+  | "create_mindwarden_fleet_leader"
+  | "create_mindwarden_raid_fleet"
   | "create_mindwarden_raiders"
   | "create_mining_drone_expansion_country"
   | "create_mining_drone_expansion_fleet"
@@ -63379,6 +63401,7 @@ export type VanillaScriptedEffectId =
   | "create_nebula_3"
   | "create_nebula_4"
   | "create_nivlac_effect"
+  | "create_normal_pirate_country"
   | "create_nu_baol_effect"
   | "create_nuked_species_mod"
   | "create_ocean_paradise_planet"
@@ -63446,6 +63469,7 @@ export type VanillaScriptedEffectId =
   | "create_scion_wormhole_link"
   | "create_second_diadochi"
   | "create_settlement_subject_country_effect"
+  | "create_ship_with_random_graphical_culture"
   | "create_shroud_creatures"
   | "create_shroud_seal"
   | "create_shroudwalker_enclave_country"
@@ -63500,6 +63524,7 @@ export type VanillaScriptedEffectId =
   | "create_very_large_marauder_auxiliaries"
   | "create_voidlure_capture_message"
   | "create_voidworm_crisis_eradicate_chain"
+  | "create_voidworm_fleet"
   | "create_voidworm_ship"
   | "create_voidworm_system_poi"
   | "create_voidworms_country"
@@ -63515,11 +63540,14 @@ export type VanillaScriptedEffectId =
   | "credit_assimilation_purge_crisis"
   | "crisis_cosmogenesis_shroud_spawn_effect"
   | "cruise_contract_scaling_reward_effect"
+  | "custom_bestowed_tooltip"
   | "cyberize_armies_effect"
   | "cyberize_colony_ships_effect"
   | "cyberize_creed_leaders_effect"
+  | "cyberize_creed_pops_effect"
   | "cyberize_leaders_effect"
   | "cyberize_leaders_limited_effect"
+  | "cyberize_pops_effect"
   | "death_cult_sacrifice_effect"
   | "decision_shroud_region_effect"
   | "declare_crisis_effect"
@@ -63567,6 +63595,7 @@ export type VanillaScriptedEffectId =
   | "dragon_random_events"
   | "draw_random_treasure_trove_specimen"
   | "drone_conversion_event_effect"
+  | "drone_conversion_event_effect_2"
   | "drone_conversion_new_species_effect"
   | "dyson_gun_apply_damage"
   | "dyson_gun_damage_ship"
@@ -63576,6 +63605,7 @@ export type VanillaScriptedEffectId =
   | "early_fc_random_events"
   | "eater_aura_max_intensity_effect"
   | "electric_storm_add"
+  | "electric_storm_apply_aftermath_modifier"
   | "electric_storm_apply_deposits"
   | "electric_storm_remove"
   | "embark_planet_effect"
@@ -63616,6 +63646,7 @@ export type VanillaScriptedEffectId =
   | "espionage_support_cleanup_effect"
   | "espionage_support_effect"
   | "establish_communication_with_subjects_and_federation"
+  | "ethic_leader_creator"
   | "ethic_leader_hire_effect"
   | "ethic_leader_hire_event"
   | "ethic_leader_kill_effect"
@@ -63668,8 +63699,10 @@ export type VanillaScriptedEffectId =
   | "fleet2_reset_journey"
   | "fleet3_continue_journey"
   | "fleet3_reset_journey"
+  | "force_remove_chosen_civic"
   | "fotd_tech_cost"
   | "fruitful_start_effect"
+  | "gain_leader_trait_level_max_2"
   | "gain_superstitious_beliefs_cloaking_tech"
   | "galcom_change_agreement_term_resolution_effect"
   | "galcom_downgrade_ethic_modifier_effect"
@@ -63744,6 +63777,7 @@ export type VanillaScriptedEffectId =
   | "give_embarking_empire_logistic_ship"
   | "give_engineering_tech_tier_1_effect"
   | "give_engineering_tech_tier_2_effect"
+  | "give_eotc_psionic_component_tech_insight"
   | "give_evolutionary_predator_situation_progress"
   | "give_evolutionary_predator_situation_progress_and_dna"
   | "give_fe_tech"
@@ -63751,6 +63785,7 @@ export type VanillaScriptedEffectId =
   | "give_homicidal_stage_1_reward"
   | "give_homicidal_stage_2_reward"
   | "give_homicidal_stage_3_reward"
+  | "give_mindwarden_dividends_modifiers"
   | "give_mutation_unlocks_effect"
   | "give_nanite_techs"
   | "give_next_ai_tech_option_effect"
@@ -63786,6 +63821,7 @@ export type VanillaScriptedEffectId =
   | "grant_fe_building"
   | "grant_random_fe_building"
   | "gravity_storm_add"
+  | "gravity_storm_apply_aftermath_modifier"
   | "gravity_storm_apply_deposits"
   | "gravity_storm_remove"
   | "great_artifact_reward"
@@ -63881,6 +63917,13 @@ export type VanillaScriptedEffectId =
   | "kill_single_pop"
   | "large_artifact_reward"
   | "late_fc_random_events"
+  | "launch_cycle_of_conflict"
+  | "launch_cycle_of_fortune"
+  | "launch_cycle_of_growth"
+  | "launch_cycle_of_harmony"
+  | "launch_cycle_of_knowledge"
+  | "launch_cycle_of_omens"
+  | "launch_cycle_of_prosperity"
   | "life_in_motion_effect"
   | "life_in_motion_success_effect"
   | "lifespan_shroud_high"
@@ -63896,6 +63939,7 @@ export type VanillaScriptedEffectId =
   | "machine_federation_member_civic_fix"
   | "machine_synthetic_leader_effect"
   | "magnetic_storm_add"
+  | "magnetic_storm_apply_aftermath_modifier"
   | "magnetic_storm_apply_deposit"
   | "magnetic_storm_remove"
   | "make_fallen_empire"
@@ -63912,8 +63956,11 @@ export type VanillaScriptedEffectId =
   | "make_unleashed_messenger"
   | "marauder_heir_contract_effect"
   | "mark_used_by_precursor"
+  | "materiality_engine_on_built_effect"
   | "medium_artifact_reward"
   | "mercenary_refund_fleet"
+  | "mind_over_matter_immediate"
+  | "mindwarden_give_logistic_assistance"
   | "morale_shroud_high"
   | "morale_shroud_low"
   | "morale_shroud_medium"
@@ -63921,6 +63968,7 @@ export type VanillaScriptedEffectId =
   | "move_consecration_aura_to_furnace_effect"
   | "move_kaleidoscope_effect"
   | "move_nomadic_fleet_to_random_system_planet_effect"
+  | "move_towards_advanced_government"
   | "nanotech_deposit_nanite_generation"
   | "natural_spawn_psionic_aura"
   | "nebula_cloaking_effect"
@@ -63945,6 +63993,7 @@ export type VanillaScriptedEffectId =
   | "obsessional_directive_start_effect"
   | "octopodes_fc_random_events"
   | "on_orbital_complete_effect"
+  | "on_psionic_aura_spawned"
   | "on_psionic_aura_vanishing"
   | "on_shroud_seal_destroyed"
   | "open_shroud_rift_effect"
@@ -63991,8 +64040,11 @@ export type VanillaScriptedEffectId =
   | "paragon_origin_trait_giver_xenophile"
   | "paragon_origin_trait_giver_xenophobe"
   | "particle_storm_add"
+  | "particle_storm_apply_aftermath_modifier"
   | "particle_storm_apply_deposits"
   | "particle_storm_remove"
+  | "patron_revenge"
+  | "pay_proxy_war_additional_resources"
   | "payback_msi_random_events"
   | "payback_resolution_counters_check"
   | "payback_stop_atrocities_effect"
@@ -64026,10 +64078,14 @@ export type VanillaScriptedEffectId =
   | "recalculate_aeronautic_adaptation_planet_modifier"
   | "recalculate_consecrated_world_modifier"
   | "reckoning_choose_planet"
+  | "reckoning_consume_world"
   | "reckoning_set_planet"
+  | "reckoning_spawn"
   | "reckoning_spawn_rebirth_arkship_effect"
   | "reduce_unity_celebration"
   | "refresh_class_cost_mod"
+  | "refresh_endbringers_madness_modifier"
+  | "refresh_endbringers_paranoia_modifier"
   | "refresh_noble_vacation_home_modifier"
   | "refresh_primal_calling_assimilate_modifier"
   | "refresh_primal_calling_exhibit_modifier"
@@ -64044,6 +64100,7 @@ export type VanillaScriptedEffectId =
   | "relic_world_conversion_effect"
   | "relic_world_deposits"
   | "remove_all_cybernetic_traits"
+  | "remove_bestowed_flags"
   | "remove_bulwark_array"
   | "remove_chain_aura_suppressors"
   | "remove_checklist_arkship_modifiers_effect"
@@ -64107,10 +64164,16 @@ export type VanillaScriptedEffectId =
   | "restore_leader_location"
   | "restore_saved_deposits"
   | "rogue_shaman_modifier_removal"
+  | "roll_boon"
+  | "roll_boon_high"
+  | "roll_boon_low"
+  | "roll_boon_medium"
   | "roll_curtain_secret_faction"
   | "roll_grand_dance_secret_faction"
   | "roll_masquerade_secret_faction"
   | "roll_resources_effect"
+  | "roll_secret_faction_internal"
+  | "roll_secret_factions"
   | "roll_selected_aesthetic_wonder_relic"
   | "roll_selected_historical_item_relic"
   | "roll_selected_relic"
@@ -64134,6 +64197,7 @@ export type VanillaScriptedEffectId =
   | "scion_physics_tech"
   | "scion_society_tech"
   | "select_pre_ftl_origin"
+  | "select_shroud_song"
   | "select_suitable_spawn_system"
   | "self_reported_pre_ftl_espionage_violation_effect"
   | "send_toxified_message"
@@ -64178,6 +64242,7 @@ export type VanillaScriptedEffectId =
   | "set_pre_ftl_origin"
   | "set_predictive_observation_insight"
   | "set_psionic_aura_encounter"
+  | "set_psionic_choir_policy"
   | "set_purge_xfer_resource_effect"
   | "set_random_commander_background_effect"
   | "set_random_lithoid_portrait_effect"
@@ -64219,6 +64284,7 @@ export type VanillaScriptedEffectId =
   | "shroud_creatures_avatar_spawn"
   | "shroud_creatures_system_spawn"
   | "shroud_energy_cost"
+  | "shroud_forge_your_own_path"
   | "shroud_forged_animator_of_clay_cooldown"
   | "shroud_forged_animator_of_clay_event"
   | "shroud_forged_situation_event_cooldown"
@@ -64229,12 +64295,16 @@ export type VanillaScriptedEffectId =
   | "shroud_forged_situation_event_positive_2"
   | "shroud_forged_situation_event_positive_3"
   | "shroud_invasion_effect"
+  | "shroud_leader_creator"
+  | "shroud_leader_hire_effect"
   | "shroud_major_invasion_effect"
   | "shroud_storm_add"
+  | "shroud_storm_apply_aftermath_modifier"
   | "shroud_storm_apply_deposits"
   | "shroud_storm_events"
   | "shroud_storm_remove"
   | "shroud_touched_cooldown"
+  | "shroud_touched_option_cost"
   | "shroud_touched_patron_first_contact"
   | "shroud_world_zro_deposit_effect"
   | "shroudwalker_enclave_starbase_create_shroud_tunnel"
@@ -64286,6 +64356,7 @@ export type VanillaScriptedEffectId =
   | "slushify_world"
   | "small_artifact_reward"
   | "solar_storm_add"
+  | "solar_storm_apply_aftermath_modifier"
   | "solar_storm_apply_deposits"
   | "solar_storm_remove"
   | "souls_aura_max_intensity_effect"
@@ -64296,11 +64367,13 @@ export type VanillaScriptedEffectId =
   | "spawn_behemoth_in_orbit_effect"
   | "spawn_behemoth_summon_fleet"
   | "spawn_black_needle_base_system"
+  | "spawn_cutholoid_from_asteroid"
   | "spawn_diadochi_shipyard"
   | "spawn_diadochi_starhold"
   | "spawn_eater_fleet_effect"
   | "spawn_extradimensional_scouts_fleet"
   | "spawn_fast_egg_fleet_effect"
+  | "spawn_formless_defense_fleet"
   | "spawn_formless_invader_fleet"
   | "spawn_free_defense_platform"
   | "spawn_from_location_crystalline_entity"
@@ -64355,6 +64428,7 @@ export type VanillaScriptedEffectId =
   | "speed_shroud_high"
   | "speed_shroud_low"
   | "speed_shroud_medium"
+  | "split_astral_scar"
   | "split_districts_effect"
   | "spread_aura_endlessly"
   | "spread_tent_ships_tier_1"
@@ -64383,6 +64457,7 @@ export type VanillaScriptedEffectId =
   | "start_patriotic_institute_spawn_storm_repeated"
   | "start_psionic_war_chain"
   | "start_your_engines_pilots_test"
+  | "store_galactic_community_leader_backup_data"
   | "stormbound_final_reward"
   | "subtract_age_based_awareness_effect"
   | "support_seperatist_deficit_effect"
@@ -64431,11 +64506,13 @@ export type VanillaScriptedEffectId =
   | "trigger_aura_clashing_event"
   | "trigger_scholarium_project_event"
   | "try_find_far_edge_rim_system"
+  | "try_remove_penal_experimental_mod"
   | "try_resolve_aura_clashing"
   | "try_spawn_natural_nexus_storm"
   | "try_spawn_natural_storm"
   | "try_spread_aura"
   | "try_start_chain_aura_suppressors"
+  | "turn_main_species_to_psionic"
   | "uncover_artifacts_effect"
   | "uncover_basic_resource_effect"
   | "uncover_research_effect"
@@ -64461,6 +64538,8 @@ export type VanillaScriptedEffectId =
   | "unplugged_origin_system_backup_effect"
   | "unplugged_spawn_factions_check"
   | "unqueue_biomass_effect"
+  | "update_eotc_accords"
+  | "update_every_leader_from_psionic_countries"
   | "update_evopred_vassal_dna"
   | "update_fleet_space_storm_reduction_zroni_rift"
   | "update_kaleidoscope_effect"
@@ -64468,6 +64547,8 @@ export type VanillaScriptedEffectId =
   | "update_modifier_amount_if_needed"
   | "update_node_portraits_if_gestalt_effect"
   | "update_psionic_aura_visuals"
+  | "update_reckoning_event_chain"
+  | "update_reckoning_event_chains"
   | "update_zrony_storyline_flags"
   | "upgrade_celestial_chart_relic"
   | "upgrade_colony_shelter"
@@ -64484,6 +64565,7 @@ export type VanillaScriptedEffectId =
   | "weapons_shroud_medium"
   | "wenkwort_continue_patrol"
   | "whisperers_aura_max_intensity_effect"
+  | "whisperers_in_the_void_replace_patron"
   | "wilderness_add_bonus_district"
   | "wilderness_get_natural_blocker_name"
   | "zroni_digsite_spawn_effect"
@@ -64495,6 +64577,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "STORM_FEVER_ENABLE_CHALLENGE_2",
   "aborted_crew_contract_effect",
   "aborted_passenger_contract_effect",
+  "accept_end_of_the_cycle",
   "achieve_ftl_effect",
   "activate_behemoth_superweapon",
   "add_500_unity_per_year_passed",
@@ -64533,6 +64616,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "add_cosmogenesis_level_5_perks",
   "add_dark_matter",
   "add_deposit_if_missing",
+  "add_deposit_with_message",
   "add_disintegrator_field",
   "add_district_and_planet_size_if_needed_effect",
   "add_district_and_planet_size_if_needed_effect_amount",
@@ -64556,6 +64640,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "add_initial_leader_traits_effect",
   "add_laser_tech",
   "add_laser_tech_progress",
+  "add_latent_psionic_trait",
   "add_manufactured_resources_effect",
   "add_mining_tech",
   "add_mining_tech_progress",
@@ -64567,13 +64652,16 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "add_non_aligned_league_opinions",
   "add_observation_insight_effect",
   "add_or_level_up_veteran_trait_effect",
+  "add_percentage_to_all_resources",
   "add_pre_ftl_buildings",
   "add_primitive_farm_or_mine",
   "add_prospectorium_leader_trait",
   "add_psionic_aura_level_visual",
+  "add_psionic_trait",
   "add_random_expertise_trait_effect",
   "add_random_natural_blocker",
   "add_random_natural_blocker_and_give_tech",
+  "add_random_trait_by_tag",
   "add_random_trait_evopred",
   "add_rare_crystals",
   "add_rare_resources_effect",
@@ -64621,6 +64709,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "akashic_library_artifacts_effect",
   "align_pre_FTL_country_ethics",
   "all_random_events",
+  "animator_of_clay_create_vessels",
   "annihilate_captured_arks_effect",
   "apex_predator_switch",
   "append_cloned_fauna_size",
@@ -64706,10 +64795,13 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "breach_fix_resolution_rulesofwar_independent_tribunals",
   "breach_fix_resolution_rulesofwar_last_resort_doctrine",
   "breach_fix_resolution_rulesofwar_reverence_for_life",
+  "breach_shroud",
   "break_cycle_of_conflict",
+  "break_cycle_of_fortune",
   "break_cycle_of_growth",
   "break_cycle_of_harmony",
   "break_cycle_of_knowledge",
+  "break_cycle_of_omens",
   "break_cycle_of_prosperity",
   "break_cycles",
   "broken_shackles_start_pop_ethic_effect",
@@ -64728,6 +64820,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "cara_generate_dealexample",
   "cara_home_return",
   "celestial_storm_add",
+  "celestial_storm_apply_aftermath_modifier",
   "celestial_storm_apply_deposits",
   "celestial_storm_remove",
   "central_crystal_country_spawn_effect",
@@ -64755,14 +64848,17 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "clear_assimilation_variables",
   "clear_aura_clashing_flags",
   "clear_consecration_effect",
+  "clear_covenant_flags",
   "clear_crisis_analysis_modifiers",
   "clear_cycle_flags",
+  "clear_cycle_rolled_flags",
   "clear_fleet_doctrine_flags",
   "clear_natural_blockers_effect",
   "clear_platform_defense_preference_flags",
   "clear_platform_preference_overrides",
   "clear_platform_weapon_preference_flags",
   "clear_psionic_aura_visuals",
+  "clear_selected_shroud_song",
   "clear_ship_defense_preference_flags",
   "clear_ship_preference_overrides",
   "clear_ship_weapon_preference_flags",
@@ -64770,6 +64866,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "clear_starbase_preference_overrides",
   "clear_starbase_weapon_preference_flags",
   "clone_army_random_events",
+  "close_mindwarden_diplomacy",
   "close_shroud_rift_effect",
   "collector_surrenders_artifact",
   "compare_and_modify_ethics_factor",
@@ -64873,9 +64970,11 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "create_early_pre_ftl_hive_empire",
   "create_embarking_arkship",
   "create_embarking_subject_country_effect",
+  "create_enclave_with_country",
   "create_enigmatic_cache_fleet",
   "create_espionage_contract",
   "create_exiled_country",
+  "create_exiled_starhold",
   "create_faction_formed_message",
   "create_faction_shifted_message",
   "create_fallen_empire_arkship",
@@ -64976,6 +65075,11 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "create_medium_marauder_auxiliaries",
   "create_mercenary_enclave_country",
   "create_mercenary_mindwarden_enclave_country",
+  "create_mindwarden_commander",
+  "create_mindwarden_defense_fleet",
+  "create_mindwarden_enclave",
+  "create_mindwarden_fleet_leader",
+  "create_mindwarden_raid_fleet",
   "create_mindwarden_raiders",
   "create_mining_drone_expansion_country",
   "create_mining_drone_expansion_fleet",
@@ -64986,6 +65090,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "create_nebula_3",
   "create_nebula_4",
   "create_nivlac_effect",
+  "create_normal_pirate_country",
   "create_nu_baol_effect",
   "create_nuked_species_mod",
   "create_ocean_paradise_planet",
@@ -65053,6 +65158,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "create_scion_wormhole_link",
   "create_second_diadochi",
   "create_settlement_subject_country_effect",
+  "create_ship_with_random_graphical_culture",
   "create_shroud_creatures",
   "create_shroud_seal",
   "create_shroudwalker_enclave_country",
@@ -65107,6 +65213,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "create_very_large_marauder_auxiliaries",
   "create_voidlure_capture_message",
   "create_voidworm_crisis_eradicate_chain",
+  "create_voidworm_fleet",
   "create_voidworm_ship",
   "create_voidworm_system_poi",
   "create_voidworms_country",
@@ -65122,11 +65229,14 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "credit_assimilation_purge_crisis",
   "crisis_cosmogenesis_shroud_spawn_effect",
   "cruise_contract_scaling_reward_effect",
+  "custom_bestowed_tooltip",
   "cyberize_armies_effect",
   "cyberize_colony_ships_effect",
   "cyberize_creed_leaders_effect",
+  "cyberize_creed_pops_effect",
   "cyberize_leaders_effect",
   "cyberize_leaders_limited_effect",
+  "cyberize_pops_effect",
   "death_cult_sacrifice_effect",
   "decision_shroud_region_effect",
   "declare_crisis_effect",
@@ -65174,6 +65284,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "dragon_random_events",
   "draw_random_treasure_trove_specimen",
   "drone_conversion_event_effect",
+  "drone_conversion_event_effect_2",
   "drone_conversion_new_species_effect",
   "dyson_gun_apply_damage",
   "dyson_gun_damage_ship",
@@ -65183,6 +65294,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "early_fc_random_events",
   "eater_aura_max_intensity_effect",
   "electric_storm_add",
+  "electric_storm_apply_aftermath_modifier",
   "electric_storm_apply_deposits",
   "electric_storm_remove",
   "embark_planet_effect",
@@ -65223,6 +65335,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "espionage_support_cleanup_effect",
   "espionage_support_effect",
   "establish_communication_with_subjects_and_federation",
+  "ethic_leader_creator",
   "ethic_leader_hire_effect",
   "ethic_leader_hire_event",
   "ethic_leader_kill_effect",
@@ -65275,8 +65388,10 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "fleet2_reset_journey",
   "fleet3_continue_journey",
   "fleet3_reset_journey",
+  "force_remove_chosen_civic",
   "fotd_tech_cost",
   "fruitful_start_effect",
+  "gain_leader_trait_level_max_2",
   "gain_superstitious_beliefs_cloaking_tech",
   "galcom_change_agreement_term_resolution_effect",
   "galcom_downgrade_ethic_modifier_effect",
@@ -65351,6 +65466,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "give_embarking_empire_logistic_ship",
   "give_engineering_tech_tier_1_effect",
   "give_engineering_tech_tier_2_effect",
+  "give_eotc_psionic_component_tech_insight",
   "give_evolutionary_predator_situation_progress",
   "give_evolutionary_predator_situation_progress_and_dna",
   "give_fe_tech",
@@ -65358,6 +65474,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "give_homicidal_stage_1_reward",
   "give_homicidal_stage_2_reward",
   "give_homicidal_stage_3_reward",
+  "give_mindwarden_dividends_modifiers",
   "give_mutation_unlocks_effect",
   "give_nanite_techs",
   "give_next_ai_tech_option_effect",
@@ -65393,6 +65510,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "grant_fe_building",
   "grant_random_fe_building",
   "gravity_storm_add",
+  "gravity_storm_apply_aftermath_modifier",
   "gravity_storm_apply_deposits",
   "gravity_storm_remove",
   "great_artifact_reward",
@@ -65488,6 +65606,13 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "kill_single_pop",
   "large_artifact_reward",
   "late_fc_random_events",
+  "launch_cycle_of_conflict",
+  "launch_cycle_of_fortune",
+  "launch_cycle_of_growth",
+  "launch_cycle_of_harmony",
+  "launch_cycle_of_knowledge",
+  "launch_cycle_of_omens",
+  "launch_cycle_of_prosperity",
   "life_in_motion_effect",
   "life_in_motion_success_effect",
   "lifespan_shroud_high",
@@ -65503,6 +65628,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "machine_federation_member_civic_fix",
   "machine_synthetic_leader_effect",
   "magnetic_storm_add",
+  "magnetic_storm_apply_aftermath_modifier",
   "magnetic_storm_apply_deposit",
   "magnetic_storm_remove",
   "make_fallen_empire",
@@ -65519,8 +65645,11 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "make_unleashed_messenger",
   "marauder_heir_contract_effect",
   "mark_used_by_precursor",
+  "materiality_engine_on_built_effect",
   "medium_artifact_reward",
   "mercenary_refund_fleet",
+  "mind_over_matter_immediate",
+  "mindwarden_give_logistic_assistance",
   "morale_shroud_high",
   "morale_shroud_low",
   "morale_shroud_medium",
@@ -65528,6 +65657,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "move_consecration_aura_to_furnace_effect",
   "move_kaleidoscope_effect",
   "move_nomadic_fleet_to_random_system_planet_effect",
+  "move_towards_advanced_government",
   "nanotech_deposit_nanite_generation",
   "natural_spawn_psionic_aura",
   "nebula_cloaking_effect",
@@ -65552,6 +65682,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "obsessional_directive_start_effect",
   "octopodes_fc_random_events",
   "on_orbital_complete_effect",
+  "on_psionic_aura_spawned",
   "on_psionic_aura_vanishing",
   "on_shroud_seal_destroyed",
   "open_shroud_rift_effect",
@@ -65598,8 +65729,11 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "paragon_origin_trait_giver_xenophile",
   "paragon_origin_trait_giver_xenophobe",
   "particle_storm_add",
+  "particle_storm_apply_aftermath_modifier",
   "particle_storm_apply_deposits",
   "particle_storm_remove",
+  "patron_revenge",
+  "pay_proxy_war_additional_resources",
   "payback_msi_random_events",
   "payback_resolution_counters_check",
   "payback_stop_atrocities_effect",
@@ -65633,10 +65767,14 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "recalculate_aeronautic_adaptation_planet_modifier",
   "recalculate_consecrated_world_modifier",
   "reckoning_choose_planet",
+  "reckoning_consume_world",
   "reckoning_set_planet",
+  "reckoning_spawn",
   "reckoning_spawn_rebirth_arkship_effect",
   "reduce_unity_celebration",
   "refresh_class_cost_mod",
+  "refresh_endbringers_madness_modifier",
+  "refresh_endbringers_paranoia_modifier",
   "refresh_noble_vacation_home_modifier",
   "refresh_primal_calling_assimilate_modifier",
   "refresh_primal_calling_exhibit_modifier",
@@ -65651,6 +65789,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "relic_world_conversion_effect",
   "relic_world_deposits",
   "remove_all_cybernetic_traits",
+  "remove_bestowed_flags",
   "remove_bulwark_array",
   "remove_chain_aura_suppressors",
   "remove_checklist_arkship_modifiers_effect",
@@ -65714,10 +65853,16 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "restore_leader_location",
   "restore_saved_deposits",
   "rogue_shaman_modifier_removal",
+  "roll_boon",
+  "roll_boon_high",
+  "roll_boon_low",
+  "roll_boon_medium",
   "roll_curtain_secret_faction",
   "roll_grand_dance_secret_faction",
   "roll_masquerade_secret_faction",
   "roll_resources_effect",
+  "roll_secret_faction_internal",
+  "roll_secret_factions",
   "roll_selected_aesthetic_wonder_relic",
   "roll_selected_historical_item_relic",
   "roll_selected_relic",
@@ -65741,6 +65886,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "scion_physics_tech",
   "scion_society_tech",
   "select_pre_ftl_origin",
+  "select_shroud_song",
   "select_suitable_spawn_system",
   "self_reported_pre_ftl_espionage_violation_effect",
   "send_toxified_message",
@@ -65785,6 +65931,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "set_pre_ftl_origin",
   "set_predictive_observation_insight",
   "set_psionic_aura_encounter",
+  "set_psionic_choir_policy",
   "set_purge_xfer_resource_effect",
   "set_random_commander_background_effect",
   "set_random_lithoid_portrait_effect",
@@ -65826,6 +65973,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "shroud_creatures_avatar_spawn",
   "shroud_creatures_system_spawn",
   "shroud_energy_cost",
+  "shroud_forge_your_own_path",
   "shroud_forged_animator_of_clay_cooldown",
   "shroud_forged_animator_of_clay_event",
   "shroud_forged_situation_event_cooldown",
@@ -65836,12 +65984,16 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "shroud_forged_situation_event_positive_2",
   "shroud_forged_situation_event_positive_3",
   "shroud_invasion_effect",
+  "shroud_leader_creator",
+  "shroud_leader_hire_effect",
   "shroud_major_invasion_effect",
   "shroud_storm_add",
+  "shroud_storm_apply_aftermath_modifier",
   "shroud_storm_apply_deposits",
   "shroud_storm_events",
   "shroud_storm_remove",
   "shroud_touched_cooldown",
+  "shroud_touched_option_cost",
   "shroud_touched_patron_first_contact",
   "shroud_world_zro_deposit_effect",
   "shroudwalker_enclave_starbase_create_shroud_tunnel",
@@ -65893,6 +66045,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "slushify_world",
   "small_artifact_reward",
   "solar_storm_add",
+  "solar_storm_apply_aftermath_modifier",
   "solar_storm_apply_deposits",
   "solar_storm_remove",
   "souls_aura_max_intensity_effect",
@@ -65903,11 +66056,13 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "spawn_behemoth_in_orbit_effect",
   "spawn_behemoth_summon_fleet",
   "spawn_black_needle_base_system",
+  "spawn_cutholoid_from_asteroid",
   "spawn_diadochi_shipyard",
   "spawn_diadochi_starhold",
   "spawn_eater_fleet_effect",
   "spawn_extradimensional_scouts_fleet",
   "spawn_fast_egg_fleet_effect",
+  "spawn_formless_defense_fleet",
   "spawn_formless_invader_fleet",
   "spawn_free_defense_platform",
   "spawn_from_location_crystalline_entity",
@@ -65962,6 +66117,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "speed_shroud_high",
   "speed_shroud_low",
   "speed_shroud_medium",
+  "split_astral_scar",
   "split_districts_effect",
   "spread_aura_endlessly",
   "spread_tent_ships_tier_1",
@@ -65990,6 +66146,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "start_patriotic_institute_spawn_storm_repeated",
   "start_psionic_war_chain",
   "start_your_engines_pilots_test",
+  "store_galactic_community_leader_backup_data",
   "stormbound_final_reward",
   "subtract_age_based_awareness_effect",
   "support_seperatist_deficit_effect",
@@ -66038,11 +66195,13 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "trigger_aura_clashing_event",
   "trigger_scholarium_project_event",
   "try_find_far_edge_rim_system",
+  "try_remove_penal_experimental_mod",
   "try_resolve_aura_clashing",
   "try_spawn_natural_nexus_storm",
   "try_spawn_natural_storm",
   "try_spread_aura",
   "try_start_chain_aura_suppressors",
+  "turn_main_species_to_psionic",
   "uncover_artifacts_effect",
   "uncover_basic_resource_effect",
   "uncover_research_effect",
@@ -66068,6 +66227,8 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "unplugged_origin_system_backup_effect",
   "unplugged_spawn_factions_check",
   "unqueue_biomass_effect",
+  "update_eotc_accords",
+  "update_every_leader_from_psionic_countries",
   "update_evopred_vassal_dna",
   "update_fleet_space_storm_reduction_zroni_rift",
   "update_kaleidoscope_effect",
@@ -66075,6 +66236,8 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "update_modifier_amount_if_needed",
   "update_node_portraits_if_gestalt_effect",
   "update_psionic_aura_visuals",
+  "update_reckoning_event_chain",
+  "update_reckoning_event_chains",
   "update_zrony_storyline_flags",
   "upgrade_celestial_chart_relic",
   "upgrade_colony_shelter",
@@ -66091,6 +66254,7 @@ export const vanillaScriptedEffectIds: readonly string[] = [
   "weapons_shroud_medium",
   "wenkwort_continue_patrol",
   "whisperers_aura_max_intensity_effect",
+  "whisperers_in_the_void_replace_patron",
   "wilderness_add_bonus_district",
   "wilderness_get_natural_blocker_name",
   "zroni_digsite_spawn_effect",
@@ -70047,6 +70211,7 @@ export type VanillaScriptedTriggerId =
   | "is_latent_psionic_species"
   | "is_leader_excavating_site"
   | "is_leader_in_combat"
+  | "is_leader_in_storm"
   | "is_leader_mia_or_in_transit"
   | "is_legit_or_legal_criminal"
   | "is_level_4_player_crisis"
@@ -70331,6 +70496,7 @@ export type VanillaScriptedTriggerId =
   | "politician_is_superstitious_beliefs_high_priest_corporate"
   | "politician_is_technophant"
   | "politician_is_visionary"
+  | "pop_amount"
   | "potential_shrouded_planet_for_patron_revenge"
   | "potential_shroudwalker_enclave"
   | "pre_ftl_ancient_era"
@@ -70353,6 +70519,7 @@ export type VanillaScriptedTriggerId =
   | "production_center_upkeep_affordable"
   | "prosperity_gospel_check_trigger"
   | "psi_corps_upkeep_affordable"
+  | "psionic_pop_amount"
   | "rare_crystal_candidate"
   | "refinery_upkeep_affordable"
   | "research_lab_1_upkeep_affordable"
@@ -70360,6 +70527,7 @@ export type VanillaScriptedTriggerId =
   | "robot_assembly_plant_upkeep_affordable"
   | "roboticist_is_identity_designer"
   | "ruler_or_councilor_has_ethic"
+  | "sapient_pop_amount"
   | "sb_aligment_colony_trigger"
   | "sb_aligment_planet_trigger"
   | "sb_calamitous_quartile_system_trigger"
@@ -71729,6 +71897,7 @@ export const vanillaScriptedTriggerIds: readonly string[] = [
   "is_latent_psionic_species",
   "is_leader_excavating_site",
   "is_leader_in_combat",
+  "is_leader_in_storm",
   "is_leader_mia_or_in_transit",
   "is_legit_or_legal_criminal",
   "is_level_4_player_crisis",
@@ -72013,6 +72182,7 @@ export const vanillaScriptedTriggerIds: readonly string[] = [
   "politician_is_superstitious_beliefs_high_priest_corporate",
   "politician_is_technophant",
   "politician_is_visionary",
+  "pop_amount",
   "potential_shrouded_planet_for_patron_revenge",
   "potential_shroudwalker_enclave",
   "pre_ftl_ancient_era",
@@ -72035,6 +72205,7 @@ export const vanillaScriptedTriggerIds: readonly string[] = [
   "production_center_upkeep_affordable",
   "prosperity_gospel_check_trigger",
   "psi_corps_upkeep_affordable",
+  "psionic_pop_amount",
   "rare_crystal_candidate",
   "refinery_upkeep_affordable",
   "research_lab_1_upkeep_affordable",
@@ -72042,6 +72213,7 @@ export const vanillaScriptedTriggerIds: readonly string[] = [
   "robot_assembly_plant_upkeep_affordable",
   "roboticist_is_identity_designer",
   "ruler_or_councilor_has_ethic",
+  "sapient_pop_amount",
   "sb_aligment_colony_trigger",
   "sb_aligment_planet_trigger",
   "sb_calamitous_quartile_system_trigger",

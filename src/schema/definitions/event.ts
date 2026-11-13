@@ -40,7 +40,33 @@ import type { DefinitionType } from "../ir.js";
 
 export const event: DefinitionType = defineType({
   id: DefinitionTypeId.Event,
-  source: taggedBlocks("events", "id", []),
+  // The twenty-two keys the event manager's loader takes (`0x3f3d30` in the
+  // 4.5.2 executable); any other key at the root of an events file is logged
+  // as a `Corrupt Event Table Entry`. The base game writes nineteen of them.
+  source: taggedBlocks("events", "id", [
+    "agreement_event",
+    "astral_rift_event",
+    "bypass_event",
+    "carrier_event",
+    "colony_event",
+    "cosmic_storm_event",
+    "cosmic_storm_influence_field_event",
+    "country_event",
+    "espionage_operation_event",
+    "event",
+    "first_contact_event",
+    "fleet_event",
+    "leader_event",
+    "observer_event",
+    "planet_event",
+    "pop_event",
+    "pop_faction_event",
+    "pop_group_event",
+    "ship_event",
+    "situation_event",
+    "starbase_event",
+    "system_event",
+  ]),
   variants: [
     {
       id: "country",
@@ -148,6 +174,18 @@ export const event: DefinitionType = defineType({
       entryScope: ScopeId.Agreement,
       displayName: "Agreement Event",
       abbreviation: "AE",
+    },
+    {
+      id: "cosmicstorm",
+      when: rootKeyIs("cosmic_storm_event"),
+      entryScope: ScopeId.CosmicStorm,
+      displayName: "Cosmic Storm Event",
+    },
+    {
+      id: "cosmicstorminfluence",
+      when: rootKeyIs("cosmic_storm_influence_field_event"),
+      entryScope: ScopeId.CosmicStormInfluenceField,
+      displayName: "Cosmic Storm Influence Field Event",
     },
     { id: "scopeless", when: rootKeyIs("event") },
     { id: "hidden", when: fieldEquals("hide_window", true) },

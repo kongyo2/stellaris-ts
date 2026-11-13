@@ -11,6 +11,7 @@ import {
 import { vanillaLocalisationKeys } from "../../src/generated/vanilla/localisation-keys.js";
 import { localisationKey } from "../../src/schema/ir.js";
 import {
+  engineCommandNames,
   loadBlockOfEntries,
   loadCheckedTypes,
   loadChecks,
@@ -26,6 +27,7 @@ import {
 } from "../../src/schema/localisation-references.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
 import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../../src/schema/scopeless-on-actions.js";
+import { branchChain, isBranchBody, type BranchChain } from "../../src/schema/script-order.js";
 import {
   applyScope,
   comparesIn,
@@ -231,6 +233,19 @@ export interface ShapeFinding {
 }
 
 /** A comparison vanilla writes outside a trigger, under a key no rule declares as comparing. */
+/**
+ * An `else` or an `else_if` vanilla writes with no `if` read just before it.
+ *
+ * The game logs each one and vanilla loads without the line, so one found
+ * here is the check reading a block otherwise than the game does.
+ */
+export interface BranchFinding {
+  readonly path: string;
+  readonly field: string;
+  readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
 export interface ComparisonFinding {
   readonly path: string;
   readonly field: string;
@@ -296,6 +311,7 @@ export interface TypeReport {
   readonly valueMismatches: readonly ValueFinding[];
   readonly shapeMismatches: readonly ShapeFinding[];
   readonly comparisonMismatches: readonly ComparisonFinding[];
+  readonly branchMismatches: readonly BranchFinding[];
   readonly unresolvedStrings: readonly LocalisationFinding[];
   readonly missingStrings: readonly MissingStringFinding[];
   /** Definitions the game's own load checks were run over. */
@@ -330,6 +346,9 @@ export interface ConformanceReport {
   readonly valueMismatchTotal: number;
   readonly shapeMismatchTotal: number;
   readonly comparisonMismatchTotal: number;
+  readonly branchMismatchTotal: number;
+  /** How many `else` and `else_if` were matched to an `if`. */
+  readonly branchesChecked: number;
   /** How many values and keys were read as a string's name and looked up. */
   readonly stringsChecked: number;
   /** How many generic events vanilla fires with no scope, and how many of them were walked as such. */
@@ -626,7 +645,8 @@ function identityOf(type: DefinitionType, block: Block, key: string): string | u
 }
 
 /** The modifier namespace, expanded once against what vanilla declares. */
-let resolvedModifiers: ReadonlySet<string> | undefined;
+const resolvedModifiers = new WeakMap<SchemaModel, ReadonlySet<string>>();
+const engineModifiers = new WeakMap<SchemaModel, ReadonlySet<string>>();
 
 /** The scalars a list of entries holds, at any depth. */
 function scalarsOf(entries: readonly EntryNode[], into: (text: string) => void): void {
@@ -799,9 +819,23 @@ async function vanillaScriptedBodies(model: SchemaModel, gamePath: string): Prom
   return bodies;
 }
 
+/** The modifiers the game defines itself: the ones it prints, with none read off a string's key. */
+function engineModifierNames(model: SchemaModel): ReadonlySet<string> {
+  let names: ReadonlySet<string> | undefined = engineModifiers.get(model);
+  if (names === undefined) {
+    names = expandModifierNames(model.modifiers, vanillaIdsByType);
+    engineModifiers.set(model, names);
+  }
+  return names;
+}
+
 function modifierNames(model: SchemaModel): ReadonlySet<string> {
-  resolvedModifiers ??= expandModifierNames(model.modifiers, vanillaIdsByType, vanillaModifierNames);
-  return resolvedModifiers;
+  let names: ReadonlySet<string> | undefined = resolvedModifiers.get(model);
+  if (names === undefined) {
+    names = expandModifierNames(model.modifiers, vanillaIdsByType, vanillaModifierNames);
+    resolvedModifiers.set(model, names);
+  }
+  return names;
 }
 
 export async function checkConformance(
@@ -820,6 +854,7 @@ export async function checkConformance(
       .map((type) => [type.id === "scripted_effect" ? "effect" : "trigger", type]),
   );
   let callsFollowed = 0;
+  let branchesChecked = 0;
   const missingDirectories: string[] = [];
 
   const vanillaIdSets = new Map<string, ReadonlySet<string>>();
@@ -833,6 +868,9 @@ export async function checkConformance(
       return set.has(id);
     },
     ids: (type: string): readonly string[] => vanillaIdsByType[type] ?? [],
+    command: (family: "effect" | "trigger", name: string): boolean =>
+      engineCommandNames(model, family).has(name.toLowerCase()),
+    modifier: (name: string): boolean => engineModifierNames(model).has(name.toLowerCase()),
   };
 
   const resolver = new SchemaResolver(model, {
@@ -888,6 +926,7 @@ export async function checkConformance(
       string,
       { path: string; field: string; shape: ShapeFinding["shape"]; count: number; examples: string[] }
     >();
+    const branchIssues = new Map<string, { path: string; field: string; count: number; examples: string[] }>();
     const comparisonIssues = new Map<
       string,
       { path: string; field: string; operator: string; count: number; examples: string[] }
@@ -1016,7 +1055,44 @@ export async function checkConformance(
       // rules that apply here say it names, as a keyed value does.
       const itemNames: readonly string[] = meaning === undefined ? [] : namedStrings(meaning.items);
 
+      // An `else` belongs to the `if` read just before it, as `validate` reads
+      // a mod's blocks.
+      const branches: BranchChain | undefined =
+        (rules.families.has("effect") || rules.families.has("trigger")) && !isBranchBody(trail)
+          ? branchChain()
+          : undefined;
+
       for (const entry of block.entries) {
+        if (branches !== undefined) {
+          if (entry.kind === NodeKind.Assignment) {
+            const written: string = String(entry.key.value);
+            const lowered: string = written.toLowerCase();
+            const field: boolean =
+              lowered !== "inline_script" && (rules.literals.has(written) || rules.literals.has(lowered));
+            if (!field) {
+              if (lowered === "else" || lowered === "else_if") {
+                branchesChecked += 1;
+              }
+              if (!branches.next(written)) {
+                const identity: string = `${trail} ${lowered}`;
+                const issue = branchIssues.get(identity) ?? { path: trail, field: written, count: 0, examples: [] };
+                issue.count += 1;
+                if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+                  issue.examples.push(file);
+                }
+                branchIssues.set(identity, issue);
+              }
+            }
+          } else if (
+            entry.kind !== NodeKind.Scalar &&
+            entry.kind !== NodeKind.Block &&
+            entry.kind !== NodeKind.Trivia
+          ) {
+            // `[[PARAM] … ]` and whatever else is not plain script.
+            branches.unknown();
+          }
+        }
+
         if (entry.kind === NodeKind.Scalar) {
           checkStrings(trail, "<item>", scalarText(entry), itemNames, file);
           continue;
@@ -1293,7 +1369,13 @@ export async function checkConformance(
         // What the game's loader would log about this definition.
         if (identity !== undefined && loadCheckedTypes.has(type.id)) {
           loadChecked += 1;
-          for (const finding of loadChecks(type.id, identity, loadBlockOfEntries(claimed.block.entries), loadContext)) {
+          for (const finding of loadChecks(
+            type.id,
+            identity,
+            loadBlockOfEntries(claimed.block.entries),
+            loadContext,
+            claimed.key,
+          )) {
             loadFindings.push({ id: identity, ...finding, file: display });
           }
         }
@@ -1401,6 +1483,14 @@ export async function checkConformance(
           examples: issue.examples,
         }))
         .sort((left, right) => right.occurrences - left.occurrences || compareOrdinal(left.field, right.field)),
+      branchMismatches: [...branchIssues.values()]
+        .map((issue) => ({
+          path: issue.path,
+          field: issue.field,
+          occurrences: issue.count,
+          examples: issue.examples,
+        }))
+        .sort((left, right) => compareOrdinal(left.path, right.path) || compareOrdinal(left.field, right.field)),
       comparisonMismatches: [...comparisonIssues.values()]
         .map((issue) => ({
           path: issue.path,
@@ -1460,6 +1550,8 @@ export async function checkConformance(
     valueMismatchTotal: reports.reduce((total, report) => total + report.valueMismatches.length, 0),
     shapeMismatchTotal: reports.reduce((total, report) => total + report.shapeMismatches.length, 0),
     comparisonMismatchTotal: reports.reduce((total, report) => total + report.comparisonMismatches.length, 0),
+    branchMismatchTotal: reports.reduce((total, report) => total + report.branchMismatches.length, 0),
+    branchesChecked,
     stringsChecked,
     scopelessEvents: firedWithoutScope.size,
     scopelessEventsWalked,

@@ -9,18 +9,9 @@ import type { DefinitionType } from "../ir.js";
 
 export const scriptedTrigger: DefinitionType = defineType({
   id: DefinitionTypeId.ScriptedTrigger,
-  source: keyedBlocks("common/scripted_triggers", true, {
-    rootKeyFilter: {
-      mode: "exclude",
-      values: [
-        "pop_amount",
-        "sapient_pop_amount",
-        "psionic_pop_amount",
-        "is_leader_in_storm",
-        "can_artifact_analysis_give_$SPECIMEN$",
-      ],
-    },
-  }),
+  // Every key at the root of a file here is a scripted trigger; the ported
+  // corpus left four of them out of the type and declared each as a command.
+  source: keyedBlocks("common/scripted_triggers"),
   variants: [],
   localisation: [],
   modifiers: [],

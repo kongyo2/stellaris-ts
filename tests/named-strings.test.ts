@@ -70,7 +70,7 @@ describe("a string a definition names", () => {
 
     target.localise("l_english", "sts_title", "Title");
 
-    expect(missing(target, ["l_english", "l_japanese"])).toEqual(["sts_title", "sts_title"]);
+    expect(missing(target, ["l_english", "l_japanese"])).toEqual(["sts_title"]);
     expect(
       validate(target, { languages: ["l_english", "l_japanese"] }).every((d) => !d.message.includes("No l_english")),
     ).toBe(true);
@@ -82,7 +82,47 @@ describe("a string a definition names", () => {
 
     target.localise("l_english", "STS_CASE", "Title");
 
-    expect(missing(target)).toEqual(["sts_case", "sts_case"]);
+    expect(missing(target)).toEqual(["sts_case"]);
+  });
+
+  // Writing the string once mends every place that names it.
+  it("is reported once for a definition, however many of its fields name it", () => {
+    const target = mod().add(
+      event({
+        title: "sts_shared",
+        desc: "sts_shared",
+        option: repeated({ name: "sts_shared" }, { name: "sts_other" }, { name: "sts_other" }),
+      }),
+    );
+
+    expect(missing(target)).toEqual(["sts_shared", "option sts_other"]);
+    expect(missing(target, ["l_english", "l_japanese"])).toHaveLength(4);
+  });
+
+  // A scripted effect called where there is no scope is read a second time,
+  // there, for the scopes it reads; what that reading finds missing is not
+  // reported, and must not count as reported for the caller.
+  it("is reported for a caller whose callee names it too", () => {
+    const target = mod()
+      .add(define("scripted_effect", "sts_strings_fx", { custom_tooltip: "sts_shared_tt" }))
+      .add(
+        define(
+          "event",
+          "sts_strings.9",
+          {
+            is_triggered_only: true,
+            hide_window: true,
+            immediate: { sts_strings_fx: true, custom_tooltip: "sts_shared_tt" },
+          },
+          { as: "event" },
+        ),
+      )
+      .add(define("on_action", "on_yearly_pulse", { events: ["sts_strings.9"] }));
+    const reported: readonly string[] = validate(target)
+      .filter((diagnostic) => diagnostic.code === "missing-localisation")
+      .map((diagnostic) => diagnostic.definition);
+
+    expect(reported).toEqual(["sts_strings.9", "sts_strings_fx"]);
   });
 
   it("is not looked up when the value is text, a command or a parameter", () => {

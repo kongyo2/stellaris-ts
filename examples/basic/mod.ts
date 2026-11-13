@@ -20,6 +20,7 @@ const mod = defineMod({
   .add(
     define("building", "sts_example_lab", {
       category: "research",
+      building_sets: ["research"],
       base_buildtime: 360,
       icon: "GFX_building_physics_lab",
       potential: { exists: "owner" },
