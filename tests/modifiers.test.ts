@@ -50,6 +50,35 @@ describe("the modifier namespace", () => {
     expect(codes(mod)).not.toContain("unknown-modifier");
   });
 
+  /**
+   * The reader of a modifier block looks its key up among the static modifiers
+   * first (`0x36db20` in the 4.5.2 executable) and applies the one it finds,
+   * scaled by the value: the base game writes
+   * `artisan_jobs_bonus_workforce_mult = 0.10` in a building, and that is a
+   * static modifier of `24_static_modifiers_jobs.txt`.
+   */
+  it("takes a static modifier's name as a key, the base game's or the mod's own", () => {
+    const mod = defineMod({ name: "Bundle", version: "1", supportedVersion: SUPPORTED_VERSION })
+      .add(define("static_modifier", "sts_bundle", { planet_stability_add: 1, planet_amenities_add: 2 }))
+      .add(
+        define("building", "b", {
+          planet_modifier: { sts_bundle: 0.5, artisan_jobs_bonus_workforce_mult: 0.1 },
+        }),
+      );
+
+    expect(codes(mod)).not.toContain("unknown-modifier");
+  });
+
+  it("does not promise a workforce modifier for every job, which no rule of the game's generates", () => {
+    const mod = defineMod({ name: "Job", version: "1", supportedVersion: SUPPORTED_VERSION })
+      .add(define("job", "sts_job", { category: "specialist" }))
+      .add(define("building", "b", { planet_modifier: { sts_job_jobs_bonus_workforce_mult: 0.1 } }));
+    const found = validate(mod).filter((diagnostic) => diagnostic.code === "unknown-modifier");
+
+    expect(found).toHaveLength(1);
+    expect(found[0]?.message).toContain("sts_job_jobs_bonus_workforce_mult");
+  });
+
   it("does not distinguish case, as the game does not", () => {
     const mod = defineMod({ name: "Case", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("static_modifier", "m", { COUNTRY_NAVAL_COVERAGE_MULT: 1 }))

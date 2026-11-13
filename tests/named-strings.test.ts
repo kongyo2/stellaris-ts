@@ -70,7 +70,7 @@ describe("a string a definition names", () => {
 
     target.localise("l_english", "sts_title", "Title");
 
-    expect(missing(target, ["l_english", "l_japanese"])).toEqual(["sts_title", "sts_title"]);
+    expect(missing(target, ["l_english", "l_japanese"])).toEqual(["sts_title"]);
     expect(
       validate(target, { languages: ["l_english", "l_japanese"] }).every((d) => !d.message.includes("No l_english")),
     ).toBe(true);
@@ -82,7 +82,21 @@ describe("a string a definition names", () => {
 
     target.localise("l_english", "STS_CASE", "Title");
 
-    expect(missing(target)).toEqual(["sts_case", "sts_case"]);
+    expect(missing(target)).toEqual(["sts_case"]);
+  });
+
+  // Writing the string once mends every place that names it.
+  it("is reported once for a definition, however many of its fields name it", () => {
+    const target = mod().add(
+      event({
+        title: "sts_shared",
+        desc: "sts_shared",
+        option: repeated({ name: "sts_shared" }, { name: "sts_other" }, { name: "sts_other" }),
+      }),
+    );
+
+    expect(missing(target)).toEqual(["sts_shared", "option sts_other"]);
+    expect(missing(target, ["l_english", "l_japanese"])).toHaveLength(4);
   });
 
   it("is not looked up when the value is text, a command or a parameter", () => {

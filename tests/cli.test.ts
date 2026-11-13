@@ -172,6 +172,59 @@ describe("the default mod folder", () => {
   });
 
   /**
+   * A file the last build wrote and this one cannot remove is still in the
+   * folder, and the game still reads it. A caller that looks only at the exit
+   * code has to be told the folder is not what the build describes.
+   */
+  it("fails a build that leaves a file of the last one behind", async () => {
+    const out: string = await mkdtemp(join(tmpdir(), "stellaris-ts-cli-stuck-"));
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    const entry = (definitions: string): string =>
+      `import { defineMod } from "${join(process.cwd(), "src", "index.ts").replaceAll("\\", "/")}";
+       import { define } from "${join(process.cwd(), "src", "builders", "index.ts").replaceAll("\\", "/")}";
+
+       export default defineMod({ name: "Cli Stuck", version: "1", supportedVersion: "${SUPPORTED_VERSION}" })
+         ${definitions}
+         .localise("l_english", "sts_cli_lab", "Lab")
+         .localise("l_english", "sts_cli_lab_desc", "A lab")
+         .localise("l_english", "sts_cli_mod", "Modifier");`;
+
+    try {
+      await writeFile(
+        join(directory, "before.ts"),
+        entry(
+          `.add(define("building", "sts_cli_lab", { category: "research" }))
+           .add(define("static_modifier", "sts_cli_mod", { planet_stability_add: 1 }))`,
+        ),
+        "utf8",
+      );
+      await writeFile(
+        join(directory, "after.ts"),
+        entry(`.add(define("building", "sts_cli_lab", { category: "research" }))`),
+        "utf8",
+      );
+
+      expect(await run(["build", join(directory, "before.ts"), "--out", out])).toBe(0);
+
+      // A folder where the file was cannot be removed as a file.
+      const stale: string = join(out, "cli_stuck", "common", "static_modifiers", "zz_cli_stuck_static_modifier.txt");
+      await rm(stale);
+      await mkdir(stale);
+      await writeFile(join(stale, "inside.txt"), "not a file to delete", "utf8");
+
+      warn.mockClear();
+      expect(await run(["build", join(directory, "after.ts"), "--out", out])).toBe(1);
+      expect(lines(warn.mock.calls)).toContain("STUCK common/static_modifiers/zz_cli_stuck_static_modifier.txt");
+      expect(lines(log.mock.calls)).not.toContain("STUCK");
+    } finally {
+      warn.mockRestore();
+      log.mockRestore();
+      await rm(out, { recursive: true, force: true });
+    }
+  });
+
+  /**
    * Reading the options twice is what lets one swallow another: `--out
    * --language japanese` once gave the language to the check and `--language`
    * to the mod folder, then reported having written the mod.

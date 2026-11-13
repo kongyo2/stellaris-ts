@@ -213,11 +213,14 @@ function modFilePath(path: string): string | undefined {
  * The file a definition lands in.
  *
  * The default carries a `zz_<mod>_` prefix for two reasons: it cannot collide
- * with a vanilla name, and Stellaris loads files in alphabetical order, so a
- * late name wins where load order decides. Its extension is the one the game
- * reads the type from — a sprite in `interface/zz_mod_sprite.txt` is in a file
- * the game never opens. A definition that is a whole file is named by its id,
- * because the id is the file name.
+ * with a vanilla name, and Stellaris reads a directory's files in the order of
+ * their names, so a late name wins wherever the last definition read is the
+ * one kept. That is most types and not events, of which the game keeps the
+ * first: `validate` says so for a definition of an id the base game uses.
+ * Its extension is the one the game reads the type from — a sprite in
+ * `interface/zz_mod_sprite.txt` is in a file the game never opens. A
+ * definition that is a whole file is named by its id, because the id is the
+ * file name.
  */
 function targetFile(mod: ModOptions, definition: DefinitionRecord): string {
   if (definition.overrides !== undefined) {
@@ -235,6 +238,19 @@ function targetFile(mod: ModOptions, definition: DefinitionRecord): string {
   }
 
   return `${definition.directory}/zz_${modSlug(mod)}_${definition.type}${extension}`;
+}
+
+/**
+ * The file a definition is written to, as a path inside the mod folder;
+ * `undefined` for one that would leave it.
+ *
+ * What `emit` writes, for a caller that has to know the name before anything
+ * is written: the game reads a directory's files in the order of their names,
+ * and for some types the first definition of an id it reads is the one it
+ * keeps.
+ */
+export function definitionFilePath(mod: ModOptions, definition: DefinitionRecord): string | undefined {
+  return modFilePath(targetFile(mod, definition));
 }
 
 /** `.gfx` for `interface/x.gfx`, the empty string for a name with none. */

@@ -338,3 +338,59 @@ describe("a definition a raw file declares", () => {
     expect(reported(target, "missing-description")).toEqual([]);
   });
 });
+
+/**
+ * The building's check logs one whose `building_sets` holds nothing and whose
+ * `owner_type` is the default (`0x46c9f0`): a zone takes buildings by set.
+ */
+describe("a building's sets", () => {
+  const lab = (body: Record<string, unknown>) => define("building", "sts_lab", { category: "research", ...body });
+
+  it("are asked of a building, and an empty list is none", () => {
+    expect(reported(mod().add(lab({})), "missing-building-sets")).toEqual(["sts_lab"]);
+    expect(reported(mod().add(lab({ building_sets: [] })), "missing-building-sets")).toEqual(["sts_lab.building_sets"]);
+    expect(reported(mod().add(lab({ building_sets: ["research"] })), "missing-building-sets")).toEqual([]);
+  });
+
+  it("are not asked of a branch office's building or an overlord's holding", () => {
+    for (const owner of ["corporate", "subject_holding", "none"]) {
+      expect(reported(mod().add(lab({ owner_type: owner })), "missing-building-sets"), owner).toEqual([]);
+    }
+    // `0x337b70` reads `normal`, and any word it does not know, as the default.
+    expect(reported(mod().add(lab({ owner_type: "normal" })), "missing-building-sets")).toEqual(["sts_lab"]);
+  });
+
+  it("are not judged when an inline script may write them", () => {
+    expect(
+      reported(mod().add(lab({ inline_script: { script: "sts/building_sets" } })), "missing-building-sets"),
+    ).toEqual([]);
+  });
+});
+
+/** The district's check: `District type is missing zone slots. This will lead to a crash` (`0x48d620`). */
+describe("a district's zone slots", () => {
+  const district = (body: Record<string, unknown>) =>
+    define("district", "district_sts", { potential: { always: true }, ...body });
+
+  it("are asked of every district", () => {
+    const bare = validate(mod().add(district({}))).filter((diagnostic) => diagnostic.code === "missing-zone-slots");
+
+    expect(bare).toHaveLength(1);
+    expect(bare[0]?.message).toContain("This will lead to a crash: district_sts");
+    expect(reported(mod().add(district({ zone_slots: ["slot_city_01"] })), "missing-zone-slots")).toEqual([]);
+    expect(reported(mod().add(district({ zone_slots: [] })), "missing-zone-slots")).toEqual([
+      "district_sts.zone_slots",
+    ]);
+  });
+});
+
+/** Each key of `common/game_concepts` is searched for `concept_` at its start (`0x7c9ae0`). */
+describe("a game concept's key", () => {
+  it("starts with concept_", () => {
+    const unprefixed = mod().add(define("concept", "sts_idea", {}));
+    const prefixed = mod().add(define("concept", "concept_sts_idea", {}));
+
+    expect(reported(unprefixed, "unprefixed-concept")).toEqual(["sts_idea"]);
+    expect(reported(prefixed, "unprefixed-concept")).toEqual([]);
+  });
+});

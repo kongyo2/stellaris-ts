@@ -22,9 +22,12 @@ const MINIMUMS: SchemaStructuralMinimums = {
   scopes: 41,
   // blocks directly inside `links = { }`; last_created_pop_faction is declared twice
   links: 86,
-  // `alias[trigger:*]` and `alias[effect:*]` declarations
+  // `alias[trigger:*]` and `alias[effect:*]` declarations. The corpus wrote 88
+  // of its effect aliases, and four of its trigger aliases, for scripted
+  // effects and triggers of the base game; those are definitions, not
+  // commands, and left the count when they left `commands.ts`.
   triggerCommands: 1124,
-  effectCommands: 1204,
+  effectCommands: 1171,
   // every non-script alias family
   ruleSets: 187,
   // the global inline_script macro
@@ -39,7 +42,7 @@ const MINIMUMS: SchemaStructuralMinimums = {
  * than hidden: the gate fails if the count rises, and each one is a candidate
  * to fix by hand in `src/schema/` once vanilla says what is right.
  */
-const KNOWN_DEBT = 20;
+const KNOWN_DEBT = 17;
 
 const diagnostics: readonly SchemaValidationDiagnostic[] = validateSchema(schema, { minimums: MINIMUMS });
 const overBudget: boolean = diagnostics.length > KNOWN_DEBT;

@@ -1,6 +1,7 @@
 export * from "./catalog.js";
 export * from "./commands.js";
 export * from "./corrections.js";
+export * from "./definition-precedence.js";
 export * from "./definitions/index.js";
 export * from "./dump-commands.js";
 export * from "./dynamic-sets.js";
@@ -13,6 +14,7 @@ export * from "./modifiers.js";
 export * from "./model.js";
 export * from "./scope-constraints.js";
 export * from "./script-keys.js";
+export * from "./script-order.js";
 export * from "./scope-model.js";
 export * from "./scopes.js";
 export * from "./vanilla-commands.js";

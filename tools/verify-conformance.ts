@@ -51,6 +51,23 @@ const STRICT_GATED_BUDGET = 5;
  */
 const DECLARED_FIELD_FLOOR = 2000;
 
+/**
+ * How many definitions the load checks must have read.
+ *
+ * The gate fails on a finding, and a check that reads nothing finds nothing:
+ * a type id renamed in `loadCheckedTypes`, or a definition block that stops
+ * matching, would pass it in silence. 4.5.2 has 18,117 definitions of the
+ * checked types, more than half of them events; the floor is low enough to survive a
+ * patch and high enough that losing a whole type fails.
+ */
+const LOAD_CHECK_FLOOR = 15_000;
+
+/**
+ * The same for the `else` and `else_if` matched to an `if`: 4.5.2 writes 4,392
+ * outside the body of an `if`, where the older nested form is left alone.
+ */
+const BRANCH_FLOOR = 3500;
+
 async function gameVersion(gamePath: string): Promise<string> {
   try {
     const raw: string = await readFile(join(gamePath, "launcher-settings.json"), "utf8");
@@ -189,6 +206,17 @@ for (const entry of report.types) {
   for (const finding of entry.comparisonMismatches) {
     console.error(
       `CONFORMANCE ${entry.type} comparison: ${finding.path.length === 0 ? finding.field : `${finding.path}.${finding.field}`} ${finding.operator} outside a trigger, and no rule for it compares (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
+    );
+  }
+}
+
+// Direction N: an `else` or an `else_if` with no `if` read just before it.
+// The game logs "Else/else if not following an if or else if" for one and
+// drops the branch, and `validate` reports one in a mod as an error.
+for (const entry of report.types) {
+  for (const finding of entry.branchMismatches) {
+    console.error(
+      `CONFORMANCE ${entry.type} branch: ${finding.field} ${finding.path.length === 0 ? "at the root" : `inside ${finding.path}`} follows no if (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
     );
   }
 }
@@ -333,6 +361,7 @@ console.log(
     `valueMismatches=${String(unexplainedValues.length)}`,
     `shapeMismatches=${String(report.shapeMismatchTotal)}`,
     `comparisonMismatches=${String(report.comparisonMismatchTotal)}`,
+    `branchMismatches=${String(report.branchMismatchTotal)}/${String(report.branchesChecked)}`,
     `missingDirectories=${String(report.missingDirectories.length)}`,
     `unexplainedKeys=${String(unexplained.length)}`,
     `gatedStrict=${String(strictGated.length)}/${String(GATED_TYPES.length)}`,
@@ -351,6 +380,18 @@ console.log(
   ].join(" "),
 );
 
+if (loadChecked < LOAD_CHECK_FLOOR) {
+  console.error(
+    `CONFORMANCE the load checks read ${String(loadChecked)} definitions, below the floor of ${String(LOAD_CHECK_FLOOR)}; a check that reads nothing finds nothing.`,
+  );
+}
+
+if (report.branchesChecked < BRANCH_FLOOR) {
+  console.error(
+    `CONFORMANCE ${String(report.branchesChecked)} else and else_if were matched to an if, below the floor of ${String(BRANCH_FLOOR)}.`,
+  );
+}
+
 if (declaredFields < DECLARED_FIELD_FLOOR) {
   console.error(
     `CONFORMANCE the game declared ${String(declaredFields)} field names, below the floor of ${String(DECLARED_FIELD_FLOOR)}; the defines types would accept nothing and report nothing. Re-run \`npm run index:game\`.`,
@@ -365,6 +406,9 @@ if (
   unexplainedValues.length > 0 ||
   report.shapeMismatchTotal > 0 ||
   report.comparisonMismatchTotal > 0 ||
+  report.branchMismatchTotal > 0 ||
+  report.branchesChecked < BRANCH_FLOOR ||
+  loadChecked < LOAD_CHECK_FLOOR ||
   defectsFound !== expectedDefects ||
   unexplainedStrings.length > 0 ||
   unexplainedMissing.length > 0 ||

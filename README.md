@@ -30,6 +30,7 @@ const mod = defineMod({
   .add(
     define("building", "sts_example_lab", {
       category: "research",
+      building_sets: ["research"],
       base_buildtime: 360,
       potential: { exists: "owner" },
       allow: { has_upgraded_capital: true },
@@ -129,7 +130,9 @@ OneDrive when that is where the game keeps it — unless `--out` or
 `STELLARIS_MODS_DIR` names another. It lists what it wrote in
 `.stellaris-ts-files.json` beside the files, and the next build deletes any of
 those it no longer writes, so a definition you removed stops loading too.
-Nothing it did not write is touched.
+Nothing it did not write is touched. A file it cannot delete — the game holds
+its files open while it runs — is printed as `STUCK`, stays listed for the next
+build, and makes this one exit 1: the folder still holds a file the game reads.
 
 One diagnostic per line, `where: severity: code: message`, no colour. The same
 check is available as a function:
@@ -143,7 +146,9 @@ What it reports:
 - a key no rule accepts, anywhere in the body — `allow = { has_country_flagg = yes }`
   is caught inside `allow`, and inside anything inside that;
 - a modifier name the game does not generate, including the ones the mod's own
-  definitions bring into existence;
+  definitions bring into existence — and a static modifier's name is a key of a
+  modifier block too, the mod's own as much as the base game's
+  `artisan_jobs_bonus_workforce_mult`;
 - a value outside what the rules take — the wrong member of an enum, a word where
   a number belongs;
 - a block where the game reads a single value — an event's `title = { ... }`,
@@ -176,9 +181,31 @@ What it reports:
   situation approach with nothing to show, an `on_fail` holding a single
   effect, and a condition with no `desc` in the weights the game shows reason
   by reason, a resolution's `ai_weight` among them;
-- an id the base game already uses, which this would replace — except in the
-  directories the game merges instead, where adding to `on_game_start` is the
-  point rather than a mistake;
+- what it logs about an event: one with neither `is_triggered_only` nor a mean
+  time, which it tries to fire every day, or written under a key it fires
+  nothing by mean time for; a `mean_time_to_happen` in a triggered event, a
+  `weight_multiplier` in one that is not, and `is_triggered_only` written
+  after either, since it reads an event's fields in order; a window with no
+  title, desc, picture or option, and a hidden event with options; an option
+  holding both `trigger` and `exclusive_trigger`;
+- a building in no `building_sets`, which no zone's slots admit; a district
+  with no `zone_slots`, which the game says will crash it; a game concept
+  whose key does not start with `concept_`;
+- an `else` or an `else_if` that does not follow an `if`: the game matches it
+  to the effect read just before it in the same block, and drops the branch
+  when that is anything else;
+- a scripted effect or trigger named as one the game itself provides, and a
+  static modifier named as a modifier, each of which the game logs as
+  "overwriting an existing" one;
+- an id the base game already uses, and what becomes of it. The game reads a
+  directory's files in the order of their names, the base game's and a mod's
+  alike. For most types it keeps the last definition of an id it reads, so
+  the default file, which sorts after the base game's, replaces the base
+  game's; for events it keeps the first, and the same file is read too late:
+  the definition is dropped, which is an error rather than an override. Not
+  in the directories the game merges, where adding to `on_game_start` is the
+  point;
+- an id the mod defines twice, with which of the two the game keeps;
 - a file name the base game already ships, which this would replace wholesale;
 - a definition in a file the game never opens for its type — a sprite named
   into a `.txt` file, an alert anywhere but `common/alerts.txt`;
@@ -194,7 +221,9 @@ the base game's own script passes this checker except where vanilla itself is
 wrong, and each of those is listed by name — a line it writes and the game
 drops, an event whose trigger reads a country flag where there is no country,
 28 strings it names and never wrote, and 40 definitions that lack a string the
-rest of their type has.
+rest of their type has. What the game logs is held to the same measure: its
+10,023 events, 3,371 scripted effects and triggers and 4,392 `else` branches
+pass the checks above without one finding, as they load without one line.
 
 The parser underneath is measured the same way. Its token boundaries are the
 game's own, read out of the executable rather than inferred from what script

@@ -69,7 +69,10 @@ function taggedPlacement(type: DefinitionType, options: DefineOptions): { key?: 
     return {};
   }
 
-  const tags: readonly string[] = vanillaTaggedKeys[type.id] ?? type.source.tags;
+  // What the base game writes, and what the schema says the game reads: the
+  // executable takes `pop_event` and the two cosmic storm keys as well as the
+  // nineteen event keys vanilla uses.
+  const tags: readonly string[] = [...new Set([...(vanillaTaggedKeys[type.id] ?? []), ...type.source.tags])].sort();
 
   if (options.as !== undefined) {
     if (tags.length > 0 && !tags.includes(options.as)) {

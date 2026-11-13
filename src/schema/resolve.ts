@@ -579,7 +579,7 @@ export class SchemaResolver {
       if (family === "modifier") {
         if (this.#data.modifierNames.size === 0) {
           accepted = true;
-        } else if (this.#data.modifierNames.has(lowered)) {
+        } else if (this.#data.modifierNames.has(lowered) || this.#isStaticModifier(key)) {
           accepted = true;
           values.push({ kind: "primitive", type: "number" });
         }
@@ -616,7 +616,7 @@ export class SchemaResolver {
       }
     }
 
-    if (rules.modifierValues.length > 0 && this.#data.modifierNames.has(lowered)) {
+    if (rules.modifierValues.length > 0 && (this.#data.modifierNames.has(lowered) || this.#isStaticModifier(key))) {
       accepted = true;
       values.push(...rules.modifierValues);
     }
@@ -715,6 +715,21 @@ export class SchemaResolver {
     return isScopeKey(this.#model, key, this.#scopeNames);
   }
 
+  /**
+   * A static modifier is a key in a modifier block as well as a modifier is.
+   *
+   * The reader of a modifier block (`0x36db20` in the 4.5.2 executable) looks
+   * the key up among the static modifiers first and applies the one it finds,
+   * scaled by the value; only a key that names none is read as a modifier.
+   * The base game writes `artisan_jobs_bonus_workforce_mult = 0.10` in a
+   * building's `planet_modifier`, and that name is one of the 24 static
+   * modifiers of `24_static_modifiers_jobs.txt`, in no modifier list the game
+   * prints.
+   */
+  #isStaticModifier(key: string): boolean {
+    return this.#idsOf("static_modifier").has(key);
+  }
+
   #idsOf(type: string): ReadonlySet<string> {
     let set: ReadonlySet<string> | undefined = this.#idSets.get(type);
 
@@ -745,7 +760,7 @@ export class SchemaResolver {
       case "enum-key":
         return this.#enumMembers(key.enum).some((member) => member.toLowerCase() === lowered);
       case "modifier-key":
-        return this.#data.modifierNames.has(lowered);
+        return this.#data.modifierNames.has(lowered) || this.#isStaticModifier(raw);
       case "numeric-key":
         return /^-?\d+(?:\.\d+)?$/u.test(raw) && (!key.integer || !raw.includes("."));
       case "type-key":

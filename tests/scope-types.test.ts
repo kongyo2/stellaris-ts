@@ -36,8 +36,10 @@ describe("scope constraints", () => {
     // in the 4.5.1 trigger and effect dumps and the 4.5.2 game's own is in the
     // schema, less the four 4.5 removed and the ten last documented in 4.3.7.
     // One more declaration than commands for `damage_ship`, which the 4.5.2
-    // documentation gives a block form too.
-    expect(scripted.length).toBe(2459);
+    // documentation gives a block form too. Less, too, the 92 declarations
+    // the corpus wrote for scripted effects and triggers of the base game,
+    // and the 17 for names the 4.5.2 executable registers nothing by.
+    expect(scripted.length).toBe(2350);
     // 2,042 of them today. It may rise; it must not fall.
     expect(constrained.length).toBeGreaterThanOrEqual(2042);
   });
