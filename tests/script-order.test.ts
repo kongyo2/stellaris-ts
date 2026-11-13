@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { define } from "../src/builders/index.js";
-import { defineMod, entries, repeated, type Mod } from "../src/index.js";
+import { bare, defineMod, entries, raw, repeated, type Mod } from "../src/index.js";
 import { branchChain, isBranchBody } from "../src/schema/script-order.js";
 import { validate, type ValidationDiagnostic } from "../src/validate/index.js";
 import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
@@ -95,6 +95,29 @@ describe("an else", () => {
     expect(isBranchBody("immediate.if")).toBe(true);
     expect(isBranchBody("else_if")).toBe(true);
     expect(isBranchBody("immediate.every_owned_planet")).toBe(false);
+  });
+
+  it("is not parted from its if by a script variable's declaration", () => {
+    const declared = effect(
+      entries([
+        ["if", when],
+        ["@sts_amount", 5],
+        ["else", { set_country_flag: "sts_b" }],
+      ]),
+    );
+
+    expect(strays(mod().add(declared))).toEqual([]);
+  });
+
+  // `entries()` writes a bare `raw()` where it stands, and it may be the `if`.
+  it("is not judged after a bare raw() it may belong to", () => {
+    const afterRaw = effect(
+      entries([bare(raw("if = { limit = { always = yes } }")), ["else", { set_country_flag: "sts_b" }]]),
+    );
+    const afterWord = effect(entries([bare("optimize_memory"), ["else", { set_country_flag: "sts_b" }]]));
+
+    expect(strays(mod().add(afterRaw))).toEqual([]);
+    expect(strays(mod().add(afterWord))).toHaveLength(1);
   });
 
   it("is not judged after script this cannot see", () => {

@@ -23,10 +23,15 @@ import type { SchemaModel } from "./ir.js";
 const commandNames = new WeakMap<SchemaModel, Map<string, ReadonlySet<string>>>();
 
 /**
- * The effects or the triggers the executable registers by name: every command
- * the schema declares under its own name. The ones declared by a construct
- * instead, a call to a scripted effect or a scope to enter, are no command of
- * the executable's.
+ * The effects or the triggers the executable registers by name, lower-cased:
+ * every command the schema declares under its own name. The ones declared by
+ * a construct instead, a call to a scripted effect or a scope to enter, are no
+ * command of the executable's.
+ *
+ * Lower-cased because the lookup that finds a clash folds case: a name is
+ * walked down the keyword trie one `tolower` at a time (`0x1bb78a0`, the
+ * registry's own lookup), so a scripted trigger called `or` is the `OR` the
+ * schema declares in capitals.
  */
 export function engineCommandNames(model: SchemaModel, family: "effect" | "trigger"): ReadonlySet<string> {
   let families: Map<string, ReadonlySet<string>> | undefined = commandNames.get(model);
@@ -40,7 +45,7 @@ export function engineCommandNames(model: SchemaModel, family: "effect" | "trigg
     names = new Set(
       model.commands
         .filter((command) => command.family === family && command.key === undefined)
-        .map((command) => command.id),
+        .map((command) => command.id.toLowerCase()),
     );
     families.set(family, names);
   }
@@ -764,7 +769,9 @@ function eventChecks(id: string, body: LoadBlock, rootKey: string): readonly Loa
       message: `${id} sets a difficulty and is not an astral rift event. The game logs "Only Astral Rifts events support difficulty".`,
     });
   } else if (state.astralRift && (state.difficulty === undefined || state.difficulty < 0)) {
-    if (valuesOf(body, "difficulty").length === 0) {
+    // None written, or a number below zero, which is what the game holds for
+    // none. A name only the game can work out, `@astral_rift_…`, is left alone.
+    if (valuesOf(body, "difficulty").length === 0 || state.difficulty !== undefined) {
       findings.push({
         code: "incomplete-event",
         path: "",
@@ -958,7 +965,7 @@ function engineNames(type: string, id: string, context: LoadCheckContext): reado
 
   const family: "effect" | "trigger" = type === "scripted_effect" ? "effect" : "trigger";
 
-  return context.command?.(family, id) === true
+  return context.command?.(family, id.toLowerCase()) === true
     ? [
         {
           code: "shadows-engine-name",

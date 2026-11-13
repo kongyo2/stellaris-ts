@@ -239,6 +239,22 @@ describe("an event the game shows in a window of its own", () => {
     expect(found).toHaveLength(1);
     expect(found[0]?.message).toContain("Astral Rift events must have a difficulty");
   });
+
+  // The game holds a number below zero for no difficulty (`+0x674`), so one
+  // written out is none; a name only the game can work out is left alone.
+  it("takes a difficulty below zero for none, and says nothing of one written as a variable", () => {
+    const rift = (difficulty: string) =>
+      define(
+        "event",
+        "sts_events.1",
+        { is_triggered_only: true, astral_rift: true, show_sound: "event_default", difficulty, ...window },
+        { as: "astral_rift_event" },
+      );
+
+    expect(reported(mod().add(rift("-1")), "incomplete-event")).toEqual(["sts_events.1"]);
+    expect(reported(mod().add(rift("3")), "incomplete-event")).toEqual([]);
+    expect(reported(mod().add(rift("@astral_rift_easy_difficulty")), "incomplete-event")).toEqual([]);
+  });
 });
 
 /**

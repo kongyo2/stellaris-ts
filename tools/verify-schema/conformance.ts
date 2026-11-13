@@ -645,8 +645,8 @@ function identityOf(type: DefinitionType, block: Block, key: string): string | u
 }
 
 /** The modifier namespace, expanded once against what vanilla declares. */
-let resolvedModifiers: ReadonlySet<string> | undefined;
-let engineModifiers: ReadonlySet<string> | undefined;
+const resolvedModifiers = new WeakMap<SchemaModel, ReadonlySet<string>>();
+const engineModifiers = new WeakMap<SchemaModel, ReadonlySet<string>>();
 
 /** The scalars a list of entries holds, at any depth. */
 function scalarsOf(entries: readonly EntryNode[], into: (text: string) => void): void {
@@ -821,13 +821,21 @@ async function vanillaScriptedBodies(model: SchemaModel, gamePath: string): Prom
 
 /** The modifiers the game defines itself: the ones it prints, with none read off a string's key. */
 function engineModifierNames(model: SchemaModel): ReadonlySet<string> {
-  engineModifiers ??= expandModifierNames(model.modifiers, vanillaIdsByType);
-  return engineModifiers;
+  let names: ReadonlySet<string> | undefined = engineModifiers.get(model);
+  if (names === undefined) {
+    names = expandModifierNames(model.modifiers, vanillaIdsByType);
+    engineModifiers.set(model, names);
+  }
+  return names;
 }
 
 function modifierNames(model: SchemaModel): ReadonlySet<string> {
-  resolvedModifiers ??= expandModifierNames(model.modifiers, vanillaIdsByType, vanillaModifierNames);
-  return resolvedModifiers;
+  let names: ReadonlySet<string> | undefined = resolvedModifiers.get(model);
+  if (names === undefined) {
+    names = expandModifierNames(model.modifiers, vanillaIdsByType, vanillaModifierNames);
+    resolvedModifiers.set(model, names);
+  }
+  return names;
 }
 
 export async function checkConformance(
@@ -860,7 +868,8 @@ export async function checkConformance(
       return set.has(id);
     },
     ids: (type: string): readonly string[] => vanillaIdsByType[type] ?? [],
-    command: (family: "effect" | "trigger", name: string): boolean => engineCommandNames(model, family).has(name),
+    command: (family: "effect" | "trigger", name: string): boolean =>
+      engineCommandNames(model, family).has(name.toLowerCase()),
     modifier: (name: string): boolean => engineModifierNames(model).has(name.toLowerCase()),
   };
 

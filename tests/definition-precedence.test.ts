@@ -151,6 +151,29 @@ describe("a definition of an id the base game uses", () => {
     expect(found(target, "replaces-vanilla-definition")).toEqual([]);
   });
 
+  // A file of the base game's name replaces that file and all it defined,
+  // and the index does not say which file defined which id.
+  it("is not called dropped where the mod replaces a file of the base game's in that directory", () => {
+    const replacedFile: string = (vanillaFiles["events"] ?? [])[0] ?? "";
+    const target = mod().add(define("event", vanillaEvent, hidden, { as: "country_event" }));
+    target.file({ path: `events/${replacedFile.toUpperCase()}`, contents: "", overrides: true });
+    const replaced = found(target, "replaces-vanilla-definition");
+
+    expect(found(target, "ignored-vanilla-override")).toEqual([]);
+    expect(replaced).toHaveLength(1);
+    expect(replaced[0]?.message).toContain(`This mod replaces ${replacedFile} in events`);
+    expect(replaced[0]?.message).toContain("this definition is the only one left");
+  });
+
+  it("names a few of the files it replaces and counts the rest", () => {
+    const target = mod().add(define("event", vanillaEvent, hidden, { as: "country_event" }));
+    for (const name of (vanillaFiles["events"] ?? []).slice(0, 5)) {
+      target.file({ path: `events/${name}`, contents: "", overrides: true });
+    }
+
+    expect(found(target, "replaces-vanilla-definition")[0]?.message).toContain("and 2 more in events");
+  });
+
   it("is still no warning where the game merges", () => {
     const target = mod().add(define("on_action", "on_game_start", { events: [] }));
 

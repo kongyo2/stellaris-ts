@@ -56,6 +56,12 @@ export function branchChain(): BranchChain {
         return follows;
       }
 
+      // `@name = …` declares a script variable. It is no effect, and what it
+      // stands between is as it was.
+      if (lowered.startsWith("@") && !lowered.includes("$")) {
+        return true;
+      }
+
       // `inline_script` and a `$PARAM$` key stand for script this cannot see.
       open = lowered === "inline_script" || lowered.includes("$") ? undefined : false;
       return true;

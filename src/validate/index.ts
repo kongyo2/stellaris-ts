@@ -989,6 +989,38 @@ function checkItems(
 }
 
 /**
+ * The keyed entries of an ordered block that stand right after script nothing
+ * here can read — a bare `raw()` — by their place among the keyed entries.
+ *
+ * `entries([bare(raw("if = { … }")), ["else", { … }]])` writes an `if` and its
+ * `else`, and only the second is a key.
+ */
+function afterOpaque(body: unknown): ReadonlySet<number> {
+  const found = new Set<number>();
+
+  if (!isEntries(body)) {
+    return found;
+  }
+
+  let keyed = 0;
+  let pending = false;
+
+  for (const entry of body.entries) {
+    if (isBare(entry)) {
+      pending ||= isRaw(entry.bare);
+      continue;
+    }
+    if (pending) {
+      found.add(keyed);
+      pending = false;
+    }
+    keyed += 1;
+  }
+
+  return found;
+}
+
+/**
  * An `else` or an `else_if` with no `if` read just before it.
  *
  * A field of the block that is not itself an effect — an option's `name`, its
@@ -1057,8 +1089,15 @@ function walkBlock(
   // the `if` read just before it.
   const branches: BranchChain | undefined =
     (rules.families.has("effect") || rules.families.has("trigger")) && !isBranchBody(path) ? branchChain() : undefined;
+  const opaque: ReadonlySet<number> = branches === undefined ? new Set<number>() : afterOpaque(body);
 
-  for (const [key, rawValue] of keyed) {
+  for (const [index, [key, rawValue]] of keyed.entries()) {
+    // A bare `raw("if = { … }")` stood just before this key: it may be the
+    // `if` an `else` here belongs to.
+    if (opaque.has(index)) {
+      branches?.unknown();
+    }
+
     if (rawValue === undefined || rawValue === null) {
       continue;
     }
@@ -1420,7 +1459,10 @@ function followCalls(
     const sink: ValidationDiagnostic[] = [];
     const rules: BlockRules = walker.resolver.rulesForType(type);
     walkBlock(
-      { ...walker, diagnostics: sink },
+      // Its own account of the strings found missing, as well: what this walk
+      // reports is thrown away but for the scopes, and a key it marked as
+      // reported would never be reported where the caller names it too.
+      { ...walker, diagnostics: sink, unlocalised: new Set(walker.unlocalised) },
       definition,
       `${path}>`,
       rules,
@@ -1446,6 +1488,57 @@ function sameDiagnostic(left: ValidationDiagnostic, right: ValidationDiagnostic)
     left.code === right.code &&
     left.message === right.message
   );
+}
+
+/**
+ * The base game's files this mod ships a file of its own in place of, by
+ * directory and in the base game's spelling.
+ *
+ * A file of the same name replaces the base game's whole file, and every
+ * definition that file held is gone with it — whether the mod's file is a
+ * definition's, a raw file or an asset. Folded as `emit` folds a collision:
+ * `Events/X.txt` stands in for `events/x.txt` wherever the filesystem folds.
+ */
+function replacedVanillaFiles(mod: Mod): ReadonlyMap<string, ReadonlySet<string>> {
+  const replaced = new Map<string, Set<string>>();
+
+  const note = (written: string | undefined): void => {
+    if (written === undefined) {
+      return;
+    }
+
+    const path: string = normalisedPath(written);
+    const slash: number = path.lastIndexOf("/");
+    const directory: string = slash < 0 ? "" : path.slice(0, slash);
+    const name: string = path.slice(slash + 1).toLowerCase();
+    const shipped: string | undefined = (vanillaFiles[directory] ?? []).find((other) => other.toLowerCase() === name);
+
+    if (shipped !== undefined) {
+      const bucket: Set<string> = replaced.get(directory) ?? new Set<string>();
+      bucket.add(shipped);
+      replaced.set(directory, bucket);
+    }
+  };
+
+  for (const file of mod.files) {
+    note(file.path);
+  }
+  for (const asset of mod.assets) {
+    note(asset.path);
+  }
+  for (const definition of mod.definitions) {
+    note(definitionFilePath(mod.options, definition));
+  }
+
+  return replaced;
+}
+
+/** `a.txt, b.txt, c.txt and 4 more`: a list short enough to read. */
+function someOf(names: readonly string[]): string {
+  const shown: readonly string[] = names.slice(0, 3);
+  return names.length > shown.length
+    ? `${shown.join(", ")} and ${String(names.length - shown.length)} more`
+    : shown.join(", ");
 }
 
 /** `an event`, `a building`: a type's id with its article. */
@@ -1502,6 +1595,7 @@ function vanillaOverride(
   mod: Mod,
   definition: DefinitionRecord,
   precedence: DefinitionPrecedence,
+  replaced: ReadonlyMap<string, ReadonlySet<string>>,
 ): ValidationDiagnostic {
   const base = { definition: definition.id, path: "" };
   const what: string = `${definition.id} is ${withArticle(definition.type)} the base game defines`;
@@ -1529,14 +1623,23 @@ function vanillaOverride(
   const others: readonly string[] = (vanillaFiles[directory] ?? []).filter((other) =>
     other.toLowerCase().endsWith(extension),
   );
-  // A file that replaces one of the base game's takes its place in the order,
-  // and what that file defined is gone with it: nothing here can say which
-  // definition is then read first.
-  const order: -1 | 0 | 1 =
-    path === undefined || definition.overrides !== undefined || others.includes(name) || others.length === 0
-      ? 0
-      : readOrder(name, others);
   const kept: string = `the game keeps the ${precedence} ${definition.type} of an id it reads`;
+  // The base game's files in this directory that the mod ships its own in
+  // place of: this definition's file, a raw file, another definition's. What
+  // such a file defined is gone with it, and the index does not say which
+  // file defined which id, so the base game's definition may be gone too.
+  const gone: readonly string[] = others.filter((other) => replaced.get(directory)?.has(other) === true);
+
+  if (gone.length > 0) {
+    return {
+      ...base,
+      severity: "warning",
+      code: "replaces-vanilla-definition",
+      message: `${what}, and ${kept}. This mod replaces ${someOf(gone)} in ${directory}: if the base game defined ${definition.id} there, this definition is the only one left; if not, it counts only if its file is read ${precedence === "first" ? "before" : "after"} the base game's file that defines it.`,
+    };
+  }
+
+  const order: -1 | 0 | 1 = path === undefined || others.length === 0 ? 0 : readOrder(name, others);
   const where: string = `${path ?? name} is read ${order === -1 ? "before" : "after"} every file of the base game in ${directory}`;
 
   if (order === 0) {
@@ -1578,6 +1681,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const hiddenDirectories: ReadonlySet<string> = new Set(
     (mod.options.replacePaths ?? []).map((path) => normalisedPath(path)),
   );
+  const replacedFiles: ReadonlyMap<string, ReadonlySet<string>> = replacedVanillaFiles(mod);
   const strings = new Map<string, Set<string>>();
   const seen = new Set<string>();
 
@@ -1628,7 +1732,8 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       return set.has(id);
     },
     ids: (type: string): readonly string[] => idsByType[type] ?? [],
-    command: (family: "effect" | "trigger", name: string): boolean => engineCommandNames(model, family).has(name),
+    command: (family: "effect" | "trigger", name: string): boolean =>
+      engineCommandNames(model, family).has(name.toLowerCase()),
     // The modifiers the game defines itself, without the names read off the
     // keys of its strings: expanded only when a static modifier asks.
     modifier: (name: string): boolean => {
@@ -1721,7 +1826,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       !hiddenDirectories.has(definition.directory) &&
       (vanillaIdsByType[definition.type] ?? []).includes(definition.id)
     ) {
-      diagnostics.push(vanillaOverride(mod, definition, precedence));
+      diagnostics.push(vanillaOverride(mod, definition, precedence, replacedFiles));
     }
 
     // An event id is `namespace.number`, and the file declares the namespace.

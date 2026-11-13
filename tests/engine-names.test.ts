@@ -109,6 +109,19 @@ describe("a name the executable already uses", () => {
     expect(reported.every((diagnostic) => diagnostic.severity === "warning")).toBe(true);
   });
 
+  // The lookup that finds the clash walks the keyword trie one `tolower` at
+  // a time (`0x1bb78a0`), and the schema declares the connectors in capitals.
+  it("is found whatever its case", () => {
+    const target = mod()
+      .add(define("scripted_effect", "Add_Resource", { add_influence: 1 }))
+      .add(define("scripted_trigger", "or", { always: true }));
+
+    expect(found(target, "shadows-engine-name").map((diagnostic) => diagnostic.definition)).toEqual([
+      "Add_Resource",
+      "or",
+    ]);
+  });
+
   it("is each family's own: a trigger's name is free for an effect", () => {
     const target = mod().add(define("scripted_effect", "has_technology", { add_influence: 1 }));
 
