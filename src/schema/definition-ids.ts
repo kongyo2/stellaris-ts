@@ -43,13 +43,16 @@ export function definitionIds(type: DefinitionType, document: Document, fileName
       .map((id) => ({ id }));
   }
 
+  // Keys are read without regard to case: 102 of the base game's progress
+  // bars are written `progressbarType`, and each of them is one.
   const filter = type.source.rootKeyFilter;
+  const named: readonly string[] = (filter?.values ?? []).map((value) => value.toLowerCase());
   const accepted = (key: string): boolean =>
     filter === undefined
       ? true
       : filter.mode === "include"
-        ? filter.values.includes(key)
-        : !filter.values.includes(key);
+        ? named.includes(key.toLowerCase())
+        : !named.includes(key.toLowerCase());
 
   const container = type.source.container;
   const nameField: string | undefined = type.source.kind === "tagged-blocks" ? type.source.nameField : undefined;
@@ -66,8 +69,15 @@ export function definitionIds(type: DefinitionType, document: Document, fileName
       return;
     }
 
+    // The game reads a key without regard to case: 4.5.2 writes `KEY` 45
+    // times in `common/special_projects`, and each of those is a project's.
+    const wanted: string = nameField.toLowerCase();
     for (const field of body.entries) {
-      if (keyOf(field) === nameField && field.kind === NodeKind.Assignment && field.value.kind === NodeKind.Scalar) {
+      if (
+        keyOf(field)?.toLowerCase() === wanted &&
+        field.kind === NodeKind.Assignment &&
+        field.value.kind === NodeKind.Scalar
+      ) {
         found(String(field.value.value));
       }
     }
@@ -82,7 +92,7 @@ export function definitionIds(type: DefinitionType, document: Document, fileName
     }
 
     if (container !== undefined) {
-      if (container.kind !== "any-container" && container.key !== key) {
+      if (container.kind !== "any-container" && container.key.toLowerCase() !== key.toLowerCase()) {
         continue;
       }
       for (const nested of block.entries) {
@@ -90,6 +100,13 @@ export function definitionIds(type: DefinitionType, document: Document, fileName
         const nestedBlock: Block | undefined = blockOf(nested);
         if (nestedKey !== undefined && nestedBlock !== undefined && accepted(nestedKey)) {
           claim(nestedKey, nestedBlock, key);
+          continue;
+        }
+        // `spriteType { name = … }`, with no `=`: the game reads a block that
+        // follows a word as that word's, and `interface/dlc_icons.gfx` defines
+        // `GFX_checkmark_icon` that way.
+        if (nested.kind === NodeKind.PrefixedBlock && accepted(String(nested.prefix.value))) {
+          claim(String(nested.prefix.value), nested.block, key);
         }
       }
       continue;

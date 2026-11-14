@@ -118,6 +118,13 @@ export interface BlockRules {
   readonly typeKeys: readonly TypeKeyEntry[];
   readonly numerics: readonly NumericEntry[];
   readonly modifierValues: readonly ValueRule[];
+  /**
+   * What a key holds when the only rule that takes it is one that takes any
+   * key: each entry of `common/species_names` is written under a name of the
+   * author's choosing, and every one of them is the same block of `name`,
+   * `plural` and `name_list`. The key is open; what it holds is not.
+   */
+  readonly wildcardValues: readonly ValueRule[];
   readonly families: ReadonlySet<ScriptFamily>;
   readonly ruleSetFamilies: ReadonlySet<string>;
   readonly items: readonly ValueRule[];
@@ -294,6 +301,7 @@ interface Draft {
   readonly typeKeys: TypeKeyEntry[];
   readonly numerics: NumericEntry[];
   readonly modifierValues: ValueRule[];
+  readonly wildcardValues: ValueRule[];
   readonly families: Set<ScriptFamily>;
   readonly ruleSetFamilies: Set<string>;
   readonly items: ValueRule[];
@@ -320,6 +328,7 @@ function draft(): Draft {
     typeKeys: [],
     numerics: [],
     modifierValues: [],
+    wildcardValues: [],
     families: new Set<ScriptFamily>(),
     ruleSetFamilies: new Set<string>(),
     items: [],
@@ -652,6 +661,15 @@ export class SchemaResolver {
     // key is a string's name, and nothing more specific claimed it.
     const localisationKey: boolean = rules.localisationKeys && values.length === 0 && commands.length === 0;
 
+    // Claimed by nothing but a rule that takes any key: what that rule says a
+    // key holds is what this one holds. Dropping it left every block written
+    // under a name of the author's choosing unread — nothing inside an entry
+    // of `common/species_names` was checked, not even the name list it names.
+    // A key a literal rule forbids is claimed, and holds nothing.
+    if (values.length === 0 && commands.length === 0 && direct === undefined && rules.wildcardValues.length > 0) {
+      values.push(...rules.wildcardValues);
+    }
+
     return {
       accepted,
       values,
@@ -851,6 +869,7 @@ export class SchemaResolver {
       typeKeys: into.typeKeys,
       numerics: into.numerics,
       modifierValues: into.modifierValues,
+      wildcardValues: into.wildcardValues,
       families: into.families,
       ruleSetFamilies: into.ruleSetFamilies,
       items: into.items,
@@ -945,6 +964,7 @@ export class SchemaResolver {
         const members: readonly string[] = this.#enumMembers(key.enum);
         if (members.length === 0) {
           into.wildcard = true;
+          into.wildcardValues.push(value);
           return;
         }
         for (const member of members) {
@@ -979,14 +999,17 @@ export class SchemaResolver {
         // belongs: the set is open, so the value rule is what matters.
         into.wildcard = true;
         into.localisationKeys ||= key.type === "localisation";
+        into.wildcardValues.push(value);
         return;
       case "rule-set-key":
         into.ruleSetFamilies.add(key.family);
         return;
       default:
         // any-key, value-set-key, named-value-key, rule-set-keys-field-key: all
-        // stand for sets no rule enumerates.
+        // stand for sets no rule enumerates. What a key of the set holds is
+        // still what the rule says it holds.
         into.wildcard = true;
+        into.wildcardValues.push(value);
     }
   }
 

@@ -212,6 +212,52 @@ export const definitionCorrections: Readonly<Record<string, readonly EntryRule[]
 };
 
 /**
+ * The kind of starbase a building or a module belongs on.
+ *
+ * Not a starbase type and not a megastructure, which is what the corpus read
+ * it as: `orbital_ring` happens to be the id of one, and `arkship` and
+ * `waystation`, written 129 times, are the id of neither. The executable
+ * registers the four words side by side as keywords (`0x191be8` to
+ * `0x191c33` in the 4.5.2 keyword table): `starbase`, `orbital_ring`,
+ * `arkship`, `waystation`.
+ */
+function starbaseKind(): EntryRule {
+  return field(
+    "starbase_type",
+    oneOf(literal("starbase"), literal("orbital_ring"), literal("arkship"), literal("waystation")),
+    occurs.optional,
+  );
+}
+
+/**
+ * Rules that replace what the corpus says of a key, where what it says is
+ * wrong rather than incomplete: every rule the type has for the key goes, and
+ * these stand in its place.
+ */
+export const fieldReplacements: Readonly<Record<string, readonly EntryRule[]>> = {
+  starbase_building: [starbaseKind()],
+  starbase_module: [starbaseKind()],
+};
+
+/** A type's entries with the rules for the replaced keys taken out. */
+function withoutReplaced(type: DefinitionType): DefinitionType {
+  const replaced: ReadonlySet<string> = new Set(
+    (fieldReplacements[type.id] ?? []).flatMap((entry) =>
+      entry.kind === "field" && typeof entry.key === "string" ? [entry.key] : [],
+    ),
+  );
+
+  return replaced.size === 0
+    ? type
+    : {
+        ...type,
+        entries: type.entries.filter(
+          (entry) => !(entry.kind === "field" && typeof entry.key === "string" && replaced.has(entry.key)),
+        ),
+      };
+}
+
+/**
  * A rule missing from a block *inside* a definition rather than from its body.
  *
  * `policy.option` takes an `ai_weight`; `trait.slave_cost` is a resource cost
@@ -240,6 +286,15 @@ export interface NestedCorrection {
 export const ITEM_BLOCKS = "{}";
 
 /**
+ * A path step into the block under a key that is no literal: the name of a
+ * situation's stage, a case of a `switch`, a scope.
+ *
+ * `stages = { my_stage = { … } }` holds each stage under the key of its own
+ * name, so no field name reaches inside one either.
+ */
+export const ANY_KEY = "*";
+
+/**
  * The boolean wrapper vanilla writes around a technology prerequisite list.
  *
  * `prerequisites = { OR = { tech_a tech_b } }` and, once, an `AND` inside that.
@@ -252,7 +307,57 @@ function prerequisiteLogic(): readonly EntryRule[] {
   );
 }
 
+/**
+ * The branches of a triggered description's `switch` case.
+ *
+ * `desc = { trigger = { switch = { trigger = has_technology tech_x = { if = {
+ * limit = { … } text = a } else_if = { … } else = { text = b } } } } }`: a case
+ * picks its text with `if`, and the corpus declared the `if` and neither of the
+ * two that follow it. The base game writes both, in shroud.5320 among others.
+ */
+function descriptionBranches(): readonly EntryRule[] {
+  return [
+    field(
+      "else_if",
+      block([
+        field("limit", block([triggerEntries()]), occurs.one),
+        field("text", primitive("localisation"), occurs.one),
+      ]),
+      occurs.any,
+    ),
+    field("else", block([field("text", primitive("localisation"), occurs.one)]), occurs.optional),
+  ];
+}
+
 export const nestedCorrections: readonly NestedCorrection[] = [
+  ...(
+    [
+      ["desc", "trigger", "switch", ANY_KEY],
+      ["desc", "trigger", ANY_KEY, "switch", ANY_KEY],
+      ["desc", "exclusive_trigger", "switch", ANY_KEY],
+      ["desc", "exclusive_trigger", ANY_KEY, "switch", ANY_KEY],
+      ["option", "name", "trigger", "switch", ANY_KEY],
+      ["option", "name", "trigger", ANY_KEY, "switch", ANY_KEY],
+    ] as const
+  ).map((path): NestedCorrection => ({
+    type: DefinitionTypeId.Event,
+    path,
+    evidence:
+      "vanilla 4.5.2: `else_if` and `else` after the `if` of a description's switch case, e.g. shroud.5320 in events/shroud_events.txt",
+    entries: descriptionBranches(),
+  })),
+  {
+    type: DefinitionTypeId.SituationType,
+    path: ["stages", ANY_KEY],
+    evidence:
+      "4.5.2 executable: the stage reader (`0x4e21a0`) takes 14 keys, these four among them; vanilla 4.5.2 writes `color` and `section_weight` in the stages of situation_nomad_economy",
+    entries: [
+      field("color", typeRef("named_color"), occurs.optional),
+      field("section_weight", anyValue(), occurs.optional),
+      field("key", primitive("scalar"), occurs.optional),
+      field("custom_tooltip_with_modifiers", primitive("localisation"), occurs.optional),
+    ],
+  },
   {
     type: DefinitionTypeId.SituationType,
     path: ["approach"],
@@ -371,6 +476,20 @@ export const nestedCorrections: readonly NestedCorrection[] = [
 ];
 
 /**
+ * Fields the corpus marks required that the base game leaves out, inside a
+ * block no field name reaches: `*` steps into the block under a key that is
+ * no literal.
+ *
+ * `npm run propose:corrections` finds the ones a dotted field name can say;
+ * these are the ones it cannot.
+ */
+export const optionalFields: Readonly<Record<string, readonly string[]>> = {
+  // vanilla 4.5.2: the stages `mutiny` and `planetfall` of
+  // situation_passenger_satisfaction draw no icon; 2 of 259.
+  situation_type: ["stages.*.icon", "stages.*.icon_background"],
+};
+
+/**
  * Relaxes the fields vanilla proves are not required.
  *
  * Only the occurrence changes: the value rule is whatever cwt said, and a field
@@ -393,11 +512,12 @@ function relaxFields(entries: readonly EntryRule[], paths: readonly (readonly st
       return { ...entry, entries: relaxFields(entry.entries, paths) };
     }
 
-    if (entry.kind !== "field" || typeof entry.key !== "string") {
+    if (entry.kind !== "field") {
       return entry;
     }
 
-    const key: string = entry.key;
+    // `*` steps into the block under a key that is no literal.
+    const key: string = typeof entry.key === "string" ? entry.key : ANY_KEY;
     const here: readonly (readonly string[])[] = paths.filter((path) => path[0] === key);
     const inside: readonly (readonly string[])[] = here.filter((path) => path.length > 1).map((path) => path.slice(1));
     let relaxed: EntryRule = entry;
@@ -441,7 +561,12 @@ function addAtPath(
       return { ...entry, entries: addAtPath(entry.entries, path, extra) };
     }
 
-    const step: boolean = head === ITEM_BLOCKS ? entry.kind === "item" : entry.kind === "field" && entry.key === head;
+    const step: boolean =
+      head === ITEM_BLOCKS
+        ? entry.kind === "item"
+        : head === ANY_KEY
+          ? entry.kind === "field" && typeof entry.key !== "string"
+          : entry.kind === "field" && entry.key === head;
 
     if (!step || (entry.kind !== "field" && entry.kind !== "item") || entry.value.kind !== "block") {
       return entry;
@@ -459,14 +584,15 @@ function addAtPath(
  * vanilla actually writes.
  */
 export function withCorrections(types: readonly DefinitionType[]): readonly DefinitionType[] {
-  return types.map((type) => {
+  return types.map(withoutReplaced).map((type) => {
     const extra: readonly EntryRule[] = [
+      ...(fieldReplacements[type.id] ?? []),
       ...(definitionCorrections[type.id] ?? []),
       ...(vanillaFieldCorrections[type.id] ?? []),
     ];
     const nested: readonly NestedCorrection[] = nestedCorrections.filter((correction) => correction.type === type.id);
-    const optional: readonly string[] | undefined = vanillaOptionalFields[type.id];
-    const relaxed: DefinitionType = optional === undefined ? type : withOptionalFields(type, optional);
+    const optional: readonly string[] = [...(vanillaOptionalFields[type.id] ?? []), ...(optionalFields[type.id] ?? [])];
+    const relaxed: DefinitionType = optional.length === 0 ? type : withOptionalFields(type, optional);
     const withNested: DefinitionType = nested.length === 0 ? relaxed : applyNested(relaxed, nested);
     return extra.length === 0 ? withNested : { ...withNested, entries: [...withNested.entries, ...extra] };
   });
@@ -480,10 +606,13 @@ export function withCorrections(types: readonly DefinitionType[]): readonly Defi
  * file it wrote on the first.
  */
 export function withHandCorrections(types: readonly DefinitionType[]): readonly DefinitionType[] {
-  return types.map((type) => {
-    const extra: readonly EntryRule[] | undefined = definitionCorrections[type.id];
+  return types.map(withoutReplaced).map((type) => {
+    const extra: readonly EntryRule[] = [
+      ...(fieldReplacements[type.id] ?? []),
+      ...(definitionCorrections[type.id] ?? []),
+    ];
     const nested: readonly NestedCorrection[] = nestedCorrections.filter((correction) => correction.type === type.id);
     const withNested: DefinitionType = nested.length === 0 ? type : applyNested(type, nested);
-    return extra === undefined ? withNested : { ...withNested, entries: [...withNested.entries, ...extra] };
+    return extra.length === 0 ? withNested : { ...withNested, entries: [...withNested.entries, ...extra] };
   });
 }

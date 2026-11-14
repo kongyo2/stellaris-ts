@@ -2823,6 +2823,9 @@ export const commands: readonly ScriptCommandDefinition[] = [
       field("adjective", primitive("scalar"), occurs.optional),
       // vanilla 4.4.6: events/unplugged_events.txt
       field("name_list", typeRef("name_list"), occurs.optional),
+      // vanilla 4.5.2: `name_list = random_class`, three times, for a name
+      // list drawn from the species class rather than named.
+      field("name_list", literal("random_class"), occurs.optional),
       field("class", typeRef("species_class"), occurs.one),
       field("class", literal("random_pre_ftl"), occurs.one),
       field("class", literal("random_non_machine"), occurs.one),
@@ -23400,7 +23403,10 @@ export const ruleSets: readonly RuleSetDefinition[] = [
       field("mult", enumRef(EnumId.ExeSetVariable), occurs.any),
     ]),
   }),
-  ruleSet({ family: "alert_category", name: "category", single: false, operator: "=", value: typeRef("alert_icon") }),
+  // One of the keys of the `icon` block of `common/alerts.txt` — `diplomacy`,
+  // `fleets` — which nothing indexes: the block is a single definition, and
+  // read as a reference to it every category the base game writes named nothing.
+  ruleSet({ family: "alert_category", name: "category", single: false, operator: "=", value: primitive("scalar") }),
   ruleSet({ family: "alert_category", name: "category", single: false, operator: "=", value: literal("DISABLED") }),
   ruleSet({
     family: "country_pre_trigger",
@@ -23921,12 +23927,12 @@ export const ruleSets: readonly RuleSetDefinition[] = [
     single: false,
     operator: "=",
     value: block([
-      field("value", typeRef("civic_or_origin", "origin"), occurs.optional),
+      field("value", typeRef("graphical_culture"), occurs.optional),
       field(
         "OR",
         block([
           field("text", primitive("localisation"), occurs.optional),
-          field("value", typeRef("civic_or_origin", "origin"), between(2, 99), { severity: "information" }),
+          field("value", typeRef("graphical_culture"), between(2, 99), { severity: "information" }),
         ]),
         occurs.any,
       ),
@@ -23934,7 +23940,7 @@ export const ruleSets: readonly RuleSetDefinition[] = [
         "NOT",
         block([
           field("text", primitive("localisation"), occurs.optional),
-          field("value", typeRef("civic_or_origin", "origin"), occurs.one),
+          field("value", typeRef("graphical_culture"), occurs.one),
         ]),
         occurs.any,
       ),
@@ -23942,7 +23948,7 @@ export const ruleSets: readonly RuleSetDefinition[] = [
         "NOR",
         block([
           field("text", primitive("localisation"), occurs.optional),
-          field("value", typeRef("civic_or_origin", "origin"), between(2, 99), { severity: "information" }),
+          field("value", typeRef("graphical_culture"), between(2, 99), { severity: "information" }),
           field("value", typeRef("graphical_culture"), between(2, 99)),
         ]),
         occurs.any,
@@ -25052,6 +25058,9 @@ export const ruleSets: readonly RuleSetDefinition[] = [
     value: literal("GFX_peekpassword"),
   }),
   ruleSet({ family: "gui_sprite", name: "spriteType", single: false, operator: "=", value: typeRef("sprite") }),
+  // vanilla 4.5.2: interface/government_view.gui draws an icon from
+  // `GFX_species_piechart_hover_colored`, which is a `PieChartType`.
+  ruleSet({ family: "gui_sprite", name: "spriteType", single: false, operator: "=", value: typeRef("piechart") }),
   ruleSet({
     family: "gui_sprite",
     name: "spriteType",

@@ -11,6 +11,7 @@ import { withGameDeclaredFields } from "./open-fields.js";
 import { vanillaFieldNames } from "../generated/vanilla/field-names.js";
 import type { SchemaModel } from "./ir.js";
 import { withModifierCorrections } from "./modifier-corrections.js";
+import { withoutUnreadFields, withReadFields } from "./reader-fields.js";
 import { links, scopes } from "./scopes.js";
 import { vanillaLinks, vanillaScopes } from "./vanilla-scopes.js";
 import { dumpCommands, withoutRetiredCommands } from "./dump-commands.js";
@@ -30,7 +31,13 @@ export const schema: SchemaModel = defineSchema({
   policy: defaultSchemaPolicy,
   modifiers: withModifierCorrections(modifierNamespace),
   definitionTypes: withEntryScopes(
-    withGameDeclaredFields(withCorrections([...definitionTypes, ...vanillaDefinitionTypes]), vanillaFieldNames),
+    withGameDeclaredFields(
+      // The corrections add what the corpus left out; the game's own readers
+      // then add the keys they take that nothing writes, and take away the
+      // ones they do not read.
+      withoutUnreadFields(withReadFields(withCorrections([...definitionTypes, ...vanillaDefinitionTypes]))),
+      vanillaFieldNames,
+    ),
   ),
   enums: withEnumMembers(enums),
   scopes: [...scopes, ...vanillaScopes],

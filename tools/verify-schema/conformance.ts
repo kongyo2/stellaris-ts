@@ -8,7 +8,10 @@ import {
   vanillaModifierNames,
   vanillaScriptedParameters,
 } from "../../src/generated/vanilla/index.js";
+import { vanillaFiles } from "../../src/generated/vanilla/files.js";
 import { vanillaLocalisationKeys } from "../../src/generated/vanilla/localisation-keys.js";
+import { vanillaMeshAnimations } from "../../src/generated/vanilla/mesh-animations.js";
+import { foldedPath, namedFiles } from "../../src/schema/file-references.js";
 import { localisationKey } from "../../src/schema/ir.js";
 import {
   engineCommandNames,
@@ -26,6 +29,7 @@ import {
   type VariantSubject,
 } from "../../src/schema/localisation-references.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
+import { namesNoDefinition, referenceTargets, type ReferenceTargets } from "../../src/schema/references.js";
 import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../../src/schema/scopeless-on-actions.js";
 import { branchChain, isBranchBody, type BranchChain } from "../../src/schema/script-order.js";
 import {
@@ -270,6 +274,36 @@ export interface LocalisationFinding {
   readonly examples: readonly string[];
 }
 
+/**
+ * A name vanilla writes where every rule reads a reference, which is the name
+ * of no definition the index holds.
+ *
+ * `validate` reports the same in a mod as a reference to nothing. Vanilla
+ * loading it means one of three things, and each is worth knowing: the rule
+ * reads a value as a reference that is none, the index misses definitions the
+ * game has, or vanilla names something that is not there.
+ */
+export interface ReferenceFinding {
+  readonly path: string;
+  readonly field: string;
+  readonly types: readonly string[];
+  readonly name: string;
+  readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
+/**
+ * A file vanilla names where every rule reads a file, and that the index of
+ * the game's files does not hold.
+ */
+export interface FileFinding {
+  readonly path: string;
+  readonly field: string;
+  readonly name: string;
+  readonly occurrences: number;
+  readonly examples: readonly string[];
+}
+
 /** A string a requirement asks every definition for, which vanilla's definitions lack. */
 export interface MissingStringFinding {
   readonly pattern: string;
@@ -313,6 +347,8 @@ export interface TypeReport {
   readonly comparisonMismatches: readonly ComparisonFinding[];
   readonly branchMismatches: readonly BranchFinding[];
   readonly unresolvedStrings: readonly LocalisationFinding[];
+  readonly unresolvedReferences: readonly ReferenceFinding[];
+  readonly missingFiles: readonly FileFinding[];
   readonly missingStrings: readonly MissingStringFinding[];
   /** Definitions the game's own load checks were run over. */
   readonly loadChecked: number;
@@ -351,6 +387,10 @@ export interface ConformanceReport {
   readonly branchesChecked: number;
   /** How many values and keys were read as a string's name and looked up. */
   readonly stringsChecked: number;
+  /** How many values were read as a reference to a definition and looked up. */
+  readonly referencesChecked: number;
+  /** How many values were read as the path of a file and looked for. */
+  readonly filesChecked: number;
   /** How many generic events vanilla fires with no scope, and how many of them were walked as such. */
   readonly scopelessEvents: number;
   readonly scopelessEventsWalked: number;
@@ -499,11 +539,14 @@ function definitionBlocks(
   // type reports holes that do not exist.
   const macroKeys: ReadonlySet<string> = new Set(model.policy.macros.map((macro) => macro.key));
 
+  // Without regard to case, as the game reads a key: `progressbarType` is a
+  // `progressbartype`.
+  const named: readonly string[] = (filter?.values ?? []).map((value) => value.toLowerCase());
   const accept = (key: string): boolean => {
     if (filter === undefined) {
       return true;
     }
-    return filter.mode === "include" ? filter.values.includes(key) : !filter.values.includes(key);
+    return filter.mode === "include" ? named.includes(key.toLowerCase()) : !named.includes(key.toLowerCase());
   };
 
   if (type.source.kind === "file-definitions") {
@@ -532,7 +575,7 @@ function definitionBlocks(
       // whatever else the file holds as definitions — 517 of the findings for
       // `portrait_group` were the settings blocks sitting beside
       // `portrait_groups` in the same file.
-      if (container.kind === "any-container" || key === container.key) {
+      if (container.kind === "any-container" || key.toLowerCase() === container.key.toLowerCase()) {
         for (const nested of entry.value.entries) {
           if (nested.kind === NodeKind.Assignment && nested.value.kind === NodeKind.Block) {
             const nestedKey: string = String(nested.key.value);
@@ -636,7 +679,7 @@ function identityOf(type: DefinitionType, block: Block, key: string): string | u
 
   const nameField: string = type.source.nameField;
   const named = block.entries.find(
-    (entry) => entry.kind === NodeKind.Assignment && String(entry.key.value) === nameField,
+    (entry) => entry.kind === NodeKind.Assignment && String(entry.key.value).toLowerCase() === nameField.toLowerCase(),
   );
 
   return named?.kind === NodeKind.Assignment && named.value.kind === NodeKind.Scalar
@@ -845,6 +888,8 @@ export async function checkConformance(
 ): Promise<ConformanceReport> {
   const reports: TypeReport[] = [];
   let stringsChecked = 0;
+  let referencesChecked = 0;
+  let filesChecked = 0;
   let scopelessEventsWalked = 0;
   const firedWithoutScope: ReadonlyMap<string, readonly string[]> = await vanillaScopelessEvents(model, gamePath);
   const scripted: ReadonlyMap<string, Block> = await vanillaScriptedBodies(model, gamePath);
@@ -857,20 +902,37 @@ export async function checkConformance(
   let branchesChecked = 0;
   const missingDirectories: string[] = [];
 
+  const shippedFiles = new Set<string>();
+  for (const [directory, names] of Object.entries(vanillaFiles)) {
+    for (const name of names) {
+      shippedFiles.add(`${directory}/${name}`.toLowerCase());
+    }
+  }
+
   const vanillaIdSets = new Map<string, ReadonlySet<string>>();
+  const known = (type: string): ReadonlySet<string> | undefined => {
+    const ids: readonly string[] | undefined = vanillaIdsByType[type];
+    if (ids === undefined) {
+      return undefined;
+    }
+    let set: ReadonlySet<string> | undefined = vanillaIdSets.get(type);
+    if (set === undefined) {
+      set = new Set(ids);
+      vanillaIdSets.set(type, set);
+    }
+    return set;
+  };
   const loadContext: LoadCheckContext = {
-    defines: (type: string, id: string): boolean => {
-      let set: ReadonlySet<string> | undefined = vanillaIdSets.get(type);
-      if (set === undefined) {
-        set = new Set(vanillaIdsByType[type] ?? []);
-        vanillaIdSets.set(type, set);
-      }
-      return set.has(id);
-    },
+    defines: (type: string, id: string): boolean => known(type)?.has(id) === true,
     ids: (type: string): readonly string[] => vanillaIdsByType[type] ?? [],
     command: (family: "effect" | "trigger", name: string): boolean =>
       engineCommandNames(model, family).has(name.toLowerCase()),
     modifier: (name: string): boolean => engineModifierNames(model).has(name.toLowerCase()),
+    // The files the index lists, as `validate` asks of them: the question is
+    // whether what ships with this package finds every file the game does.
+    fileExists: (path: string): boolean => shippedFiles.has(foldedPath(path)),
+    meshAnimations: (mesh: string): readonly string[] | undefined =>
+      vanillaMeshAnimations[mesh] ?? (known("model_mesh")?.has(mesh) === true ? [] : undefined),
   };
 
   const resolver = new SchemaResolver(model, {
@@ -935,6 +997,41 @@ export async function checkConformance(
       string,
       { path: string; field: string; key: string; count: number; examples: string[] }
     >();
+    const referenceIssues = new Map<
+      string,
+      { path: string; field: string; types: readonly string[]; name: string; count: number; examples: string[] }
+    >();
+    const fileIssues = new Map<
+      string,
+      { path: string; field: string; name: string; count: number; examples: string[] }
+    >();
+    // A path written where every rule reads a file, as `validate` asks it.
+    const checkFile = (
+      path: string,
+      field: string,
+      text: string,
+      values: readonly ResolvedValue[],
+      file: string,
+    ): void => {
+      if (text.length === 0 || isIndirect(text)) {
+        return;
+      }
+      const wanted: readonly string[] = namedFiles(values, text);
+      if (wanted.length === 0) {
+        return;
+      }
+      filesChecked += 1;
+      if (wanted.some((candidate) => shippedFiles.has(foldedPath(candidate)))) {
+        return;
+      }
+      const identity: string = `${path} ${field} ${text}`;
+      const issue = fileIssues.get(identity) ?? { path, field, name: text, count: 0, examples: [] };
+      issue.count += 1;
+      if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+        issue.examples.push(file);
+      }
+      fileIssues.set(identity, issue);
+    };
     const requirements = type.localisation.filter(
       (requirement) => requirement.required && requirement.source.kind === "definition-id",
     );
@@ -978,6 +1075,37 @@ export async function checkConformance(
         issue.examples.push(file);
       }
       stringIssues.set(identity, issue);
+    };
+
+    // A name written where every rule reads a reference, as `validate` asks it.
+    const checkReference = (
+      path: string,
+      field: string,
+      text: string,
+      targets: ReferenceTargets,
+      file: string,
+    ): void => {
+      if (targets.types.length === 0 || isIndirect(text)) {
+        return;
+      }
+      referencesChecked += 1;
+      if (!namesNoDefinition(targets, text, known)) {
+        return;
+      }
+      const identity: string = `${path} ${field} ${text}`;
+      const issue = referenceIssues.get(identity) ?? {
+        path,
+        field,
+        types: targets.types,
+        name: text,
+        count: 0,
+        examples: [],
+      };
+      issue.count += 1;
+      if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+        issue.examples.push(file);
+      }
+      referenceIssues.set(identity, issue);
     };
 
     // Every string a value names, each pattern with `$` standing for the value.
@@ -1054,6 +1182,7 @@ export async function checkConformance(
       // A word with no key is an item of a list, and names whatever the item
       // rules that apply here say it names, as a keyed value does.
       const itemNames: readonly string[] = meaning === undefined ? [] : namedStrings(meaning.items);
+      const itemTypes: ReferenceTargets = referenceTargets(rules.items);
 
       // An `else` belongs to the `if` read just before it, as `validate` reads
       // a mod's blocks.
@@ -1095,6 +1224,8 @@ export async function checkConformance(
 
         if (entry.kind === NodeKind.Scalar) {
           checkStrings(trail, "<item>", scalarText(entry), itemNames, file);
+          checkReference(trail, "<item>", scalarText(entry), itemTypes, file);
+          checkFile(trail, "<item>", scalarText(entry), rules.items, file);
           continue;
         }
 
@@ -1189,6 +1320,8 @@ export async function checkConformance(
 
         if (!identityField && entry.value.kind === NodeKind.Scalar) {
           checkStrings(trail, key, scalarText(entry.value), namedStrings(applicable), file);
+          checkReference(trail, key, scalarText(entry.value), referenceTargets(resolution.values), file);
+          checkFile(trail, key, scalarText(entry.value), resolution.values, file);
         }
 
         // Outside a trigger nothing reads the operator, unless the rule for the
@@ -1375,6 +1508,7 @@ export async function checkConformance(
             loadBlockOfEntries(claimed.block.entries),
             loadContext,
             claimed.key,
+            display,
           )) {
             loadFindings.push({ id: identity, ...finding, file: display });
           }
@@ -1509,6 +1643,25 @@ export async function checkConformance(
           examples: issue.examples,
         }))
         .sort((left, right) => compareOrdinal(left.key, right.key) || compareOrdinal(left.path, right.path)),
+      unresolvedReferences: [...referenceIssues.values()]
+        .map((issue) => ({
+          path: issue.path,
+          field: issue.field,
+          types: issue.types,
+          name: issue.name,
+          occurrences: issue.count,
+          examples: issue.examples,
+        }))
+        .sort((left, right) => compareOrdinal(left.path, right.path) || compareOrdinal(left.name, right.name)),
+      missingFiles: [...fileIssues.values()]
+        .map((issue) => ({
+          path: issue.path,
+          field: issue.field,
+          name: issue.name,
+          occurrences: issue.count,
+          examples: issue.examples,
+        }))
+        .sort((left, right) => compareOrdinal(left.path, right.path) || compareOrdinal(left.name, right.name)),
       loadChecked,
       loadFindings: [...loadFindings].sort(
         (left, right) => compareOrdinal(left.id, right.id) || compareOrdinal(left.path, right.path),
@@ -1553,6 +1706,8 @@ export async function checkConformance(
     branchMismatchTotal: reports.reduce((total, report) => total + report.branchMismatches.length, 0),
     branchesChecked,
     stringsChecked,
+    referencesChecked,
+    filesChecked,
     scopelessEvents: firedWithoutScope.size,
     scopelessEventsWalked,
     callsFollowed,
