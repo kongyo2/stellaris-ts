@@ -244,7 +244,7 @@ wrong, and each of those is listed by name — a line it writes and the game
 drops, an event whose trigger reads a country flag where there is no country,
 28 strings it names and never wrote, 40 definitions that lack a string the
 rest of their type has, 19 names it refers to that nothing defines and 4
-files it names and does not ship. The rest of the 246,442 references and
+files it names and does not ship. The rest of the 246,836 references and
 32,678 files its definitions name resolve. What the game logs is held to the
 same measure: its 10,023 events, 3,371 scripted effects and triggers, 4,663
 `else` branches and the 6,346 animations the states of its 8,429 entities
