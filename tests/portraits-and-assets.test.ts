@@ -332,6 +332,31 @@ describe("the animation a state plays", () => {
     expect(reported(mod().add(unreadable).add(entity("walk")), "unknown-animation")).toEqual([]);
   });
 
+  it("says nothing of a mesh in the mod's own .gfx that holds script it cannot read", () => {
+    const shipped = (mesh: string): Mod => {
+      const target = mod().add(entity("idle"));
+      target.file({ path: "gfx/models/portraits/sts/sts_meshes.gfx", contents: mesh });
+      return target;
+    };
+    const gfx = (...lines: readonly string[]): string =>
+      [
+        "objectTypes = {",
+        "\tpdxmesh = {",
+        '\t\tname = "sts_mesh"',
+        '\t\tfile = "gfx/models/x.mesh"',
+        ...lines,
+        "\t}",
+        "}",
+        "",
+      ].join("\n");
+    const injected: string = gfx("\t\tinline_script = sts/animations");
+    const still: string = gfx();
+
+    // The script may declare `idle`; the mesh that holds nothing declares none.
+    expect(reported(shipped(injected), "unknown-animation")).toEqual([]);
+    expect(reported(shipped(still), "unknown-animation")).toEqual(["sts_entity.state"]);
+  });
+
   it("looks a mesh up by its own name, whatever every object answers to", () => {
     const target = mod().add(
       define("model_entity", "sts_entity", {

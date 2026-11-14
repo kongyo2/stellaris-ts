@@ -125,6 +125,12 @@ export interface BlockRules {
    * `plural` and `name_list`. The key is open; what it holds is not.
    */
   readonly wildcardValues: readonly ValueRule[];
+  /**
+   * Some rule here takes the block whatever it holds: `x | { any = number }`
+   * is satisfied by anything, so what the second arm says a key holds
+   * constrains nothing.
+   */
+  readonly unconstrained: boolean;
   readonly families: ReadonlySet<ScriptFamily>;
   readonly ruleSetFamilies: ReadonlySet<string>;
   readonly items: readonly ValueRule[];
@@ -302,6 +308,7 @@ interface Draft {
   readonly numerics: NumericEntry[];
   readonly modifierValues: ValueRule[];
   readonly wildcardValues: ValueRule[];
+  unconstrained: boolean;
   readonly families: Set<ScriptFamily>;
   readonly ruleSetFamilies: Set<string>;
   readonly items: ValueRule[];
@@ -329,6 +336,7 @@ function draft(): Draft {
     numerics: [],
     modifierValues: [],
     wildcardValues: [],
+    unconstrained: false,
     families: new Set<ScriptFamily>(),
     ruleSetFamilies: new Set<string>(),
     items: [],
@@ -666,7 +674,13 @@ export class SchemaResolver {
     // under a name of the author's choosing unread — nothing inside an entry
     // of `common/species_names` was checked, not even the name list it names.
     // A key a literal rule forbids is claimed, and holds nothing.
-    if (values.length === 0 && commands.length === 0 && direct === undefined && rules.wildcardValues.length > 0) {
+    if (
+      values.length === 0 &&
+      commands.length === 0 &&
+      direct === undefined &&
+      rules.wildcardValues.length > 0 &&
+      !rules.unconstrained
+    ) {
       values.push(...rules.wildcardValues);
     }
 
@@ -870,6 +884,7 @@ export class SchemaResolver {
       numerics: into.numerics,
       modifierValues: into.modifierValues,
       wildcardValues: into.wildcardValues,
+      unconstrained: into.unconstrained,
       families: into.families,
       ruleSetFamilies: into.ruleSetFamilies,
       items: into.items,
@@ -1058,6 +1073,7 @@ export class SchemaResolver {
         const parameters: readonly string[] | undefined = this.parametersOf(value.family, value.callee);
         if (parameters === undefined) {
           into.wildcard = true;
+          into.unconstrained = true;
           return;
         }
         for (const parameter of parameters) {
@@ -1068,6 +1084,7 @@ export class SchemaResolver {
       case "any-value":
       case "opaque":
         into.wildcard = true;
+        into.unconstrained = true;
         return;
       case "primitive":
         // A colour is a block of numbers — `color = { 255 0 255 255 }`, as

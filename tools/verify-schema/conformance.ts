@@ -1186,7 +1186,12 @@ export async function checkConformance(
       // A word with no key is an item of a list, and names whatever the item
       // rules that apply here say it names, as a keyed value does.
       const itemNames: readonly string[] = meaning === undefined ? [] : namedStrings(meaning.items);
-      const itemTypes: ReferenceTargets = referenceTargets(rules.items);
+      // What an item is, by the rules that apply to this definition's variants
+      // where any do: a rule of another variant that takes any word would
+      // otherwise excuse a reference this one has to resolve.
+      const itemRules: readonly ResolvedValue[] =
+        meaning !== undefined && meaning.items.length > 0 ? meaning.items : rules.items;
+      const itemTypes: ReferenceTargets = referenceTargets(itemRules);
 
       // An `else` belongs to the `if` read just before it, as `validate` reads
       // a mod's blocks.
@@ -1229,7 +1234,7 @@ export async function checkConformance(
         if (entry.kind === NodeKind.Scalar) {
           checkStrings(trail, "<item>", scalarText(entry), itemNames, file);
           checkReference(trail, "<item>", scalarText(entry), itemTypes, file);
-          checkFile(trail, "<item>", scalarText(entry), rules.items, file);
+          checkFile(trail, "<item>", scalarText(entry), itemRules, file);
           continue;
         }
 
@@ -1324,8 +1329,10 @@ export async function checkConformance(
 
         if (!identityField && entry.value.kind === NodeKind.Scalar) {
           checkStrings(trail, key, scalarText(entry.value), namedStrings(applicable), file);
-          checkReference(trail, key, scalarText(entry.value), referenceTargets(resolution.values), file);
-          checkFile(trail, key, scalarText(entry.value), resolution.values, file);
+          // By the rules of this definition's own variants, where any apply.
+          const read: readonly ResolvedValue[] = applicable.length > 0 ? applicable : resolution.values;
+          checkReference(trail, key, scalarText(entry.value), referenceTargets(read), file);
+          checkFile(trail, key, scalarText(entry.value), read, file);
         }
 
         // Outside a trigger nothing reads the operator, unless the rule for the

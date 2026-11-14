@@ -67,6 +67,26 @@ describe("inline scripts", () => {
     ]);
   });
 
+  it("does not take a bracket in a string or a comment for the end of an optional block", () => {
+    const text = '[[TIER] name = "]" # ]\n tier = $TIER$ ] after = 1';
+
+    expect(
+      instantiate(text, new Map([["TIER", "2"]]))
+        .replaceAll(/\s+/gu, " ")
+        .trim(),
+    ).toBe('name = "]" # ] tier = 2 after = 1');
+    expect(instantiate(text, new Map<string, string>()).trim()).toBe("after = 1");
+  });
+
+  it("reaches a script called inside a block written with no equals sign", () => {
+    const document = expandInlineScripts(
+      parse("spriteTypes = { spriteType { inline_script = icon } }").document,
+      (name) => (name === "icon" ? 'name = "GFX_sts_icon"' : undefined),
+    );
+
+    expect(definitionIds(typeOf("sprite"), document, "x.gfx").map((claim) => claim.id)).toEqual(["GFX_sts_icon"]);
+  });
+
   it("leaves a call to a script it cannot find where it stands", () => {
     const document = parse("inline_script = { script = nowhere/at_all }").document;
 

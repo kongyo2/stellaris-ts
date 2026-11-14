@@ -13,9 +13,20 @@ import { NodeKind, type Block, type Document, type EntryNode } from "../syntax/i
  *
  * Keys are matched without regard to case, as the game reads them. A mesh
  * with no animation is recorded with none, which is not the same as a mesh
- * nothing is known of.
+ * nothing is known of — nor as one that holds script this cannot read: an
+ * `inline_script` may declare the animations, and so may a `[[PARAM] … ]`
+ * block. Such a mesh is named in `unreadable`, when the caller asks.
  */
-export function meshAnimationsOf(document: Document, into: Map<string, Set<string>>): void {
+export function meshAnimationsOf(document: Document, into: Map<string, Set<string>>, unreadable?: Set<string>): void {
+  /** Whether a block holds something that may add entries this cannot see. */
+  const opaque = (entries: readonly EntryNode[]): boolean =>
+    entries.some(
+      (entry) =>
+        entry.kind === NodeKind.OptionalBlock ||
+        entry.kind === NodeKind.Error ||
+        (entry.kind === NodeKind.Assignment && String(entry.key.value).toLowerCase() === "inline_script"),
+    );
+
   const blocksUnder = (entries: readonly EntryNode[], key: string): Block[] =>
     entries.flatMap((entry) =>
       entry.kind === NodeKind.Assignment &&
@@ -44,13 +55,20 @@ export function meshAnimationsOf(document: Document, into: Map<string, Set<strin
         continue;
       }
       const ids: Set<string> = into.get(name) ?? new Set<string>();
+      let readable: boolean = !opaque(mesh.entries);
       for (const animation of blocksUnder(mesh.entries, "animation")) {
         const id: string | undefined = scalarUnder(animation, "id");
-        if (id !== undefined) {
+        if (id !== undefined && !id.includes("$") && !id.startsWith("@")) {
           ids.add(id);
+        } else {
+          readable = false;
         }
+        readable &&= !opaque(animation.entries);
       }
       into.set(name, ids);
+      if (!readable) {
+        unreadable?.add(name);
+      }
     }
   }
 }

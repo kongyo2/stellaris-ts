@@ -269,12 +269,16 @@ function ownMeshAnimations(
   parsed: ReadonlyMap<string, Document>,
 ): ReadonlyMap<string, ReadonlySet<string> | null> {
   const fromFiles = new Map<string, Set<string>>();
+  const unreadable = new Set<string>();
 
   for (const document of parsed.values()) {
-    meshAnimationsOf(document, fromFiles);
+    meshAnimationsOf(document, fromFiles, unreadable);
   }
 
   const meshes = new Map<string, ReadonlySet<string> | null>(fromFiles);
+  for (const name of unreadable) {
+    meshes.set(name, null);
+  }
 
   for (const definition of definitions) {
     if (definition.type !== "model_mesh") {
@@ -285,7 +289,7 @@ function ownMeshAnimations(
     // and `raw()` the script it holds, parsed.
     const body: LoadBlock = loadBlockOf(definition.body);
     const ids = new Set<string>(fromFiles.get(definition.id));
-    let readable: boolean = !body.open;
+    let readable: boolean = !body.open && !unreadable.has(definition.id);
 
     for (const entry of body.entries) {
       if (entry.key?.toLowerCase() !== "animation") {
@@ -749,13 +753,14 @@ function checkValue(
   key: string,
   value: unknown,
   resolution: KeyResolution,
+  read: readonly ResolvedValue[],
 ): void {
   const values: readonly ResolvedValue[] = resolution.values;
 
   // A reference to something neither vanilla nor this mod defines fails when the
   // game reaches it, which can be a long way into a session. The types a key
   // may point at are alternatives: a name is unresolved when it is none of them.
-  const pointsAt: ReferenceTargets = referenceTargets(values);
+  const pointsAt: ReferenceTargets = referenceTargets(read);
 
   if (pointsAt.types.length > 0) {
     const candidates: readonly unknown[] = Array.isArray(value) ? value : [value];
@@ -1101,13 +1106,14 @@ function checkItems(
   // to this definition. `tags = { … }` names strings in one type and is a list
   // of words in another, and `meaning` is what tells them apart.
   const itemNames: readonly string[] = meaning === undefined ? [] : namedStrings(meaning.items);
+  const read: readonly ValueRule[] = meaning !== undefined && meaning.items.length > 0 ? meaning.items : rules.items;
 
   for (const item of items) {
     if (!isBlockLike(item)) {
-      checkItem(walker, definition, around, key, item, rules.items);
+      checkItem(walker, definition, around, key, item, read);
       if (typeof item === "string") {
         checkNamedStrings(walker, definition, around, item, itemNames, key, true);
-        checkNamedFile(walker, definition, around, key, item, rules.items);
+        checkNamedFile(walker, definition, around, key, item, read);
       }
     } else if (itemRules !== undefined) {
       const itemMeaning: BlockRules | undefined =
@@ -1305,7 +1311,12 @@ function walkBlock(
         });
       }
 
-      checkValue(walker, definition, path, key, value, resolution);
+      // What the value names, by the rules of this definition's own variants
+      // where any apply: a rule of another variant that takes any word would
+      // otherwise excuse a reference this one has to resolve.
+      const read: readonly ResolvedValue[] = applicable.length > 0 ? applicable : resolution.values;
+
+      checkValue(walker, definition, path, key, value, resolution, read);
       checkScope(walker, definition, path, key, resolution, scope);
 
       if (typeof value === "string" && namesScope(applicable)) {
@@ -1314,7 +1325,7 @@ function walkBlock(
 
       if (typeof value === "string") {
         checkNamedStrings(walker, definition, path, value, namedStrings(applicable), key, false);
-        checkNamedFile(walker, definition, path, key, value, resolution.values);
+        checkNamedFile(walker, definition, path, key, value, read);
       }
 
       if (walker.macroKeys.has(key.toLowerCase())) {

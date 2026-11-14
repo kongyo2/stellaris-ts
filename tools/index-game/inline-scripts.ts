@@ -58,6 +58,23 @@ function closingBracket(text: string, start: number): number {
 
   for (let index = start; index < text.length; index += 1) {
     const character: string = text.charAt(index);
+    // A bracket in a string or a comment closes nothing: `name = "]"`.
+    if (character === '"') {
+      const end: number = text.indexOf('"', index + 1);
+      if (end < 0) {
+        return -1;
+      }
+      index = end;
+      continue;
+    }
+    if (character === "#") {
+      const end: number = text.indexOf("\n", index);
+      if (end < 0) {
+        return -1;
+      }
+      index = end;
+      continue;
+    }
     if (character === "[") {
       depth += 1;
     } else if (character === "]") {
@@ -178,6 +195,12 @@ function expandEntries(entries: readonly EntryNode[], load: InlineScriptLoader, 
 
     if (entry.kind === NodeKind.Block) {
       out.push({ ...entry, entries: expandEntries(entry.entries, load, depth) });
+      continue;
+    }
+
+    // `spriteType { … }`, a block written after a word with no `=`.
+    if (entry.kind === NodeKind.PrefixedBlock) {
+      out.push({ ...entry, block: { ...entry.block, entries: expandEntries(entry.block.entries, load, depth) } });
       continue;
     }
 
