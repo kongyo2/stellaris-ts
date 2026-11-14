@@ -932,7 +932,11 @@ export async function checkConformance(
     // whether what ships with this package finds every file the game does.
     fileExists: (path: string): boolean => shippedFiles.has(foldedPath(path)),
     meshAnimations: (mesh: string): readonly string[] | undefined =>
-      vanillaMeshAnimations[mesh] ?? (known("model_mesh")?.has(mesh) === true ? [] : undefined),
+      Object.hasOwn(vanillaMeshAnimations, mesh)
+        ? vanillaMeshAnimations[mesh]
+        : known("model_mesh")?.has(mesh) === true
+          ? []
+          : undefined,
   };
 
   const resolver = new SchemaResolver(model, {

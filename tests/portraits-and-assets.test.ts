@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { define } from "../src/builders/index.js";
-import { defineMod, entries, repeated, type Mod } from "../src/index.js";
+import { defineMod, emit, entries, raw, repeated, type Mod } from "../src/index.js";
 import { validate, type ValidationDiagnostic } from "../src/validate/index.js";
 import { vanillaModsCompatibilityVersion } from "../src/generated/vanilla/game-version.js";
 
@@ -223,6 +223,22 @@ describe("files a definition names", () => {
     expect(reported(vanilla, "missing-file")).toEqual([]);
   });
 
+  it("does not count the base game's files in a directory the mod replaces", () => {
+    const replacing = (): Mod =>
+      defineMod({
+        name: "Portraits",
+        version: "1",
+        supportedVersion: SUPPORTED_VERSION,
+        replacePaths: ["gfx/models/portraits/biogenesis"],
+      }).add(mesh("gfx/models/portraits/biogenesis/bio_01_portrait_01_f_01.mesh"));
+    const shipped = replacing();
+    shipped.asset("gfx/models/portraits/biogenesis/bio_01_portrait_01_f_01.mesh", new Uint8Array());
+
+    // The game reads none of its own files from there, so the mesh is gone.
+    expect(reported(replacing(), "missing-file")).toEqual(["sts_mesh"]);
+    expect(reported(shipped, "missing-file")).toEqual([]);
+  });
+
   it("looks for an animation beside the file that declares it", () => {
     const animation = define(
       "model_animation",
@@ -299,6 +315,35 @@ describe("the animation a state plays", () => {
     );
   });
 
+  it("reads an animation written with raw(), and says nothing of a mesh it cannot read", () => {
+    const written = (animation: ReturnType<typeof raw>) =>
+      define(
+        "model_mesh",
+        "sts_mesh",
+        { file: "gfx/models/portraits/biogenesis/bio_01_portrait_01_f_01.mesh", animation },
+        { file: "portraits/sts/sts_meshes.gfx" },
+      );
+    const parsed = written(raw("{ id = idle type = humanoid_05_female_idle_animation }"));
+    const unreadable = written(raw("{ id = idle"));
+
+    expect(reported(mod().add(parsed).add(entity("idle")), "unknown-animation")).toEqual([]);
+    expect(messages(mod().add(parsed).add(entity("walk")), "unknown-animation")[0]).toContain("it declares idle");
+    // What the mesh declares is not known, which is not the same as nothing.
+    expect(reported(mod().add(unreadable).add(entity("walk")), "unknown-animation")).toEqual([]);
+  });
+
+  it("looks a mesh up by its own name, whatever every object answers to", () => {
+    const target = mod().add(
+      define("model_entity", "sts_entity", {
+        pdxmesh: "constructor",
+        state: repeated({ name: "idle", animation: "idle" }),
+      }),
+    );
+
+    expect(reported(target, "unknown-animation")).toEqual([]);
+    expect(reported(target, "unresolved-reference")).toEqual(["sts_entity"]);
+  });
+
   it("reads the ids of a mesh the base game ships, and of one in the mod's own .gfx", () => {
     const vanilla = (animation: string) =>
       mod().add(
@@ -308,8 +353,8 @@ describe("the animation a state plays", () => {
           state: repeated({ name: "idle", animation }),
         }),
       );
-    const raw = mod().add(entity("walk"));
-    raw.file({
+    const ownGfx = mod().add(entity("walk"));
+    ownGfx.file({
       path: "gfx/models/portraits/sts/sts_meshes.gfx",
       contents:
         'objectTypes = {\n\tpdxmesh = {\n\t\tname = "sts_mesh"\n\t\tfile = "gfx/models/x.mesh"\n\t\tanimation = { id = "walk" type = "x" }\n\t}\n}\n',
@@ -317,7 +362,7 @@ describe("the animation a state plays", () => {
 
     expect(reported(vanilla("idle"), "unknown-animation")).toEqual([]);
     expect(reported(vanilla("sts_no_such_id"), "unknown-animation")).toEqual(["sts_entity.state"]);
-    expect(reported(raw, "unknown-animation")).toEqual([]);
+    expect(reported(ownGfx, "unknown-animation")).toEqual([]);
   });
 });
 
@@ -361,5 +406,17 @@ describe("the keys the game's readers take", () => {
       "sts_situation.stages.sts_stage",
     ]);
     expect(reported(situation({ no_such_key: true }), "unknown-field")).toEqual(["sts_situation.stages.sts_stage"]);
+  });
+});
+
+/** The listings of the base game are plain objects, and a mod's names are its own. */
+describe("names every object answers to", () => {
+  it("can be the directory of a mod's file", () => {
+    const target = mod().add(define("building", "sts_lab", { category: "research", building_sets: ["research"] }));
+    target.file({ path: "constructor/toString.txt", contents: "a = 1\n" });
+    target.asset("gfx/interface/icons/buildings/sts_lab.dds", new Uint8Array());
+
+    expect(() => validate(target)).not.toThrow();
+    expect(() => emit(target)).not.toThrow();
   });
 });

@@ -188,6 +188,15 @@ function vanillaLocalisation(): ReadonlySet<string> {
   return vanillaKeys;
 }
 
+/**
+ * The base game's files in one directory. Its own entries only: the listing
+ * is a plain object, and a mod may well write a directory called
+ * `constructor`.
+ */
+function vanillaFilesIn(directory: string): readonly string[] {
+  return Object.hasOwn(vanillaFiles, directory) ? (vanillaFiles[directory] ?? []) : [];
+}
+
 /** Every file the base game ships, as a path from its root, lower-cased; built once. */
 let vanillaPaths: ReadonlySet<string> | undefined;
 
@@ -209,28 +218,38 @@ function vanillaFilePaths(): ReadonlySet<string> {
  * every file the mod writes — its assets, its raw files and the files its
  * definitions land in.
  *
+ * Not the base game's files in a directory the mod names in `replace_path`:
+ * the game reads none of them, so one the mod does not ship itself is not
+ * there. As the definitions of such a directory are treated, the directory is
+ * the one named and not the ones inside it.
+ *
  * Folded, as the file system the game is mostly run on folds: a texture
  * shipped as `Body.dds` is found under `body.dds` there.
  */
 function fileLookup(mod: Mod): (path: string) => boolean {
   const written = new Set<string>();
+  const hidden: ReadonlySet<string> = new Set((mod.options.replacePaths ?? []).map((path) => foldedPath(path)));
 
   for (const asset of mod.assets) {
-    written.add(normalisedPath(asset.path).toLowerCase());
+    written.add(foldedPath(asset.path));
   }
   for (const file of mod.files) {
-    written.add(normalisedPath(file.path).toLowerCase());
+    written.add(foldedPath(file.path));
   }
   for (const definition of mod.definitions) {
     const path: string | undefined = definitionFilePath(mod.options, definition);
     if (path !== undefined) {
-      written.add(path.toLowerCase());
+      written.add(foldedPath(path));
     }
   }
 
   return (path: string): boolean => {
     const wanted: string = foldedPath(path);
-    return written.has(wanted) || vanillaFilePaths().has(wanted);
+    if (written.has(wanted)) {
+      return true;
+    }
+    const slash: number = wanted.lastIndexOf("/");
+    return !hidden.has(slash < 0 ? "" : wanted.slice(0, slash)) && vanillaFilePaths().has(wanted);
   };
 }
 
@@ -238,38 +257,57 @@ function fileLookup(mod: Mod): (path: string) => boolean {
  * The animation ids each mesh this mod defines gives its animations, by mesh:
  * the ones written with `define`, and the ones in a `.gfx` the mod ships as a
  * raw file.
+ *
+ * `null` for a mesh whose animations cannot all be read — one written with
+ * `raw()` that does not parse, an `inline_script` in the mesh, an id only the
+ * game can work out. Such a mesh declares something this cannot see, which is
+ * not the same as declaring nothing: read as none, every state of its entity
+ * was told its mesh is not animated.
  */
 function ownMeshAnimations(
   definitions: readonly DefinitionRecord[],
   parsed: ReadonlyMap<string, Document>,
-): ReadonlyMap<string, ReadonlySet<string>> {
-  const meshes = new Map<string, Set<string>>();
+): ReadonlyMap<string, ReadonlySet<string> | null> {
+  const fromFiles = new Map<string, Set<string>>();
 
   for (const document of parsed.values()) {
-    meshAnimationsOf(document, meshes);
+    meshAnimationsOf(document, fromFiles);
   }
+
+  const meshes = new Map<string, ReadonlySet<string> | null>(fromFiles);
 
   for (const definition of definitions) {
     if (definition.type !== "model_mesh") {
       continue;
     }
 
-    const ids: Set<string> = meshes.get(definition.id) ?? new Set<string>();
+    // As the load checks read a body: `repeated()` is the key once per value
+    // and `raw()` the script it holds, parsed.
+    const body: LoadBlock = loadBlockOf(definition.body);
+    const ids = new Set<string>(fromFiles.get(definition.id));
+    let readable: boolean = !body.open;
 
-    for (const [key, value] of entriesOf(definition.body).keyed) {
-      if (key.toLowerCase() !== "animation") {
+    for (const entry of body.entries) {
+      if (entry.key?.toLowerCase() !== "animation") {
         continue;
       }
-      for (const occurrence of occurrencesOf(value)) {
-        for (const [field, id] of entriesOf(occurrence).keyed) {
-          if (field.toLowerCase() === "id" && (typeof id === "string" || typeof id === "number")) {
-            ids.add(String(id));
-          }
+      if (entry.value.kind !== "block" || entry.value.open) {
+        readable = false;
+        continue;
+      }
+      for (const field of entry.value.entries) {
+        if (field.key?.toLowerCase() !== "id") {
+          continue;
+        }
+        if (field.value.kind === "scalar" && !isIndirect(field.value.text)) {
+          ids.add(field.value.text);
+        } else {
+          readable = false;
         }
       }
     }
 
-    meshes.set(definition.id, ids);
+    meshes.set(definition.id, readable ? ids : null);
   }
 
   return meshes;
@@ -1609,7 +1647,7 @@ function replacedVanillaFiles(mod: Mod): ReadonlyMap<string, ReadonlySet<string>
     const slash: number = path.lastIndexOf("/");
     const directory: string = slash < 0 ? "" : path.slice(0, slash);
     const name: string = path.slice(slash + 1).toLowerCase();
-    const shipped: string | undefined = (vanillaFiles[directory] ?? []).find((other) => other.toLowerCase() === name);
+    const shipped: string | undefined = vanillaFilesIn(directory).find((other) => other.toLowerCase() === name);
 
     if (shipped !== undefined) {
       const bucket: Set<string> = replaced.get(directory) ?? new Set<string>();
@@ -1718,7 +1756,7 @@ function vanillaOverride(
   const dot: number = name.lastIndexOf(".");
   const extension: string = dot < 0 ? "" : name.slice(dot).toLowerCase();
   // Only the files the game reads the type from take part in the order.
-  const others: readonly string[] = (vanillaFiles[directory] ?? []).filter((other) =>
+  const others: readonly string[] = vanillaFilesIn(directory).filter((other) =>
     other.toLowerCase().endsWith(extension),
   );
   const kept: string = `the game keeps the ${precedence} ${definition.type} of an id it reads`;
@@ -1842,14 +1880,22 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     // A mesh the mod defines is the mod's, whatever the base game calls its
     // own; one of the base game's that is not listed declares no animation.
     meshAnimations: (mesh: string): readonly string[] | undefined => {
-      const own: ReadonlySet<string> | undefined = meshAnimations.get(mesh);
+      const own: ReadonlySet<string> | null | undefined = meshAnimations.get(mesh);
       if (own !== undefined) {
-        return [...own];
+        return own === null ? undefined : [...own];
       }
-      return vanillaMeshAnimations[mesh] ?? (known("model_mesh")?.has(mesh) === true ? [] : undefined);
+      // Its own entries only: a mesh may be called `constructor`, and the
+      // list is a plain object.
+      if (Object.hasOwn(vanillaMeshAnimations, mesh)) {
+        return vanillaMeshAnimations[mesh];
+      }
+      return known("model_mesh")?.has(mesh) === true ? [] : undefined;
     },
   };
-  const meshAnimations: ReadonlyMap<string, ReadonlySet<string>> = ownMeshAnimations(mod.definitions, parsedFiles);
+  const meshAnimations: ReadonlyMap<string, ReadonlySet<string> | null> = ownMeshAnimations(
+    mod.definitions,
+    parsedFiles,
+  );
   let engineModifiers: ReadonlySet<string> | undefined;
   const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
