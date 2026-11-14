@@ -144,7 +144,13 @@ import { validate } from "@kongyo2/stellaris-ts/validate";
 What it reports:
 
 - a key no rule accepts, anywhere in the body — `allow = { has_country_flagg = yes }`
-  is caught inside `allow`, and inside anything inside that;
+  is caught inside `allow`, and inside anything inside that, and inside a
+  block written under a name of your own choosing, such as each entry of
+  `common/species_names` and each stage of a situation;
+- a key the game's own reader of the definition does not take, which it logs
+  as an `Unexpected token` and skips: a species class that still lists its
+  `portraits`, which since 4.0 belong in a `portrait_set`, or a leader trait
+  marked `destiny_trait` where the game now reads `leader_trait_type`;
 - a modifier name the game does not generate, including the ones the mod's own
   definitions bring into existence — and a static modifier's name is a key of a
   modifier block too, the mod's own as much as the base game's
@@ -165,7 +171,23 @@ What it reports:
   runs with none, and so does every scripted effect it calls;
 - a reference to something neither the base game nor the mod defines,
   counting what the mod's own raw files define — a sprite in its `.gfx`, a
-  scripted trigger written by hand;
+  scripted trigger written by hand — and what the base game defines through
+  an `inline_script`: the name list an entry of `common/species_names` draws
+  from, the species class a `portrait_set` belongs to, each portrait it lists
+  and each set a `portrait_category` shows;
+- a file a definition names that neither the base game nor the mod ships: a
+  mesh's `file`, a sprite's `textureFile`, each of a portrait's
+  `character_textures`, the icon a building is drawn from —
+  `gfx/interface/icons/buildings/<icon>.dds`, or the file of its own key when
+  it names none — and an animation's `file`, which the game looks for beside
+  the file that declares it rather than from the root of the game folder;
+- a state of an entity that plays an animation its mesh does not declare: a
+  state names one of the mesh's own `animation = { id = … }`, not an
+  animation, and one that names anything else stands frozen;
+- a block of species names written under a key that is no species class,
+  none of which the game reads; a `portrait_set` whose `uplifted_portraits`
+  is shorter than its `portraits`, which are paired by position, or that
+  writes a condition twice in one `conditional_portraits`;
 - a name the game builds and cannot find: the entity a ship size is drawn
   with, `<key>_entity` when it names none, and the sprite
   `GFX_<key>_outliner_icon` the outliner shows a megastructure by;
@@ -188,9 +210,9 @@ What it reports:
   after either, since it reads an event's fields in order; a window with no
   title, desc, picture or option, and a hidden event with options; an option
   holding both `trigger` and `exclusive_trigger`;
-- a building in no `building_sets`, which no zone's slots admit; a district
-  with no `zone_slots`, which the game says will crash it; a game concept
-  whose key does not start with `concept_`;
+- a building in no `building_sets`, which no zone's slots admit, or with no
+  `category`; a district with no `zone_slots`, which the game says will crash
+  it; a game concept whose key does not start with `concept_`;
 - an `else` or an `else_if` that does not follow an `if`: the game matches it
   to the effect read just before it in the same block, and drops the branch
   when that is anything else;
@@ -220,10 +242,21 @@ Everything reported is measured against the installed game rather than inferred:
 the base game's own script passes this checker except where vanilla itself is
 wrong, and each of those is listed by name — a line it writes and the game
 drops, an event whose trigger reads a country flag where there is no country,
-28 strings it names and never wrote, and 40 definitions that lack a string the
-rest of their type has. What the game logs is held to the same measure: its
-10,023 events, 3,371 scripted effects and triggers and 4,392 `else` branches
-pass the checks above without one finding, as they load without one line.
+28 strings it names and never wrote, 40 definitions that lack a string the
+rest of their type has, 19 names it refers to that nothing defines and 4
+files it names and does not ship. The rest of the 246,836 references and
+32,678 files its definitions name resolve. What the game logs is held to the
+same measure: its 10,023 events, 3,371 scripted effects and triggers, 4,663
+`else` branches and the 6,346 animations the states of its 8,429 entities
+play pass the checks above without one finding, as they load without one
+line.
+
+The keys a definition takes are measured against the game as well. Each
+definition is read by a function of the executable that switches on the key,
+and following that switch for every keyword the executable registers gives
+the keys each reader takes: the ones the ported rules declared and no reader
+takes are gone, and the ones a reader takes that the base game never happens
+to write are accepted.
 
 The parser underneath is measured the same way. Its token boundaries are the
 game's own, read out of the executable rather than inferred from what script

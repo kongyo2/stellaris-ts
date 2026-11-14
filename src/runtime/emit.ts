@@ -653,7 +653,8 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
       const separator: number = file.path.lastIndexOf("/");
       const directory: string = separator < 0 ? "" : file.path.slice(0, separator);
       const name: string = file.path.slice(separator + 1);
-      const known: readonly string[] | undefined = listing[directory];
+      // Its own entries only: the listing is a plain object.
+      const known: readonly string[] | undefined = Object.hasOwn(listing, directory) ? listing[directory] : undefined;
 
       // Folded, for the same reason the duplicate check is: `gfx/icon.dds` and
       // the `gfx/Icon.dds` vanilla ships are one file wherever the filesystem
@@ -674,7 +675,7 @@ export function emit(mod: Mod, options: EmitOptions = {}): EmitPlan {
   for (const path of mod.options.replacePaths ?? []) {
     const normalised: string = path.replaceAll("\\", "/").replace(/\/+$/u, "");
 
-    if (Object.keys(listing).length > 0 && listing[normalised] === undefined) {
+    if (Object.keys(listing).length > 0 && !Object.hasOwn(listing, normalised)) {
       diagnostics.push({
         severity: "error",
         code: "unknown-replace-path",

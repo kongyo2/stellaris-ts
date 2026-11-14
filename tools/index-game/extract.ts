@@ -12,7 +12,9 @@ import {
 } from "../../src/syntax/index.js";
 import { definitionIds } from "../../src/schema/definition-ids.js";
 import { captureFromDocument } from "../../src/schema/extraction.js";
+import { meshAnimationsOf } from "../../src/schema/mesh-animations.js";
 import { gameDeclaredFieldTypes } from "../../src/schema/open-fields.js";
+import { expandInlineScripts, readsToTheEnd, type InlineScriptLoader } from "./inline-scripts.js";
 import type { DefinitionType, EnumDefinition, SchemaModel } from "../../src/schema/ir.js";
 
 /**
@@ -129,6 +131,16 @@ export interface GameIndex {
    * only from the callee's body, which is why it is indexed rather than listed.
    */
   readonly scriptedParameters: Readonly<Record<string, readonly string[]>>;
+  /**
+   * The animation ids each animated mesh declares: the `id` of every
+   * `animation = { id = … type = … }` in its `pdxmesh` block.
+   *
+   * A state of an entity plays one of its mesh's ids, not an animation by
+   * name, and the game logs a state that names anything else. Which ids a
+   * mesh has is only in the mesh, so they are indexed with it. A mesh with
+   * none is left out.
+   */
+  readonly meshAnimations: Readonly<Record<string, readonly string[]>>;
 }
 
 /**
@@ -293,12 +305,13 @@ function definitionTags(type: DefinitionType, document: Document, into: Set<stri
   }
 
   const filter = type.source.rootKeyFilter;
+  const named: readonly string[] = (filter?.values ?? []).map((value) => value.toLowerCase());
   const accepted = (key: string): boolean =>
     filter === undefined
       ? true
       : filter.mode === "include"
-        ? filter.values.includes(key)
-        : !filter.values.includes(key);
+        ? named.includes(key.toLowerCase())
+        : !named.includes(key.toLowerCase());
 
   const nameField: string = type.source.nameField;
   const container = type.source.container;
@@ -306,7 +319,9 @@ function definitionTags(type: DefinitionType, document: Document, into: Set<stri
   const claim = (key: string, body: Block): void => {
     // Only a block that carries the name field is a definition of this type;
     // the settings blocks beside them are not.
-    if (body.entries.some((field) => keyOf(field) === nameField)) {
+    // The game reads a key without regard to case, and vanilla writes a
+    // special project's `KEY` both ways.
+    if (body.entries.some((field) => keyOf(field)?.toLowerCase() === nameField.toLowerCase())) {
       into.add(key.replace(/^"|"$/gu, ""));
     }
   };
@@ -320,7 +335,7 @@ function definitionTags(type: DefinitionType, document: Document, into: Set<stri
     }
 
     if (container !== undefined) {
-      if (container.kind !== "any-container" && container.key !== key) {
+      if (container.kind !== "any-container" && container.key.toLowerCase() !== key.toLowerCase()) {
         continue;
       }
       for (const nested of block.entries) {
@@ -354,12 +369,13 @@ function extensionOf(fileName: string): string {
  */
 function definitionFieldKeys(type: DefinitionType, document: Document, into: Set<string>): void {
   const filter = type.source.rootKeyFilter;
+  const named: readonly string[] = (filter?.values ?? []).map((value) => value.toLowerCase());
   const accepted = (key: string): boolean =>
     filter === undefined
       ? true
       : filter.mode === "include"
-        ? filter.values.includes(key)
-        : !filter.values.includes(key);
+        ? named.includes(key.toLowerCase())
+        : !named.includes(key.toLowerCase());
 
   const claim = (body: Block): void => {
     for (const entry of body.entries) {
@@ -392,7 +408,7 @@ function definitionFieldKeys(type: DefinitionType, document: Document, into: Set
       continue;
     }
 
-    if (container.kind === "any-container" || container.key === key) {
+    if (container.kind === "any-container" || container.key.toLowerCase() === key.toLowerCase()) {
       for (const nested of block.entries) {
         const nestedKey: string | undefined = keyOf(nested);
         const nestedBlock: Block | undefined = blockOf(nested);
@@ -406,6 +422,32 @@ function definitionFieldKeys(type: DefinitionType, document: Document, into: Set
 
 export async function indexGame(model: SchemaModel, gamePath: string, version: string): Promise<GameIndex> {
   let filesRead = 0;
+
+  // The script files an `inline_script` names, read once each: 628 of them,
+  // named from 6,917 places.
+  const inlineScripts = new Map<string, string | undefined>();
+  const inlineScriptTexts = new Map<string, string>();
+  const inlineScriptRoot: string = join(gamePath, "common", "inline_scripts");
+  await mapWithLimit(await collectFiles(inlineScriptRoot, true), READ_CONCURRENCY, async (file): Promise<void> => {
+    const name: string = file
+      .slice(inlineScriptRoot.length + 1)
+      .replaceAll("\\", "/")
+      .replace(/\.txt$/iu, "");
+    inlineScriptTexts.set(
+      name.toLowerCase(),
+      new TextDecoder("utf-8", { ignoreBOM: true }).decode(await readFile(file)),
+    );
+  });
+  const loadInlineScript: InlineScriptLoader = (name: string): string | undefined => {
+    const key: string = name
+      .replaceAll("\\", "/")
+      .replace(/\.txt$/iu, "")
+      .toLowerCase();
+    if (!inlineScripts.has(key)) {
+      inlineScripts.set(key, inlineScriptTexts.get(key));
+    }
+    return inlineScripts.get(key);
+  };
 
   /**
    * Streams one directory's documents past a visitor.
@@ -432,11 +474,14 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
       const result = parse(source);
       filesRead += 1;
 
-      if (result.errors.length > 0) {
+      // A file the game reads to its end is read here too, with each
+      // `inline_script` replaced by what it injects: the definitions those
+      // write are definitions.
+      if (!readsToTheEnd(result)) {
         return;
       }
 
-      visit(file.split(/[\\/]/u).at(-1) ?? "", result.document);
+      visit(file.split(/[\\/]/u).at(-1) ?? "", expandInlineScripts(result.document, loadInlineScript));
     });
   };
 
@@ -537,6 +582,17 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     }),
   );
 
+  const meshes = new Map<string, Set<string>>();
+  await forEachDocument("gfx", true, (_fileName, document) => {
+    meshAnimationsOf(document, meshes);
+  });
+  const meshAnimations: Record<string, readonly string[]> = {};
+  for (const [name, ids] of [...meshes].sort(([left], [right]) => compareOrdinal(left, right))) {
+    if (ids.size > 0) {
+      meshAnimations[name] = [...ids].sort(compareOrdinal);
+    }
+  }
+
   const vanillaFiles: Record<string, string[]> = {};
   const directories: readonly { readonly path: string; readonly recurse: boolean }[] = [
     ...new Map(
@@ -587,6 +643,7 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     ...(await collectLocalisation(gamePath)),
     fieldNames,
     scriptedParameters,
+    meshAnimations,
   };
 }
 

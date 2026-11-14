@@ -7265,6 +7265,18 @@ export type VanillaComponentTemplateId =
   | "ANTIMATTER_LAUNCHER_LARGE"
   | "ANTIMATTER_LAUNCHER_MEDIUM"
   | "ANTIMATTER_LAUNCHER_SMALL"
+  | "ANTI_EVASION_GUN_1"
+  | "ANTI_EVASION_GUN_2"
+  | "ANTI_EVASION_GUN_3"
+  | "ANTI_EVASION_GUN_4"
+  | "ANTI_EVASION_GUN_5"
+  | "ANTI_EVASION_GUN_6"
+  | "ANTI_FIRE_RATE_GUN_1"
+  | "ANTI_FIRE_RATE_GUN_2"
+  | "ANTI_FIRE_RATE_GUN_3"
+  | "ANTI_FIRE_RATE_GUN_4"
+  | "ANTI_FIRE_RATE_GUN_5"
+  | "ANTI_FIRE_RATE_GUN_6"
   | "ARCHAEO_ION"
   | "ARCHAEO_MISSILE"
   | "ARCHAEO_POINTDEFENCE"
@@ -7336,6 +7348,10 @@ export type VanillaComponentTemplateId =
   | "BEHEMOTH_PROPULSION_4"
   | "BEHEMOTH_TITAN_WEAPON"
   | "BEHOLDER_CLOUD_LIGHTNING"
+  | "BERSERKER_GLANDS_EXTRA_LARGE"
+  | "BERSERKER_GLANDS_LARGE"
+  | "BERSERKER_GLANDS_MEDIUM"
+  | "BERSERKER_GLANDS_SMALL"
   | "BIOSHIP_SENSOR_1"
   | "BIOSHIP_SENSOR_2"
   | "BIOSHIP_SENSOR_3"
@@ -7447,6 +7463,31 @@ export type VanillaComponentTemplateId =
   | "BIO_POINT_DEFENCE_2"
   | "BIO_POINT_DEFENCE_3"
   | "BIO_PROPULSION"
+  | "BIO_PROPULSION_1_BATTLESHIP"
+  | "BIO_PROPULSION_1_CORVETTE"
+  | "BIO_PROPULSION_1_CRUISER"
+  | "BIO_PROPULSION_1_DESTROYER"
+  | "BIO_PROPULSION_1_TITAN"
+  | "BIO_PROPULSION_2_BATTLESHIP"
+  | "BIO_PROPULSION_2_CORVETTE"
+  | "BIO_PROPULSION_2_CRUISER"
+  | "BIO_PROPULSION_2_DESTROYER"
+  | "BIO_PROPULSION_2_TITAN"
+  | "BIO_PROPULSION_3_BATTLESHIP"
+  | "BIO_PROPULSION_3_CORVETTE"
+  | "BIO_PROPULSION_3_CRUISER"
+  | "BIO_PROPULSION_3_DESTROYER"
+  | "BIO_PROPULSION_3_TITAN"
+  | "BIO_PROPULSION_4_BATTLESHIP"
+  | "BIO_PROPULSION_4_CORVETTE"
+  | "BIO_PROPULSION_4_CRUISER"
+  | "BIO_PROPULSION_4_DESTROYER"
+  | "BIO_PROPULSION_4_TITAN"
+  | "BIO_PROPULSION_5_BATTLESHIP"
+  | "BIO_PROPULSION_5_CORVETTE"
+  | "BIO_PROPULSION_5_CRUISER"
+  | "BIO_PROPULSION_5_DESTROYER"
+  | "BIO_PROPULSION_5_TITAN"
   | "BIO_PSIONIC_LIGHTNING"
   | "BIO_PSIONIC_STRIKE_CRAFT"
   | "BIO_PSIONIC_TORPEDO"
@@ -7474,6 +7515,26 @@ export type VanillaComponentTemplateId =
   | "BLUE_EYE_BEAM_MEDIUM"
   | "BLUE_EYE_BEAM_SMALL"
   | "BOARDING_CABLES_MODULES"
+  | "CAMOUFLAGE_1_EXTRA_LARGE"
+  | "CAMOUFLAGE_1_LARGE"
+  | "CAMOUFLAGE_1_MEDIUM"
+  | "CAMOUFLAGE_1_SMALL"
+  | "CAMOUFLAGE_2_EXTRA_LARGE"
+  | "CAMOUFLAGE_2_LARGE"
+  | "CAMOUFLAGE_2_MEDIUM"
+  | "CAMOUFLAGE_2_SMALL"
+  | "CAMOUFLAGE_3_EXTRA_LARGE"
+  | "CAMOUFLAGE_3_LARGE"
+  | "CAMOUFLAGE_3_MEDIUM"
+  | "CAMOUFLAGE_3_SMALL"
+  | "CAMOUFLAGE_4_EXTRA_LARGE"
+  | "CAMOUFLAGE_4_LARGE"
+  | "CAMOUFLAGE_4_MEDIUM"
+  | "CAMOUFLAGE_4_SMALL"
+  | "CAMOUFLAGE_5_EXTRA_LARGE"
+  | "CAMOUFLAGE_5_LARGE"
+  | "CAMOUFLAGE_5_MEDIUM"
+  | "CAMOUFLAGE_5_SMALL"
   | "CARAPACE_BIO_TORPEDOES_EXTRA_LARGE"
   | "CARAPACE_BIO_TORPEDOES_LARGE"
   | "CARAPACE_BIO_TORPEDOES_MEDIUM"
@@ -7481,6 +7542,10 @@ export type VanillaComponentTemplateId =
   | "CARAVANEER_WEAPON_1"
   | "CARAVANEER_WEAPON_2"
   | "CARAVANEER_WEAPON_3"
+  | "CATALYTIC_BLADDER_EXTRA_LARGE"
+  | "CATALYTIC_BLADDER_LARGE"
+  | "CATALYTIC_BLADDER_MEDIUM"
+  | "CATALYTIC_BLADDER_SMALL"
   | "CERAMO_CHITIN_CARAPACE_EXTRA_LARGE"
   | "CERAMO_CHITIN_CARAPACE_LARGE"
   | "CERAMO_CHITIN_CARAPACE_MEDIUM"
@@ -7558,11 +7623,21 @@ export type VanillaComponentTemplateId =
   | "COMBAT_COMPUTER_TORPEDO_DEFAULT"
   | "COMBAT_COMPUTER_TORPEDO_PRECOG"
   | "COMBAT_COMPUTER_TORPEDO_SAPIENT"
+  | "COMBAT_SYNAPSES_EXTRA_LARGE"
+  | "COMBAT_SYNAPSES_LARGE"
+  | "COMBAT_SYNAPSES_MEDIUM"
+  | "COMBAT_SYNAPSES_SMALL"
   | "COMPOSER_BLESSING_EXTRA_LARGE"
   | "COMPOSER_BLESSING_LARGE"
   | "COMPOSER_BLESSING_MEDIUM"
   | "COMPOSER_BLESSING_SMALL"
   | "COMPOSER_MARK"
+  | "CONFUSER_GUN_1"
+  | "CONFUSER_GUN_2"
+  | "CONFUSER_GUN_3"
+  | "CONFUSER_GUN_4"
+  | "CONFUSER_GUN_5"
+  | "CONFUSER_GUN_6"
   | "CORVETTE_ANTIMATTER_REACTOR"
   | "CORVETTE_BIO_ANTIMATTER_REACTOR"
   | "CORVETTE_BIO_COLD_FUSION_REACTOR"
@@ -7735,8 +7810,23 @@ export type VanillaComponentTemplateId =
   | "ENIGMATIC_ENCODER_CHIP_LARGE"
   | "ENIGMATIC_ENCODER_CHIP_MEDIUM"
   | "ENIGMATIC_ENCODER_CHIP_SMALL"
+  | "EVASION_GUN_1"
+  | "EVASION_GUN_2"
+  | "EVASION_GUN_3"
+  | "EVASION_GUN_4"
+  | "EVASION_GUN_5"
+  | "EVASION_GUN_6"
   | "EXTRADIMENSIONAL_STABILIZING_AURA"
   | "FIRE_CONTROL_1"
+  | "FIRE_RATE_GUN_1"
+  | "FIRE_RATE_GUN_2"
+  | "FIRE_RATE_GUN_3"
+  | "FIRE_RATE_GUN_4"
+  | "FIRE_RATE_GUN_5"
+  | "FIRE_RATE_GUN_6"
+  | "FISSILE_CORES_LARGE"
+  | "FISSILE_CORES_MEDIUM"
+  | "FISSILE_CORES_SMALL"
   | "FLAGELLA_MARSUPIUM_EXTRA_LARGE"
   | "FLAGELLA_MARSUPIUM_LARGE"
   | "FLAGELLA_MARSUPIUM_MEDIUM"
@@ -7793,6 +7883,16 @@ export type VanillaComponentTemplateId =
   | "HARBINGER_STAGE_1_GROWTH_EMPTY"
   | "HARBINGER_STAGE_2_GROWTH_1"
   | "HARBINGER_STAGE_2_GROWTH_EMPTY"
+  | "HEALING_GUN_1"
+  | "HEALING_GUN_2"
+  | "HEALING_GUN_3"
+  | "HEALING_GUN_4"
+  | "HEALING_GUN_5"
+  | "HEALING_GUN_6"
+  | "HERDSONG_CHORDS_EXTRA_LARGE"
+  | "HERDSONG_CHORDS_LARGE"
+  | "HERDSONG_CHORDS_MEDIUM"
+  | "HERDSONG_CHORDS_SMALL"
   | "HIGH_ENERGY_SKIN_EXTRA_LARGE"
   | "HIGH_ENERGY_SKIN_LARGE"
   | "HIGH_ENERGY_SKIN_MEDIUM"
@@ -8264,6 +8364,10 @@ export type VanillaComponentTemplateId =
   | "RED_EYE_BEAM_LARGE"
   | "RED_EYE_BEAM_MEDIUM"
   | "RED_EYE_BEAM_SMALL"
+  | "RESTORATIVE_ENZYMES_EXTRA_LARGE"
+  | "RESTORATIVE_ENZYMES_LARGE"
+  | "RESTORATIVE_ENZYMES_MEDIUM"
+  | "RESTORATIVE_ENZYMES_SMALL"
   | "RIPPER_THORN_CANNON_EXTRA_LARGE"
   | "RIPPER_THORN_CANNON_LARGE"
   | "RIPPER_THORN_CANNON_MEDIUM"
@@ -8490,6 +8594,10 @@ export type VanillaComponentTemplateId =
   | "STARBASE_FUSION_REACTOR"
   | "STARBASE_OFFSPRING_OUTLOOK"
   | "STARBASE_ZERO_POINT_REACTOR"
+  | "STARBORNE_BIOLOGY_EXTRA_LARGE"
+  | "STARBORNE_BIOLOGY_LARGE"
+  | "STARBORNE_BIOLOGY_MEDIUM"
+  | "STARBORNE_BIOLOGY_SMALL"
   | "STATION_LARGE_AURA_EMPTY"
   | "STATION_MEDIUM_AURA_EMPTY"
   | "STATION_MEDIUM_AURA_SHIELD_DAMPENER"
@@ -8567,6 +8675,10 @@ export type VanillaComponentTemplateId =
   | "UV_EYE_BEAM_LARGE"
   | "UV_EYE_BEAM_MEDIUM"
   | "UV_EYE_BEAM_SMALL"
+  | "VIRULENT_CYSTS_EXTRA_LARGE"
+  | "VIRULENT_CYSTS_LARGE"
+  | "VIRULENT_CYSTS_MEDIUM"
+  | "VIRULENT_CYSTS_SMALL"
   | "VOIDWORM_BITE_1"
   | "VOIDWORM_BITE_2"
   | "VOIDWORM_BITE_3"
@@ -8661,6 +8773,18 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "ANTIMATTER_LAUNCHER_LARGE",
   "ANTIMATTER_LAUNCHER_MEDIUM",
   "ANTIMATTER_LAUNCHER_SMALL",
+  "ANTI_EVASION_GUN_1",
+  "ANTI_EVASION_GUN_2",
+  "ANTI_EVASION_GUN_3",
+  "ANTI_EVASION_GUN_4",
+  "ANTI_EVASION_GUN_5",
+  "ANTI_EVASION_GUN_6",
+  "ANTI_FIRE_RATE_GUN_1",
+  "ANTI_FIRE_RATE_GUN_2",
+  "ANTI_FIRE_RATE_GUN_3",
+  "ANTI_FIRE_RATE_GUN_4",
+  "ANTI_FIRE_RATE_GUN_5",
+  "ANTI_FIRE_RATE_GUN_6",
   "ARCHAEO_ION",
   "ARCHAEO_MISSILE",
   "ARCHAEO_POINTDEFENCE",
@@ -8732,6 +8856,10 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "BEHEMOTH_PROPULSION_4",
   "BEHEMOTH_TITAN_WEAPON",
   "BEHOLDER_CLOUD_LIGHTNING",
+  "BERSERKER_GLANDS_EXTRA_LARGE",
+  "BERSERKER_GLANDS_LARGE",
+  "BERSERKER_GLANDS_MEDIUM",
+  "BERSERKER_GLANDS_SMALL",
   "BIOSHIP_SENSOR_1",
   "BIOSHIP_SENSOR_2",
   "BIOSHIP_SENSOR_3",
@@ -8843,6 +8971,31 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "BIO_POINT_DEFENCE_2",
   "BIO_POINT_DEFENCE_3",
   "BIO_PROPULSION",
+  "BIO_PROPULSION_1_BATTLESHIP",
+  "BIO_PROPULSION_1_CORVETTE",
+  "BIO_PROPULSION_1_CRUISER",
+  "BIO_PROPULSION_1_DESTROYER",
+  "BIO_PROPULSION_1_TITAN",
+  "BIO_PROPULSION_2_BATTLESHIP",
+  "BIO_PROPULSION_2_CORVETTE",
+  "BIO_PROPULSION_2_CRUISER",
+  "BIO_PROPULSION_2_DESTROYER",
+  "BIO_PROPULSION_2_TITAN",
+  "BIO_PROPULSION_3_BATTLESHIP",
+  "BIO_PROPULSION_3_CORVETTE",
+  "BIO_PROPULSION_3_CRUISER",
+  "BIO_PROPULSION_3_DESTROYER",
+  "BIO_PROPULSION_3_TITAN",
+  "BIO_PROPULSION_4_BATTLESHIP",
+  "BIO_PROPULSION_4_CORVETTE",
+  "BIO_PROPULSION_4_CRUISER",
+  "BIO_PROPULSION_4_DESTROYER",
+  "BIO_PROPULSION_4_TITAN",
+  "BIO_PROPULSION_5_BATTLESHIP",
+  "BIO_PROPULSION_5_CORVETTE",
+  "BIO_PROPULSION_5_CRUISER",
+  "BIO_PROPULSION_5_DESTROYER",
+  "BIO_PROPULSION_5_TITAN",
   "BIO_PSIONIC_LIGHTNING",
   "BIO_PSIONIC_STRIKE_CRAFT",
   "BIO_PSIONIC_TORPEDO",
@@ -8870,6 +9023,26 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "BLUE_EYE_BEAM_MEDIUM",
   "BLUE_EYE_BEAM_SMALL",
   "BOARDING_CABLES_MODULES",
+  "CAMOUFLAGE_1_EXTRA_LARGE",
+  "CAMOUFLAGE_1_LARGE",
+  "CAMOUFLAGE_1_MEDIUM",
+  "CAMOUFLAGE_1_SMALL",
+  "CAMOUFLAGE_2_EXTRA_LARGE",
+  "CAMOUFLAGE_2_LARGE",
+  "CAMOUFLAGE_2_MEDIUM",
+  "CAMOUFLAGE_2_SMALL",
+  "CAMOUFLAGE_3_EXTRA_LARGE",
+  "CAMOUFLAGE_3_LARGE",
+  "CAMOUFLAGE_3_MEDIUM",
+  "CAMOUFLAGE_3_SMALL",
+  "CAMOUFLAGE_4_EXTRA_LARGE",
+  "CAMOUFLAGE_4_LARGE",
+  "CAMOUFLAGE_4_MEDIUM",
+  "CAMOUFLAGE_4_SMALL",
+  "CAMOUFLAGE_5_EXTRA_LARGE",
+  "CAMOUFLAGE_5_LARGE",
+  "CAMOUFLAGE_5_MEDIUM",
+  "CAMOUFLAGE_5_SMALL",
   "CARAPACE_BIO_TORPEDOES_EXTRA_LARGE",
   "CARAPACE_BIO_TORPEDOES_LARGE",
   "CARAPACE_BIO_TORPEDOES_MEDIUM",
@@ -8877,6 +9050,10 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "CARAVANEER_WEAPON_1",
   "CARAVANEER_WEAPON_2",
   "CARAVANEER_WEAPON_3",
+  "CATALYTIC_BLADDER_EXTRA_LARGE",
+  "CATALYTIC_BLADDER_LARGE",
+  "CATALYTIC_BLADDER_MEDIUM",
+  "CATALYTIC_BLADDER_SMALL",
   "CERAMO_CHITIN_CARAPACE_EXTRA_LARGE",
   "CERAMO_CHITIN_CARAPACE_LARGE",
   "CERAMO_CHITIN_CARAPACE_MEDIUM",
@@ -8954,11 +9131,21 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "COMBAT_COMPUTER_TORPEDO_DEFAULT",
   "COMBAT_COMPUTER_TORPEDO_PRECOG",
   "COMBAT_COMPUTER_TORPEDO_SAPIENT",
+  "COMBAT_SYNAPSES_EXTRA_LARGE",
+  "COMBAT_SYNAPSES_LARGE",
+  "COMBAT_SYNAPSES_MEDIUM",
+  "COMBAT_SYNAPSES_SMALL",
   "COMPOSER_BLESSING_EXTRA_LARGE",
   "COMPOSER_BLESSING_LARGE",
   "COMPOSER_BLESSING_MEDIUM",
   "COMPOSER_BLESSING_SMALL",
   "COMPOSER_MARK",
+  "CONFUSER_GUN_1",
+  "CONFUSER_GUN_2",
+  "CONFUSER_GUN_3",
+  "CONFUSER_GUN_4",
+  "CONFUSER_GUN_5",
+  "CONFUSER_GUN_6",
   "CORVETTE_ANTIMATTER_REACTOR",
   "CORVETTE_BIO_ANTIMATTER_REACTOR",
   "CORVETTE_BIO_COLD_FUSION_REACTOR",
@@ -9131,8 +9318,23 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "ENIGMATIC_ENCODER_CHIP_LARGE",
   "ENIGMATIC_ENCODER_CHIP_MEDIUM",
   "ENIGMATIC_ENCODER_CHIP_SMALL",
+  "EVASION_GUN_1",
+  "EVASION_GUN_2",
+  "EVASION_GUN_3",
+  "EVASION_GUN_4",
+  "EVASION_GUN_5",
+  "EVASION_GUN_6",
   "EXTRADIMENSIONAL_STABILIZING_AURA",
   "FIRE_CONTROL_1",
+  "FIRE_RATE_GUN_1",
+  "FIRE_RATE_GUN_2",
+  "FIRE_RATE_GUN_3",
+  "FIRE_RATE_GUN_4",
+  "FIRE_RATE_GUN_5",
+  "FIRE_RATE_GUN_6",
+  "FISSILE_CORES_LARGE",
+  "FISSILE_CORES_MEDIUM",
+  "FISSILE_CORES_SMALL",
   "FLAGELLA_MARSUPIUM_EXTRA_LARGE",
   "FLAGELLA_MARSUPIUM_LARGE",
   "FLAGELLA_MARSUPIUM_MEDIUM",
@@ -9189,6 +9391,16 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "HARBINGER_STAGE_1_GROWTH_EMPTY",
   "HARBINGER_STAGE_2_GROWTH_1",
   "HARBINGER_STAGE_2_GROWTH_EMPTY",
+  "HEALING_GUN_1",
+  "HEALING_GUN_2",
+  "HEALING_GUN_3",
+  "HEALING_GUN_4",
+  "HEALING_GUN_5",
+  "HEALING_GUN_6",
+  "HERDSONG_CHORDS_EXTRA_LARGE",
+  "HERDSONG_CHORDS_LARGE",
+  "HERDSONG_CHORDS_MEDIUM",
+  "HERDSONG_CHORDS_SMALL",
   "HIGH_ENERGY_SKIN_EXTRA_LARGE",
   "HIGH_ENERGY_SKIN_LARGE",
   "HIGH_ENERGY_SKIN_MEDIUM",
@@ -9660,6 +9872,10 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "RED_EYE_BEAM_LARGE",
   "RED_EYE_BEAM_MEDIUM",
   "RED_EYE_BEAM_SMALL",
+  "RESTORATIVE_ENZYMES_EXTRA_LARGE",
+  "RESTORATIVE_ENZYMES_LARGE",
+  "RESTORATIVE_ENZYMES_MEDIUM",
+  "RESTORATIVE_ENZYMES_SMALL",
   "RIPPER_THORN_CANNON_EXTRA_LARGE",
   "RIPPER_THORN_CANNON_LARGE",
   "RIPPER_THORN_CANNON_MEDIUM",
@@ -9886,6 +10102,10 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "STARBASE_FUSION_REACTOR",
   "STARBASE_OFFSPRING_OUTLOOK",
   "STARBASE_ZERO_POINT_REACTOR",
+  "STARBORNE_BIOLOGY_EXTRA_LARGE",
+  "STARBORNE_BIOLOGY_LARGE",
+  "STARBORNE_BIOLOGY_MEDIUM",
+  "STARBORNE_BIOLOGY_SMALL",
   "STATION_LARGE_AURA_EMPTY",
   "STATION_MEDIUM_AURA_EMPTY",
   "STATION_MEDIUM_AURA_SHIELD_DAMPENER",
@@ -9963,6 +10183,10 @@ export const vanillaComponentTemplateIds: readonly string[] = [
   "UV_EYE_BEAM_LARGE",
   "UV_EYE_BEAM_MEDIUM",
   "UV_EYE_BEAM_SMALL",
+  "VIRULENT_CYSTS_EXTRA_LARGE",
+  "VIRULENT_CYSTS_LARGE",
+  "VIRULENT_CYSTS_MEDIUM",
+  "VIRULENT_CYSTS_SMALL",
   "VOIDWORM_BITE_1",
   "VOIDWORM_BITE_2",
   "VOIDWORM_BITE_3",
@@ -16689,7 +16913,7 @@ export const vanillaEthosIds: readonly string[] = [
   "ethic_xenophobe",
 ];
 
-/** 10023 identifiers — too many to union without hurting check time. */
+/** 10110 identifiers — too many to union without hurting check time. */
 export type VanillaEventId = string;
 
 export const vanillaEventIds: readonly string[] = [
@@ -22211,6 +22435,15 @@ export const vanillaEventIds: readonly string[] = [
   "grand_archive.4120",
   "grand_archive.4121",
   "grand_archive.4130",
+  "grand_archive.4135",
+  "grand_archive.4136",
+  "grand_archive.4137",
+  "grand_archive.4140",
+  "grand_archive.4141",
+  "grand_archive.4142",
+  "grand_archive.4145",
+  "grand_archive.4146",
+  "grand_archive.4147",
   "grand_archive.4150",
   "grand_archive.4151",
   "grand_archive.4155",
@@ -22251,9 +22484,29 @@ export const vanillaEventIds: readonly string[] = [
   "grand_archive.6040",
   "grand_archive.6050",
   "grand_archive.6055",
+  "grand_archive.7000",
+  "grand_archive.70000",
+  "grand_archive.7001",
+  "grand_archive.70010",
+  "grand_archive.7002",
+  "grand_archive.70020",
+  "grand_archive.7003",
+  "grand_archive.70030",
+  "grand_archive.7004",
+  "grand_archive.70040",
+  "grand_archive.7005",
+  "grand_archive.7006",
+  "grand_archive.7007",
+  "grand_archive.7008",
+  "grand_archive.7009",
   "grand_archive.7010",
   "grand_archive.7015",
   "grand_archive.7020",
+  "grand_archive.7025",
+  "grand_archive.7030",
+  "grand_archive.7035",
+  "grand_archive.7040",
+  "grand_archive.7045",
   "grand_archive.7050",
   "grand_archive.7055",
   "grand_archive.7100",
@@ -22739,6 +22992,15 @@ export const vanillaEventIds: readonly string[] = [
   "leviathans.4",
   "leviathans.4000",
   "leviathans.4100",
+  "leviathans.4105",
+  "leviathans.4106",
+  "leviathans.4107",
+  "leviathans.4110",
+  "leviathans.4111",
+  "leviathans.4112",
+  "leviathans.4115",
+  "leviathans.4116",
+  "leviathans.4117",
   "leviathans.499",
   "leviathans.5",
   "leviathans.500",
@@ -24880,6 +25142,22 @@ export const vanillaEventIds: readonly string[] = [
   "shroud.10305",
   "shroud.10350",
   "shroud.10355",
+  "shroud.10360",
+  "shroud.10365",
+  "shroud.10370",
+  "shroud.10375",
+  "shroud.10380",
+  "shroud.10385",
+  "shroud.10390",
+  "shroud.10395",
+  "shroud.10400",
+  "shroud.10405",
+  "shroud.10410",
+  "shroud.10415",
+  "shroud.10420",
+  "shroud.10425",
+  "shroud.10430",
+  "shroud.10435",
   "shroud.10440",
   "shroud.10475",
   "shroud.10495",
@@ -25095,13 +25373,33 @@ export const vanillaEventIds: readonly string[] = [
   "shroud.3500",
   "shroud.3510",
   "shroud.3520",
+  "shroud.4000",
+  "shroud.4005",
+  "shroud.4010",
+  "shroud.4015",
+  "shroud.4020",
+  "shroud.4025",
+  "shroud.4030",
+  "shroud.4035",
   "shroud.4040",
   "shroud.4045",
   "shroud.4046",
+  "shroud.4050",
   "shroud.4055",
+  "shroud.4060",
   "shroud.4065",
+  "shroud.4070",
+  "shroud.4075",
+  "shroud.4080",
+  "shroud.4085",
+  "shroud.4090",
+  "shroud.4095",
   "shroud.410",
+  "shroud.4100",
   "shroud.4105",
+  "shroud.4110",
+  "shroud.4115",
+  "shroud.4120",
   "shroud.4125",
   "shroud.4135",
   "shroud.4140",
@@ -25150,8 +25448,21 @@ export const vanillaEventIds: readonly string[] = [
   "shroud.4405",
   "shroud.4406",
   "shroud.4410",
+  "shroud.4500",
   "shroud.4505",
+  "shroud.4510",
+  "shroud.4550",
+  "shroud.4555",
+  "shroud.4560",
+  "shroud.4600",
+  "shroud.4605",
+  "shroud.4610",
+  "shroud.4650",
+  "shroud.4655",
+  "shroud.4660",
   "shroud.4700",
+  "shroud.4705",
+  "shroud.4710",
   "shroud.4715",
   "shroud.4802",
   "shroud.4810",
@@ -30186,10 +30497,12 @@ export const vanillaGraphicalCultureIds: readonly string[] = [
 ];
 
 export type VanillaGuiTypeId =
-  | "guiTypes";
+  | "guiTypes"
+  | "guitypes";
 
 export const vanillaGuiTypeIds: readonly string[] = [
   "guiTypes",
+  "guitypes",
 ];
 
 export type VanillaIntelCategoryId =
@@ -31988,6 +32301,16 @@ export type VanillaMessageTypeId =
   | "MEGASTRUCTURE_BUILT"
   | "MEGASTRUCTURE_UPGRADED"
   | "MESSAGE_ACTIVE_ACCORD_AVAILABLE_end_of_the_cycle"
+  | "MESSAGE_ACTIVE_ACCORD_AVAILABLE_the_composer_of_strands"
+  | "MESSAGE_ACTIVE_ACCORD_AVAILABLE_the_cradle_of_souls"
+  | "MESSAGE_ACTIVE_ACCORD_AVAILABLE_the_eater_of_worlds"
+  | "MESSAGE_ACTIVE_ACCORD_AVAILABLE_the_instrument_of_desire"
+  | "MESSAGE_ACTIVE_ACCORD_AVAILABLE_whisperers_in_the_void"
+  | "MESSAGE_ACTIVE_ACCORD_UNLOCKED_the_composer_of_strands"
+  | "MESSAGE_ACTIVE_ACCORD_UNLOCKED_the_cradle_of_souls"
+  | "MESSAGE_ACTIVE_ACCORD_UNLOCKED_the_eater_of_worlds"
+  | "MESSAGE_ACTIVE_ACCORD_UNLOCKED_the_instrument_of_desire"
+  | "MESSAGE_ACTIVE_ACCORD_UNLOCKED_whisperers_in_the_void"
   | "MESSAGE_ALL_GAINED_TRAIT"
   | "MESSAGE_ARCHAEOLOGY_SITE_DISCOVERED"
   | "MESSAGE_ARCHAEOLOGY_SITE_FINISHED"
@@ -32094,6 +32417,11 @@ export type VanillaMessageTypeId =
   | "MESSAGE_NEGATIVE_TRAIT"
   | "MESSAGE_NEW_FEDERATION_PRESIDENT_CHOSEN"
   | "MESSAGE_NEW_GENETIC_MATERIAL"
+  | "MESSAGE_NEW_PATRON_CALLING_the_composer_of_strands"
+  | "MESSAGE_NEW_PATRON_CALLING_the_cradle_of_souls"
+  | "MESSAGE_NEW_PATRON_CALLING_the_eater_of_worlds"
+  | "MESSAGE_NEW_PATRON_CALLING_the_instrument_of_desire"
+  | "MESSAGE_NEW_PATRON_CALLING_whisperers_in_the_void"
   | "MESSAGE_NOMADIC_CAREGIVER"
   | "MESSAGE_NOMADIC_CHAMPION"
   | "MESSAGE_NOMADIC_NATURALIST"
@@ -32106,6 +32434,11 @@ export type VanillaMessageTypeId =
   | "MESSAGE_OVERLORD_CRATER"
   | "MESSAGE_OVERLORD_RECRUIT"
   | "MESSAGE_OVERLORD_SACRIFICE"
+  | "MESSAGE_PASSIVE_ACCORD_UNLOCKED_the_composer_of_strands"
+  | "MESSAGE_PASSIVE_ACCORD_UNLOCKED_the_cradle_of_souls"
+  | "MESSAGE_PASSIVE_ACCORD_UNLOCKED_the_eater_of_worlds"
+  | "MESSAGE_PASSIVE_ACCORD_UNLOCKED_the_instrument_of_desire"
+  | "MESSAGE_PASSIVE_ACCORD_UNLOCKED_whisperers_in_the_void"
   | "MESSAGE_PASS_HIVE_FE_TASK"
   | "MESSAGE_PLANET_RESOURCE_OBTAINED"
   | "MESSAGE_PLANET_RESOURCE_STOLEN"
@@ -32117,6 +32450,11 @@ export type VanillaMessageTypeId =
   | "MESSAGE_PRE_FTL_AWARENESS_DECREASED"
   | "MESSAGE_PRE_FTL_AWARENESS_INCREASED"
   | "MESSAGE_PRE_FTL_DISTRUSTFUL"
+  | "MESSAGE_PSIONIC_AURA_the_composer_of_strands"
+  | "MESSAGE_PSIONIC_AURA_the_cradle_of_souls"
+  | "MESSAGE_PSIONIC_AURA_the_eater_of_worlds"
+  | "MESSAGE_PSIONIC_AURA_the_instrument_of_desire"
+  | "MESSAGE_PSIONIC_AURA_whisperers_in_the_void"
   | "MESSAGE_RANDOM_POP_SETTLED"
   | "MESSAGE_REANIMATION_COMPLETE"
   | "MESSAGE_RECRUITED_LEADER"
@@ -32403,6 +32741,16 @@ export const vanillaMessageTypeIds: readonly string[] = [
   "MEGASTRUCTURE_BUILT",
   "MEGASTRUCTURE_UPGRADED",
   "MESSAGE_ACTIVE_ACCORD_AVAILABLE_end_of_the_cycle",
+  "MESSAGE_ACTIVE_ACCORD_AVAILABLE_the_composer_of_strands",
+  "MESSAGE_ACTIVE_ACCORD_AVAILABLE_the_cradle_of_souls",
+  "MESSAGE_ACTIVE_ACCORD_AVAILABLE_the_eater_of_worlds",
+  "MESSAGE_ACTIVE_ACCORD_AVAILABLE_the_instrument_of_desire",
+  "MESSAGE_ACTIVE_ACCORD_AVAILABLE_whisperers_in_the_void",
+  "MESSAGE_ACTIVE_ACCORD_UNLOCKED_the_composer_of_strands",
+  "MESSAGE_ACTIVE_ACCORD_UNLOCKED_the_cradle_of_souls",
+  "MESSAGE_ACTIVE_ACCORD_UNLOCKED_the_eater_of_worlds",
+  "MESSAGE_ACTIVE_ACCORD_UNLOCKED_the_instrument_of_desire",
+  "MESSAGE_ACTIVE_ACCORD_UNLOCKED_whisperers_in_the_void",
   "MESSAGE_ALL_GAINED_TRAIT",
   "MESSAGE_ARCHAEOLOGY_SITE_DISCOVERED",
   "MESSAGE_ARCHAEOLOGY_SITE_FINISHED",
@@ -32509,6 +32857,11 @@ export const vanillaMessageTypeIds: readonly string[] = [
   "MESSAGE_NEGATIVE_TRAIT",
   "MESSAGE_NEW_FEDERATION_PRESIDENT_CHOSEN",
   "MESSAGE_NEW_GENETIC_MATERIAL",
+  "MESSAGE_NEW_PATRON_CALLING_the_composer_of_strands",
+  "MESSAGE_NEW_PATRON_CALLING_the_cradle_of_souls",
+  "MESSAGE_NEW_PATRON_CALLING_the_eater_of_worlds",
+  "MESSAGE_NEW_PATRON_CALLING_the_instrument_of_desire",
+  "MESSAGE_NEW_PATRON_CALLING_whisperers_in_the_void",
   "MESSAGE_NOMADIC_CAREGIVER",
   "MESSAGE_NOMADIC_CHAMPION",
   "MESSAGE_NOMADIC_NATURALIST",
@@ -32521,6 +32874,11 @@ export const vanillaMessageTypeIds: readonly string[] = [
   "MESSAGE_OVERLORD_CRATER",
   "MESSAGE_OVERLORD_RECRUIT",
   "MESSAGE_OVERLORD_SACRIFICE",
+  "MESSAGE_PASSIVE_ACCORD_UNLOCKED_the_composer_of_strands",
+  "MESSAGE_PASSIVE_ACCORD_UNLOCKED_the_cradle_of_souls",
+  "MESSAGE_PASSIVE_ACCORD_UNLOCKED_the_eater_of_worlds",
+  "MESSAGE_PASSIVE_ACCORD_UNLOCKED_the_instrument_of_desire",
+  "MESSAGE_PASSIVE_ACCORD_UNLOCKED_whisperers_in_the_void",
   "MESSAGE_PASS_HIVE_FE_TASK",
   "MESSAGE_PLANET_RESOURCE_OBTAINED",
   "MESSAGE_PLANET_RESOURCE_STOLEN",
@@ -32532,6 +32890,11 @@ export const vanillaMessageTypeIds: readonly string[] = [
   "MESSAGE_PRE_FTL_AWARENESS_DECREASED",
   "MESSAGE_PRE_FTL_AWARENESS_INCREASED",
   "MESSAGE_PRE_FTL_DISTRUSTFUL",
+  "MESSAGE_PSIONIC_AURA_the_composer_of_strands",
+  "MESSAGE_PSIONIC_AURA_the_cradle_of_souls",
+  "MESSAGE_PSIONIC_AURA_the_eater_of_worlds",
+  "MESSAGE_PSIONIC_AURA_the_instrument_of_desire",
+  "MESSAGE_PSIONIC_AURA_whisperers_in_the_void",
   "MESSAGE_RANDOM_POP_SETTLED",
   "MESSAGE_REANIMATION_COMPLETE",
   "MESSAGE_RECRUITED_LEADER",
@@ -46110,7 +46473,7 @@ export const vanillaModelEntityIds: readonly string[] = [
   "yellow_sun_grow_particle_entity",
 ];
 
-/** 3248 identifiers — too many to union without hurting check time. */
+/** 3257 identifiers — too many to union without hurting check time. */
 export type VanillaModelMeshId = string;
 
 export const vanillaModelMeshIds: readonly string[] = [
@@ -48267,6 +48630,8 @@ export const vanillaModelMeshIds: readonly string[] = [
   "nomads_01_hero_ship_01_plantoid_mesh",
   "nomads_01_hero_ship_01_shield_mesh",
   "nomads_01_tents_mesh",
+  "nomads_frontend_background_flow_mesh",
+  "nomads_frontend_mesh",
   "nomads_hero_ship_large_missile_turret_mesh",
   "nomads_hero_ship_large_turret_mesh",
   "nomads_hero_ship_medium_missile_turret_mesh",
@@ -49057,6 +49422,13 @@ export const vanillaModelMeshIds: readonly string[] = [
   "station_construction_test_01_mesh",
   "station_generic_01_damaged_mesh",
   "station_generic_01_mesh",
+  "stellar_ignition_endsB_mesh",
+  "stellar_ignition_ends_mesh",
+  "stellar_ignition_tube2_mesh",
+  "stellar_ignition_tubeB2_mesh",
+  "stellar_ignition_tubeB_mesh",
+  "stellar_ignition_tubeS_mesh",
+  "stellar_ignition_tube_mesh",
   "stellarite_mesh",
   "storm_area_placer_indicator_mesh",
   "storm_area_placer_range_mesh",
@@ -58427,7 +58799,6 @@ export type VanillaPopFactionId =
   | "cyber_creed_war_2"
   | "fire_cult"
   | "imperialist"
-  | "inline_script"
   | "interlink"
   | "isolationist"
   | "manifesti"
@@ -58435,6 +58806,27 @@ export type VanillaPopFactionId =
   | "prosperity"
   | "supremacist"
   | "technologist"
+  | "the_curtain_authoritarian"
+  | "the_curtain_egalitarian"
+  | "the_curtain_materialist"
+  | "the_curtain_militarist"
+  | "the_curtain_pacifist"
+  | "the_curtain_spiritualist"
+  | "the_curtain_xenophobe"
+  | "the_grand_dance_authoritarian"
+  | "the_grand_dance_egalitarian"
+  | "the_grand_dance_materialist"
+  | "the_grand_dance_militarist"
+  | "the_grand_dance_pacifist"
+  | "the_grand_dance_xenophile"
+  | "the_grand_dance_xenophobe"
+  | "the_masquerade_authoritarian"
+  | "the_masquerade_egalitarian"
+  | "the_masquerade_materialist"
+  | "the_masquerade_militarist"
+  | "the_masquerade_pacifist"
+  | "the_masquerade_spiritualist"
+  | "the_masquerade_xenophile"
   | "totalitarian"
   | "traditionalist"
   | "xenoist";
@@ -58451,7 +58843,6 @@ export const vanillaPopFactionIds: readonly string[] = [
   "cyber_creed_war_2",
   "fire_cult",
   "imperialist",
-  "inline_script",
   "interlink",
   "isolationist",
   "manifesti",
@@ -58459,6 +58850,27 @@ export const vanillaPopFactionIds: readonly string[] = [
   "prosperity",
   "supremacist",
   "technologist",
+  "the_curtain_authoritarian",
+  "the_curtain_egalitarian",
+  "the_curtain_materialist",
+  "the_curtain_militarist",
+  "the_curtain_pacifist",
+  "the_curtain_spiritualist",
+  "the_curtain_xenophobe",
+  "the_grand_dance_authoritarian",
+  "the_grand_dance_egalitarian",
+  "the_grand_dance_materialist",
+  "the_grand_dance_militarist",
+  "the_grand_dance_pacifist",
+  "the_grand_dance_xenophile",
+  "the_grand_dance_xenophobe",
+  "the_masquerade_authoritarian",
+  "the_masquerade_egalitarian",
+  "the_masquerade_materialist",
+  "the_masquerade_militarist",
+  "the_masquerade_pacifist",
+  "the_masquerade_spiritualist",
+  "the_masquerade_xenophile",
   "totalitarian",
   "traditionalist",
   "xenoist",
@@ -59580,6 +59992,47 @@ export const vanillaPortraitIds: readonly string[] = [
   "tox_machine",
 ];
 
+export type VanillaPortraitCategoryId =
+  | "aquatics"
+  | "arthropoids"
+  | "avians"
+  | "biogenesis"
+  | "cybernetics"
+  | "fungoids"
+  | "humanoids"
+  | "infernals"
+  | "lithoids"
+  | "machines"
+  | "mammalians"
+  | "molluscoids"
+  | "necroids"
+  | "plantoids"
+  | "psionics"
+  | "reptilians"
+  | "synthetics"
+  | "toxoids";
+
+export const vanillaPortraitCategoryIds: readonly string[] = [
+  "aquatics",
+  "arthropoids",
+  "avians",
+  "biogenesis",
+  "cybernetics",
+  "fungoids",
+  "humanoids",
+  "infernals",
+  "lithoids",
+  "machines",
+  "mammalians",
+  "molluscoids",
+  "necroids",
+  "plantoids",
+  "psionics",
+  "reptilians",
+  "synthetics",
+  "toxoids",
+];
+
 export type VanillaPortraitGroupId =
   | "aqu1"
   | "aqu13"
@@ -59605,6 +60058,16 @@ export type VanillaPortraitGroupId =
   | "humanoid_04"
   | "humanoid_05"
   | "humanoid_elf"
+  | "humanoid_hp_01"
+  | "humanoid_hp_02"
+  | "humanoid_hp_06"
+  | "humanoid_hp_07"
+  | "humanoid_hp_08"
+  | "humanoid_hp_09"
+  | "humanoid_hp_10"
+  | "humanoid_hp_11"
+  | "humanoid_hp_12"
+  | "humanoid_hp_13"
   | "humanoid_hp_14"
   | "humanoid_hp_16"
   | "lith_human"
@@ -59660,6 +60123,16 @@ export const vanillaPortraitGroupIds: readonly string[] = [
   "humanoid_04",
   "humanoid_05",
   "humanoid_elf",
+  "humanoid_hp_01",
+  "humanoid_hp_02",
+  "humanoid_hp_06",
+  "humanoid_hp_07",
+  "humanoid_hp_08",
+  "humanoid_hp_09",
+  "humanoid_hp_10",
+  "humanoid_hp_11",
+  "humanoid_hp_12",
+  "humanoid_hp_13",
   "humanoid_hp_14",
   "humanoid_hp_16",
   "lith_human",
@@ -59689,6 +60162,145 @@ export const vanillaPortraitGroupIds: readonly string[] = [
   "tox5",
   "tox7",
   "tox9",
+];
+
+export type VanillaPortraitSetId =
+  | "aquatics"
+  | "arthropoids"
+  | "artificial_intelligences"
+  | "avians"
+  | "biogenesis_aquatic"
+  | "biogenesis_arthropoids"
+  | "biogenesis_avians"
+  | "biogenesis_machines"
+  | "biogenesis_mammalians"
+  | "biogenesis_molluscoids"
+  | "biogenesis_plantoids"
+  | "biogenesis_reptilians"
+  | "cybernetic_arthropoids"
+  | "cybernetic_avians"
+  | "cybernetic_fungoids"
+  | "cybernetic_humanoids"
+  | "cybernetic_humans"
+  | "cybernetic_mammalians"
+  | "cybernetic_reptilians"
+  | "ep9_exclusive_molluscoid"
+  | "extradimensionals"
+  | "fungoids"
+  | "humanoids"
+  | "humans"
+  | "infernals"
+  | "lithoid_infernals"
+  | "lithoids"
+  | "machines"
+  | "mammalians"
+  | "mindwarden"
+  | "mindwarden_enclave"
+  | "molluscoids"
+  | "msi_slavers"
+  | "necroids"
+  | "paragons"
+  | "pdx_signup_reptilian"
+  | "plantoids"
+  | "pre_aquatics"
+  | "pre_arthropoids"
+  | "pre_avians"
+  | "pre_fungoids"
+  | "pre_infernals"
+  | "pre_lithoids"
+  | "pre_mammalians"
+  | "pre_molluscoids"
+  | "pre_plantoids"
+  | "pre_reptilians"
+  | "pre_toxoids"
+  | "psionic_aquatics"
+  | "psionic_arthropoids"
+  | "psionic_avians"
+  | "psionic_fungoids"
+  | "psionic_humanoids"
+  | "psionic_machines"
+  | "psionic_mammalians"
+  | "psionic_molluscoids"
+  | "reptilians"
+  | "robots"
+  | "salvagers"
+  | "shroudwalkers"
+  | "swarms"
+  | "synthetic_aquatics"
+  | "synthetic_arthropoids"
+  | "synthetic_avians"
+  | "synthetic_humanoids"
+  | "synthetic_molluscoids"
+  | "toxoids";
+
+export const vanillaPortraitSetIds: readonly string[] = [
+  "aquatics",
+  "arthropoids",
+  "artificial_intelligences",
+  "avians",
+  "biogenesis_aquatic",
+  "biogenesis_arthropoids",
+  "biogenesis_avians",
+  "biogenesis_machines",
+  "biogenesis_mammalians",
+  "biogenesis_molluscoids",
+  "biogenesis_plantoids",
+  "biogenesis_reptilians",
+  "cybernetic_arthropoids",
+  "cybernetic_avians",
+  "cybernetic_fungoids",
+  "cybernetic_humanoids",
+  "cybernetic_humans",
+  "cybernetic_mammalians",
+  "cybernetic_reptilians",
+  "ep9_exclusive_molluscoid",
+  "extradimensionals",
+  "fungoids",
+  "humanoids",
+  "humans",
+  "infernals",
+  "lithoid_infernals",
+  "lithoids",
+  "machines",
+  "mammalians",
+  "mindwarden",
+  "mindwarden_enclave",
+  "molluscoids",
+  "msi_slavers",
+  "necroids",
+  "paragons",
+  "pdx_signup_reptilian",
+  "plantoids",
+  "pre_aquatics",
+  "pre_arthropoids",
+  "pre_avians",
+  "pre_fungoids",
+  "pre_infernals",
+  "pre_lithoids",
+  "pre_mammalians",
+  "pre_molluscoids",
+  "pre_plantoids",
+  "pre_reptilians",
+  "pre_toxoids",
+  "psionic_aquatics",
+  "psionic_arthropoids",
+  "psionic_avians",
+  "psionic_fungoids",
+  "psionic_humanoids",
+  "psionic_machines",
+  "psionic_mammalians",
+  "psionic_molluscoids",
+  "reptilians",
+  "robots",
+  "salvagers",
+  "shroudwalkers",
+  "swarms",
+  "synthetic_aquatics",
+  "synthetic_arthropoids",
+  "synthetic_avians",
+  "synthetic_humanoids",
+  "synthetic_molluscoids",
+  "toxoids",
 ];
 
 export type VanillaPreCommunicationsNameFormatId =
@@ -59945,35 +60557,128 @@ export type VanillaProgressbartypeId =
   | "GFX_PV_GB_progressbar"
   | "GFX_PV_OB_progressbar"
   | "GFX_assembly_progressbar"
+  | "GFX_behemoth_path_progressbar"
   | "GFX_blocker_progressbar"
   | "GFX_building_progressbar"
   | "GFX_building_smaller_progressbar"
   | "GFX_colonization_progressbar"
   | "GFX_control_group_progress"
+  | "GFX_cosmogenesis_path_progressbar"
   | "GFX_council_agenda_progress_bar"
   | "GFX_council_agenda_progress_bar_reversed"
   | "GFX_council_agenda_radial_progress"
   | "GFX_council_agenda_radial_progress_cooldown"
   | "GFX_council_agenda_radial_progress_small"
   | "GFX_decline_progressbar"
+  | "GFX_defender_path_progressbar"
+  | "GFX_diplomacy_awareness_full"
+  | "GFX_diplomacy_awareness_high"
+  | "GFX_diplomacy_awareness_low"
+  | "GFX_diplomacy_awareness_partial"
+  | "GFX_diplomacy_awareness_unaware"
+  | "GFX_diplomacy_opinion_excellent"
+  | "GFX_diplomacy_opinion_good"
+  | "GFX_diplomacy_opinion_neutral"
+  | "GFX_diplomacy_opinion_poor"
+  | "GFX_diplomacy_opinion_terrible"
+  | "GFX_diplomacy_tech_age_bar"
   | "GFX_district_progressbar"
   | "GFX_district_smaller_progressbar"
+  | "GFX_end_situation_progress_bar"
   | "GFX_end_situation_progress_wheel"
+  | "GFX_espionage_spypowerbar_lacking_power_large"
+  | "GFX_espionage_spypowerbar_suspended_power_large"
+  | "GFX_espionage_spypowerbar_total_power_large"
+  | "GFX_espionage_spypowerbar_used_power_large"
+  | "GFX_federation_cohesion_negative_progressbar"
+  | "GFX_federation_cohesion_positive_progressbar"
+  | "GFX_federation_xp_progressbar"
   | "GFX_fleet_armor_bar"
   | "GFX_fleet_combat_progressbar"
   | "GFX_fleet_health_bar"
   | "GFX_fleet_shield_bar"
+  | "GFX_fleet_view_armor"
+  | "GFX_fleet_view_armor_2"
+  | "GFX_fleet_view_health"
+  | "GFX_fleet_view_health_2"
+  | "GFX_fleet_view_shields"
+  | "GFX_fleet_view_shields_2"
   | "GFX_focus_card_progressbar"
   | "GFX_focus_priority_expanded_progressbar"
   | "GFX_focus_priority_progressbar"
+  | "GFX_governor_progressbar"
   | "GFX_growth_progressbar"
+  | "GFX_hyperthermia_path_progressbar"
   | "GFX_infra_progressbar"
+  | "GFX_intel_progressbar"
+  | "GFX_leader_experience_progressbar_208"
   | "GFX_leader_experience_progressbar_248"
+  | "GFX_leader_experience_progressbar_270"
+  | "GFX_leader_progressbar"
+  | "GFX_nemesis_path_progressbar"
+  | "GFX_operation_progressbar_5_boxes"
+  | "GFX_operationbutton_chapter_progressbar_three"
+  | "GFX_outliner_arkship_construction_progressbar_1"
+  | "GFX_outliner_arkship_construction_progressbar_10"
+  | "GFX_outliner_arkship_construction_progressbar_11"
+  | "GFX_outliner_arkship_construction_progressbar_12"
+  | "GFX_outliner_arkship_construction_progressbar_13"
+  | "GFX_outliner_arkship_construction_progressbar_14"
+  | "GFX_outliner_arkship_construction_progressbar_2"
+  | "GFX_outliner_arkship_construction_progressbar_3"
+  | "GFX_outliner_arkship_construction_progressbar_4"
+  | "GFX_outliner_arkship_construction_progressbar_5"
+  | "GFX_outliner_arkship_construction_progressbar_6"
+  | "GFX_outliner_arkship_construction_progressbar_7"
+  | "GFX_outliner_arkship_construction_progressbar_8"
+  | "GFX_outliner_arkship_construction_progressbar_9"
+  | "GFX_outliner_arkship_progressbar"
+  | "GFX_outliner_fleet_progressbar"
+  | "GFX_outliner_planet_colonize_progressbar"
+  | "GFX_outliner_planet_construction_progressbar"
+  | "GFX_outliner_planet_terraforming_progressbar"
+  | "GFX_outliner_shipyard_construction_progressbar_1"
+  | "GFX_outliner_shipyard_construction_progressbar_10"
+  | "GFX_outliner_shipyard_construction_progressbar_11"
+  | "GFX_outliner_shipyard_construction_progressbar_12"
+  | "GFX_outliner_shipyard_construction_progressbar_13"
+  | "GFX_outliner_shipyard_construction_progressbar_14"
+  | "GFX_outliner_shipyard_construction_progressbar_15"
+  | "GFX_outliner_shipyard_construction_progressbar_16"
+  | "GFX_outliner_shipyard_construction_progressbar_17"
+  | "GFX_outliner_shipyard_construction_progressbar_18"
+  | "GFX_outliner_shipyard_construction_progressbar_19"
+  | "GFX_outliner_shipyard_construction_progressbar_2"
+  | "GFX_outliner_shipyard_construction_progressbar_20"
+  | "GFX_outliner_shipyard_construction_progressbar_3"
+  | "GFX_outliner_shipyard_construction_progressbar_4"
+  | "GFX_outliner_shipyard_construction_progressbar_5"
+  | "GFX_outliner_shipyard_construction_progressbar_6"
+  | "GFX_outliner_shipyard_construction_progressbar_7"
+  | "GFX_outliner_shipyard_construction_progressbar_8"
+  | "GFX_outliner_shipyard_construction_progressbar_9"
+  | "GFX_outliner_starbase_construction_progressbar_1"
+  | "GFX_outliner_starbase_construction_progressbar_2"
+  | "GFX_outliner_starbase_construction_progressbar_3"
+  | "GFX_outliner_starbase_construction_progressbar_4"
+  | "GFX_outliner_starbase_construction_progressbar_5"
+  | "GFX_outliner_starbase_construction_progressbar_6"
   | "GFX_planet_health_bar"
+  | "GFX_planet_map_icon_health"
   | "GFX_planet_shield_bar"
+  | "GFX_planetview_health"
+  | "GFX_pop_happiness_progressbar_blue"
+  | "GFX_pop_happiness_progressbar_gray"
+  | "GFX_pop_happiness_progressbar_green"
+  | "GFX_pop_happiness_progressbar_red"
+  | "GFX_pop_happiness_progressbar_yellow"
   | "GFX_pops_radial_progress"
   | "GFX_pops_radial_progress_orange"
   | "GFX_progressbar_933"
+  | "GFX_progressbar_download"
+  | "GFX_progressbar_green"
+  | "GFX_progressbar_orange"
+  | "GFX_progressbar_purple"
   | "GFX_queue_progressbar"
   | "GFX_queue_progressbar_100"
   | "GFX_queue_progressbar_150"
@@ -59992,6 +60697,7 @@ export type VanillaProgressbartypeId =
   | "GFX_queue_progressbar_95"
   | "GFX_senatefloor_small_bar"
   | "GFX_ship_armor_radial_progress"
+  | "GFX_ship_growth_progressbar"
   | "GFX_ship_life_radial_progress"
   | "GFX_ship_shield_radial_progress"
   | "GFX_situation_event_progressbar_bidirectional_negative_large_left"
@@ -60023,16 +60729,24 @@ export type VanillaProgressbartypeId =
   | "GFX_situation_event_progressbar_monodirectional_positive_short"
   | "GFX_situation_event_progressbar_monodirectional_synth_queen"
   | "GFX_situation_event_progressbar_monodirectional_synth_queen_large"
+  | "GFX_situation_log_progressbar"
   | "GFX_situation_log_progressbar_research"
+  | "GFX_situation_log_progressbar_subentry"
+  | "GFX_situation_log_progressbar_subsubentry"
   | "GFX_specialist_level_bar_36"
   | "GFX_tech_research_progressbar"
   | "GFX_tech_research_progressbar_310"
   | "GFX_terraform_progressbar"
   | "GFX_terraforming_progressbar"
   | "GFX_toast_timing_progress_bar"
+  | "GFX_vote_balance_progressbar"
   | "GFX_vote_balance_small_progressbar"
   | "GFX_waroverview_relative_war_exhaustion_progressbar"
   | "GFX_waroverview_war_exhaustion_stats_progressbar"
+  | "GFX_waystation_stockpile_full_progressbar"
+  | "GFX_waystation_stockpile_low_progressbar"
+  | "GFX_waystation_stockpile_mid_progressbar"
+  | "GFX_workforce_bar_collapsed"
   | "GFX_zone_progressbar"
   | "GFX_zone_smaller_progressbar";
 
@@ -60040,35 +60754,128 @@ export const vanillaProgressbartypeIds: readonly string[] = [
   "GFX_PV_GB_progressbar",
   "GFX_PV_OB_progressbar",
   "GFX_assembly_progressbar",
+  "GFX_behemoth_path_progressbar",
   "GFX_blocker_progressbar",
   "GFX_building_progressbar",
   "GFX_building_smaller_progressbar",
   "GFX_colonization_progressbar",
   "GFX_control_group_progress",
+  "GFX_cosmogenesis_path_progressbar",
   "GFX_council_agenda_progress_bar",
   "GFX_council_agenda_progress_bar_reversed",
   "GFX_council_agenda_radial_progress",
   "GFX_council_agenda_radial_progress_cooldown",
   "GFX_council_agenda_radial_progress_small",
   "GFX_decline_progressbar",
+  "GFX_defender_path_progressbar",
+  "GFX_diplomacy_awareness_full",
+  "GFX_diplomacy_awareness_high",
+  "GFX_diplomacy_awareness_low",
+  "GFX_diplomacy_awareness_partial",
+  "GFX_diplomacy_awareness_unaware",
+  "GFX_diplomacy_opinion_excellent",
+  "GFX_diplomacy_opinion_good",
+  "GFX_diplomacy_opinion_neutral",
+  "GFX_diplomacy_opinion_poor",
+  "GFX_diplomacy_opinion_terrible",
+  "GFX_diplomacy_tech_age_bar",
   "GFX_district_progressbar",
   "GFX_district_smaller_progressbar",
+  "GFX_end_situation_progress_bar",
   "GFX_end_situation_progress_wheel",
+  "GFX_espionage_spypowerbar_lacking_power_large",
+  "GFX_espionage_spypowerbar_suspended_power_large",
+  "GFX_espionage_spypowerbar_total_power_large",
+  "GFX_espionage_spypowerbar_used_power_large",
+  "GFX_federation_cohesion_negative_progressbar",
+  "GFX_federation_cohesion_positive_progressbar",
+  "GFX_federation_xp_progressbar",
   "GFX_fleet_armor_bar",
   "GFX_fleet_combat_progressbar",
   "GFX_fleet_health_bar",
   "GFX_fleet_shield_bar",
+  "GFX_fleet_view_armor",
+  "GFX_fleet_view_armor_2",
+  "GFX_fleet_view_health",
+  "GFX_fleet_view_health_2",
+  "GFX_fleet_view_shields",
+  "GFX_fleet_view_shields_2",
   "GFX_focus_card_progressbar",
   "GFX_focus_priority_expanded_progressbar",
   "GFX_focus_priority_progressbar",
+  "GFX_governor_progressbar",
   "GFX_growth_progressbar",
+  "GFX_hyperthermia_path_progressbar",
   "GFX_infra_progressbar",
+  "GFX_intel_progressbar",
+  "GFX_leader_experience_progressbar_208",
   "GFX_leader_experience_progressbar_248",
+  "GFX_leader_experience_progressbar_270",
+  "GFX_leader_progressbar",
+  "GFX_nemesis_path_progressbar",
+  "GFX_operation_progressbar_5_boxes",
+  "GFX_operationbutton_chapter_progressbar_three",
+  "GFX_outliner_arkship_construction_progressbar_1",
+  "GFX_outliner_arkship_construction_progressbar_10",
+  "GFX_outliner_arkship_construction_progressbar_11",
+  "GFX_outliner_arkship_construction_progressbar_12",
+  "GFX_outliner_arkship_construction_progressbar_13",
+  "GFX_outliner_arkship_construction_progressbar_14",
+  "GFX_outliner_arkship_construction_progressbar_2",
+  "GFX_outliner_arkship_construction_progressbar_3",
+  "GFX_outliner_arkship_construction_progressbar_4",
+  "GFX_outliner_arkship_construction_progressbar_5",
+  "GFX_outliner_arkship_construction_progressbar_6",
+  "GFX_outliner_arkship_construction_progressbar_7",
+  "GFX_outliner_arkship_construction_progressbar_8",
+  "GFX_outliner_arkship_construction_progressbar_9",
+  "GFX_outliner_arkship_progressbar",
+  "GFX_outliner_fleet_progressbar",
+  "GFX_outliner_planet_colonize_progressbar",
+  "GFX_outliner_planet_construction_progressbar",
+  "GFX_outliner_planet_terraforming_progressbar",
+  "GFX_outliner_shipyard_construction_progressbar_1",
+  "GFX_outliner_shipyard_construction_progressbar_10",
+  "GFX_outliner_shipyard_construction_progressbar_11",
+  "GFX_outliner_shipyard_construction_progressbar_12",
+  "GFX_outliner_shipyard_construction_progressbar_13",
+  "GFX_outliner_shipyard_construction_progressbar_14",
+  "GFX_outliner_shipyard_construction_progressbar_15",
+  "GFX_outliner_shipyard_construction_progressbar_16",
+  "GFX_outliner_shipyard_construction_progressbar_17",
+  "GFX_outliner_shipyard_construction_progressbar_18",
+  "GFX_outliner_shipyard_construction_progressbar_19",
+  "GFX_outliner_shipyard_construction_progressbar_2",
+  "GFX_outliner_shipyard_construction_progressbar_20",
+  "GFX_outliner_shipyard_construction_progressbar_3",
+  "GFX_outliner_shipyard_construction_progressbar_4",
+  "GFX_outliner_shipyard_construction_progressbar_5",
+  "GFX_outliner_shipyard_construction_progressbar_6",
+  "GFX_outliner_shipyard_construction_progressbar_7",
+  "GFX_outliner_shipyard_construction_progressbar_8",
+  "GFX_outliner_shipyard_construction_progressbar_9",
+  "GFX_outliner_starbase_construction_progressbar_1",
+  "GFX_outliner_starbase_construction_progressbar_2",
+  "GFX_outliner_starbase_construction_progressbar_3",
+  "GFX_outliner_starbase_construction_progressbar_4",
+  "GFX_outliner_starbase_construction_progressbar_5",
+  "GFX_outliner_starbase_construction_progressbar_6",
   "GFX_planet_health_bar",
+  "GFX_planet_map_icon_health",
   "GFX_planet_shield_bar",
+  "GFX_planetview_health",
+  "GFX_pop_happiness_progressbar_blue",
+  "GFX_pop_happiness_progressbar_gray",
+  "GFX_pop_happiness_progressbar_green",
+  "GFX_pop_happiness_progressbar_red",
+  "GFX_pop_happiness_progressbar_yellow",
   "GFX_pops_radial_progress",
   "GFX_pops_radial_progress_orange",
   "GFX_progressbar_933",
+  "GFX_progressbar_download",
+  "GFX_progressbar_green",
+  "GFX_progressbar_orange",
+  "GFX_progressbar_purple",
   "GFX_queue_progressbar",
   "GFX_queue_progressbar_100",
   "GFX_queue_progressbar_150",
@@ -60087,6 +60894,7 @@ export const vanillaProgressbartypeIds: readonly string[] = [
   "GFX_queue_progressbar_95",
   "GFX_senatefloor_small_bar",
   "GFX_ship_armor_radial_progress",
+  "GFX_ship_growth_progressbar",
   "GFX_ship_life_radial_progress",
   "GFX_ship_shield_radial_progress",
   "GFX_situation_event_progressbar_bidirectional_negative_large_left",
@@ -60118,16 +60926,24 @@ export const vanillaProgressbartypeIds: readonly string[] = [
   "GFX_situation_event_progressbar_monodirectional_positive_short",
   "GFX_situation_event_progressbar_monodirectional_synth_queen",
   "GFX_situation_event_progressbar_monodirectional_synth_queen_large",
+  "GFX_situation_log_progressbar",
   "GFX_situation_log_progressbar_research",
+  "GFX_situation_log_progressbar_subentry",
+  "GFX_situation_log_progressbar_subsubentry",
   "GFX_specialist_level_bar_36",
   "GFX_tech_research_progressbar",
   "GFX_tech_research_progressbar_310",
   "GFX_terraform_progressbar",
   "GFX_terraforming_progressbar",
   "GFX_toast_timing_progress_bar",
+  "GFX_vote_balance_progressbar",
   "GFX_vote_balance_small_progressbar",
   "GFX_waroverview_relative_war_exhaustion_progressbar",
   "GFX_waroverview_war_exhaustion_stats_progressbar",
+  "GFX_waystation_stockpile_full_progressbar",
+  "GFX_waystation_stockpile_low_progressbar",
+  "GFX_waystation_stockpile_mid_progressbar",
+  "GFX_workforce_bar_collapsed",
   "GFX_zone_progressbar",
   "GFX_zone_smaller_progressbar",
 ];
@@ -87078,10 +87894,54 @@ export type VanillaSpecialProjectId =
   | "COLOSSUS_PROJECT"
   | "CONTRACT_CLEAR_BLOCKERS_PROJECT"
   | "CONTRACT_COLONY_STARTUP_PROJECT"
+  | "CONTRACT_DIPLOMATIC_SUPPORT_TRAVEL_PROJECT"
   | "CONTRACT_ESPIONAGE_SUPPORT_PROJECT_01"
   | "CONTRACT_ESPIONAGE_SUPPORT_PROJECT_02"
   | "CONTRACT_ESPIONAGE_SUPPORT_PROJECT_03"
+  | "CONTRACT_ESPIONAGE_SUPPORT_crew_1_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_crew_2_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_crew_3_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_crew_4_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_crew_5_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_passenger_1_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_passenger_2_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_passenger_3_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_passenger_4_PROJECT"
+  | "CONTRACT_ESPIONAGE_SUPPORT_passenger_5_PROJECT"
+  | "CONTRACT_FIND_RESOURCES_alloys_INTERNAL_PROJECT"
+  | "CONTRACT_FIND_RESOURCES_energy_INTERNAL_PROJECT"
+  | "CONTRACT_FIND_RESOURCES_minerals_INTERNAL_PROJECT"
   | "CONTRACT_MEGASTRUCTURE_SUPPORT_PROJECT"
+  | "CONTRACT_ONBOARD_energy_RESOURCE_PROJECT"
+  | "CONTRACT_ONBOARD_engineering_RESEARCH_PROJECT"
+  | "CONTRACT_ONBOARD_food_RESOURCE_PROJECT"
+  | "CONTRACT_ONBOARD_minerals_RESOURCE_PROJECT"
+  | "CONTRACT_ONBOARD_physics_RESEARCH_PROJECT"
+  | "CONTRACT_ONBOARD_society_RESEARCH_PROJECT"
+  | "CONTRACT_PRISONER_DISPOSAL_TRAVEL_PROJECT"
+  | "CONTRACT_SCIENTIFIC_OBSERVATION_engineering_research_INTERNAL_PROJECT"
+  | "CONTRACT_SCIENTIFIC_OBSERVATION_physics_research_INTERNAL_PROJECT"
+  | "CONTRACT_SHORELEAVE_crew_1_PROJECT"
+  | "CONTRACT_SHORELEAVE_crew_2_PROJECT"
+  | "CONTRACT_SHORELEAVE_crew_3_PROJECT"
+  | "CONTRACT_SHORELEAVE_crew_4_PROJECT"
+  | "CONTRACT_SHORELEAVE_crew_5_PROJECT"
+  | "CONTRACT_SHORELEAVE_passenger_1_PROJECT"
+  | "CONTRACT_SHORELEAVE_passenger_2_PROJECT"
+  | "CONTRACT_SHORELEAVE_passenger_3_PROJECT"
+  | "CONTRACT_SHORELEAVE_passenger_4_PROJECT"
+  | "CONTRACT_SHORELEAVE_passenger_5_PROJECT"
+  | "CONTRACT_SIGHTSEEING_TOUR_TRAVEL_PROJECT"
+  | "CONTRACT_SUNTRIP_crew_1_PROJECT"
+  | "CONTRACT_SUNTRIP_crew_2_PROJECT"
+  | "CONTRACT_SUNTRIP_crew_3_PROJECT"
+  | "CONTRACT_SUNTRIP_crew_4_PROJECT"
+  | "CONTRACT_SUNTRIP_crew_5_PROJECT"
+  | "CONTRACT_SUNTRIP_passenger_1_PROJECT"
+  | "CONTRACT_SUNTRIP_passenger_2_PROJECT"
+  | "CONTRACT_SUNTRIP_passenger_3_PROJECT"
+  | "CONTRACT_SUNTRIP_passenger_4_PROJECT"
+  | "CONTRACT_SUNTRIP_passenger_5_PROJECT"
   | "CONTROLLED_ERUPTION_PROJECT"
   | "COSMOGENESIS_LEAKING_ATMOSPHERE"
   | "COSMOGENESIS_VICTORY"
@@ -87178,6 +88038,14 @@ export type VanillaSpecialProjectId =
   | "EXPLORE_BORDER_SYSTEM"
   | "EXTERMINATE_CAVE_SHROOM_PROJECT"
   | "EXTRACT_MISSING_SCIENTIST"
+  | "EYE_OF_THE_celestial_storm_PROJECT"
+  | "EYE_OF_THE_electric_storm_PROJECT"
+  | "EYE_OF_THE_gravity_storm_PROJECT"
+  | "EYE_OF_THE_magnetic_storm_PROJECT"
+  | "EYE_OF_THE_nexus_storm_PROJECT"
+  | "EYE_OF_THE_particle_storm_PROJECT"
+  | "EYE_OF_THE_shroud_storm_PROJECT"
+  | "EYE_OF_THE_solar_storm_PROJECT"
   | "FALLEN_SHIELD_PROJECT"
   | "FASCINATING_METEOROLOGY_PROJECT"
   | "FERROPHAGE_CURE"
@@ -87490,12 +88358,45 @@ export type VanillaSpecialProjectId =
   | "TECHNOSPHERE_HACKING"
   | "TECHNOSPHERE_PROJECT"
   | "TERMINAL_ORBIT_PROJECT"
+  | "THE_ANIMATOR_OF_CLAY_FC_PROJECT"
+  | "THE_ANIMATOR_OF_CLAY_FC_PROJECT_HIVE"
+  | "THE_ANIMATOR_OF_CLAY_FC_PROJECT_ROBOT"
+  | "THE_BLACK_RIVER_FC_PROJECT"
+  | "THE_BLACK_RIVER_FC_PROJECT_HIVE"
+  | "THE_BLACK_RIVER_FC_PROJECT_ROBOT"
+  | "THE_BLADELESS_SWORD_FC_PROJECT"
+  | "THE_BLADELESS_SWORD_FC_PROJECT_HIVE"
+  | "THE_BLADELESS_SWORD_FC_PROJECT_ROBOT"
   | "THE_COMPOSER_OF_STRANDS_CLAY_FC_PROJECT"
+  | "THE_COMPOSER_OF_STRANDS_FC_PROJECT"
+  | "THE_COMPOSER_OF_STRANDS_FC_PROJECT_HIVE"
+  | "THE_COMPOSER_OF_STRANDS_FC_PROJECT_ROBOT"
+  | "THE_CRADLE_OF_SOULS_FC_PROJECT"
+  | "THE_CRADLE_OF_SOULS_FC_PROJECT_HIVE"
+  | "THE_CRADLE_OF_SOULS_FC_PROJECT_ROBOT"
   | "THE_CRYPTIC_ESSENCE_PROJECT"
   | "THE_CUBE"
+  | "THE_EATER_OF_WORLD_FC_PROJECT"
+  | "THE_EATER_OF_WORLD_FC_PROJECT_HIVE"
+  | "THE_EATER_OF_WORLD_FC_PROJECT_ROBOT"
+  | "THE_ENDLESS_SANDS_FC_PROJECT"
+  | "THE_ENDLESS_SANDS_FC_PROJECT_HIVE"
+  | "THE_ENDLESS_SANDS_FC_PROJECT_ROBOT"
   | "THE_GATEWAY_CANNON_PROJECT"
+  | "THE_GOLDEN_DREAM_FC_PROJECT"
+  | "THE_GOLDEN_DREAM_FC_PROJECT_HIVE"
+  | "THE_GOLDEN_DREAM_FC_PROJECT_ROBOT"
+  | "THE_INSTRUMENT_OF_DESIRE_FC_PROJECT"
+  | "THE_INSTRUMENT_OF_DESIRE_FC_PROJECT_HIVE"
+  | "THE_INSTRUMENT_OF_DESIRE_FC_PROJECT_ROBOT"
   | "THE_JAUNT_PROJECT"
   | "THE_LAST_BAOL"
+  | "THE_MOUNTAIN_OF_BONES_FC_PROJECT"
+  | "THE_MOUNTAIN_OF_BONES_FC_PROJECT_HIVE"
+  | "THE_MOUNTAIN_OF_BONES_FC_PROJECT_ROBOT"
+  | "THE_OUTSIDER_FC_PROJECT"
+  | "THE_OUTSIDER_FC_PROJECT_HIVE"
+  | "THE_OUTSIDER_FC_PROJECT_ROBOT"
   | "THE_PRINCE_PROJECT"
   | "THE_SKIN_OF_A_GIANT_PROJECT"
   | "THE_SYNTH_QUEENS_CONVOY_AMBUSH"
@@ -87508,6 +88409,9 @@ export type VanillaSpecialProjectId =
   | "THE_SYNTH_QUEENS_RESHAPING_RITUAL"
   | "THE_SYNTH_QUEENS_STORM"
   | "THE_SYNTH_QUEENS_STORM_2"
+  | "THE_THRONE_SHADOW_FC_PROJECT"
+  | "THE_THRONE_SHADOW_FC_PROJECT_HIVE"
+  | "THE_THRONE_SHADOW_FC_PROJECT_ROBOT"
   | "TIYANKIS_PROJECT"
   | "TIYANKI_LURE"
   | "TOXIC_OPERATION_PROJECT"
@@ -87561,6 +88465,9 @@ export type VanillaSpecialProjectId =
   | "WEAPONS_TESTING"
   | "WEEDS_ARMY_PROJECT"
   | "WENKWORT_PROJECT"
+  | "WHISPERERS_IN_THE_VOID_FC_PROJECT"
+  | "WHISPERERS_IN_THE_VOID_FC_PROJECT_HIVE"
+  | "WHISPERERS_IN_THE_VOID_FC_PROJECT_ROBOT"
   | "WHISPER_TEMPLE_ENERGY"
   | "WHISPER_TEMPLE_STUDY"
   | "WORM_ENTRY_POINT"
@@ -87585,12 +88492,18 @@ export type VanillaSpecialProjectId =
   | "breathing_rift_project"
   | "breed_turtle_world_project"
   | "cream_origin_project"
+  | "crystalline_entity_UNIQUE_MUTATION_PROJECT"
+  | "cutholoid_UNIQUE_MUTATION_PROJECT"
   | "disappearing_pops_project"
+  | "engineering_technology_CALLING_PROJECT"
   | "enslave_turtle_world_project"
   | "hallucinogen_removal"
+  | "hegemony_joint_project_leader"
+  | "hegemony_joint_project_member"
   | "impossible_organism_project_1"
   | "impossible_organism_project_2"
   | "kill_turtle_world_project"
+  | "military_joint_project"
   | "mine_turtle_world_project"
   | "molluscoid_miners_project_1"
   | "molluscoid_miners_project_2"
@@ -87598,6 +88511,7 @@ export type VanillaSpecialProjectId =
   | "mystery_cream_project"
   | "orbital_cleanup"
   | "orbital_cleanup_intense"
+  | "physics_technology_CALLING_PROJECT"
   | "project_adakkaria_benevolent_grounds"
   | "project_adakkaria_secrets_of"
   | "project_adakkaria_tracing_history"
@@ -87607,15 +88521,23 @@ export type VanillaSpecialProjectId =
   | "project_cosmic_storms_crimson_crawlers"
   | "project_cosmic_storms_stormbound"
   | "retaliatory_genome_mapping"
+  | "society_technology_CALLING_PROJECT"
+  | "space_amoeba_UNIQUE_MUTATION_PROJECT"
   | "speed_demon_learn_more_project"
   | "speed_demon_open_box_project"
   | "study_turtle_world_project"
+  | "the_composer_of_strands_REVENGE_PROJECT"
+  | "the_cradle_of_souls_REVENGE_PROJECT"
+  | "the_eater_of_worlds_REVENGE_PROJECT"
+  | "the_instrument_of_desire_REVENGE_PROJECT"
   | "titanic_life_study_mean"
   | "titanic_life_study_nice"
   | "titanic_life_study_normal"
+  | "tiyanki_UNIQUE_MUTATION_PROJECT"
   | "tiyanki_matriarch_UNIQUE_MUTATION_PROJECT"
   | "trojan_asteroid_project"
   | "voidspawn_UNIQUE_MUTATION_PROJECT"
+  | "voidworm_UNIQUE_MUTATION_PROJECT"
   | "woodwind_instrument_investigation";
 
 export const vanillaSpecialProjectIds: readonly string[] = [
@@ -87694,10 +88616,54 @@ export const vanillaSpecialProjectIds: readonly string[] = [
   "COLOSSUS_PROJECT",
   "CONTRACT_CLEAR_BLOCKERS_PROJECT",
   "CONTRACT_COLONY_STARTUP_PROJECT",
+  "CONTRACT_DIPLOMATIC_SUPPORT_TRAVEL_PROJECT",
   "CONTRACT_ESPIONAGE_SUPPORT_PROJECT_01",
   "CONTRACT_ESPIONAGE_SUPPORT_PROJECT_02",
   "CONTRACT_ESPIONAGE_SUPPORT_PROJECT_03",
+  "CONTRACT_ESPIONAGE_SUPPORT_crew_1_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_crew_2_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_crew_3_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_crew_4_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_crew_5_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_passenger_1_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_passenger_2_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_passenger_3_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_passenger_4_PROJECT",
+  "CONTRACT_ESPIONAGE_SUPPORT_passenger_5_PROJECT",
+  "CONTRACT_FIND_RESOURCES_alloys_INTERNAL_PROJECT",
+  "CONTRACT_FIND_RESOURCES_energy_INTERNAL_PROJECT",
+  "CONTRACT_FIND_RESOURCES_minerals_INTERNAL_PROJECT",
   "CONTRACT_MEGASTRUCTURE_SUPPORT_PROJECT",
+  "CONTRACT_ONBOARD_energy_RESOURCE_PROJECT",
+  "CONTRACT_ONBOARD_engineering_RESEARCH_PROJECT",
+  "CONTRACT_ONBOARD_food_RESOURCE_PROJECT",
+  "CONTRACT_ONBOARD_minerals_RESOURCE_PROJECT",
+  "CONTRACT_ONBOARD_physics_RESEARCH_PROJECT",
+  "CONTRACT_ONBOARD_society_RESEARCH_PROJECT",
+  "CONTRACT_PRISONER_DISPOSAL_TRAVEL_PROJECT",
+  "CONTRACT_SCIENTIFIC_OBSERVATION_engineering_research_INTERNAL_PROJECT",
+  "CONTRACT_SCIENTIFIC_OBSERVATION_physics_research_INTERNAL_PROJECT",
+  "CONTRACT_SHORELEAVE_crew_1_PROJECT",
+  "CONTRACT_SHORELEAVE_crew_2_PROJECT",
+  "CONTRACT_SHORELEAVE_crew_3_PROJECT",
+  "CONTRACT_SHORELEAVE_crew_4_PROJECT",
+  "CONTRACT_SHORELEAVE_crew_5_PROJECT",
+  "CONTRACT_SHORELEAVE_passenger_1_PROJECT",
+  "CONTRACT_SHORELEAVE_passenger_2_PROJECT",
+  "CONTRACT_SHORELEAVE_passenger_3_PROJECT",
+  "CONTRACT_SHORELEAVE_passenger_4_PROJECT",
+  "CONTRACT_SHORELEAVE_passenger_5_PROJECT",
+  "CONTRACT_SIGHTSEEING_TOUR_TRAVEL_PROJECT",
+  "CONTRACT_SUNTRIP_crew_1_PROJECT",
+  "CONTRACT_SUNTRIP_crew_2_PROJECT",
+  "CONTRACT_SUNTRIP_crew_3_PROJECT",
+  "CONTRACT_SUNTRIP_crew_4_PROJECT",
+  "CONTRACT_SUNTRIP_crew_5_PROJECT",
+  "CONTRACT_SUNTRIP_passenger_1_PROJECT",
+  "CONTRACT_SUNTRIP_passenger_2_PROJECT",
+  "CONTRACT_SUNTRIP_passenger_3_PROJECT",
+  "CONTRACT_SUNTRIP_passenger_4_PROJECT",
+  "CONTRACT_SUNTRIP_passenger_5_PROJECT",
   "CONTROLLED_ERUPTION_PROJECT",
   "COSMOGENESIS_LEAKING_ATMOSPHERE",
   "COSMOGENESIS_VICTORY",
@@ -87794,6 +88760,14 @@ export const vanillaSpecialProjectIds: readonly string[] = [
   "EXPLORE_BORDER_SYSTEM",
   "EXTERMINATE_CAVE_SHROOM_PROJECT",
   "EXTRACT_MISSING_SCIENTIST",
+  "EYE_OF_THE_celestial_storm_PROJECT",
+  "EYE_OF_THE_electric_storm_PROJECT",
+  "EYE_OF_THE_gravity_storm_PROJECT",
+  "EYE_OF_THE_magnetic_storm_PROJECT",
+  "EYE_OF_THE_nexus_storm_PROJECT",
+  "EYE_OF_THE_particle_storm_PROJECT",
+  "EYE_OF_THE_shroud_storm_PROJECT",
+  "EYE_OF_THE_solar_storm_PROJECT",
   "FALLEN_SHIELD_PROJECT",
   "FASCINATING_METEOROLOGY_PROJECT",
   "FERROPHAGE_CURE",
@@ -88106,12 +89080,45 @@ export const vanillaSpecialProjectIds: readonly string[] = [
   "TECHNOSPHERE_HACKING",
   "TECHNOSPHERE_PROJECT",
   "TERMINAL_ORBIT_PROJECT",
+  "THE_ANIMATOR_OF_CLAY_FC_PROJECT",
+  "THE_ANIMATOR_OF_CLAY_FC_PROJECT_HIVE",
+  "THE_ANIMATOR_OF_CLAY_FC_PROJECT_ROBOT",
+  "THE_BLACK_RIVER_FC_PROJECT",
+  "THE_BLACK_RIVER_FC_PROJECT_HIVE",
+  "THE_BLACK_RIVER_FC_PROJECT_ROBOT",
+  "THE_BLADELESS_SWORD_FC_PROJECT",
+  "THE_BLADELESS_SWORD_FC_PROJECT_HIVE",
+  "THE_BLADELESS_SWORD_FC_PROJECT_ROBOT",
   "THE_COMPOSER_OF_STRANDS_CLAY_FC_PROJECT",
+  "THE_COMPOSER_OF_STRANDS_FC_PROJECT",
+  "THE_COMPOSER_OF_STRANDS_FC_PROJECT_HIVE",
+  "THE_COMPOSER_OF_STRANDS_FC_PROJECT_ROBOT",
+  "THE_CRADLE_OF_SOULS_FC_PROJECT",
+  "THE_CRADLE_OF_SOULS_FC_PROJECT_HIVE",
+  "THE_CRADLE_OF_SOULS_FC_PROJECT_ROBOT",
   "THE_CRYPTIC_ESSENCE_PROJECT",
   "THE_CUBE",
+  "THE_EATER_OF_WORLD_FC_PROJECT",
+  "THE_EATER_OF_WORLD_FC_PROJECT_HIVE",
+  "THE_EATER_OF_WORLD_FC_PROJECT_ROBOT",
+  "THE_ENDLESS_SANDS_FC_PROJECT",
+  "THE_ENDLESS_SANDS_FC_PROJECT_HIVE",
+  "THE_ENDLESS_SANDS_FC_PROJECT_ROBOT",
   "THE_GATEWAY_CANNON_PROJECT",
+  "THE_GOLDEN_DREAM_FC_PROJECT",
+  "THE_GOLDEN_DREAM_FC_PROJECT_HIVE",
+  "THE_GOLDEN_DREAM_FC_PROJECT_ROBOT",
+  "THE_INSTRUMENT_OF_DESIRE_FC_PROJECT",
+  "THE_INSTRUMENT_OF_DESIRE_FC_PROJECT_HIVE",
+  "THE_INSTRUMENT_OF_DESIRE_FC_PROJECT_ROBOT",
   "THE_JAUNT_PROJECT",
   "THE_LAST_BAOL",
+  "THE_MOUNTAIN_OF_BONES_FC_PROJECT",
+  "THE_MOUNTAIN_OF_BONES_FC_PROJECT_HIVE",
+  "THE_MOUNTAIN_OF_BONES_FC_PROJECT_ROBOT",
+  "THE_OUTSIDER_FC_PROJECT",
+  "THE_OUTSIDER_FC_PROJECT_HIVE",
+  "THE_OUTSIDER_FC_PROJECT_ROBOT",
   "THE_PRINCE_PROJECT",
   "THE_SKIN_OF_A_GIANT_PROJECT",
   "THE_SYNTH_QUEENS_CONVOY_AMBUSH",
@@ -88124,6 +89131,9 @@ export const vanillaSpecialProjectIds: readonly string[] = [
   "THE_SYNTH_QUEENS_RESHAPING_RITUAL",
   "THE_SYNTH_QUEENS_STORM",
   "THE_SYNTH_QUEENS_STORM_2",
+  "THE_THRONE_SHADOW_FC_PROJECT",
+  "THE_THRONE_SHADOW_FC_PROJECT_HIVE",
+  "THE_THRONE_SHADOW_FC_PROJECT_ROBOT",
   "TIYANKIS_PROJECT",
   "TIYANKI_LURE",
   "TOXIC_OPERATION_PROJECT",
@@ -88177,6 +89187,9 @@ export const vanillaSpecialProjectIds: readonly string[] = [
   "WEAPONS_TESTING",
   "WEEDS_ARMY_PROJECT",
   "WENKWORT_PROJECT",
+  "WHISPERERS_IN_THE_VOID_FC_PROJECT",
+  "WHISPERERS_IN_THE_VOID_FC_PROJECT_HIVE",
+  "WHISPERERS_IN_THE_VOID_FC_PROJECT_ROBOT",
   "WHISPER_TEMPLE_ENERGY",
   "WHISPER_TEMPLE_STUDY",
   "WORM_ENTRY_POINT",
@@ -88201,12 +89214,18 @@ export const vanillaSpecialProjectIds: readonly string[] = [
   "breathing_rift_project",
   "breed_turtle_world_project",
   "cream_origin_project",
+  "crystalline_entity_UNIQUE_MUTATION_PROJECT",
+  "cutholoid_UNIQUE_MUTATION_PROJECT",
   "disappearing_pops_project",
+  "engineering_technology_CALLING_PROJECT",
   "enslave_turtle_world_project",
   "hallucinogen_removal",
+  "hegemony_joint_project_leader",
+  "hegemony_joint_project_member",
   "impossible_organism_project_1",
   "impossible_organism_project_2",
   "kill_turtle_world_project",
+  "military_joint_project",
   "mine_turtle_world_project",
   "molluscoid_miners_project_1",
   "molluscoid_miners_project_2",
@@ -88214,6 +89233,7 @@ export const vanillaSpecialProjectIds: readonly string[] = [
   "mystery_cream_project",
   "orbital_cleanup",
   "orbital_cleanup_intense",
+  "physics_technology_CALLING_PROJECT",
   "project_adakkaria_benevolent_grounds",
   "project_adakkaria_secrets_of",
   "project_adakkaria_tracing_history",
@@ -88223,15 +89243,23 @@ export const vanillaSpecialProjectIds: readonly string[] = [
   "project_cosmic_storms_crimson_crawlers",
   "project_cosmic_storms_stormbound",
   "retaliatory_genome_mapping",
+  "society_technology_CALLING_PROJECT",
+  "space_amoeba_UNIQUE_MUTATION_PROJECT",
   "speed_demon_learn_more_project",
   "speed_demon_open_box_project",
   "study_turtle_world_project",
+  "the_composer_of_strands_REVENGE_PROJECT",
+  "the_cradle_of_souls_REVENGE_PROJECT",
+  "the_eater_of_worlds_REVENGE_PROJECT",
+  "the_instrument_of_desire_REVENGE_PROJECT",
   "titanic_life_study_mean",
   "titanic_life_study_nice",
   "titanic_life_study_normal",
+  "tiyanki_UNIQUE_MUTATION_PROJECT",
   "tiyanki_matriarch_UNIQUE_MUTATION_PROJECT",
   "trojan_asteroid_project",
   "voidspawn_UNIQUE_MUTATION_PROJECT",
+  "voidworm_UNIQUE_MUTATION_PROJECT",
   "woodwind_instrument_investigation",
 ];
 
@@ -88912,7 +89940,7 @@ export const vanillaSpecimenIds: readonly string[] = [
   "zulcor_wings",
 ];
 
-/** 9126 identifiers — too many to union without hurting check time. */
+/** 9025 identifiers — too many to union without hurting check time. */
 export type VanillaSpriteId = string;
 
 export const vanillaSpriteIds: readonly string[] = [
@@ -89368,7 +90396,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_behemoth_path_bg",
   "GFX_behemoth_path_level_boxes",
   "GFX_behemoth_path_levels_frame",
-  "GFX_behemoth_path_progressbar",
   "GFX_behemoth_path_title_box",
   "GFX_bg_area_light",
   "GFX_bg_head_of_research",
@@ -89604,6 +90631,7 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_chapter_progress_bar",
   "GFX_chat_icon",
   "GFX_checkbox_20_20_01",
+  "GFX_checkmark_icon",
   "GFX_city_culture_locked_overlay",
   "GFX_city_frame",
   "GFX_civilian",
@@ -89760,7 +90788,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_cosmogenesis_path_bg",
   "GFX_cosmogenesis_path_level_boxes",
   "GFX_cosmogenesis_path_levels_frame",
-  "GFX_cosmogenesis_path_progressbar",
   "GFX_cosmogenesis_path_title_box",
   "GFX_cosmogenesis_world_0_build_icon",
   "GFX_cosmogenesis_world_0_outliner_icon",
@@ -90066,7 +91093,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_defender_path_bg",
   "GFX_defender_path_level_boxes",
   "GFX_defender_path_levels_frame",
-  "GFX_defender_path_progressbar",
   "GFX_defender_path_title_box",
   "GFX_delete_template_button",
   "GFX_delve_blocked",
@@ -90094,11 +91120,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_dimensional_lock_open",
   "GFX_diplo_type_icon",
   "GFX_diplomacy_awareness",
-  "GFX_diplomacy_awareness_full",
-  "GFX_diplomacy_awareness_high",
-  "GFX_diplomacy_awareness_low",
-  "GFX_diplomacy_awareness_partial",
-  "GFX_diplomacy_awareness_unaware",
   "GFX_diplomacy_contract_banner",
   "GFX_diplomacy_dark_fade_bg",
   "GFX_diplomacy_empire_chat_box",
@@ -90114,11 +91135,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_diplomacy_long_button",
   "GFX_diplomacy_open_technological_enlightenment",
   "GFX_diplomacy_opinion",
-  "GFX_diplomacy_opinion_excellent",
-  "GFX_diplomacy_opinion_good",
-  "GFX_diplomacy_opinion_neutral",
-  "GFX_diplomacy_opinion_poor",
-  "GFX_diplomacy_opinion_terrible",
   "GFX_diplomacy_portrait_frame",
   "GFX_diplomacy_portrait_frame_artist",
   "GFX_diplomacy_portrait_frame_caravaneer",
@@ -90194,7 +91210,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_diplomacy_status_waystation_pact",
   "GFX_diplomacy_stripes_2",
   "GFX_diplomacy_tech_age",
-  "GFX_diplomacy_tech_age_bar",
   "GFX_diplomacy_textbox_aggressive",
   "GFX_diplomacy_textbox_negative",
   "GFX_diplomacy_textbox_neutral",
@@ -90594,7 +91609,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_end_of_the_cycle_covenant",
   "GFX_end_of_the_cycle_covenant_bg",
   "GFX_end_of_the_cycle_icon",
-  "GFX_end_situation_progress_bar",
   "GFX_entangled_relay",
   "GFX_entry_expand",
   "GFX_entry_expand_collapse_arrow",
@@ -90635,10 +91649,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_espionage_op_cat_subterfuge_sign",
   "GFX_espionage_operation_icon",
   "GFX_espionage_sabotage_sign",
-  "GFX_espionage_spypowerbar_lacking_power_large",
-  "GFX_espionage_spypowerbar_suspended_power_large",
-  "GFX_espionage_spypowerbar_total_power_large",
-  "GFX_espionage_spypowerbar_used_power_large",
   "GFX_espionage_subterfuge_sign",
   "GFX_eta_slot",
   "GFX_ethic",
@@ -92154,8 +93164,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_fanatic_purifier",
   "GFX_favor",
   "GFX_federation_cohesion_bar_bg",
-  "GFX_federation_cohesion_negative_progressbar",
-  "GFX_federation_cohesion_positive_progressbar",
   "GFX_federation_ethic_issue_ring",
   "GFX_federation_flag_bg",
   "GFX_federation_fleet_view_main_military_bg",
@@ -92171,7 +93179,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_federation_ship_entry_bg",
   "GFX_federation_stripes",
   "GFX_federation_type_default_bg",
-  "GFX_federation_xp_progressbar",
   "GFX_federations",
   "GFX_federations_big",
   "GFX_federations_small",
@@ -92407,13 +93414,9 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_fleet_task_technological_enlightenment_action",
   "GFX_fleet_task_technological_enlightenment_action_selected",
   "GFX_fleet_type_icons",
-  "GFX_fleet_view_armor",
-  "GFX_fleet_view_armor_2",
   "GFX_fleet_view_behemoth_stage_2",
   "GFX_fleet_view_behemoth_stage_3",
   "GFX_fleet_view_behemoth_stage_4",
-  "GFX_fleet_view_health",
-  "GFX_fleet_view_health_2",
   "GFX_fleet_view_main_civilian_bg",
   "GFX_fleet_view_main_mercenaries_bg",
   "GFX_fleet_view_main_military_bg",
@@ -92423,8 +93426,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_fleet_view_main_shipyard_padding_bg",
   "GFX_fleet_view_main_transport_bg",
   "GFX_fleet_view_paladin_ship",
-  "GFX_fleet_view_shields",
-  "GFX_fleet_view_shields_2",
   "GFX_fleet_view_top_panel_bg",
   "GFX_fleet_view_upgradable_design",
   "GFX_fleetview_break_fleet_contract",
@@ -92611,7 +93612,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_government_mod_window_trait_entry_bg",
   "GFX_government_mod_window_trait_entry_selected",
   "GFX_government_view_bg",
-  "GFX_governor_progressbar",
   "GFX_grand_archive_0_build_icon",
   "GFX_grand_archive_0_outliner_icon",
   "GFX_grand_archive_collection_active_bg",
@@ -92671,7 +93671,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_hyperthermia_path_bg",
   "GFX_hyperthermia_path_level_boxes",
   "GFX_hyperthermia_path_levels_frame",
-  "GFX_hyperthermia_path_progressbar",
   "GFX_hyperthermia_path_title_box",
   "GFX_icon_agenda",
   "GFX_icon_archaeology",
@@ -92728,7 +93727,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_intel_level_3",
   "GFX_intel_level_4",
   "GFX_intel_panel_bg",
-  "GFX_intel_progressbar",
   "GFX_interface_list_dark",
   "GFX_interface_list_light",
   "GFX_interface_list_light_nodown",
@@ -92820,8 +93818,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_leader_dark_backdrop_toast",
   "GFX_leader_dark_backdrop_vertical",
   "GFX_leader_default_background",
-  "GFX_leader_experience_progressbar_208",
-  "GFX_leader_experience_progressbar_270",
   "GFX_leader_gunship_specialization",
   "GFX_leader_icons",
   "GFX_leader_icons_large",
@@ -92833,7 +93829,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_leader_legendary_bg_keides",
   "GFX_leader_legendary_bg_skrand",
   "GFX_leader_list_status_unowned",
-  "GFX_leader_progressbar",
   "GFX_leader_rarity_council_2",
   "GFX_leader_rarity_council_3",
   "GFX_leader_rarity_frame_expanded",
@@ -94120,7 +95115,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_nemesis_path_bg",
   "GFX_nemesis_path_level_boxes",
   "GFX_nemesis_path_levels_frame",
-  "GFX_nemesis_path_progressbar",
   "GFX_nemesis_path_title_box",
   "GFX_nemesis_small",
   "GFX_neurochips_artillery_advanced",
@@ -94202,10 +95196,8 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_operation_categories_small",
   "GFX_operation_chapter_difficulty_icon",
   "GFX_operation_chapter_length_icon",
-  "GFX_operation_progressbar_5_boxes",
   "GFX_operation_stage_progress_entry_completed",
   "GFX_operation_stage_progress_entry_untouched",
-  "GFX_operationbutton_chapter_progressbar_three",
   "GFX_operations_blocked_phase",
   "GFX_operations_chapter_op_cat_infiltration",
   "GFX_operations_chapter_op_cat_manipulation",
@@ -94436,22 +95428,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_origins_wilderness",
   "GFX_our_opinion",
   "GFX_our_rivalry_icon",
-  "GFX_outliner_arkship_construction_progressbar_1",
-  "GFX_outliner_arkship_construction_progressbar_10",
-  "GFX_outliner_arkship_construction_progressbar_11",
-  "GFX_outliner_arkship_construction_progressbar_12",
-  "GFX_outliner_arkship_construction_progressbar_13",
-  "GFX_outliner_arkship_construction_progressbar_14",
-  "GFX_outliner_arkship_construction_progressbar_2",
-  "GFX_outliner_arkship_construction_progressbar_3",
-  "GFX_outliner_arkship_construction_progressbar_4",
-  "GFX_outliner_arkship_construction_progressbar_5",
-  "GFX_outliner_arkship_construction_progressbar_6",
-  "GFX_outliner_arkship_construction_progressbar_7",
-  "GFX_outliner_arkship_construction_progressbar_8",
-  "GFX_outliner_arkship_construction_progressbar_9",
-  "GFX_outliner_arkship_progressbar",
-  "GFX_outliner_fleet_progressbar",
   "GFX_outliner_fleet_status",
   "GFX_outliner_government_tab_button",
   "GFX_outliner_header_bg",
@@ -94463,38 +95439,9 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_outliner_notification_background_normal",
   "GFX_outliner_options_button",
   "GFX_outliner_options_button_orange",
-  "GFX_outliner_planet_colonize_progressbar",
-  "GFX_outliner_planet_construction_progressbar",
-  "GFX_outliner_planet_terraforming_progressbar",
   "GFX_outliner_politics_tab_button",
   "GFX_outliner_sector_settings",
   "GFX_outliner_ships_tab_button",
-  "GFX_outliner_shipyard_construction_progressbar_1",
-  "GFX_outliner_shipyard_construction_progressbar_10",
-  "GFX_outliner_shipyard_construction_progressbar_11",
-  "GFX_outliner_shipyard_construction_progressbar_12",
-  "GFX_outliner_shipyard_construction_progressbar_13",
-  "GFX_outliner_shipyard_construction_progressbar_14",
-  "GFX_outliner_shipyard_construction_progressbar_15",
-  "GFX_outliner_shipyard_construction_progressbar_16",
-  "GFX_outliner_shipyard_construction_progressbar_17",
-  "GFX_outliner_shipyard_construction_progressbar_18",
-  "GFX_outliner_shipyard_construction_progressbar_19",
-  "GFX_outliner_shipyard_construction_progressbar_2",
-  "GFX_outliner_shipyard_construction_progressbar_20",
-  "GFX_outliner_shipyard_construction_progressbar_3",
-  "GFX_outliner_shipyard_construction_progressbar_4",
-  "GFX_outliner_shipyard_construction_progressbar_5",
-  "GFX_outliner_shipyard_construction_progressbar_6",
-  "GFX_outliner_shipyard_construction_progressbar_7",
-  "GFX_outliner_shipyard_construction_progressbar_8",
-  "GFX_outliner_shipyard_construction_progressbar_9",
-  "GFX_outliner_starbase_construction_progressbar_1",
-  "GFX_outliner_starbase_construction_progressbar_2",
-  "GFX_outliner_starbase_construction_progressbar_3",
-  "GFX_outliner_starbase_construction_progressbar_4",
-  "GFX_outliner_starbase_construction_progressbar_5",
-  "GFX_outliner_starbase_construction_progressbar_6",
   "GFX_outliner_status",
   "GFX_outliner_structures_tab_button",
   "GFX_outliner_tab_button_overlay",
@@ -94566,7 +95513,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_planet_info_background",
   "GFX_planet_invasion",
   "GFX_planet_list_plus",
-  "GFX_planet_map_icon_health",
   "GFX_planet_modifier_ground_support_armageddon",
   "GFX_planet_modifier_ground_support_firestorm",
   "GFX_planet_modifier_ground_support_indiscriminate",
@@ -94698,7 +95644,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_planetview_big_stripes",
   "GFX_planetview_black_frame",
   "GFX_planetview_bottom",
-  "GFX_planetview_health",
   "GFX_planetview_middle",
   "GFX_planetview_progressbar_frame",
   "GFX_planetview_storm_celestial_modifier_frame",
@@ -94728,11 +95673,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_pop_assembly_organic_icon",
   "GFX_pop_category_unknown",
   "GFX_pop_green",
-  "GFX_pop_happiness_progressbar_blue",
-  "GFX_pop_happiness_progressbar_gray",
-  "GFX_pop_happiness_progressbar_green",
-  "GFX_pop_happiness_progressbar_red",
-  "GFX_pop_happiness_progressbar_yellow",
   "GFX_pop_job",
   "GFX_pop_mod",
   "GFX_pop_status",
@@ -94779,10 +95719,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_president_txt_bg",
   "GFX_previously_played",
   "GFX_progress_background_bar",
-  "GFX_progressbar_download",
-  "GFX_progressbar_green",
-  "GFX_progressbar_orange",
-  "GFX_progressbar_purple",
   "GFX_propagandosphere",
   "GFX_prototype_vir_core",
   "GFX_psionic",
@@ -95205,7 +96141,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_ship_destroyed",
   "GFX_ship_disengaged",
   "GFX_ship_entry_bg",
-  "GFX_ship_growth_progressbar",
   "GFX_ship_icons_type_arkship",
   "GFX_ship_icons_type_arkship_cloaked",
   "GFX_ship_icons_type_arkship_encamped",
@@ -95825,9 +96760,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_situation_log_physics",
   "GFX_situation_log_planet",
   "GFX_situation_log_precursor",
-  "GFX_situation_log_progressbar",
-  "GFX_situation_log_progressbar_subentry",
-  "GFX_situation_log_progressbar_subsubentry",
   "GFX_situation_log_radar",
   "GFX_situation_log_scanning_beam",
   "GFX_situation_log_ship",
@@ -97813,7 +98745,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_vivarium_view_frame",
   "GFX_volatile_motes",
   "GFX_vote_balance_opposing_dot",
-  "GFX_vote_balance_progressbar",
   "GFX_vote_balance_supporting_bg",
   "GFX_vote_balance_supporting_dot",
   "GFX_waroverview_declare_war_illustration",
@@ -97852,11 +98783,8 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_waystation_refinery_module",
   "GFX_waystation_research_build_icon",
   "GFX_waystation_research_module",
-  "GFX_waystation_stockpile_full_progressbar",
   "GFX_waystation_stockpile_local_collection",
   "GFX_waystation_stockpile_local_collection_logistic_ship",
-  "GFX_waystation_stockpile_low_progressbar",
-  "GFX_waystation_stockpile_mid_progressbar",
   "GFX_waystation_stockpile_ongoing_collection",
   "GFX_waystation_stockpile_ongoing_collection_logistic_ship",
   "GFX_waystation_stockpile_remote_collection",
@@ -97989,7 +98917,6 @@ export const vanillaSpriteIds: readonly string[] = [
   "GFX_wilderness_building_ruined",
   "GFX_window_background",
   "GFX_withdraw",
-  "GFX_workforce_bar_collapsed",
   "GFX_workforce_bar_empty",
   "GFX_workforce_bar_full",
   "GFX_workforce_box_district_icon",
@@ -98217,7 +99144,6 @@ export type VanillaStarbaseBuildingId =
   | "hydroponics_bay"
   | "hyperlane_detailer"
   | "ice_mining_station"
-  | "inline_script"
   | "irassian_naval_yards"
   | "listening_post"
   | "mercenary_garrison"
@@ -98255,6 +99181,11 @@ export type VanillaStarbaseBuildingId =
   | "target_uplink_computer"
   | "trader_proxy_office"
   | "transit_hub"
+  | "voidlure_crystalline_entity"
+  | "voidlure_cutholoid"
+  | "voidlure_space_amoeba"
+  | "voidlure_tiyanki"
+  | "voidlure_voidworm"
   | "warp_fluctuator"
   | "yuht_detection_array"
   | "zroni_storm_caster";
@@ -98332,7 +99263,6 @@ export const vanillaStarbaseBuildingIds: readonly string[] = [
   "hydroponics_bay",
   "hyperlane_detailer",
   "ice_mining_station",
-  "inline_script",
   "irassian_naval_yards",
   "listening_post",
   "mercenary_garrison",
@@ -98370,6 +99300,11 @@ export const vanillaStarbaseBuildingIds: readonly string[] = [
   "target_uplink_computer",
   "trader_proxy_office",
   "transit_hub",
+  "voidlure_crystalline_entity",
+  "voidlure_cutholoid",
+  "voidlure_space_amoeba",
+  "voidlure_tiyanki",
+  "voidlure_voidworm",
   "warp_fluctuator",
   "yuht_detection_array",
   "zroni_storm_caster",
@@ -98507,7 +99442,6 @@ export type VanillaStarbaseModuleId =
   | "astromining_bay"
   | "beastport"
   | "detection_array"
-  | "inline_script"
   | "orbital_ring_amoeba_hangar_bay"
   | "orbital_ring_anchorage"
   | "orbital_ring_archaeo_hangar_bay"
@@ -98587,6 +99521,11 @@ export type VanillaStarbaseModuleId =
   | "waystation_trade_module"
   | "waystation_trader_proxy_office"
   | "waystation_treasure_vault"
+  | "waystation_voidlure_crystalline_entity"
+  | "waystation_voidlure_cutholoid"
+  | "waystation_voidlure_space_amoeba"
+  | "waystation_voidlure_tiyanki"
+  | "waystation_voidlure_voidworm"
   | "waystation_yuht_detection_array"
   | "waystation_zroni_storm_caster";
 
@@ -98635,7 +99574,6 @@ export const vanillaStarbaseModuleIds: readonly string[] = [
   "astromining_bay",
   "beastport",
   "detection_array",
-  "inline_script",
   "orbital_ring_amoeba_hangar_bay",
   "orbital_ring_anchorage",
   "orbital_ring_archaeo_hangar_bay",
@@ -98715,6 +99653,11 @@ export const vanillaStarbaseModuleIds: readonly string[] = [
   "waystation_trade_module",
   "waystation_trader_proxy_office",
   "waystation_treasure_vault",
+  "waystation_voidlure_crystalline_entity",
+  "waystation_voidlure_cutholoid",
+  "waystation_voidlure_space_amoeba",
+  "waystation_voidlure_tiyanki",
+  "waystation_voidlure_voidworm",
   "waystation_yuht_detection_array",
   "waystation_zroni_storm_caster",
 ];
@@ -104137,11 +105080,24 @@ export type VanillaTraditionSwapId =
   | "tr_adaptability_appropriation_nomads"
   | "tr_adaptability_appropriation_wilderness"
   | "tr_adaptability_survival_fittest_nomad"
+  | "tr_aptitude_champions_of_the_empire_hive"
+  | "tr_aptitude_champions_of_the_empire_machine"
+  | "tr_aptitude_healthcare_program_hive"
+  | "tr_aptitude_healthcare_program_machine"
+  | "tr_aptitude_psychological_profiling_hive"
+  | "tr_aptitude_psychological_profiling_machine"
   | "tr_aptitude_specialist_training_hive"
   | "tr_aptitude_specialist_training_machine"
+  | "tr_aptitude_the_empire_needs_you_hive"
+  | "tr_aptitude_the_empire_needs_you_machine"
   | "tr_archivism_expert_negociation_homicidal"
   | "tr_cloning_adopt_clone_army"
+  | "tr_cloning_artificial_population_clone_army"
+  | "tr_cloning_biochemical_composure_clone_army"
+  | "tr_cloning_biochemical_composure_clones"
+  | "tr_cloning_biochemical_composure_clones_clone_army"
   | "tr_cloning_finish_clone_army"
+  | "tr_cloning_genomic_growth_clone_army"
   | "tr_cloning_somatic_synthesization_clone_army"
   | "tr_cybernetics_adopt_hive"
   | "tr_cybernetics_adopt_hive_utopia"
@@ -104217,6 +105173,15 @@ export type VanillaTraditionSwapId =
   | "tr_expansion_galactic_ambition_wilderness"
   | "tr_expansion_reach_for_the_stars_hive"
   | "tr_expansion_reach_for_the_stars_machine"
+  | "tr_genetic_stage_1_cloning_swap"
+  | "tr_genetic_stage_1_mutation_swap"
+  | "tr_genetic_stage_1_purity_swap"
+  | "tr_genetic_stage_2_cloning_swap"
+  | "tr_genetic_stage_2_mutation_swap"
+  | "tr_genetic_stage_2_purity_swap"
+  | "tr_genetic_stage_3_cloning_swap"
+  | "tr_genetic_stage_3_mutation_swap"
+  | "tr_genetic_stage_3_purity_swap"
   | "tr_genetics_finish_extra_traits"
   | "tr_harmony_federations_finish"
   | "tr_harmony_kinship_shared_burdens"
@@ -104228,7 +105193,12 @@ export type VanillaTraditionSwapId =
   | "tr_modularity_2_gestalt"
   | "tr_modularity_3_gestalt"
   | "tr_mutation_adopt_evo_pred"
+  | "tr_mutation_empowered_environmental_integration"
+  | "tr_mutation_empowered_environmental_integration_evo_pred"
+  | "tr_mutation_environmental_integration_evo_pred"
+  | "tr_mutation_nucleotide_isolation_evo_pred"
   | "tr_mutation_planned_polymorphism_evo_pred"
+  | "tr_mutation_somatic_subversiveness_evo_pred"
   | "tr_mutation_unnatural_selection_evo_pred"
   | "tr_nanotech_3_nomad"
   | "tr_prosperity_administrative_operations_hive"
@@ -104268,6 +105238,14 @@ export type VanillaTraditionSwapId =
   | "tr_purity_genotype_regeneration_wilderness"
   | "tr_purity_imperfection_remediation_wilderness"
   | "tr_purity_imperfection_remediation_xenophile"
+  | "tr_statecraft_amongst_peers_hive"
+  | "tr_statecraft_amongst_peers_machine"
+  | "tr_statecraft_constitutional_focus_hive"
+  | "tr_statecraft_constitutional_focus_machine"
+  | "tr_statecraft_inspiring_agendas_hive"
+  | "tr_statecraft_inspiring_agendas_machine"
+  | "tr_statecraft_shared_benefits_hive"
+  | "tr_statecraft_shared_benefits_machine"
   | "tr_subterfuge_cloaking_finish"
   | "tr_subterfuge_nda_hive"
   | "tr_subterfuge_nda_machine"
@@ -104317,11 +105295,24 @@ export const vanillaTraditionSwapIds: readonly string[] = [
   "tr_adaptability_appropriation_nomads",
   "tr_adaptability_appropriation_wilderness",
   "tr_adaptability_survival_fittest_nomad",
+  "tr_aptitude_champions_of_the_empire_hive",
+  "tr_aptitude_champions_of_the_empire_machine",
+  "tr_aptitude_healthcare_program_hive",
+  "tr_aptitude_healthcare_program_machine",
+  "tr_aptitude_psychological_profiling_hive",
+  "tr_aptitude_psychological_profiling_machine",
   "tr_aptitude_specialist_training_hive",
   "tr_aptitude_specialist_training_machine",
+  "tr_aptitude_the_empire_needs_you_hive",
+  "tr_aptitude_the_empire_needs_you_machine",
   "tr_archivism_expert_negociation_homicidal",
   "tr_cloning_adopt_clone_army",
+  "tr_cloning_artificial_population_clone_army",
+  "tr_cloning_biochemical_composure_clone_army",
+  "tr_cloning_biochemical_composure_clones",
+  "tr_cloning_biochemical_composure_clones_clone_army",
   "tr_cloning_finish_clone_army",
+  "tr_cloning_genomic_growth_clone_army",
   "tr_cloning_somatic_synthesization_clone_army",
   "tr_cybernetics_adopt_hive",
   "tr_cybernetics_adopt_hive_utopia",
@@ -104397,6 +105388,15 @@ export const vanillaTraditionSwapIds: readonly string[] = [
   "tr_expansion_galactic_ambition_wilderness",
   "tr_expansion_reach_for_the_stars_hive",
   "tr_expansion_reach_for_the_stars_machine",
+  "tr_genetic_stage_1_cloning_swap",
+  "tr_genetic_stage_1_mutation_swap",
+  "tr_genetic_stage_1_purity_swap",
+  "tr_genetic_stage_2_cloning_swap",
+  "tr_genetic_stage_2_mutation_swap",
+  "tr_genetic_stage_2_purity_swap",
+  "tr_genetic_stage_3_cloning_swap",
+  "tr_genetic_stage_3_mutation_swap",
+  "tr_genetic_stage_3_purity_swap",
   "tr_genetics_finish_extra_traits",
   "tr_harmony_federations_finish",
   "tr_harmony_kinship_shared_burdens",
@@ -104408,7 +105408,12 @@ export const vanillaTraditionSwapIds: readonly string[] = [
   "tr_modularity_2_gestalt",
   "tr_modularity_3_gestalt",
   "tr_mutation_adopt_evo_pred",
+  "tr_mutation_empowered_environmental_integration",
+  "tr_mutation_empowered_environmental_integration_evo_pred",
+  "tr_mutation_environmental_integration_evo_pred",
+  "tr_mutation_nucleotide_isolation_evo_pred",
   "tr_mutation_planned_polymorphism_evo_pred",
+  "tr_mutation_somatic_subversiveness_evo_pred",
   "tr_mutation_unnatural_selection_evo_pred",
   "tr_nanotech_3_nomad",
   "tr_prosperity_administrative_operations_hive",
@@ -104448,6 +105453,14 @@ export const vanillaTraditionSwapIds: readonly string[] = [
   "tr_purity_genotype_regeneration_wilderness",
   "tr_purity_imperfection_remediation_wilderness",
   "tr_purity_imperfection_remediation_xenophile",
+  "tr_statecraft_amongst_peers_hive",
+  "tr_statecraft_amongst_peers_machine",
+  "tr_statecraft_constitutional_focus_hive",
+  "tr_statecraft_constitutional_focus_machine",
+  "tr_statecraft_inspiring_agendas_hive",
+  "tr_statecraft_inspiring_agendas_machine",
+  "tr_statecraft_shared_benefits_hive",
+  "tr_statecraft_shared_benefits_machine",
   "tr_subterfuge_cloaking_finish",
   "tr_subterfuge_nda_hive",
   "tr_subterfuge_nda_machine",
@@ -107909,7 +108922,9 @@ export const vanillaIdsByType: Readonly<Record<string, readonly string[]>> = {
   "pop_faction_name_parts_list": vanillaPopFactionNamePartsListIds,
   "population_control": vanillaPopulationControlIds,
   "portrait": vanillaPortraitIds,
+  "portrait_category": vanillaPortraitCategoryIds,
   "portrait_group": vanillaPortraitGroupIds,
+  "portrait_set": vanillaPortraitSetIds,
   "pre_communications_name_format": vanillaPreCommunicationsNameFormatIds,
   "pre_communications_name_parts_list": vanillaPreCommunicationsNamePartsListIds,
   "pre_ftl_age": vanillaPreFtlAgeIds,

@@ -87,6 +87,18 @@ export interface LoadCheckContext {
   readonly command?: (family: "effect" | "trigger", name: string) => boolean;
   /** Whether a modifier of this name exists apart from any static modifier. */
   readonly modifier?: (name: string) => boolean;
+  /**
+   * Whether the game would find a file at this path: one the base game ships
+   * or the mod writes. The path is as the game resolves it, from the root of
+   * the game folder, `/` between its parts.
+   */
+  readonly fileExists?: (path: string) => boolean;
+  /**
+   * The animation ids a mesh declares, `animation = { id = … }` by
+   * `animation`; none for a mesh that declares none, and `undefined` for a
+   * mesh nothing here knows.
+   */
+  readonly meshAnimations?: (mesh: string) => readonly string[] | undefined;
 }
 
 export interface LoadFinding {
@@ -100,18 +112,28 @@ export interface LoadFinding {
    * `conflicting-fields` for two fields the game does not take together;
    * `shadows-engine-name` for a name the executable already uses;
    * `missing-building-sets` for a building no zone can hold;
+   * `missing-category` for a building the build menu has no place for;
    * `missing-zone-slots` for a district the game says will crash it;
-   * `unprefixed-concept` for a game concept not named `concept_…`.
+   * `unprefixed-concept` for a game concept not named `concept_…`;
+   * `missing-file` for a file the game looks for and nothing ships;
+   * `unknown-animation` for a state playing what its mesh has not got;
+   * `duplicate-field` for a field the game reads once and logs twice;
+   * `missing-uplifted-portrait` for a portrait with nothing to be uplifted to.
    */
   readonly code:
     | "conflicting-fields"
+    | "duplicate-field"
     | "hidden-event-options"
     | "incomplete-event"
     | "mismatched-event-trigger"
     | "missing-building-sets"
+    | "missing-category"
     | "missing-description"
+    | "missing-file"
+    | "missing-uplifted-portrait"
     | "missing-zone-slots"
     | "shadows-engine-name"
+    | "unknown-animation"
     | "unprefixed-concept"
     | "unresolved-reference"
     | "untriggered-event";
@@ -890,6 +912,62 @@ function buildingSets(id: string, body: LoadBlock): readonly LoadFinding[] {
 }
 
 /**
+ * A building's icon, and its category.
+ *
+ * A building is drawn by a file, not by a sprite: its reader turns `icon = x`
+ * into `gfx/interface/icons/buildings/x.dds` as it reads the key (`0x468a20`),
+ * and a building that names none gets the same path with its own key in it
+ * (`0x46cb40`). That check then asks the file system for the path and logs
+ * `Building … is missing texture …` for one that is not there
+ * (`building_type.cpp:844`), and the building is drawn with the default icon.
+ *
+ * The same check logs `No category assigned to building type …` (`:830`) for
+ * one whose `category` was never read. Each of the base game's buildings has
+ * its file and its category.
+ */
+function buildingIcon(id: string, body: LoadBlock, context: LoadCheckContext): readonly LoadFinding[] {
+  if (body.open) {
+    return [];
+  }
+
+  const findings: LoadFinding[] = [];
+
+  if (valuesOf(body, "category").length === 0) {
+    findings.push({
+      code: "missing-category",
+      path: "",
+      message: `${id} has no category, and the game logs "No category assigned to building type ${id}". Write the category the build menu lists it under, as the base game's laboratories write category = research.`,
+    });
+  }
+
+  if (context.fileExists === undefined) {
+    return findings;
+  }
+
+  const written: readonly LoadValue[] = valuesOf(body, "icon");
+  const icon: string | undefined = scalarOf(written.at(-1));
+
+  if (written.length > 0 && (icon === undefined || isIndirect(icon))) {
+    return findings;
+  }
+
+  const path: string = `gfx/interface/icons/buildings/${icon ?? id}.dds`;
+
+  if (!isIndirect(id) && !context.fileExists(path)) {
+    findings.push({
+      code: "missing-file",
+      path: icon === undefined ? "" : "icon",
+      message:
+        icon === undefined
+          ? `${id} names no icon, so the game draws it with ${path}, and neither the base game nor this mod ships that file. It logs "Building ${id} is missing texture ${path}" and shows the default icon. Ship the file with mod.asset(), or name a building's icon that exists: icon = building_research_lab_1.`
+          : `icon = ${icon} is drawn from ${path}, and neither the base game nor this mod ships that file. The game logs "Building ${id} is missing texture ${path}" and shows the default icon. An icon is the name of a file in gfx/interface/icons/buildings, without its extension.`,
+    });
+  }
+
+  return findings;
+}
+
+/**
  * A district with no zone slots.
  *
  * The district's check (`0x48d620`, `district_type.cpp:451`) logs `District
@@ -976,13 +1054,219 @@ function engineNames(type: string, id: string, context: LoadCheckContext): reado
     : [];
 }
 
+/** The words a list holds: its values with no key, each a scalar. */
+function wordsOf(list: LoadBlock): readonly string[] {
+  return list.entries.flatMap((entry) =>
+    entry.key === undefined && entry.value.kind === "scalar" ? [entry.value.text] : [],
+  );
+}
+
+/**
+ * An animation's file.
+ *
+ * The one file a definition names that is not a path from the root of the
+ * game folder, and so not one `validate` can look for where it is written:
+ * the reader of an asset file joins the name to the directory of the file that declares the
+ * animation (`0x1ab7f80`, `assetfactory.cpp:1078`) and asks for that. One it
+ * cannot find is logged as `Could not find animation file … (referenced near
+ * line … in …)` and the animation is never registered, so a mesh that names
+ * it has nothing to play. Every one of the base game's 2,457 animations
+ * writes a bare name and sits beside its file.
+ */
+function animationFile(
+  id: string,
+  body: LoadBlock,
+  context: LoadCheckContext,
+  file: string | undefined,
+): readonly LoadFinding[] {
+  if (context.fileExists === undefined || file === undefined) {
+    return [];
+  }
+
+  const slash: number = file.lastIndexOf("/");
+  const directory: string = slash < 0 ? "" : file.slice(0, slash);
+  const findings: LoadFinding[] = [];
+
+  for (const value of valuesOf(body, "file")) {
+    const name: string | undefined = scalarOf(value);
+    if (name === undefined || name.length === 0 || isIndirect(name)) {
+      continue;
+    }
+    const path: string = directory.length === 0 ? name : `${directory}/${name}`;
+    if (context.fileExists(path)) {
+      continue;
+    }
+    findings.push({
+      code: "missing-file",
+      path: "file",
+      message: `file = ${name} is looked for beside the file that declares the animation, as ${path}, and neither the base game nor this mod ships that. The game logs "Could not find animation file ${path}" and never registers ${id}, so a mesh that plays it stands still. Ship the .anim in ${directory.length === 0 ? "the same directory" : directory}, or write this definition to a file beside it.`,
+    });
+  }
+
+  return findings;
+}
+
+/**
+ * The animation each state of an entity plays.
+ *
+ * A state's `animation` is not the name of an animation: it is one of the ids
+ * the entity's mesh gives its own, `animation = { id = "idle" type = … }`.
+ * As the entity is built (`0xf79700`, `pdx_entity.cpp`) the id is hashed and
+ * looked up among the mesh's; one that is not there is logged as `Could not
+ * find animation "…" for state "…" in entity "…"` (`:251`), and the state
+ * plays nothing — a portrait that stands frozen. Where the mesh declares no
+ * animation at all, any state that names one is logged as using an animation
+ * the entity `does not have an animated mesh` for (`:266`).
+ *
+ * The hash is of the bytes as written, so `Idle` is not `idle`. Of the base
+ * game's 8,429 entities, 6,346 states name an animation, and every one of
+ * them is an id of its entity's mesh.
+ */
+function entityAnimations(id: string, body: LoadBlock, context: LoadCheckContext): readonly LoadFinding[] {
+  if (context.meshAnimations === undefined || body.open) {
+    return [];
+  }
+
+  const mesh: string | undefined = valuesOf(body, "pdxmesh")
+    .map(scalarOf)
+    .find((name) => name !== undefined && name.length > 0);
+
+  if (mesh === undefined || isIndirect(mesh)) {
+    return [];
+  }
+
+  const declared: readonly string[] | undefined = context.meshAnimations(mesh);
+
+  if (declared === undefined) {
+    return [];
+  }
+
+  const findings: LoadFinding[] = [];
+
+  for (const state of blocksOf(body, "state")) {
+    if (state.open) {
+      continue;
+    }
+
+    const animation: string | undefined = scalarOf(valuesOf(state, "animation")[0]);
+
+    if (animation === undefined || animation.length === 0 || isIndirect(animation) || declared.includes(animation)) {
+      continue;
+    }
+
+    const name: string = scalarOf(valuesOf(state, "name")[0]) ?? "with no name";
+
+    findings.push({
+      code: "unknown-animation",
+      path: "state",
+      message:
+        declared.length === 0
+          ? `The state ${name} plays animation = ${animation}, and the mesh ${mesh} declares no animation at all. The game logs "${id}.${name} uses [animation = ${animation}] but the entity does not have an animated mesh!" and the state plays nothing.`
+          : `The state ${name} plays animation = ${animation}, which is not an animation id of the mesh ${mesh}: it declares ${someIds(declared)}. A state names one of its mesh's own ids, not an animation. The game logs "Could not find animation "${animation}" for state "${name}" in entity "${id}"" and the state plays nothing.`,
+    });
+  }
+
+  return findings;
+}
+
+/** `idle, attack, death and 4 more`: ids short enough to read. */
+function someIds(ids: readonly string[]): string {
+  const shown: readonly string[] = ids.slice(0, 6);
+  return ids.length > shown.length
+    ? `${shown.join(", ")} and ${String(ids.length - shown.length)} more`
+    : shown.join(", ");
+}
+
+/**
+ * What the game logs about a portrait set.
+ *
+ * Its `conditional_portraits` take one `playable` and one `randomizable`
+ * each: a second one read after a first that holds a condition is logged as
+ * `Duplicate trigger at …` (`0xa30e10`, `species_conditional_portrait.cpp`,
+ * asking the count of the trigger already read).
+ *
+ * And `uplifted_portraits` is read by position. When a species is uplifted,
+ * its portrait's place in `portraits` is looked up and the same place in
+ * `uplifted_portraits` taken (`0x44a650`, `species_portrait_set.cpp:244`); a
+ * list too short to have that place is logged as `Cannot find corresponding
+ * uplifted portrait … The number of portraits is different than the number
+ * of uplifted portraits`. The base game's eleven such sets pair them one to
+ * one.
+ */
+function portraitSet(id: string, body: LoadBlock): readonly LoadFinding[] {
+  if (body.open) {
+    return [];
+  }
+
+  const findings: LoadFinding[] = [];
+
+  for (const conditional of blocksOf(body, "conditional_portraits")) {
+    if (conditional.open) {
+      continue;
+    }
+    for (const key of ["playable", "randomizable"]) {
+      const written: readonly LoadValue[] = valuesOf(conditional, key);
+      // The first has to hold a condition for the second to be logged.
+      const first: LoadValue | undefined = written[0];
+      if (written.length > 1 && first !== undefined && first.kind === "block" && first.entries.length > 0) {
+        findings.push({
+          code: "duplicate-field",
+          path: "conditional_portraits",
+          message: `conditional_portraits writes ${key} ${String(written.length)} times. The game reads one condition there and logs "Duplicate trigger" for each one after the first; write the conditions in a single ${key}.`,
+        });
+      }
+    }
+  }
+
+  const uplifted: readonly LoadBlock[] = blocksOf(body, "uplifted_portraits");
+
+  if (uplifted.length > 0 && uplifted.every((list) => !list.open)) {
+    const portraits: readonly string[] = blocksOf(body, "portraits").flatMap(wordsOf);
+    const targets: readonly string[] = uplifted.flatMap(wordsOf);
+
+    if (portraits.length > targets.length && blocksOf(body, "portraits").every((list) => !list.open)) {
+      const orphan: string = portraits[targets.length] ?? "";
+      findings.push({
+        code: "missing-uplifted-portrait",
+        path: "uplifted_portraits",
+        message: `${id} lists ${String(portraits.length)} portraits and ${String(targets.length)} uplifted_portraits. The two are paired by position, so ${orphan} and every portrait after it has nothing to be uplifted to: the game logs "Cannot find corresponding uplifted portrait for portrait '${orphan}' in species portrait set '${id}'. The number of portraits is different than the number of uplifted portraits".`,
+      });
+    }
+  }
+
+  return findings;
+}
+
+/**
+ * The species class a block of species names is written under.
+ *
+ * The key of a block in `common/species_names` is looked up among the
+ * species classes as the file is read (`0x3d6f90`, `species.cpp:205`). One
+ * that is no species class is logged as `Error: Name list for species … could
+ * not be read / Reason: Invalid Species Class!`, and none of the names under
+ * it are read. All 19 keys the base game writes are species classes.
+ */
+function speciesNameClass(id: string, context: LoadCheckContext): readonly LoadFinding[] {
+  return isIndirect(id) || context.defines("species_class", id)
+    ? []
+    : [
+        {
+          code: "unresolved-reference",
+          path: "",
+          message: `${id} is written in common/species_names as the species class its names belong to, and neither the base game nor this mod defines a species class of that id. The game logs "Error: Name list for species ${id} could not be read / Reason: Invalid Species Class!" and reads none of the names.`,
+        },
+      ];
+}
+
 /**
  * Everything the game's loader would log about one definition, by the checks
  * above.
  *
  * `type` is the definition type's id, `id` the definition's, and `rootKey` the
  * key it is written under: its tag for a tagged type, which is what says an
- * event is a `country_event`.
+ * event is a `country_event`. `file` is the file the definition is written to,
+ * from the root of the game folder, for the checks that resolve a name against
+ * it.
  */
 export function loadChecks(
   type: string,
@@ -990,10 +1274,19 @@ export function loadChecks(
   body: LoadBlock,
   context: LoadCheckContext,
   rootKey: string = id,
+  file?: string,
 ): readonly LoadFinding[] {
   switch (type) {
+    case "model_animation":
+      return animationFile(id, body, context, file);
+    case "model_entity":
+      return entityAnimations(id, body, context);
+    case "portrait_set":
+      return portraitSet(id, body);
+    case "species_name":
+      return speciesNameClass(id, context);
     case "building":
-      return buildingSets(id, body);
+      return [...buildingSets(id, body), ...buildingIcon(id, body, context)];
     case "concept":
       return conceptPrefix(id);
     case "district":
@@ -1022,10 +1315,14 @@ export const loadCheckedTypes: ReadonlySet<string> = new Set([
   "district",
   "event",
   "megastructure",
+  "model_animation",
+  "model_entity",
+  "portrait_set",
   "scripted_effect",
   "scripted_trigger",
   "ship_size",
   "situation_type",
+  "species_name",
   "static_modifier",
   ...Object.keys(DESCRIBED_WEIGHTS),
 ]);

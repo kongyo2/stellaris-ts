@@ -22,7 +22,8 @@ const mod = defineMod({
       category: "research",
       building_sets: ["research"],
       base_buildtime: 360,
-      icon: "GFX_building_physics_lab",
+      // The name of a file in gfx/interface/icons/buildings, not of a sprite.
+      icon: "building_research_lab_1",
       potential: { exists: "owner" },
       allow: { has_upgraded_capital: true },
       resources: {

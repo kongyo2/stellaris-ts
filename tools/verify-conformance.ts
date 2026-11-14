@@ -6,14 +6,18 @@ import { vanillaFieldNames } from "../src/generated/vanilla/index.js";
 import { schema } from "../src/schema/index.js";
 import {
   isVanillaDefect,
+  isVanillaMissingFile,
   isVanillaScopeDefect,
   isVanillaUnlocalisedDefinition,
   isVanillaUnlocalisedReference,
+  isVanillaUnresolvedReference,
   isVanillaValueDefect,
   vanillaFieldDefects,
+  vanillaMissingFiles,
   vanillaScopeDefects,
   vanillaUnlocalisedDefinitions,
   vanillaUnlocalisedReferences,
+  vanillaUnresolvedReferences,
 } from "../src/schema/vanilla-defects.js";
 import { checkConformance, type ConformanceReport } from "./verify-schema/conformance.js";
 
@@ -243,6 +247,94 @@ for (const finding of unexplainedStrings) {
   );
 }
 
+// Direction R: a name vanilla writes where every rule reads a reference, and
+// which names no definition the index holds. `validate` reports the same in a
+// mod, so each one is a rule that reads the value wrongly, an index that
+// misses definitions the game has, or something vanilla names and never
+// defined — the last listed by name, the others to be corrected.
+const unexplainedReferences = report.types.flatMap((entry) =>
+  entry.unresolvedReferences
+    .filter((finding) => !isVanillaUnresolvedReference(entry.type, finding.name))
+    .map((finding) => ({ type: entry.type, ...finding })),
+);
+
+const REFERENCE_LIMIT = 400;
+
+for (const finding of unexplainedReferences.slice(0, REFERENCE_LIMIT)) {
+  console.error(
+    `CONFORMANCE ${finding.type} reference: ${finding.field === "<item>" ? "an item" : finding.field} ${finding.path.length === 0 ? "" : `inside ${finding.path} `}names ${finding.types.join(" or ")} ${finding.name}, which the index does not hold (${String(finding.occurrences)}x, e.g. ${finding.examples[0] ?? ""}).`,
+  );
+}
+
+if (unexplainedReferences.length > REFERENCE_LIMIT) {
+  console.error(
+    `CONFORMANCE ${String(unexplainedReferences.length - REFERENCE_LIMIT)} further unresolved references not listed.`,
+  );
+}
+
+const staleReferences: readonly string[] = Object.entries(vanillaUnresolvedReferences).flatMap(([type, names]) =>
+  names
+    .filter(
+      (name) =>
+        !report.types.some(
+          (entry) => entry.type === type && entry.unresolvedReferences.some((finding) => finding.name === name),
+        ),
+    )
+    .map((name) => `${type} reference ${name}`),
+);
+
+for (const stale of staleReferences) {
+  console.error(`CONFORMANCE ${stale} is listed as a reference to nothing in vanilla and is no longer found.`);
+}
+
+// Direction A: a file vanilla names where every rule reads a file, which the
+// index of the game's files does not hold. `validate` reports the same in a
+// mod as a file nothing ships.
+const missingFiles = report.types.flatMap((entry) =>
+  entry.missingFiles
+    .filter((finding) => !isVanillaMissingFile(entry.type, finding.name))
+    .map((finding) => ({ type: entry.type, ...finding })),
+);
+
+const staleFiles: readonly string[] = Object.entries(vanillaMissingFiles).flatMap(([type, names]) =>
+  names
+    .filter(
+      (name) =>
+        !report.types.some(
+          (entry) => entry.type === type && entry.missingFiles.some((finding) => finding.name === name),
+        ),
+    )
+    .map((name) => `${type} file ${name}`),
+);
+
+for (const stale of staleFiles) {
+  console.error(`CONFORMANCE ${stale} is listed as a file vanilla names and does not ship, and is no longer found.`);
+}
+
+const FILE_LIMIT = 150;
+const fileGroups = new Map<string, { count: number; names: string[]; example: string }>();
+for (const finding of missingFiles) {
+  const where: string = `${finding.type} ${finding.path.length === 0 ? "" : `${finding.path}.`}${finding.field}`;
+  const group = fileGroups.get(where) ?? { count: 0, names: [], example: finding.examples[0] ?? "" };
+  group.count += finding.occurrences;
+  if (group.names.length < 4) {
+    group.names.push(finding.name);
+  }
+  fileGroups.set(where, group);
+}
+for (const [where, group] of [...fileGroups].slice(0, FILE_LIMIT)) {
+  console.error(
+    `CONFORMANCE ${where} file: names ${group.names.join(", ")}${group.names.length < group.count ? ", …" : ""}, which the game does not ship (${String(group.count)}x, e.g. ${group.example}).`,
+  );
+}
+
+const referenceGaps: number = report.types.reduce(
+  (total, entry) =>
+    total +
+    entry.unresolvedReferences.filter((finding) => isVanillaUnresolvedReference(entry.type, finding.name)).length,
+  0,
+);
+
 // And a string a requirement asks of every definition, which vanilla's own
 // definitions lack. Kept as a requirement only where vanilla nearly always has
 // it, with the exceptions listed by id; otherwise the requirement is wrong.
@@ -373,6 +465,11 @@ console.log(
     `unlocalised=${String(unexplainedStrings.length)}`,
     `missingStrings=${String(unexplainedMissing.length)}`,
     `vanillaStringGaps=${String(stringGaps)}`,
+    `filesChecked=${String(report.filesChecked)}`,
+    `missingFiles=${String(missingFiles.length)}`,
+    `referencesChecked=${String(report.referencesChecked)}`,
+    `unresolvedReferences=${String(unexplainedReferences.length)}`,
+    `vanillaReferenceGaps=${String(referenceGaps)}`,
     `loadChecked=${String(loadChecked)}`,
     `loadFindings=${String(loadFindings.length)}`,
     `modifierDump=${schema.modifiers.source}`,
@@ -413,6 +510,10 @@ if (
   unexplainedStrings.length > 0 ||
   unexplainedMissing.length > 0 ||
   staleStrings.length > 0 ||
+  unexplainedReferences.length > 0 ||
+  staleReferences.length > 0 ||
+  missingFiles.length > 0 ||
+  staleFiles.length > 0 ||
   loadFindings.length > 0 ||
   missingGated.length > 0 ||
   strictnessRegressed ||

@@ -7,6 +7,7 @@ import {
 } from "../generated/vanilla/index.js";
 import { vanillaFiles } from "../generated/vanilla/files.js";
 import { vanillaLocalisationKeys } from "../generated/vanilla/localisation-keys.js";
+import { vanillaMeshAnimations } from "../generated/vanilla/mesh-animations.js";
 import { definitionFilePath } from "../runtime/emit.js";
 import type { DefinitionRecord, Mod, RawFileRecord } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
@@ -19,6 +20,7 @@ import {
   type DefinitionPrecedence,
 } from "../schema/definition-precedence.js";
 import { captureFromDocument } from "../schema/extraction.js";
+import { foldedPath, namedFiles } from "../schema/file-references.js";
 import { localisationKey } from "../schema/ir.js";
 import {
   localisationKeyIn,
@@ -39,7 +41,10 @@ import {
   type LoadValue,
 } from "../schema/load-checks.js";
 import { engineFixedEnums } from "../schema/merged-types.js";
+import { meshAnimationsOf } from "../schema/mesh-animations.js";
 import { NodeKind, parse, type Document, type EntryNode } from "../syntax/index.js";
+import { movedFields } from "../schema/reader-fields.js";
+import { namesNoDefinition, referenceLabel, referenceTargets, type ReferenceTargets } from "../schema/references.js";
 import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../schema/scopeless-on-actions.js";
 import { schema } from "../schema/index.js";
 import { branchChain, isBranchBody, type BranchChain } from "../schema/script-order.js";
@@ -98,46 +103,6 @@ function compareOrdinal(left: string, right: string): number {
   return left < right ? -1 : left > right ? 1 : 0;
 }
 
-/**
- * What a key points at, when pointing at something is all it can do.
- *
- * Reported only when every rule for the key is a reference. A field is often
- * `<building> | scalar` — `icon` is — and a scalar rule means the value may be
- * anything, so naming one of the alternatives as unresolved would be wrong.
- */
-function referenceTypes(values: readonly ResolvedValue[]): readonly string[] {
-  const types: string[] = [];
-  let onlyReferences = values.length > 0;
-
-  const visit = (value: ResolvedValue): void => {
-    if (value.kind === "type-reference") {
-      types.push(value.type);
-      return;
-    }
-    if (value.kind === "list") {
-      visit(value.item);
-      return;
-    }
-    if (value.kind === "choice") {
-      for (const choice of value.choices) {
-        visit(choice);
-      }
-      return;
-    }
-    // A block rule says nothing about a scalar written under the same key, so it
-    // is neither a reference nor a reason to stop reporting one.
-    if (value.kind !== "block" && value.kind !== "script-block" && value.kind !== "scripted-call") {
-      onlyReferences = false;
-    }
-  };
-
-  for (const value of values) {
-    visit(value);
-  }
-
-  return onlyReferences ? types : [];
-}
-
 /** The enums a key's value must be a member of, when every rule says so. */
 function enumsOf(values: readonly ResolvedValue[]): readonly string[] {
   const ids: string[] = [];
@@ -171,14 +136,19 @@ interface Walker {
   readonly model: SchemaModel;
   readonly modifiers: ReadonlySet<string>;
   readonly idsByType: Readonly<Record<string, readonly string[]>>;
-  readonly declared: ReadonlySet<string>;
+  /** Every id of a type, the base game's and the mod's; `undefined` for a type nothing is indexed of. */
+  readonly known: (type: string) => ReadonlySet<string> | undefined;
   /** Extracted enum members, vanilla’s joined with the ones this mod defines. */
   readonly enumMembers: Readonly<Record<string, readonly string[]>>;
   /** Keys the game injects script through, lower-cased. Just `inline_script`. */
   readonly macroKeys: ReadonlySet<string>;
+  /** Whether the game would find a file at a path: one it ships, or one the mod writes. */
+  readonly fileExists: (path: string) => boolean;
   /** Whether a string exists in a language: the mod's own, or the base game's. */
   readonly localised: (language: string, key: string) => boolean;
   readonly languages: readonly string[];
+  /** The type of the definition being walked. */
+  type: string;
   /** Whether the definition being walked is in a variant of its type. */
   inVariant: (variant: string) => boolean;
   /** Why the definition being walked has no scope, when it is known to have none. */
@@ -216,6 +186,135 @@ let vanillaKeys: ReadonlySet<string> | undefined;
 function vanillaLocalisation(): ReadonlySet<string> {
   vanillaKeys ??= new Set(vanillaLocalisationKeys);
   return vanillaKeys;
+}
+
+/**
+ * The base game's files in one directory. Its own entries only: the listing
+ * is a plain object, and a mod may well write a directory called
+ * `constructor`.
+ */
+function vanillaFilesIn(directory: string): readonly string[] {
+  return Object.hasOwn(vanillaFiles, directory) ? (vanillaFiles[directory] ?? []) : [];
+}
+
+/** Every file the base game ships, as a path from its root, lower-cased; built once. */
+let vanillaPaths: ReadonlySet<string> | undefined;
+
+function vanillaFilePaths(): ReadonlySet<string> {
+  if (vanillaPaths === undefined) {
+    const paths = new Set<string>();
+    for (const [directory, names] of Object.entries(vanillaFiles)) {
+      for (const name of names) {
+        paths.add(`${directory}/${name}`.toLowerCase());
+      }
+    }
+    vanillaPaths = paths;
+  }
+  return vanillaPaths;
+}
+
+/**
+ * The files the game would find with this mod installed: the base game's, and
+ * every file the mod writes — its assets, its raw files and the files its
+ * definitions land in.
+ *
+ * Not the base game's files in a directory the mod names in `replace_path`:
+ * the game reads none of them, so one the mod does not ship itself is not
+ * there. As the definitions of such a directory are treated, the directory is
+ * the one named and not the ones inside it.
+ *
+ * Folded, as the file system the game is mostly run on folds: a texture
+ * shipped as `Body.dds` is found under `body.dds` there.
+ */
+function fileLookup(mod: Mod): (path: string) => boolean {
+  const written = new Set<string>();
+  const hidden: ReadonlySet<string> = new Set((mod.options.replacePaths ?? []).map((path) => foldedPath(path)));
+
+  for (const asset of mod.assets) {
+    written.add(foldedPath(asset.path));
+  }
+  for (const file of mod.files) {
+    written.add(foldedPath(file.path));
+  }
+  for (const definition of mod.definitions) {
+    const path: string | undefined = definitionFilePath(mod.options, definition);
+    if (path !== undefined) {
+      written.add(foldedPath(path));
+    }
+  }
+
+  return (path: string): boolean => {
+    const wanted: string = foldedPath(path);
+    if (written.has(wanted)) {
+      return true;
+    }
+    const slash: number = wanted.lastIndexOf("/");
+    return !hidden.has(slash < 0 ? "" : wanted.slice(0, slash)) && vanillaFilePaths().has(wanted);
+  };
+}
+
+/**
+ * The animation ids each mesh this mod defines gives its animations, by mesh:
+ * the ones written with `define`, and the ones in a `.gfx` the mod ships as a
+ * raw file.
+ *
+ * `null` for a mesh whose animations cannot all be read — one written with
+ * `raw()` that does not parse, an `inline_script` in the mesh, an id only the
+ * game can work out. Such a mesh declares something this cannot see, which is
+ * not the same as declaring nothing: read as none, every state of its entity
+ * was told its mesh is not animated.
+ */
+function ownMeshAnimations(
+  definitions: readonly DefinitionRecord[],
+  parsed: ReadonlyMap<string, Document>,
+): ReadonlyMap<string, ReadonlySet<string> | null> {
+  const fromFiles = new Map<string, Set<string>>();
+  const unreadable = new Set<string>();
+
+  for (const document of parsed.values()) {
+    meshAnimationsOf(document, fromFiles, unreadable);
+  }
+
+  const meshes = new Map<string, ReadonlySet<string> | null>(fromFiles);
+  for (const name of unreadable) {
+    meshes.set(name, null);
+  }
+
+  for (const definition of definitions) {
+    if (definition.type !== "model_mesh") {
+      continue;
+    }
+
+    // As the load checks read a body: `repeated()` is the key once per value
+    // and `raw()` the script it holds, parsed.
+    const body: LoadBlock = loadBlockOf(definition.body);
+    const ids = new Set<string>(fromFiles.get(definition.id));
+    let readable: boolean = !body.open && !unreadable.has(definition.id);
+
+    for (const entry of body.entries) {
+      if (entry.key?.toLowerCase() !== "animation") {
+        continue;
+      }
+      if (entry.value.kind !== "block" || entry.value.open) {
+        readable = false;
+        continue;
+      }
+      for (const field of entry.value.entries) {
+        if (field.key?.toLowerCase() !== "id") {
+          continue;
+        }
+        if (field.value.kind === "scalar" && !isIndirect(field.value.text)) {
+          ids.add(field.value.text);
+        } else {
+          readable = false;
+        }
+      }
+    }
+
+    meshes.set(definition.id, readable ? ids : null);
+  }
+
+  return meshes;
 }
 
 /**
@@ -654,18 +753,16 @@ function checkValue(
   key: string,
   value: unknown,
   resolution: KeyResolution,
+  read: readonly ResolvedValue[],
 ): void {
   const values: readonly ResolvedValue[] = resolution.values;
 
   // A reference to something neither vanilla nor this mod defines fails when the
-  // game reaches it, which can be a long way into a session.
-  for (const type of referenceTypes(values)) {
-    const known: readonly string[] | undefined = walker.idsByType[type];
+  // game reaches it, which can be a long way into a session. The types a key
+  // may point at are alternatives: a name is unresolved when it is none of them.
+  const pointsAt: ReferenceTargets = referenceTargets(read);
 
-    if (known === undefined) {
-      continue;
-    }
-
+  if (pointsAt.types.length > 0) {
     const candidates: readonly unknown[] = Array.isArray(value) ? value : [value];
 
     for (const candidate of candidates) {
@@ -680,11 +777,11 @@ function checkValue(
         continue;
       }
 
-      if (!known.includes(named) && !walker.declared.has(`${type}:${named}`)) {
+      if (namesNoDefinition(pointsAt, named, walker.known)) {
         walker.diagnostics.push({
           severity: "warning",
           code: "unresolved-reference",
-          message: `${key} points at ${type} ${named}, which is neither in vanilla nor defined by this mod.`,
+          message: `${key} points at ${referenceLabel(pointsAt)} ${named}, which is neither in vanilla nor defined by this mod.`,
           definition,
           path,
         });
@@ -728,6 +825,50 @@ function checkValue(
   }
 }
 
+/**
+ * A file a value names that nothing ships.
+ *
+ * Where every rule reads the value as a file — a sprite's `textureFile`, a
+ * mesh's `file`, each texture of a portrait — the game looks for it among its
+ * own files and the mod's, and one that is not there is logged and drawn as
+ * nothing: `Could not find mesh file … switching to gfx/models/test_object.mesh`
+ * (`0x1a6c9c0`, `pdxmeshtype.cpp:139`), `Cannot find character texture file`
+ * (`0xef4cd0`, `portraits.cpp:586`), `Texture Handler encountered missing
+ * texture file` (`0x1cd9f10`). Of the 32,678 files the base game's own
+ * definitions name this way, it ships all but the handful listed beside the
+ * gate that counts them.
+ */
+function checkNamedFile(
+  walker: Walker,
+  definition: string,
+  path: string,
+  key: string,
+  value: string,
+  values: readonly ResolvedValue[],
+): void {
+  if (value.length === 0 || isIndirect(value)) {
+    return;
+  }
+
+  const wanted: readonly string[] = namedFiles(values, value);
+  const first: string | undefined = wanted[0];
+
+  if (first === undefined || wanted.some((candidate) => walker.fileExists(candidate))) {
+    return;
+  }
+
+  walker.diagnostics.push({
+    severity: "warning",
+    code: "missing-file",
+    message:
+      first === value.trim()
+        ? `${key} names the file ${first}, which neither the base game nor this mod ships. The game logs the file as missing and draws nothing in its place, or its test object for a mesh. Ship it with mod.asset(), at that path.`
+        : `${key} = ${value} is the file ${first}, which neither the base game nor this mod ships. The game logs it as missing and falls back to a default. Ship it with mod.asset(), at that path.`,
+    definition,
+    path,
+  });
+}
+
 /** The numeric type a key takes, when every rule for it says the same one. */
 function numericOf(values: readonly ResolvedValue[]): "integer" | "number" | undefined {
   if (values.length === 0) {
@@ -769,17 +910,13 @@ function checkItem(
     return;
   }
 
-  for (const type of referenceTypes(items)) {
-    const known: readonly string[] | undefined = walker.idsByType[type];
+  const pointsAt: ReferenceTargets = referenceTargets(items);
 
-    if (known === undefined || known.includes(value) || walker.declared.has(`${type}:${value}`)) {
-      continue;
-    }
-
+  if (namesNoDefinition(pointsAt, value, walker.known)) {
     walker.diagnostics.push({
       severity: "warning",
       code: "unresolved-reference",
-      message: `${key} points at ${type} ${value}, which is neither in vanilla nor defined by this mod.`,
+      message: `${key} points at ${referenceLabel(pointsAt)} ${value}, which is neither in vanilla nor defined by this mod.`,
       definition,
       path,
     });
@@ -969,12 +1106,14 @@ function checkItems(
   // to this definition. `tags = { … }` names strings in one type and is a list
   // of words in another, and `meaning` is what tells them apart.
   const itemNames: readonly string[] = meaning === undefined ? [] : namedStrings(meaning.items);
+  const read: readonly ValueRule[] = meaning !== undefined && meaning.items.length > 0 ? meaning.items : rules.items;
 
   for (const item of items) {
     if (!isBlockLike(item)) {
-      checkItem(walker, definition, around, key, item, rules.items);
+      checkItem(walker, definition, around, key, item, read);
       if (typeof item === "string") {
         checkNamedStrings(walker, definition, around, item, itemNames, key, true);
+        checkNamedFile(walker, definition, around, key, item, read);
       }
     } else if (itemRules !== undefined) {
       const itemMeaning: BlockRules | undefined =
@@ -1133,12 +1272,14 @@ function walkBlock(
 
     if (!resolution.accepted) {
       const where: string = path.length === 0 ? "" : ` inside ${path}`;
+      // A key the game used to read here and now reads somewhere else.
+      const moved: string | undefined = movedFields[`${walker.type}.${path.length === 0 ? "" : `${path}.`}${key}`];
       walker.diagnostics.push({
         severity: "error",
         code: rules.families.has("modifier") ? "unknown-modifier" : "unknown-field",
         message: rules.families.has("modifier")
           ? `${key} is not a modifier${where}, so the game would drop it silently.`
-          : `${key} is not a key${where}. The game ignores what it does not know, so this would do nothing.`,
+          : `${key} is not a key${where}. The game ignores what it does not know, so this would do nothing.${moved === undefined ? "" : ` ${moved}`}`,
         definition,
         path,
       });
@@ -1170,7 +1311,12 @@ function walkBlock(
         });
       }
 
-      checkValue(walker, definition, path, key, value, resolution);
+      // What the value names, by the rules of this definition's own variants
+      // where any apply: a rule of another variant that takes any word would
+      // otherwise excuse a reference this one has to resolve.
+      const read: readonly ResolvedValue[] = applicable.length > 0 ? applicable : resolution.values;
+
+      checkValue(walker, definition, path, key, value, resolution, read);
       checkScope(walker, definition, path, key, resolution, scope);
 
       if (typeof value === "string" && namesScope(applicable)) {
@@ -1179,6 +1325,7 @@ function walkBlock(
 
       if (typeof value === "string") {
         checkNamedStrings(walker, definition, path, value, namedStrings(applicable), key, false);
+        checkNamedFile(walker, definition, path, key, value, read);
       }
 
       if (walker.macroKeys.has(key.toLowerCase())) {
@@ -1511,7 +1658,7 @@ function replacedVanillaFiles(mod: Mod): ReadonlyMap<string, ReadonlySet<string>
     const slash: number = path.lastIndexOf("/");
     const directory: string = slash < 0 ? "" : path.slice(0, slash);
     const name: string = path.slice(slash + 1).toLowerCase();
-    const shipped: string | undefined = (vanillaFiles[directory] ?? []).find((other) => other.toLowerCase() === name);
+    const shipped: string | undefined = vanillaFilesIn(directory).find((other) => other.toLowerCase() === name);
 
     if (shipped !== undefined) {
       const bucket: Set<string> = replaced.get(directory) ?? new Set<string>();
@@ -1620,7 +1767,7 @@ function vanillaOverride(
   const dot: number = name.lastIndexOf(".");
   const extension: string = dot < 0 ? "" : name.slice(dot).toLowerCase();
   // Only the files the game reads the type from take part in the order.
-  const others: readonly string[] = (vanillaFiles[directory] ?? []).filter((other) =>
+  const others: readonly string[] = vanillaFilesIn(directory).filter((other) =>
     other.toLowerCase().endsWith(extension),
   );
   const kept: string = `the game keeps the ${precedence} ${definition.type} of an id it reads`;
@@ -1676,7 +1823,6 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   const model: SchemaModel = options.model ?? schema;
   const languages: readonly string[] = options.languages ?? ["l_english"];
   const diagnostics: ValidationDiagnostic[] = [];
-  const declared = new Set<string>(mod.definitions.map((definition) => `${definition.type}:${definition.id}`));
   // As the descriptor writes them: one separator, no trailing one.
   const hiddenDirectories: ReadonlySet<string> = new Set(
     (mod.options.replacePaths ?? []).map((path) => normalisedPath(path)),
@@ -1705,11 +1851,6 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   // is its own as well.
   const parsedFiles: ReadonlyMap<string, Document> = parseRawFiles(mod.files);
   const ownIds: Record<string, string[]> = rawFileIds(model, parsedFiles);
-  for (const [type, ids] of Object.entries(ownIds)) {
-    for (const id of ids) {
-      declared.add(`${type}:${id}`);
-    }
-  }
   for (const definition of mod.definitions) {
     (ownIds[definition.type] ??= []).push(definition.id);
   }
@@ -1721,16 +1862,22 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     mod.definitions,
     parsedFiles,
   );
+  const fileExists: (path: string) => boolean = fileLookup(mod);
   const idSets = new Map<string, ReadonlySet<string>>();
+  const known = (type: string): ReadonlySet<string> | undefined => {
+    const ids: readonly string[] | undefined = idsByType[type];
+    if (ids === undefined) {
+      return undefined;
+    }
+    let set: ReadonlySet<string> | undefined = idSets.get(type);
+    if (set === undefined) {
+      set = new Set(ids);
+      idSets.set(type, set);
+    }
+    return set;
+  };
   const loadContext: LoadCheckContext = {
-    defines: (type: string, id: string): boolean => {
-      let set: ReadonlySet<string> | undefined = idSets.get(type);
-      if (set === undefined) {
-        set = new Set(idsByType[type] ?? []);
-        idSets.set(type, set);
-      }
-      return set.has(id);
-    },
+    defines: (type: string, id: string): boolean => known(type)?.has(id) === true,
     ids: (type: string): readonly string[] => idsByType[type] ?? [],
     command: (family: "effect" | "trigger", name: string): boolean =>
       engineCommandNames(model, family).has(name.toLowerCase()),
@@ -1740,7 +1887,26 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       engineModifiers ??= expandModifierNames(model.modifiers, idsByType);
       return engineModifiers.has(name.toLowerCase());
     },
+    fileExists,
+    // A mesh the mod defines is the mod's, whatever the base game calls its
+    // own; one of the base game's that is not listed declares no animation.
+    meshAnimations: (mesh: string): readonly string[] | undefined => {
+      const own: ReadonlySet<string> | null | undefined = meshAnimations.get(mesh);
+      if (own !== undefined) {
+        return own === null ? undefined : [...own];
+      }
+      // Its own entries only: a mesh may be called `constructor`, and the
+      // list is a plain object.
+      if (Object.hasOwn(vanillaMeshAnimations, mesh)) {
+        return vanillaMeshAnimations[mesh];
+      }
+      return known("model_mesh")?.has(mesh) === true ? [] : undefined;
+    },
   };
+  const meshAnimations: ReadonlyMap<string, ReadonlySet<string> | null> = ownMeshAnimations(
+    mod.definitions,
+    parsedFiles,
+  );
   let engineModifiers: ReadonlySet<string> | undefined;
   const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
@@ -1754,11 +1920,13 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     model,
     modifiers,
     idsByType,
-    declared,
+    known,
     enumMembers: ownEnumMembers,
     macroKeys: new Set(model.policy.macros.map((macro) => macro.key.toLowerCase())),
+    fileExists,
     localised,
     languages,
+    type: "",
     inVariant: () => false,
     noScope: undefined,
     scripted: new Map(
@@ -1867,6 +2035,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
     const root: BlockRules = walker.resolver.rulesForType(type);
     const subject: VariantSubject = variantSubject(definition);
+    walker.type = type.id;
     walker.inVariant = (variant: string): boolean => {
       const found = type.variants.find((candidate) => candidate.id === variant);
       return found !== undefined && variantHolds(found.when, subject);
@@ -1905,6 +2074,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         loadBlockOf(definition.body),
         loadContext,
         definition.blockKey ?? definition.id,
+        definitionFilePath(mod.options, definition),
       )) {
         diagnostics.push({
           severity: "warning",

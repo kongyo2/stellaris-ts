@@ -94,6 +94,83 @@ export const vanillaUnlocalisedReferences: Readonly<Record<string, readonly stri
   static_modifier: ["nomads_waystation_weapon_damage_tt"],
 };
 
+/**
+ * Names vanilla writes as references that are the name of nothing.
+ *
+ * Measured by the conformance gate, which asks of the base game what
+ * `validate` asks of a mod: a value under a rule that reads a reference has to
+ * name a definition. Each entry is one vanilla names and never defined, listed
+ * by type and name so that a new one still fails the gate; a value that is no
+ * reference at all is a rule to correct, not an entry here.
+ */
+export const vanillaUnresolvedReferences: Readonly<Record<string, readonly string[]>> = {
+  // common/defines/00_defines.txt: the buildings an advanced start is given,
+  // by ids the buildings have not had since they were renamed.
+  NGameplay: [
+    "building_basic_science_lab_1",
+    "building_capital_2",
+    "building_capital_3",
+    "building_hydroponics_farm_3",
+    "building_hydroponics_farm_4",
+    "building_mining_network_3",
+    "building_mining_network_4",
+    "building_power_plant_3",
+    "building_power_plant_4",
+  ],
+  // common/menace_perks/00_menace_perks.txt: two perks drawn with sprites no
+  // interface file defines.
+  menace_perk: ["GFX_crisis_icon_behemoth_mind_control", "GFX_crisis_icon_behemoth_mind_control_2"],
+  // gfx/portraits/portraits/24_portraits_mammalian_ar.txt: five portraits name
+  // a hair selector of their own, and the file defines none of them.
+  portrait: [
+    "mammalian_ar_02_hair",
+    "mammalian_ar_03_hair",
+    "mammalian_ar_07_hair",
+    "mammalian_ar_09_hair",
+    "mammalian_ar_10_hair",
+  ],
+  // gfx/portraits/portraits/22_portraits_cybernetics.txt: the rulers of
+  // `cyb12` add a male portrait that was never made.
+  portrait_group: ["cyb12_m"],
+  // common/scripted_effects/paragon_effects.txt fires an event no file holds.
+  scripted_effect: ["paragon.5265"],
+  // common/species_names/special_species.txt: the one name of the PSIONIC
+  // class draws from a name list of the same id, and there is none.
+  species_name: ["PSIONIC"],
+};
+
+/**
+ * Files vanilla names that it does not ship.
+ *
+ * Measured the same way: a value under a rule that reads a file has to be a
+ * file of the game. Of 32,678 it names, these are the ones that are not
+ * there, by type and by the path as written.
+ */
+export const vanillaMissingFiles: Readonly<Record<string, readonly string[]>> = {
+  // gfx/models/planets/_planetary_entities.asset: a texture for a ring world
+  // being built, and no file of that name.
+  model_entity: ["gfx/models/planets/ringworld_tech_fadein.dds"],
+  // gfx/portraits/portraits/25_portraits_biogenesis.txt: the first two
+  // ascension stages of one portrait, each masked by a file that is not there.
+  portrait: [
+    "gfx/models/portraits/biogenesis/bio_01_portrait_07_i_asc_stage_1_mask.dds",
+    "gfx/models/portraits/biogenesis/bio_01_portrait_07_i_asc_stage_2_mask.dds",
+  ],
+  // common/static_modifiers/23_static_modifiers_biogenesis.txt names a sprite
+  // where every other static modifier names a file.
+  static_modifier: ["GFX_tradition_category_icon_tradition_cybernetics"],
+};
+
+/** Whether a file a vanilla definition names is one the base game is known not to ship. */
+export function isVanillaMissingFile(type: string, name: string): boolean {
+  return (vanillaMissingFiles[type] ?? []).includes(name);
+}
+
+/** Whether a name a vanilla definition refers to is a known reference to nothing in the base game. */
+export function isVanillaUnresolvedReference(type: string, name: string): boolean {
+  return (vanillaUnresolvedReferences[type] ?? []).includes(name);
+}
+
 /** Whether a string a vanilla definition names is a known gap in the base game's localisation. */
 export function isVanillaUnlocalisedReference(type: string, key: string): boolean {
   return (vanillaUnlocalisedReferences[type] ?? []).includes(key);

@@ -15,6 +15,8 @@ describe("validate", () => {
   it("accepts a definition whose fields and strings are all present", () => {
     const mod = defineMod({ name: "Ok", version: "1", supportedVersion: SUPPORTED_VERSION })
       .add(define("building", "ok_lab", { category: "research", building_sets: ["research"] }))
+      // A building is drawn from the file of its own name, so the mod ships one.
+      .asset("gfx/interface/icons/buildings/ok_lab.dds", new Uint8Array())
       .localise("l_english", "ok_lab", "Lab")
       .localise("l_english", "ok_lab_desc", "A lab");
 
