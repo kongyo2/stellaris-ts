@@ -116,3 +116,41 @@ export function scopelessEvents(
 
   return result;
 }
+
+/**
+ * An event of some kind of object that only these on_actions fire.
+ *
+ * Every key an event is written under but `event` gives it the kind of scope
+ * it runs on, and the game checks the scope it is fired with against it
+ * (`0x8e5f60`, `event.cpp`). Fired with none, it logs `Script Error,
+ * attempting to fire %s scope event %s on no_scope` (`:1048`) and does not run
+ * the event; fired on another kind of object, `attempted to execute an event
+ * on an unsupported scope!` (`:1040`). So a `country_event` listed under
+ * `on_yearly_pulse` never runs, and says so once a year. The pulse that hands
+ * each country to an event is the one named `…_country`.
+ *
+ * `undefined` for an event written as `event`, which takes whatever fires it.
+ */
+export function scopelessTypedEvent(
+  id: string,
+  key: string,
+  firedBy: readonly string[],
+  isOnAction: (name: string) => boolean,
+): string | undefined {
+  const lowered: string = key.toLowerCase();
+
+  if (lowered === "event" || firedBy.length === 0) {
+    return undefined;
+  }
+
+  const kind: string = lowered.replace(/_event$/u, "").replaceAll("_", " ");
+  const variants: readonly string[] = firedBy
+    .map((name) => `${name}_${lowered.replace(/_event$/u, "")}`)
+    .filter(isOnAction);
+  const remedy: string =
+    variants.length > 0
+      ? `List it under ${variants.join(" or ")}, which the game fires once for each ${kind}.`
+      : `Fire it from something that hands it a ${kind}, or write it as event = { … } and reach the ${kind} from there.`;
+
+  return `${id} is written as ${key}, which runs on a ${kind}, and is fired only by ${firedBy.join(" and ")}, which ${firedBy.length === 1 ? "fires" : "fire"} it with no scope at all. The game logs "Script Error, attempting to fire ${kind} scope event ${id} on no_scope" each time and does not run the event. ${remedy}`;
+}

@@ -1,5 +1,6 @@
 import { NodeKind, type EntryNode, type Scalar } from "../syntax/index.js";
 import type { SchemaModel } from "./ir.js";
+import { fleetActionFacts, subplansOf, type CategoryBudgetUse, type Subplan } from "./load-facts.js";
 
 /**
  * What the game checks of a definition as it loads it, and tells only its log.
@@ -99,6 +100,13 @@ export interface LoadCheckContext {
    * mesh nothing here knows.
    */
   readonly meshAnimations?: (mesh: string) => readonly string[] | undefined;
+  /**
+   * What an economic category says to the AI's budget; `undefined` for a
+   * category nothing here knows.
+   */
+  readonly budgetUse?: (category: string) => CategoryBudgetUse | undefined;
+  /** The options a policy holds, by name; `undefined` for a policy nothing here knows. */
+  readonly policyOptions?: (policy: string) => readonly string[] | undefined;
 }
 
 export interface LoadFinding {
@@ -118,28 +126,50 @@ export interface LoadFinding {
    * `missing-file` for a file the game looks for and nothing ships;
    * `unknown-animation` for a state playing what its mesh has not got;
    * `duplicate-field` for a field the game reads once and logs twice;
-   * `missing-uplifted-portrait` for a portrait with nothing to be uplifted to.
+   * `missing-uplifted-portrait` for a portrait with nothing to be uplifted to;
+   * `duplicate-subplan` for a subplan that takes the place of another;
+   * `unused-ai-budget` for a budget the AI never draws on;
+   * `invalid-macro-entry` for a `[` the game reads as the start of a
+   * parameter block, and `unpaired-parameter` for a `$` with no partner;
+   * `missing-script-id` for a trigger or an effect of a fleet action with no
+   * `id`; `malformed-token` for a value the game's own reader cannot take;
+   * `scopeless-event` for an event of some kind of object fired with none;
+   * `unknown-policy-option` for an option of another policy.
    */
   readonly code:
     | "conflicting-fields"
     | "duplicate-field"
+    | "duplicate-subplan"
     | "hidden-event-options"
     | "incomplete-event"
+    | "invalid-macro-entry"
+    | "malformed-token"
     | "mismatched-event-trigger"
     | "missing-building-sets"
     | "missing-category"
     | "missing-description"
     | "missing-file"
+    | "missing-script-id"
     | "missing-uplifted-portrait"
     | "missing-zone-slots"
+    | "scopeless-event"
     | "shadows-engine-name"
     | "unknown-animation"
+    | "unknown-policy-option"
+    | "unpaired-parameter"
     | "unprefixed-concept"
     | "unresolved-reference"
-    | "untriggered-event";
+    | "untriggered-event"
+    | "unused-ai-budget";
   /** Where inside the definition, dotted. Empty for the definition itself. */
   readonly path: string;
   readonly message: string;
+  /**
+   * `error` for what leaves the definition not doing what it says: a block the
+   * game drops, text it cuts out. A line in the log beside a definition that
+   * still loads is a warning, and that is what a finding is when it says nothing.
+   */
+  readonly severity?: "error" | "warning";
 }
 
 /** The scalar a written value holds, with no quotes; `undefined` for a block. */
@@ -1259,6 +1289,364 @@ function speciesNameClass(id: string, context: LoadCheckContext): readonly LoadF
 }
 
 /**
+ * Two subplans of one name, and a plan's `potential` written twice.
+ *
+ * A plan and each of its subplans are read by one function (`0xb524c0`,
+ * `ai_economic_strategy.cpp`). As it reads a `subplan` it compares the new
+ * one's `set_name` with every subplan the plan already holds (`0xb52700`), and
+ * one of the same name is logged as `Duplicate AI subplan '%s' found in %s,
+ * using the one that ends at %s` (`:3177`), taken out, and the new one put in
+ * its place. A subplan that writes no `set_name` has the empty name, which is
+ * a name like any other: of several such, the last is the only one left.
+ *
+ * The same reader logs `Duplicate trigger at %s` (`:3192`) for a `potential`
+ * read where the one before it holds a condition, and keeps the second.
+ *
+ * Each of the base game's six plans names every one of its 126 subplans
+ * differently, through the inline scripts it is assembled from.
+ */
+function economicPlan(id: string, body: LoadBlock): readonly LoadFinding[] {
+  const findings: LoadFinding[] = [];
+
+  const read = (plan: LoadBlock, path: string): void => {
+    const subplans: readonly Subplan[] | undefined = subplansOf(plan);
+    const counted = new Map<string, number>();
+
+    for (const subplan of subplans ?? []) {
+      if (!subplan.indirect) {
+        counted.set(subplan.name, (counted.get(subplan.name) ?? 0) + 1);
+      }
+    }
+
+    for (const [name, count] of counted) {
+      if (count < 2) {
+        continue;
+      }
+      const which: string = name.length === 0 ? "write no set_name" : `are set_name = ${JSON.stringify(name)}`;
+      findings.push({
+        code: "duplicate-subplan",
+        severity: "error",
+        path: path.length === 0 ? "subplan" : `${path}.subplan`,
+        message: `${String(count)} subplans of ${id} ${which}. The game keeps the subplans of a plan by name and reads each one in place of the one it already has under the same name${name.length === 0 ? ", and no name is a name like any other" : ""}: only the last of these is left, and the game logs "Duplicate AI subplan '${name}' found in ${id}" for each of the others. Give every subplan a set_name of its own.`,
+      });
+    }
+
+    const potentials: readonly LoadValue[] = valuesOf(plan, "potential");
+    const first: LoadValue | undefined = potentials[0];
+    if (potentials.length > 1 && first !== undefined && first.kind === "block" && first.entries.length > 0) {
+      findings.push({
+        code: "duplicate-field",
+        path: path.length === 0 ? "potential" : `${path}.potential`,
+        message: `potential is written ${String(potentials.length)} times. The game keeps one and logs "Duplicate trigger" for each one after the first, whose conditions it drops; write the conditions in a single potential.`,
+      });
+    }
+
+    // A subplan is read by the function that reads a plan, and may hold its own.
+    for (const subplan of blocksOf(plan, "subplan")) {
+      read(subplan, path.length === 0 ? "subplan" : `${path}.subplan`);
+    }
+  };
+
+  read(body, "");
+  return findings;
+}
+
+/**
+ * A budget the AI never draws on.
+ *
+ * Once the budgets are read each is checked against its category (`0xb39a80`,
+ * `ai_budget_entry.cpp`). One whose category does not itself write
+ * `use_for_ai_budget = yes` is logged as `AI budget entry %s for category %s is
+ * unused for AI budgets as that category lacks use_for_ai_budget` (`:47`),
+ * and so is an `expenditure` of a resource the category lists under
+ * `ai_use_parent_for_resources_expenditure` (`:57`) and an `upkeep` of one it
+ * lists under `ai_use_parent_for_resources_upkeep` (`:66`): the category has
+ * handed that resource to its parent, and a budget for it is read by nothing.
+ *
+ * The flag is not inherited. The category's reader sets it from the
+ * category's own field (`0x1657f56`), and nothing copies a parent's down.
+ * Each of the base game's 200 budgets names a category that says yes.
+ */
+function aiBudget(id: string, body: LoadBlock, context: LoadCheckContext): readonly LoadFinding[] {
+  if (body.open || context.budgetUse === undefined) {
+    return [];
+  }
+
+  const category: string | undefined = scalarOf(valuesOf(body, "category").at(-1));
+
+  if (category === undefined || isIndirect(category)) {
+    return [];
+  }
+
+  const use: CategoryBudgetUse | undefined = context.budgetUse(category);
+
+  // No category of that name: the reference to it is what is wrong.
+  if (use === undefined) {
+    return [];
+  }
+
+  if (!use.budget) {
+    return [
+      {
+        code: "unused-ai-budget",
+        path: "category",
+        message: `category = ${category} is an economic category that does not write use_for_ai_budget = yes, and the AI keeps a budget only for one that does: the game logs "AI budget entry ${id} for category ${category} is unused for AI budgets as that category lacks use_for_ai_budget" and never draws on this one. The flag is the category's own, whatever its parent says.`,
+      },
+    ];
+  }
+
+  const resource: string | undefined = scalarOf(valuesOf(body, "resource").at(-1));
+  const type: string | undefined = scalarOf(valuesOf(body, "type").at(-1))?.toLowerCase();
+  const handedUp: readonly string[] =
+    type === "expenditure" ? use.parentExpenditure : type === "upkeep" ? use.parentUpkeep : [];
+
+  if (resource === undefined || type === undefined || !handedUp.includes(resource)) {
+    return [];
+  }
+
+  const field: string = `ai_use_parent_for_resources_${type}`;
+
+  return [
+    {
+      code: "unused-ai-budget",
+      path: "category",
+      message: `${category} lists ${resource} under ${field}: what it ${type === "upkeep" ? "pays in upkeep" : "spends"} of ${resource} comes out of its parent's budget, and a budget of its own for it is read by nothing. The game logs "AI budget entry ${id} for category ${category} is unused for AI budgets as that category specifies ${field} for ${resource}".`,
+    },
+  ];
+}
+
+/** The definitions the game keeps as text and reads again each time one is used. */
+const METASCRIPTS: Readonly<Record<string, string>> = {
+  script_value: "script value",
+  scripted_effect: "scripted effect",
+  scripted_trigger: "scripted trigger",
+};
+
+/** Where a character stands with no backslash before it, as `0xafe320` looks for one. */
+function unescaped(text: string, character: string): readonly number[] {
+  const found: number[] = [];
+  let from = 0;
+
+  for (;;) {
+    const at: number = text.indexOf(character, from);
+    if (at < 0) {
+      return found;
+    }
+    if (at === 0 || text[at - 1] !== "\\") {
+      found.push(at);
+    }
+    from = at + 1;
+  }
+}
+
+/**
+ * A `[` or a `$` the game reads as its own syntax.
+ *
+ * A scripted effect, a scripted trigger and a script value are not read into
+ * effects and triggers when the game loads them. Each is kept as text
+ * (`0xafe590`, `metascript.cpp`, built by `0x851e80`, `0x852990` and
+ * `0x84fb70`), and turned into script wherever it is used, with the caller's
+ * parameters written in. Two characters in that text are the game's:
+ *
+ * `$`. Each word is searched for `$NAME$` (`0xafef60`): from a `$` to the
+ * next one in the same word is a parameter's name. A word with one `$` and no
+ * partner gives it the rest of the word as a name, and the search for the next
+ * parameter then starts over at the beginning of the same word.
+ *
+ * `[`. The whole text is searched for `[[NAME] … ]` (`0xaff210`): from a `[`,
+ * what follows up to the next `]` is a parameter's name, and what follows that
+ * up to the `]` after it is script kept only when the parameter is passed.
+ * It does not look whether the `[` is doubled. `log = "x [Root.GetName] y"`
+ * therefore opens such a block: with no second `]` anywhere after it the game
+ * logs `Invalid macro entry in <name>: oot.GetName` (`:218`), and with one it
+ * has a block to drop, and drops the script between the two.
+ *
+ * Both searches pass over a character with a backslash before it, and the
+ * backslash is taken out once the parameters are in (`0xafe930` replaces
+ * `\\[`, `\\]`, `\\|` and `\\$`). That is how the base game writes one:
+ * `log = "- This: \\\\[This.GetName]"`, the lexer making one backslash of the two,
+ * and `@\\[ … ]` for inline maths. Of its 3,371 scripted effects and triggers
+ * and its script values, two hold a bare one, and lose script to it without
+ * a line in the log: they are listed beside the base game's other mistakes.
+ */
+function metascript(type: string, id: string, body: LoadBlock): readonly LoadFinding[] {
+  const kind: string | undefined = METASCRIPTS[type];
+
+  if (kind === undefined) {
+    return [];
+  }
+
+  // Every word of the definition in the order the game holds them, and
+  // whether all of them are here: a `[[PARAM] … ]` block or inline maths is
+  // script this cannot read, with brackets of its own.
+  const words: { readonly text: string; readonly path: string }[] = [];
+  let whole: boolean = !body.open;
+
+  const read = (block: LoadBlock, path: string): void => {
+    for (const entry of block.entries) {
+      const here: string = entry.key === undefined ? path : path.length === 0 ? entry.key : `${path}.${entry.key}`;
+      if (entry.key !== undefined) {
+        words.push({ text: entry.key, path });
+      }
+      if (entry.value.kind === "scalar") {
+        words.push({ text: entry.value.text, path: here });
+      } else if (entry.value.kind === "block") {
+        whole &&= !entry.value.open;
+        read(entry.value, here);
+      } else {
+        whole = false;
+      }
+    }
+  };
+
+  read(body, "");
+
+  const findings: LoadFinding[] = [];
+  const escape: string =
+    'Write a literal bracket with a backslash before it, as the base game does: "\\\\[" in TypeScript, which is written \\\\[ in the file and reaches the game as \\[.';
+
+  for (const word of words) {
+    if (unescaped(word.text, "$").length % 2 === 1) {
+      findings.push({
+        code: "unpaired-parameter",
+        severity: "error",
+        path: word.path,
+        message: `${JSON.stringify(word.text)} holds a $ with no partner, and in a ${kind} a $ opens the name of a parameter that the next $ in the same word closes. Finding none, the game takes the rest of the word as the name and starts its search for the next parameter over from the beginning of the same word, where the same $ is waiting. Write $NAME$ for a parameter, and a literal dollar with a backslash before it: "\\\\$" in TypeScript.`,
+      });
+    }
+  }
+
+  // The brackets with no backslash before them, in the order the game meets them.
+  const brackets: { readonly open: boolean; readonly word: number; readonly at: number }[] = [];
+  for (const [index, word] of words.entries()) {
+    const found: { open: boolean; at: number }[] = [
+      ...unescaped(word.text, "[").map((at) => ({ open: true, at })),
+      ...unescaped(word.text, "]").map((at) => ({ open: false, at })),
+    ].sort((left, right) => left.at - right.at);
+    brackets.push(...found.map((bracket) => ({ ...bracket, word: index })));
+  }
+
+  const reads: string = `in a ${kind} every [ is the start of [[PARAMETER] … ] to the game: it takes what follows up to the next ] as a parameter's name and the script from there to the ] after that as script to keep only when that parameter is passed`;
+
+  if (!whole) {
+    // Brackets this cannot see stand somewhere among these: which ] the game
+    // pairs with which [ is not known, only that it reads each [ as its own.
+    for (const word of words) {
+      if (unescaped(word.text, "[").length > 0) {
+        findings.push({
+          code: "invalid-macro-entry",
+          severity: "error",
+          path: word.path,
+          message: `${JSON.stringify(word.text)} holds a [ with no backslash before it, and ${reads}. Finding no second ] it logs "Invalid macro entry in ${id}"; finding one, it cuts everything between the two out without a word. ${escape}`,
+        });
+      }
+    }
+    return findings;
+  }
+
+  // The game's own search (`0xaff210`): from a [ to the next ], and from
+  // there to the ] after it, then on from behind that one.
+  let from = 0;
+
+  for (;;) {
+    const start: number = brackets.findIndex((bracket, index) => index >= from && bracket.open);
+    const opening = brackets[start];
+    if (start < 0 || opening === undefined) {
+      break;
+    }
+
+    const first: number = brackets.findIndex((bracket, index) => index > start && !bracket.open);
+    const second: number = first < 0 ? -1 : brackets.findIndex((bracket, index) => index > first && !bracket.open);
+    const word = words[opening.word];
+    const nameEnd = brackets[first];
+    const end = brackets[second];
+    const text: string = word?.text ?? "";
+    const name: string =
+      nameEnd === undefined
+        ? text.slice(opening.at + 2)
+        : nameEnd.word === opening.word
+          ? text.slice(opening.at + 2, nameEnd.at)
+          : `${text.slice(opening.at + 2)} …`;
+
+    if (end === undefined) {
+      findings.push({
+        code: "invalid-macro-entry",
+        severity: "error",
+        path: word?.path ?? "",
+        message: `${JSON.stringify(text)} holds a [ with no backslash before it, and ${reads}. Here the name it reads is ${JSON.stringify(name)}, and there is no second ] after it in ${id}: the game logs "Invalid macro entry in ${id}: ${name}". ${escape}`,
+      });
+      break;
+    }
+
+    const closing = words[end.word];
+    const cut: string =
+      end.word === opening.word
+        ? JSON.stringify(text.slice(opening.at, end.at + 1))
+        : `everything from this [ to the ] in ${JSON.stringify(closing?.text ?? "")}${closing === undefined || closing.path === word?.path ? "" : ` at ${closing.path}`}, whatever stands between them`;
+
+    findings.push({
+      code: "invalid-macro-entry",
+      severity: "error",
+      path: word?.path ?? "",
+      message: `${JSON.stringify(text)} holds a [ with no backslash before it, and ${reads}. Here the name it reads is ${JSON.stringify(name)}, and the script it keeps for a caller that passes that name, and cuts out for every other, is ${cut}. Nothing is logged. ${escape}`,
+    });
+
+    from = second + 1;
+  }
+
+  return findings;
+}
+
+/**
+ * What the game logs about the fleet actions a definition queues.
+ *
+ * A trigger or an effect inside `queue_actions` has to be found again when a
+ * saved game is loaded, and is kept by its `id`. The reader of a `find_…`
+ * action's `trigger` and of a `repeat`'s `while` (`0xe8aca0`,
+ * `fleet_actions.cpp:181`) logs `Trigger has no ID or ID is not unique! All
+ * triggers and effects within fleet actions needs a unique ID for save games
+ * to work.` for a block that writes none, and the reader of an `effect`
+ * action (`0xe8ccb0`, `:793`) the same of an effect. Every one of the 322 the
+ * base game queues has its id.
+ *
+ * And `merge_fleet` cannot be given a target without a line in the log. Its
+ * reader (`0xe94160`) reads `target` and then, where the reader of
+ * `attack_fleet` beside it returns (`0xe93440`), goes on into the case below
+ * it and reads the same word as the yes or no of `allow_ftl`: `Malformed
+ * token: event_target:x`, logged at `:235`, whatever the target is. The
+ * target has been taken by then. The base game never writes the action.
+ */
+function fleetActions(body: LoadBlock): readonly LoadFinding[] {
+  const facts = fleetActionFacts(body);
+  const findings: LoadFinding[] = [];
+
+  for (const missing of facts.missing) {
+    findings.push({
+      code: "missing-script-id",
+      severity: "error",
+      path: missing.path,
+      message:
+        missing.family === "effect"
+          ? `This effect is queued for a fleet and has no id. The game keeps an effect inside queue_actions by an id of its own, so that a saved game can find it again, and logs "Effect has no ID or ID is not unique! An effect in a queue_action needs a unique ID for save games to work." for one that has none. Write id = "…" in the block: a name no other effect in the game has.`
+          : `The ${missing.path.split(".").at(-1) ?? "trigger"} of ${missing.action} has no id. The game keeps every trigger inside queue_actions by an id of its own, so that a saved game can find it again, and logs "Trigger has no ID or ID is not unique! All triggers and effects within fleet actions needs a unique ID for save games to work." for one that has none. Write id = "…" in the block: a name no other trigger in the game has.`,
+    });
+  }
+
+  for (const merge of facts.mergeTargets) {
+    if (isIndirect(merge.target) && !merge.target.includes(":")) {
+      continue;
+    }
+    findings.push({
+      code: "malformed-token",
+      path: merge.path,
+      message: `merge_fleet = { target = ${merge.target} } is logged as "Malformed token: ${merge.target}", whatever the target is. The game's reader of merge_fleet takes the target and then reads the same word again as the yes or no of allow_ftl, where the reader of attack_fleet stops; there is no spelling of a target it reads without the line, and the base game never writes the action.`,
+    });
+  }
+
+  return findings;
+}
+
+/**
  * Everything the game's loader would log about one definition, by the checks
  * above.
  *
@@ -1276,7 +1664,87 @@ export function loadChecks(
   rootKey: string = id,
   file?: string,
 ): readonly LoadFinding[] {
+  return [
+    ...typeChecks(type, id, body, context, rootKey, file),
+    ...fleetActions(body),
+    ...policyOptions(body, context),
+  ];
+}
+
+/**
+ * An option given with a policy it is not an option of.
+ *
+ * `set_policy = { policy = … option = … }` and `can_set_policy` name a policy
+ * and one of its options. An option is written inside its policy, and is one
+ * of that policy's: `weapon_preference_kinetic` is an option, and no option
+ * of `economic_policy`. Each of the 275 pairs the base game writes names an
+ * option of the policy beside it.
+ */
+function policyOptions(body: LoadBlock, context: LoadCheckContext): readonly LoadFinding[] {
+  const options = context.policyOptions;
+
+  if (options === undefined) {
+    return [];
+  }
+
+  const findings: LoadFinding[] = [];
+
+  const read = (block: LoadBlock, path: string): void => {
+    for (const entry of block.entries) {
+      if (entry.value.kind !== "block") {
+        continue;
+      }
+      const here: string = entry.key === undefined ? path : path.length === 0 ? entry.key : `${path}.${entry.key}`;
+      const key: string | undefined = entry.key?.toLowerCase();
+
+      if ((key === "set_policy" || key === "can_set_policy") && !entry.value.open) {
+        const policy: string | undefined = scalarOf(valuesOf(entry.value, "policy").at(-1));
+        const option: string | undefined = scalarOf(valuesOf(entry.value, "option").at(-1));
+        const held: readonly string[] | undefined =
+          policy === undefined || isIndirect(policy) ? undefined : options(policy);
+
+        if (
+          held !== undefined &&
+          policy !== undefined &&
+          option !== undefined &&
+          !isIndirect(option) &&
+          !held.includes(option)
+        ) {
+          const owner: string | undefined = context
+            .ids("policy")
+            .find((other) => options(other)?.includes(option) === true);
+          findings.push({
+            code: "unknown-policy-option",
+            path: here,
+            message: `option = ${option} is ${owner === undefined ? "no option" : `an option of ${owner}, and none`} of ${policy}, whose options are ${held.join(", ")}. An option is one of the policy it is written in, and ${entry.key ?? key} looks for it there.`,
+          });
+        }
+      }
+
+      read(entry.value, here);
+    }
+  };
+
+  read(body, "");
+  return findings;
+}
+
+/** The checks of one type; a definition of any type may queue fleet actions. */
+function typeChecks(
+  type: string,
+  id: string,
+  body: LoadBlock,
+  context: LoadCheckContext,
+  rootKey: string,
+  file: string | undefined,
+): readonly LoadFinding[] {
   switch (type) {
+    case "economic_plan":
+      return economicPlan(id, body);
+    case "ai_budget":
+      return aiBudget(id, body, context);
+    case "script_value":
+      return metascript(type, id, body);
     case "model_animation":
       return animationFile(id, body, context, file);
     case "model_entity":
@@ -1295,6 +1763,7 @@ export function loadChecks(
       return eventChecks(id, body, rootKey);
     case "scripted_effect":
     case "scripted_trigger":
+      return [...engineNames(type, id, context), ...metascript(type, id, body)];
     case "static_modifier":
       return engineNames(type, id, context);
     case "ship_size":
@@ -1308,16 +1777,23 @@ export function loadChecks(
   }
 }
 
-/** The definition types any check reads, for a caller that wants to skip the rest. */
+/**
+ * The definition types that have a check of their own. A definition of any
+ * type is read for the fleet actions it queues, so this is not a list of the
+ * types worth reading.
+ */
 export const loadCheckedTypes: ReadonlySet<string> = new Set([
+  "ai_budget",
   "building",
   "concept",
   "district",
+  "economic_plan",
   "event",
   "megastructure",
   "model_animation",
   "model_entity",
   "portrait_set",
+  "script_value",
   "scripted_effect",
   "scripted_trigger",
   "ship_size",

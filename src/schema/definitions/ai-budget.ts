@@ -7,7 +7,6 @@ import {
   block,
   defineType,
   enumKey,
-  enumRef,
   field,
   keyedBlocks,
   literal,
@@ -44,7 +43,18 @@ export const aiBudget: DefinitionType = defineType({
         modifierRuleEntries(),
         // vanilla 4.4.6: 54 of 199 write a `modifier` with no `factor` — it is
         // `add`, `mult` or a bare trigger list instead.
-        field("modifier", block([field("factor", enumRef(EnumId.ExeSetVariable), occurs.optional)]), occurs.any),
+        // A number, or what stands for one: the name of a variable, or
+        // `trigger:years_passed`. The ported rule listed the names the base
+        // game happens to write there and nothing else, which refused
+        // `factor = 2` and any variable of a mod's own.
+        field(
+          "modifier",
+          block([
+            field("factor", primitive("number"), occurs.optional),
+            field("factor", primitive("scalar"), occurs.optional),
+          ]),
+          occurs.any,
+        ),
       ]),
       occurs.optional,
     ),

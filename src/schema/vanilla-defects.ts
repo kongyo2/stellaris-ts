@@ -247,9 +247,62 @@ export function isVanillaUnlocalisedDefinition(type: string, id: string): boolea
  */
 export const vanillaScopeDefects: Readonly<Record<string, readonly string[]>> = {
   event: ["trigger.NOT has_country_flag"],
+  // Found by reading each scripted effect and trigger in the scope it is
+  // called in, under its own name with `>` after it.
+  //
+  // `create_fallen_empire_large_ship` is called from inside `create_fleet = {
+  // effect = { … } }`, where the scope is the new fleet, and weighs its
+  // `random_list` by `has_country_flag`: a country flag read on a fleet, so
+  // the modifier never applies. Fifteen calls, all of them in a fleet.
+  scripted_effect: ["create_fallen_empire_large_ship>.if.random_list.10.modifier has_country_flag"],
+  // `events/leader_events_2.txt` asks `root = { has_cloning_biochemical_composure_tradition = yes }`
+  // of a leader event's root, which is the leader: the three triggers that
+  // one calls read a tradition and two country flags on a leader.
+  scripted_trigger: [
+    "has_cloning_biochemical_composure_tradition>.OR has_country_flag",
+    "has_genetic_stage_2_tradition>.OR has_tradition",
+    "is_cloning_authority> has_country_flag",
+  ],
 };
 
 /** Whether a command written in the wrong scope is a known mistake in the base game. */
 export function isVanillaScopeDefect(type: string, path: string, command: string): boolean {
   return (vanillaScopeDefects[type] ?? []).includes(`${path} ${command}`);
+}
+
+/**
+ * What a check of the game's own loader finds in the base game, where the
+ * base game is what is wrong.
+ *
+ * The checks are ported from what the game logs, and it logs nothing while it
+ * loads the base game. These are the three places where it does something
+ * worse than log: a `[` with no backslash before it in a scripted effect and
+ * a scripted trigger, which the game reads as the start of `[[PARAMETER] … ]`
+ * (`0xaff210`). In each the brackets after it happen to pair off, so there is
+ * no `Invalid macro entry` in the log, and the script between each pair is
+ * cut out instead:
+ *
+ * `country_defaulted_effect` logs `"AI [This.GetName] defaulted as a result of
+ * [Root.GetName] in [GetYear]"` in an `if` and the same for a player in its
+ * `else`. The first pair takes `[This.GetName] … [Root.GetName]` out of the
+ * first string; the second runs from `[GetYear]` through the string's closing
+ * quote, the `}` of the `if`, `else = {` and into the second string as far as
+ * its `[This.GetName]`; the third takes the rest. What is left is one `if`
+ * that logs `"AI  in  defaulted as a result of "`, and no `else` at all.
+ *
+ * `print_scope_trigger` escapes every bracket but `[Root.GetStarName]`, whose
+ * pair ends at the `]` of the escaped `\\[Root.Owner.GetName]` on the next
+ * line: the end of one `log` and the start of the next are cut out together.
+ *
+ * Keyed by type, then `id code`. Each is checked to be still found, so that
+ * the list cannot outlive what it excuses.
+ */
+export const vanillaLoadDefects: Readonly<Record<string, readonly string[]>> = {
+  scripted_effect: ["country_defaulted_effect invalid-macro-entry"],
+  scripted_trigger: ["print_scope_trigger invalid-macro-entry"],
+};
+
+/** Whether something a load check finds in the base game is a known mistake of the base game's. */
+export function isVanillaLoadDefect(type: string, id: string, code: string): boolean {
+  return (vanillaLoadDefects[type] ?? []).includes(`${id} ${code}`);
 }

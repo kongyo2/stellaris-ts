@@ -74,7 +74,18 @@ option: repeated({ name: "utopia.1.a" }, { name: "utopia.1.b" }),
 ```
 
 The same key written twice in one object literal keeps only the last value, and
-the checker never sees the first. `tsc --noEmit` reports it as TS1117.
+the checker never sees the first. `tsc --noEmit` reports it as TS1117. It does
+not report a key that arrives twice through spread syntax, and neither can
+anything else: `{ ...posture, has_country_flag: "sts_prey" }` is an object with
+one `has_country_flag` by the time anyone reads it. Conditions assembled from
+parts are better never merged, and `all()` keeps each in a block of its own:
+
+```ts
+import { all } from "@kongyo2/stellaris-ts";
+
+potential: all(posture, { has_country_flag: "sts_prey" }),
+// potential = { AND = { … } AND = { has_country_flag = sts_prey } }
+```
 
 An object also keeps a key's repetitions together, which is all a building
 needs and wrong for anything that runs in order. A scripted effect, an
@@ -98,6 +109,17 @@ define(
 ```
 
 `repeated()` there would write both `set_variable` before the `if`.
+
+The constants of `common/defines` are types like any other, one for each block,
+and a block is written with only the keys it changes:
+
+```ts
+define("NAI", "NAI", { AI_INCOME_TARGET_BUFFER_FACTOR: 0.25 });
+```
+
+A key the game does not declare is reported — it would be stored and never
+read — and `vanillaFieldNames.NAI` from `@kongyo2/stellaris-ts/ids` lists the
+603 it does.
 
 Types the library has no shape for can still go in, verbatim, and so can the
 icons and sounds the definitions point at:
@@ -123,7 +145,9 @@ npx stellaris-ts --version          # and the game build it checks against
 
 `--language japanese` checks the strings a definition needs in Japanese rather
 than English; repeat it, or write `--language english,japanese`, to check more
-than one. Options may stand before or after the entry.
+than one. Options may stand before or after the entry. `validate` takes the
+same names in its `languages`, `japanese` or `l_japanese`, and reports one the
+game reads no language under.
 
 `build` writes into the launcher's mod folder — on Windows, the one under
 OneDrive when that is where the game keeps it — unless `--out` or
@@ -165,10 +189,43 @@ What it reports:
 - an array of blocks under a key that takes none — `option: [{ ... }, { ... }]`
   is one option holding two blocks with no key, and the event has no options;
 - a trigger or effect read on the wrong kind of object, following the scope down
-  through links, iterators and scope changes;
+  through links, iterators and scope changes, and into every scripted effect
+  and trigger of the mod's own in the scope it is called in: a fleet's effect
+  in a scripted effect called from `every_owned_ship` is as wrong as one
+  written there;
+- a target of the wrong kind, where one step says what it names:
+  `set_home_base = capital_scope` hands a fleet a planet for a home base;
+- an event of some kind of object that nothing hands one — a `country_event`
+  listed under `on_yearly_pulse`, which the game refuses each year with
+  `attempting to fire country scope event … on no_scope`, where
+  `on_yearly_pulse_country` would have fired it for every country;
 - a trigger, an effect or a `who = root` read where there is no scope at all: an
   event that only `on_yearly_pulse`, the other pulses or `on_game_start` fire
   runs with none, and so does every scripted effect it calls;
+- a trigger named for its value that does not exist, `order_by =
+  trigger:fleet_powr` or the `trigger` of `export_trigger_value_to_variable`;
+  an option given to `set_policy` with a policy it is not an option of; a
+  weapon preference that is no component tag;
+- a `[` or a `$` in a scripted effect, a scripted trigger or a script value.
+  The game keeps those three as text and reads both characters as its own:
+  every `[` opens `[[PARAMETER] … ]`, doubled or not, so `log = "x
+  [Root.GetName] y"` is an `Invalid macro entry` in the log when no second
+  `]` follows and script cut out in silence when one does; write `\\[`, as the
+  base game does;
+- what the fleet actions of a `queue_actions` lack: an `id` in each `effect`,
+  each `while` and each `trigger`, which the game keeps them by, and an id
+  registered more than once — which a scripted effect called from two places
+  does with every id written inside it, since the game builds it anew for
+  each call unless it says `optimize_memory`;
+- a `merge_fleet` given a target, which the game's own reader of the action
+  cannot take without logging `Malformed token`;
+- a budget the AI never draws on, because its economic category does not
+  itself say `use_for_ai_budget = yes`;
+- two subplans of one `set_name` in an economic plan, of which the game keeps
+  the last — no name being a name like any other;
+- all of this in the mod's raw files as well, wherever one holds definitions of
+  a type that is read from where it sits: a `common/defines` file written by
+  hand with a misspelled key is checked as `define("NAI", …)` is;
 - a reference to something neither the base game nor the mod defines,
   counting what the mod's own raw files define — a sprite in its `.gfx`, a
   scripted trigger written by hand — and what the base game defines through
@@ -226,7 +283,13 @@ What it reports:
   game's; for events it keeps the first, and the same file is read too late:
   the definition is dropped, which is an error rather than an override. Not
   in the directories the game merges, where adding to `on_game_start` is the
-  point;
+  point; and in six directories — economic plans, species classes, portrait
+  sets and categories, authorities, ownership limits — it reads the second
+  definition into the first, field by field, so a `basic_economy_plan` that
+  holds one new `subplan` adds it to the base game's plan and is told nothing;
+- a `@variable` declared for every file in `common/scripted_variables` under
+  a name the base game uses, of which the game keeps the first it reads, and
+  one of the mod's own that nothing reads;
 - an id the mod defines twice, with which of the two the game keeps;
 - a file name the base game already ships, which this would replace wholesale;
 - a definition in a file the game never opens for its type — a sprite named
@@ -243,13 +306,15 @@ the base game's own script passes this checker except where vanilla itself is
 wrong, and each of those is listed by name — a line it writes and the game
 drops, an event whose trigger reads a country flag where there is no country,
 28 strings it names and never wrote, 40 definitions that lack a string the
-rest of their type has, 19 names it refers to that nothing defines and 4
-files it names and does not ship. The rest of the 246,836 references and
-32,678 files its definitions name resolve. What the game logs is held to the
-same measure: its 10,023 events, 3,371 scripted effects and triggers, 4,663
-`else` branches and the 6,346 animations the states of its 8,429 entities
-play pass the checks above without one finding, as they load without one
-line.
+rest of their type has, 19 names it refers to that nothing defines, 4 files
+it names and does not ship, two scripted triggers and one scripted effect
+called on the wrong kind of object, and three strings whose bare `[` costs
+`country_defaulted_effect` its `else` branch. The rest of the 244,399
+references and 32,678 files its definitions name resolve. What the game logs
+is held to the same measure: its 10,023 events, 3,371 scripted effects and
+triggers, 4,301 `else` branches, 322 fleet-action ids, 200 budgets and the
+6,346 animations the states of its 8,429 entities play pass the checks above
+without one finding beyond those, as they load without one line.
 
 The keys a definition takes are measured against the game as well. Each
 definition is read by a function of the executable that switches on the key,

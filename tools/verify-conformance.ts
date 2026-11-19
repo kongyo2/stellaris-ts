@@ -6,6 +6,7 @@ import { vanillaFieldNames } from "../src/generated/vanilla/index.js";
 import { schema } from "../src/schema/index.js";
 import {
   isVanillaDefect,
+  isVanillaLoadDefect,
   isVanillaMissingFile,
   isVanillaScopeDefect,
   isVanillaUnlocalisedDefinition,
@@ -13,6 +14,7 @@ import {
   isVanillaUnresolvedReference,
   isVanillaValueDefect,
   vanillaFieldDefects,
+  vanillaLoadDefects,
   vanillaMissingFiles,
   vanillaScopeDefects,
   vanillaUnlocalisedDefinitions,
@@ -387,8 +389,34 @@ for (const stale of staleStrings) {
 // its log, so a vanilla definition one of these checks reports is a check
 // that is wrong.
 const loadFindings = report.types.flatMap((entry) =>
-  entry.loadFindings.map((finding) => ({ type: entry.type, ...finding })),
+  entry.loadFindings
+    .filter((finding) => !isVanillaLoadDefect(entry.type, finding.id, finding.code))
+    .map((finding) => ({ type: entry.type, ...finding })),
 );
+
+const loadDefects: number = report.types.reduce(
+  (total, entry) =>
+    total + entry.loadFindings.filter((finding) => isVanillaLoadDefect(entry.type, finding.id, finding.code)).length,
+  0,
+);
+
+// A listed one that is no longer found has been mended, or the check that
+// found it has stopped reading it.
+const staleLoadDefects: readonly string[] = Object.entries(vanillaLoadDefects).flatMap(([type, sites]) =>
+  sites.filter(
+    (site) =>
+      !report.types.some(
+        (entry) =>
+          entry.type === type && entry.loadFindings.some((finding) => `${finding.id} ${finding.code}` === site),
+      ),
+  ),
+);
+
+for (const site of staleLoadDefects) {
+  console.error(
+    `CONFORMANCE ${site} is listed as a mistake of the base game's that a load check finds, and is no longer found.`,
+  );
+}
 
 for (const finding of loadFindings) {
   console.error(
@@ -472,6 +500,7 @@ console.log(
     `vanillaReferenceGaps=${String(referenceGaps)}`,
     `loadChecked=${String(loadChecked)}`,
     `loadFindings=${String(loadFindings.length)}`,
+    `vanillaLoadDefects=${String(loadDefects)}`,
     `modifierDump=${schema.modifiers.source}`,
     `gameDeclaredFields=${String(declaredFields)}`,
   ].join(" "),
@@ -515,6 +544,7 @@ if (
   missingFiles.length > 0 ||
   staleFiles.length > 0 ||
   loadFindings.length > 0 ||
+  staleLoadDefects.length > 0 ||
   missingGated.length > 0 ||
   strictnessRegressed ||
   declaredFields < DECLARED_FIELD_FLOOR

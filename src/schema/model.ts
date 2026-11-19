@@ -1,3 +1,4 @@
+import { withCommandCorrections, withRuleSetCorrections } from "./command-corrections.js";
 import { commands, ruleSets } from "./commands.js";
 import { withCorrections } from "./corrections.js";
 import { withScopeConstraints } from "./scope-model.js";
@@ -47,8 +48,10 @@ export const schema: SchemaModel = defineSchema({
   // the scopes come from and it documents commands from all three sources:
   // each of the 84 found in vanilla's script is in the 4.5.1 dumps too. A
   // command the dump does not mention passes through unchanged.
-  commands: withoutRetiredCommands(withScopeConstraints([...commands, ...dumpCommands, ...vanillaCommands])),
-  ruleSets,
+  commands: withCommandCorrections(
+    withoutRetiredCommands(withScopeConstraints([...commands, ...dumpCommands, ...vanillaCommands])),
+  ),
+  ruleSets: withRuleSetCorrections(ruleSets),
   namedValues,
   valueSets,
 });

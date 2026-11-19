@@ -6,13 +6,15 @@
  * through this library, so some of this will never reach zero. A ceiling, never
  * a target, and per type so a new hole cannot hide behind a fix somewhere else.
  *
- * 5,331 two releases ago, 1,182 on the last, **57** now. Most of that fall was
- * four disagreements between this generator and the checker the library ships:
- * the generator narrowed `colour` and `scalar` to strings, required a key
- * inside every alternative of a block rather than one of them, and matched enum
- * members case-sensitively where the engine folds case. The checker enforced
- * none of it, so `verify:conformance` stayed green throughout and only the
- * compiler could see the difference.
+ * 5,331 three releases ago, 1,182 after that, 57 on the last, **50** now. Most
+ * of the earlier fall was four disagreements between this generator and the
+ * checker the library ships: the generator narrowed `colour` and `scalar` to
+ * strings, required a key inside every alternative of a block rather than one
+ * of them, and matched enum members case-sensitively where the engine folds
+ * case. The checker enforced none of it, so `verify:conformance` stayed green
+ * throughout and only the compiler could see the difference. The seven that
+ * went this time were one enum, the names of variables, which the corpus
+ * lists as the base game happens to set them and the types had closed.
  *
  * What is left is genuinely awkward: a definition written entirely as an
  * `inline_script` call has none of the fields its type requires
@@ -22,9 +24,7 @@
 export const BUDGET: Readonly<Record<string, number>> = {
   component_template: 1,
   diplomacy_economy: 2,
-  game_rule: 1,
   message_type: 5,
-  opinion_modifier: 6,
   particle_type: 2,
   pop_faction: 21,
   resolution_category: 1,

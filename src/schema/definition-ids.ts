@@ -6,6 +6,10 @@ export interface DefinitionClaim {
   readonly id: string;
   /** The root-level key of the block holding it, for a type read from inside one. */
   readonly container?: string;
+  /** The key the definition is written under: its id, or its tag for a tagged type. */
+  readonly key?: string;
+  /** The block that holds it; none for a definition that is a whole file or a bare word. */
+  readonly block?: Block;
 }
 
 function blockOf(entry: EntryNode): Block | undefined {
@@ -61,7 +65,7 @@ export function definitionIds(type: DefinitionType, document: Document, fileName
   /** Reads one definition block: its key, or the field the type names. */
   const claim = (key: string, body: Block, holder: string | undefined): void => {
     const found = (id: string): void => {
-      claims.push(holder === undefined ? { id } : { id, container: holder });
+      claims.push(holder === undefined ? { id, key, block: body } : { id, container: holder, key, block: body });
     };
 
     if (nameField === undefined) {

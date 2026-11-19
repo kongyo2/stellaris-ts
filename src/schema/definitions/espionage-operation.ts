@@ -139,7 +139,16 @@ export const espionageOperation: DefinitionType = defineType({
       ]),
       occurs.oneOrMore,
     ),
-    field("on_roll_failed", block([effectEntries()]), occurs.one),
-    field("on_create", block([effectEntries()]), occurs.one),
+    // "with scope this=spy operation", as the game's own
+    // `common/espionage_operation_types/example.txt` says of both; `potential`
+    // and `allow` are read on the spy network. Without it the effects the base
+    // game's operations call from here — `add_espionage_information`,
+    // `set_timed_espionage_operation_flag` — were read on a spy network.
+    field("on_roll_failed", block([effectEntries()]), occurs.one, {
+      scope: replaceScope({ current: ScopeId.EspionageOperation, root: ScopeId.EspionageOperation }),
+    }),
+    field("on_create", block([effectEntries()]), occurs.one, {
+      scope: replaceScope({ current: ScopeId.EspionageOperation, root: ScopeId.EspionageOperation }),
+    }),
   ],
 });

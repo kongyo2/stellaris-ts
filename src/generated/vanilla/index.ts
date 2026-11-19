@@ -7,5 +7,6 @@ export type * from "./id-map.js";
 export * from "./ids.js";
 export * from "./modifier-names.js";
 export * from "./placement.js";
+export * from "./script-facts.js";
 export * from "./scripted-parameters.js";
 export * from "./tagged-keys.js";
