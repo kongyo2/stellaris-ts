@@ -189,8 +189,6 @@ interface Walker {
   noScope: string | undefined;
   /** The mod's own scripted effects and triggers, by `family:id`, for reading a call in its caller's scope. */
   readonly scripted: ReadonlyMap<string, DefinitionRecord>;
-  /** The ones being read in a caller's scope right now, so that one calling itself is read once. */
-  readonly calling: Set<string>;
   /**
    * What each one read in the wrong scope, by the scope it was called in, for
    * the definition being walked: a body called from ten places in one scope
@@ -1809,7 +1807,7 @@ function followCalls(
       (candidate) => candidate.id === `scripted_${value.family}`,
     );
 
-    if (record === undefined || type === undefined || walker.calling.has(callee)) {
+    if (record === undefined || type === undefined) {
       continue;
     }
 
@@ -1817,7 +1815,10 @@ function followCalls(
     let found: readonly ValidationDiagnostic[] | undefined = walker.followed.get(inScope);
 
     if (found === undefined) {
-      walker.calling.add(callee);
+      // Noted before it is read: one that calls itself, or is called back by
+      // what it calls, comes round to the same scope and stops there. In
+      // another scope it is another reading, and is made.
+      walker.followed.set(inScope, []);
       const sink: ValidationDiagnostic[] = [];
       const rules: BlockRules = walker.resolver.rulesForType(type);
       walkBlock(
@@ -1833,7 +1834,6 @@ function followCalls(
         comparesIn(rules, value.family === "trigger"),
         rules,
       );
-      walker.calling.delete(callee);
       found = sink.filter((diagnostic) => diagnostic.code === "wrong-scope");
       walker.followed.set(inScope, found);
     }
@@ -2125,7 +2125,7 @@ function vanillaOverlay(
       ? new Set<string>()
       : new Set(vanillaEconomicPlanSubplans[definition.id]);
 
-  for (const subplan of subplansOf(body) ?? []) {
+  for (const subplan of subplansOf(body)) {
     if (subplan.indirect || !theirs.has(subplan.name)) {
       continue;
     }
@@ -2175,7 +2175,7 @@ function subplansReadTwice(
   held: Map<string, Set<string>>,
 ): readonly ValidationDiagnostic[] {
   const earlier: Set<string> = held.get(definition.id) ?? new Set<string>();
-  const subplans: readonly Subplan[] = subplansOf(loadBlockOf(definition.body)) ?? [];
+  const subplans: readonly Subplan[] = subplansOf(loadBlockOf(definition.body));
   const diagnostics: ValidationDiagnostic[] = [];
 
   for (const subplan of subplans) {
@@ -2525,8 +2525,11 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         : undefined;
     },
     policyOptions: (policy: string): readonly string[] | undefined =>
-      ownPolicyOptions.get(policy) ??
-      (Object.hasOwn(vanillaPolicyOptions, policy) ? vanillaPolicyOptions[policy] : undefined),
+      ownPolicyOptions.has(policy)
+        ? ownPolicyOptions.get(policy)
+        : Object.hasOwn(vanillaPolicyOptions, policy)
+          ? vanillaPolicyOptions[policy]
+          : undefined,
     // A mesh the mod defines is the mod's, whatever the base game calls its
     // own; one of the base game's that is not listed declares no animation.
     meshAnimations: (mesh: string): readonly string[] | undefined => {
@@ -2556,14 +2559,30 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       ownBudgetUse.set(definition.id, category.open && !use.budget ? undefined : use);
     }
   }
-  const ownPolicyOptions = new Map<string, readonly string[]>();
+  // `undefined` for a policy that holds script this cannot read through: an
+  // `inline_script` may add options, so the list would be a part of one.
+  const ownPolicyOptions = new Map<string, readonly string[] | undefined>();
   for (const definition of definitions) {
     if (definition.type === "policy") {
-      ownPolicyOptions.set(definition.id, [
-        ...(ownPolicyOptions.get(definition.id) ?? []),
-        ...policyOptionsOf(loadBlockOf(definition.body)),
-      ]);
+      const policy: LoadBlock = loadBlockOf(definition.body);
+      const before: readonly string[] | undefined = ownPolicyOptions.has(definition.id)
+        ? ownPolicyOptions.get(definition.id)
+        : [];
+      ownPolicyOptions.set(
+        definition.id,
+        policy.open || before === undefined ? undefined : [...before, ...policyOptionsOf(policy)],
+      );
     }
+  }
+  /** The keys every definition of an id writes between them, by `type:id`, lower-cased. */
+  const overlaidKeys = new Map<string, Set<string>>();
+  for (const definition of definitions) {
+    const identity: string = `${definition.type}:${definition.id}`;
+    const keys: Set<string> = overlaidKeys.get(identity) ?? new Set<string>();
+    for (const [key] of entriesOf(definition.body).keyed) {
+      keys.add(key.toLowerCase());
+    }
+    overlaidKeys.set(identity, keys);
   }
   /** The subplans this mod's earlier definitions of each economic plan hold, by plan. */
   const ownSubplans = new Map<string, Set<string>>();
@@ -2598,7 +2617,6 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         .filter((definition) => definition.type === "scripted_effect" || definition.type === "scripted_trigger")
         .map((definition) => [`${definition.type.replace(/^scripted_/u, "")}:${definition.id}`, definition]),
     ),
-    calling: new Set<string>(),
     calls: [],
     caller: undefined,
     followed: new Map<string, readonly ValidationDiagnostic[]>(),
@@ -2754,6 +2772,12 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     // `define` writes it, so the definition has it.
     if (definition.nameField !== undefined) {
       present.add(definition.nameField.toLowerCase());
+    }
+
+    // Where the game reads every definition of an id into one, a field is
+    // there when any of them writes it, whichever comes first.
+    for (const other of precedence === "overlaid" ? (overlaidKeys.get(identity) ?? []) : []) {
+      present.add(other);
     }
 
     for (const key of readIntoAnother ? [] : requiredKeys(type)) {

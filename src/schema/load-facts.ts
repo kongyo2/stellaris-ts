@@ -46,26 +46,23 @@ export interface Subplan {
 }
 
 /**
- * The subplans a plan writes at its own level, in written order.
- *
- * `undefined` when the plan holds script this cannot read through, since what
- * that adds is not known.
+ * The subplans a plan writes at its own level, in written order: the ones
+ * that can be read. Script this cannot read through — an `inline_script` —
+ * may add more, and cannot take one of these away or give two of them
+ * different names.
  */
-export function subplansOf(plan: LoadBlock): readonly Subplan[] | undefined {
-  if (plan.open) {
-    return undefined;
-  }
-
+export function subplansOf(plan: LoadBlock): readonly Subplan[] {
   const found: Subplan[] = [];
 
   for (const entry of entriesNamed(plan, "subplan")) {
-    if (entry.value.kind !== "block" || entry.value.open) {
-      return undefined;
+    if (entry.value.kind !== "block") {
+      continue;
     }
-    const named: readonly LoadEntry[] = entriesNamed(entry.value, "set_name");
-    const last: LoadValue | undefined = named.at(-1)?.value;
-    if (last !== undefined && last.kind !== "scalar") {
-      return undefined;
+    const last: LoadValue | undefined = entriesNamed(entry.value, "set_name").at(-1)?.value;
+    // A name only the game can read, or one that script in the subplan may
+    // set: not known, and not counted as any.
+    if ((last !== undefined && last.kind !== "scalar") || (last === undefined && entry.value.open)) {
+      continue;
     }
     const name: string = last?.kind === "scalar" ? last.text : "";
     found.push({ name, indirect: name.startsWith("@") || name.includes("$") });

@@ -1309,10 +1309,10 @@ function economicPlan(id: string, body: LoadBlock): readonly LoadFinding[] {
   const findings: LoadFinding[] = [];
 
   const read = (plan: LoadBlock, path: string): void => {
-    const subplans: readonly Subplan[] | undefined = subplansOf(plan);
+    const subplans: readonly Subplan[] = subplansOf(plan);
     const counted = new Map<string, number>();
 
-    for (const subplan of subplans ?? []) {
+    for (const subplan of subplans) {
       if (!subplan.indirect) {
         counted.set(subplan.name, (counted.get(subplan.name) ?? 0) + 1);
       }
@@ -1331,13 +1331,18 @@ function economicPlan(id: string, body: LoadBlock): readonly LoadFinding[] {
       });
     }
 
+    // Each `potential` is read over the one before it, and logged when that
+    // one holds a condition: an empty block before a full one is no duplicate.
     const potentials: readonly LoadValue[] = valuesOf(plan, "potential");
-    const first: LoadValue | undefined = potentials[0];
-    if (potentials.length > 1 && first !== undefined && first.kind === "block" && first.entries.length > 0) {
+    const logged: number = potentials.filter((_block, index) => {
+      const before: LoadValue | undefined = index === 0 ? undefined : potentials[index - 1];
+      return before !== undefined && (before.kind !== "block" || before.open || before.entries.length > 0);
+    }).length;
+    if (logged > 0) {
       findings.push({
         code: "duplicate-field",
         path: path.length === 0 ? "potential" : `${path}.potential`,
-        message: `potential is written ${String(potentials.length)} times. The game keeps one and logs "Duplicate trigger" for each one after the first, whose conditions it drops; write the conditions in a single potential.`,
+        message: `potential is written ${String(potentials.length)} times. The game keeps the last and logs "Duplicate trigger" for each one read over a potential that holds a condition, whose conditions it drops; write the conditions in a single potential.`,
       });
     }
 

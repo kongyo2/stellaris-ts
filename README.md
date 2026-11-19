@@ -75,9 +75,9 @@ option: repeated({ name: "utopia.1.a" }, { name: "utopia.1.b" }),
 
 The same key written twice in one object literal keeps only the last value, and
 the checker never sees the first. `tsc --noEmit` reports it as TS1117. It does
-not report a key that arrives twice through spread syntax, and neither can
-anything else: `{ ...posture, has_country_flag: "sts_prey" }` is an object with
-one `has_country_flag` by the time anyone reads it. Conditions assembled from
+not report a key that arrives twice through spread syntax, and nothing that
+reads the object afterwards can: `{ ...posture, has_country_flag: "sts_prey" }`
+is an object with one `has_country_flag` by the time `define` is handed it. Conditions assembled from
 parts are better never merged, and `all()` keeps each in a block of its own:
 
 ```ts
@@ -225,7 +225,10 @@ What it reports:
   the last — no name being a name like any other;
 - all of this in the mod's raw files as well, wherever one holds definitions of
   a type that is read from where it sits: a `common/defines` file written by
-  hand with a misspelled key is checked as `define("NAI", …)` is;
+  hand with a misspelled key is checked as `define("NAI", …)` is. One thing is
+  not: which events are fired with no scope is worked out from the on_actions
+  written with `define`, and an on_action in a raw file only counts as naming
+  the events it lists;
 - a reference to something neither the base game nor the mod defines,
   counting what the mod's own raw files define — a sprite in its `.gfx`, a
   scripted trigger written by hand — and what the base game defines through

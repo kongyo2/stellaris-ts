@@ -162,8 +162,10 @@ export function scriptIdFindings(
     const inScripted: boolean = scriptedKey !== undefined;
 
     for (const registered of fleetActionFacts(definition.body).ids) {
-      // A parameter in the id makes each copy's its own, and `@x` is a value
-      // only the game can work out.
+      // A parameter in the id is what makes each copy's its own, and `@x` is a
+      // value only the game can work out: neither is counted. Two calls that
+      // pass the same arguments would still write the same id, and that is
+      // not followed here.
       if (registered.id.includes("$") || registered.id.startsWith("@") || registered.id.length === 0) {
         continue;
       }

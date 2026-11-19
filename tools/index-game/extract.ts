@@ -618,33 +618,41 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     }
   }
 
-  // What one definition says that a check of another asks about.
-  const economicPlanSubplans: Record<string, string[]> = {};
-  await forEachDocument("common/economic_plans", true, (_fileName, document) => {
-    for (const [id, body] of rootBlocks(document)) {
-      // A plan written in two files is one plan: the second is read into the first.
-      const names: string[] = economicPlanSubplans[id] ?? [];
-      names.push(...(subplansOf(body) ?? []).map((subplan) => subplan.name));
-      economicPlanSubplans[id] = names;
-    }
-  });
+  // What one definition says that a check of another asks about. The files
+  // are read as they come back, which is no order: each one's blocks are
+  // kept with its name, and put together in the order of the names, as the
+  // game reads a directory — the last category of an id is the one it keeps.
+  const rootsInReadOrder = async (directory: string): Promise<readonly (readonly [string, LoadBlock])[]> => {
+    const read: { readonly file: string; readonly blocks: readonly (readonly [string, LoadBlock])[] }[] = [];
+    await forEachDocument(directory, true, (fileName, document) => {
+      read.push({ file: fileName, blocks: rootBlocks(document) });
+    });
+    return read.sort((left, right) => compareOrdinal(left.file, right.file)).flatMap((entry) => entry.blocks);
+  };
 
-  const budgetUse: Record<string, CategoryBudgetUse> = {};
-  await forEachDocument("common/economic_categories", true, (_fileName, document) => {
-    for (const [id, body] of rootBlocks(document)) {
-      const use: CategoryBudgetUse = categoryBudgetUse(body);
-      if (use.budget || use.parentExpenditure.length > 0 || use.parentUpkeep.length > 0) {
-        budgetUse[id] = use;
-      }
-    }
-  });
+  const economicPlanSubplans: Record<string, string[]> = {};
+  for (const [id, body] of await rootsInReadOrder("common/economic_plans")) {
+    // A plan written in two files is one plan: the second is read into the first.
+    const names: string[] = economicPlanSubplans[id] ?? [];
+    names.push(...subplansOf(body).map((subplan) => subplan.name));
+    economicPlanSubplans[id] = names;
+  }
+
+  const lastBudgetUse: Record<string, CategoryBudgetUse> = {};
+  for (const [id, body] of await rootsInReadOrder("common/economic_categories")) {
+    lastBudgetUse[id] = categoryBudgetUse(body);
+  }
+  // Only the ones that say anything, once the last definition of each is known.
+  const budgetUse: Record<string, CategoryBudgetUse> = Object.fromEntries(
+    Object.entries(lastBudgetUse).filter(
+      ([, use]) => use.budget || use.parentExpenditure.length > 0 || use.parentUpkeep.length > 0,
+    ),
+  );
 
   const policyOptions: Record<string, readonly string[]> = {};
-  await forEachDocument("common/policies", true, (_fileName, document) => {
-    for (const [id, body] of rootBlocks(document)) {
-      policyOptions[id] = policyOptionsOf(body);
-    }
-  });
+  for (const [id, body] of await rootsInReadOrder("common/policies")) {
+    policyOptions[id] = policyOptionsOf(body);
+  }
 
   const scriptedVariables = new Set<string>();
   await forEachDocument("common/scripted_variables", true, (_fileName, document) => {

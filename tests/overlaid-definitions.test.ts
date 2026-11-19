@@ -144,6 +144,42 @@ describe("a directory where the game reads a second definition into the first", 
     expect(reported(kept, "missing-income-goal")).toEqual([]);
   });
 
+  it("counts the subplans it can see, whatever else the plan holds, and each potential against the one before", () => {
+    const beside = mod().add(
+      plan("sts_plan", {
+        income: { alloys: 1 },
+        inline_script: "ai/sts_more",
+        subplan: repeated(subplan("a"), subplan("a")),
+      }),
+    );
+    const potentials = (...blocks: readonly Readonly<Record<string, unknown>>[]): Mod =>
+      mod().add(
+        plan(
+          "sts_plan",
+          entries([["income", { alloys: 1 }], ...blocks.map((block): [string, unknown] => ["potential", block])]),
+        ),
+      );
+    expect(reported(beside, "duplicate-subplan")).toEqual(["sts_plan.subplan"]);
+    expect(reported(potentials({}, { always: true }), "duplicate-field")).toEqual([]);
+    expect(reported(potentials({}, { always: true }, { always: false }), "duplicate-field")).toEqual([
+      "sts_plan.potential",
+    ]);
+  });
+
+  it("asks an id for what it must have of all its definitions together", () => {
+    const type = schema.definitionTypes.find((candidate) => candidate.id === "species_class");
+    const needed: readonly string[] = (type?.entries ?? []).flatMap((entry) =>
+      entry.kind === "field" && typeof entry.key === "string" && entry.occurrence.min >= 1 ? [entry.key] : [],
+    );
+    const whole: Record<string, unknown> = Object.fromEntries(needed.map((key) => [key, "x"]));
+    const [first, ...rest] = needed;
+    const split = mod()
+      .add(def("species_class", "STS", first === undefined ? {} : { [first]: "x" }))
+      .add(def("species_class", "STS", Object.fromEntries(rest.map((key) => [key, "x"]))));
+    expect(reported(mod().add(def("species_class", "STS", whole)), "missing-field")).toEqual([]);
+    expect(reported(split, "missing-field")).toEqual([]);
+  });
+
   it("takes the ten keys the plan's reader takes, at both levels, and no other", () => {
     const target = mod().add(
       plan("sts_plan", {

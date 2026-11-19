@@ -1078,9 +1078,6 @@ export async function checkConformance(
     const requirementIssues = requirements.map(() => ({ appliesTo: 0, missing: [] as string[], ids: [] as string[] }));
     let inVariant: (variant: string) => boolean = () => false;
     const seen = new Set<string>();
-    // The scripted effects and triggers being read in a caller's scope, so that
-    // one calling itself is read once.
-    const calling = new Set<string>();
     let definitionsSeen = 0;
     let keysChecked = 0;
     let loadChecked = 0;
@@ -1330,7 +1327,9 @@ export async function checkConformance(
             const body: Block | undefined = scripted.get(callee);
             const calleeType: DefinitionType | undefined = scriptedTypes.get(value.family);
             // The scalar call and the call with parameters are two rules for one callee.
-            if (body === undefined || calleeType === undefined || calling.has(callee) || followed.has(callee)) {
+            // One being read in a scope is not read again in that scope, which
+            // `walkedCalls` below sees to; in another scope it is.
+            if (body === undefined || calleeType === undefined || followed.has(callee)) {
               continue;
             }
             followed.add(callee);
@@ -1339,7 +1338,6 @@ export async function checkConformance(
               continue;
             }
             walkedCalls.add(inScope);
-            calling.add(callee);
             callsFollowed += 1;
             const calleeRules: BlockRules = resolver.rulesForType(calleeType);
             const outer: Map<string, ScopeIssue> = scopeSink;
@@ -1385,7 +1383,6 @@ export async function checkConformance(
             }
             ({ keysChecked, stringsChecked, referencesChecked, filesChecked, branchesChecked } = counted);
             scopeSink = outer;
-            calling.delete(callee);
           }
         }
 

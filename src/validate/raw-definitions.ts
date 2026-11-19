@@ -101,7 +101,10 @@ function normalised(written: string): string {
 
 function variantOf(type: DefinitionType, key: string): string | undefined {
   return type.variants.find(
-    (variant) => variant.when.kind === "root-key" && variant.when.values.some((value) => value === key),
+    // Without regard to case, as the key was claimed: `COUNTRY_EVENT` is a country's event.
+    (variant) =>
+      variant.when.kind === "root-key" &&
+      variant.when.values.some((value) => value.toLowerCase() === key.toLowerCase()),
   )?.id;
 }
 

@@ -328,6 +328,20 @@ describe("a value that names the wrong thing", () => {
       "sts.1.immediate.export_trigger_value_to_variable",
       "sts.1.immediate.ordered_owned_fleet",
     ]);
+    expect(
+      messages(target, "unknown-trigger").map((message) => /\b(?:fleet_powr|has_shield_hpp)\b/u.exec(message)?.[0]),
+    ).toEqual(["has_shield_hpp", "fleet_powr"]);
+  });
+
+  it("is not judged against a policy whose options it cannot all see", () => {
+    const policy = def("policy", "sts_policy", {
+      inline_script: "policies/sts_options",
+      option: { name: "sts_base", policy_flags: ["sts_base"] },
+    });
+    const target = mod()
+      .add(policy)
+      .add(event("sts.1", { set_policy: { policy: "sts_policy", option: "sts_extra", cooldown: false } }));
+    expect(reported(target, "unknown-policy-option")).toEqual([]);
   });
 
   it("is not text that happens to start with trigger:", () => {
