@@ -85,7 +85,7 @@ import {
   type ScopeState,
 } from "../schema/resolve.js";
 import { rawDefinitions } from "./raw-definitions.js";
-import { scriptIdFindings, type ScriptedDefinition } from "./script-ids.js";
+import { scriptIdFindings, type ScriptedCall, type ScriptedDefinition } from "./script-ids.js";
 import type {
   DefinitionType,
   EnumDefinition,
@@ -197,6 +197,14 @@ interface Walker {
    * is read once.
    */
   readonly followed: Map<string, readonly ValidationDiagnostic[]>;
+  /**
+   * The calls of the mod's own scripted effects and triggers found so far;
+   * none while a call is being followed, whose body is read again and is
+   * counted where it is defined.
+   */
+  readonly calls: ScriptedCall[] | undefined;
+  /** The scripted effect or trigger being walked, as `effect:id`; none for any other definition. */
+  caller: string | undefined;
   /** The strings already reported missing, by definition, language and key. */
   readonly unlocalised: Set<string>;
   readonly diagnostics: ValidationDiagnostic[];
@@ -1062,6 +1070,22 @@ function checkTargetScope(
   });
 }
 
+/** Whether some rule for a key reads a number, or what stands for one: a variable, a script value. */
+function readsNumber(values: readonly ResolvedValue[]): boolean {
+  return values.some(
+    (rule) =>
+      rule.kind === "script-value" ||
+      (rule.kind === "primitive" &&
+        (rule.type === "integer" ||
+          rule.type === "number" ||
+          rule.type === "percentage" ||
+          rule.type === "script-value")) ||
+      (rule.kind === "named-value" && rule.value === "variable") ||
+      (rule.kind === "value-set" && rule.set === "variable") ||
+      (rule.kind === "enum" && rule.enum === "exe_set_variable"),
+  );
+}
+
 /**
  * A trigger named as a value, where there is no trigger of that name.
  *
@@ -1081,7 +1105,11 @@ function checkTriggerName(
   value: string,
   values: readonly ResolvedValue[],
 ): void {
-  const prefixed: string | undefined = /(?:^|\.)trigger:([A-Za-z_][A-Za-z0-9_]*)$/u.exec(value)?.[1];
+  // Read for a trigger's value only where a number or a variable is read:
+  // `log = "trigger:x"` is text, and logs it.
+  const prefixed: string | undefined = readsNumber(values)
+    ? /(?:^|\.)trigger:([A-Za-z_][A-Za-z0-9_]*)$/u.exec(value)?.[1]
+    : undefined;
   const field: boolean = values.some((rule) => rule.kind === "rule-set-key-reference" && rule.family === "trigger");
   const name: string | undefined = prefixed ?? (field && !isIndirect(value) ? value : undefined);
 
@@ -1376,6 +1404,10 @@ function walkBlock(
       meaning === undefined ? undefined : meaning === rules ? resolution : walker.resolver.resolve(meaning, key);
     const applicable: readonly ResolvedValue[] =
       sense === undefined || meaning === undefined ? [] : valuesFor(meaning, sense.values, walker.inVariant);
+
+    if (walker.calls !== undefined) {
+      recordCalls(walker, walker.calls, definition, resolution, occurrences);
+    }
 
     // A scripted effect or trigger the mod defines runs its body where it is
     // called: in the caller's scope, with the caller's `root`, `prev` and
@@ -1702,6 +1734,52 @@ function variantSubject(definition: DefinitionRecord): VariantSubject {
   };
 }
 
+/** The arguments a call passes, as one string: two calls that pass the same have the same one. */
+function argumentsOf(value: unknown): string {
+  if (!isBlockLike(value) || Array.isArray(value)) {
+    return "";
+  }
+  return entriesOf(value)
+    .keyed.map(
+      ([key, passed]) =>
+        `${key}=${typeof passed === "object" && passed !== null ? JSON.stringify(passed) : String(passed)}`,
+    )
+    .sort(compareOrdinal)
+    .join("\u0001");
+}
+
+/**
+ * Notes each call of a scripted effect or trigger of the mod's own that a key
+ * resolved as: the key is one where effects, or triggers, are read, and names
+ * one. A key that only spells the same where something else is read is no call.
+ */
+function recordCalls(
+  walker: Walker,
+  calls: ScriptedCall[],
+  definition: string,
+  resolution: KeyResolution,
+  occurrences: readonly unknown[],
+): void {
+  const noted = new Set<string>();
+
+  for (const value of resolution.values) {
+    if (value.kind !== "scripted-call") {
+      continue;
+    }
+    const callee: string = `${value.family}:${value.callee}`;
+    // The scalar call and the call with parameters are two rules for one callee.
+    if (noted.has(callee) || !walker.scripted.has(callee)) {
+      continue;
+    }
+    noted.add(callee);
+    for (const occurrence of occurrences) {
+      if (occurrence !== undefined && occurrence !== null) {
+        calls.push({ callee, caller: walker.caller, callerName: definition, arguments: argumentsOf(occurrence) });
+      }
+    }
+  }
+}
+
 /** Stands for the place a body was called from, in what is kept of reading it there. */
 const CALLED_FROM = "\u0001";
 
@@ -1746,7 +1824,7 @@ function followCalls(
         // Its own account of the strings found missing, as well: what this walk
         // reports is thrown away but for the scopes, and a key it marked as
         // reported would never be reported where the caller names it too.
-        { ...walker, diagnostics: sink, unlocalised: new Set(walker.unlocalised) },
+        { ...walker, diagnostics: sink, unlocalised: new Set(walker.unlocalised), calls: undefined },
         definition,
         CALLED_FROM,
         rules,
@@ -2137,34 +2215,53 @@ function plansWithoutIncome(
   definitions: readonly DefinitionRecord[],
   hidden: ReadonlySet<string>,
 ): readonly ValidationDiagnostic[] {
-  const plans = new Map<string, boolean>();
+  // By plan: whether the last number each resource of its income was given is
+  // other than zero, the definitions read one into the next as the game reads
+  // them; `undefined` once a definition holds script this cannot read.
+  const goals = new Map<string, Map<string, boolean> | undefined>();
+  const theirs = new Set<string>();
 
   for (const definition of definitions) {
     if (definition.type !== "economic_plan") {
       continue;
     }
     if (!hidden.has(definition.directory) && Object.hasOwn(vanillaEconomicPlanSubplans, definition.id)) {
-      plans.set(definition.id, true);
+      theirs.add(definition.id);
+      continue;
+    }
+    if (goals.has(definition.id) && goals.get(definition.id) === undefined) {
       continue;
     }
 
     const body: LoadBlock = loadBlockOf(definition.body);
-    const aims: boolean =
-      body.open ||
-      body.entries.some(
-        (entry) =>
-          entry.key?.toLowerCase() === "income" &&
-          (entry.value.kind !== "block" ||
-            entry.value.open ||
-            entry.value.entries.some(
-              (goal) => goal.value.kind !== "scalar" || !/^-?0*(?:\.0*)?$/u.test(goal.value.text.trim()),
-            )),
-      );
-    plans.set(definition.id, (plans.get(definition.id) ?? false) || aims);
+    const table: Map<string, boolean> = goals.get(definition.id) ?? new Map<string, boolean>();
+    let readable: boolean = !body.open;
+
+    for (const entry of body.entries) {
+      if (entry.key?.toLowerCase() !== "income") {
+        continue;
+      }
+      if (entry.value.kind !== "block" || entry.value.open) {
+        readable = false;
+        break;
+      }
+      for (const goal of entry.value.entries) {
+        if (goal.key !== undefined) {
+          // A number written out is zero or is not; `@x` may be either, and is
+          // given the benefit of the doubt.
+          table.set(
+            goal.key.toLowerCase(),
+            goal.value.kind !== "scalar" || !/^-?0*(?:\.0*)?$/u.test(goal.value.text.trim()),
+          );
+        }
+      }
+    }
+
+    goals.set(definition.id, readable ? table : undefined);
   }
 
-  return [...plans]
-    .filter(([, aims]) => !aims)
+  return [...goals]
+    .filter(([id, table]) => !theirs.has(id) && table !== undefined && ![...table.values()].some(Boolean))
     .map(([id]) => ({
       definition: id,
       path: "",
@@ -2226,11 +2323,15 @@ function scriptedVariables(
   mod: Mod,
   parsed: ReadonlyMap<string, Document>,
   counted: ReadonlyMap<string, number>,
+  hidden: ReadonlySet<string>,
 ): readonly ValidationDiagnostic[] {
   const declared = new Set(vanillaScriptedVariables);
-  const theirs: readonly string[] = vanillaFilesIn(SCRIPTED_VARIABLES).filter((name) =>
-    name.toLowerCase().endsWith(".txt"),
-  );
+  // A directory named in `replace_path` is one the game reads no base-game
+  // file from: none of its variables is declared before the mod's, or at all.
+  const replaced: boolean = hidden.has(SCRIPTED_VARIABLES);
+  const theirs: readonly string[] = replaced
+    ? []
+    : vanillaFilesIn(SCRIPTED_VARIABLES).filter((name) => name.toLowerCase().endsWith(".txt"));
   const diagnostics: ValidationDiagnostic[] = [];
   let texts: string[] | undefined;
 
@@ -2257,6 +2358,11 @@ function scriptedVariables(
       }
 
       const base = { definition: variable, path: "" };
+
+      if (declared.has(variable) && replaced) {
+        // The base game's own files still read it, and now get this value.
+        continue;
+      }
 
       if (declared.has(variable)) {
         const kept: string = `${variable} is a variable the base game declares in ${SCRIPTED_VARIABLES}, and the game keeps the first value of a name it reads`;
@@ -2405,9 +2511,8 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     // A category the mod defines is the mod's: the game keeps the last
     // economic category of an id it reads.
     budgetUse: (category: string): CategoryBudgetUse | undefined => {
-      const own: CategoryBudgetUse | undefined = ownBudgetUse.get(category);
-      if (own !== undefined) {
-        return own;
+      if (ownBudgetUse.has(category)) {
+        return ownBudgetUse.get(category);
       }
       return known("economic_category")?.has(category) === true
         ? {
@@ -2441,10 +2546,14 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     mod.definitions,
     parsedFiles,
   );
-  const ownBudgetUse = new Map<string, CategoryBudgetUse>();
+  // `undefined` for a category that holds script this cannot read through and
+  // does not itself say yes: an `inline_script` may say it, so nothing is known.
+  const ownBudgetUse = new Map<string, CategoryBudgetUse | undefined>();
   for (const definition of definitions) {
     if (definition.type === "economic_category") {
-      ownBudgetUse.set(definition.id, categoryBudgetUse(loadBlockOf(definition.body)));
+      const category: LoadBlock = loadBlockOf(definition.body);
+      const use: CategoryBudgetUse = categoryBudgetUse(category);
+      ownBudgetUse.set(definition.id, category.open && !use.budget ? undefined : use);
     }
   }
   const ownPolicyOptions = new Map<string, readonly string[]>();
@@ -2490,6 +2599,8 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         .map((definition) => [`${definition.type.replace(/^scripted_/u, "")}:${definition.id}`, definition]),
     ),
     calling: new Set<string>(),
+    calls: [],
+    caller: undefined,
     followed: new Map<string, readonly ValidationDiagnostic[]>(),
     unlocalised: new Set<string>(),
     diagnostics,
@@ -2620,6 +2731,12 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     const root: BlockRules = walker.resolver.rulesForType(type);
     const subject: VariantSubject = variantSubject(definition);
     walker.type = type.id;
+    walker.caller =
+      definition.type === "scripted_effect"
+        ? `effect:${definition.id}`
+        : definition.type === "scripted_trigger"
+          ? `trigger:${definition.id}`
+          : undefined;
     walker.followed.clear();
     walker.inVariant = (variant: string): boolean => {
       const found = type.variants.find((candidate) => candidate.id === variant);
@@ -2703,12 +2820,12 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
 
   // An id two blocks register, counting each copy the game builds of a
   // scripted effect that holds one.
-  for (const finding of scriptIdFindings(scriptedDefinitions, vanillaScriptIds)) {
+  for (const finding of scriptIdFindings(scriptedDefinitions, walker.calls ?? [], vanillaScriptIds)) {
     diagnostics.push({ severity: "error", code: "duplicate-script-id", ...finding });
   }
 
   diagnostics.push(...plansWithoutIncome(definitions, hiddenDirectories));
-  diagnostics.push(...scriptedVariables(mod, parsedFiles, mentioned));
+  diagnostics.push(...scriptedVariables(mod, parsedFiles, mentioned, hiddenDirectories));
 
   return diagnostics.sort(
     (left, right) =>

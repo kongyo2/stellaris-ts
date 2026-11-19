@@ -166,6 +166,47 @@ describe("the fleet actions a definition queues", () => {
     expect(reported(both, "duplicate-script-id")).toHaveLength(2);
   });
 
+  it("register it once for each set of arguments an optimize_memory effect is called with", () => {
+    const gather = effect(
+      "sts_gather",
+      entries([
+        { bare: "optimize_memory" },
+        ["queue_actions", find("sts.find").queue_actions],
+        ["set_fleet_flag", "$FLAG$"],
+      ]),
+    );
+    const called = (first: string, second: string): Mod =>
+      mod()
+        .add(gather)
+        .add(event("sts.1", { every_owned_fleet: { sts_gather: { FLAG: first } } }))
+        .add(event("sts.2", { every_owned_fleet: { sts_gather: { FLAG: second } } }));
+    expect(reported(called("a", "a"), "duplicate-script-id")).toEqual([]);
+    expect(reported(called("a", "b"), "duplicate-script-id")).toEqual([
+      "sts_gather.queue_actions.find_closest_fleet.trigger",
+    ]);
+  });
+
+  it("count a call where one is read, not every key that spells a scripted effect's name", () => {
+    const target = mod()
+      .add(effect("weight", find("sts.find")))
+      .add(def("economic_plan", "sts_one", { income: { alloys: 1 }, ai_weight: { weight: 1 } }))
+      .add(def("economic_plan", "sts_two", { income: { alloys: 1 }, ai_weight: { weight: 1 } }));
+    expect(reported(target, "duplicate-script-id")).toEqual([]);
+  });
+
+  it("are looked for inside the effect a fleet is queued, which may queue more", () => {
+    const target = mod().add(
+      event("sts.1", {
+        every_owned_fleet: {
+          queue_actions: { effect: { id: "sts.outer", queue_actions: { effect: { set_fleet_flag: "sts_inner" } } } },
+        },
+      }),
+    );
+    expect(reported(target, "missing-script-id")).toEqual([
+      "sts.1.immediate.every_owned_fleet.queue_actions.effect.queue_actions.effect",
+    ]);
+  });
+
   it("log a merge_fleet target whatever it is, as the game's reader of it does", () => {
     const target = mod().add(
       effect("sts_merge", { queue_actions: { merge_fleet: { target: "event_target:sts_anchor", allow_ftl: false } } }),
@@ -289,6 +330,11 @@ describe("a value that names the wrong thing", () => {
     ]);
   });
 
+  it("is not text that happens to start with trigger:", () => {
+    const target = mod().add(event("sts.1", { log: "trigger:nonexistent" }));
+    expect(reported(target, "unknown-trigger")).toEqual([]);
+  });
+
   it("is an option of another policy, or a weapon type that is no component tag", () => {
     const target = mod().add(
       event(
@@ -337,6 +383,18 @@ describe("what is not a definition written with def()", () => {
     expect(reported(late, "ignored-vanilla-override")).toEqual([theirs]);
     expect(messages(late, "ignored-vanilla-override")[0]).toContain("is already taken");
     expect(reported(early, "replaces-vanilla-variable")).toEqual([theirs]);
+  });
+
+  it("has none of the base game's variables to yield to where the mod replaces their directory", () => {
+    const theirs: string = vanillaScriptedVariables[0] ?? "";
+    const target = defineMod({
+      name: "Macro",
+      version: "1",
+      supportedVersion: `v${vanillaModsCompatibilityVersion}.*`,
+      replacePaths: ["common/scripted_variables"],
+    });
+    target.file({ path: "common/scripted_variables/zz_sts.txt", contents: `${theirs} = 2\n` });
+    expect(validate(target).filter((diagnostic) => diagnostic.definition === theirs)).toEqual([]);
   });
 
   it("reports a variable of the mod's own that nothing reads", () => {

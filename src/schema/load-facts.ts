@@ -185,6 +185,9 @@ function readActions(actions: LoadBlock, path: string, into: Mutable): void {
       } else if (!value.open) {
         into.missing.push({ family: "effect", path: here, action: "effect" });
       }
+      // What the effect does may queue actions of its own, for this fleet or
+      // another: those are fleet actions like any, wherever they are written.
+      findQueues(value, here, into);
       continue;
     }
 

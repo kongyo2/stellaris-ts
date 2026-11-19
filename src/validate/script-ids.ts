@@ -20,6 +20,13 @@ import { fleetActionFacts, optimisesMemory, type ScriptId } from "../schema/load
  * `optimize_memory`: then the game keeps the copy it built, by the arguments
  * it was called with, and hands the same one to every call that passes the
  * same (the branch at `0x16df4c7`, on the flag the reader sets at `0xafe89c`).
+ * A call that passes other arguments still gets a copy of its own.
+ *
+ * A call is a key the walk of a definition resolved as one: the name of a
+ * scripted effect where effects are read, of a scripted trigger where
+ * triggers are. A key that merely spells the same — `weight` inside an
+ * `ai_weight`, beside a scripted effect someone called `weight` — calls
+ * nothing.
  *
  * The base game writes each of its 322 ids once, or with a parameter in it
  * (`$EVENT_ID$.trigger`), which makes every copy's id its own.
@@ -31,24 +38,22 @@ export interface ScriptedDefinition {
   readonly body: LoadBlock;
 }
 
+/** One call of a scripted effect or trigger, as the walk of a definition found it. */
+export interface ScriptedCall {
+  /** `effect:id` or `trigger:id` of what is called. */
+  readonly callee: string;
+  /** The same of the scripted effect or trigger the call is written in; none for a definition read once. */
+  readonly caller: string | undefined;
+  /** The definition the call is written in, for a message. */
+  readonly callerName: string;
+  /** The arguments passed, as one string: two calls with the same arguments have the same one. */
+  readonly arguments: string;
+}
+
 export interface ScriptIdFinding {
   readonly definition: string;
   readonly path: string;
   readonly message: string;
-}
-
-const SCRIPTED: ReadonlySet<string> = new Set(["scripted_effect", "scripted_trigger"]);
-
-/** How often each key is written in a block, at any depth. */
-function countKeys(block: LoadBlock, into: Map<string, number>): void {
-  for (const entry of block.entries) {
-    if (entry.key !== undefined) {
-      into.set(entry.key, (into.get(entry.key) ?? 0) + 1);
-    }
-    if (entry.value.kind === "block") {
-      countKeys(entry.value, into);
-    }
-  }
 }
 
 interface Site extends ScriptId {
@@ -61,81 +66,80 @@ interface Site extends ScriptId {
   readonly callers: readonly string[];
 }
 
+function keyOf(definition: ScriptedDefinition): string | undefined {
+  return definition.type === "scripted_effect"
+    ? `effect:${definition.id}`
+    : definition.type === "scripted_trigger"
+      ? `trigger:${definition.id}`
+      : undefined;
+}
+
 /**
  * How many copies of each scripted effect and trigger the game builds: one for
  * each call from a definition that is read once, and one for each copy of a
- * scripted effect that calls it.
+ * scripted effect that calls it — or, for one that says `optimize_memory`,
+ * one for each set of arguments it is called with.
  */
-function copiesOf(definitions: readonly ScriptedDefinition[]): {
-  readonly copies: (id: string) => number;
-  readonly callers: (id: string) => readonly string[];
+function copiesOf(
+  definitions: readonly ScriptedDefinition[],
+  calls: readonly ScriptedCall[],
+): {
+  readonly copies: (key: string) => number;
+  readonly callers: (key: string) => readonly string[];
 } {
-  const scripted = new Map<string, ScriptedDefinition>();
+  const optimised = new Set<string>();
   for (const definition of definitions) {
-    if (SCRIPTED.has(definition.type)) {
-      scripted.set(definition.id, definition);
+    const key: string | undefined = keyOf(definition);
+    if (key !== undefined && optimisesMemory(definition.body)) {
+      optimised.add(key);
     }
   }
 
-  // caller -> callee -> how often the caller writes the callee's name as a key
-  const calls = new Map<string, Map<string, number>>();
-  const callers = new Map<string, Set<string>>();
-  const direct = new Map<string, number>();
-
-  for (const definition of definitions) {
-    const keys = new Map<string, number>();
-    countKeys(definition.body, keys);
-
-    for (const [key, count] of keys) {
-      if (!scripted.has(key) || (SCRIPTED.has(definition.type) && key === definition.id)) {
-        continue;
-      }
-      const named: Set<string> = callers.get(key) ?? new Set<string>();
-      named.add(definition.id);
-      callers.set(key, named);
-
-      if (SCRIPTED.has(definition.type)) {
-        const bucket: Map<string, number> = calls.get(definition.id) ?? new Map<string, number>();
-        bucket.set(key, (bucket.get(key) ?? 0) + count);
-        calls.set(definition.id, bucket);
-      } else {
-        direct.set(key, (direct.get(key) ?? 0) + count);
-      }
+  const callsOf = new Map<string, ScriptedCall[]>();
+  for (const call of calls) {
+    // One that calls itself is read once: what the game makes of it is no count.
+    if (call.caller === call.callee) {
+      continue;
     }
+    const bucket: ScriptedCall[] = callsOf.get(call.callee) ?? [];
+    bucket.push(call);
+    callsOf.set(call.callee, bucket);
   }
 
   const known = new Map<string, number>();
   const visiting = new Set<string>();
 
-  const copies = (id: string): number => {
-    const cached: number | undefined = known.get(id);
+  const copies = (key: string): number => {
+    const cached: number | undefined = known.get(key);
     if (cached !== undefined) {
       return cached;
     }
-    // One that calls itself is read once here: what the game makes of it is
-    // not a count.
-    if (visiting.has(id)) {
+    if (visiting.has(key)) {
       return 0;
     }
-    visiting.add(id);
+    visiting.add(key);
 
-    let total: number = direct.get(id) ?? 0;
-    for (const [caller, callees] of calls) {
-      const count: number | undefined = callees.get(id);
-      if (count !== undefined) {
-        total += count * copies(caller);
+    let total = 0;
+    const passed = new Set<string>();
+    for (const call of callsOf.get(key) ?? []) {
+      const built: number = call.caller === undefined ? 1 : copies(call.caller);
+      total += built;
+      if (built > 0) {
+        passed.add(call.arguments);
       }
     }
 
-    visiting.delete(id);
-    const definition: ScriptedDefinition | undefined = scripted.get(id);
-    // `optimize_memory`: one copy for each set of arguments, taken here as one.
-    const built: number = definition !== undefined && optimisesMemory(definition.body) ? Math.min(total, 1) : total;
-    known.set(id, built);
+    visiting.delete(key);
+    const built: number = optimised.has(key) ? passed.size : total;
+    known.set(key, built);
     return built;
   };
 
-  return { copies, callers: (id: string): readonly string[] => [...(callers.get(id) ?? [])].sort() };
+  return {
+    copies,
+    callers: (key: string): readonly string[] =>
+      [...new Set((callsOf.get(key) ?? []).map((call) => call.callerName))].sort(),
+  };
 }
 
 function someOf(names: readonly string[]): string {
@@ -147,13 +151,15 @@ function someOf(names: readonly string[]): string {
 
 export function scriptIdFindings(
   definitions: readonly ScriptedDefinition[],
+  calls: readonly ScriptedCall[],
   vanillaIds: { readonly trigger: readonly string[]; readonly effect: readonly string[] },
 ): readonly ScriptIdFinding[] {
-  const { copies, callers } = copiesOf(definitions);
+  const { copies, callers } = copiesOf(definitions, calls);
   const sites = new Map<string, Site[]>();
 
   for (const definition of definitions) {
-    const inScripted: boolean = SCRIPTED.has(definition.type);
+    const scriptedKey: string | undefined = keyOf(definition);
+    const inScripted: boolean = scriptedKey !== undefined;
 
     for (const registered of fleetActionFacts(definition.body).ids) {
       // A parameter in the id makes each copy's its own, and `@x` is a value
@@ -166,9 +172,9 @@ export function scriptIdFindings(
       bucket.push({
         ...registered,
         definition: definition.id,
-        copies: inScripted ? copies(definition.id) : 1,
+        copies: scriptedKey === undefined ? 1 : copies(scriptedKey),
         scripted: inScripted ? definition.id : undefined,
-        callers: inScripted ? callers(definition.id) : [],
+        callers: scriptedKey === undefined ? [] : callers(scriptedKey),
       });
       sites.set(key, bucket);
     }
@@ -216,7 +222,7 @@ export function scriptIdFindings(
 
       const remedy: string =
         site.scripted !== undefined && site.copies > 1
-          ? ` Put a parameter in the id so that each copy has its own, id = "${first.id}_$WHO$", or write optimize_memory at the top of ${site.scripted}: the game then keeps one copy for each set of arguments and gives it to every call that passes the same.`
+          ? ` Put a parameter in the id so that each copy has its own, id = "${first.id}_$WHO$", or write optimize_memory at the top of ${site.scripted}: the game then keeps one copy for each set of arguments and gives it to every call that passes the same — one copy in all, where every call passes the same.`
           : " Give each one a name of its own.";
 
       findings.push({

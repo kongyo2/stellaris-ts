@@ -127,6 +127,23 @@ describe("a directory where the game reads a second definition into the first", 
     expect(reported(split, "missing-income-goal")).toEqual([]);
   });
 
+  it("reads a plan's income as the game ends up with it, one definition over the next", () => {
+    const reset = mod().add(
+      plan(
+        "sts_plan",
+        entries([
+          ["income", { energy: 1 }],
+          ["income", { energy: 0 }],
+        ]),
+      ),
+    );
+    const kept = mod()
+      .add(plan("sts_plan", { income: { energy: 1, alloys: 2 } }))
+      .add(plan("sts_plan", { income: { energy: 0 } }));
+    expect(reported(reset, "missing-income-goal")).toEqual(["sts_plan"]);
+    expect(reported(kept, "missing-income-goal")).toEqual([]);
+  });
+
   it("takes the ten keys the plan's reader takes, at both levels, and no other", () => {
     const target = mod().add(
       plan("sts_plan", {
@@ -185,6 +202,11 @@ describe("a budget the AI never draws on", () => {
     expect(reported(mod().add(category(false)).add(budget("sts_category")), "unused-ai-budget")).toEqual([
       "sts_budget.category",
     ]);
+  });
+
+  it("says nothing of a category whose flag may come from an inline script", () => {
+    const category = def("economic_category", "sts_category", { parent: "country", inline_script: "sts_budget_flags" });
+    expect(reported(mod().add(category).add(budget("sts_category")), "unused-ai-budget")).toEqual([]);
   });
 
   it("takes a number for a factor, and a variable of the mod's own", () => {
