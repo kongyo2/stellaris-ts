@@ -11,6 +11,12 @@ import {
 import { vanillaFiles } from "../../src/generated/vanilla/files.js";
 import { vanillaLocalisationKeys } from "../../src/generated/vanilla/localisation-keys.js";
 import { vanillaMeshAnimations } from "../../src/generated/vanilla/mesh-animations.js";
+import {
+  vanillaAiBudgetCategories,
+  vanillaAiParentExpenditure,
+  vanillaAiParentUpkeep,
+  vanillaPolicyOptions,
+} from "../../src/generated/vanilla/script-facts.js";
 import { foldedPath, namedFiles } from "../../src/schema/file-references.js";
 import { localisationKey } from "../../src/schema/ir.js";
 import {
@@ -30,11 +36,18 @@ import {
 } from "../../src/schema/localisation-references.js";
 import { expandModifierNames } from "../../src/schema/modifier-namespace.js";
 import { namesNoDefinition, referenceTargets, type ReferenceTargets } from "../../src/schema/references.js";
-import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../../src/schema/scopeless-on-actions.js";
+import {
+  NO_SCOPE,
+  namesScope,
+  scopelessEvents,
+  scopelessOnActions,
+  scopelessTypedEvent,
+} from "../../src/schema/scopeless-on-actions.js";
 import { branchChain, isBranchBody, type BranchChain } from "../../src/schema/script-order.js";
 import {
   applyScope,
   comparesIn,
+  scopesTaken,
   frameOf,
   requiredKeys,
   SchemaResolver,
@@ -364,6 +377,16 @@ export interface TypeReport {
  * commands written straight into a body pin down what that body is.
  */
 export type CommandObserver = (type: string, command: ScriptCommandDefinition, atEntryScope: boolean) => void;
+
+/** A command written where it cannot read, as it is counted. */
+interface ScopeIssue {
+  command: string;
+  path: string;
+  writtenIn: string;
+  accepts: readonly string[];
+  count: number;
+  examples: string[];
+}
 
 export interface ConformanceOptions {
   readonly observeCommands?: CommandObserver;
@@ -899,6 +922,14 @@ export async function checkConformance(
       .map((type) => [type.id === "scripted_effect" ? "effect" : "trigger", type]),
   );
   let callsFollowed = 0;
+  /** The scripted effects and triggers already read, by the scope they were called in. */
+  const walkedCalls = new Set<string>();
+  /**
+   * What a scripted effect or trigger reads in the wrong scope when it is
+   * called, by its own type and under its own name: whichever definition
+   * called it first is no part of where the mistake is.
+   */
+  const calledScopeIssues = new Map<string, Map<string, ScopeIssue>>();
   let branchesChecked = 0;
   const missingDirectories: string[] = [];
 
@@ -937,6 +968,18 @@ export async function checkConformance(
         : known("model_mesh")?.has(mesh) === true
           ? []
           : undefined,
+    policyOptions: (policy: string): readonly string[] | undefined =>
+      Object.hasOwn(vanillaPolicyOptions, policy) ? vanillaPolicyOptions[policy] : undefined,
+    budgetUse: (category: string) =>
+      known("economic_category")?.has(category) === true
+        ? {
+            budget: vanillaAiBudgetCategories.includes(category),
+            parentExpenditure: Object.hasOwn(vanillaAiParentExpenditure, category)
+              ? (vanillaAiParentExpenditure[category] ?? [])
+              : [],
+            parentUpkeep: Object.hasOwn(vanillaAiParentUpkeep, category) ? (vanillaAiParentUpkeep[category] ?? []) : [],
+          }
+        : undefined,
   };
 
   const resolver = new SchemaResolver(model, {
@@ -973,17 +1016,10 @@ export async function checkConformance(
       string,
       { path: string; field: string; expected: string; example: string; count: number; examples: string[] }
     >();
-    const scopeIssues = new Map<
-      string,
-      {
-        command: string;
-        path: string;
-        writtenIn: string;
-        accepts: readonly string[];
-        count: number;
-        examples: string[];
-      }
-    >();
+    const scopeIssues = new Map<string, ScopeIssue>();
+    // Where a command in the wrong scope is recorded: this type's own issues,
+    // or a called definition's while a call is being followed.
+    let scopeSink: Map<string, ScopeIssue> = scopeIssues;
     const unknown = new Map<
       string,
       { path: string; field: string; context: FindingContext; shape: ValueShape; count: number; examples: string[] }
@@ -1042,9 +1078,6 @@ export async function checkConformance(
     const requirementIssues = requirements.map(() => ({ appliesTo: 0, missing: [] as string[], ids: [] as string[] }));
     let inVariant: (variant: string) => boolean = () => false;
     const seen = new Set<string>();
-    // The scripted effects and triggers being read in a caller's scope, so that
-    // one calling itself is read once.
-    const calling = new Set<string>();
     let definitionsSeen = 0;
     let keysChecked = 0;
     let loadChecked = 0;
@@ -1280,9 +1313,11 @@ export async function checkConformance(
           continue;
         }
 
-        // A scripted effect or trigger called where there is no scope runs its
-        // body there too, and what it reads there is read on nothing.
-        if (scope.current === NO_SCOPE || scope.root === NO_SCOPE) {
+        // A scripted effect or trigger runs its body where it is called: in the
+        // caller's scope, with the caller's root, prev and from. What it reads
+        // there is read on that, and on nothing where there is no scope. Read
+        // once for each scope it is called in, since the body is the same.
+        if (scope.current !== undefined || scope.root === NO_SCOPE) {
           const followed = new Set<string>();
           for (const value of resolution.values) {
             if (value.kind !== "scripted-call") {
@@ -1292,24 +1327,62 @@ export async function checkConformance(
             const body: Block | undefined = scripted.get(callee);
             const calleeType: DefinitionType | undefined = scriptedTypes.get(value.family);
             // The scalar call and the call with parameters are two rules for one callee.
-            if (body === undefined || calleeType === undefined || calling.has(callee) || followed.has(callee)) {
+            // One being read in a scope is not read again in that scope, which
+            // `walkedCalls` below sees to; in another scope it is.
+            if (body === undefined || calleeType === undefined || followed.has(callee)) {
               continue;
             }
             followed.add(callee);
-            calling.add(callee);
+            const inScope: string = [callee, scope.current, scope.root, scope.prev, scope.from].join("|");
+            if (walkedCalls.has(inScope)) {
+              continue;
+            }
+            walkedCalls.add(inScope);
             callsFollowed += 1;
             const calleeRules: BlockRules = resolver.rulesForType(calleeType);
+            const outer: Map<string, ScopeIssue> = scopeSink;
+            const sinkKey: string = calleeType.id;
+            let called: Map<string, ScopeIssue> | undefined = calledScopeIssues.get(sinkKey);
+            if (called === undefined) {
+              called = new Map<string, ScopeIssue>();
+              calledScopeIssues.set(sinkKey, called);
+            }
+            scopeSink = called;
+            // The body is read for its scopes alone: what else is in it was
+            // found, and counted, when the definition itself was read.
+            const transient: readonly Map<string, unknown>[] = [
+              unknown,
+              missingRequired,
+              branchIssues,
+              shapeIssues,
+              comparisonIssues,
+              stringIssues,
+              referenceIssues,
+              fileIssues,
+              valueIssues,
+            ];
+            const sizes: readonly number[] = transient.map((issues) => issues.size);
+            const counted = { keysChecked, stringsChecked, referencesChecked, filesChecked, branchesChecked };
             walk(
               body,
               calleeRules,
-              `${trail.length === 0 ? key : `${trail}.${key}`}>`,
+              `${value.callee}>`,
               file,
               scope,
               false,
               comparesIn(calleeRules, value.family === "trigger"),
               calleeRules,
             );
-            calling.delete(callee);
+            for (const [index, issues] of transient.entries()) {
+              const added: number = issues.size - (sizes[index] ?? 0);
+              if (added > 0) {
+                for (const identity of [...issues.keys()].slice(-added)) {
+                  issues.delete(identity);
+                }
+              }
+            }
+            ({ keysChecked, stringsChecked, referencesChecked, filesChecked, branchesChecked } = counted);
+            scopeSink = outer;
           }
         }
 
@@ -1363,7 +1436,7 @@ export async function checkConformance(
         ) {
           const first = constrained[0];
           const identity = `${first?.id ?? key} ${here} ${trail}`;
-          const issue = scopeIssues.get(identity) ?? {
+          const issue = scopeSink.get(identity) ?? {
             command: first?.id ?? key,
             path: trail,
             writtenIn: here,
@@ -1379,7 +1452,32 @@ export async function checkConformance(
           if (issue.examples.length < 3 && !issue.examples.includes(file)) {
             issue.examples.push(file);
           }
-          scopeIssues.set(identity, issue);
+          scopeSink.set(identity, issue);
+        }
+
+        // A value naming one kind of object where the rules take another:
+        // `set_home_base = capital_scope`, a planet where a starbase belongs.
+        if (entry.value.kind === NodeKind.Scalar) {
+          const wanted: readonly string[] = scopesTaken(applicable.length > 0 ? applicable : resolution.values);
+          const named: string | undefined =
+            wanted.length === 0 ? undefined : resolver.scopeNamed(scalarText(entry.value), scope);
+          if (named !== undefined && named !== NO_SCOPE && !wanted.includes(named)) {
+            const written: string = `${key} = ${scalarText(entry.value)}`;
+            const identity = `${written} ${named} ${trail}`;
+            const issue = scopeSink.get(identity) ?? {
+              command: written,
+              path: trail,
+              writtenIn: named,
+              accepts: wanted,
+              count: 0,
+              examples: [],
+            };
+            issue.count += 1;
+            if (issue.examples.length < 3 && !issue.examples.includes(file)) {
+              issue.examples.push(file);
+            }
+            scopeSink.set(identity, issue);
+          }
         }
 
         // A value naming a scope through a frame that holds none: `who = root`
@@ -1391,7 +1489,7 @@ export async function checkConformance(
         ) {
           const named: string = `${key} = ${scalarText(entry.value)}`;
           const identity = `${named} ${NO_SCOPE} ${trail}`;
-          const issue = scopeIssues.get(identity) ?? {
+          const issue = scopeSink.get(identity) ?? {
             command: named,
             path: trail,
             writtenIn: NO_SCOPE,
@@ -1403,7 +1501,7 @@ export async function checkConformance(
           if (issue.examples.length < 3 && !issue.examples.includes(file)) {
             issue.examples.push(file);
           }
-          scopeIssues.set(identity, issue);
+          scopeSink.set(identity, issue);
         }
 
         // A value outside what the rules accept is dropped as silently as an
@@ -1511,8 +1609,22 @@ export async function checkConformance(
             : identityOf(type, claimed.block, claimed.key);
 
         // What the game's loader would log about this definition.
-        if (identity !== undefined && loadCheckedTypes.has(type.id)) {
-          loadChecked += 1;
+        // An event of some kind of object that only a scopeless on_action fires.
+        if (identity !== undefined && type.id === "event") {
+          const message: string | undefined = scopelessTypedEvent(
+            identity,
+            claimed.key,
+            firedWithoutScope.get(identity) ?? [],
+            (name: string): boolean => known("on_action")?.has(name) === true,
+          );
+          if (message !== undefined) {
+            loadFindings.push({ id: identity, code: "scopeless-event", path: "", message, file: display });
+          }
+        }
+
+        // Asked of every definition: any of them may queue fleet actions.
+        if (identity !== undefined) {
+          loadChecked += loadCheckedTypes.has(type.id) ? 1 : 0;
           for (const finding of loadChecks(
             type.id,
             identity,
@@ -1695,6 +1807,32 @@ export async function checkConformance(
       }),
     });
   });
+
+  // What the followed calls found, under the type of the definition called.
+  for (const [typeId, issues] of calledScopeIssues) {
+    const index: number = reports.findIndex((report) => report.type === typeId);
+    const report: TypeReport | undefined = reports[index];
+    if (report !== undefined) {
+      reports[index] = {
+        ...report,
+        scopeViolations: [
+          ...report.scopeViolations,
+          ...[...issues.values()]
+            .map((issue) => ({
+              command: issue.command,
+              path: issue.path,
+              writtenIn: issue.writtenIn,
+              accepts: issue.accepts,
+              occurrences: issue.count,
+              examples: issue.examples,
+            }))
+            .sort(
+              (left, right) => compareOrdinal(left.path, right.path) || compareOrdinal(left.command, right.command),
+            ),
+        ],
+      };
+    }
+  }
 
   reports.sort((left, right) => compareOrdinal(left.type, right.type));
 

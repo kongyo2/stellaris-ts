@@ -266,6 +266,36 @@ export function valuesFor(
   );
 }
 
+/**
+ * The kinds of object a value under these rules has to be, when every rule
+ * that could read a word takes a scope and says which: `set_home_base` takes
+ * a starbase. None when one of them takes any scope, or anything else.
+ */
+export function scopesTaken(values: readonly ResolvedValue[]): readonly string[] {
+  const taken: string[] = [];
+
+  for (const value of values) {
+    switch (value.kind) {
+      case "block":
+      case "script-block":
+      case "scripted-call":
+      case "list":
+      case "rule-set-reference":
+        continue;
+      case "scope-reference":
+        if (value.scope === undefined) {
+          return [];
+        }
+        taken.push(value.scope);
+        continue;
+      default:
+        return [];
+    }
+  }
+
+  return [...new Set(taken)];
+}
+
 export function applyScope(state: ScopeState, transition: ScopeTransition | undefined): ScopeState {
   if (transition === undefined) {
     return state;
@@ -730,6 +760,40 @@ export class SchemaResolver {
     }
 
     return { kind: "unknown" };
+  }
+
+  /**
+   * The kind of object a value names, where one step says: `this` or `root`
+   * where what it holds is known, or a link that always lands on one kind, as
+   * `capital_scope` lands on a planet.
+   *
+   * `undefined` for a chain, an event target, a variable, and anything else
+   * only the game can follow — `prev` and `from` among them: what they hold
+   * is followed here only as far as it is known to be nothing, and a block
+   * entered through an event target leaves `prev` holding what stood two
+   * blocks out.
+   */
+  scopeNamed(value: string, state: ScopeState): string | undefined {
+    const lowered: string = value.toLowerCase();
+
+    if (!/^[a-z_][a-z0-9_]*$/u.test(lowered)) {
+      return undefined;
+    }
+
+    if (FRAME_WORDS.has(lowered)) {
+      return lowered === "this" || lowered === "root" ? frameScope(state, lowered) : undefined;
+    }
+
+    const link = this.#model.links.find(
+      (candidate) => candidate.kind === "scope-link" && candidate.id.toLowerCase() === lowered,
+    );
+
+    return link?.kind === "scope-link" &&
+      link.output.kind === "fixed-scope" &&
+      link.output.scopes.length === 1 &&
+      link.output.scopes[0] !== undefined
+      ? link.output.scopes[0]
+      : undefined;
   }
 
   /** The keys this block would accept as a parameter of a scripted call. */

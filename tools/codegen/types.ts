@@ -64,6 +64,9 @@ function propertyName(key: string): string {
   return /^[A-Za-z_$][A-Za-z0-9_$]*$/u.test(key) ? key : JSON.stringify(key);
 }
 
+/** The enums whose members script brings into existence: a list of them is a list of examples. */
+const OPEN_ENUMS: ReadonlySet<string> = new Set(["exe_set_variable"]);
+
 function staticEnumMembers(model: SchemaModel, id: string): readonly string[] {
   const definition: EnumDefinition | undefined = model.enums.find((candidate) => candidate.id === id);
   return definition !== undefined && definition.kind === "static-enum" ? definition.values : [];
@@ -148,6 +151,13 @@ function valueType(context: RenderContext, value: ValueRule, depth: number, scop
       // type comes out as `"\"x\""` and matches nothing anyone would write.
       return typeof value.value === "string" ? JSON.stringify(value.value.replace(/^"|"$/gu, "")) : String(value.value);
     case "enum": {
+      // A variable's name. The corpus lists the ones the base game happens to
+      // set, and a mod sets its own; a number stands wherever one may, and so
+      // does `trigger:…` or `value:…`. A closed union here refused
+      // `factor = 2` in a budget and every variable a mod had named itself.
+      if (OPEN_ENUMS.has(value.enum)) {
+        return "PdxNumber | string";
+      }
       const members: readonly string[] = staticEnumMembers(context.model, value.enum);
       if (members.length === 0) {
         // An extracted enum's members come from the game, so the schema alone

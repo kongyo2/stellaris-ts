@@ -26,6 +26,19 @@ import { mergedDefinitionTypes } from "./merged-types.js";
  * (`0x3f3d30`). It would replace the old one were it asked to, and the loader
  * of the `events` directory never asks (`0x3f4b80` passes 0 for the flag).
  *
+ * Six of those databases are of a class derived from the template, which puts
+ * a handler of its own in the template's place: the same slot of the vtable
+ * the database ends up with holds a function that, asked without the flag the
+ * directory loader never sets, hands the second definition to the object the
+ * first one made (`0xb54ca0` for `common/economic_plans`, calling the plan's
+ * own reader on it) and logs nothing. Every field written again is read again
+ * on top of what is there, and a field left out keeps what it had: a second
+ * `basic_economy_plan` holding one `subplan` adds that subplan to the plan,
+ * which is what the game's own `00_example.txt` says of the directory. The
+ * template's handler is still in the executable for each of them, in the
+ * vtable the constructor passes through on its way, which is how a list made
+ * from the handlers alone counted them among the directories that replace.
+ *
  * Any other type is read by a loader of its own, and nothing is said about
  * which of its definitions wins. The loader of section templates, component
  * sets and component templates (`0xd3a060`) shows why a message is not
@@ -35,7 +48,7 @@ import { mergedDefinitionTypes } from "./merged-types.js";
  * dropped — and its one caller (`0x91f7d0`) always sets the flag under which
  * the new definition is copied over the old instead, with none of the three.
  */
-export type DefinitionPrecedence = "first" | "last" | "merged" | "unknown";
+export type DefinitionPrecedence = "first" | "last" | "merged" | "overlaid" | "unknown";
 
 /** The types whose loader keeps the first definition it reads, with the line it logs for a later one. */
 export const firstDefinitionWins: Readonly<Record<string, string>> = {
@@ -91,7 +104,6 @@ export const lastDefinitionWinsDirectories: readonly string[] = [
   "common/country_focus/card_categories",
   "common/country_focus/focus_cards",
   "common/country_focus/focus_rewards",
-  "common/country_limits/ownership_limits",
   "common/country_limits/ship_of_size_limits",
   "common/country_types",
   "common/crisis_levels",
@@ -106,7 +118,6 @@ export const lastDefinitionWinsDirectories: readonly string[] = [
   "common/dust_clouds",
   "common/dynamic_text",
   "common/economic_categories",
-  "common/economic_plans",
   "common/edicts",
   "common/espionage_assets",
   "common/espionage_operation_categories",
@@ -125,7 +136,6 @@ export const lastDefinitionWinsDirectories: readonly string[] = [
   "common/game_concept_categories",
   "common/game_concepts",
   "common/governments",
-  "common/governments/authorities",
   "common/governments/civics",
   "common/governments/councilors",
   "common/greeting_overlay_sounds",
@@ -156,8 +166,6 @@ export const lastDefinitionWinsDirectories: readonly string[] = [
   "common/pop_categories",
   "common/pop_faction_types",
   "common/pop_jobs",
-  "common/portrait_categories",
-  "common/portrait_sets",
   "common/precursor_civilizations",
   "common/prescripted_flags",
   "common/relics",
@@ -179,7 +187,6 @@ export const lastDefinitionWinsDirectories: readonly string[] = [
   "common/specialist_subject_perks",
   "common/specialist_subject_types",
   "common/species_archetypes",
-  "common/species_classes",
   "common/species_rights/citizenship_types",
   "common/species_rights/colonization_controls",
   "common/species_rights/living_standards",
@@ -220,6 +227,28 @@ export const lastDefinitionWinsDirectories: readonly string[] = [
   "sound/advisor_voice_types",
 ];
 
+/**
+ * The directories whose database reads a second definition of an id into the
+ * first, with the handler that does it.
+ *
+ * Found by following each of the 161 template handlers to the vtables that
+ * hold it and each of those to the functions that install it: a constructor
+ * that goes on to store a second vtable has a class of its own, and these are
+ * the six whose own vtable holds something else in the handler's slot. Each
+ * of the six functions has the same two halves — read into the object that
+ * exists, or destroy it, build it again and read — and the half is chosen by
+ * the handler's last argument, which every one of the six per-file loaders
+ * hands on from the directory loader (`0x200b80`) and that loader sets to zero.
+ */
+export const overlaidDefinitionDirectories: Readonly<Record<string, string>> = {
+  "common/country_limits/ownership_limits": "0x43b080",
+  "common/economic_plans": "0xb54ca0",
+  "common/governments/authorities": "0x52d630",
+  "common/portrait_categories": "0x44ea80",
+  "common/portrait_sets": "0x44a960",
+  "common/species_classes": "0x445d30",
+};
+
 const genericDirectories: ReadonlySet<string> = new Set(lastDefinitionWinsDirectories);
 
 /** Which of two definitions of one id the game keeps, for a type. */
@@ -229,6 +258,9 @@ export function precedenceOf(type: Pick<DefinitionType, "id" | "source">): Defin
   }
   if (firstDefinitionWins[type.id] !== undefined) {
     return "first";
+  }
+  if (Object.hasOwn(overlaidDefinitionDirectories, type.source.directory)) {
+    return "overlaid";
   }
   return genericDirectories.has(type.source.directory) ? "last" : "unknown";
 }

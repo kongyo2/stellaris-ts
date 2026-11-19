@@ -16,39 +16,49 @@ import {
   typeKey,
 } from "../ir.js";
 
-import type { DefinitionType } from "../ir.js";
+import type { DefinitionType, EntryRule } from "../ir.js";
+
+/**
+ * What a plan takes, and each of its subplans: one function reads both
+ * (`0xb524c0` in the 4.5.2 executable, the `Read` of the vtable at
+ * `0x2335868` that a plan and the object a `subplan` is read into share). Its
+ * ten keys are these, and any other is an `Unexpected token` in the log — as
+ * `empire_size` is, which the ported rules listed and no line of the base
+ * game writes.
+ *
+ * A plan's own `potential` is what the game's `00_example.txt` documents:
+ * "country scope, plan is not considered at all while this fails".
+ */
+const goals: readonly EntryRule[] = [
+  field("potential", block([triggerEntries()]), occurs.optional, {
+    scope: replaceScope({ current: ScopeId.Country, root: ScopeId.Country }),
+  }),
+  field("income", block([field(typeKey("resource"), primitive("integer"), occurs.any)]), occurs.optional),
+  field("focus", block([field(typeKey("resource"), primitive("integer"), occurs.any)]), occurs.optional),
+  field("pops", primitive("integer"), occurs.optional),
+  field("naval_cap", primitive("integer"), occurs.optional),
+  field("set_name", primitive("scalar"), occurs.optional),
+  field("scaling", primitive("boolean"), occurs.optional),
+  field("optional", primitive("boolean"), occurs.optional),
+  field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
+    scope: replaceScope({ current: ScopeId.Country, root: ScopeId.Country }),
+  }),
+];
 
 export const economicPlan: DefinitionType = defineType({
   id: DefinitionTypeId.EconomicPlan,
   source: keyedBlocks("common/economic_plans"),
+  // `weight` in a plan's `ai_weight` and each condition of a `potential` is
+  // read on the country choosing a plan.
+  entryScope: ScopeId.Country,
   variants: [],
   localisation: [],
   modifiers: [],
   entries: [
-    field("income", block([field(typeKey("resource"), primitive("integer"), occurs.oneOrMore)]), occurs.optional),
-    field("focus", block([field(typeKey("resource"), primitive("integer"), occurs.oneOrMore)]), occurs.optional),
-    field(
-      "subplan",
-      block([
-        field("potential", block([triggerEntries()]), occurs.optional, {
-          scope: replaceScope({ root: ScopeId.Country }),
-        }),
-        field("income", block([field(typeKey("resource"), primitive("integer"), occurs.oneOrMore)]), occurs.optional),
-        field("focus", block([field(typeKey("resource"), primitive("integer"), occurs.oneOrMore)]), occurs.optional),
-        field("pops", primitive("integer"), occurs.optional),
-        field("empire_size", primitive("number"), occurs.optional),
-        field("naval_cap", primitive("integer"), occurs.optional),
-        field("set_name", primitive("scalar"), occurs.optional),
-        field("scaling", primitive("boolean"), occurs.optional),
-        field("optional", primitive("boolean"), occurs.optional),
-      ]),
-      occurs.oneOrMore,
-    ),
-    field("pops", primitive("integer"), occurs.optional),
-    field("empire_size", primitive("number"), occurs.optional),
-    field("naval_cap", primitive("integer"), occurs.optional),
-    field("ai_weight", block([modifierRuleEntries()]), occurs.optional, {
-      scope: replaceScope({ root: ScopeId.Country }),
-    }),
+    ...goals,
+    // Any number of them, and none: a second definition of a plan is read
+    // into the first, and one that only adds a subplan is the use the
+    // directory was made for.
+    field("subplan", block([...goals, field("subplan", block(goals), occurs.any)]), occurs.any),
   ],
 });

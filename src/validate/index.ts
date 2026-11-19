@@ -8,7 +8,17 @@ import {
 import { vanillaFiles } from "../generated/vanilla/files.js";
 import { vanillaLocalisationKeys } from "../generated/vanilla/localisation-keys.js";
 import { vanillaMeshAnimations } from "../generated/vanilla/mesh-animations.js";
+import {
+  vanillaAiBudgetCategories,
+  vanillaAiParentExpenditure,
+  vanillaAiParentUpkeep,
+  vanillaEconomicPlanSubplans,
+  vanillaPolicyOptions,
+  vanillaScriptIds,
+  vanillaScriptedVariables,
+} from "../generated/vanilla/script-facts.js";
 import { definitionFilePath } from "../runtime/emit.js";
+import { LOCALISATION_LANGUAGES } from "../runtime/localisation.js";
 import type { DefinitionRecord, Mod, RawFileRecord } from "../runtime/mod.js";
 import { isBare, isCompared, isEntries, isRaw, isRepeated } from "../runtime/values.js";
 import { definitionIds } from "../schema/definition-ids.js";
@@ -33,19 +43,31 @@ import {
 import {
   engineCommandNames,
   loadBlockOfEntries,
-  loadCheckedTypes,
   loadChecks,
   type LoadBlock,
   type LoadCheckContext,
   type LoadEntry,
   type LoadValue,
 } from "../schema/load-checks.js";
+import {
+  categoryBudgetUse,
+  policyOptionsOf,
+  subplansOf,
+  type CategoryBudgetUse,
+  type Subplan,
+} from "../schema/load-facts.js";
 import { engineFixedEnums } from "../schema/merged-types.js";
 import { meshAnimationsOf } from "../schema/mesh-animations.js";
 import { NodeKind, parse, type Document, type EntryNode } from "../syntax/index.js";
 import { movedFields } from "../schema/reader-fields.js";
 import { namesNoDefinition, referenceLabel, referenceTargets, type ReferenceTargets } from "../schema/references.js";
-import { NO_SCOPE, namesScope, scopelessEvents, scopelessOnActions } from "../schema/scopeless-on-actions.js";
+import {
+  NO_SCOPE,
+  namesScope,
+  scopelessEvents,
+  scopelessOnActions,
+  scopelessTypedEvent,
+} from "../schema/scopeless-on-actions.js";
 import { schema } from "../schema/index.js";
 import { branchChain, isBranchBody, type BranchChain } from "../schema/script-order.js";
 import { expandModifierNames, mergeIdsByType } from "../schema/modifier-namespace.js";
@@ -53,6 +75,7 @@ import {
   applyScope,
   comparesIn,
   frameOf,
+  scopesTaken,
   requiredKeys,
   SchemaResolver,
   valuesFor,
@@ -61,6 +84,8 @@ import {
   type ResolvedValue,
   type ScopeState,
 } from "../schema/resolve.js";
+import { rawDefinitions } from "./raw-definitions.js";
+import { scriptIdFindings, type ScriptedCall, type ScriptedDefinition } from "./script-ids.js";
 import type {
   DefinitionType,
   EnumDefinition,
@@ -94,7 +119,14 @@ export interface ValidationDiagnostic {
 }
 
 export interface ValidationOptions {
-  /** Languages a definition's required strings must exist in. Defaults to English. */
+  /**
+   * Languages a definition's required strings must exist in. Defaults to
+   * English. Named as the game names them, `l_japanese`, or as their folder
+   * is, `japanese`: the command line takes either, and a caller that passes
+   * on what it gave the command line should not be told every string is
+   * missing. A name the game reads no language under is reported, since
+   * checking it would check nothing.
+   */
   readonly languages?: readonly string[];
   readonly model?: SchemaModel;
 }
@@ -144,6 +176,8 @@ interface Walker {
   readonly macroKeys: ReadonlySet<string>;
   /** Whether the game would find a file at a path: one it ships, or one the mod writes. */
   readonly fileExists: (path: string) => boolean;
+  /** Whether a trigger of this name exists: one of the executable's, or a scripted one. */
+  readonly isTrigger: (name: string) => boolean;
   /** Whether a string exists in a language: the mod's own, or the base game's. */
   readonly localised: (language: string, key: string) => boolean;
   readonly languages: readonly string[];
@@ -155,8 +189,20 @@ interface Walker {
   noScope: string | undefined;
   /** The mod's own scripted effects and triggers, by `family:id`, for reading a call in its caller's scope. */
   readonly scripted: ReadonlyMap<string, DefinitionRecord>;
-  /** The ones being read in a caller's scope right now, so that one calling itself is read once. */
-  readonly calling: Set<string>;
+  /**
+   * What each one read in the wrong scope, by the scope it was called in, for
+   * the definition being walked: a body called from ten places in one scope
+   * is read once.
+   */
+  readonly followed: Map<string, readonly ValidationDiagnostic[]>;
+  /**
+   * The calls of the mod's own scripted effects and triggers found so far;
+   * none while a call is being followed, whose body is read again and is
+   * counted where it is defined.
+   */
+  readonly calls: ScriptedCall[] | undefined;
+  /** The scripted effect or trigger being walked, as `effect:id`; none for any other definition. */
+  caller: string | undefined;
   /** The strings already reported missing, by definition, language and key. */
   readonly unlocalised: Set<string>;
   readonly diagnostics: ValidationDiagnostic[];
@@ -974,7 +1020,110 @@ function checkScope(
     message:
       current === NO_SCOPE
         ? `${key} reads a ${allowed.join(" or a ")}, and here there is no scope at all: ${walker.noScope ?? "nothing hands this block one"}. There is nothing for it to read.`
-        : `${key} reads a ${allowed.join(" or a ")}, and here the scope is ${current}. The game answers it false for ever rather than reporting anything.`,
+        : constrained.every((command) => command.family === "effect")
+          ? `${key} acts on a ${allowed.join(" or a ")}, and here the scope is ${current}. An effect given another kind of object does nothing.`
+          : `${key} reads a ${allowed.join(" or a ")}, and here the scope is ${current}. The game answers it false for ever rather than reporting anything.`,
+    definition,
+    path,
+  });
+}
+
+/**
+ * A value that names one kind of object where the rules take another.
+ *
+ * `set_home_base = capital_scope` hands a fleet a planet for its home base,
+ * and `auto_follow_fleet = { target = root }` in a country's event a country
+ * to follow. Only where one step says what the value names — `this`, `root`,
+ * or a link that lands on one kind of object — and every rule for the key
+ * says which kinds it takes. Read the same way over the base game, every
+ * target it names so is of a kind its rule takes.
+ */
+function checkTargetScope(
+  walker: Walker,
+  definition: string,
+  path: string,
+  key: string,
+  value: string,
+  read: readonly ResolvedValue[],
+  scope: ScopeState,
+): void {
+  const wanted: readonly string[] = scopesTaken(read);
+
+  if (wanted.length === 0) {
+    return;
+  }
+
+  const named: string | undefined = walker.resolver.scopeNamed(value, scope);
+
+  if (named === undefined || named === NO_SCOPE || wanted.includes(named)) {
+    return;
+  }
+
+  walker.diagnostics.push({
+    severity: "error",
+    code: "wrong-scope",
+    message: `${key} = ${value} names a ${named}, and ${key} takes a ${wanted.join(" or a ")}. Given another kind of object, the game has nothing to act on.`,
+    definition,
+    path,
+  });
+}
+
+/** Whether some rule for a key reads a number, or what stands for one: a variable, a script value. */
+function readsNumber(values: readonly ResolvedValue[]): boolean {
+  return values.some(
+    (rule) =>
+      rule.kind === "script-value" ||
+      (rule.kind === "primitive" &&
+        (rule.type === "integer" ||
+          rule.type === "number" ||
+          rule.type === "percentage" ||
+          rule.type === "script-value")) ||
+      (rule.kind === "named-value" && rule.value === "variable") ||
+      (rule.kind === "value-set" && rule.set === "variable") ||
+      (rule.kind === "enum" && rule.enum === "exe_set_variable"),
+  );
+}
+
+/**
+ * A trigger named as a value, where there is no trigger of that name.
+ *
+ * `order_by = trigger:fleet_power` and `value = trigger:num_pops` read a
+ * number off a trigger, and `export_trigger_value_to_variable` names one in
+ * its `trigger` field. The executable looks the name up among its triggers
+ * and logs the effect that names none (`0x177a170`,
+ * `effect_impl_variables.h:822`: "uses non-existent trigger"). The 79 names
+ * the base game's script writes after `trigger:` are each a trigger of the
+ * executable's or a scripted one.
+ */
+function checkTriggerName(
+  walker: Walker,
+  definition: string,
+  path: string,
+  key: string,
+  value: string,
+  values: readonly ResolvedValue[],
+): void {
+  // Read for a trigger's value only where a number or a variable is read:
+  // `log = "trigger:x"` is text, and logs it.
+  const prefixed: string | undefined = readsNumber(values)
+    ? /(?:^|\.)trigger:([A-Za-z_][A-Za-z0-9_]*)$/u.exec(value)?.[1]
+    : undefined;
+  const field: boolean = values.some((rule) => rule.kind === "rule-set-key-reference" && rule.family === "trigger");
+  const name: string | undefined = prefixed ?? (field && !isIndirect(value) ? value : undefined);
+
+  if (name === undefined || name.length === 0 || walker.isTrigger(name)) {
+    return;
+  }
+
+  const exported: boolean = path.split(".").at(-1)?.toLowerCase() === "export_trigger_value_to_variable";
+
+  walker.diagnostics.push({
+    severity: prefixed === undefined ? "error" : "warning",
+    code: "unknown-trigger",
+    message:
+      prefixed === undefined
+        ? `${key} = ${name} names no trigger: the game has none of that name, and neither it nor this mod defines a scripted one.${exported ? ` It logs "export_trigger_value_to_variable … uses non-existent trigger ${name}" and exports nothing.` : ""}`
+        : `${key} = ${value} reads the value of a trigger called ${name}, and there is none: the game has no trigger of that name, and neither it nor this mod defines a scripted one. A value read off nothing is no number.`,
     definition,
     path,
   });
@@ -1254,11 +1403,17 @@ function walkBlock(
     const applicable: readonly ResolvedValue[] =
       sense === undefined || meaning === undefined ? [] : valuesFor(meaning, sense.values, walker.inVariant);
 
-    // A scripted effect or trigger the mod defines, called where there is no
-    // scope, runs its body there too: what it reads on `root` is read on
-    // nothing. The body is checked on its own as well, where its scope is not
-    // known, so only what the empty scope adds is kept.
-    if (scope.current === NO_SCOPE || scope.root === NO_SCOPE) {
+    if (walker.calls !== undefined) {
+      recordCalls(walker, walker.calls, definition, resolution, occurrences);
+    }
+
+    // A scripted effect or trigger the mod defines runs its body where it is
+    // called: in the caller's scope, with the caller's `root`, `prev` and
+    // `from`. A fleet's effect inside one called from a ship is as wrong as
+    // one written there, and where there is no scope what it reads on `root`
+    // is read on nothing. The body is checked on its own as well, where its
+    // scope is not known, so only what the caller's scope adds is kept.
+    if (scope.current !== undefined || scope.root === NO_SCOPE) {
       followCalls(walker, definition, path.length === 0 ? key : `${path}.${key}`, resolution, scope);
     }
 
@@ -1318,6 +1473,11 @@ function walkBlock(
 
       checkValue(walker, definition, path, key, value, resolution, read);
       checkScope(walker, definition, path, key, resolution, scope);
+
+      if (typeof value === "string") {
+        checkTargetScope(walker, definition, path, key, value, read, scope);
+        checkTriggerName(walker, definition, path, key, value, resolution.values);
+      }
 
       if (typeof value === "string" && namesScope(applicable)) {
         checkNamedScope(walker, definition, path, key, value, scope);
@@ -1572,6 +1732,55 @@ function variantSubject(definition: DefinitionRecord): VariantSubject {
   };
 }
 
+/** The arguments a call passes, as one string: two calls that pass the same have the same one. */
+function argumentsOf(value: unknown): string {
+  if (!isBlockLike(value) || Array.isArray(value)) {
+    return "";
+  }
+  return entriesOf(value)
+    .keyed.map(
+      ([key, passed]) =>
+        `${key}=${typeof passed === "object" && passed !== null ? JSON.stringify(passed) : String(passed)}`,
+    )
+    .sort(compareOrdinal)
+    .join("\u0001");
+}
+
+/**
+ * Notes each call of a scripted effect or trigger of the mod's own that a key
+ * resolved as: the key is one where effects, or triggers, are read, and names
+ * one. A key that only spells the same where something else is read is no call.
+ */
+function recordCalls(
+  walker: Walker,
+  calls: ScriptedCall[],
+  definition: string,
+  resolution: KeyResolution,
+  occurrences: readonly unknown[],
+): void {
+  const noted = new Set<string>();
+
+  for (const value of resolution.values) {
+    if (value.kind !== "scripted-call") {
+      continue;
+    }
+    const callee: string = `${value.family}:${value.callee}`;
+    // The scalar call and the call with parameters are two rules for one callee.
+    if (noted.has(callee) || !walker.scripted.has(callee)) {
+      continue;
+    }
+    noted.add(callee);
+    for (const occurrence of occurrences) {
+      if (occurrence !== undefined && occurrence !== null) {
+        calls.push({ callee, caller: walker.caller, callerName: definition, arguments: argumentsOf(occurrence) });
+      }
+    }
+  }
+}
+
+/** Stands for the place a body was called from, in what is kept of reading it there. */
+const CALLED_FROM = "\u0001";
+
 /** Reads each mod-defined scripted effect or trigger a key calls, in the scope it is called in. */
 function followCalls(
   walker: Walker,
@@ -1598,30 +1807,40 @@ function followCalls(
       (candidate) => candidate.id === `scripted_${value.family}`,
     );
 
-    if (record === undefined || type === undefined || walker.calling.has(callee)) {
+    if (record === undefined || type === undefined) {
       continue;
     }
 
-    walker.calling.add(callee);
-    const sink: ValidationDiagnostic[] = [];
-    const rules: BlockRules = walker.resolver.rulesForType(type);
-    walkBlock(
-      // Its own account of the strings found missing, as well: what this walk
-      // reports is thrown away but for the scopes, and a key it marked as
-      // reported would never be reported where the caller names it too.
-      { ...walker, diagnostics: sink, unlocalised: new Set(walker.unlocalised) },
-      definition,
-      `${path}>`,
-      rules,
-      record.body,
-      scope,
-      comparesIn(rules, value.family === "trigger"),
-      rules,
-    );
-    walker.calling.delete(callee);
+    const inScope: string = [callee, scope.current, scope.root, scope.prev, scope.from].join("|");
+    let found: readonly ValidationDiagnostic[] | undefined = walker.followed.get(inScope);
 
-    for (const diagnostic of sink) {
-      if (diagnostic.code === "wrong-scope" && !walker.diagnostics.some((seen) => sameDiagnostic(seen, diagnostic))) {
+    if (found === undefined) {
+      // Noted before it is read: one that calls itself, or is called back by
+      // what it calls, comes round to the same scope and stops there. In
+      // another scope it is another reading, and is made.
+      walker.followed.set(inScope, []);
+      const sink: ValidationDiagnostic[] = [];
+      const rules: BlockRules = walker.resolver.rulesForType(type);
+      walkBlock(
+        // Its own account of the strings found missing, as well: what this walk
+        // reports is thrown away but for the scopes, and a key it marked as
+        // reported would never be reported where the caller names it too.
+        { ...walker, diagnostics: sink, unlocalised: new Set(walker.unlocalised), calls: undefined },
+        definition,
+        CALLED_FROM,
+        rules,
+        record.body,
+        scope,
+        comparesIn(rules, value.family === "trigger"),
+        rules,
+      );
+      found = sink.filter((diagnostic) => diagnostic.code === "wrong-scope");
+      walker.followed.set(inScope, found);
+    }
+
+    for (const relative of found) {
+      const diagnostic: ValidationDiagnostic = { ...relative, path: relative.path.replace(CALLED_FROM, `${path}>`) };
+      if (!walker.diagnostics.some((seen) => sameDiagnostic(seen, diagnostic))) {
         walker.diagnostics.push(diagnostic);
       }
     }
@@ -1819,10 +2038,405 @@ function vanillaOverride(
   };
 }
 
+/** Where a definition's file stands among the base game's files of its directory. */
+function placeAmongVanilla(
+  mod: Mod,
+  definition: DefinitionRecord,
+  replaced: ReadonlyMap<string, ReadonlySet<string>>,
+): {
+  readonly path: string | undefined;
+  readonly directory: string;
+  readonly gone: readonly string[];
+  readonly order: -1 | 0 | 1;
+} {
+  const path: string | undefined = definitionFilePath(mod.options, definition);
+  const slash: number = path === undefined ? -1 : path.lastIndexOf("/");
+  const name: string = path === undefined ? "" : path.slice(slash + 1);
+  const directory: string = path === undefined || slash < 0 ? "" : path.slice(0, slash);
+  const dot: number = name.lastIndexOf(".");
+  const extension: string = dot < 0 ? "" : name.slice(dot).toLowerCase();
+  const others: readonly string[] = vanillaFilesIn(directory).filter((other) =>
+    other.toLowerCase().endsWith(extension),
+  );
+  const gone: readonly string[] = others.filter((other) => replaced.get(directory)?.has(other) === true);
+
+  return {
+    path,
+    directory,
+    gone,
+    order: path === undefined || others.length === 0 || gone.length > 0 ? 0 : readOrder(name, others),
+  };
+}
+
+/** The keys a body writes at its own level, lower-cased, each once and in written order. */
+function writtenKeys(body: LoadBlock): readonly string[] {
+  return [...new Set(body.entries.flatMap((entry) => (entry.key === undefined ? [] : [entry.key.toLowerCase()])))];
+}
+
+/** `income and pops`, `income, focus and pops`. */
+function joinedNames(names: readonly string[]): string {
+  return names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names.at(-1) ?? ""}`;
+}
+
+/**
+ * A definition of an id the base game uses, in a directory where the game
+ * reads the second definition of an id into the first.
+ *
+ * Nothing is replaced and nothing is logged: every field this definition
+ * writes is read again on top of what the base game's wrote, and what it
+ * leaves out keeps the base game's value. Which of the two is read on top
+ * of the other is decided by the names of their files, as everywhere.
+ *
+ * An economic plan that only adds subplans is the use its directory was made
+ * for, and is told nothing.
+ */
+function vanillaOverlay(
+  mod: Mod,
+  definition: DefinitionRecord,
+  replaced: ReadonlyMap<string, ReadonlySet<string>>,
+): readonly ValidationDiagnostic[] {
+  const base = { definition: definition.id, path: "" };
+  const place = placeAmongVanilla(mod, definition, replaced);
+  const what: string = `${definition.id} is ${withArticle(definition.type)} the base game defines, and the game reads a second ${definition.type} of an id into the first rather than in its place`;
+  const order: string =
+    place.gone.length > 0
+      ? `This mod replaces ${someOf(place.gone)} in ${place.directory}: if the base game defined ${definition.id} there, this definition is the only one left.`
+      : place.order === 1
+        ? `${place.path ?? "Its file"} is read after every file of the base game in ${place.directory}, so where both write a field it is this one's that is read last.`
+        : place.order === -1
+          ? `${place.path ?? "Its file"} is read before every file of the base game in ${place.directory}, so where both write a field it is the base game's that is read last, over this one's.`
+          : "Where both write a field, the one whose file is read last is read over the other; files are read in the order of their names.";
+
+  if (definition.type !== "economic_plan") {
+    return [
+      {
+        ...base,
+        severity: "warning",
+        code: "overlays-vanilla-definition",
+        message: `${what}, and logs nothing: every field written here is read again on top of what the base game wrote, and a field left out keeps the base game's value. ${order} To replace the definition whole, replace the file that defines it.`,
+      },
+    ];
+  }
+
+  const body: LoadBlock = loadBlockOf(definition.body);
+  const diagnostics: ValidationDiagnostic[] = [];
+  const theirs: ReadonlySet<string> =
+    place.gone.length > 0 || !Object.hasOwn(vanillaEconomicPlanSubplans, definition.id)
+      ? new Set<string>()
+      : new Set(vanillaEconomicPlanSubplans[definition.id]);
+
+  for (const subplan of subplansOf(body)) {
+    if (subplan.indirect || !theirs.has(subplan.name)) {
+      continue;
+    }
+    const kept: string =
+      place.order === 1
+        ? "this one, read after the base game's, is put in its place"
+        : place.order === -1
+          ? "the base game's, read after this one, is put in this one's place"
+          : "whichever of the two is read last is put in the other's place";
+    diagnostics.push({
+      definition: definition.id,
+      path: "subplan",
+      severity: "warning",
+      code: "replaces-vanilla-subplan",
+      message: `${subplan.name.length === 0 ? "A subplan with no set_name" : `set_name = ${JSON.stringify(subplan.name)}`} is ${subplan.name.length === 0 ? "what" : "the name of a subplan"} the base game's ${definition.id} already holds${subplan.name.length === 0 ? " one of" : ""}. The game keeps the subplans of a plan by name: ${kept}, and it logs "Duplicate AI subplan '${subplan.name}' found in ${definition.id}". To add a subplan instead, give it a name the base game's has not got.`,
+    });
+  }
+
+  const over: readonly string[] = writtenKeys(body).filter((key) => key !== "subplan" && key !== "inline_script");
+
+  if (over.length > 0) {
+    const tables: readonly string[] = over.filter((key) => key === "income" || key === "focus");
+    const how: string =
+      tables.length === 0
+        ? ""
+        : ` ${joinedNames(tables)} ${tables.length === 1 ? "is" : "are"} read resource by resource, so a resource not named here keeps the other definition's number.`;
+    diagnostics.push({
+      ...base,
+      severity: "warning",
+      code: "overlays-vanilla-definition",
+      message: `${what}: its subplans are added to the plan, and ${joinedNames(over)} ${over.length === 1 ? "is" : "are"} read on top of the base game's.${how} ${order} To replace the plan whole, replace the file that defines it.`,
+    });
+  }
+
+  return diagnostics;
+}
+
+/**
+ * A subplan an earlier definition of the same plan in this mod already holds.
+ *
+ * The same mechanism as two subplans of one name in one definition: the plan
+ * the game ends up with is one plan, whichever definitions its subplans came
+ * from, and it keeps one subplan of a name.
+ */
+function subplansReadTwice(
+  definition: DefinitionRecord,
+  held: Map<string, Set<string>>,
+): readonly ValidationDiagnostic[] {
+  const earlier: Set<string> = held.get(definition.id) ?? new Set<string>();
+  const subplans: readonly Subplan[] = subplansOf(loadBlockOf(definition.body));
+  const diagnostics: ValidationDiagnostic[] = [];
+
+  for (const subplan of subplans) {
+    if (!subplan.indirect && earlier.has(subplan.name)) {
+      diagnostics.push({
+        definition: definition.id,
+        path: "subplan",
+        severity: "error",
+        code: "duplicate-subplan",
+        message: `${subplan.name.length === 0 ? "A subplan with no set_name" : `set_name = ${JSON.stringify(subplan.name)}`} is also written in another definition of ${definition.id} in this mod. The game reads every definition of a plan into one plan and keeps one subplan of a name${subplan.name.length === 0 ? ", no name being a name like any other" : ""}: the last one read is left, and it logs "Duplicate AI subplan '${subplan.name}' found in ${definition.id}" for the other. Give every subplan a set_name of its own.`,
+      });
+    }
+  }
+
+  for (const subplan of subplans) {
+    if (!subplan.indirect) {
+      earlier.add(subplan.name);
+    }
+  }
+  held.set(definition.id, earlier);
+
+  return diagnostics;
+}
+
+/**
+ * An economic plan of the mod's own that sets no income to aim for.
+ *
+ * Once the plans are read each is checked (`0xb54e30`), and one whose own
+ * `income` names no resource with a number other than zero is logged as `AI
+ * Economic Plan '%s' does not have any income goals!`
+ * (`ai_economic_strategy.cpp:3201`). Income is what the AI measures a plan
+ * by, and a subplan's does not count here: the check reads the plan's own
+ * table. Asked of the plan the game ends up with, so of every definition of it
+ * together, and not of a plan the base game defines, whose income is there.
+ */
+function plansWithoutIncome(
+  definitions: readonly DefinitionRecord[],
+  hidden: ReadonlySet<string>,
+): readonly ValidationDiagnostic[] {
+  // By plan: whether the last number each resource of its income was given is
+  // other than zero, the definitions read one into the next as the game reads
+  // them; `undefined` once a definition holds script this cannot read.
+  const goals = new Map<string, Map<string, boolean> | undefined>();
+  const theirs = new Set<string>();
+
+  for (const definition of definitions) {
+    if (definition.type !== "economic_plan") {
+      continue;
+    }
+    if (!hidden.has(definition.directory) && Object.hasOwn(vanillaEconomicPlanSubplans, definition.id)) {
+      theirs.add(definition.id);
+      continue;
+    }
+    if (goals.has(definition.id) && goals.get(definition.id) === undefined) {
+      continue;
+    }
+
+    const body: LoadBlock = loadBlockOf(definition.body);
+    const table: Map<string, boolean> = goals.get(definition.id) ?? new Map<string, boolean>();
+    let readable: boolean = !body.open;
+
+    for (const entry of body.entries) {
+      if (entry.key?.toLowerCase() !== "income") {
+        continue;
+      }
+      if (entry.value.kind !== "block" || entry.value.open) {
+        readable = false;
+        break;
+      }
+      for (const goal of entry.value.entries) {
+        if (goal.key !== undefined) {
+          // A number written out is zero or is not; `@x` may be either, and is
+          // given the benefit of the doubt.
+          table.set(
+            goal.key.toLowerCase(),
+            goal.value.kind !== "scalar" || !/^-?0*(?:\.0*)?$/u.test(goal.value.text.trim()),
+          );
+        }
+      }
+    }
+
+    goals.set(definition.id, readable ? table : undefined);
+  }
+
+  return [...goals]
+    .filter(([id, table]) => !theirs.has(id) && table !== undefined && ![...table.values()].some(Boolean))
+    .map(([id]) => ({
+      definition: id,
+      path: "",
+      severity: "warning" as const,
+      code: "missing-income-goal",
+      message: `${id} sets no income to aim for at its own level, and the game logs "AI Economic Plan '${id}' does not have any income goals!". A plan is fulfilled when the empire's income covers its own income, which a subplan's does not stand in for: write income = { … } in the plan itself.`,
+    }));
+}
+
+/** The text of every `raw()` a body holds, at any depth. */
+function rawTexts(value: unknown, into: string[]): void {
+  if (isRaw(value)) {
+    into.push(value.text);
+    return;
+  }
+  if (isRepeated(value)) {
+    for (const item of value.values) {
+      rawTexts(item, into);
+    }
+    return;
+  }
+  if (isCompared(value)) {
+    rawTexts(value.value, into);
+    return;
+  }
+  if (!isBlockLike(value)) {
+    return;
+  }
+  const { keyed, bare } = entriesOf(value);
+  for (const item of bare) {
+    rawTexts(item, into);
+  }
+  for (const [, item] of keyed) {
+    rawTexts(item, into);
+  }
+}
+
+const SCRIPTED_VARIABLES = "common/scripted_variables";
+
+/**
+ * The `@name`s a mod declares for every file of the game.
+ *
+ * A file in `common/scripted_variables` declares variables that any script
+ * file may read, and the reader keeps the first of a name it is given
+ * (`0x1bacb50` in the 4.5.2 executable, `reader.cpp:209`): a second `@name`
+ * is logged as `Variable name %s is already taken` and its value is not read.
+ * That is the other way round from most of `common`, where the last
+ * definition is the one kept. So a mod changes one of the base game's 2,908
+ * by declaring it in a file read before the base game's — and one declared in
+ * a file read after is the one refused, with the base game's value unchanged
+ * and nothing but that line to say so.
+ *
+ * A name the base game does not declare is the mod's own, to use. One that
+ * nothing in the mod reads is no use to anything: the game reads a variable
+ * only where a file names it, so a name misspelled where it is declared
+ * changes nothing and breaks nothing.
+ */
+function scriptedVariables(
+  mod: Mod,
+  parsed: ReadonlyMap<string, Document>,
+  counted: ReadonlyMap<string, number>,
+  hidden: ReadonlySet<string>,
+): readonly ValidationDiagnostic[] {
+  const declared = new Set(vanillaScriptedVariables);
+  // A directory named in `replace_path` is one the game reads no base-game
+  // file from: none of its variables is declared before the mod's, or at all.
+  const replaced: boolean = hidden.has(SCRIPTED_VARIABLES);
+  const theirs: readonly string[] = replaced
+    ? []
+    : vanillaFilesIn(SCRIPTED_VARIABLES).filter((name) => name.toLowerCase().endsWith(".txt"));
+  const diagnostics: ValidationDiagnostic[] = [];
+  let texts: string[] | undefined;
+
+  for (const [written, document] of parsed) {
+    const path: string = normalisedPath(written);
+    const slash: number = path.lastIndexOf("/");
+
+    if (slash < 0 || path.slice(0, slash) !== SCRIPTED_VARIABLES) {
+      continue;
+    }
+
+    const name: string = path.slice(slash + 1);
+    const order: -1 | 0 | 1 = theirs.length === 0 ? 0 : readOrder(name, theirs);
+
+    for (const entry of document.entries) {
+      if (entry.kind !== NodeKind.Assignment) {
+        continue;
+      }
+
+      const variable: string = String(entry.key.value);
+
+      if (!variable.startsWith("@")) {
+        continue;
+      }
+
+      const base = { definition: variable, path: "" };
+
+      if (declared.has(variable) && replaced) {
+        // The base game's own files still read it, and now get this value.
+        continue;
+      }
+
+      if (declared.has(variable)) {
+        const kept: string = `${variable} is a variable the base game declares in ${SCRIPTED_VARIABLES}, and the game keeps the first value of a name it reads`;
+        diagnostics.push(
+          order === -1
+            ? {
+                ...base,
+                severity: "warning",
+                code: "replaces-vanilla-variable",
+                message: `${kept}: ${path} is read before every file of the base game there, so this is the value every script gets. The game logs "Variable name ${variable} is already taken" when it reaches the base game's own.`,
+              }
+            : order === 1
+              ? {
+                  ...base,
+                  severity: "error",
+                  code: "ignored-vanilla-override",
+                  message: `${kept}. ${path} is read after every file of the base game there, so this value is refused, the base game's stays, and the game logs "Variable name ${variable} is already taken". To change it, declare it in a file whose name sorts before the base game's, such as ${nameReadFirst(name, theirs)}.`,
+                }
+              : {
+                  ...base,
+                  severity: "warning",
+                  code: "replaces-vanilla-variable",
+                  message: `${kept}: this one counts only if ${path} is read before the base game's file that declares it. Files are read in the order of their names.`,
+                },
+        );
+        continue;
+      }
+
+      const bare: string = variable.slice(1);
+      texts ??= (() => {
+        const all: string[] = mod.files.map((file) => file.contents);
+        for (const definition of mod.definitions) {
+          rawTexts(definition.body, all);
+        }
+        return all;
+      })();
+      // Read as a value, `cost = @name`, or inside inline maths, where it is
+      // written without its `@`: `@[ name * 2 ]`.
+      const inMaths = new RegExp(
+        `@\\\\?\\[[^\\]]*(?<![A-Za-z0-9_])${bare.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}(?![A-Za-z0-9_])`,
+        "u",
+      );
+      if ((counted.get(variable) ?? 0) === 0 && !texts.some((text) => inMaths.test(text))) {
+        diagnostics.push({
+          ...base,
+          severity: "warning",
+          code: "unused-scripted-variable",
+          message: `${variable} is declared in ${path} for every file of the game, and nothing in this mod reads it. The base game declares no variable of that name, so no file of its own reads it either: if it was meant to change one of the base game's, the name is not one of them.`,
+        });
+      }
+    }
+  }
+
+  return diagnostics;
+}
+
 export function validate(mod: Mod, options: ValidationOptions = {}): readonly ValidationDiagnostic[] {
   const model: SchemaModel = options.model ?? schema;
-  const languages: readonly string[] = options.languages ?? ["l_english"];
   const diagnostics: ValidationDiagnostic[] = [];
+  const languages: string[] = [];
+  for (const name of options.languages ?? ["l_english"]) {
+    const language: string = name.startsWith("l_") ? name : `l_${name}`;
+    if (!LOCALISATION_LANGUAGES.includes(language)) {
+      diagnostics.push({
+        severity: "error",
+        code: "unknown-language",
+        message: `${name} is not a language the game reads, so no string was looked for in it. It reads ${LOCALISATION_LANGUAGES.join(", ")}.`,
+        definition: "languages",
+        path: "",
+      });
+    } else if (!languages.includes(language)) {
+      languages.push(language);
+    }
+  }
   // As the descriptor writes them: one separator, no trailing one.
   const hiddenDirectories: ReadonlySet<string> = new Set(
     (mod.options.replacePaths ?? []).map((path) => normalisedPath(path)),
@@ -1850,6 +2464,12 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
   // be part of what the namespace is expanded over. What its raw files define
   // is its own as well.
   const parsedFiles: ReadonlyMap<string, Document> = parseRawFiles(mod.files);
+  // What the raw files define is checked as what `define()` builds is: a file
+  // written by hand is read by the game like any other.
+  const definitions: readonly DefinitionRecord[] = [
+    ...mod.definitions,
+    ...rawDefinitions(model, mod.files, parsedFiles),
+  ];
   const ownIds: Record<string, string[]> = rawFileIds(model, parsedFiles);
   for (const definition of mod.definitions) {
     (ownIds[definition.type] ??= []).push(definition.id);
@@ -1888,6 +2508,28 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       return engineModifiers.has(name.toLowerCase());
     },
     fileExists,
+    // A category the mod defines is the mod's: the game keeps the last
+    // economic category of an id it reads.
+    budgetUse: (category: string): CategoryBudgetUse | undefined => {
+      if (ownBudgetUse.has(category)) {
+        return ownBudgetUse.get(category);
+      }
+      return known("economic_category")?.has(category) === true
+        ? {
+            budget: vanillaAiBudgetCategories.includes(category),
+            parentExpenditure: Object.hasOwn(vanillaAiParentExpenditure, category)
+              ? (vanillaAiParentExpenditure[category] ?? [])
+              : [],
+            parentUpkeep: Object.hasOwn(vanillaAiParentUpkeep, category) ? (vanillaAiParentUpkeep[category] ?? []) : [],
+          }
+        : undefined;
+    },
+    policyOptions: (policy: string): readonly string[] | undefined =>
+      ownPolicyOptions.has(policy)
+        ? ownPolicyOptions.get(policy)
+        : Object.hasOwn(vanillaPolicyOptions, policy)
+          ? vanillaPolicyOptions[policy]
+          : undefined,
     // A mesh the mod defines is the mod's, whatever the base game calls its
     // own; one of the base game's that is not listed declares no animation.
     meshAnimations: (mesh: string): readonly string[] | undefined => {
@@ -1907,6 +2549,45 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     mod.definitions,
     parsedFiles,
   );
+  // `undefined` for a category that holds script this cannot read through and
+  // does not itself say yes: an `inline_script` may say it, so nothing is known.
+  const ownBudgetUse = new Map<string, CategoryBudgetUse | undefined>();
+  for (const definition of definitions) {
+    if (definition.type === "economic_category") {
+      const category: LoadBlock = loadBlockOf(definition.body);
+      const use: CategoryBudgetUse = categoryBudgetUse(category);
+      ownBudgetUse.set(definition.id, category.open && !use.budget ? undefined : use);
+    }
+  }
+  // `undefined` for a policy that holds script this cannot read through: an
+  // `inline_script` may add options, so the list would be a part of one.
+  const ownPolicyOptions = new Map<string, readonly string[] | undefined>();
+  for (const definition of definitions) {
+    if (definition.type === "policy") {
+      const policy: LoadBlock = loadBlockOf(definition.body);
+      const before: readonly string[] | undefined = ownPolicyOptions.has(definition.id)
+        ? ownPolicyOptions.get(definition.id)
+        : [];
+      ownPolicyOptions.set(
+        definition.id,
+        policy.open || before === undefined ? undefined : [...before, ...policyOptionsOf(policy)],
+      );
+    }
+  }
+  /** The keys every definition of an id writes between them, by `type:id`, lower-cased. */
+  const overlaidKeys = new Map<string, Set<string>>();
+  for (const definition of definitions) {
+    const identity: string = `${definition.type}:${definition.id}`;
+    const keys: Set<string> = overlaidKeys.get(identity) ?? new Set<string>();
+    for (const [key] of entriesOf(definition.body).keyed) {
+      keys.add(key.toLowerCase());
+    }
+    overlaidKeys.set(identity, keys);
+  }
+  /** The subplans this mod's earlier definitions of each economic plan hold, by plan. */
+  const ownSubplans = new Map<string, Set<string>>();
+  /** Every definition as the load checks read it, for what is asked of them together. */
+  const scriptedDefinitions: ScriptedDefinition[] = [];
   let engineModifiers: ReadonlySet<string> | undefined;
   const modifiers: ReadonlySet<string> = expandModifierNames(model.modifiers, idsByType, vanillaModifierNames);
 
@@ -1924,29 +2605,34 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     enumMembers: ownEnumMembers,
     macroKeys: new Set(model.policy.macros.map((macro) => macro.key.toLowerCase())),
     fileExists,
+    isTrigger: (name: string): boolean =>
+      engineCommandNames(model, "trigger").has(name.toLowerCase()) || known("scripted_trigger")?.has(name) === true,
     localised,
     languages,
     type: "",
     inVariant: () => false,
     noScope: undefined,
     scripted: new Map(
-      mod.definitions
+      definitions
         .filter((definition) => definition.type === "scripted_effect" || definition.type === "scripted_trigger")
         .map((definition) => [`${definition.type.replace(/^scripted_/u, "")}:${definition.id}`, definition]),
     ),
-    calling: new Set<string>(),
+    calls: [],
+    caller: undefined,
+    followed: new Map<string, readonly ValidationDiagnostic[]>(),
     unlocalised: new Set<string>(),
     diagnostics,
   };
 
   // The events fired with no scope at all: the ones only the on_actions the
   // game fires that way list, and that nothing else names.
+  const mentioned: ReadonlyMap<string, number> = mentions(mod.definitions, mod.files);
   const firedWithoutScope: ReadonlyMap<string, readonly string[]> = scopelessEvents(
     onActionListings(mod.definitions),
-    mentions(mod.definitions, mod.files),
+    mentioned,
   );
 
-  for (const definition of mod.definitions) {
+  for (const definition of definitions) {
     const type: DefinitionType | undefined = model.definitionTypes.find(
       (candidate) => candidate.id === definition.type,
     );
@@ -1968,7 +2654,7 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     const identity: string = `${definition.type}:${definition.id}`;
     const precedence: DefinitionPrecedence = precedenceOf(type);
 
-    if (seen.has(identity) && precedence !== "merged") {
+    if (seen.has(identity) && precedence !== "merged" && precedence !== "overlaid") {
       diagnostics.push({
         severity: "error",
         code: "duplicate-definition",
@@ -1977,8 +2663,6 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         path: "",
       });
     }
-    seen.add(identity);
-
     // Defining an id the base game already uses replaces its definition
     // wholesale where the game keeps the last one it reads, and does nothing
     // at all where it keeps the first and reads the base game's first.
@@ -1989,11 +2673,20 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     // A directory named in `replace_path` is one the game reads no base-game
     // file from, so nothing of the base game's is left there to replace or to
     // be read first; `emit` says what hiding the directory costs.
-    if (
-      precedence !== "merged" &&
-      !hiddenDirectories.has(definition.directory) &&
-      (vanillaIdsByType[definition.type] ?? []).includes(definition.id)
-    ) {
+    const definesVanillaId: boolean =
+      !hiddenDirectories.has(definition.directory) && (vanillaIdsByType[definition.type] ?? []).includes(definition.id);
+    // Read into a definition that is already there: what this one leaves out
+    // the other has, so nothing is missing from it.
+    const readIntoAnother: boolean = precedence === "overlaid" && (definesVanillaId || seen.has(identity));
+
+    if (precedence === "overlaid") {
+      if (definesVanillaId) {
+        diagnostics.push(...vanillaOverlay(mod, definition, replacedFiles));
+      }
+      if (definition.type === "economic_plan") {
+        diagnostics.push(...subplansReadTwice(definition, ownSubplans));
+      }
+    } else if (precedence !== "merged" && definesVanillaId) {
       diagnostics.push(vanillaOverride(mod, definition, precedence, replacedFiles));
     }
 
@@ -2020,8 +2713,28 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
         : typeof type.entryScope === "string"
           ? type.entryScope
           : undefined;
-    const firedBy: readonly string[] | undefined =
-      definition.type === "event" && definition.blockKey === "event" ? firedWithoutScope.get(definition.id) : undefined;
+    const firedScopeless: readonly string[] | undefined =
+      definition.type === "event" ? firedWithoutScope.get(definition.id) : undefined;
+    const firedBy: readonly string[] | undefined = definition.blockKey === "event" ? firedScopeless : undefined;
+    // An event of some kind of object that nothing hands one.
+    const unfired: string | undefined =
+      firedScopeless === undefined || definition.blockKey === undefined
+        ? undefined
+        : scopelessTypedEvent(
+            definition.id,
+            definition.blockKey,
+            firedScopeless,
+            (name: string): boolean => known("on_action")?.has(name) === true,
+          );
+    if (unfired !== undefined) {
+      diagnostics.push({
+        severity: "error",
+        code: "scopeless-event",
+        message: unfired,
+        definition: definition.id,
+        path: "",
+      });
+    }
     walker.noScope =
       firedBy === undefined
         ? undefined
@@ -2036,6 +2749,13 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
     const root: BlockRules = walker.resolver.rulesForType(type);
     const subject: VariantSubject = variantSubject(definition);
     walker.type = type.id;
+    walker.caller =
+      definition.type === "scripted_effect"
+        ? `effect:${definition.id}`
+        : definition.type === "scripted_trigger"
+          ? `trigger:${definition.id}`
+          : undefined;
+    walker.followed.clear();
     walker.inVariant = (variant: string): boolean => {
       const found = type.variants.find((candidate) => candidate.id === variant);
       return found !== undefined && variantHolds(found.when, subject);
@@ -2054,7 +2774,13 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       present.add(definition.nameField.toLowerCase());
     }
 
-    for (const key of requiredKeys(type)) {
+    // Where the game reads every definition of an id into one, a field is
+    // there when any of them writes it, whichever comes first.
+    for (const other of precedence === "overlaid" ? (overlaidKeys.get(identity) ?? []) : []) {
+      present.add(other);
+    }
+
+    for (const key of readIntoAnother ? [] : requiredKeys(type)) {
       if (!present.has(key.toLowerCase())) {
         diagnostics.push({
           severity: "error",
@@ -2066,25 +2792,29 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       }
     }
 
-    // What the game's loader logs about this definition, and loads it anyway.
-    if (loadCheckedTypes.has(definition.type)) {
-      for (const finding of loadChecks(
-        definition.type,
-        definition.id,
-        loadBlockOf(definition.body),
-        loadContext,
-        definition.blockKey ?? definition.id,
-        definitionFilePath(mod.options, definition),
-      )) {
-        diagnostics.push({
-          severity: "warning",
-          code: finding.code,
-          message: finding.message,
-          definition: definition.id,
-          path: finding.path,
-        });
-      }
+    // What the game's loader logs about this definition. Asked of every
+    // definition: any of them may queue fleet actions.
+    const loaded: LoadBlock = loadBlockOf(definition.body);
+    scriptedDefinitions.push({ id: definition.id, type: definition.type, body: loaded });
+
+    for (const finding of loadChecks(
+      definition.type,
+      definition.id,
+      loaded,
+      loadContext,
+      definition.blockKey ?? definition.id,
+      definitionFilePath(mod.options, definition),
+    )) {
+      diagnostics.push({
+        severity: finding.severity ?? "warning",
+        code: finding.code,
+        message: finding.message,
+        definition: definition.id,
+        path: finding.path,
+      });
     }
+
+    seen.add(identity);
 
     // A missing string shows in-game as the raw key: easy to ship, easy to miss.
     for (const requirement of type.localisation) {
@@ -2111,6 +2841,15 @@ export function validate(mod: Mod, options: ValidationOptions = {}): readonly Va
       }
     }
   }
+
+  // An id two blocks register, counting each copy the game builds of a
+  // scripted effect that holds one.
+  for (const finding of scriptIdFindings(scriptedDefinitions, walker.calls ?? [], vanillaScriptIds)) {
+    diagnostics.push({ severity: "error", code: "duplicate-script-id", ...finding });
+  }
+
+  diagnostics.push(...plansWithoutIncome(definitions, hiddenDirectories));
+  diagnostics.push(...scriptedVariables(mod, parsedFiles, mentioned, hiddenDirectories));
 
   return diagnostics.sort(
     (left, right) =>

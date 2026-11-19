@@ -180,3 +180,18 @@ export function eq(value: unknown): ComparedValue {
 export function repeated(...values: readonly unknown[]): RepeatedValue {
   return { [REPEATED_KEY]: true, values };
 }
+
+/**
+ * Conditions kept apart: `all(a, b)` is `AND = { … } AND = { … }`, one block
+ * for each.
+ *
+ * An object holds a key once, and spread syntax obeys that without a word:
+ * `{ ...posture, has_country_flag: "sts_prey" }` drops the `has_country_flag`
+ * that `posture` held, and nothing downstream can see that it was ever there —
+ * the compiler reports a key written twice in one literal and not one that
+ * arrives twice through a spread. Conditions built from parts are safer never
+ * merged at all: each stays in its own block, and the game reads all of them.
+ */
+export function all(...conditions: readonly object[]): { readonly AND: RepeatedValue } {
+  return { AND: repeated(...conditions) };
+}

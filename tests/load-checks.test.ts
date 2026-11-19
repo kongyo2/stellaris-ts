@@ -51,7 +51,9 @@ describe("a ship size's entity", () => {
     // The entity's own mesh is not this test's business.
     expect(reported(defined, "unresolved-reference").filter((where) => where.startsWith("sts_station."))).toEqual([]);
     expect(reported(defined, "unresolved-reference")).not.toContain("sts_station");
-    expect(reported(shipped, "unresolved-reference")).toEqual([]);
+    // A raw file's own definitions are checked as well: the ship size finds its
+    // entity there, and the entity is told about its mesh as the defined one is.
+    expect(reported(shipped, "unresolved-reference")).toEqual(["sts_station_entity"]);
   });
 
   it("is found through a graphical culture unless the ship size turns cultures off", () => {

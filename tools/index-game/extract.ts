@@ -12,6 +12,14 @@ import {
 } from "../../src/syntax/index.js";
 import { definitionIds } from "../../src/schema/definition-ids.js";
 import { captureFromDocument } from "../../src/schema/extraction.js";
+import { loadBlockOfEntries, type LoadBlock } from "../../src/schema/load-checks.js";
+import {
+  categoryBudgetUse,
+  fleetActionFacts,
+  policyOptionsOf,
+  subplansOf,
+  type CategoryBudgetUse,
+} from "../../src/schema/load-facts.js";
 import { meshAnimationsOf } from "../../src/schema/mesh-animations.js";
 import { gameDeclaredFieldTypes } from "../../src/schema/open-fields.js";
 import { expandInlineScripts, readsToTheEnd, type InlineScriptLoader } from "./inline-scripts.js";
@@ -41,7 +49,7 @@ const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(["", ".txt", ".gui", ".gf
  * directories are where script lives, so the collision check was structurally
  * unable to fire for the formats an asset is actually in.
  */
-const ASSET_DIRECTORIES: readonly string[] = ["flags", "fonts", "gfx", "interface", "music", "sound"];
+const ASSET_DIRECTORIES: readonly string[] = ["flags", "fonts", "gfx", "interface", "localisation", "music", "sound"];
 const READ_CONCURRENCY = 32;
 
 export interface TypeIndex {
@@ -141,6 +149,23 @@ export interface GameIndex {
    * none is left out.
    */
   readonly meshAnimations: Readonly<Record<string, readonly string[]>>;
+  /**
+   * The `set_name` of each subplan the base game writes, by economic plan,
+   * through the inline scripts a plan is assembled from.
+   *
+   * The game reads a second definition of a plan into the first, and a subplan
+   * replaces the one of the same name, so whether a mod's subplan adds to a
+   * plan or takes one of these out is decided by its name.
+   */
+  readonly economicPlanSubplans: Readonly<Record<string, readonly string[]>>;
+  /** What each economic category says to the AI's budget; only the ones that say anything. */
+  readonly categoryBudgetUse: Readonly<Record<string, CategoryBudgetUse>>;
+  /** The options each policy holds, by name. */
+  readonly policyOptions: Readonly<Record<string, readonly string[]>>;
+  /** The `@name`s `common/scripted_variables` declares for every file of the game. */
+  readonly scriptedVariables: readonly string[];
+  /** The `id`s the triggers and effects of the base game's fleet actions register. */
+  readonly scriptIds: { readonly trigger: readonly string[]; readonly effect: readonly string[] };
 }
 
 /**
@@ -593,27 +618,88 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     }
   }
 
-  const vanillaFiles: Record<string, string[]> = {};
-  const directories: readonly { readonly path: string; readonly recurse: boolean }[] = [
-    ...new Map(
-      model.definitionTypes.map((type) => [
-        type.source.directory,
-        { path: type.source.directory, recurse: type.source.includeSubdirectories },
-      ]),
-    ).values(),
-  ];
+  // What one definition says that a check of another asks about. The files
+  // are read as they come back, which is no order: each one's blocks are
+  // kept with its name, and put together in the order of the names, as the
+  // game reads a directory — the last category of an id is the one it keeps.
+  const rootsInReadOrder = async (directory: string): Promise<readonly (readonly [string, LoadBlock])[]> => {
+    const read: { readonly file: string; readonly blocks: readonly (readonly [string, LoadBlock])[] }[] = [];
+    await forEachDocument(directory, true, (fileName, document) => {
+      read.push({ file: fileName, blocks: rootBlocks(document) });
+    });
+    return read.sort((left, right) => compareOrdinal(left.file, right.file)).flatMap((entry) => entry.blocks);
+  };
 
-  const listings: readonly (readonly string[])[] = await mapWithLimit(directories, 8, async (directory) =>
-    collectFiles(join(gamePath, ...directory.path.split("/")), directory.recurse),
+  const economicPlanSubplans: Record<string, string[]> = {};
+  for (const [id, body] of await rootsInReadOrder("common/economic_plans")) {
+    // A plan written in two files is one plan: the second is read into the first.
+    const names: string[] = economicPlanSubplans[id] ?? [];
+    names.push(...subplansOf(body).map((subplan) => subplan.name));
+    economicPlanSubplans[id] = names;
+  }
+
+  const lastBudgetUse: Record<string, CategoryBudgetUse> = {};
+  for (const [id, body] of await rootsInReadOrder("common/economic_categories")) {
+    lastBudgetUse[id] = categoryBudgetUse(body);
+  }
+  // Only the ones that say anything, once the last definition of each is known.
+  const budgetUse: Record<string, CategoryBudgetUse> = Object.fromEntries(
+    Object.entries(lastBudgetUse).filter(
+      ([, use]) => use.budget || use.parentExpenditure.length > 0 || use.parentUpkeep.length > 0,
+    ),
   );
 
-  // Every file, not only the script ones: an icon a mod ships at a vanilla path
-  // replaces the vanilla icon, and nothing else would say so.
-  const assetListings: readonly (readonly string[])[] = await mapWithLimit(ASSET_DIRECTORIES, 4, async (directory) =>
+  const policyOptions: Record<string, readonly string[]> = {};
+  for (const [id, body] of await rootsInReadOrder("common/policies")) {
+    policyOptions[id] = policyOptionsOf(body);
+  }
+
+  const scriptedVariables = new Set<string>();
+  await forEachDocument("common/scripted_variables", true, (_fileName, document) => {
+    for (const entry of document.entries) {
+      const name: string | undefined = keyOf(entry);
+      if (name?.startsWith("@") === true) {
+        scriptedVariables.add(name);
+      }
+    }
+  });
+
+  const triggerIds = new Set<string>();
+  const effectIds = new Set<string>();
+  await Promise.all(
+    ["common", "events"].map((directory) =>
+      forEachDocument(directory, true, (_fileName, document) => {
+        for (const [, body] of rootBlocks(document)) {
+          for (const registered of fleetActionFacts(body).ids) {
+            (registered.family === "trigger" ? triggerIds : effectIds).add(registered.id);
+          }
+        }
+      }),
+    ),
+  );
+
+  const vanillaFiles: Record<string, string[]> = {};
+
+  // Every file of every directory the game reads script from, and of the ones
+  // it reads assets from: a mod's file at a path the base game ships replaces
+  // the base game's file whatever it holds. `weapon_components.csv` is every
+  // weapon's damage and range and sits beside the `.txt` of
+  // `common/component_templates`; listing script only, the one file of that
+  // directory a mod could replace without a word was the table.
+  const roots: readonly string[] = [
+    ...new Set([
+      ...model.definitionTypes.map((type) => type.source.directory.split("/")[0] ?? ""),
+      ...ASSET_DIRECTORIES,
+    ]),
+  ]
+    .filter((root) => root.length > 0)
+    .sort(compareOrdinal);
+
+  const assetListings: readonly (readonly string[])[] = await mapWithLimit(roots, 4, async (directory) =>
     collectFiles(join(gamePath, ...directory.split("/")), true, null),
   );
 
-  for (const files of [...listings, ...assetListings]) {
+  for (const files of assetListings) {
     for (const file of files) {
       const relative: string = file.slice(gamePath.length + 1).replaceAll("\\", "/");
       const separator: number = relative.lastIndexOf("/");
@@ -644,7 +730,25 @@ export async function indexGame(model: SchemaModel, gamePath: string, version: s
     fieldNames,
     scriptedParameters,
     meshAnimations,
+    economicPlanSubplans: sortedRecord(economicPlanSubplans),
+    categoryBudgetUse: sortedRecord(budgetUse),
+    policyOptions: sortedRecord(policyOptions),
+    scriptedVariables: [...scriptedVariables].sort(compareOrdinal),
+    scriptIds: { trigger: [...triggerIds].sort(compareOrdinal), effect: [...effectIds].sort(compareOrdinal) },
   };
+}
+
+/** The blocks at the root of a file, each with its key: `@name = 1` is not one. */
+function rootBlocks(document: Document): readonly (readonly [string, LoadBlock])[] {
+  return document.entries.flatMap((entry): (readonly [string, LoadBlock])[] => {
+    const body: Block | undefined = blockOf(entry);
+    const id: string | undefined = keyOf(entry);
+    return body === undefined || id === undefined || id.startsWith("@") ? [] : [[id, loadBlockOfEntries(body.entries)]];
+  });
+}
+
+function sortedRecord<Value>(record: Readonly<Record<string, Value>>): Record<string, Value> {
+  return Object.fromEntries(Object.entries(record).sort(([left], [right]) => compareOrdinal(left, right)));
 }
 
 /**
