@@ -35,8 +35,10 @@ SOFTWARE.
 ## stellaris-triggers-modifiers-effects-list
 
 The scope constraints in `src/schema/scope-constraints.ts` and the modifier
-namespace in `src/schema/modifiers.ts` are derived from the game's own `-debug`
-documentation, as collected at
+namespace in `src/schema/modifiers.ts` are derived from the game's own
+documentation of itself, which Stellaris prints into its log folder each time it
+starts. `npm run dump:docs` takes it from an installed copy; the dumps of older
+builds are collected at
 [OldEnt/stellaris-triggers-modifiers-effects-list](https://github.com/OldEnt/stellaris-triggers-modifiers-effects-list).
 The content is output produced by Stellaris itself; the repository gathers it.
 Only names are used: the trigger and effect names with the scopes each accepts,

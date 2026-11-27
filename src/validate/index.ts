@@ -5,6 +5,7 @@ import {
   vanillaPlacement,
   vanillaScriptedParameters,
 } from "../generated/vanilla/index.js";
+import type { DiagnosticCode } from "../diagnostics.js";
 import { vanillaFiles } from "../generated/vanilla/files.js";
 import { vanillaLocalisationKeys } from "../generated/vanilla/localisation-keys.js";
 import { vanillaMeshAnimations } from "../generated/vanilla/mesh-animations.js";
@@ -111,7 +112,7 @@ import type {
 
 export interface ValidationDiagnostic {
   readonly severity: "error" | "warning";
-  readonly code: string;
+  readonly code: DiagnosticCode;
   readonly message: string;
   readonly definition: string;
   /** Where inside the definition, dotted. Empty for the definition itself. */

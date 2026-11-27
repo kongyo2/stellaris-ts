@@ -603,11 +603,13 @@ export const dumpCommands: readonly ScriptCommandDefinition[] = [
     }),
   ),
 
-  // From here on, 4.5.2, which no collected dump covers yet. The lines are the
-  // installed 4.5.2's own documentation, written to
-  // Documents/Paradox Interactive/Stellaris/logs/script_documentation, and the
-  // scopes are stated here because `scope-constraints.ts` is generated from the
-  // collected dumps and has no entry for them. Vanilla writes all eight.
+  // From here on, 4.5.2, which no collected dump covers. The lines are the
+  // game's own documentation, as it prints it into
+  // `logs/script_documentation` on every start. The scopes were stated here
+  // while `scope-constraints.ts` was generated from the collected dumps and had
+  // no entry for them; it has had one since it was read from the installed
+  // game's own dump (`npm run dump:docs`), and the two agree. Vanilla writes all
+  // eight.
 
   // is_preferred_platform_weapons - Checks if the country's AI prefers this
   // weapon type for defense platforms (falls back to the empire-wide weapon
@@ -702,11 +704,11 @@ export const dumpCommands: readonly ScriptCommandDefinition[] = [
  * Commands the game no longer has.
  *
  * Each is in an older dump and absent from the 4.5.1 ones and from the
- * documentation the 4.5.2 executable prints of itself, and 4.5.2 vanilla writes
+ * documentation the 4.5.4 executable prints of itself, and 4.5.4 vanilla writes
  * it nowhere but in comments. The corpus still declares them, so without this a
  * mod written against an older release would check clean and then do nothing:
  * the game drops an unknown trigger or effect with a line in error.log and
- * nothing else. The 4.5.2 executable keeps some of the words in its keyword
+ * nothing else. The 4.5.4 executable keeps some of the words in its keyword
  * table (`create_pop` is id `0x275f`) and registers no command by them.
  */
 export const retiredCommands: readonly { readonly id: string; readonly family: string; readonly reason: string }[] = [
@@ -733,31 +735,31 @@ export const retiredCommands: readonly { readonly id: string; readonly family: s
   { id: "every_system_colony", family: "effect", reason: "last documented in 4.3.7" },
   { id: "ordered_system_colony", family: "effect", reason: "last documented in 4.3.7" },
   { id: "random_system_colony", family: "effect", reason: "last documented in 4.3.7" },
-  { id: "create_pop", family: "effect", reason: "last documented in 4.3.7; 4.5.2 documents `create_pop_group`" },
+  { id: "create_pop", family: "effect", reason: "last documented in 4.3.7; 4.5.4 documents `create_pop_group`" },
   { id: "unemploy_pop", family: "effect", reason: "last documented in 4.3.7" },
   { id: "set_faction_auto_delete", family: "effect", reason: "last documented in 4.3.7" },
   { id: "set_faction_needs_colony", family: "effect", reason: "last documented in 4.3.7" },
   { id: "used_starbase_capacity_integer", family: "trigger", reason: "last documented in 4.3.7" },
-  // In no dump the 4.5.2 executable prints of itself, defined by no file of
+  // In no dump the 4.5.4 executable prints of itself, defined by no file of
   // the base game, and written by none of its script. The first two are still
   // words in the executable's keyword table; none of the others is a word in
   // it at all, so nothing could be registered under them.
-  { id: "resettle_pop", family: "effect", reason: "a keyword the 4.5.2 executable registers no effect by" },
-  { id: "count_armies", family: "trigger", reason: "a keyword the 4.5.2 executable registers no trigger by" },
-  { id: "create_megastructure_system", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "delete_ship_naval_cap", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "finish_current_operaton_stage", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "gain_supersitious_beliefs_cloaking_tech", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "ordered_system_in_cluster", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "roll_superstitious_event_high", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "roll_superstitious_event_low", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "roll_superstitious_event_medium", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "scope_field", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "scope_field", family: "trigger", reason: "not a word in the 4.5.2 executable" },
-  { id: "set_agreement_term", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "set_timed_design_flag", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "spawn_mindwarden_megastructures", family: "effect", reason: "not a word in the 4.5.2 executable" },
-  { id: "check_economic_modifier_for_job", family: "trigger", reason: "not a word in the 4.5.2 executable" },
+  { id: "resettle_pop", family: "effect", reason: "a keyword the 4.5.4 executable registers no effect by" },
+  { id: "count_armies", family: "trigger", reason: "a keyword the 4.5.4 executable registers no trigger by" },
+  { id: "create_megastructure_system", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "delete_ship_naval_cap", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "finish_current_operaton_stage", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "gain_supersitious_beliefs_cloaking_tech", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "ordered_system_in_cluster", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "roll_superstitious_event_high", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "roll_superstitious_event_low", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "roll_superstitious_event_medium", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "scope_field", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "scope_field", family: "trigger", reason: "not a word in the 4.5.4 executable" },
+  { id: "set_agreement_term", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "set_timed_design_flag", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "spawn_mindwarden_megastructures", family: "effect", reason: "not a word in the 4.5.4 executable" },
+  { id: "check_economic_modifier_for_job", family: "trigger", reason: "not a word in the 4.5.4 executable" },
   // Written four times in `give_next_breakthrough_effect`'s
   // body and defined nowhere: not a scripted effect of the base game, not in
   // the dumps, not a word in the executable. The corpus declared it so those

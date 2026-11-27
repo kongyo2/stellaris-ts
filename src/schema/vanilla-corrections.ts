@@ -105,7 +105,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("time_to_complete", primitive("scalar"), occurs.any),
   ],
   decision: [
-    // 29 uses, e.g. common/decisions/05_ancient_relics_decisions.txt
+    // 29 uses, e.g. common/decisions/02_special_decisions.txt
     field("important", primitive("scalar"), occurs.any),
   ],
   district: [
@@ -117,7 +117,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("triggered_country_modifier", anyValue(), occurs.any),
   ],
   event_chain: [
-    // 266 uses, e.g. common/event_chains/00_event_chains.txt
+    // 266 uses, e.g. common/event_chains/00_event_chains_2.txt
     field("situation_log_category", primitive("scalar"), occurs.any),
   ],
   fallen_empire_initializer: [
@@ -143,9 +143,9 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("usage", primitive("scalar"), occurs.any),
   ],
   map_setup_scenario: [
-    // 5 uses, e.g. map/setup_scenarios/huge.txt
+    // 5 uses, e.g. map/setup_scenarios/large.txt
     field("nomad_empire_default", primitive("integer"), occurs.any),
-    // 5 uses, e.g. map/setup_scenarios/huge.txt
+    // 5 uses, e.g. map/setup_scenarios/large.txt
     field("nomad_empire_max", primitive("integer"), occurs.any),
   ],
   megastructure: [
@@ -193,11 +193,11 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("single_build_queue", primitive("scalar"), occurs.any),
   ],
   policy: [
-    // 60 uses, e.g. common/policies/03_policies_biogenesis.txt
+    // 60 uses, e.g. common/policies/00_policies.txt
     field("category", anyValue(), occurs.any),
   ],
   pop_faction: [
-    // 15 uses, e.g. common/pop_faction_types/00_isolationist.txt
+    // 15 uses, e.g. common/pop_faction_types/00_imperialist.txt
     field("pop_attraction_tag", anyValue(), occurs.any),
     // 1 uses, e.g. common/pop_faction_types/00_manifesti.txt
     field("pop_ethics_filter", anyValue(), occurs.any),
@@ -279,7 +279,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("potential", anyValue(), occurs.any),
     // 1 uses, e.g. common/situations/14_nomads_situations.txt
     field("show_in_outliner", primitive("scalar"), occurs.any),
-    // 83 uses, e.g. common/situations/01_narrative_situations.txt
+    // 83 uses, e.g. common/situations/01_overlord_situations.txt
     field("situation_log_category", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/situations/14_nomads_situations.txt
     field("total_progress", anyValue(), occurs.any),
@@ -289,51 +289,35 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("is_civilian_job", primitive("scalar"), occurs.any),
     // 3 uses, e.g. common/pop_categories/02_other_categories.txt
     field("is_unemployment_job", primitive("scalar"), occurs.any),
-    // 5 uses, e.g. common/pop_categories/01_gestalt_drones.txt
+    // 5 uses, e.g. common/pop_categories/00_social_classes.txt
     field("job_reshuffle_interval", primitive("integer"), occurs.any),
   ],
   song: [
     // 1 uses, e.g. music/maintheme2.txt
     field("chance", anyValue(), occurs.any),
   ],
-  sprite: [
-    // 102 uses, e.g. interface/crisis.gfx
-    field("color", anyValue(), occurs.any),
-    // 91 uses, e.g. interface/crisis.gfx
-    field("colorTwo", anyValue(), occurs.any),
-    // 11 uses, e.g. interface/fleet_view.gfx
-    field("colortwo", anyValue(), occurs.any),
-    // 5 uses, e.g. interface/crisis.gfx
-    field("flipdirection", primitive("scalar"), occurs.any),
-    // 16 uses, e.g. interface/crisis.gfx
-    field("horizontal", primitive("scalar"), occurs.any),
-    // 102 uses, e.g. interface/crisis.gfx
-    field("textureFile1", primitive("scalar"), occurs.any),
-    // 102 uses, e.g. interface/crisis.gfx
-    field("textureFile2", primitive("scalar"), occurs.any),
-  ],
   starbase_building: [
-    // 112 uses, e.g. common/starbase_buildings/00_arkship_colony_buildings.txt
+    // 112 uses, e.g. common/starbase_buildings/00_arkship_component_buildings.txt
     field("category", primitive("scalar"), occurs.any),
     // 1 uses, e.g. common/starbase_buildings/00_starbase_buildings.txt
     field("empire_limit", primitive("integer"), occurs.any),
     // 10 uses, e.g. common/starbase_buildings/00_arkship_component_buildings.txt
     field("show_component_tooltips", primitive("scalar"), occurs.any),
-    // 85 uses, e.g. common/starbase_buildings/00_arkship_colony_buildings.txt
+    // 85 uses, e.g. common/starbase_buildings/00_arkship_component_buildings.txt
     field("show_tech_unlock_if", anyValue(), occurs.any),
-    // 46 uses, e.g. common/starbase_buildings/00_arkship_colony_buildings.txt
+    // 46 uses, e.g. common/starbase_buildings/00_arkship_component_buildings.txt
     field("starbase_limit", anyValue(), occurs.any),
   ],
   starbase_level: [
-    // 20 uses, e.g. common/starbase_levels/04_space_citadel_levels.txt
+    // 20 uses, e.g. common/starbase_levels/00_starbase_levels.txt
     field("building_slots", anyValue(), occurs.any),
     // 10 uses, e.g. common/starbase_levels/06_arkship_levels.txt
     field("display_shipyard_button", primitive("scalar"), occurs.any),
     // 7 uses, e.g. common/starbase_levels/06_arkship_levels.txt
     field("level_tooltip", primitive("scalar"), occurs.any),
-    // 21 uses, e.g. common/starbase_levels/05_waystation_levels.txt
+    // 21 uses, e.g. common/starbase_levels/00_starbase_levels.txt
     field("module_slots", anyValue(), occurs.any),
-    // 17 uses, e.g. common/starbase_levels/05_waystation_levels.txt
+    // 17 uses, e.g. common/starbase_levels/00_starbase_levels.txt
     field("starbase_capacity_used", primitive("integer"), occurs.any),
   ],
   starbase_module: [
@@ -383,7 +367,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("is_waystation", primitive("scalar"), occurs.any),
   ],
   traitcolors: [
-    // 88 uses, e.g. common/named_colors/01_trait_colors.txt
+    // 88 uses, e.g. common/named_colors/00_basic_colors.txt
     field("color", anyValue(), occurs.any),
   ],
   war_goal: [
@@ -391,7 +375,7 @@ export const vanillaFieldCorrections: Readonly<Record<string, readonly EntryRule
     field("hide", primitive("scalar"), occurs.any),
   ],
   zones: [
-    // 18 uses, e.g. common/zones/05_arkship_zones.txt
+    // 18 uses, e.g. common/zones/00_zones.txt
     field("show_tech_unlock_if", anyValue(), occurs.any),
   ],
 };
@@ -424,7 +408,7 @@ export const vanillaOptionalFields: Readonly<Record<string, readonly string[]>> 
     "key",
   ],
   cosmic_storm_mission: [
-    // 70 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
+    // 70 of 102 omit it, e.g. common/missions/missions/01_missions_nomads.txt
     "abort_trigger",
     // 51 of 102 omit it, e.g. common/missions/missions/02_contracts.txt
     "desc",
@@ -438,10 +422,6 @@ export const vanillaOptionalFields: Readonly<Record<string, readonly string[]>> 
   council_agenda: [
     // 4 of 90 omit it, e.g. common/council_agendas/05_council_agendas_nomads_dlc.txt
     "allow",
-  ],
-  economic_plan: [
-    // 1 of 6 omit it, e.g. common/economic_plans/01_base.txt
-    "subplan",
   ],
   megastructure: [
     // 3 of 164 omit it, e.g. common/megastructures/29_nomad_arkships.txt
@@ -461,14 +441,24 @@ export const vanillaOptionalFields: Readonly<Record<string, readonly string[]>> 
     // 1 of 138 omit it, e.g. common/scripted_modifiers/00_scripted_modifiers.txt
     "category",
   ],
+  situation_type: [
+    // 1 of 90 omit it, e.g. common/situations/14_nomads_situations.txt
+    "stages.situation_passenger_satisfaction_stage_mutiny.icon",
+    // 1 of 90 omit it, e.g. common/situations/14_nomads_situations.txt
+    "stages.situation_passenger_satisfaction_stage_mutiny.icon_background",
+    // 1 of 90 omit it, e.g. common/situations/14_nomads_situations.txt
+    "stages.situation_passenger_satisfaction_stage_planetfall.icon",
+    // 1 of 90 omit it, e.g. common/situations/14_nomads_situations.txt
+    "stages.situation_passenger_satisfaction_stage_planetfall.icon_background",
+  ],
   solar_system_initializer: [
-    // 5 of 360 omit it, e.g. common/solar_system_initializers/grand_archive_initializers.txt
+    // 5 of 361 omit it, e.g. common/solar_system_initializers/grand_archive_initializers.txt
     "class",
   ],
   special_project: [
-    // 105 of 720 omit it, e.g. common/special_projects/04_projects_shroud.txt
+    // 105 of 720 omit it, e.g. common/special_projects/03_projects_cosmic_storms.txt
     "event_scope",
-    // 103 of 720 omit it, e.g. common/special_projects/04_projects_shroud.txt
+    // 103 of 720 omit it, e.g. common/special_projects/03_projects_cosmic_storms.txt
     "key",
   ],
   specimen: [

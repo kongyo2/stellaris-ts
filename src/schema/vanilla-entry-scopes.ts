@@ -40,7 +40,7 @@ export const vanillaEntryScopes: Readonly<Record<string, string>> = {
   civic_or_origin: "country",
   // 274 commands written straight into the body accept it
   cosmic_storm_mission: "country",
-  // 465 commands written straight into the body accept it
+  // 503 commands written straight into the body accept it
   council_agenda: "country",
   // 10 commands written straight into the body accept it
   councilor: "country",
@@ -82,7 +82,7 @@ export const vanillaEntryScopes: Readonly<Record<string, string>> = {
   storm_type: "ship",
   // 28 commands written straight into the body accept it
   swapped_civic: "country",
-  // 33 commands written straight into the body accept it
+  // 47 commands written straight into the body accept it
   tradable_actions: "country",
   // 53 commands written straight into the body accept it
   war_name_format: "war",

@@ -21,11 +21,56 @@ import type { DefinitionType, EntryRule, ValueRule } from "./ir.js";
  * A dotted name is a key inside a block: `option.name` is `name` in `option`,
  * and `*` the block under a key that is no literal, as each stage of a
  * situation is written under its own name.
+ *
+ * An address is the function's RVA in the build named with it, and in 4.5.2
+ * where none is. 4.5.4 was read the same way — 10,006 keywords, the two new
+ * ones `design_required_components` and `used_border_color`, and the same 883
+ * readers: eight take a key or two more than they did, all of them readers of a
+ * saved game, and no reader of a definition takes a different set of keys. The
+ * entries marked 4.5.4 were found on that reading, among the rules the base
+ * game never uses: a key that is no case of the type's reader, whose default
+ * is `Unexpected token`.
  */
 export const unreadFields: Readonly<Record<string, readonly string[]>> = {
-  // `0x40f6b0`, `job_type.cpp`. These four are not keywords of the executable
-  // at all, so no reader can take them.
-  job: ["clothes_texture_index", "demotion", "pop_modifier", "promotion"],
+  // `0x431f00` in 4.5.4.
+  army: ["is_building_spawned"],
+  // `0x52dfd0` in 4.5.4.
+  authority: ["machine_empire"],
+  // `0x46c150` in 4.5.4.
+  building: ["add_to_first_building_slot"],
+  // `0x467e30` in 4.5.4: 27 keys. Not a keyword; the base game has it in a
+  // comment, beside the `ftl_bypass_effect` the reader does take.
+  bypass: ["bypass_effect"],
+  // `0x533510` in 4.5.4. Not a keyword.
+  civic_or_origin: ["multiply_by_habitability_effect_modifier"],
+  // `0x538ca0` in 4.5.4.
+  councilor: ["required"],
+  // `0x440c50` in 4.5.4: 70 keys. The first and the last are not keywords —
+  // the reader takes `blocks_piracy` — and the two in between are keys of the
+  // `ai` block, where the base game writes them.
+  country_type: ["blocks_pirate", "min_assault_armies_for_wars", "min_navy_for_wars", "replace_scope"],
+  // `0x48e370` in 4.5.4. A zone is what a modifier caps (`0x47dc60` takes the
+  // key), not a district.
+  district: ["inherits_capped_modifiers_from", "is_capped_by_modifier"],
+  // `0x165de70` in 4.5.4.
+  economic_category: ["category"],
+  // `0x82faa0` in 4.5.4.
+  federation_perk: ["potential"],
+  // `0x40f6b0`, `job_type.cpp`. The first four are not keywords of the
+  // executable at all, so no reader can take them. The rest (`0x4133a0` in
+  // 4.5.4) are keys of `swappable_data`: the base game writes a job's icon and
+  // description in its `default` and `swap_type` blocks and never beside them.
+  job: [
+    "clothes_texture_index",
+    "demotion",
+    "pop_modifier",
+    "promotion",
+    "building_icon",
+    "condition_string",
+    "desc",
+    "icon",
+    "ignores_favorite",
+  ],
   // `0x404770`. Not a keyword either.
   leader_class: ["can_research"],
   // `0x319da0`.
@@ -37,8 +82,10 @@ export const unreadFields: Readonly<Record<string, readonly string[]>> = {
   // `0x518210`. 4.5 took `parameters` out of every pop faction type, and out
   // of the reader with them.
   pop_faction: ["parameters"],
-  // `0x51f4f0`, `empire_design.cpp`.
-  prescripted_country: ["flags"],
+  // `0x51f4f0`, `empire_design.cpp`. The reader of its `ruler` block
+  // (`0x526a50` in 4.5.4: 16 keys) takes `ruler_title` and
+  // `ruler_title_female`; `ruler_title_male` is not a keyword.
+  prescripted_country: ["flags", "ruler.ruler_title_male"],
   // `0xd26c70`, `ship_size.cpp`.
   ship_size: ["custom_state_loc_prefix", "hero_ship_fleet_background", "is_hero_ship"],
   // `0x4e21a0`, the reader of one stage: 14 keys, and no `potential`. None of
@@ -101,6 +148,16 @@ export const unreadFields: Readonly<Record<string, readonly string[]>> = {
  * than went: appended to the report of the key as unknown, by `type.key`.
  */
 export const movedFields: Readonly<Record<string, string>> = {
+  "country_type.blocks_pirate": "The key the game reads is blocks_piracy.",
+  "country_type.min_assault_armies_for_wars": "The game reads this inside the country type's ai = { } block.",
+  "country_type.min_navy_for_wars": "The game reads this inside the country type's ai = { } block.",
+  "bypass.bypass_effect": "The keys the game reads are ftl_bypass_effect and ftl_ship_effect.",
+  "district.is_capped_by_modifier":
+    "Since 4.0 it is a zone that a modifier caps: is_capped_by_modifier is a key of common/zones.",
+  "job.icon": "A job's icon is read from swappable_data = { default = { icon = … } }.",
+  "job.desc": "A job's description is read from swappable_data = { default = { desc = … } }.",
+  "job.building_icon": "A job's building icon is read from swappable_data = { default = { building_icon = … } }.",
+  "job.condition_string": "This is read from swappable_data = { default = { condition_string = … } }.",
   "species_class.portraits":
     "Since 4.0 a species class gets its portraits from a portrait_set that names it: define one in common/portrait_sets, and list it in a portrait_category for the empire designer to show.",
   "species_class.custom_portraits":
@@ -167,6 +224,8 @@ export type ReadAs = "any" | "boolean" | "number" | "scalar" | "words";
 export const readFields: Readonly<Record<string, Readonly<Record<string, ReadAs>>>> = {
   // `0x5700a0`
   agreement_term_value: { subject_tech_cost_mult: "any" },
+  // `0x318410` in 4.5.4: 7 keys
+  alert: { default_autopause: "boolean", default_enabled: "boolean" },
   // `0xb3dd20`
   ai_personality: { species_mod_priority: "any" },
   // `0xd226b0`, `ambient_object_database.cpp`
@@ -201,6 +260,8 @@ export const readFields: Readonly<Record<string, Readonly<Record<string, ReadAs>
     triggered_planet_pop_group_modifier_for_all: "any",
     triggered_planet_pop_group_modifier_for_species: "any",
   },
+  // `0x454a30` in 4.5.4: 7 keys
+  colony_automation: { job_changes: "any", should_ai_use_job_micro: "boolean" },
   // `0x3b5370`
   component_set: { affects_target_focus: "boolean" },
   // `0x7c8ff0`, `game_concept_type.cpp`
@@ -277,6 +338,20 @@ export const readFields: Readonly<Record<string, Readonly<Record<string, ReadAs>
     society_research: "any",
     uses_preview_background: "any",
   },
+  // `0x51bb50` in 4.5.4: 34 keys
+  pop_faction: {
+    country_modifier: "any",
+    desc: "scalar",
+    fixed_support: "any",
+    flag: "any",
+    hidden: "boolean",
+    icon: "scalar",
+    max_support: "number",
+    name: "scalar",
+    on_set_leader: "any",
+    skip_creation_cooldown: "boolean",
+    support_weight_exponent: "any",
+  },
   // `0x51f4f0`, `empire_design.cpp`
   prescripted_country: {
     disallow_editing: "boolean",
@@ -288,8 +363,20 @@ export const readFields: Readonly<Record<string, Readonly<Record<string, ReadAs>
   },
   // `0x3ad010`, `strategic_resource.cpp`
   resource: { icon_frame: "any", potential: "any" },
+  // `0x7c7400` in 4.5.4: 9 keys
+  sector_type: { max_colonies: "any", max_systems: "any", min_colonies: "any", min_systems: "any" },
   // `0x670140`, `section.cpp`
   section_template: { build_time: "any", max_hitpoints: "any" },
+  // `0x40d910` in 4.5.4, `pop_category.cpp`
+  social_strata: {
+    country_modifier: "any",
+    icon: "any",
+    planet_modifier: "any",
+    swappable_data: "any",
+    triggered_country_modifier: "any",
+    triggered_planet_pop_group_modifier_for_all: "any",
+    triggered_planet_pop_group_modifier_for_species: "any",
+  },
   // `0x1abd960`, `assetfactory_audio.cpp`
   sound: { pan: "any" },
   // `0x1abea00`
@@ -305,6 +392,21 @@ export const readFields: Readonly<Record<string, Readonly<Record<string, ReadAs>
   },
   // `0x52ec90`
   swapped_civic: { hide_modifiers: "boolean" },
+  // `0x427760` in 4.5.4, `technology.cpp`
+  technology: {
+    component_modifier: "any",
+    hidden: "boolean",
+    is_custom_tech_1: "boolean",
+    is_custom_tech_2: "boolean",
+    is_custom_tech_3: "boolean",
+    risk: "any",
+    risk_event: "any",
+    target_components: "words",
+    technology: "any",
+    unlocked: "boolean",
+  },
+  // `0x84c6d0` in 4.5.4: 3 keys
+  technology_category: { icon_frame: "any" },
   // `0x4eac20`, `trait.cpp`
   trait: {
     archetype_override: "any",
@@ -316,6 +418,27 @@ export const readFields: Readonly<Record<string, Readonly<Record<string, ReadAs>
   },
   // `0x4861d0`
   zone_slots: { excluded_zone_sets: "any" },
+  // `0x47dc60` in 4.5.4, `zone_type.cpp`: 42 keys
+  zones: {
+    additional_ai_weight: "any",
+    ai_estimate_without_unemployment: "boolean",
+    country_modifier: "any",
+    desc: "any",
+    destroy_trigger: "any",
+    district_country_modifier: "any",
+    district_planet_modifier: "any",
+    districts_per_building: "any",
+    empire_limit: "any",
+    exclude: "words",
+    is_capped_by_modifier: "boolean",
+    on_built: "any",
+    on_queued: "any",
+    on_unqueued: "any",
+    triggered_country_modifier: "any",
+    triggered_district_country_modifier: "any",
+    triggered_planet_pop_group_modifier_for_all: "any",
+    triggered_planet_pop_group_modifier_for_species: "any",
+  },
 };
 
 function ruleFor(kind: ReadAs): ValueRule {

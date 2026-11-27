@@ -2,8 +2,9 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { requireGamePath } from "./game-path.js";
 
-import { vanillaFieldNames } from "../src/generated/vanilla/index.js";
+import { localisationCommandSource, vanillaFieldNames } from "../src/generated/vanilla/index.js";
 import { schema } from "../src/schema/index.js";
+import { scopeConstraintSource } from "../src/schema/scope-constraints.js";
 import {
   isVanillaDefect,
   isVanillaLoadDefect,
@@ -21,6 +22,8 @@ import {
   vanillaUnlocalisedReferences,
   vanillaUnresolvedReferences,
 } from "../src/schema/vanilla-defects.js";
+import { newestDump } from "./dumps.js";
+import type { Dump } from "./dumps.js";
 import { checkConformance, type ConformanceReport } from "./verify-schema/conformance.js";
 
 /**
@@ -466,6 +469,86 @@ for (const type of missingGated) {
   console.error(`CONFORMANCE ${type} not-checked: its source directory was not found in this install.`);
 }
 
+// What was read from the game's documentation of itself is the game's only
+// while it was printed by the build every other check here reads. The modifier
+// namespace stayed on a 4.5.1 dump through all of 4.5.2 because nothing asked;
+// `npm run dump:docs` takes the installed game's own, and the importers after
+// it bring the three tables to it.
+const dumpVersions: readonly (readonly [string, string])[] = [
+  ["the modifier namespace (npm run import:modifiers)", schema.modifiers.source],
+  ["the scope constraints of triggers (npm run import:scopes)", scopeConstraintSource.triggers],
+  ["the scope constraints of effects (npm run import:scopes)", scopeConstraintSource.effects],
+  ["the localisation commands (npm run import:localisations)", localisationCommandSource],
+];
+const staleDumps: readonly (readonly [string, string])[] = dumpVersions.filter(
+  ([, source]) => `v${source}` !== version,
+);
+
+for (const [what, source] of staleDumps) {
+  console.error(
+    `CONFORMANCE ${what} was read from a ${source} dump, and the installed game is ${version}. Run \`npm run dump:docs\`, then the importer.`,
+  );
+}
+
+// And the commands themselves: the triggers and effects the executable prints
+// are the ones it registers, so each must be declared here and nothing else
+// may be. A name it prints that is not declared is a command of a new patch;
+// one declared that it does not print is retired, or was a scripted effect of
+// the base game taken for a command. Compared only against a dump of the
+// installed version, and said when there was none to compare with.
+const undeclaredCommands: string[] = [];
+const undocumentedCommands: string[] = [];
+let commandDump = "none";
+
+const commandDumps: readonly (readonly ["effect" | "trigger", Dump | undefined])[] = await Promise.all(
+  (
+    [
+      ["trigger", "triggers"],
+      ["effect", "effects"],
+    ] as const
+  ).map(async ([family, kind]): Promise<readonly ["effect" | "trigger", Dump | undefined]> => [
+    family,
+    await newestDump(kind).catch(() => undefined),
+  ]),
+);
+
+for (const [family, dump] of commandDumps) {
+  if (dump === undefined || `v${dump.version}` !== version) {
+    continue;
+  }
+
+  commandDump = dump.version;
+  const documented = new Set<string>(
+    [...dump.text.matchAll(/^([A-Za-z_][A-Za-z_0-9]*) - /gmu)].map((match) => (match[1] ?? "").toLowerCase()),
+  );
+  const declared = new Set<string>(
+    schema.commands
+      .filter((command) => command.family === family && /^[A-Za-z_]/u.test(command.id))
+      .map((command) => command.id.toLowerCase()),
+  );
+
+  undeclaredCommands.push(...[...documented].filter((name) => !declared.has(name)).map((name) => `${family} ${name}`));
+  undocumentedCommands.push(
+    ...[...declared].filter((name) => !documented.has(name)).map((name) => `${family} ${name}`),
+  );
+}
+
+for (const name of undeclaredCommands.sort()) {
+  console.error(`CONFORMANCE the game documents the ${name}, and no command of the schema is it.`);
+}
+
+for (const name of undocumentedCommands.sort()) {
+  console.error(
+    `CONFORMANCE the schema declares the ${name}, and the game's own documentation has no such command: retire it in dump-commands.ts.`,
+  );
+}
+
+if (commandDump === "none") {
+  console.log(
+    `CONFORMANCE commands not compared: no dump of ${version} under refs/. \`npm run dump:docs\` takes one from the installed game.`,
+  );
+}
+
 console.log(
   [
     "SUMMARY mode=conformance",
@@ -502,6 +585,9 @@ console.log(
     `loadFindings=${String(loadFindings.length)}`,
     `vanillaLoadDefects=${String(loadDefects)}`,
     `modifierDump=${schema.modifiers.source}`,
+    `scopeDump=${scopeConstraintSource.triggers}`,
+    `localisationDump=${localisationCommandSource}`,
+    `commandsAgainstDump=${commandDump}`,
     `gameDeclaredFields=${String(declaredFields)}`,
   ].join(" "),
 );
@@ -546,6 +632,9 @@ if (
   loadFindings.length > 0 ||
   staleLoadDefects.length > 0 ||
   missingGated.length > 0 ||
+  staleDumps.length > 0 ||
+  undeclaredCommands.length > 0 ||
+  undocumentedCommands.length > 0 ||
   strictnessRegressed ||
   declaredFields < DECLARED_FIELD_FLOOR
 ) {

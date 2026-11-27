@@ -21,7 +21,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: anyValue(),
   }),
-  // 924 uses across 10 types, e.g. common/anomalies/95_anomaly_categories_distant_stars.txt
+  // 935 uses across 10 types, e.g. common/anomalies/95_anomaly_categories_distant_stars.txt
   scriptCommand({
     id: "carrier_event",
     family: "effect",
@@ -125,7 +125,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: anyValue(),
   }),
-  // 28 uses across 2 types, e.g. events/origin_events_astral_planes.txt
+  // 33 uses across 3 types, e.g. events/origin_events_astral_planes.txt
   scriptCommand({
     id: "every_system_planet_colony",
     family: "effect",
@@ -237,7 +237,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 211 uses across 8 types, e.g. common/buildings/15_overlord_holdings.txt
+  // 237 uses across 8 types, e.g. common/buildings/15_overlord_holdings.txt
   scriptCommand({
     id: "remove_carrier_flag",
     family: "effect",
@@ -317,7 +317,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 518 uses across 8 types, e.g. common/buildings/15_overlord_holdings.txt
+  // 538 uses across 8 types, e.g. common/buildings/15_overlord_holdings.txt
   scriptCommand({
     id: "set_carrier_flag",
     family: "effect",
@@ -325,7 +325,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 5 uses across 2 types, e.g. events/game_start.txt
+  // 4 uses across 2 types, e.g. events/synthetic_dawn_events.txt
   scriptCommand({
     id: "set_faction_properties",
     family: "effect",
@@ -333,7 +333,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: anyValue(),
   }),
-  // 5 uses across 2 types, e.g. events/game_start.txt
+  // 4 uses across 2 types, e.g. events/synthetic_dawn_events.txt
   scriptCommand({
     id: "set_resource_converter",
     family: "effect",
@@ -349,7 +349,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 114 uses across 4 types, e.g. common/buildings/15_overlord_holdings.txt
+  // 113 uses across 4 types, e.g. common/buildings/15_overlord_holdings.txt
   scriptCommand({
     id: "set_timed_carrier_flag",
     family: "effect",
@@ -557,7 +557,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("integer"),
   }),
-  // 1110 uses across 19 types, e.g. common/achievements.txt
+  // 1107 uses across 19 types, e.g. common/achievements.txt
   scriptCommand({
     id: "has_carrier_flag",
     family: "trigger",
@@ -589,7 +589,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 9 uses across 4 types, e.g. common/casus_belli/07_nomads_casus_belli.txt
+  // 10 uses across 5 types, e.g. common/casus_belli/07_nomads_casus_belli.txt
   scriptCommand({
     id: "has_waystation_pact",
     family: "trigger",
@@ -597,7 +597,7 @@ export const vanillaCommands: readonly ScriptCommandDefinition[] = [
     operator: "=",
     value: primitive("scalar"),
   }),
-  // 1897 uses across 66 types, e.g. common/achievements.txt
+  // 2229 uses across 67 types, e.g. common/achievements.txt
   scriptCommand({
     id: "is_nomadic",
     family: "trigger",

@@ -74,6 +74,23 @@ export function withCommandCorrections(
       return [{ ...command, value: oneOf(scopeRef(ScopeId.Fleet), scopeRef(ScopeId.Ship)) }];
     }
 
+    // The effect is read on a country or on a war, and only the first reads
+    // `enemy`: on a war it sets the goal of `target` and never looks at the
+    // other field (`0x1742c70` in 4.5.4 takes `enemy` only where the scope is
+    // a country, and logs "current scope … is not at war with …" when it has
+    // none there). 4.5.4's `unrest.4200` writes it so, in the `effect` of a
+    // `declare_war`. The ported rule asked for `enemy` everywhere.
+    if (command.id === "set_war_goal" && command.family === "effect") {
+      return [
+        {
+          ...command,
+          value: withFields(command.value, (rule) =>
+            rule.key === "enemy" ? [{ ...rule, occurrence: occurs.optional }] : [rule],
+          ),
+        },
+      ];
+    }
+
     return [command];
   });
 }

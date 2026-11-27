@@ -1,3 +1,4 @@
+import { LOCALISATION_LANGUAGES } from "./localisation.js";
 import type { LocalisationEntry } from "./localisation.js";
 
 /**
@@ -145,6 +146,22 @@ export interface AssetRecord extends OverrideOption {
   readonly bytes: Uint8Array;
 }
 
+export interface LocaliseAllOptions {
+  /**
+   * The language whose text every language not given is written with:
+   * `english` unless said otherwise. `false` writes the languages given and
+   * no other.
+   */
+  readonly fallback?: string | false;
+  /** The game's own version marker, as `localise` takes it. */
+  readonly version?: number;
+}
+
+/** `japanese` and `l_japanese` both name the language the game calls `l_japanese`. */
+function languageKey(name: string): string {
+  return name.startsWith("l_") ? name : `l_${name}`;
+}
+
 /**
  * What marks a mod, whichever copy of this package built it.
  *
@@ -178,6 +195,49 @@ export class Mod {
     const bucket: Map<string, LocalisationEntry> = this.#localisation.get(language) ?? new Map();
     bucket.set(key, version === undefined ? { key, value } : { key, value, version });
     this.#localisation.set(language, bucket);
+    return this;
+  }
+
+  /**
+   * Adds one string in several languages at once, and in every other language
+   * the game reads as well.
+   *
+   * `mod.localiseAll("sts_lab", { english: "Laboratory", japanese: "研究所" })`
+   * writes the two, and the English text for the eight languages not given. A
+   * language with no string for a key shows the key itself, whatever the
+   * others say, so a mod written in two languages otherwise shows raw keys to
+   * everyone playing in a third. A language is named as its folder is,
+   * `japanese`, or as the game names it, `l_japanese`.
+   *
+   * The fallback has to be one of the languages given. Later writes to the same
+   * key win, as with `localise`.
+   */
+  localiseAll(key: string, texts: Readonly<Record<string, string>>, options: LocaliseAllOptions = {}): this {
+    const given = new Map<string, string>(
+      Object.entries(texts).map(([language, value]) => [languageKey(language), value]),
+    );
+    const fallback: string | undefined =
+      options.fallback === false ? undefined : languageKey(options.fallback ?? "english");
+    const fallbackText: string | undefined = fallback === undefined ? undefined : given.get(fallback);
+
+    if (fallback !== undefined && fallbackText === undefined) {
+      throw new Error(
+        `localiseAll("${key}") has no ${fallback} text to write for the languages it was not given. Give one, name another with { fallback }, or pass { fallback: false } to write only the languages given.`,
+      );
+    }
+
+    for (const [language, value] of given) {
+      this.localise(language, key, value, options.version);
+    }
+
+    if (fallbackText !== undefined) {
+      for (const language of LOCALISATION_LANGUAGES) {
+        if (!given.has(language)) {
+          this.localise(language, key, fallbackText, options.version);
+        }
+      }
+    }
+
     return this;
   }
 

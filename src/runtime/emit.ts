@@ -1,3 +1,4 @@
+import type { DiagnosticCode } from "../diagnostics.js";
 import { vanillaFiles as indexedVanillaFiles } from "../generated/vanilla/files.js";
 import { vanillaGameVersion, vanillaModsCompatibilityVersion } from "../generated/vanilla/game-version.js";
 import { renderDefinitions } from "./build.js";
@@ -43,7 +44,7 @@ export type EmittedFile = EmittedBinaryFile | EmittedTextFile;
 
 export interface EmitDiagnostic {
   readonly severity: "error" | "warning";
-  readonly code: string;
+  readonly code: DiagnosticCode;
   readonly message: string;
   readonly path: string;
 }
