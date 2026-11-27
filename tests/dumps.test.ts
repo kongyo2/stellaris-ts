@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { documented, hasHyphen, launchArguments, SETTINGS, STARTED } from "../tools/dump-docs/session.js";
-import { compareVersions, describeDump, newestDump } from "../tools/dumps.js";
+import { compareVersions, describeDump, dumpOf, newestDump } from "../tools/dumps.js";
 import type { DumpRoots } from "../tools/dumps.js";
 
 /**
@@ -60,6 +60,18 @@ describe("the newest dump", () => {
 
     expect(dump).toMatchObject({ version: "4.5.3", origin: "collection" });
     expect(describeDump(dump)).toContain("compare_versions/4.5.3_game_scopes.txt");
+  });
+
+  it("reads the installed game's version rather than a newer one the collection has gained", async () => {
+    expect((await newestDump("effects", "utf8", roots, "4.9.2")).text).toBe("collected 4.9.2");
+    // With no dump of the version asked for, the newest is all there is to read.
+    expect((await newestDump("effects", "utf8", roots, "4.9.9")).text).toBe("collected 4.10.0");
+  });
+
+  it("lets no other version stand in when one version is asked for", async () => {
+    expect((await dumpOf("triggers", "4.5.4", "utf8", roots))?.origin).toBe("game");
+    expect((await dumpOf("triggers", "4.5.1", "utf8", roots))?.text).toBe("collected 4.5.1");
+    expect(await dumpOf("triggers", "4.5.2", "utf8", roots)).toBeUndefined();
   });
 
   it("says how to get one when there is none", async () => {

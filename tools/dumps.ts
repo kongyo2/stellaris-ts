@@ -130,8 +130,35 @@ async function candidates(kind: DumpKind, roots: DumpRoots): Promise<readonly Ca
   return [...taken.filter((candidate) => candidate !== undefined), ...collected.flat()];
 }
 
+const DEFAULT_ROOTS: DumpRoots = { game: GAME_DUMP_DIRECTORY, collected: COLLECTED_DUMP_DIRECTORY };
+
+/** Newest first, and the installed game's own before a collected one of the same version. */
+function byPreference(left: Candidate, right: Candidate): number {
+  return (
+    compareVersions(right.version, left.version) ||
+    (left.origin === right.origin ? 0 : left.origin === "game" ? -1 : 1) ||
+    compareOrdinal(left.source, right.source)
+  );
+}
+
+async function read(candidate: Candidate, encoding: "latin1" | "utf8"): Promise<Dump> {
+  return {
+    version: candidate.version,
+    origin: candidate.origin,
+    source: candidate.source,
+    text: new TextDecoder(encoding).decode(await readFile(candidate.path)),
+  };
+}
+
 /**
- * The newest dump of one kind.
+ * The dump of one kind to import from.
+ *
+ * The one of `preferred` — the version of the installed game, which is what
+ * the data is checked against — when `refs/` holds it, and otherwise the
+ * newest. Taking the newest regardless would import a 4.5.5 dump the
+ * collection had gained into a build that reads 4.5.4, and
+ * `verify:conformance` would then ask for an import that makes the same
+ * choice again.
  *
  * `latin1` for the localisation commands, which the collection has kept in
  * more than one encoding; the names read out of any of them are ASCII.
@@ -139,27 +166,33 @@ async function candidates(kind: DumpKind, roots: DumpRoots): Promise<readonly Ca
 export async function newestDump(
   kind: DumpKind,
   encoding: "latin1" | "utf8" = "utf8",
-  roots: DumpRoots = { game: GAME_DUMP_DIRECTORY, collected: COLLECTED_DUMP_DIRECTORY },
+  roots: DumpRoots = DEFAULT_ROOTS,
+  preferred?: string,
 ): Promise<Dump> {
-  const newest: Candidate | undefined = [...(await candidates(kind, roots))].sort(
-    (left, right) =>
-      compareVersions(right.version, left.version) ||
-      (left.origin === right.origin ? 0 : left.origin === "game" ? -1 : 1) ||
-      compareOrdinal(left.source, right.source),
-  )[0];
+  const found: readonly Candidate[] = [...(await candidates(kind, roots))].sort(byPreference);
+  const chosen: Candidate | undefined = found.find((candidate) => candidate.version === preferred) ?? found[0];
 
-  if (newest === undefined) {
+  if (chosen === undefined) {
     throw new Error(
       `No ${kind} dump found under refs/. Run \`npm run dump:docs\` to take one from the installed game, or \`npm run refs:sync\` for the collected ones.`,
     );
   }
 
-  return {
-    version: newest.version,
-    origin: newest.origin,
-    source: newest.source,
-    text: new TextDecoder(encoding).decode(await readFile(newest.path)),
-  };
+  return read(chosen, encoding);
+}
+
+/** The dump of one kind and one version, or nothing: no other version's stands in for it. */
+export async function dumpOf(
+  kind: DumpKind,
+  version: string,
+  encoding: "latin1" | "utf8" = "utf8",
+  roots: DumpRoots = DEFAULT_ROOTS,
+): Promise<Dump | undefined> {
+  const chosen: Candidate | undefined = [...(await candidates(kind, roots))]
+    .sort(byPreference)
+    .find((candidate) => candidate.version === version);
+
+  return chosen === undefined ? undefined : read(chosen, encoding);
 }
 
 /** How a generated file says where its dump came from. */

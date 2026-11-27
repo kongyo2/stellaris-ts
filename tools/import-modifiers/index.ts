@@ -2,7 +2,7 @@ import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { vanillaIdsByType } from "../../src/generated/vanilla/index.js";
+import { vanillaGameVersion, vanillaIdsByType } from "../../src/generated/vanilla/index.js";
 import { describeDump, newestDump } from "../dumps.js";
 import type { Dump } from "../dumps.js";
 
@@ -59,7 +59,8 @@ function compareOrdinal(left: string, right: string): number {
   return left < right ? -1 : left > right ? 1 : 0;
 }
 
-const dump: Dump = await newestDump("modifiers");
+// The dump of the build the vanilla tables were indexed from, when there is one.
+const dump: Dump = await newestDump("modifiers", "utf8", undefined, vanillaGameVersion.replace(/^v/u, ""));
 const dumped: string[] = [];
 
 for (const line of dump.text.split(/\r?\n/u)) {

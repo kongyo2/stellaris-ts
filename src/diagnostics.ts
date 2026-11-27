@@ -281,7 +281,7 @@ export const diagnosticCodes: Readonly<Record<DiagnosticCode, DiagnosticExplanat
   },
   "unknown-language": {
     summary: "A language name the game reads no localisation for.",
-    fix: "Use one of english, braz_por, french, german, japanese, korean, polish, russian, simp_chinese, spanish.",
+    fix: "Use a language the message lists, such as l_english or l_japanese. mod.localise takes the name with its l_ prefix; localiseAll, validate and the command line take it with or without.",
   },
   "unknown-modifier": {
     summary:

@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
-import { copyFile, mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { platform, tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -221,14 +221,20 @@ if (problems.length > 0) {
   fail(`${problems.join("; ")}. Nothing was kept.`);
 }
 
+// Written beside the place it will take and moved there whole. A copy that
+// fails half way — a full disk — then leaves the dump an earlier run kept as it
+// was, rather than some of its files and some of this run's, which the
+// importers would read as one dump. The staging name is no version, so nothing
+// reads it.
 const target: string = join(GAME_DUMP_DIRECTORY, version);
-await mkdir(target, { recursive: true });
-await Promise.all((await readdir(target)).map((stale) => rm(join(target, stale), { force: true })));
-await Promise.all(DUMP_KINDS.map((kind) => copyFile(join(documentation, `${kind}.log`), join(target, `${kind}.log`))));
+const staging: string = join(GAME_DUMP_DIRECTORY, `${version}.incoming`);
+await rm(staging, { recursive: true, force: true });
+await mkdir(staging, { recursive: true });
+await Promise.all(DUMP_KINDS.map((kind) => copyFile(join(documentation, `${kind}.log`), join(staging, `${kind}.log`))));
 
 // What the game logged while it loaded nothing but itself: the measure of
 // every check ported from one of its messages, which must find nothing here.
-await writeFile(join(target, "error.log"), errorLog, "utf8");
+await writeFile(join(staging, "error.log"), errorLog, "utf8");
 
 const sha256: string = createHash("sha256")
   .update(await readFile(executable))
@@ -236,7 +242,7 @@ const sha256: string = createHash("sha256")
 const errorLines: readonly string[] = errorLog.split(/\r?\n/u).filter((line) => line.trim().length > 0);
 
 await writeFile(
-  join(target, "manifest.json"),
+  join(staging, "manifest.json"),
   `${JSON.stringify(
     {
       version,
@@ -254,6 +260,8 @@ await writeFile(
   "utf8",
 );
 
+await rm(target, { recursive: true, force: true });
+await rename(staging, target);
 await discard();
 
 console.log(

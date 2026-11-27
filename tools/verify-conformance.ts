@@ -22,7 +22,7 @@ import {
   vanillaUnlocalisedReferences,
   vanillaUnresolvedReferences,
 } from "../src/schema/vanilla-defects.js";
-import { newestDump } from "./dumps.js";
+import { dumpOf } from "./dumps.js";
 import type { Dump } from "./dumps.js";
 import { checkConformance, type ConformanceReport } from "./verify-schema/conformance.js";
 
@@ -498,7 +498,7 @@ for (const [what, source] of staleDumps) {
 // installed version, and said when there was none to compare with.
 const undeclaredCommands: string[] = [];
 const undocumentedCommands: string[] = [];
-let commandDump = "none";
+const comparedFamilies: string[] = [];
 
 const commandDumps: readonly (readonly ["effect" | "trigger", Dump | undefined])[] = await Promise.all(
   (
@@ -508,16 +508,16 @@ const commandDumps: readonly (readonly ["effect" | "trigger", Dump | undefined])
     ] as const
   ).map(async ([family, kind]): Promise<readonly ["effect" | "trigger", Dump | undefined]> => [
     family,
-    await newestDump(kind).catch(() => undefined),
+    await dumpOf(kind, version.replace(/^v/u, "")),
   ]),
 );
 
 for (const [family, dump] of commandDumps) {
-  if (dump === undefined || `v${dump.version}` !== version) {
+  if (dump === undefined) {
     continue;
   }
 
-  commandDump = dump.version;
+  comparedFamilies.push(family);
   const documented = new Set<string>(
     [...dump.text.matchAll(/^([A-Za-z_][A-Za-z_0-9]*) - /gmu)].map((match) => (match[1] ?? "").toLowerCase()),
   );
@@ -543,9 +543,24 @@ for (const name of undocumentedCommands.sort()) {
   );
 }
 
+// Both lists or neither: `npm run dump:docs` writes the two together, so one
+// without the other is a dump that was damaged, and a summary naming a version
+// would then say more was compared than was.
+const uncomparedFamilies: readonly string[] = ["trigger", "effect"].filter(
+  (family) => !comparedFamilies.includes(family),
+);
+const commandDump: string =
+  uncomparedFamilies.length === 0 ? version.replace(/^v/u, "") : comparedFamilies.length === 0 ? "none" : "partial";
+
 if (commandDump === "none") {
   console.log(
     `CONFORMANCE commands not compared: no dump of ${version} under refs/. \`npm run dump:docs\` takes one from the installed game.`,
+  );
+}
+
+for (const family of commandDump === "partial" ? uncomparedFamilies : []) {
+  console.error(
+    `CONFORMANCE the ${family}s were not compared: refs/ has a ${version} dump of the ${comparedFamilies.join(" and ")}s and none of the ${family}s. Run \`npm run dump:docs\` again.`,
   );
 }
 
@@ -635,6 +650,7 @@ if (
   staleDumps.length > 0 ||
   undeclaredCommands.length > 0 ||
   undocumentedCommands.length > 0 ||
+  commandDump === "partial" ||
   strictnessRegressed ||
   declaredFields < DECLARED_FIELD_FLOOR
 ) {

@@ -2,6 +2,7 @@ import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { vanillaGameVersion } from "../../src/generated/vanilla/game-version.js";
 import { schema } from "../../src/schema/index.js";
 import { describeDump, newestDump } from "../dumps.js";
 import type { Dump } from "../dumps.js";
@@ -74,8 +75,10 @@ function parseDump(text: string): readonly Entry[] {
   return entries;
 }
 
-const triggers: Dump = await newestDump("triggers");
-const effects: Dump = await newestDump("effects");
+// The dump of the build the vanilla tables were indexed from, when there is one.
+const installed: string = vanillaGameVersion.replace(/^v/u, "");
+const triggers: Dump = await newestDump("triggers", "utf8", undefined, installed);
+const effects: Dump = await newestDump("effects", "utf8", undefined, installed);
 const knownScopes: ReadonlySet<string> = new Set(schema.scopes.map((scope) => scope.id));
 const aliases = new Map<string, string>();
 

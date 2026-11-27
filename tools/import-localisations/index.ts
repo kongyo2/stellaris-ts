@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { vanillaGameVersion } from "../../src/generated/vanilla/game-version.js";
 import { describeDump, newestDump } from "../dumps.js";
 import type { Dump } from "../dumps.js";
 
@@ -44,7 +45,7 @@ interface Section {
 
 // `latin1`: the collection has kept this file in more than one encoding, and
 // the names read out of it are ASCII in all of them.
-const dump: Dump = await newestDump("localizations", "latin1");
+const dump: Dump = await newestDump("localizations", "latin1", undefined, vanillaGameVersion.replace(/^v/u, ""));
 const sections = new Map<string, Section>();
 let current: Section | undefined;
 let mode: "promotions" | "properties" | undefined;
