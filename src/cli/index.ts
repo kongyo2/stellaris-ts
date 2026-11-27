@@ -3,6 +3,8 @@ import { homedir, platform } from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { join, resolve } from "node:path";
 
+import { diagnosticCodes, explainDiagnostic } from "../diagnostics.js";
+import type { DiagnosticCode } from "../diagnostics.js";
 import { vanillaGameVersion } from "../generated/vanilla/game-version.js";
 import { emit, type EmitDiagnostic, type EmitPlan } from "../runtime/emit.js";
 import { LOCALISATION_LANGUAGES } from "../runtime/localisation.js";
@@ -15,12 +17,14 @@ import { validate, type ValidationDiagnostic } from "../validate/index.js";
  *
  * Diagnostics are one per line, no colour, `path: severity: code: message`.
  * The reader is as likely to be an agent as a person, and a wrapped, coloured,
- * multi-line report is not something either can grep.
+ * multi-line report is not something either can grep. `--format json` prints
+ * the same report as one JSON document, for a reader that would rather parse
+ * than grep, and `explain` says what a code means and what to change.
  */
 
 interface Diagnostic {
   readonly severity: "error" | "warning";
-  readonly code: string;
+  readonly code: DiagnosticCode;
   readonly message: string;
   readonly where: string;
 }
@@ -38,6 +42,28 @@ function fromValidation(diagnostic: ValidationDiagnostic): Diagnostic {
     // under one definition, and "somewhere in this building" is not a location.
     where: diagnostic.path.length === 0 ? diagnostic.definition : `${diagnostic.definition}.${diagnostic.path}`,
   };
+}
+
+/** What `explain` prints: one code in full, or every code with its first line. */
+function explain(code: string | undefined): number {
+  if (code === undefined) {
+    for (const [name, explanation] of Object.entries(diagnosticCodes)) {
+      console.log(`${name}: ${explanation.summary}`);
+    }
+    return 0;
+  }
+
+  const explanation = explainDiagnostic(code);
+
+  if (explanation === undefined) {
+    console.error(`${code} is not a code this checker reports. \`stellaris-ts explain\` lists them.`);
+    return 2;
+  }
+
+  console.log(code);
+  console.log(`  ${explanation.summary}`);
+  console.log(`  Fix: ${explanation.fix}`);
+  return 0;
 }
 
 function report(diagnostics: readonly Diagnostic[]): number {
@@ -175,18 +201,21 @@ function usage(): string {
     "",
     "  check <entry> [--language]          Validate without writing anything.",
     "  build <entry> [--out] [--language]  Validate, then write into the mod folder.",
+    "  explain [code]                      Say what a diagnostic code means and what to change; all codes when none is given.",
     "  --version                           Print the version and the game it checks against.",
     "",
     "The entry is a module whose default export is a Mod.",
     "--out defaults to the Stellaris mod folder; STELLARIS_MODS_DIR overrides it.",
     "build exits 1 when a file of the last build could not be removed (STUCK), as when the game holds it open.",
     "--language may be repeated, and takes `japanese` or `l_japanese`. Defaults to English.",
+    "--format json prints the report of check or build as one JSON document instead of lines.",
   ].join("\n");
 }
 
 interface Options {
   readonly languages: readonly string[];
   readonly out: string | undefined;
+  readonly format: "json" | "text";
   /** What was written without a `--`: the entry, and anything after it. */
   readonly positionals: readonly string[];
   readonly help: boolean;
@@ -212,6 +241,7 @@ function parseOptions(rest: readonly string[]): { readonly options: Options } | 
   const languages: string[] = [];
   const positionals: string[] = [];
   let out: string | undefined;
+  let format: "json" | "text" = "text";
   let help = false;
   let index = 0;
 
@@ -262,6 +292,14 @@ function parseOptions(rest: readonly string[]): { readonly options: Options } | 
       continue;
     }
 
+    if (name === "--format") {
+      if (value !== "json" && value !== "text") {
+        return { error: "--format takes json or text." };
+      }
+      format = value;
+      continue;
+    }
+
     return { error: `Unknown option: ${name}.` };
   }
 
@@ -274,7 +312,7 @@ function parseOptions(rest: readonly string[]): { readonly options: Options } | 
     };
   }
 
-  return { options: { languages: normalised, out, positionals, help } };
+  return { options: { languages: normalised, out, format, positionals, help } };
 }
 
 export async function run(argv: readonly string[]): Promise<number> {
@@ -295,6 +333,14 @@ export async function run(argv: readonly string[]): Promise<number> {
   if (command === undefined) {
     console.error(usage());
     return 2;
+  }
+
+  if (command === "explain") {
+    if (rest.length > 1) {
+      console.error(`explain takes one code, and was given ${String(rest.length)}: ${rest.join(", ")}.`);
+      return 2;
+    }
+    return explain(rest[0]);
   }
 
   if (command !== "check" && command !== "build") {
@@ -342,28 +388,56 @@ export async function run(argv: readonly string[]): Promise<number> {
     ...validate(mod, options.languages.length === 0 ? {} : { languages: options.languages }).map(fromValidation),
     ...plan.diagnostics.map(fromEmit),
   ];
-  const errors: number = report(diagnostics);
+  const json: boolean = options.format === "json";
+  const errors: number = json
+    ? diagnostics.filter((diagnostic) => diagnostic.severity === "error").length
+    : report(diagnostics);
+  const summary = {
+    command,
+    definitions: mod.definitions.length,
+    files: plan.files.length,
+    errors,
+    warnings: diagnostics.length - errors,
+  };
 
-  console.log(
-    [
-      `SUMMARY mode=${command}`,
-      `definitions=${String(mod.definitions.length)}`,
-      `files=${String(plan.files.length)}`,
-      `errors=${String(errors)}`,
-      `warnings=${String(diagnostics.length - errors)}`,
-    ].join(" "),
-  );
-
-  if (errors > 0) {
-    return 1;
+  if (!json) {
+    console.log(
+      [
+        `SUMMARY mode=${command}`,
+        `definitions=${String(summary.definitions)}`,
+        `files=${String(summary.files)}`,
+        `errors=${String(errors)}`,
+        `warnings=${String(summary.warnings)}`,
+      ].join(" "),
+    );
   }
 
-  if (command === "check") {
-    return 0;
+  if (errors > 0 || command === "check") {
+    if (json) {
+      console.log(JSON.stringify({ ...summary, diagnostics }));
+    }
+    return errors > 0 ? 1 : 0;
   }
 
   const modsDirectory: string = options.out ?? process.env["STELLARIS_MODS_DIR"] ?? defaultModsDirectory();
   const result = await writePlan(mod, plan, modsDirectory);
+
+  if (json) {
+    // One document, the build's outcome with it: what was written, what an
+    // earlier build wrote that this one removed, and what could not be.
+    console.log(
+      JSON.stringify({
+        ...summary,
+        diagnostics,
+        directory: result.modDirectory,
+        launcher: result.modFilePath,
+        written: result.written.length,
+        removed: result.removed,
+        stuck: result.stuck,
+      }),
+    );
+    return result.stuck.length > 0 ? 1 : 0;
+  }
 
   console.log(`WROTE files=${String(result.written.length)} directory=${result.modDirectory}`);
   console.log(`WROTE launcher=${result.modFilePath}`);

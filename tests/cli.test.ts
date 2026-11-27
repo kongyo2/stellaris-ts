@@ -249,4 +249,40 @@ describe("the default mod folder", () => {
       log.mockRestore();
     }
   });
+
+  it("prints the report as one JSON document when asked", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+    try {
+      expect(await run(["check", "--format", "json", join(directory, "mod.ts"), "--language", "japanese"])).toBe(0);
+      expect(warn).not.toHaveBeenCalled();
+      expect(log.mock.calls).toHaveLength(1);
+
+      const report: unknown = JSON.parse(String(log.mock.calls[0]?.[0]));
+      const diagnostics: unknown =
+        typeof report === "object" && report !== null && "diagnostics" in report ? report.diagnostics : undefined;
+
+      expect(report).toMatchObject({
+        command: "check",
+        errors: 0,
+        warnings: Array.isArray(diagnostics) ? diagnostics.length : -1,
+      });
+      expect(JSON.stringify(diagnostics)).toContain('"code":"missing-localisation"');
+    } finally {
+      warn.mockRestore();
+      log.mockRestore();
+    }
+  });
+
+  it("refuses a format it does not print", async () => {
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    try {
+      expect(await run(["check", join(directory, "mod.ts"), "--format", "xml"])).toBe(2);
+      expect(lines(error.mock.calls)).toContain("--format takes json or text");
+    } finally {
+      error.mockRestore();
+    }
+  });
 });

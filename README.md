@@ -62,6 +62,15 @@ define("event", "utopia.1", { is_triggered_only: true }, { as: "country_event" }
 
 The file gets its `namespace = utopia` line, and the id goes inside the block.
 
+A string has to exist in every language a player may be playing in: a language
+with no entry for a key shows the key itself, whatever the other languages say.
+`localiseAll` writes one key in the languages it is given and, for each of the
+other languages the game reads, the English text:
+
+```ts
+mod.localiseAll("sts_example_lab", { english: "Example Laboratory", japanese: "研究所" });
+```
+
 A body is an object, so each key is written once. An array is that key holding
 a list — `prerequisites: ["tech_a", "tech_b"]` is `prerequisites = { tech_a tech_b }`
 — and `repeated()` writes the key once per value, which is how an event gets
@@ -138,9 +147,10 @@ a filename you never wrote.
 ## Checking it
 
 ```bash
-npx stellaris-ts check ./mod.ts     # report, write nothing
-npx stellaris-ts build ./mod.ts     # report, then write the mod folder
-npx stellaris-ts --version          # and the game build it checks against
+npx stellaris-ts check ./mod.ts       # report, write nothing
+npx stellaris-ts build ./mod.ts       # report, then write the mod folder
+npx stellaris-ts explain wrong-scope  # what a code means, and what to change
+npx stellaris-ts --version            # and the game build it checks against
 ```
 
 `--language japanese` checks the strings a definition needs in Japanese rather
@@ -158,8 +168,12 @@ Nothing it did not write is touched. A file it cannot delete — the game holds
 its files open while it runs — is printed as `STUCK`, stays listed for the next
 build, and makes this one exit 1: the folder still holds a file the game reads.
 
-One diagnostic per line, `where: severity: code: message`, no colour. The same
-check is available as a function:
+One diagnostic per line, `where: severity: code: message`, no colour;
+`--format json` prints the same report as one JSON document. A code is one of a
+closed set: `stellaris-ts explain` lists them, each with what the game does
+about it and what to change, and the package exports the same table as
+`diagnosticCodes`, typed by `DiagnosticCode`. The same check is available as a
+function:
 
 ```ts
 import { validate } from "@kongyo2/stellaris-ts/validate";
@@ -312,10 +326,10 @@ drops, an event whose trigger reads a country flag where there is no country,
 rest of their type has, 19 names it refers to that nothing defines, 4 files
 it names and does not ship, two scripted triggers and one scripted effect
 called on the wrong kind of object, and three strings whose bare `[` costs
-`country_defaulted_effect` its `else` branch. The rest of the 244,399
-references and 32,678 files its definitions name resolve. What the game logs
-is held to the same measure: its 10,023 events, 3,371 scripted effects and
-triggers, 4,301 `else` branches, 322 fleet-action ids, 200 budgets and the
+`country_defaulted_effect` its `else` branch. The rest of the 244,454
+references and 32,681 files its definitions name resolve. What the game logs
+is held to the same measure: its 10,024 events, 3,383 scripted effects and
+triggers, 4,312 `else` branches, 334 fleet-action ids, 200 budgets and the
 6,346 animations the states of its 8,429 entities play pass the checks above
 without one finding beyond those, as they load without one line.
 
@@ -324,7 +338,9 @@ definition is read by a function of the executable that switches on the key,
 and following that switch for every keyword the executable registers gives
 the keys each reader takes: the ones the ported rules declared and no reader
 takes are gone, and the ones a reader takes that the base game never happens
-to write are accepted.
+to write are accepted. So are the triggers and effects themselves: the game
+prints the ones its executable registers each time it starts, and the commands
+declared here are those and no others.
 
 The parser underneath is measured the same way. Its token boundaries are the
 game's own, read out of the executable rather than inferred from what script
@@ -396,11 +412,13 @@ agreeing with the lexer it shares.
 
 The committed data under `src/generated/` is regenerated in this order, because
 each proposer must see the corpus without its own output. The importers read the
-game's `-debug` dumps from `refs/`, which `npm run refs:sync` clones, and the
-generators do not format what they write:
+game's own documentation of its triggers, effects, scope links, modifiers and
+localisation commands from `refs/`, and the generators do not format what they
+write:
 
 ```bash
 npm run refs:sync
+npm run dump:docs
 npm run index:game
 npm run import:modifiers
 npm run import:scopes
@@ -411,6 +429,19 @@ npm run propose:corrections
 npm run codegen
 npm run format
 ```
+
+`npm run dump:docs` is where that documentation comes from. The game prints it
+on every start, so the command starts the installed game, waits for the five
+files, closes it and keeps them under `refs/script-documentation/<version>/`.
+It starts the game on an empty user directory of its own rather than the
+player's: no mod is loaded, so the modifiers listed are the base game's and no
+mod's, and the player's settings, saves and logs are not touched. What the game
+logged while loading is kept beside the dump, which is the measure of every
+check ported from one of its messages. `npm run refs:sync` clones the ported
+corpus and the dumps collected of older builds, which the importers fall back
+on. `verify:conformance` fails when the three tables read from a dump are not
+of the installed game's version, or when a command the game documents is not
+declared here.
 
 ## Licence and content
 

@@ -5743,6 +5743,8 @@ export interface AiPersonalityDefinition {
 export interface AlertDefinition {
   readonly alert_setting_key?: string | Authored;
   readonly category?: string | PdxNumber | boolean | "DISABLED" | Authored;
+  readonly default_autopause?: boolean | Authored;
+  readonly default_enabled?: boolean | Authored;
   readonly icon?: SpriteRef | Authored;
   readonly priority?: "HIGH" | "MEDIUM" | "LOW" | Authored;
   readonly sound: SoundEffectRef | Authored;
@@ -5836,7 +5838,6 @@ export interface ArmyDefinition {
   readonly has_species?: boolean | Authored;
   readonly health?: PdxNumber | Authored;
   readonly icon?: SpriteRef | Authored;
-  readonly is_building_spawned?: boolean | Authored;
   readonly is_pop_spawned?: boolean | Authored;
   readonly morale?: PdxNumber | Authored;
   readonly morale_damage?: PdxNumber | Authored;
@@ -6177,7 +6178,6 @@ export interface AuthorityDefinition {
   readonly has_heir?: boolean | Authored;
   readonly icon?: string | Authored;
   readonly localization_postfix?: "hive_mind" | "HIVE_MIND" | "machine_intelligence" | "MACHINE_INTELLIGENCE" | string | PdxNumber | boolean | Authored;
-  readonly machine_empire?: true | Authored;
   readonly max_election_candidates?: PdxNumber | Authored;
   readonly playable?: TriggersByScope["country"] | Authored;
   readonly possible?: {
@@ -6290,7 +6290,6 @@ export interface BombardmentStanceDefinition {
 export interface BuildingDefinition {
   readonly abort_effect?: PdxValue | Authored;
   readonly abort_trigger?: TriggersByScope["planet"] | Authored;
-  readonly add_to_first_building_slot?: true | Authored;
   readonly additional_ai_weight?: PdxNumber | Authored;
   readonly ai_estimate_without_unemployment?: boolean | Authored;
   readonly ai_resource_production?: RuleSetAiResourceProductionAiResourceProductionPlanet | Authored;
@@ -6393,7 +6392,6 @@ export interface BypassDefinition {
   readonly always_active: boolean | Authored;
   readonly animation_time: PdxNumber | Authored;
   readonly block_access_if_hostile?: boolean | Authored;
-  readonly bypass_effect?: string | PdxNumber | boolean | Authored;
   readonly can_bypass_be_locked?: boolean | Authored;
   readonly connection_type: "any_other" | "ANY_OTHER" | "one_to_one" | "ONE_TO_ONE" | "scripted_connection" | "SCRIPTED_CONNECTION" | "hyper_relay" | "HYPER_RELAY" | "to_any_system" | "TO_ANY_SYSTEM" | Authored;
   readonly country_can_use?: PdxBlock | readonly PdxValue[] | Authored;
@@ -6536,7 +6534,6 @@ export interface CivicOrOriginDefinition {
   readonly [key: string]: PdxValue | undefined;
 } | boolean | Authored;
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly multiply_by_habitability_effect_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly negative_description?: string | Authored;
   readonly non_colonizable_planet_class_neighbor?: true | Authored;
   readonly pickable_at_start?: boolean | Authored;
@@ -6679,8 +6676,10 @@ export interface ColonyAutomationDefinition {
   readonly available: TriggersByScope["planet"] | Authored;
   readonly buildings: PdxBlock | readonly PdxValue[] | Authored;
   readonly category: string | PdxNumber | boolean | Authored;
+  readonly job_changes?: PdxValue | Authored;
   readonly prio_districts?: PdxBlock | readonly PdxValue[] | Authored;
   readonly prio_zones?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly should_ai_use_job_micro?: boolean | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
 
@@ -7100,7 +7099,6 @@ export interface CouncilorDefinition {
   readonly modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly optional?: TriggersByScope["country"] | Authored;
   readonly possible?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly required?: boolean | Authored;
   readonly triggered_country_modifier?: RuleSetTriggeredCountryModifierCountryTriggeredCountryModifier | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
@@ -7147,7 +7145,6 @@ export interface CountryTypeDefinition {
   readonly attack_unarmed_orbital_stations?: boolean | Authored;
   readonly awakened_fallen_empire?: boolean | Authored;
   readonly blocks_piracy?: boolean | Authored;
-  readonly blocks_pirate?: boolean | Authored;
   readonly branch_office_resources?: {
   readonly category: "planet_branch_offices" | Authored;
   readonly cost?: RuleSetEconomicTemplateCostCountry | Authored;
@@ -7214,8 +7211,6 @@ export interface CountryTypeDefinition {
   readonly is_space_critter?: boolean | Authored;
   readonly is_the_shroud?: boolean | Authored;
   readonly mid_game_crisis?: boolean | Authored;
-  readonly min_assault_armies_for_wars?: PdxNumber | Authored;
-  readonly min_navy_for_wars?: PdxNumber | Authored;
   readonly minimalist_contacts_list_profile?: boolean | Authored;
   readonly modules?: {
   readonly all_technology_module?: PdxBlock | readonly PdxValue[] | Authored;
@@ -7258,11 +7253,6 @@ export interface CountryTypeDefinition {
   readonly prevent_automatic_genocidal_hostilities?: boolean | Authored;
   readonly randomize_ethos?: boolean | Authored;
   readonly relations?: boolean | Authored;
-  readonly replace_scope?: {
-  readonly root: "country" | Authored;
-  readonly this: "country" | Authored;
-  readonly [key: string]: PdxValue | undefined;
-} | Authored;
   readonly resources?: {
   readonly category: "country_base" | Authored;
   readonly cost?: RuleSetEconomicTemplateCostCountry | Authored;
@@ -7473,8 +7463,6 @@ export interface DistrictDefinition {
   readonly has_primary_zone?: PdxValue | Authored;
   readonly icon?: string | Authored;
   readonly icon_frame?: PdxNumber | Authored;
-  readonly inherits_capped_modifiers_from?: DistrictRef | Authored;
-  readonly is_capped_by_modifier?: boolean | Authored;
   readonly is_colony?: PdxValue | Authored;
   readonly is_essential?: PdxValue | Authored;
   readonly is_uncapped?: TriggersByScope["planet"] | Authored;
@@ -7523,7 +7511,6 @@ export interface EconomicCategoryDefinition {
   readonly ai_use_parent_for_resources_expenditure?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_use_parent_for_resources_logistics?: PdxBlock | readonly PdxValue[] | Authored;
   readonly ai_use_parent_for_resources_upkeep?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly category?: "all" | "ALL" | "army" | "ARMY" | "component" | "COMPONENT" | "country" | "COUNTRY" | "deposit" | "DEPOSIT" | "economic_unit" | "ECONOMIC_UNIT" | "espionage" | "ESPIONAGE" | "federation" | "FEDERATION" | "fleet" | "FLEET" | "habitability" | "HABITABILITY" | "leader" | "LEADER" | "megastructure" | "MEGASTRUCTURE" | "none" | "NONE" | "planet" | "PLANET" | "pop" | "POP" | "pop_faction" | "POP_FACTION" | "pop_group" | "POP_GROUP" | "pop_job" | "POP_JOB" | "ship" | "SHIP" | "species" | "SPECIES" | "starbase" | "STARBASE" | "station" | "STATION" | "system" | "SYSTEM" | "trade" | "TRADE" | "colony" | "COLONY" | Authored;
   readonly generate_add_modifiers?: PdxBlock | readonly PdxValue[] | Authored;
   readonly generate_mult_modifiers?: PdxBlock | readonly PdxValue[] | Authored;
   readonly hidden?: true | boolean | Authored;
@@ -8088,7 +8075,6 @@ export interface FederationPerkDefinition {
 } | Authored;
   readonly on_activate?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_deactivate?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly triggered_modifier?: PdxValue | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
@@ -8308,23 +8294,14 @@ export interface JobDefinition {
   readonly allow_only_same_rank_pops?: boolean | Authored;
   readonly auto_generate_description?: boolean | Authored;
   readonly auto_trait_prio?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly building_icon?: BuildingRef | string | Authored;
   readonly can_be_automated?: boolean | Authored;
   readonly can_set_priority?: boolean | Authored;
   readonly category?: SocialStrataRef | Authored;
-  readonly condition_string?: string | Authored;
   readonly contributes_to_diplo_weight?: boolean | Authored;
   readonly count_as_available_for_ai?: boolean | Authored;
   readonly country_modifier?: PdxBlock | readonly PdxValue[] | Authored;
-  readonly desc?: {
-  readonly text: string | Authored;
-  readonly trigger: PdxBlock | readonly PdxValue[] | Authored;
-  readonly [key: string]: PdxValue | undefined;
-} | Authored;
   readonly exempt_from_ai_amenity_prioritization?: boolean | Authored;
   readonly first_come_first_served?: boolean | Authored;
-  readonly icon?: string | Authored;
-  readonly ignores_favorite?: boolean | Authored;
   readonly ignores_sapience?: boolean | Authored;
   readonly is_capped_by_modifier?: boolean | Authored;
   readonly is_pre_sapient?: boolean | Authored;
@@ -9724,6 +9701,7 @@ export interface PopFactionDefinition {
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly can_rename?: boolean | Authored;
+  readonly country_modifier?: PdxValue | Authored;
   readonly demand?: {
   readonly council_demand?: boolean | Authored;
   readonly desc?: string | Authored;
@@ -9735,6 +9713,7 @@ export interface PopFactionDefinition {
   readonly unfulfilled_title?: string | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly desc?: string | PdxNumber | boolean | Authored;
   readonly election_header?: SpriteRef | Authored;
   readonly extortion_resource?: {
   readonly category: EconomicCategoryRef | Authored;
@@ -9744,11 +9723,18 @@ export interface PopFactionDefinition {
   readonly upkeep?: RuleSetEconomicTemplateUpkeep | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly fixed_support?: PdxValue | Authored;
+  readonly flag?: PdxValue | Authored;
   readonly guiding_ethic?: EthosRef | Authored;
+  readonly hidden?: boolean | Authored;
+  readonly icon?: string | PdxNumber | boolean | Authored;
   readonly is_potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly leader?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly max_support?: PdxNumber | Authored;
+  readonly name?: string | PdxNumber | boolean | Authored;
   readonly on_create?: PdxBlock | readonly PdxValue[] | Authored;
   readonly on_destroy?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly on_set_leader?: PdxValue | Authored;
   readonly persistent_faction?: boolean | Authored;
   readonly pop_attraction_tag?: PdxValue | Authored;
   readonly pop_ethics_filter?: PdxValue | Authored;
@@ -9760,7 +9746,9 @@ export interface PopFactionDefinition {
   readonly upkeep?: RuleSetEconomicTemplateUpkeep | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly skip_creation_cooldown?: boolean | Authored;
   readonly support_multiplier?: PdxNumber | Authored;
+  readonly support_weight_exponent?: PdxValue | Authored;
   readonly unique: boolean | Authored;
   readonly use_guiding_ethic_as_growth_factor?: string | PdxNumber | boolean | Authored;
   readonly use_guiding_ethic_as_pop_filter?: boolean | Authored;
@@ -10560,7 +10548,11 @@ export interface SectorFocusDefinition {
 
 export interface SectorTypeDefinition {
   readonly local_capital_scores: PdxBlock | readonly PdxValue[] | Authored;
+  readonly max_colonies?: PdxValue | Authored;
   readonly max_jumps: PdxNumber | Authored;
+  readonly max_systems?: PdxValue | Authored;
+  readonly min_colonies?: PdxValue | Authored;
+  readonly min_systems?: PdxValue | Authored;
   readonly resource_conversion_table: {
   readonly energy: PdxNumber | Authored;
   readonly minerals: PdxNumber | Authored;
@@ -10887,10 +10879,13 @@ export interface SocialStrataDefinition {
 } | Authored;
   readonly can_change_category?: TriggersByScope["pop_group"] | boolean | Authored;
   readonly change_job_threshold?: PdxNumber | Authored;
+  readonly country_modifier?: PdxValue | Authored;
   readonly display_category?: SocialStrataRef | Authored;
+  readonly icon?: PdxValue | Authored;
   readonly is_civilian_job?: string | PdxNumber | boolean | Authored;
   readonly is_unemployment_job?: string | PdxNumber | boolean | Authored;
   readonly job_reshuffle_interval?: PdxNumber | Authored;
+  readonly planet_modifier?: PdxValue | Authored;
   readonly pop_group_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly rank: PdxNumber | Authored;
   readonly resettlement_cost?: {
@@ -10905,7 +10900,11 @@ export interface SocialStrataDefinition {
   readonly upkeep?: RuleSetEconomicTemplateUpkeepPopGroup | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly swappable_data?: PdxValue | Authored;
+  readonly triggered_country_modifier?: PdxValue | Authored;
   readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPopTriggeredPlanetModifierPopGroup | Authored;
+  readonly triggered_planet_pop_group_modifier_for_all?: PdxValue | Authored;
+  readonly triggered_planet_pop_group_modifier_for_species?: PdxValue | Authored;
   readonly triggered_pop_group_modifier?: {
   readonly potential: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -11368,18 +11367,13 @@ export interface SpriteDefinition {
   readonly character?: boolean | Authored;
   readonly clicksound?: SoundEffectRef | Authored;
   readonly close_up?: boolean | Authored;
-  readonly color?: PdxValue | Authored;
-  readonly colorTwo?: PdxValue | Authored;
-  readonly colortwo?: PdxValue | Authored;
   readonly default_frame?: PdxNumber | Authored;
   readonly effectFile?: string | Authored;
-  readonly flipdirection?: string | PdxNumber | boolean | Authored;
   readonly hitbox_margin?: {
   readonly x: PdxNumber | Authored;
   readonly y: PdxNumber | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
-  readonly horizontal?: string | PdxNumber | boolean | Authored;
   readonly legacy_lazy_load?: boolean | Authored;
   readonly loadType?: string | PdxNumber | boolean | Authored;
   readonly looping?: boolean | Authored;
@@ -11420,8 +11414,6 @@ export interface SpriteDefinition {
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly textureFile?: string | Authored;
-  readonly textureFile1?: string | PdxNumber | boolean | Authored;
-  readonly textureFile2?: string | PdxNumber | boolean | Authored;
   readonly texture_size?: "small" | "SMALL" | Authored;
   readonly tilingCenter?: boolean | Authored;
   readonly transParencecheck?: boolean | Authored;
@@ -11779,11 +11771,16 @@ export interface TechnologyDefinition {
   readonly ai_weight?: PdxBlock | readonly PdxValue[] | Authored;
   readonly area: "engineering" | "ENGINEERING" | "physics" | "PHYSICS" | "psionics" | "PSIONICS" | "society" | "SOCIETY" | Authored;
   readonly category: PdxBlock | readonly PdxValue[] | Authored;
+  readonly component_modifier?: PdxValue | Authored;
   readonly cost?: PdxBlock | readonly PdxValue[] | number | string | Authored;
   readonly cost_per_level?: PdxNumber | Authored;
   readonly feature_flags?: PdxBlock | readonly PdxValue[] | Authored;
   readonly gateway?: string | PdxNumber | boolean | Authored;
+  readonly hidden?: boolean | Authored;
   readonly icon?: string | Authored;
+  readonly is_custom_tech_1?: boolean | Authored;
+  readonly is_custom_tech_2?: boolean | Authored;
+  readonly is_custom_tech_3?: boolean | Authored;
   readonly is_dangerous?: boolean | Authored;
   readonly is_insight?: boolean | Authored;
   readonly is_rare?: boolean | Authored;
@@ -11809,8 +11806,12 @@ export interface TechnologyDefinition {
   readonly OR?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | readonly PdxValue[] | Authored;
+  readonly risk?: PdxValue | Authored;
+  readonly risk_event?: PdxValue | Authored;
   readonly start_tech?: boolean | Authored;
   readonly starting_potential?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly target_components?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly technology?: PdxValue | Authored;
   readonly technology_swap?: {
   readonly area?: "engineering" | "ENGINEERING" | "physics" | "PHYSICS" | "psionics" | "PSIONICS" | "society" | "SOCIETY" | Authored;
   readonly category?: PdxBlock | readonly PdxValue[] | Authored;
@@ -11839,6 +11840,7 @@ export interface TechnologyDefinition {
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
   readonly tier: TechnologyTierRef | Authored;
+  readonly unlocked?: boolean | Authored;
   readonly weight?: PdxNumber | Authored;
   readonly weight_groups?: PdxBlock | readonly PdxValue[] | Authored;
   readonly weight_modifier?: PdxBlock | readonly PdxValue[] | Authored;
@@ -11847,6 +11849,7 @@ export interface TechnologyDefinition {
 
 export interface TechnologyCategoryDefinition {
   readonly icon: string | Authored;
+  readonly icon_frame?: PdxValue | Authored;
   readonly weight_modifier?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 }
@@ -12298,6 +12301,8 @@ export interface ZoneSlotsDefinition {
 }
 
 export interface ZonesDefinition {
+  readonly additional_ai_weight?: PdxValue | Authored;
+  readonly ai_estimate_without_unemployment?: boolean | Authored;
   readonly ai_priority?: PdxNumber | Authored;
   readonly ai_resource_production?: {
   readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
@@ -12306,12 +12311,24 @@ export interface ZonesDefinition {
   readonly ai_weight_coefficient?: PdxNumber | Authored;
   readonly base_buildtime?: PdxNumber | Authored;
   readonly convert_to?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly country_modifier?: PdxValue | Authored;
+  readonly desc?: PdxValue | Authored;
+  readonly destroy_trigger?: PdxValue | Authored;
+  readonly district_country_modifier?: PdxValue | Authored;
+  readonly district_planet_modifier?: PdxValue | Authored;
+  readonly districts_per_building?: PdxValue | Authored;
+  readonly empire_limit?: PdxValue | Authored;
+  readonly exclude?: PdxBlock | readonly PdxValue[] | Authored;
   readonly excluded_building_sets?: PdxBlock | readonly PdxValue[] | Authored;
   readonly icon?: SpriteRef | Authored;
   readonly include?: PdxBlock | readonly PdxValue[] | Authored;
   readonly included_building_sets?: PdxBlock | readonly PdxValue[] | Authored;
+  readonly is_capped_by_modifier?: boolean | Authored;
   readonly max_buildings?: PdxNumber | Authored;
   readonly max_buildings_planet_class?: boolean | Authored;
+  readonly on_built?: PdxValue | Authored;
+  readonly on_queued?: PdxValue | Authored;
+  readonly on_unqueued?: PdxValue | Authored;
   readonly planet_limit?: PdxNumber | {
   readonly base: PdxNumber | Authored;
   readonly [key: string]: PdxValue | undefined;
@@ -12327,16 +12344,20 @@ export interface ZonesDefinition {
   readonly show_tech_unlock_if?: PdxValue | Authored;
   readonly swap_type?: DistrictRef | Authored;
   readonly swap_type_weight?: PdxNumber | Authored;
+  readonly triggered_country_modifier?: PdxValue | Authored;
   readonly triggered_desc?: {
   readonly text: string | Authored;
   readonly trigger?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | Authored;
+  readonly triggered_district_country_modifier?: PdxValue | Authored;
   readonly triggered_district_planet_modifier?: {
   readonly potential?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;
 } | RuleSetTriggeredDistrictModifierPlanetTriggeredDistrictPlanetModifier | Authored;
   readonly triggered_planet_modifier?: RuleSetTriggeredPlanetModifierPlanetTriggeredPlanetModifier | Authored;
+  readonly triggered_planet_pop_group_modifier_for_all?: PdxValue | Authored;
+  readonly triggered_planet_pop_group_modifier_for_species?: PdxValue | Authored;
   readonly unlock?: PdxBlock | readonly PdxValue[] | Authored;
   readonly zone_sets?: PdxBlock | readonly PdxValue[] | Authored;
   readonly [key: string]: PdxValue | undefined;

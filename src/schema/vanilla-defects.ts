@@ -143,7 +143,7 @@ export const vanillaUnresolvedReferences: Readonly<Record<string, readonly strin
  * Files vanilla names that it does not ship.
  *
  * Measured the same way: a value under a rule that reads a file has to be a
- * file of the game. Of 32,678 it names, these are the ones that are not
+ * file of the game. Of 32,681 it names, these are the ones that are not
  * there, by type and by the path as written.
  */
 export const vanillaMissingFiles: Readonly<Record<string, readonly string[]>> = {

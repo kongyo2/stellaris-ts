@@ -1470,7 +1470,7 @@ function unescaped(text: string, character: string): readonly number[] {
  * backslash is taken out once the parameters are in (`0xafe930` replaces
  * `\\[`, `\\]`, `\\|` and `\\$`). That is how the base game writes one:
  * `log = "- This: \\\\[This.GetName]"`, the lexer making one backslash of the two,
- * and `@\\[ … ]` for inline maths. Of its 3,371 scripted effects and triggers
+ * and `@\\[ … ]` for inline maths. Of its 3,383 scripted effects and triggers
  * and its script values, two hold a bare one, and lose script to it without
  * a line in the log: they are listed beside the base game's other mistakes.
  */

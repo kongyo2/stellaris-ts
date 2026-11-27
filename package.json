@@ -1,6 +1,6 @@
 {
   "name": "@kongyo2/stellaris-ts",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "TypeScript tooling for Stellaris PDX scripts and mod projects.",
   "type": "module",
   "license": "MIT",
@@ -86,6 +86,7 @@
     "verify:roundtrip": "tsx tools/verify-roundtrip.ts",
     "verify:lexer": "tsx tools/verify-lexer/index.ts",
     "refs:sync": "tsx tools/refs-sync.ts",
+    "dump:docs": "tsx tools/dump-docs/index.ts",
     "verify:schema": "tsx tools/verify-schema/index.ts",
     "import:cwt:check": "tsx tools/import-cwt/index.ts --check",
     "verify:norefs": "tsx tools/verify-norefs.ts",
